@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import {Subscription} from "rxjs";
 import {isObject} from "rxjs/util/isObject";
 import {SalesReportComponent} from "../sales/sales.report";
+import {DashboardReportComponent} from "../dashboard/dashboard.report";
 @Component({
                selector: 'report-select',
                templateUrl: 'select.component.html'
@@ -25,7 +26,7 @@ export class ReportSelectComponent {
     }
 
 
-    constructor(protected _elementRef:ElementRef, protected salesReportComponent:SalesReportComponent) {
+    constructor(protected _elementRef:ElementRef, protected dashboardReport:DashboardReportComponent) {
     }
 
     selectedLabel():string {
@@ -34,7 +35,6 @@ export class ReportSelectComponent {
         } else {
 
             let option = _.find(this.elementData.data, (option) =>option.value == this.model['value']);
-            console.log(option);
             return option ? option.label : "Please select your option";
         }
     }
@@ -44,19 +44,22 @@ export class ReportSelectComponent {
     }
 
     selectOption(option:Object) {
-        console.log(option);
         this.model = option;
-        this.salesReportComponent.loadSalesReport();
+        if (this.elementData.site == "dashboard") {
+            this.dashboardReport.loadDashboardReport();
+        }
+        // this.salesReportComponent.loadSalesReport();
     }
 }
 interface ElementData {
-    label: string;
-    isMultiSelect: boolean;
-    data: Option[];
+    label:string;
+    isMultiSelect:boolean;
+    data:Option[];
+    site:string;
 }
 
 interface Option {
-    label: string;
-    value: any;
-    disabled: boolean;
+    label:string;
+    value:any;
+    disabled:boolean;
 }
