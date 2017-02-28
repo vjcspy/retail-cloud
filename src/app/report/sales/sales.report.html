@@ -1,0 +1,40 @@
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                Sales report
+            </h1>
+        </div>
+    </div>
+</div>
+<li>
+    <label>Report type</label>
+    <report-select [elementData]="getListReportType()"
+                   [(model)]="_typeReport">
+    </report-select>
+</li>
+<li>
+    <label>Measure</label>
+    <report-select [elementData]="getListMeasure()"
+                   [(model)]="_measure">
+    </report-select>
+</li>
+<div class="block">
+    <div class="block-content">
+        <table id="reportDatatable" class="table table-bordered table-striped product-datatable">
+            <thead>
+            <tr>
+                <th>{{ _typeReport['label'] }}</th>
+                <th>{{ _measure['label'] }}</th>
+                <th>Revenue</th>
+                <th>Cost</th>
+                <th>Gross Profit</th>
+                <th>Margin</th>
+                <th>Tax</th>
+                <th>Total sales</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+

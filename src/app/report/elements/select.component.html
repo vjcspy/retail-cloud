@@ -1,0 +1,14 @@
+<div class="dropdown">
+    <!--<span class="icon-down"></span>-->
+    <!--<input [value]="selectedLabel()" type="text">-->
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{selectedLabel()}}
+        <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <li
+                *ngFor="let option of elementData.data;trackBy:trackOption"
+                (click)="selectOption(option)">
+            <!--[ngClass]="{disabled:!!option.disabled,active:isSelect(option)}">-->
+            {{option.label}}
+        </li>
+    </ul>
+</div>

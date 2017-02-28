@@ -36,7 +36,8 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: ManageProductsGridComponent}
         ]
-      }
+      },
+      {path : 'report',loadChildren: './report#ReportModule'},
     ]
   },
   {path: '**', component: PageNotFoundComponent}
