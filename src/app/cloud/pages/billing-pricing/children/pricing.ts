@@ -13,16 +13,16 @@ import {Observable} from "rxjs";
            })
 export class CloudPricingComponent implements OnInit {
   protected products: Observable<any>;
-  
+
   constructor(protected billingPricingService: BillingPricingService,
               protected productCollection: ProductCollection) {
   }
-  
+
   ngOnInit() {
     this.billingPricingService.viewState.headerText = "Pricing";
     this.productCollection.getCollectionObservable().subscribe((collection: MongoObservable.Collection<any>) => {
       this.products = collection.find();
     });
   }
-  
+
 }
