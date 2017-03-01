@@ -10,9 +10,9 @@ import {BillingPricingService} from "../billing-pricing.service";
            })
 export class CloudBillingComponent implements OnInit {
   constructor(protected billingPricingService: BillingPricingService) { }
-  
+
   ngOnInit() {
     this.billingPricingService.viewState.headerText = "Billing";
   }
-  
+
 }
