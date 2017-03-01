@@ -13,13 +13,14 @@ import {ApiService} from "./service/api.service";
 import {ReportSelectComponent} from "./elements/select.component";
 
 
+
 @NgModule({
               declarations: [
                   // Components / Directives/ Pipes
                   DashboardReportComponent,
                   SalesReportComponent,
 
-                  ReportSelectComponent
+                  ReportSelectComponent,
               ],
               imports: [
                   CommonModule,

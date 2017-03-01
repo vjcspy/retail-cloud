@@ -56,59 +56,57 @@
                         <report-select [elementData]="getListReportType()"
                                        [(model)]="_reportType">
                         </report-select>
+
                     </div>
-                    <!--<button class="block-options btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example-->
-                    <!--<span class="caret"></span></button>-->
-                    <!--<ul class="dropdown-menu">-->
-                    <!--<li (click)="Update change"><a class="">Last 24h</a>-->
-                    <!--</li>-->
-                    <!--<li ng-click="changePeriod(1);"><a>Last 7 days</a>-->
-                    <!--</li>-->
-                    <!--<li ng-click="changePeriod(2);"><a>Current Month</a>-->
-                    <!--</li>-->
-                    <!--</ul>-->
-                    <h3 class="block-title">Weekly Overview</h3>
+                    <!--<div class="col-sm-6" style="height:130px;">-->
+                    <!--<div id="daterange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">-->
+                        <!--<input type='text' class="form-control"/>-->
+                        <!--<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;-->
+                        <!--<span></span> <b class="caret"></b>-->
+                    <!--</div></div>-->
+                    <input #dateSelectFrom type="text" class="calendar-picker"/>
+                        <h3 class="block-title">Weekly Overview</h3>
+                    </div>
+                    <div class="block-content block-content-full bg-gray-lighter text-center">
+                        <!-- Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ -->
+                        <div class="col-sm-3">
+                            <h4>Revenue</h4>
+                            <canvas id="report_chart_revenue" class="js-dash-chartjs-lines"></canvas>
+                            <canvas id="report_chart_revenue_by_time"></canvas>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Transaction count</h4>
+                            <canvas id="report_chart_transaction_count" class="js-dash-chartjs-lines"></canvas>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Customer count</h4>
+                            <canvas id="report_chart_customer_count" class="js-dash-chartjs-lines"></canvas>
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Gross Profit</h4>
+                            <canvas id="report_chart_gross_profit" class="js-dash-chartjs-lines"></canvas>
+                        </div>
+                    </div>
+                    <!--<div class="block-content block-content-full bg-gray-lighter text-center">-->
+                    <!--&lt;!&ndash; Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ &ndash;&gt;-->
+                    <!--<div class="col-sm-3">-->
+                    <!--<canvas id="report_chart_revenue" class="js-dash-chartjs-lines"></canvas>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                    <!--<canvas id="report_chart_transaction_count" class="js-dash-chartjs-lines"></canvas>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                    <!--<h4>Customer count</h4>-->
+                    <!--<canvas id="report_chart_customer_count" class="js-dash-chartjs-lines"></canvas>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                    <!--<h4>Gross Profit</h4>-->
+                    <!--<canvas id="report_chart_gross_profit" class="js-dash-chartjs-lines"></canvas>-->
+                    <!--</div>-->
+                    <!--</div>-->
                 </div>
-                <div class="block-content block-content-full bg-gray-lighter text-center">
-                    <!-- Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ -->
-                    <div class="col-sm-3">
-                        <h4>Revenue</h4>
-                        <canvas id="report_chart_revenue" class="js-dash-chartjs-lines"></canvas>
-                        <canvas id="report_chart_revenue_by_time" class="js-dash-chartjs-lines"></canvas>
-                    </div>
-                    <div class="col-sm-3">
-                        <h4>Transaction count</h4>
-                        <canvas id="report_chart_transaction_count" class="js-dash-chartjs-lines"></canvas>
-                    </div>
-                    <div class="col-sm-3">
-                        <h4>Customer count</h4>
-                        <canvas id="report_chart_customer_count" class="js-dash-chartjs-lines"></canvas>
-                    </div>
-                    <div class="col-sm-3">
-                        <h4>Gross Profit</h4>
-                        <canvas id="report_chart_gross_profit" class="js-dash-chartjs-lines"></canvas>
-                    </div>
-                </div>
-                <!--<div class="block-content block-content-full bg-gray-lighter text-center">-->
-                <!--&lt;!&ndash; Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ &ndash;&gt;-->
-                <!--<div class="col-sm-3">-->
-                <!--<canvas id="report_chart_revenue" class="js-dash-chartjs-lines"></canvas>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                <!--<canvas id="report_chart_transaction_count" class="js-dash-chartjs-lines"></canvas>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                <!--<h4>Customer count</h4>-->
-                <!--<canvas id="report_chart_customer_count" class="js-dash-chartjs-lines"></canvas>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                <!--<h4>Gross Profit</h4>-->
-                <!--<canvas id="report_chart_gross_profit" class="js-dash-chartjs-lines"></canvas>-->
-                <!--</div>-->
-                <!--</div>-->
+                <!-- END Main Dashboard Chart -->
             </div>
-            <!-- END Main Dashboard Chart -->
         </div>
     </div>
-</div>
-<!-- END Page Content -->
+    <!-- END Page Content -->

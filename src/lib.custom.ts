@@ -22,13 +22,21 @@ import "ng2-toastr/ng2-toastr.js";
 // jQuery validation
 import "jquery-validation/dist/jquery.validate.js";
 
+
+// boostrap 4
+import "bootstrap";
+
+// date rangepicker
+import "bootstrap-daterangepicker/daterangepicker.js";
+// moment js
+import "moment";
 /*
  Lưu ý không thể load file css ở đây. Lý do là trong config của webpack sẽ chỉ có:
  {
  test: /\.css$/,
  loaders: ['to-string-loader', 'css-loader']
  },
- 
+
  Cái 'to-string-loader' cho phép component import file css:
  @Component({
  selector: 'app',
