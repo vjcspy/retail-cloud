@@ -63,6 +63,7 @@ import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edi
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 import {AddLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/add";
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -108,6 +109,7 @@ import {PriceCollection} from "./cloud/services/ddp/collections/prices";
               FormsModule,
               HttpModule,
               AngularHelperModule,
+              Daterangepicker,
               ToastModule.forRoot(),
               RouterModule.forRoot(ROUTES, {useHash: true})
             ],

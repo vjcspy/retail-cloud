@@ -6,6 +6,7 @@ import {ProductCollection} from "../../../services/ddp/collections/products";
 import {MongoObservable} from "meteor-rxjs";
 import {UserCollection} from "../../../services/ddp/collections/users";
 import {PriceCollection} from "../../../services/ddp/collections/prices";
+import {ManageLicensesService} from "./manage-licenses.service";
 
 @Component({
              selector   : 'add-license',
@@ -18,12 +19,36 @@ export class AddLicenseComponent implements OnInit {
   protected prices: any;
   protected base_urls: string[] = [];
   protected currentProduct: any;
+  protected options: Object;
+  protected license = {
+    shop_owner_id: "",
+    shop_owner_username: "",
+    status: "",
+    has_product: [
+      {
+        product_id: "",
+        base_urls: this.base_urls,
+        pricing_id: "",
+        start_version: "",
+        purchase_date: "",
+        expired_date: ""
+      }
+    ],
+  };
 
   constructor(protected productCollection: ProductCollection,
               protected userCollection: UserCollection,
-              protected priceCollection: PriceCollection) { }
+              protected priceCollection: PriceCollection,
+              protected licenseService: ManageLicensesService) { }
 
   ngOnInit() {
+    this.options = {
+      locale: {
+        format: 'YYYY-MM-DD'
+      },
+      singleDatePicker: true,
+      showDropdowns: true
+    };
     this.productCollection.getCollectionObservable().subscribe(
       (collection: MongoObservable.Collection<any>) => {
         this.products = collection.find({}).fetch();
@@ -46,8 +71,9 @@ export class AddLicenseComponent implements OnInit {
   }
 
   private initPageJs() {
+    let vm = this;
     let initValidationMaterial = function () {
-      jQuery('.js-validation-material').validate({
+      jQuery('.js-validation-license-form').validate({
                                                    ignore        : [],
                                                    errorClass    : 'help-block text-right animated fadeInDown',
                                                    errorElement  : 'div',
@@ -67,91 +93,48 @@ export class AddLicenseComponent implements OnInit {
                                                      elem.closest('.help-block').remove();
                                                    },
                                                    rules         : {
-                                                     'val-username2'        : {
-                                                       required : true,
-                                                       minlength: 3
-                                                     },
-                                                     'val-email2'           : {
-                                                       required: true,
-                                                       email   : true
-                                                     },
-                                                     'val-password2'        : {
-                                                       required : true,
-                                                       minlength: 5
-                                                     },
-                                                     'val-confirm-password2': {
-                                                       required: true,
-                                                       equalTo : '#val-password2'
-                                                     },
-                                                     'val-select22'         : {
+                                                     'val-status': {
                                                        required: true
                                                      },
-                                                     'val-select2-multiple2': {
-                                                       required : true,
-                                                       minlength: 2
+                                                      'val-product': {
+                                                        required: true
+                                                      },
+                                                      'val-version': {
+                                                        required: true
+                                                      },
+                                                      'val-price': {
+                                                        required: true
+                                                      },
+                                                     'val-purchased_date': {
+                                                        required: true
                                                      },
-                                                     'val-suggestions2'     : {
-                                                       required : true,
-                                                       minlength: 5
-                                                     },
-                                                     'val-skill2'           : {
-                                                       required: true
-                                                     },
-                                                     'val-currency2'        : {
-                                                       required: true,
-                                                       currency: ['$', true]
-                                                     },
-                                                     'val-website2'         : {
-                                                       required: true,
-                                                       url     : true
-                                                     },
-                                                     'val-phoneus2'         : {
-                                                       required: true,
-                                                       phoneUS : true
-                                                     },
-                                                     'val-digits2'          : {
-                                                       required: true,
-                                                       digits  : true
-                                                     },
-                                                     'val-number2'          : {
-                                                       required: true,
-                                                       number  : true
-                                                     },
-                                                     'val-range2'           : {
-                                                       required: true,
-                                                       range   : [1, 5]
-                                                     },
-                                                     'val-terms2'           : {
-                                                       required: true
+                                                     'val-expired_date' : {
+                                                        required: true
                                                      }
                                                    },
                                                    messages      : {
-                                                     'val-username2'        : {
-                                                       required : 'Please enter a username',
-                                                       minlength: 'Your username must consist of at least 3 characters'
+                                                     'val-status': {
+                                                       required: 'Please select first status of license'
                                                      },
-                                                     'val-email2'           : 'Please enter a valid email address',
-                                                     'val-password2'        : {
-                                                       required : 'Please provide a password',
-                                                       minlength: 'Your password must be at least 5 characters long'
+                                                     'val-product': {
+                                                       required: 'Please select a product'
                                                      },
-                                                     'val-confirm-password2': {
-                                                       required : 'Please provide a password',
-                                                       minlength: 'Your password must be at least 5 characters long',
-                                                       equalTo  : 'Please enter the same password as above'
+                                                     'val-version': {
+                                                       required: 'Please select start version of product'
                                                      },
-                                                     'val-select22'         : 'Please select a value!',
-                                                     'val-select2-multiple2': 'Please select at least 2 values!',
-                                                     'val-suggestions2'     : 'What can we do to become better?',
-                                                     'val-skill2'           : 'Please select a skill!',
-                                                     'val-currency2'        : 'Please enter a price!',
-                                                     'val-website2'         : 'Please enter your website!',
-                                                     'val-phoneus2'         : 'Please enter a US phone!',
-                                                     'val-digits2'          : 'Please enter only digits!',
-                                                     'val-number2'          : 'Please enter a number!',
-                                                     'val-range2'           : 'Please enter a number between 1 and 5!',
-                                                     'val-terms2'           : 'You must agree to the service terms!'
-                                                   }
+                                                     'val-price': {
+                                                       required: 'Please select a pricing plan for product'
+                                                     },
+                                                     'val-purchased_date': {
+                                                       required: 'Please enter purchase date'
+                                                     },
+                                                     'val-expired_date': {
+                                                       required: 'Please enter expired date'
+                                                     },
+                                                   },
+                                                     submitHandler: function (form) {
+                                                        vm.licenseService.createLicense(vm.license);
+                                                     }
                                                  });
     };
     initValidationMaterial();
@@ -165,8 +148,27 @@ export class AddLicenseComponent implements OnInit {
     );
   }
 
+  private getOwnerName(event){
+    this.userCollection.getCollectionObservable().subscribe(
+      (collection: MongoObservable.Collection<any>) => {
+        let shop_owner = collection.findOne({_id: event.target.value});
+        if(shop_owner){
+          this.license.shop_owner_username = shop_owner.username;
+        }
+      }
+    );
+  }
+
   private addBasedUrl(event){
     this.base_urls.push(event.target.value);
     event.target.value = "";
+  }
+
+  private selectedPurchaseDate(event){
+    this.license.has_product[0].purchase_date = event.end._d;
+  }
+
+  private selectedExpireDate(event){
+    this.license.has_product[0].expired_date = event.end._d;
   }
 }
