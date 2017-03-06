@@ -28,6 +28,7 @@ import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edi
 import {CreateVersionComponent} from "./cloud/pages/admin-area/manage-products/create-version";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 import {AddLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/add";
+import {EditLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/edit";
 
 export const ROUTES: Routes = [
   {
@@ -59,6 +60,7 @@ export const ROUTES: Routes = [
           {path: 'grid', component: ManageLicensesGridComponent},
           {path: 'create', component: CreateLicenseComponent},
           {path: 'add', component: AddLicenseComponent},
+          {path: ':id', component: EditLicenseComponent},
           {path: 'assign', component: AssignLicenseComponent}
         ]
       },
