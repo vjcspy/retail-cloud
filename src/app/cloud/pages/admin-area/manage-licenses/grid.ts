@@ -74,9 +74,12 @@ export class ManageLicensesGridComponent implements OnInit {
         if(data.event == "newRecord"){
           this.router.navigate(['/cloud/licenses/add']);
         }
-      if(data.event == "clickEdit"){
-        this.router.navigateByUrl('/cloud/licenses/' + data.data);
-      }
+        if(data.event == "clickEdit"){
+          this.router.navigateByUrl('/cloud/licenses/' + data.data);
+        }
+        if (data.event == 'removeRecord') {
+          this.manageLicensesService.removeLicense(data.data);
+        }
     });
   }
   

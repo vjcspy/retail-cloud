@@ -53,5 +53,17 @@ export class ManageLicensesService {
       });
     });
   }
+
+  removeLicense(data: any){
+    return new Promise<void>((resolve, reject) => {
+      MeteorObservable.call("license.remove_license", data).subscribe((res) => {
+        this.toast.success("Remove License Successfully");
+        resolve();
+      }, (err) => {
+        this.toast.error(err.reason, err.error);
+        return reject(err);
+      });
+    });
+  }
   
 }
