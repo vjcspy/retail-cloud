@@ -214,7 +214,7 @@ export class LicenseFormComponent implements OnInit {
   }
 
   private selectedPurchaseDate(product, event){
-    product['purchase_date'] = event.end._d;
+    product['purchase_date'] = event.end._d;//
   }
 
   private selectedExpireDate(product, event){
