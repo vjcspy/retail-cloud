@@ -2,6 +2,7 @@ import {DashboardComponent} from "./cloud/pages/dashboard/dashboard";
 import {AdminAreaComponent} from "./cloud/pages/admin-area/admin-area";
 import {ManageLicensesComponent} from "./cloud/pages/admin-area/manage-licenses";
 import {ManageLicensesGridComponent} from "./cloud/pages/admin-area/manage-licenses/grid";
+import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
 import {ManageProductsComponent} from "./cloud/pages/admin-area/manage-products";
 import {ManageProductsGridComponent} from "./cloud/pages/admin-area/manage-products/grid";
 import {ManageUsersComponent} from "./cloud/pages/admin-area/manage-users";
@@ -57,6 +58,8 @@ export const ROUTES: Routes = [
           {path: '', component: ManageLicensesGridComponent},
           {path: 'grid', component: ManageLicensesGridComponent},
           {path: 'create', component: CreateLicenseComponent},
+          {path: 'add', component: LicenseFormComponent},
+          {path: ':id', component: LicenseFormComponent},
           {path: 'assign', component: AssignLicenseComponent}
         ]
       },
