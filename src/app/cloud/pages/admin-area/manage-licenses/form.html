@@ -119,8 +119,13 @@
                                         <div class="form-group">
                                             <div class="col-sm-9">
                                                 <div class="form-material">
-                                                    <div class="badge" *ngFor="let url of base_urls">{{ url }}</div>
-                                                    <input class="form-control" (focusout)="addBasedUrl($event)" type="text" id="val-base_url" name="val-base_url"
+                                                    <div class="badge" *ngFor="let url of base_urls">
+                                                        {{ url }}
+                                                        <input type="hidden" value="url" #url>
+                                                        <button (click)="removeUrl(url.value);">x</button>
+                                                    </div>
+                                                    <input class="form-control" (focusout)="addBasedUrl(product, $event)" type="text"
+                                                           id="val-base_url" name="val-base_url"
                                                            placeholder="Add Based URLs" [(ngModel)]="product['based_urls']">
                                                 </div>
                                             </div>
