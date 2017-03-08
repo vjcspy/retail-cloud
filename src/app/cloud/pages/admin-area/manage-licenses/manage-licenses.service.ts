@@ -31,21 +31,8 @@ export class ManageLicensesService {
   editLicense(license: any){
     return new Promise<void>((resolve, reject) => {
       MeteorObservable.call("license.edit_license", license).subscribe((res) => {
-        this.router.navigate(['cloud/licenses/edit' + license._id]);
+        this.router.navigate(['cloud/licenses/' + license.id]);
         this.toast.success("Edit License Successfully");
-        resolve();
-      }, (err) => {
-        this.toast.error(err.reason, err.error);
-        return reject(err);
-      });
-    });
-  }
-
-  addProduct(data: any){
-    return new Promise<void>((resolve, reject) => {
-      MeteorObservable.call("license.add_product_to_license", data).subscribe((res) => {
-        this.router.navigate(['cloud/licenses/' + data._id]);
-        this.toast.success("Add Product To License Successfully");
         resolve();
       }, (err) => {
         this.toast.error(err.reason, err.error);

@@ -17,7 +17,7 @@ new ValidatedMethod({
   },
   run: function (data: Object) {
     let defer = $q.defer();
-    const license = OM.create<License>(License).loadById(data['_id']);
+    const license = OM.create<License>(License).loadById(data['id']);
     if(!license){
       throw new Meteor.Error("license.error_edit", "License Not Found");
     }
