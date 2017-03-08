@@ -19,6 +19,7 @@ export class LicenseFormComponent implements OnInit {
   id: string = "";
   protected form_title: string;
   protected license = {
+    id: "",
     shop_owner_id: "",
     shop_owner_username: "",
     status: "",
@@ -38,7 +39,6 @@ export class LicenseFormComponent implements OnInit {
     singleDatePicker: true,
     showDropdowns: true
   };
-  protected product: any;
   protected has_product: Object[] = [];
   constructor(
     protected licenseService: ManageLicensesService,
@@ -74,22 +74,28 @@ export class LicenseFormComponent implements OnInit {
     this.productCollection.getCollectionObservable().subscribe(
       (collection: MongoObservable.Collection<any>) => {
         this.product_list = collection.find({}).fetch();
-        _.forEach(this.product_list, (product) => {
+        this.products = _.map(this.product_list, (product) => {
           let object: any;
-          if (this.product_ids_license.indexOf(product._id) > -1){
+          if (this.id && this.product_ids_license.indexOf(product._id) > -1){
+            let p_information = _.filter(this.license.has_product, (p) => {
+              if (p.product_id == product._id){
+                return p;
+              }
+            });
+            this.base_urls = p_information[0].based_urls;
             object = {
               checked: true,
               name: product.name,
               product_id: product._id,
-              status: "",
-              start_version: "",
+              status: p_information[0].status,
+              start_version: p_information[0].start_version,
               versions: product.versions,
-              pricing_id: "",
-              based_urls: [],
-              purchase_date: "",
-              expired_date: ""
+              pricing_id: p_information[0].pricing_id,
+              based_urls: p_information[0].based_urls,
+              purchase_date: p_information[0].purchase_date,
+              expired_date: p_information[0].expired_date
             };
-          }else{
+          }else {
             object = {
               checked: false,
               name: product.name,
@@ -103,7 +109,7 @@ export class LicenseFormComponent implements OnInit {
               expired_date: ""
             };
           }
-          this.products.push(object);
+          return object;
         });
       }
     );
@@ -161,9 +167,17 @@ export class LicenseFormComponent implements OnInit {
                                                             }
                                                          });
                                                           if (vm.id){
-
+                                                            vm.license = {
+                                                              id: vm.id,
+                                                              shop_owner_id: vm.license.shop_owner_id,
+                                                              shop_owner_username: vm.license.shop_owner_username,
+                                                              status: vm.license.status,
+                                                              has_product: result
+                                                            };
+                                                            vm.licenseService.editLicense(vm.license);
                                                           }else{
                                                             vm.license = {
+                                                              id: "",
                                                               shop_owner_id: vm.license.shop_owner_id,
                                                               shop_owner_username: vm.license.shop_owner_username,
                                                               status: vm.license.status,
@@ -188,9 +202,14 @@ export class LicenseFormComponent implements OnInit {
     );
   }
 
-  private addBasedUrl(event){
-    this.base_urls.push(event.target.value);
+  private addBasedUrl(product, event){
+    product.based_urls.push(event.target.value);
     event.target.value = "";
+  }
+
+  private removeUrl(product, url){
+    let index = product.based_urls.indexOf(url);
+    product.based_urls.splice(index, 1);
   }
 
   private selectedPurchaseDate(product, event){
@@ -199,5 +218,9 @@ export class LicenseFormComponent implements OnInit {
 
   private selectedExpireDate(product, event){
     product['expired_date'] = event.end._d;
+  }
+
+  trackById(index: number, obj: any): any {
+    return index;
   }
 }

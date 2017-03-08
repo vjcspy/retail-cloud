@@ -18,13 +18,14 @@ export const Licenses = CollectionMaker.make<LicenseInterface>("licenses",
                                                                  has_product        : Array,
                                                                  "has_product.$"    : new SimpleSchema({
                                                                    product_id   : String,
-                                                                   base_url     : {
+                                                                   based_urls     : {
                                                                      type    : Array,
                                                                      optional: true
                                                                    },
-                                                                   'base_url.$' : String,
+                                                                   'based_urls.$' : String,
                                                                    pricing_id   : String,
                                                                    start_version: String,
+                                                                   status: SimpleSchema.Integer,
                                                                    purchase_date: Date,
                                                                    expired_date : Date
                                                                  }),

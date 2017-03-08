@@ -26,7 +26,6 @@ import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/c
 import {CreateProductComponent} from "./cloud/pages/admin-area/manage-products/create";
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
 import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
-import {CreateVersionComponent} from "./cloud/pages/admin-area/manage-products/create-version";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 
 export const ROUTES: Routes = [
@@ -35,7 +34,7 @@ export const ROUTES: Routes = [
     redirectTo: '/cloud',
     pathMatch : 'full'
   },
-  
+
   {
     path       : 'cloud',
     component  : ContainerComponent,
@@ -49,7 +48,7 @@ export const ROUTES: Routes = [
         path     : 'profile',
         component: UserProfileComponent
       },
-      
+
       /* ------------------------ Admin Area ------------------------ */
       {
         path     : 'licenses',
@@ -81,7 +80,7 @@ export const ROUTES: Routes = [
           {path: 'grid', component: ManageUsersGridComponent},
         ]
       },
-      
+
       /* ------------------------ User Area ------------------------ */
       {
         path     : 'manage-shop',

@@ -64,6 +64,7 @@ import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
 import { Daterangepicker } from 'ng2-daterangepicker';
 import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
+import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/manage-licenses.service";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -122,7 +123,8 @@ import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/for
               LicenseCollection,
               AuthService,
               AuthenticateGuard,
-              ManageProductsService
+              ManageProductsService,
+              ManageLicensesService
             ]
           })
 export class AppModule {
