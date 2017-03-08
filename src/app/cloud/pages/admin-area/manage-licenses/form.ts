@@ -133,7 +133,7 @@ export class LicenseFormComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
     _.forEach(this.products, (p) => {
       let purchase_date = "val-purchased_date" + p['product_id'];
-      let expired_date = "val-expired_date" + p['product_id'];
+      let expired_date = "val-expire_date" + p['product_id'];
       jQuery(this.el.nativeElement).find('input[name=purchase_date]').daterangepicker(this.options, (start, end, label) => {
         p['purchase_date'] = start.format('YYYY/MM/DD');
       });

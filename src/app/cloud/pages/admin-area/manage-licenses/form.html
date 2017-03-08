@@ -152,8 +152,7 @@
                                         <div class="col-sm-9">
                                             <div class="form-material">
                                                 <input class="form-control" type="text" name="{{'val-expire_date'+product['product_id']}}" id="val-expire_date"
-                                                       placeholder="Enter Expire Date.." (selected)="selectedExpireDate(product, $event)"
-                                                       daterangepicker [options]="options" [(ngModel)]="product['expired_date']">
+                                                       placeholder="Enter Expire Date.." [(ngModel)]="product['expired_date']">
                                             </div>
                                         </div>
                                     </div>
