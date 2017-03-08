@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit
+  OnInit, ElementRef, AfterViewInit
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductCollection} from "../../../services/ddp/collections/products";
@@ -15,7 +15,7 @@ import * as _ from "lodash";
              selector: 'license-form',
              templateUrl: 'form.html'
            })
-export class LicenseFormComponent implements OnInit {
+export class LicenseFormComponent implements OnInit, AfterViewInit {
   id: string = "";
   protected form_title: string;
   protected license = {
@@ -47,7 +47,8 @@ export class LicenseFormComponent implements OnInit {
     protected priceCollection: PriceCollection,
     private route: ActivatedRoute,
     protected licenseCollection: LicenseCollection,
-    protected router: Router
+    protected router: Router,
+    private el:ElementRef
   ) {
     route.params.subscribe((p) => {
       this.id = p['id'];
@@ -127,6 +128,19 @@ export class LicenseFormComponent implements OnInit {
     );
 
     this.initPageJs();
+  }
+
+  ngAfterViewInit(){
+    _.forEach(this.products, (p) => {
+      let purchase_date = "val-purchased_date" + p['product_id'];
+      let expired_date = "val-expired_date" + p['product_id'];
+      jQuery(this.el.nativeElement).find('input[name=purchase_date]').daterangepicker(this.options, (start, end, label) => {
+        p['purchase_date'] = start.format('YYYY/MM/DD');
+      });
+      jQuery(this.el.nativeElement).find('input[name=expired_date]').daterangepicker(this.options, (start, end, label) => {
+        p['expired_date'] = start.format('YYYY/MM/DD');
+      });
+    });
   }
 
   private initPageJs() {
@@ -210,14 +224,6 @@ export class LicenseFormComponent implements OnInit {
   private removeUrl(product, url){
     let index = product.based_urls.indexOf(url);
     product.based_urls.splice(index, 1);
-  }
-
-  private selectedPurchaseDate(product, event){
-    product['purchase_date'] = event.end._d;//
-  }
-
-  private selectedExpireDate(product, event){
-    product['expired_date'] = event.end._d;
   }
 
   trackById(index: number, obj: any): any {

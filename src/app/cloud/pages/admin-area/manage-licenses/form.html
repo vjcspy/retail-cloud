@@ -142,8 +142,7 @@
                                         <div class="col-sm-9">
                                             <div class="form-material">
                                                 <input class="form-control" type="text" name="{{'val-purchased_date'+product['product_id']}}" id="val-purchased_date"
-                                                       daterangepicker [options]="options" placeholder="Enter Purchased Date.." (selected)
-                                                               ="selectedPurchaseDate(product, $event)" [(ngModel)]="product['purchase_date']">
+                                                       placeholder="Enter Purchased Date.." [(ngModel)]="product['purchase_date']">
                                             </div>
                                         </div>
                                     </div>
