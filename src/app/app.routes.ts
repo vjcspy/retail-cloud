@@ -22,10 +22,8 @@ import {BillingPricingComponent} from "./cloud/pages/billing-pricing/billing-pri
 import {CloudPricingComponent} from "./cloud/pages/billing-pricing/children/pricing";
 import {CloudBillingComponent} from "./cloud/pages/billing-pricing/children/billing";
 import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/create";
-import {CreateProductComponent} from "./cloud/pages/admin-area/manage-products/create";
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
-import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
-import {CreateVersionComponent} from "./cloud/pages/admin-area/manage-products/create-version";
+import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 
 export const ROUTES: Routes = [
@@ -66,8 +64,8 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: ManageProductsGridComponent},
           {path: 'grid', component: ManageProductsGridComponent},
-          {path: 'create', component: CreateProductComponent},
-          {path: ':id', component: EditProductComponent}
+          {path: 'create', component: ProductFormComponent},
+          {path: ':id', component: ProductFormComponent}
         ]
       },
       {

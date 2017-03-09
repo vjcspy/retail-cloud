@@ -61,6 +61,8 @@ import {CreateProductComponent} from "./cloud/pages/admin-area/manage-products/c
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
 import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
+import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
+import {PriceCollection} from "./cloud/services/ddp/collections/prices";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -82,6 +84,7 @@ import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-
               AssignLicenseComponent,
               ManageProductsComponent,
               ManageProductsGridComponent,
+              ProductFormComponent,
               ManageUsersComponent,
               ManageUsersGridComponent,
               SignInComponent,
@@ -114,6 +117,7 @@ import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-
               ProductCollection,
               UserCollection,
               LicenseCollection,
+              PriceCollection,
               AuthService,
               AuthenticateGuard,
               ManageProductsService
