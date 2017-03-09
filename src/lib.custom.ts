@@ -1,4 +1,5 @@
 /*Lib Core Theme*/
+import "assets/js/core/jquery.min";
 import "assets/js/core/bootstrap.min";
 import "assets/js/core/jquery.slimscroll.min";
 import "assets/js/core/jquery.scrollLock.min";

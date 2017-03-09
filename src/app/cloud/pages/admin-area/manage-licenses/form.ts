@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit, ElementRef, AfterViewInit
+  OnInit, ElementRef
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductCollection} from "../../../services/ddp/collections/products";
@@ -10,12 +10,14 @@ import {LicenseCollection} from "../../../services/ddp/collections/licenses";
 import {UserCollection} from "../../../services/ddp/collections/users";
 import {PriceCollection} from "../../../services/ddp/collections/prices";
 import * as _ from "lodash";
+import * as moment from 'moment';
+
 
 @Component({
              selector: 'license-form',
              templateUrl: 'form.html'
            })
-export class LicenseFormComponent implements OnInit, AfterViewInit {
+export class LicenseFormComponent implements OnInit {
   id: string = "";
   protected form_title: string;
   protected license = {
@@ -93,8 +95,8 @@ export class LicenseFormComponent implements OnInit, AfterViewInit {
               versions: product.versions,
               pricing_id: p_information[0].pricing_id,
               based_urls: p_information[0].based_urls,
-              purchase_date: p_information[0].purchase_date,
-              expired_date: p_information[0].expired_date
+              purchase_date: moment(p_information[0].purchase_date).format("YYYY-MM-DD"),
+              expired_date: moment(p_information[0].expired_date).format("YYYY-MM-DD")
             };
           }else {
             object = {
@@ -112,6 +114,16 @@ export class LicenseFormComponent implements OnInit, AfterViewInit {
           }
           return object;
         });
+        _.forEach(this.products, (p) => {
+          let purchase_date = "val-purchased_date" + p['product_id'];
+          let expired_date = "val-expire_date" + p['product_id'];
+          jQuery(this.el.nativeElement).find('#' + purchase_date).daterangepicker(this.options, (start, end, label) => {
+            p['purchase_date'] = start.format('YYYY-MM-DD');
+          });
+          jQuery(this.el.nativeElement).find('#' + expired_date).daterangepicker(this.options, (start, end, label) => {
+            p['expired_date'] = start.format('YYYY-MM-DD');
+          });
+        });
       }
     );
 
@@ -128,19 +140,6 @@ export class LicenseFormComponent implements OnInit, AfterViewInit {
     );
 
     this.initPageJs();
-  }
-
-  ngAfterViewInit(){
-    _.forEach(this.products, (p) => {
-      let purchase_date = "val-purchased_date" + p['product_id'];
-      let expired_date = "val-expire_date" + p['product_id'];
-      jQuery(this.el.nativeElement).find('input[name=purchase_date]').daterangepicker(this.options, (start, end, label) => {
-        p['purchase_date'] = start.format('YYYY/MM/DD');
-      });
-      jQuery(this.el.nativeElement).find('input[name=expired_date]').daterangepicker(this.options, (start, end, label) => {
-        p['expired_date'] = start.format('YYYY/MM/DD');
-      });
-    });
   }
 
   private initPageJs() {
@@ -217,8 +216,10 @@ export class LicenseFormComponent implements OnInit, AfterViewInit {
   }
 
   private addBasedUrl(product, event){
-    product.based_urls.push(event.target.value);
-    event.target.value = "";
+    if (event.target.value){
+      product.based_urls.push(event.target.value);
+      event.target.value = "";
+    }
   }
 
   private removeUrl(product, url){
