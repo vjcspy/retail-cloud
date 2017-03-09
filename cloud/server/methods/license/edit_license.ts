@@ -21,6 +21,12 @@ new ValidatedMethod({
     if(!license){
       throw new Meteor.Error("license.error_edit", "License Not Found");
     }
+    _.forEach(license._data, function(value, key){
+      if(key != "_id"){
+        license.unsetData(key);
+      }
+    });
+    license.addData(data);
     license.save().then(() => defer.resolve(), (err) => defer.reject(err));
     return defer.promise;
   }
