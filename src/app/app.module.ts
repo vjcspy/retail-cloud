@@ -62,7 +62,6 @@ import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/a
 import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
-import { Daterangepicker } from 'ng2-daterangepicker';
 import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
 import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/manage-licenses.service";
 
@@ -110,7 +109,6 @@ import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/ma
               FormsModule,
               HttpModule,
               AngularHelperModule,
-              Daterangepicker,
               ToastModule.forRoot(),
               RouterModule.forRoot(ROUTES, {useHash: true})
             ],
