@@ -57,9 +57,7 @@ import {CloudPricingComponent} from "./cloud/pages/billing-pricing/children/pric
 import {ManageUsersComponent} from "./cloud/pages/admin-area/manage-users";
 import {ManageUsersGridComponent} from "./cloud/pages/admin-area/manage-users/grid";
 import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/create";
-import {CreateProductComponent} from "./cloud/pages/admin-area/manage-products/create";
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
-import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
@@ -99,8 +97,6 @@ import {PriceCollection} from "./cloud/services/ddp/collections/prices";
               CloudBillingComponent,
               CloudPricingComponent,
               CreateLicenseComponent,
-              CreateProductComponent,
-              EditProductComponent,
               CreateCashierComponent
             ],
             imports     : [ // import Angular's modules
