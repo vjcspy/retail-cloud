@@ -88,7 +88,7 @@ export class Seeder {
 
       for (let i = 1; i < Math.round(Math.random() * 10); ++i) {
         let product_id = this.randomCheckIdObject(Products.find().fetch(), product_ids);
-        let product = Products.findOne({_id: product_id});
+        let product = Products.findOne({_id: product_id});//
         let price_id   = this.randomCheckIdObject(Prices.find({_id:{$in: product['pricings']}}).fetch(), price_ids);
         let base_url   = [];
         for (let j = 0; j < Math.round(Math.random() * 5); ++j) {
