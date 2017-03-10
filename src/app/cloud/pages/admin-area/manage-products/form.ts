@@ -146,6 +146,7 @@ export class ProductFormComponent extends AbstractRxComponent implements OnInit 
     let index = this.product.versions.indexOf(version);
     if (this.id && this.product.versions.length == 1){
       this.toast.error('Remove Version', 'Product need to have at least one version, you can not remove');
+      return;
     }
     if (index){
       this.product.versions.splice(index, 1);
