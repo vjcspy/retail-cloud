@@ -86,9 +86,10 @@ export class Seeder {
       let product_ids       = [];
       let price_ids         = [];
 
-      for (let i = 0; i < Math.round(Math.random() * 10); ++i) {
+      for (let i = 1; i < Math.round(Math.random() * 10); ++i) {
         let product_id = this.randomCheckIdObject(Products.find().fetch(), product_ids);
-        let price_id   = this.randomCheckIdObject(Prices.find().fetch(), price_ids);
+        let product = Products.findOne({_id: product_id});
+        let price_id   = this.randomCheckIdObject(Prices.find({_id:{$in: product['pricings']}}).fetch(), price_ids);
         let base_url   = [];
         for (let j = 0; j < Math.round(Math.random() * 5); ++j) {
           base_url.push(Math.random().toString(36).substring(7));
@@ -102,6 +103,7 @@ export class Seeder {
                                  base_url: base_url,
                                  pricing_id: price_id,
                                  start_version: start_version,
+                                 status: Math.floor(Math.random() * 9) % 3,
                                  purchase_date: purchase_date,
                                  expired_date: expired_date
                                });
