@@ -24,13 +24,14 @@
       "node",
       "source-map",
       "uglify-js",
-      "webpack",
-      "@types/lodash"
+      "webpack"
     ]
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "cloud",
+    "cloud/node_modules"
   ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,

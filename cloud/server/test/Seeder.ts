@@ -20,11 +20,11 @@ export class Seeder {
     if (Users.collection.find().count() > 1)
       return;
     
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
       Accounts.createUser(
         {
           username: "vjcspy" + i,
-          email   : "mr.vjcspy" + i + "@gmail.com",
+          email: "mr.vjcspy" + i + "@gmail.com",
           password: "admin123"
         });
     }
@@ -69,7 +69,7 @@ export class Seeder {
     let _p = () => {
       return {name: Math.random().toString(36).substring(7)};
     };
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 4; i++) {
       let _price = OM.create<Price>(Price, false, _p());
       _price.save();
     }
@@ -123,7 +123,7 @@ export class Seeder {
 
   randomCheckIdObject(arr: any[], array: any[]) {
     let id = this.randomIdObject(arr);
-    while(array.indexOf(id)>-1){
+    while (array.indexOf(id) > -1) {
       id = this.randomIdObject(arr);
     }
     array.push(id);
