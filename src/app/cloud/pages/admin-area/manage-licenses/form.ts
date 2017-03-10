@@ -21,7 +21,7 @@ export class LicenseFormComponent implements OnInit {
   id: string = "";
   protected form_title: string;
   protected license = {
-    id: "",
+    _id: "",
     shop_owner_id: "",
     shop_owner_username: "",
     status: "",
@@ -183,7 +183,7 @@ export class LicenseFormComponent implements OnInit {
                                                          });
                                                           if (vm.id){
                                                             vm.license = {
-                                                              id: vm.id,
+                                                              _id: vm.id,
                                                               shop_owner_id: vm.license.shop_owner_id,
                                                               shop_owner_username: vm.license.shop_owner_username,
                                                               status: vm.license.status,
@@ -192,7 +192,7 @@ export class LicenseFormComponent implements OnInit {
                                                             vm.licenseService.editLicense(vm.license).then(()=>{},e=>{});
                                                           }else{
                                                             vm.license = {
-                                                              id: "",
+                                                              _id: "",
                                                               shop_owner_id: vm.license.shop_owner_id,
                                                               shop_owner_username: vm.license.shop_owner_username,
                                                               status: vm.license.status,
