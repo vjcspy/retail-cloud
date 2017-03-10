@@ -85,7 +85,7 @@ export class LicenseFormComponent implements OnInit {
                 return p;
               }
             });
-            this.base_urls = p_information[0].based_urls;
+            this.base_urls = p_information[0].base_url;
             object = {
               checked: true,
               pricings: product.pricings,
@@ -95,7 +95,7 @@ export class LicenseFormComponent implements OnInit {
               start_version: p_information[0].start_version,
               versions: product.versions,
               pricing_id: p_information[0].pricing_id,
-              based_urls: p_information[0].based_urls,
+              base_url: p_information[0].base_urls,
               purchase_date: moment(p_information[0].purchase_date).format("YYYY-MM-DD"),
               expired_date: moment(p_information[0].expired_date).format("YYYY-MM-DD")
             };
@@ -110,7 +110,7 @@ export class LicenseFormComponent implements OnInit {
               start_version: "",
               versions: product.versions,
               pricing_id: "",
-              based_urls: [],
+              base_url: [],
               purchase_date: "",
               expired_date: ""
             };
@@ -220,14 +220,14 @@ export class LicenseFormComponent implements OnInit {
 
   private addBasedUrl(product, event){
     if (event.target.value){
-      product.based_urls.push(event.target.value);
+      product.base_url.push(event.target.value);
       event.target.value = "";
     }
   }
 
   private removeUrl(product, url){
-    let index = product.based_urls.indexOf(url);
-    product.based_urls.splice(index, 1);
+    let index = product.base_url.indexOf(url);
+    product.base_url.splice(index, 1);
   }
 
   trackById(index: number, obj: any): any {

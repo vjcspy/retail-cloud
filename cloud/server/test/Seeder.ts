@@ -96,7 +96,7 @@ export class Seeder {
         
         licensehasproduct.push({
                                  product_id: product_id,
-                                 based_urls: base_url,
+                                 base_url: base_url,
                                  pricing_id: price_id,
                                  start_version: start_version,
                                  purchase_date: purchase_date,

@@ -130,7 +130,7 @@
                                         <div class="col-sm-9">
                                             <div class="form-material">
                                                 <input type="hidden" #url>
-                                                <div class="badge" *ngFor="let url of product.based_urls">
+                                                <div class="badge" *ngFor="let url of product.base_url">
                                                     {{ url }}
                                                     <button (click)="removeUrl(product, url.value)">x</button>
                                                 </div>
