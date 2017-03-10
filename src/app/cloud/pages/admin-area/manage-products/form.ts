@@ -9,12 +9,13 @@ import {MongoObservable} from "meteor-rxjs";
 import * as moment from 'moment';
 import {PriceCollection} from "../../../services/ddp/collections/prices";
 import {ToastsManager} from "ng2-toastr";
+import {AbstractRxComponent} from "../../../../code/angular/AbstractRxComponent";
 
 @Component({
              selector: 'product-form',
              templateUrl: 'form.html'
            })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
   protected prices: any;
   protected product = {
@@ -42,6 +43,7 @@ export class ProductFormComponent implements OnInit {
     protected router: Router,
     protected toast: ToastsManager
   ) {
+    super();
     route.params.subscribe((p) => {
       this.id = p['id'];
       if(this.id){
