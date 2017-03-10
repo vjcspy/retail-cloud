@@ -130,9 +130,12 @@
                                         <div class="col-sm-9">
                                             <div class="form-material">
                                                 <input type="hidden" #url>
-                                                <div class="badge" *ngFor="let url of product.base_url">
-                                                    {{ url }}
-                                                    <button (click)="removeUrl(product, url.value)">x</button>
+                                                <div class="btn-group" *ngFor="let url of product.base_url">
+                                                    <button type="button" class="btn btn-default btn-sm">{{ url }}</button>
+                                                    <button type="button" class="close-button btn btn-default btn-sm" (click)="removeUrl(product, url
+                                                    .value)">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
                                                 <input class="form-control" (focusout)="addBasedUrl(product, $event)" type="text" id="val-base_url"
                                                        name="{{'val-base_url'+product['product_id']}}"

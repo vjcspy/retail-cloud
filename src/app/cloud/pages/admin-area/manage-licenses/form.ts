@@ -28,7 +28,7 @@ export class LicenseFormComponent implements OnInit {
     has_product: [],
   };
   protected product_ids_license: string[];
-  protected base_urls: string[] = [];
+  protected base_url: string[] = [];
   protected product_list: any[];
   protected products: Object[] = [];
   protected users: any;
@@ -85,7 +85,6 @@ export class LicenseFormComponent implements OnInit {
                 return p;
               }
             });
-            this.base_urls = p_information[0].base_url;
             object = {
               checked: true,
               pricings: product.pricings,
@@ -95,7 +94,7 @@ export class LicenseFormComponent implements OnInit {
               start_version: p_information[0].start_version,
               versions: product.versions,
               pricing_id: p_information[0].pricing_id,
-              base_url: p_information[0].base_urls,
+              base_url: p_information[0].base_url,
               purchase_date: moment(p_information[0].purchase_date).format("YYYY-MM-DD"),
               expired_date: moment(p_information[0].expired_date).format("YYYY-MM-DD")
             };
