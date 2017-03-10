@@ -79,15 +79,6 @@ export class LicenseFormComponent implements OnInit {
         this.product_list = collection.find({}).fetch();
         this.products = _.map(this.product_list, (product) => {
           let object: any;
-          let pricings = [];
-          this.priceCollection.getCollectionObservable().subscribe(
-            (collection: MongoObservable.Collection<any>) => {
-              let findPricings = collection.find({"_id": {"$in": product.pricings}}).fetch();
-              pricings = _.map(findPricings, (p) => {
-                return p;
-              });
-            }
-          );
           if (this.id && this.product_ids_license.indexOf(product._id) > -1){
             let p_information = _.filter(this.license.has_product, (p) => {
               if (p.product_id == product._id){
@@ -97,7 +88,7 @@ export class LicenseFormComponent implements OnInit {
             this.base_urls = p_information[0].based_urls;
             object = {
               checked: true,
-              pricings: pricings,
+              pricings: product.pricings,
               name: product.name,
               product_id: product._id,
               status: p_information[0].status,
@@ -112,7 +103,7 @@ export class LicenseFormComponent implements OnInit {
 
             object = {
               checked: false,
-              pricings: pricings,
+              pricings: product.pricings,
               name: product.name,
               product_id: product._id,
               status: "",
@@ -142,6 +133,12 @@ export class LicenseFormComponent implements OnInit {
     this.userCollection.getCollectionObservable().subscribe(
       (collection: MongoObservable.Collection<any>) => {
         this.users = collection.find({}).fetch();
+      }
+    );
+
+    this.priceCollection.getCollectionObservable().subscribe(
+      (collection: MongoObservable.Collection<any>) => {
+        this.prices = collection.find({}).fetch();
       }
     );
 

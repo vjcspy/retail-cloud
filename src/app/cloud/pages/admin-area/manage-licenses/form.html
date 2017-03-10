@@ -114,7 +114,11 @@
                                                 <select class="form-control" id="val-price" name="{{'val-price'+product['product_id']}}" style="width: 100%;"
                                                         data-placeholder="Choose one.." [(ngModel)]="product['pricing_id']">
                                                     <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                                    <option *ngFor="let price of product.pricings" [value]="price._id">{{ price.name }}</option>
+                                                    <template ngFor let-price [ngForOf]="prices">
+                                                        <option *ngIf="product.pricings.indexOf(price._id)>-1"
+                                                                [value]="price._id">{{ price.name }}</option>
+                                                    </template>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -125,9 +129,9 @@
                                     <div class="form-group">
                                         <div class="col-sm-9">
                                             <div class="form-material">
+                                                <input type="hidden" #url>
                                                 <div class="badge" *ngFor="let url of product.based_urls">
                                                     {{ url }}
-                                                    <input type="hidden" [value]="url" #url>
                                                     <button (click)="removeUrl(product, url.value)">x</button>
                                                 </div>
                                                 <input class="form-control" (focusout)="addBasedUrl(product, $event)" type="text" id="val-base_url"
