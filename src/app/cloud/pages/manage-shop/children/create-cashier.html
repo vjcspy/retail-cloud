@@ -19,7 +19,8 @@
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">
-                  <input class="form-control" type="text" id="cashier_firstname" name="cashier_firstname" placeholder="Cashier first name">
+                  <input class="form-control" type="text" id="cashier_firstname" name="cashier_firstname" [(ngModel)]="_data.first_name"
+                         placeholder="Cashier first name">
                   <label for="cashier_firstname">First name</label>
                 </div>
               </div>
@@ -27,7 +28,8 @@
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">
-                  <input class="form-control" type="text" id="cashier_lastname" name="cashier_lastname" placeholder="Cashier last name">
+                  <input class="form-control" type="text" id="cashier_lastname" name="cashier_lastname" [(ngModel)]="_data.last_name"
+                         placeholder="Cashier last name">
                   <label for="cashier_lastname">Last name</label>
                 </div>
               </div>
@@ -35,7 +37,8 @@
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">
-                  <input class="form-control" type="text" id="cashier_username" name="cashier_username" placeholder="Choose a cashier username..">
+                  <input class="form-control" type="text" id="cashier_username" name="cashier_username" [(ngModel)]="_data.username"
+                         placeholder="Choose a cashier username..">
                   <label for="cashier_username">Username</label>
                 </div>
               </div>
@@ -43,7 +46,8 @@
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">
-                  <input class="form-control" type="text" id="cashier_email" name="cashier_email" placeholder="Enter cashier's valid email..">
+                  <input class="form-control" type="text" id="cashier_email" name="cashier_email" [(ngModel)]="_data.email"
+                         placeholder="Enter cashier's valid email..">
                   <label for="cashier_email">Email</label>
                 </div>
               </div>
@@ -51,16 +55,9 @@
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">
-                  <select class="js-select2 form-control" id="cashier_products" name="cashier_products" style="width: 100%;"
-                          data-placeholder="Choose at least one.." multiple>
-                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                    <option value="1">HTML</option>
-                    <option value="2">CSS</option>
-                    <option value="3">JavaScript</option>
-                    <option value="4">PHP</option>
-                    <option value="5">MySQL</option>
-                    <option value="6">Ruby</option>
-                    <option value="7">AngularJS</option>
+                  <select multiple="true" class="form-control cashier_products" id="cashier_products">
+                    <!--<option></option>&lt;!&ndash; Required for data-placeholder attribute to work with Select2 plugin &ndash;&gt;-->
+                    <option *ngFor="let product of license.products_select_data" [value]="product['id']">{{product['text']}}</option>
                   </select>
                   <label for="cashier_products">Assign to products</label>
                 </div>
@@ -72,7 +69,7 @@
                   <label><span>Disabled</span></label>
                 </div>
                 <label class="css-input switch switch-danger">
-                  <input type="checkbox" checked><span></span>
+                  <input type="checkbox" name="cashier_disabled" checked [(ngModel)]="_data.disabled"><span></span>
                 </label>
               </div>
             </div>

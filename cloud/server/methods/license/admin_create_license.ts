@@ -3,6 +3,7 @@ import {User} from "../../models/User";
 import {Role} from "../../models/Role";
 import {License} from "../../models/License";
 import * as $q from 'q';
+import {StringHelper} from "../../code/StringHelper";
 
 new ValidatedMethod({
   name    : "license.admin_create_license",
@@ -15,15 +16,16 @@ new ValidatedMethod({
   },
   run     : function (data: Object) {
     let defer = $q.defer();
-    
+
     data['created_by']       = this.userId;
     data['is_auto_generate'] = false;
-    
+    data['key'] = StringHelper.getUnique();
+
     let licenseModel = OM.create<License>(License);
     licenseModel.addData(data)
                 .save()
                 .then(() => defer.resolve(), err => defer.reject(err));
-    
+
     return defer.promise;
   }
 });
