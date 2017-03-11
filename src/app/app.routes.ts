@@ -26,6 +26,7 @@ import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/c
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
 import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
+import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 
 export const ROUTES: Routes = [
   {
@@ -76,6 +77,8 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: ManageUsersGridComponent},
           {path: 'grid', component: ManageUsersGridComponent},
+          {path: 'create', component: UserFormComponent},
+          {path: 'edit/:id', component: UserFormComponent},
         ]
       },
 

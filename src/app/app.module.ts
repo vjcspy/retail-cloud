@@ -64,6 +64,7 @@ import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/for
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
 import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
 import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/manage-licenses.service";
+import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 
 
 /**
@@ -89,6 +90,7 @@ import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/ma
               ProductFormComponent,
               ManageUsersComponent,
               ManageUsersGridComponent,
+              UserFormComponent,
               SignInComponent,
               SignUpComponent,
               ResetPasswordComponent,
