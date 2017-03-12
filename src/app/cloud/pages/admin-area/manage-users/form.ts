@@ -104,8 +104,8 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                      'firstname': 'Please select a value!',
                                                    },
                                                    submitHandler: () => {
-                                                     console.log(vm._data);
                                                      let data = {
+                                                       _id: vm.id ? vm.id : "",
                                                        first_name: vm._data['first_name'],
                                                        last_name: vm._data['last_name'],
                                                        email: vm._data['email'],
@@ -114,8 +114,12 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                        //products: jQuery("#cashier_products").val(),
                                                        //license_id: vm.license['_id']
                                                      };
-                                                     vm.userService.createUser(data);
-                                                   }
+                                                     if (vm.id){
+                                                       vm.userService.editUser(data);
+                                                     }else{
+                                                       vm.userService.createUser(data);
+                                                     }
+                                                    }
                                                  });
     };
     initValidationMaterial();

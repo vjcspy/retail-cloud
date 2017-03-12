@@ -19,21 +19,11 @@ new ValidatedMethod({
   },
   run: function (data) {
     let defer = $q.defer();
-    let user = OM.create<User>(User).load(data['username'], "username");
-    if (!user)
-      Accounts.createUser(
-        {
-          username: data['username'],
-          email: data['email'],
-          profile: {
-            name: data['first_name']
-          }
-        });
-
-
-    user       = OM.create<User>(User).load(data['username'], "username");
-    if (!user) {
-      throw new Meteor.Error("user.create_user", "Can't create user account");
+    const user = Meteor.users.findOne({_id: data['_id']});
+    if (user)
+      Meteor.users.update({_id: user._id}, {$set:data});
+    else {
+      throw new Meteor.Error("user.edit_user", "Can't find user");
     }
     return defer.promise;
   }
@@ -45,5 +35,5 @@ DDPRateLimiter.addRule({
                            return true;
                          },
                          type: "method",
-                         name: "user.user.create_user",
+                         name: "user.user.edit_user",
                        }, 1, 1000);
