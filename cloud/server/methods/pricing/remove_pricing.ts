@@ -4,9 +4,10 @@ import {OM} from "../../code/General/ObjectManager";
 import {User} from "../../models/User";
 import {Role} from "../../models/Role";
 import * as _ from "lodash";
+import {Price} from "../../models/Price";
 
 new ValidatedMethod({
-  name: "product.remove_product",
+  name: "pricing.remove_pricing",
   validate: function () {
     const user = OM.create<User>(User).loadById(this.userId);
     if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES], Role.GROUP_CLOUD)) {
@@ -16,7 +17,7 @@ new ValidatedMethod({
   },
   run: function (data: string) {
     let defer = $q.defer();
-    const product = OM.create<Product>(Product).loadById(data);
+    const product = OM.create<Price>(Price).loadById(data);
     if(!product){
       throw new Meteor.Error("product.error_edit", "Product Not Found");
     }

@@ -10,7 +10,7 @@ import {PriceCollection} from "../../../services/ddp/collections/prices";
 import {ManagePricingsService} from "./manage-pricings.service";
 
 @Component({
-             selector   : 'manage-products-grid',
+             selector   : 'manage-pricings-grid',
              templateUrl: 'grid.html'
            })
 export class ManagePricingsGridComponent implements OnInit {
@@ -56,16 +56,19 @@ export class ManagePricingsGridComponent implements OnInit {
     bFilter      : false,
   };
   
-  constructor(protected manageProductService: ManagePricingsService,
+  constructor(protected managePricingService: ManagePricingsService,
               protected pricingsCollection: PriceCollection,
               protected router: Router) {
-    this.manageProductService.viewState.headerText = "Grid";
+    this.managePricingService.viewState.headerText = "Grid";
   }
   
   ngOnInit(): void {
     this.angularMeteorDtTable.getCallBackObservable().subscribe((data) => {
       if (data.event == "clickEdit") {
         this.router.navigateByUrl('cloud/pricings/' + data.data);
+      }
+      if (data.event == 'removeRecord') {
+        this.managePricingService.removePricing(data.data);
       }
       if (data.event == 'newRecord') {
         this.router.navigate(['/cloud/pricings/create']);

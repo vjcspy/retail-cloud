@@ -12,12 +12,11 @@ export class ManagePricingsService {
   viewData: any  = {};
 
   constructor(protected toast: ToastsManager,
-              protected router: Router,
-              protected productCollection: ProductCollection) { }
+              protected router: Router) { }
 
-  createPricing(product: any){
+  createPricing(pricing: any){
     return new Promise<void>((resolve, reject) => {
-      MeteorObservable.call("pricing.create_pricing", product).subscribe((res) => {
+      MeteorObservable.call("pricing.create_pricing", pricing).subscribe((res) => {
           this.router.navigate(['cloud/pricings']);
           this.toast.success("Create Pricing Successful");
           resolve();
@@ -28,10 +27,10 @@ export class ManagePricingsService {
     });
   }
 
-  editPricing(product: any){
+  editPricing(pricing: any){
     return new Promise<void>((resolve, reject) => {
-      MeteorObservable.call("pricing.edit_pricing", product).subscribe((res) => {
-        this.router.navigate(['cloud/pricings/' + product._id]);
+      MeteorObservable.call("pricing.edit_pricing", pricing).subscribe((res) => {
+        this.router.navigate(['cloud/pricings/' + pricing._id]);
         this.toast.success("Edit Pricing Successfully");
         resolve();
       }, (err) => {
