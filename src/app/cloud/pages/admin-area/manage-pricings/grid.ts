@@ -19,12 +19,39 @@ export class ManagePricingsGridComponent implements OnInit {
   protected tableConfig = {
     actionsColumn: {edit: true, remove: true},
     columns      : [
-      {data: "name", title: "Name"},
-      {data: "versions", title: "Versions"},
+      {data: "code", title: "Pricing Code"},
+      {data: "name", title: "Pricing Name"},
+      {data: "display_name", title: "Display Name"},
+      {data: "type", title: "Type"},
+      {data: "cost", title: "Cost"},
+      {data: "visibility", title: "Visibility"},
+
     ],
     columnDefs   : [
       {className: "hidden-xs", targets: [1]},
-      {className: "text-center", targets  : [2]}
+      {
+        className: "text-center",
+        orderable: false, targets: [3],
+        render: function (data) {
+          if (data == 1)
+            return `<span class="label label-success">Monthly</span>`;
+          else if (data == 2)
+            return `<span class="label label-danger">Yearly</span>`;
+          else if (data == 3) {
+            return `<span class="label label-default">Lifetime</span>`;
+          }
+        }
+      },
+      {
+        className: "text-center",
+        orderable: false, targets: [5],
+        render: function (data) {
+          if (data == 0)
+            return `<span class="label label-success">Hidden</span>`;
+          else if (data == 1)
+            return `<span class="label label-danger">Show to customer</span>`;
+        }
+      }
     ],
     bFilter      : false,
   };

@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import {ManageProductsService} from "./manage-products.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductCollection} from "../../../services/ddp/collections/products";
 import {MongoObservable} from "meteor-rxjs";
 import * as moment from 'moment';
 import {PriceCollection} from "../../../services/ddp/collections/prices";
@@ -20,12 +19,17 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
   id: string                      = "";
   protected prices: any;
   protected pricing               = {
-    _id: "",
-    name: ""
+    code: "",
+    name: "",
+    display_name: "",
+    type: "",
+    cost: "",
+    visibility: "",
+    description: ""
   };
   protected form_title: string;
-  
-  constructor(protected pricingService: ManagePricingsService,
+
+  constructor(protected priceService: ManagePricingsService,
               private route: ActivatedRoute,
               protected priceCollection: PriceCollection,
               protected router: Router,
@@ -34,13 +38,13 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
     route.params.subscribe((p) => {
       this.id = p['id'];
       if (this.id) {
-        this.pricingService.viewState.headerText = this.form_title = 'Edit Pricing';
+        this.priceService.viewState.headerText = this.form_title = 'Edit Pricing';
       } else {
-        this.pricingService.viewState.headerText = this.form_title = 'Add Pricing';
+        this.priceService.viewState.headerText = this.form_title = 'Add Pricing';
       }
     });
   }
-  
+
   ngOnInit() {
     this.priceCollection.getCollectionObservable().subscribe(
       (collection: MongoObservable.Collection<any>) => {
@@ -51,11 +55,11 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
     );
     this.initPageJs();
   }
-  
+
   private initPageJs() {
     let vm                            = this;
-    let initProductValidationMaterial = function () {
-      jQuery('.js-validation-product-form').validate({
+    let initPricingValidationMaterial = function () {
+      jQuery('.js-validation-pricing-form').validate({
                                                        errorClass: 'help-block text-right animated fadeInDown',
                                                        errorElement: 'div',
                                                        errorPlacement: function (error, e) {
@@ -63,35 +67,65 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
                                                        },
                                                        highlight: function (e) {
                                                          var elem = jQuery(e);
-          
+
                                                          elem.closest('.form-group').removeClass('has-error').addClass('has-error');
                                                          elem.closest('.help-block').remove();
                                                        },
                                                        success: function (e) {
                                                          var elem = jQuery(e);
-          
+
                                                          elem.closest('.form-group').removeClass('has-error');
                                                          elem.closest('.help-block').remove();
                                                        },
                                                        rules: {
-                                                         'val-price_name': {
+                                                         'val-pricing_name': {
+                                                           required: true
+                                                         },
+                                                         'val-pricing_code': {
+                                                           required: true
+                                                         },
+                                                         'val-display_name': {
+                                                           required: true
+                                                         },
+                                                         'val-type': {
+                                                           required: true
+                                                         },
+                                                         'val-cost': {
+                                                           required: true,
+                                                         },
+                                                         'val-visibility': {
                                                            required: true
                                                          },
                                                        },
                                                        messages: {
-                                                         'val-price_name': {
+                                                         'val-pricing_name': {
                                                            required: 'Please enter pricing name',
                                                          },
+                                                         'val-pricing_code': {
+                                                           required: 'Please enter pricing name',
+                                                         },
+                                                         'val-display_name': {
+                                                           required: 'Please enter pricing display name',
+                                                         },
+                                                         'val-type': {
+                                                           required: 'Please select one pricing type',
+                                                         },
+                                                         'val-cost': {
+                                                           required: 'Please enter pricing code',
+                                                         },
+                                                         'val-visibility': {
+                                                           required: 'Please select visibility of pricing',
+                                                         }
                                                        },
                                                        submitHandler: function (form) {
                                                          if (vm.id) {
-                                                           vm.pricingService.editPricing(vm.pricing);
+                                                           vm.priceService.editPricing(vm.pricing);
                                                          } else {
-                                                           vm.pricingService.createPricing(vm.pricing);
+                                                           vm.priceService.createPricing(vm.pricing);
                                                          }
                                                        }
                                                      });
     };
-    initProductValidationMaterial();
+    initPricingValidationMaterial();
   }
 }

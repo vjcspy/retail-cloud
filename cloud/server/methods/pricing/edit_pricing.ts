@@ -1,4 +1,4 @@
-import {Product} from "../../models/Product";
+import {Price} from "../../models/Price";
 import * as $q from "q";
 import {OM} from "../../code/General/ObjectManager";
 import {User} from "../../models/User";
@@ -16,10 +16,14 @@ new ValidatedMethod({
   },
   run: function (data: Object) {
     let defer = $q.defer();
-    const pricing = OM.create<Product>(Product).loadById(data['_id']);
+    const pricing = OM.create<Price>(Price).loadById(data['_id']);
     if(!pricing){
       throw new Meteor.Error("pricing.error_edit", "Product Not Found");
     }
+    _.forEach(pricing._data, function(value, key){
+      pricing.unsetData(key);
+    });
+    pricing.addData(data);
     pricing.save().then(() => defer.resolve(), (err) => defer.reject(err));
     return defer.promise;
   }
