@@ -7,7 +7,7 @@ import * as _ from "lodash";
 import * as $q from "q";
 
 new ValidatedMethod({
-  name: 'user.create_user',
+  name: 'user.edit_user',
   validate: function () {
     if (!this.userId) {
       throw new Meteor.Error("user.get_roles", "Access denied");

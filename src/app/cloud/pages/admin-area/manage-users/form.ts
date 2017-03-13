@@ -39,7 +39,15 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
     });
   }
 
-  protected _data        = {};
+  protected _data        = {
+    email: "",
+    username: "",
+    profile: {
+      first_name: "",
+      last_name: "",
+      is_disabled: ""
+    }
+  };
 
   ngOnInit() {
 
@@ -48,6 +56,7 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
         .subscribe((collection: MongoObservable.Collection<any>) => {
           if (!!this.id) {
             this._data = collection.findOne({_id: this.id});
+            this._data['email'] = this._data['emails'][0]['address'];
           }
         });
     this.initPageJs();
@@ -104,20 +113,11 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                      'firstname': 'Please select a value!',
                                                    },
                                                    submitHandler: () => {
-                                                     let data = {
-                                                       _id: vm.id ? vm.id : "",
-                                                       first_name: vm._data['first_name'],
-                                                       last_name: vm._data['last_name'],
-                                                       email: vm._data['email'],
-                                                       username: vm._data['username'],
-                                                       isDisabled: vm._data['disabled'] == true,
-                                                       //products: jQuery("#cashier_products").val(),
-                                                       //license_id: vm.license['_id']
-                                                     };
+                                                     console.log(vm._data);
                                                      if (vm.id){
-                                                       vm.userService.editUser(data);
+                                                       vm.userService.editUser(vm._data);
                                                      }else{
-                                                       vm.userService.createUser(data);
+                                                       vm.userService.createUser(vm._data);
                                                      }
                                                     }
                                                  });
