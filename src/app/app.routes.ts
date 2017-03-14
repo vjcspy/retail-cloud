@@ -1,5 +1,4 @@
 import {DashboardComponent} from "./cloud/pages/dashboard/dashboard";
-import {AdminAreaComponent} from "./cloud/pages/admin-area/admin-area";
 import {ManageLicensesComponent} from "./cloud/pages/admin-area/manage-licenses";
 import {ManageLicensesGridComponent} from "./cloud/pages/admin-area/manage-licenses/grid";
 import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
@@ -22,11 +21,12 @@ import {ShopRolesComponent} from "./cloud/pages/manage-shop/children/shop-roles"
 import {BillingPricingComponent} from "./cloud/pages/billing-pricing/billing-pricing";
 import {CloudPricingComponent} from "./cloud/pages/billing-pricing/children/pricing";
 import {CloudBillingComponent} from "./cloud/pages/billing-pricing/children/billing";
-import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/create";
-import {CreateProductComponent} from "./cloud/pages/admin-area/manage-products/create";
 import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
-import {EditProductComponent} from "./cloud/pages/admin-area/manage-products/edit";
+import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
 import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
+import {ManagePricingsComponent} from "./cloud/pages/admin-area/manage-pricings";
+import {ManagePricingsGridComponent} from "./cloud/pages/admin-area/manage-pricings/grid";
+import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/form";
 
 export const ROUTES: Routes = [
   {
@@ -56,9 +56,8 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: ManageLicensesGridComponent},
           {path: 'grid', component: ManageLicensesGridComponent},
-          {path: 'create', component: CreateLicenseComponent},
           {path: 'add', component: LicenseFormComponent},
-          {path: ':id', component: LicenseFormComponent},
+          {path: 'edit/:id', component: LicenseFormComponent},
           {path: 'assign', component: AssignLicenseComponent}
         ]
       },
@@ -68,8 +67,18 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: ManageProductsGridComponent},
           {path: 'grid', component: ManageProductsGridComponent},
-          {path: 'create', component: CreateProductComponent},
-          {path: ':id', component: EditProductComponent}
+          {path: 'create', component: ProductFormComponent},
+          {path: ':id', component: ProductFormComponent}
+        ]
+      },
+      {
+        path     : 'pricings',
+        component: ManagePricingsComponent,
+        children : [
+          {path: '', component: ManagePricingsGridComponent},
+          {path: 'grid', component: ManagePricingsGridComponent},
+          {path: 'create', component: PricingFormComponent},
+          {path: 'edit/:id', component: PricingFormComponent}
         ]
       },
       {

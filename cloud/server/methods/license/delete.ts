@@ -3,27 +3,25 @@ import * as $q from "q";
 import {OM} from "../../code/General/ObjectManager";
 import {User} from "../../models/User";
 import {Role} from "../../models/Role";
+import * as _ from "lodash";
+import {License} from "../../models/License";
 
 new ValidatedMethod({
-  name: "product.create_product",
+  name: "license.delete",
   validate: function () {
     const user = OM.create<User>(User).loadById(this.userId);
     if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN, Role.SALES], Role.GROUP_CLOUD)) {
     } else {
-      throw new Meteor.Error("product.create_product_error", "Access denied");
+      throw new Meteor.Error("license.edit_license_error", "Access denied");
     }
   },
   run: function (data: Object) {
-    let defer = $q.defer();
-
-    let productModel = OM.create<Product>(Product);
-    if (data['versions'].length == 0){
-      throw new Meteor.Error("Create Error", "Product need at least one version");
+    let defer              = $q.defer();
+    const license: License = OM.create<License>(License).loadById(data['id']);
+    if (!license) {
+      throw new Meteor.Error("license.error_edit", "License Not Found");
     }
-
-    productModel.addData(data)
-                .save()
-                .then(() => defer.resolve(), (err) => defer.reject(err));
+    license.delete().then(() => defer.resolve(), (err) => defer.reject(err));
     return defer.promise;
   }
 });

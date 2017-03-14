@@ -75,9 +75,6 @@
                 <a routerLink="/cloud/licenses/grid" routerLinkActive="active">List</a>
               </li>
               <li>
-                <a routerLink="/cloud/licenses/create" routerLinkActive="active">Create</a>
-              </li>
-              <li>
                 <a routerLink="/cloud/licenses/assign" routerLinkActive="active">Assign</a>
               </li>
             </ul>
@@ -92,6 +89,16 @@
               </li>
             </ul>
           </li>
+            <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/pricings',false)}">
+                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-rocket"></i>
+                    <span class="sidebar-mini-hide">Manage Pricings</span>
+                </a>
+                <ul>
+                    <li>
+                        <a routerLink="/cloud/pricings/grid" routerLinkActive="active">List</a>
+                    </li>
+                </ul>
+            </li>
           <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/users',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wallet"></i>
               <span class="sidebar-mini-hide">Manage Users</span>
