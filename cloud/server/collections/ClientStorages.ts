@@ -7,8 +7,9 @@ export const ClientStorages = CollectionMaker.make<ClientStorageInterface>("clie
   base_url: String,
   data: new SimpleSchema({
     entity: String,
-    entity_id: Number,
+    entity_id: SimpleSchema.oneOf(String,Number),
     type_change: String
   }),
-  cache_time: Number
+  cache_time: Number,
+  created_at: String
 }));
