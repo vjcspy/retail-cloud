@@ -206,7 +206,7 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
                                                          console.log(jQuery("#val-owner").val());
                                                          if (vm.id) {
                                                            vm.license = {
-                                                             id: vm.id,
+                                                             _id: vm.id,
                                                              shop_owner_id: jQuery("#val-owner").val(),
                                                              status: vm.license.status,
                                                              has_product: result
@@ -214,7 +214,7 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
                                                            vm.licenseService.editLicense(vm.license).then(() => { }, e => { });
                                                          } else {
                                                            vm.license = {
-                                                             id: "",
+                                                             _id: "",
                                                              shop_owner_id: jQuery("#val-owner").val(),
                                                              status: vm.license.status,
                                                              has_product: result
@@ -232,7 +232,11 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
       if (!_.isArray(product['base_url'])) {
         product['base_url'] = [];
       }
-      product['base_url'].push(event.target.value);
+      product['base_url'].push(
+        {
+          status: 1,
+          url: event.target.value
+        });
       event.target.value = "";
     }
     return false;
@@ -241,5 +245,13 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
   protected removeBaseUrl(product, url) {
     let index = product.base_url.indexOf(url);
     product.base_url.splice(index, 1);
+  }
+
+  protected toggleStatus(product, base_url) {
+    if (base_url['status'] == 1){
+      base_url['status'] = 0;
+    }else{
+      base_url['status'] = 1;
+    }
   }
 }
