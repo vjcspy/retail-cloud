@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import * as _ from "lodash";
 import {ReplaySubject, Observable} from "rxjs";
 import {UserCollection} from "./collections/users";
+import {MeteorObservable} from "meteor-rxjs";
 
 @Injectable()
 export class AuthService {
@@ -23,15 +24,26 @@ export class AuthService {
   }
   
   private initUserSateObservable() {
-    this.userCollection.getCollectionObservable()
-        .filter(() => this.getCurrentUser())
+    this.userCollection
+        .getCollectionObservable()
+        .filter(() => this.getCurrentUser(true))
         .subscribe((collection) => {
-          let user = collection.findOne({_id: this.getCurrentUser()['_id']});
-          this.userStateObservable
-              .next({
-                      canAccessAdmin: _.size(_.intersection(user['roles']['cloud_group'], ['admin', 'sales', "super_admin"])) > 0,
-                      isUser        : _.size(_.intersection(user['roles']['cloud_group'], ['user'])) > 0
-                    });
+          MeteorObservable.autorun().subscribe(() => {
+            let user = collection.findOne({_id: this.getCurrentUser()['_id']});
+            if (user) {
+              this.userStateObservable
+                  .next({
+                          canAccessAdmin: _.size(_.intersection(user['roles']['cloud_group'], ['admin', 'sales', "super_admin"])) > 0,
+                          isUser: _.size(_.intersection(user['roles']['cloud_group'], ['user'])) > 0
+                        });
+            } else {
+              this.userStateObservable
+                  .next({
+                          canAccessAdmin: false,
+                          isUser: false
+                        });
+            }
+          });
         });
   }
   
@@ -47,7 +59,7 @@ export class AuthService {
       this.isLoading = true;
       Accounts.createUser({
                             username: user.username,
-                            email   : user.email,
+                            email: user.email,
                             password: user.password,
                             // profile : {
                             //   first_name: user.first_name,
@@ -101,5 +113,17 @@ export class AuthService {
   
   getUserStateObservable(): Observable<any> {
     return this.userStateObservable.asObservable().share();
+  }
+  
+  updateProfile(data) {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call("user.edit_user", data).subscribe(res => {
+        this.toast.success("Profile Updated");
+        resolve();
+      }, (err) => {
+        console.log(err);
+        this.toast.error(err.reason, err.error);
+      });
+    });
   }
 }
