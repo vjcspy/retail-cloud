@@ -89,8 +89,8 @@ export class UserProfileComponent implements OnInit {
                                                                   confirm_new_password: ""
                                                                 };
                                                              }).catch((err) => {
-                                                             this.toast.error(err);
-                                                           });
+                                                               this.toast.error(err);
+                                                             });
                                                          }else{
                                                            vm.authService.updateProfile(vm._data);
                                                          }

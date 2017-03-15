@@ -133,4 +133,34 @@ export class AuthService {
       });
     });
   }
+
+  forgotPassword(data){
+    return new Promise<void>((resolve, reject) => {
+      Accounts.forgotPassword(data, (err) => {
+        if (!err) {
+          this.toast.info("A message was sent to your email");
+          resolve();
+        }else {
+          this.toast.error(err);
+        }
+      });
+    });
+  }
+
+  resetPassword(token, data){
+    return new Promise<void>((resolve, reject) => {
+      if (data['confirm_new_password'].localeCompare(data['new_password'])){
+        this.toast.error('Confirm new password must equal new password');
+        return;
+      }
+      Accounts.resetPassword(token, data['new_password'], (err) => {
+        if (!err) {
+          this.toast.success('Password reset successfully');
+          resolve();
+        } else {
+          this.toast.error(err);
+        }
+      });
+    });
+  }
 }
