@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(protected authService:AuthService,
               protected toast: ToastsManager) { }
-
+  
   ngOnInit() {
 
     if (this.authService.getCurrentUser()){
