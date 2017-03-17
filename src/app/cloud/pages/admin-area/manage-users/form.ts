@@ -13,6 +13,7 @@ import {ManageUsersService} from "./manage-users.service";
 import {ActivatedRoute} from "@angular/router";
 import {MongoObservable} from "meteor-rxjs";
 import {UserCollection} from "../../../services/ddp/collections/users";
+import {ToastsManager} from "ng2-toastr";
 
 @Component({
              selector: 'user-form',
@@ -27,7 +28,8 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
               protected licenseCollection: LicenseCollection,
               private route: ActivatedRoute,
               protected authService: AuthService,
-              protected productCollection: ProductCollection) {
+              protected productCollection: ProductCollection,
+              protected toast: ToastsManager) {
     super();
     route.params.subscribe((p) => {
       this.id = p['id'];
@@ -115,9 +117,21 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                        //license_id: vm.license['_id']
                                                      };
                                                      if (vm.id){
-                                                       vm.userService.editUser(data);
+                                                       vm.userService.editUser(data)
+                                                         .then(() => {
+                                                           this.router.navigate(['cloud/users/edit/' + data['_id']]);
+                                                           vm.toast.success("Edit User Successful");
+                                                         }).catch((err) => {
+                                                            vm.toast.error(err);
+                                                          });
                                                      }else{
-                                                       vm.userService.createUser(data);
+                                                       vm.userService.createUser(data)
+                                                         .then(() => {
+                                                           this.router.navigate(['cloud/users']);
+                                                           vm.toast.success("Create User Successful");
+                                                         }).catch((err) => {
+                                                           vm.toast.error(err);
+                                                         });
                                                      }
                                                     }
                                                  });
