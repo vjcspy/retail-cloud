@@ -34,5 +34,16 @@ export class ManageUsersService {
       });
     });
   }
+  removeUser(data: any){
+    return new Promise<void>((resolve, reject) => {
+      MeteorObservable.call("user.remove_user", data).subscribe((res) => {
+        this.toast.success("Remove User Successfully");
+        resolve();
+      }, (err) => {
+        this.toast.error(err.reason, err.error);
+        return reject(err);
+      });
+    });
+  }
 
 }

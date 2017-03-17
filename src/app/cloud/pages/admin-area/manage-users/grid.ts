@@ -82,6 +82,9 @@ export class ManageUsersGridComponent implements OnInit {
       if (data.event == 'newRecord') {
         this.router.navigate(['/cloud/users/create']);
       }
+      if (data.event == 'removeRecord') {
+        this.manageUserService.removeUser(data.data);
+      }
       if (data.event == "clickEdit") {
         this.router.navigate(['/cloud/users/edit/' + data.data]);
       }

@@ -49,7 +49,15 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
         .getCollectionObservable()
         .subscribe((collection: MongoObservable.Collection<any>) => {
           if (!!this.id) {
-            this._data = collection.findOne({_id: this.id});
+            const user = collection.findOne({_id: this.id});
+            console.log(user);
+            this._data = {
+              username: user['username'],
+              email: user['emails'][0]['address'],
+              first_name: user.profile.first_name,
+              last_name: user.profile.last_name,
+              disabled: user.profile.is_disabled
+            }
           }
         });
     this.initPageJs();
@@ -112,10 +120,11 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                        last_name: vm._data['last_name'],
                                                        email: vm._data['email'],
                                                        username: vm._data['username'],
-                                                       isDisabled: vm._data['disabled'] == true,
+                                                       is_disabled: true,
                                                        //products: jQuery("#cashier_products").val(),
                                                        //license_id: vm.license['_id']
                                                      };
+                                                     console.log(data);
                                                      if (vm.id){
                                                        vm.userService.editUser(data)
                                                          .then(() => {
