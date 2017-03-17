@@ -118,12 +118,17 @@ export class AuthService {
 
   updateProfile(data) {
     return new Promise((resolve, reject) => {
-      MeteorObservable.call("user.edit_user", data).subscribe(res => {
+      MeteorObservable.call("user.update_profile", data).subscribe(res => {
         this.toast.success("Profile Updated");
         resolve();
       }, (err) => {
-        console.log(err);
-        this.toast.error(err.reason, err.error);
+        if (!err){
+          this.toast.success("Profile Updated");
+          resolve();
+        }else{
+          console.log(err);
+          this.toast.error(err.reason, err.error);
+        }
       });
     });
   }
@@ -138,7 +143,7 @@ export class AuthService {
         if (err) {
           this.toast.error(err);
         }else{
-          this.toast.success('Password changed');
+
           resolve();
         }
       });
