@@ -25,14 +25,6 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
               protected authService: AuthService,
               protected toast: ToastsManager) {
     super();
-    route.params.subscribe((p) => {
-      this.id = p['id'];
-      if (this.id) {
-        this.userService.viewState.headerText = this.form_title = 'Edit User';
-      } else {
-        this.userService.viewState.headerText = this.form_title = 'Add User';
-      }
-    });
   }
 
   protected _data        = {};
@@ -50,51 +42,42 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                      .getCollectionObservable()
                                      .subscribe((collection: MongoObservable.Collection<any>) => {
                                        if (!!params['id']) {
-                                         this._data = collection.findOne({_id: this.id});
-                                         if (this._data) {
-                                           this._data['email'] = this._data['emails'][0]['address'];
+                                         const user = collection.findOne({_id: this.id});
+                                         if (user) {
+                                           let first_name, last_name, is_disabled;
+                                           if (this.checkHasOwnProperty(user, 'profile')){
+                                             first_name = this.checkHasOwnProperty(user['profile'], 'first_name');
+                                             last_name = this.checkHasOwnProperty(user['profile'], 'last_name');
+                                             is_disabled = this.checkHasOwnProperty(user['profile'], 'is_disabled');
+                                           }else{
+                                             first_name = last_name = is_disabled = '';
+                                           }
+
+                                           this._data = {
+                                             _id: user['_id'],
+                                             username: user['username'],
+                                             email: user['emails'][0]['address'],
+                                             profile: {
+                                               first_name: first_name,
+                                               last_name: last_name,
+                                               is_disabled: is_disabled
+                                             }
+                                           }
                                          } else {
                                            throw new Error("Can't find user");
                                          }
+                                       }else{
+                                         this._data = {
+                                           username: '',
+                                           email: '',
+                                           profile: {
+                                             first_name: '',
+                                             last_name: '',
+                                             is_disabled: ''
+                                           }
+                                         }
                                        }
                                      });
-
-    this.userCollection
-        .getCollectionObservable()
-        .subscribe((collection: MongoObservable.Collection<any>) => {
-          if (!!this.id) {
-            const user = collection.findOne({_id: this.id});
-            let first_name, last_name, is_disabled;
-            if (this.checkHasOwnProperty(user, 'profile')){
-              first_name = this.checkHasOwnProperty(user['profile'], 'first_name');
-              last_name = this.checkHasOwnProperty(user['profile'], 'last_name');
-              is_disabled = this.checkHasOwnProperty(user['profile'], 'is_disabled');
-            }else{
-              first_name = last_name = is_disabled = '';
-            }
-
-            this._data = {
-              _id: user['_id'],
-              username: user['username'],
-              email: user['emails'][0]['address'],
-              profile: {
-                first_name: first_name,
-                last_name: last_name,
-                is_disabled: is_disabled
-              }
-            }
-          }else{
-            this._data = {
-              username: '',
-              email: '',
-              profile: {
-                first_name: '',
-                last_name: '',
-                is_disabled: ''
-              }
-            }
-          }
-        });
     this.initPageJs();
   }
 
