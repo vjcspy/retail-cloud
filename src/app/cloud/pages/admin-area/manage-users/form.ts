@@ -50,13 +50,34 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
         .subscribe((collection: MongoObservable.Collection<any>) => {
           if (!!this.id) {
             const user = collection.findOne({_id: this.id});
-            console.log(user);
+            let first_name, last_name, is_disabled;
+            if (this.checkHasOwnProperty(user, 'profile')){
+              first_name = this.checkHasOwnProperty(user['profile'], 'first_name');
+              last_name = this.checkHasOwnProperty(user['profile'], 'last_name');
+              is_disabled = this.checkHasOwnProperty(user['profile'], 'is_disabled');
+            }else{
+              first_name = last_name = is_disabled = '';
+            }
+
             this._data = {
+              _id: user['_id'],
               username: user['username'],
               email: user['emails'][0]['address'],
-              first_name: user.profile.first_name,
-              last_name: user.profile.last_name,
-              disabled: user.profile.is_disabled
+              profile: {
+                first_name: first_name,
+                last_name: last_name,
+                is_disabled: is_disabled
+              }
+            }
+          }else{
+            this._data = {
+              username: '',
+              email: '',
+              profile: {
+                first_name: '',
+                last_name: '',
+                is_disabled: ''
+              }
             }
           }
         });
@@ -114,31 +135,21 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                      'firstname': 'Please select a value!',
                                                    },
                                                    submitHandler: () => {
-                                                     let data = {
-                                                       _id: vm.id ? vm.id : "",
-                                                       first_name: vm._data['first_name'],
-                                                       last_name: vm._data['last_name'],
-                                                       email: vm._data['email'],
-                                                       username: vm._data['username'],
-                                                       is_disabled: true,
-                                                       //products: jQuery("#cashier_products").val(),
-                                                       //license_id: vm.license['_id']
-                                                     };
-                                                     console.log(data);
+                                                     const data = vm._data;
                                                      if (vm.id){
                                                        vm.userService.editUser(data)
                                                          .then(() => {
-                                                           this.router.navigate(['cloud/users/edit/' + data['_id']]);
                                                            vm.toast.success("Edit User Successful");
-                                                         }).catch((err) => {
+                                                           this.router.navigate(['cloud/users']);
+                                                          }).catch((err) => {
                                                             vm.toast.error(err);
                                                           });
                                                      }else{
                                                        vm.userService.createUser(data)
                                                          .then(() => {
-                                                           this.router.navigate(['cloud/users']);
                                                            vm.toast.success("Create User Successful");
-                                                         }).catch((err) => {
+                                                           this.router.navigate(['cloud/users']);
+                                                          }).catch((err) => {
                                                            vm.toast.error(err);
                                                          });
                                                      }
@@ -146,5 +157,13 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                  });
     };
     initValidationMaterial();
+  }
+
+  checkHasOwnProperty(data: any, property: string){
+    if (data.hasOwnProperty(property)){
+      return data[property];
+    }else{
+      return '';
+    }
   }
 }

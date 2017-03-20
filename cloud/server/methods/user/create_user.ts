@@ -21,17 +21,7 @@ new ValidatedMethod({
     let defer = $q.defer();
     let user = OM.create<User>(User).load(data['username'], "username");
     if (!user)
-      Accounts.createUser({
-        username: data['username'],
-        email: data['email'],
-        profile: {
-          first_name: data['first_name'],
-          last_name: data['last_name'],
-          is_disabled: data['is_isabled'],
-        }
-      }, (err) => {
-        throw new Meteor.Error("user.create_user_error", "Create User Failed");
-      });
+      Accounts.createUser(data);
     return defer.promise;
   }
 });
