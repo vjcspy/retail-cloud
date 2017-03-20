@@ -3,12 +3,8 @@ import {
   OnInit
 } from '@angular/core';
 import {ManageShopService} from "../manage-shop.service";
-import {LicenseCollection} from "../../../services/ddp/collections/licenses";
-import * as _ from "lodash";
 import {AuthService} from "../../../services/ddp/auth.service";
 import {AbstractRxComponent} from "../../../../code/angular/AbstractRxComponent";
-import {ProductCollection} from "../../../services/ddp/collections/products";
-import {Observable} from "../../../../../../node_modules/rxjs/Observable";
 import {ManageUsersService} from "./manage-users.service";
 import {ActivatedRoute} from "@angular/router";
 import {MongoObservable} from "meteor-rxjs";
@@ -25,10 +21,8 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
 
   constructor(protected userService: ManageUsersService,
               protected userCollection: UserCollection,
-              protected licenseCollection: LicenseCollection,
               private route: ActivatedRoute,
               protected authService: AuthService,
-              protected productCollection: ProductCollection,
               protected toast: ToastsManager) {
     super();
     route.params.subscribe((p) => {
@@ -44,6 +38,26 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
   protected _data        = {};
 
   ngOnInit() {
+    const params: Object = this.route.snapshot.params;
+    if (params.hasOwnProperty('id') && !!params['id']) {
+      this.userService.viewState.headerText = 'Edit User';
+      this.id                               = params['id'];
+    } else {
+      this.userService.viewState.headerText = 'Add User';
+    }
+
+    this._subscription['user'] = this.userCollection
+                                     .getCollectionObservable()
+                                     .subscribe((collection: MongoObservable.Collection<any>) => {
+                                       if (!!params['id']) {
+                                         this._data = collection.findOne({_id: this.id});
+                                         if (this._data) {
+                                           this._data['email'] = this._data['emails'][0]['address'];
+                                         } else {
+                                           throw new Error("Can't find user");
+                                         }
+                                       }
+                                     });
 
     this.userCollection
         .getCollectionObservable()
@@ -153,7 +167,7 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                            vm.toast.error(err);
                                                          });
                                                      }
-                                                    }
+                                                   }
                                                  });
     };
     initValidationMaterial();

@@ -29,7 +29,6 @@ export class ManageUsersService {
       MeteorObservable.call("user.edit_user", data).subscribe(res => {
         resolve();
       }, (err) => {
-        console.log(err);
         this.toast.error(err.reason, err.error);
       });
     });
