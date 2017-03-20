@@ -12,6 +12,7 @@ Meteor.publishComposite("licenses", function (): PublishCompositeConfig<LicenseI
   }
   const user: User = OM.create<User>(User).loadById(this.userId);
   if (user.isInRoles([Role.SUPERADMIN, Role.ADMIN], Role.GROUP_CLOUD)) {
+    console.log('abc');
     return {
       find: () => {
         return Licenses.collection.find({});
