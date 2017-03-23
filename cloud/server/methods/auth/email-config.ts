@@ -17,7 +17,7 @@ Accounts.urls.verifyEmail = function (token) {
 };
 
 Accounts.urls.enrollAccount = function (token) {
-  return Meteor.absoluteUrl('#/enroll-account/' + token);
+  return Meteor.absoluteUrl('#/reset-password/' + token);
 };
 
 
