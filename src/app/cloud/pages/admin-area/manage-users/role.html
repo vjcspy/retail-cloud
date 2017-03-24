@@ -1,0 +1,332 @@
+<form class="js-validation-profile-form form-horizontal push-10-t">
+    <div class="block">
+        <ul class="nav nav-tabs nav-justified push-20" data-toggle="tabs">
+            <li class="active">
+                <a href="#tab-xretail-permission" aria-controls="tab-xretail-permission" role="tab" data-toggle="tab"><i class="fa fa-fw fa-pencil"></i>
+                    X-Retail Permission</a>
+            </li>
+            <li>
+                <a href="#tab-xuser-permission" aria-controls="tab-xuser-permission" role="tab" data-toggle="tab"><i class="fa fa-fw fa-asterisk"></i>
+                    X-User Permission</a>
+            </li>
+            <li>
+                <a href="#tab-xpos-permission" aria-controls="tab-xpos-permission" role="tab" data-toggle="tab"><i class="fa fa-fw fa-lock"></i>
+                    X-POS Permission</a>
+            </li>
+        </ul>
+        <div class="block-content tab-content">
+            <!-- Personal Tab -->
+            <div class="tab-pane fade in active" role="tabpanel" id="tab-xretail-permission">
+                <div class="row items-push">
+                    <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-general-settings" name="val-general-settings" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-select2">Access to General settings</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-email-config" name="val-email-config" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-general-settings">Email Configuration</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-debug-mode" name="val-debug-mode" style="width: 100%;" data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-debug-mode">Debug Mode</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Personal Tab -->
+
+            <!-- Password Tab -->
+            <div class="tab-pane fade" id="tab-xuser-permission">
+                <div class="row items-push">
+                    <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-role-action" name="val-role-action" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-role-action">View, Edit, Create, Delete Role</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-permission-action" name="val-permission-action" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-permission-action">View and Edit role permission</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Password Tab -->
+
+            <!-- Privacy Tab -->
+            <div class="tab-pane fade" id="tab-xpos-permission">
+                <div class="row items-push">
+                    <div class="col-sm-6 col-sm-offset-3 form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <h4>X-POS Settings</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-xpos-setting" name="val-xpos-setting" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-xpos-setting">Access to X-POS setting</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-xpos" name="val-xpos" style="width: 100%;" data-placeholder="Choose one
+                                    ..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-xpos">Access to X-POS</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <h4>Product</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-custom-sale" name="val-val-custom-sale" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-custom-sale">Allow using Custom Sale</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <h4>Customer</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-create-customer" name="val-create-customer" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-create-customer">Create new customer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-change-customer" name="val-change-customer" style="width: 100%;" data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-change-customer">Change customer information</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <h4>Register</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-view-register" name="val-view-register" style="width: 100%;" data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-view-register">View Register</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-action-register" name="val-action-register" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-action-register">Open and Close Register</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-adjust-register" name="val-adjust-register" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-select2">Make adjustment on register</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <h4>Sales and Transaction</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-create-order" name="val-create-order" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-create-order">Create orders</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-custom-price" name="val-custom-price" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-select2">Custom Price</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-add-discount" name="val-add-discount" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-add-discount">Add discount</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-make-shipment" name="val-make-shipment" style="width: 100%;"
+                                            data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-make-shipment">Make shipment</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-view-order" name="val-view-order" style="width: 100%;" data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-view-order">View order list</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <div class="form-material">
+                                    <select class="form-control" id="val-make-refund" name="val-make-refund" style="width: 100%;" data-placeholder="Choose one..">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <label for="val-make-refund">Make refund</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Privacy Tab -->
+        </div>
+        <div class="block-content block-content-full bg-gray-lighter text-center">
+            <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check push-5-r"></i> Save Changes</button>
+            <button class="btn btn-sm btn-warning" type="reset"><i class="fa fa-refresh push-5-r"></i> Reset</button>
+        </div>
+    </div>
+</form>
