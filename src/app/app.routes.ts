@@ -92,7 +92,7 @@ export const ROUTES: Routes = [
           {path: 'grid', component: ManageUsersGridComponent},
           {path: 'create', component: UserFormComponent},
           {path: 'edit/:id', component: UserFormComponent},
-          {path: 'roles', component: RolesComponent}
+          {path: 'roles/:id', component: RolesComponent}
         ]
       },
 

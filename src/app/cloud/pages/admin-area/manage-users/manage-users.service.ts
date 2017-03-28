@@ -45,4 +45,15 @@ export class ManageUsersService {
     });
   }
 
+  updateXRetailPermission(data: any){
+    return new Promise<void>((resolve, reject) => {
+      MeteorObservable.call("api.update_xretail_permission", data).subscribe((res) => {
+        this.toast.success("Update Permission Successfully");
+        resolve();
+      }, (err) => {
+        this.toast.error(err.reason, err.error);
+        return reject(err);
+      });
+    });
+  }
 }
