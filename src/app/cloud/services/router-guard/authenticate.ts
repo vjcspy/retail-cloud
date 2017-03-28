@@ -14,8 +14,13 @@ export class AuthenticateGuard implements CanActivate {
               protected router: Router) { }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
-    if (this.authService.getCurrentUser()) {
-      if(!this.authService.getCurrentUser().emails[0].verified){
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      if(currentUser.hasOwnProperty('profile') && currentUser.profile.hasOwnProperty('is_disabled') && currentUser.profile.is_disabled){
+        Meteor.logout();
+        this.router.navigate(['']);
+      }
+      if(!currentUser.emails[0].verified){
         this.router.navigate(['/verify_email']);
         return false;
       }
