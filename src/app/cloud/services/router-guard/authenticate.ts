@@ -21,6 +21,7 @@ export class AuthenticateGuard implements CanActivate {
         this.router.navigate(['']);
       }
       if(!currentUser.emails[0].verified){
+        alert('Please verify your email');
         this.router.navigate(['/verify_email']);
         return false;
       }
