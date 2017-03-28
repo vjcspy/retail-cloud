@@ -15,6 +15,10 @@ export class AuthenticateGuard implements CanActivate {
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
     if (this.authService.getCurrentUser()) {
+      if(!this.authService.getCurrentUser().emails[0].verified){
+        this.router.navigate(['/verify_email']);
+        return false;
+      }
       return true;
     } else {
       this.authService.redirectUrl = state.url;
