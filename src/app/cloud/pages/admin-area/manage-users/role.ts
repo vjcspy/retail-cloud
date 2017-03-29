@@ -15,6 +15,7 @@ import {ManageUsersService} from "./manage-users.service";
 export class RolesComponent implements OnInit {
 
   protected roles: any;
+  protected currentGroup: string;
   protected role_id: number;
   protected permissions: any;
   constructor(private route: ActivatedRoute,
@@ -24,14 +25,17 @@ export class RolesComponent implements OnInit {
     this.route.params.subscribe((p) => {
       this.role_id = p['id'];
     });
-    if (!!this.role_id){
-      MeteorObservable.call("api.get_permissions_role", this.role_id).subscribe((res) => {
-        this.permissions = res;
-      });
-    }
+
     MeteorObservable.call("api.get_roles").subscribe((res) => {
         this.roles = res['items'];
     });
+
+    if (!!this.role_id){
+      MeteorObservable.call("api.get_permissions_role", this.role_id).subscribe((res)=>{
+        console.log(res);
+        this.permissions = res;
+      });
+    }
 
     this.initPageJs();
   }
@@ -79,4 +83,32 @@ export class RolesComponent implements OnInit {
     };
     initValidationMaterial();
   }
+
+  getGroupOfPermission(permission: string){
+    if (permission){
+      return permission.split("_")[0];
+    }
+  }
+
+  setCurrentGroup(group: string){
+    this.currentGroup = group;
+  }
+
+  getCurrentGroup(){
+    if (!this.currentGroup){
+      this.currentGroup = _.keys(this.permissions)[0];
+    }
+    return this.currentGroup;
+  }
+
+  getAllSectionsOfGroup(group){
+      let sections = [];
+      _.forEach(group.value, (permission, k) => {
+        let arr_str = permission['permission'].split('_');
+        sections.push(arr_str[1]);
+      });
+      return _.uniq(sections);
+  }
+
+
 }
