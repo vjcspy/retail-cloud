@@ -65,7 +65,7 @@ export class MeteorDataTable {
                                    "targets": [_numOfColumn]
                                  });
     }
-    
+    console.log(options);
     this._dtTable = this.elementSelector.DataTable(options);
   }
   

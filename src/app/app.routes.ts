@@ -29,6 +29,8 @@ import {ManagePricingsGridComponent} from "./cloud/pages/admin-area/manage-prici
 import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/form";
 import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
+import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
+import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
 
 export const ROUTES: Routes = [
   {
@@ -90,7 +92,14 @@ export const ROUTES: Routes = [
           {path: '', component: ManageUsersGridComponent},
           {path: 'grid', component: ManageUsersGridComponent},
           {path: 'create', component: UserFormComponent},
-          {path: 'edit/:id', component: UserFormComponent},
+          {path: 'edit/:id', component: UserFormComponent}
+        ]
+      },
+      {
+        path      : 'roles',
+        component: ManageRolesComponent,
+        children : [
+          {path: '', component: ManageRolesGridComponent}
         ]
       },
 

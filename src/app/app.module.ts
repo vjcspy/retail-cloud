@@ -69,6 +69,9 @@ import {ManagePricingsGridComponent} from "./cloud/pages/admin-area/manage-prici
 import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/form";
 import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
+import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
+import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
+import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-roles.service";
 
 
 /**
@@ -97,6 +100,8 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
               PricingFormComponent,
               ManageUsersComponent,
               ManageUsersGridComponent,
+              ManageRolesComponent,
+              ManageRolesGridComponent,
               UserFormComponent,
               SignInComponent,
               SignUpComponent,
@@ -112,7 +117,7 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
               CloudPricingComponent,
               CreateLicenseComponent,
               LicenseFormComponent,
-              CreateCashierComponent
+              CreateCashierComponent,
             ],
             imports     : [ // import Angular's modules
               BrowserModule,
@@ -129,11 +134,11 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
               ProductCollection,
               UserCollection,
               LicenseCollection,
-              PriceCollection,
               AuthService,
               AuthenticateGuard,
               ManageProductsService,
-              ManageLicensesService
+              ManageLicensesService,
+              ManageRolesService
             ]
           })
 export class AppModule {
