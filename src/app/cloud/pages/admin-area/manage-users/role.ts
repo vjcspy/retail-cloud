@@ -20,8 +20,8 @@ export class RolesComponent implements OnInit {
   protected role_id: number;
   protected permissions: any = [
     {
-      group: "xretail_settings",
-      group_name: "XRetail Settings",
+      group: "xretail_permissions",
+      group_name: "XRetail Permissions",
       sections: [
         {
           section:"XRetail Configurations",
@@ -46,8 +46,8 @@ export class RolesComponent implements OnInit {
       ],
     },
     {
-      group: "xuser_settings",
-      group_name: "XUser Settings",
+      group: "xuser_permissions",
+      group_name: "XUser Permissions",
       sections: [
         {
           permissions: [
@@ -101,8 +101,8 @@ export class RolesComponent implements OnInit {
       ],
     },
     {
-      group: "xreport_settings",
-      group_name: "XReport Settings",
+      group: "xreport_permissions",
+      group_name: "XReport Permissions",
       sections: [
         {
           section:"Reports",
@@ -132,8 +132,8 @@ export class RolesComponent implements OnInit {
       ]
     },
     {
-      group: "xpos_settings",
-      group_name: "XPOS Settings",
+      group: "xpos_permissions",
+      group_name: "XPOS Permissions",
       sections: [
         {
           section:"XPOS Settings",
