@@ -3,9 +3,10 @@ import {
   OnInit
 } from '@angular/core';
 import {MeteorObservable} from "meteor-rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import * as _ from "lodash";
 import {ManageUsersService} from "./manage-users.service";
+import {ToastsManager} from "ng2-toastr";
 
 
 @Component({
@@ -17,26 +18,265 @@ export class RolesComponent implements OnInit {
   protected roles: any;
   protected currentGroup: string;
   protected role_id: number;
-  protected permissions: any;
-  constructor(private route: ActivatedRoute,
+  protected permissions: any = [
+    {
+      group: "xretail_settings",
+      group_name: "XRetail Settings",
+      sections: [
+        {
+          section:"XRetail Configurations",
+          permissions: [
+            {
+              name: "Access to General Settings",
+              permission: "access_to_general_settings",
+              is_active: 0
+            },
+            {
+              name: "Email Configuration",
+              permission: "email_configuration",
+              is_active: 0
+            },
+            {
+              name: "Debug Mode",
+              permission: "debug_mode",
+              is_active: 0
+            }
+          ]
+        },
+      ],
+    },
+    {
+      group: "xuser_settings",
+      group_name: "XUser Settings",
+      sections: [
+        {
+          permissions: [
+            {
+              name: "Access to User Management",
+              permission: "access_to_user_management",
+              is_active: 0
+            },
+          ]
+        },
+        {
+          section:"Users",
+          permissions: [
+            {
+              name: "Create New User",
+              permission: "create_new_user",
+              is_active: 0
+            },
+            {
+              name: "View User",
+              permission: "view_user",
+              is_active: 0
+            },
+            {
+              name: "Edit User",
+              permission: "edit_user",
+              is_active: 0
+            },
+            {
+              name: "Edit User",
+              permission: "edit_user",
+              is_active: 0
+            }
+          ]
+        },
+        {
+          section:"Roles and Permissions",
+          permissions: [
+            {
+              name: "View, Edit, Create, Delete Role",
+              permission: "view_edit_create_delete_role",
+              is_active: 0
+            },
+            {
+              name: "View, Edit Role Permission",
+              permission: "view_edit_role_permission",
+              is_active: 0
+            }
+          ]
+        },
+      ],
+    },
+    {
+      group: "xreport_settings",
+      group_name: "XReport Settings",
+      sections: [
+        {
+          section:"Reports",
+          permissions: [
+            {
+              name: "Access to XReport",
+              permission: "access_to_xreport",
+              is_active: 0
+            },
+            {
+              name: "View And Generate Sale Report",
+              permission: "view_and_generate_sale_report",
+              is_active: 0
+            },
+            {
+              name: "View And Generate Payment Report",
+              permission: "view_and_generate_payment_report",
+              is_active: 0
+            },
+            {
+              name: "View And Generate Shift Detail Report",
+              permission: "view_and_generate_shift_detail_report",
+              is_active: 0
+            }
+          ]
+        },
+      ]
+    },
+    {
+      group: "xpos_settings",
+      group_name: "XPOS Settings",
+      sections: [
+        {
+          section:"XPOS Settings",
+          permissions: [
+            {
+              name: "Access XPOS to Setting",
+              permission: "access_xpos_to_setting",
+              is_active: 0
+            },
+            {
+              permission: "Access To XPOS",
+              name: "access_to_xpos",
+              is_active: 0
+            },
+          ]
+        },
+        {
+          section:"Product",
+          permissions: [
+            {
+              name: "Allow Using Custom Sale",
+              permission: "allow_using_custom_sale",
+              is_active: 0
+            },
+          ]
+        },
+        {
+          section:"Customer",
+          permissions: [
+            {
+              name: "Create New Customer",
+              permission: "create_new_customer",
+              is_active: 0
+            },
+            {
+              name: "Change Customer Information",
+              permission: "change_customer_information",
+              is_active: 0
+            },
+          ]
+        },
+        {
+          section:"Register",
+          permissions: [
+            {
+              name: "Change Register Information",
+              permission: "change_register_information",
+              is_active: 0
+            },
+            {
+              name: "Open And Close Register",
+              permission: "open_and_close_register",
+              is_active: 0
+            },
+            {
+              name: "Make Adjustment On Register",
+              permission: "make_adjustment_on_register",
+              is_active: 0
+            },
+          ]
+        },
+        {
+          section:"Sales And Transaction",
+          permissions: [
+            {
+              name: "Create Orders",
+              permission: "create_orders",
+              is_active: 0
+            },
+            {
+              name: "Custom Price",
+              permission: "custom_price",
+              is_active: 0
+            },
+            {
+              name: "Add Discount",
+              permission: "add_discount",
+              is_active: 0
+            },
+            {
+              name: "Make Shipment",
+              permission: "make_shipment",
+              is_active: 0
+            },
+            {
+              name: "View Order List",
+              permission: "view_order_list",
+              is_active: 0
+            },
+            {
+              name: "Make Refund",
+              permission: "make_refund",
+              is_active: 0
+            },
+          ]
+        },
+      ]
+    },
+  ];
+  constructor(protected toast: ToastsManager,
+              private route: ActivatedRoute,
+              private router: Router,
               protected userService: ManageUsersService) {}
 
   ngOnInit() {
-    this.route.params.subscribe((p) => {
-      this.role_id = p['id'];
-    });
+    this.initPage();
+  }
 
-    MeteorObservable.call("api.get_roles").subscribe((res) => {
-        this.roles = res['items'];
-    });
-
-    if (!!this.role_id){
-      MeteorObservable.call("api.get_permissions_role", this.role_id).subscribe((res)=>{
-        console.log(res);
-        this.permissions = res;
+  private initPage(role_id?: number){
+    this.userService.getAllRoles()
+        .subscribe((data) => {
+          this.roles = data;
+        });
+    if (!this.role_id){
+      this.route.params.subscribe((p) => {
+        this.role_id = p['id'];
       });
+    }else{
+      this.role_id = role_id;
     }
 
+    if (!!this.role_id) {
+      this.userService.getAllPermissions(this.role_id)
+          .subscribe((data) => {
+            if (data.length > 0) {
+              this.permissions = _.map(this.permissions, (group) => {
+                let section_update = _.map(group.sections, (section) => {
+                  let permission_update = _.map(section.permissions, (permission) => {
+                    let perm             = _.find(data, (perm) => {
+                      return perm.permission == permission.permission;
+                    });
+                    permission.is_active = perm.is_active;
+                    return permission;
+                  });
+                  section.permissions   = permission_update;
+                  return section;
+                });
+                group.sections     = section_update;
+                return group;
+              });
+            }
+          });
+    }
     this.initPageJs();
   }
 
@@ -66,28 +306,29 @@ export class RolesComponent implements OnInit {
                                                        messages: {
                                                        },
                                                        submitHandler: function (form) {
-                                                         let permissions = [];
-                                                          _.forEach(vm.permissions, (value, key) => {
-                                                            _.forEach(value, (val, k) => {
-                                                              let perm = _.omit(val, ['created_at', 'updated_time'])
-                                                              permissions.push(perm);
+                                                         let permissions_data = [];
+                                                         _.forEach(vm.permissions, (group) => {
+                                                            _.forEach(group.sections, (section) => {
+                                                              _.forEach(section.permissions, (permission) => {
+                                                                permission.group = group.group;
+                                                                permissions_data.push(permission);
+                                                              });
                                                             });
-                                                          });
-                                                          let data = {
-                                                            role_id: vm.role_id,
-                                                            permissions: permissions
-                                                          };
-                                                          vm.userService.updateXRetailPermission(data);
+                                                         });
+                                                         let data = {
+                                                           role_id: vm.role_id,
+                                                           permissions: permissions_data
+                                                         };
+
+                                                         vm.userService.updatePermission(data)
+                                                           .subscribe(() => {
+                                                              vm.toast.success('Update Permission Successfully');
+                                                           });
+
                                                        }
                                                      });
     };
     initValidationMaterial();
-  }
-
-  getGroupOfPermission(permission: string){
-    if (permission){
-      return permission.split("_")[0];
-    }
   }
 
   setCurrentGroup(group: string){
@@ -96,19 +337,13 @@ export class RolesComponent implements OnInit {
 
   getCurrentGroup(){
     if (!this.currentGroup){
-      this.currentGroup = _.keys(this.permissions)[0];
+      this.currentGroup = this.permissions[0].group;
     }
     return this.currentGroup;
   }
 
-  getAllSectionsOfGroup(group){
-      let sections = [];
-      _.forEach(group.value, (permission, k) => {
-        let arr_str = permission['permission'].split('_');
-        sections.push(arr_str[1]);
-      });
-      return _.uniq(sections);
+  redirect(role_id: number){
+    this.router.navigate(['/cloud/users/roles', role_id]);
+    this.initPage(role_id);
   }
-
-
 }
