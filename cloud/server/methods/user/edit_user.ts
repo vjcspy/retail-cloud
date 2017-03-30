@@ -15,6 +15,8 @@ new ValidatedMethod({
   },
   run: function (data) {
     const user = Meteor.users.findOne({_id: data['_id']});
+    data['emails.0.verified'] = data['email_verified'];
+    console.log(data);
     if (user)
       Meteor.users.update({_id: user._id}, {$set:data});
     else {
