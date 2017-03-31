@@ -14,7 +14,7 @@ import {ToastsManager} from "ng2-toastr";
              templateUrl: 'role.html'
            })
 export class RolesComponent implements OnInit {
-
+  protected role: any;
   protected roles: any;
   protected currentGroup: string;
   protected role_id: number;
@@ -243,10 +243,7 @@ export class RolesComponent implements OnInit {
   }
 
   private initPage(role_id?: number){
-    this.userService.getAllRoles()
-        .subscribe((data) => {
-          this.roles = data;
-        });
+
     if (!this.role_id){
       this.route.params.subscribe((p) => {
         this.role_id = p['id'];
@@ -254,6 +251,14 @@ export class RolesComponent implements OnInit {
     }else{
       this.role_id = role_id;
     }
+
+    this.userService.getAllRoles()
+        .subscribe((data) => {
+          this.roles = data;
+          this.role = _.find(data, (rol) => {
+            return rol.id == this.role_id;
+          });
+        });
 
     if (!!this.role_id) {
       this.userService.getAllPermissions(this.role_id)
