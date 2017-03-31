@@ -27,7 +27,8 @@ import {ManageRolesService} from "./manage-roles/manage-roles.service";
 <!-- END Page Header -->
 <router-outlet></router-outlet>`,
              providers: [
-
+               ManageRolesService,
+               ManageUsersService
              ]
            })
 export class ManageRolesComponent implements OnInit {

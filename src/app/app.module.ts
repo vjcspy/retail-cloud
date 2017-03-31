@@ -72,6 +72,7 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
 import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
 import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-roles.service";
+import {RoleFormComponent} from "./cloud/pages/admin-area/manage-roles/form";
 
 
 /**
@@ -102,6 +103,7 @@ import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-r
               ManageUsersGridComponent,
               ManageRolesComponent,
               ManageRolesGridComponent,
+              RoleFormComponent,
               UserFormComponent,
               SignInComponent,
               SignUpComponent,
