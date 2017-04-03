@@ -40,12 +40,12 @@
                             <h3 class="block-title">Are you sure?</h3>
                         </div>
                         <div class="block-content">
-                            <p>Do you want remove record with id =?</p>
+                            <p>Do you want remove record with id = {{roleIdRemove}}?</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
-                        <button class="btn btn-sm btn-danger" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Ok</button>
+                        <button class="btn btn-sm btn-danger" type="button" data-dismiss="modal" (click)="removeRecord()"><i class="fa fa-check"></i> Ok</button>
                     </div>
                 </div>
             </div>

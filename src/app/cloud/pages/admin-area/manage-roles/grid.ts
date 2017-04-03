@@ -18,6 +18,7 @@ export class ManageRolesGridComponent implements OnInit {
   @ViewChild('dataTable') dataTable: ElementRef;
 
   roles: any;
+  roleIdRemove: number;
 
   constructor(protected manageRoleService: ManageRolesService,
               protected userService: ManageUsersService,
@@ -106,13 +107,19 @@ export class ManageRolesGridComponent implements OnInit {
     }, 100);
     setTimeout(() => {
       elementSelector.on('click', '.meteor-table-bt-remove', function () {
-        vm.userService.removeRole(jQuery(this).attr('data-id'))
-          .subscribe(() => {
-            vm.toast.success("Role removed");
-            vm.router.navigate(['/cloud/roles']);
-          });
+        jQuery('#meteor-dt-remove-modal').modal('show');
+        vm.roleIdRemove = jQuery(this).attr('data-id');
+
       });
     }, 100);
+  }
+
+  removeRecord(){
+    this.userService.removeRole(this.roleIdRemove)
+      .subscribe(() => {
+        this.toast.success("Role removed");
+        this.router.navigate(['/cloud/roles']);
+      });
   }
 }
 
