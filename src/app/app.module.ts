@@ -71,6 +71,7 @@ import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {RolesComponent} from "./cloud/pages/admin-area/manage-users/role";
 import {LoopGetKeyPipe} from "./cloud/pipes/LoopGetKeyPipe";
+import {AssignRoleComponent} from "./cloud/pages/admin-area/manage-users/assign";
 
 
 /**
@@ -101,6 +102,7 @@ import {LoopGetKeyPipe} from "./cloud/pipes/LoopGetKeyPipe";
               ManageUsersGridComponent,
               UserFormComponent,
               RolesComponent,
+              AssignRoleComponent,
               SignInComponent,
               SignUpComponent,
               ResetPasswordComponent,

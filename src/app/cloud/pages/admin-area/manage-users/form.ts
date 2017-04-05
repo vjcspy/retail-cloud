@@ -17,6 +17,7 @@ import {ToastsManager} from "ng2-toastr";
            })
 export class UserFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
+  roles: any;
   protected form_title: string;
   private user_edit = { emails: [{verified: 0}] };
 
@@ -37,6 +38,10 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.userService.getAllRoles()
+        .subscribe((data) => {
+          this.roles = data;
+        });
     const params: Object = this.route.snapshot.params;
     if (params.hasOwnProperty('id') && !!params['id']) {
       this.userService.viewState.headerText = 'Edit User';
@@ -69,7 +74,8 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                first_name: first_name,
                                                last_name: last_name,
                                                is_disabled: is_disabled
-                                             }
+                                             },
+                                             role: user['roles']['shop_group']
                                            };
                                          } else {
                                            throw new Error("Can't find user");
@@ -82,7 +88,8 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                              first_name: '',
                                              last_name: '',
                                              is_disabled: ''
-                                           }
+                                           },
+                                            role: ""
                                          }
                                        }
                                      });
@@ -142,7 +149,6 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                    submitHandler: () => {
                                                      const data = vm._data;
                                                      if (vm.id){
-                                                       console.log(vm._data);
                                                        vm.userService.editUser(data)
                                                          .then(() => {
                                                            vm.toast.success("Edit User Successful");

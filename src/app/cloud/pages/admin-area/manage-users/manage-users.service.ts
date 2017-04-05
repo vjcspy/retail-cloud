@@ -12,6 +12,8 @@ export class ManageUsersService {
   };
   viewData: any  = {};
 
+  api_magento2 = "http://mage2.dev";
+
   constructor(protected toast: ToastsManager,
               protected router: Router,
               private http: Http) { }
@@ -63,12 +65,12 @@ export class ManageUsersService {
   }
 
   updatePermission(data: any): Observable<any>{
-    return this.http.post("http://mage2.xds.smartosc.com/xrest/v1/xretail/permission", data)
+    return this.http.post(this.api_magento2 + "/xrest/v1/xretail/permission", data)
       .catch(this.handleError);
   }
 
   getAllRoles(): Observable<any>{
-    return this.http.get("http://mage2.xds.smartosc.com/xrest/v1/xretail/role")
+    return this.http.get(this.api_magento2 + "/xrest/v1/xretail/role")
       .map((data) => {
         return JSON.parse(data._body).items;
       }).catch(this.handleError);
@@ -80,7 +82,7 @@ export class ManageUsersService {
 
     params.set('role_id', role_id);
     options.search = params;
-    return this.http.get("http://mage2.xds.smartosc.com/xrest/v1/xretail/permission", options)
+    return this.http.get(this.api_magento2 + "/xrest/v1/xretail/permission", options)
                .map((data) => {
                  return JSON.parse(data._body).items;
                }).catch(this.handleError);
