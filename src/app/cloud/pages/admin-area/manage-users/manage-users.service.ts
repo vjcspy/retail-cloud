@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
 import {MeteorObservable} from "meteor-rxjs";
 import {Router} from "@angular/router";
-import {Http, Response, URLSearchParams, RequestOptions, Headers} from "@angular/http";
-import {Observable} from "rxjs";
+import {Http, URLSearchParams, Headers, RequestOptions} from "@angular/http";
 import {RequestService} from "../../../../service/request";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ManageUsersService {
@@ -50,6 +50,29 @@ export class ManageUsersService {
         return reject(err);
       });
     });
+  }
+
+  updatePermission(data: any): Observable<any>{
+    return this.requestService.makePost(this.api_magento2 + "/xrest/v1/xretail/permission", data);
+  }
+
+  getAllRoles(): Observable<any>{
+    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/role")
+               .map((data) => {
+                 return data.items;
+               });
+  }
+
+  getAllPermissions(role_id): Observable<any>{
+    let params: URLSearchParams = new URLSearchParams();
+    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+    params.set('role_id', role_id);
+    options.search = params;
+    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/permission", options)
+               .map((data) => {
+                 return data.items;
+               });
   }
 
 }
