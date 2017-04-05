@@ -4,6 +4,7 @@ import {MeteorObservable} from "meteor-rxjs";
 import {Router} from "@angular/router";
 import {Http, Response, URLSearchParams, RequestOptions, Headers} from "@angular/http";
 import {Observable} from "rxjs";
+import {RequestService} from "../../../../service/request";
 
 @Injectable()
 export class ManageUsersService {
@@ -16,7 +17,8 @@ export class ManageUsersService {
 
   constructor(protected toast: ToastsManager,
               protected router: Router,
-              private http: Http) { }
+              private http: Http,
+              private requestService: RequestService) { }
 
   createUser(data): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -65,15 +67,14 @@ export class ManageUsersService {
   }
 
   updatePermission(data: any): Observable<any>{
-    return this.http.post(this.api_magento2 + "/xrest/v1/xretail/permission", data)
-      .catch(this.handleError);
+    return this.requestService.makePost(this.api_magento2 + "/xrest/v1/xretail/permission", data);
   }
 
   getAllRoles(): Observable<any>{
-    return this.http.get(this.api_magento2 + "/xrest/v1/xretail/role")
+    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/role")
       .map((data) => {
-        return JSON.parse(data._body).items;
-      }).catch(this.handleError);
+        return data.items;
+      });
   }
 
   getAllPermissions(role_id): Observable<any>{
@@ -82,9 +83,9 @@ export class ManageUsersService {
 
     params.set('role_id', role_id);
     options.search = params;
-    return this.http.get(this.api_magento2 + "/xrest/v1/xretail/permission", options)
+    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/permission", options)
                .map((data) => {
-                 return JSON.parse(data._body).items;
-               }).catch(this.handleError);
+                 return data.items;
+               });
   }
 }
