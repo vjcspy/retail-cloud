@@ -52,40 +52,4 @@ export class ManageUsersService {
     });
   }
 
-  private handleError (error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Promise.reject(errMsg);
-  }
-
-  updatePermission(data: any): Observable<any>{
-    return this.requestService.makePost(this.api_magento2 + "/xrest/v1/xretail/permission", data);
-  }
-
-  getAllRoles(): Observable<any>{
-    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/role")
-      .map((data) => {
-        return data.items;
-      });
-  }
-
-  getAllPermissions(role_id): Observable<any>{
-    let params: URLSearchParams = new URLSearchParams();
-    let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
-
-    params.set('role_id', role_id);
-    options.search = params;
-    return this.requestService.makeGet(this.api_magento2 + "/xrest/v1/xretail/permission", options)
-               .map((data) => {
-                 return data.items;
-               });
-  }
 }
