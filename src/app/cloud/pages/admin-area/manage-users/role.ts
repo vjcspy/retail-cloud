@@ -284,7 +284,7 @@ export class RolesComponent implements OnInit {
             }
           }, (e) => {
             this.toast.error(e);
-          }););
+          });
     }
     this.initPageJs();
   }
