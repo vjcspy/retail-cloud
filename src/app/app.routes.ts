@@ -30,7 +30,6 @@ import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/for
 import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {RolesComponent} from "./cloud/pages/admin-area/manage-users/role";
-import {AssignRoleComponent} from "./cloud/pages/admin-area/manage-users/assign";
 
 export const ROUTES: Routes = [
   {
@@ -93,8 +92,7 @@ export const ROUTES: Routes = [
           {path: 'grid', component: ManageUsersGridComponent},
           {path: 'create', component: UserFormComponent},
           {path: 'edit/:id', component: UserFormComponent},
-          {path: 'roles/:id', component: RolesComponent},
-          {path: 'assign', component: AssignRoleComponent}
+          {path: 'roles/:id', component: RolesComponent}
         ]
       },
 
