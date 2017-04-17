@@ -45,7 +45,7 @@
             </div>
             <div class="form-group push-30-t">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <button class="btn btn-sm btn-block btn-primary" type="submit" [disabled]="authService.isLoading == true">Login</button>
+                <button class="btn btn-sm btn-block btn-primary" type="submit" [disabled]="!!isLoading">Login</button>
               </div>
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <button class="btn btn-sm btn-block btn-success" type="button" (click)="router.navigate(['/signup'])">Register</button>

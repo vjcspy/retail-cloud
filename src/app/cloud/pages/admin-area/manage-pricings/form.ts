@@ -17,6 +17,7 @@ import {ManagePricingsService} from "./manage-pricings.service";
            })
 export class PricingFormComponent extends AbstractRxComponent implements OnInit {
   id: string                      = "";
+  isLoading: boolean = false;
   protected prices: any;
   protected pricing               = {
     code: "",
@@ -118,6 +119,7 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
                                                          }
                                                        },
                                                        submitHandler: function (form) {
+                                                         vm.isLoading = true;
                                                          if (vm.id) {
                                                            vm.priceService.editPricing(vm.pricing);
                                                          } else {

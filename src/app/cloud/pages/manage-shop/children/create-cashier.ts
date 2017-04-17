@@ -28,7 +28,7 @@ export class CreateCashierComponent extends AbstractRxComponent implements OnIni
               protected userCollection: UserCollection) {
     super();
   }
-
+  isLoading: boolean = false;
   protected _data :any       = {};
   protected license: any = {};
   id: string = "";

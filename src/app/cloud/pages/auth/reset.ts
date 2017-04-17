@@ -11,6 +11,7 @@ import {ToastsManager} from "ng2-toastr";
              templateUrl: 'reset.html'
            })
 export class ResetPasswordComponent implements OnInit {
+  isLoading: boolean = false;
   token: string = "";
   private _data = {};
   constructor(protected router: Router,

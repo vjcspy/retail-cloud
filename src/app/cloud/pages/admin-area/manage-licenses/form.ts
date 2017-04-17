@@ -23,6 +23,7 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
   id: string = "";
   protected form_title: string;
 
+  isLoading: boolean = false;
   protected license: any       = {};
   protected products: Object[] = [];
   protected users: any;
@@ -198,12 +199,12 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
                                                          },
                                                        },
                                                        submitHandler: function (form) {
+                                                         vm.isLoading = true;
                                                          let result = _.filter(vm.products, (product) => {
                                                            if (product['checked']) {
                                                              return product;
                                                            }
                                                          });
-                                                         console.log(jQuery("#val-owner").val());
                                                          if (vm.id) {
                                                            vm.license = {
                                                              _id: vm.id,

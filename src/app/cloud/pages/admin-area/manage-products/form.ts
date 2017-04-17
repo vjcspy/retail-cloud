@@ -17,6 +17,7 @@ import {AbstractRxComponent} from "../../../../code/angular/AbstractRxComponent"
            })
 export class ProductFormComponent extends AbstractRxComponent implements OnInit {
   id: string                      = "";
+  isLoading: boolean = false;
   protected prices: any;
   protected product               = {
     _id: "",
@@ -131,6 +132,7 @@ export class ProductFormComponent extends AbstractRxComponent implements OnInit 
                                                          },
                                                        },
                                                        submitHandler: function (form) {
+                                                         vm.isLoading = true;
                                                          if (vm.checkVersionExistTwice(vm.product.versions)) {
                                                            vm.toast.error('Version appear much than twice', 'Update Version');
                                                            return;

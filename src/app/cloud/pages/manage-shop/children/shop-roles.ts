@@ -19,6 +19,7 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
   protected currentGroup: string;
   protected role_id: string;
   protected license: any = {};
+  isLoading: boolean = false;
   protected permissions: any = [
     {
       group: "xretail_permissions",
@@ -287,6 +288,7 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
                                                      messages: {
                                                      },
                                                      submitHandler: function (form) {
+                                                       vm.isLoading = true;
                                                        let permissions_data = [];
                                                        _.forEach(vm.permissions, (group) => {
                                                          _.forEach(group['sections'], (section) => {

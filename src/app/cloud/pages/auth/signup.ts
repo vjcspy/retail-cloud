@@ -12,7 +12,7 @@ import {ToastsManager} from "ng2-toastr";
            })
 export class SignUpComponent implements OnInit {
   protected user = {username: "", email: "", password: "", acceptTerm: false};
-  
+  isLoading: boolean = false;
   constructor(protected router: Router, protected authService: AuthService, protected toast: ToastsManager) { }
   
   ngOnInit() {

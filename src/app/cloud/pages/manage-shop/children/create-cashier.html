@@ -89,7 +89,7 @@
 
             <div class="form-group">
               <div class="col-xs-12">
-                <button class="btn btn-sm btn-primary" type="submit" [disabled]="userService.isLoading == true">Submit</button>
+                <button class="btn btn-sm btn-primary" type="submit" [disabled]="!!isLoading">Submit</button>
               </div>
             </div>
           </form>

@@ -84,7 +84,7 @@
 
           <div class="form-group">
             <div class="col-xs-12">
-              <button class="btn btn-sm btn-primary" type="submit" [disabled]="productService.isLoading == true">Save</button>
+              <button class="btn btn-sm btn-primary" type="submit" [disabled]="!!isLoading">Save</button>
             </div>
           </div>
         </form>

@@ -17,6 +17,7 @@ import {ToastsManager} from "ng2-toastr";
            })
 export class UserFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
+  isLoading: boolean = false;
   roles: any;
   protected form_title: string;
   private user_edit = { emails: [{verified: 0}] };

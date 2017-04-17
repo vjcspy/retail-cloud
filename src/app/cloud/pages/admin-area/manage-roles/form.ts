@@ -18,6 +18,7 @@ import {LicenseCollection} from "../../../services/ddp/collections/licenses";
 export class RoleFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
   protected form_title: string;
+  isLoading: boolean = false;
   protected role: any = {
     name: "",
     is_active: ""
@@ -102,6 +103,7 @@ export class RoleFormComponent extends AbstractRxComponent implements OnInit {
                                                          },
                                                        },
                                                        submitHandler: function (form) {
+                                                         vm.isLoading = true;
                                                          let data = vm.role;
                                                          data['license_id'] = vm.license['_id'];
                                                           if (!!vm.id){

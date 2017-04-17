@@ -13,6 +13,7 @@ import {ToastsManager} from "ng2-toastr";
 export class VerifyEmailComponent implements OnInit {
   token: string = "";
   email: string = "";
+  isLoading: boolean = false;
 
   constructor(protected router: Router,
               protected authService: AuthService,

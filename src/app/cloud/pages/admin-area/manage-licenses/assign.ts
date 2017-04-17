@@ -23,13 +23,13 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
     license: "",
     permission: "owner"
   };
+  isLoading: boolean = false;
   protected licenses: any;
   protected users: any;
   protected license: any;
   protected user: any;
   protected changeLicenseObservable: Subject<any> = new Subject();
   protected changeUserObservable: Subject<any>    = new Subject();
-  protected isLoading: boolean = false;
   
   constructor(protected manageLicense: ManageLicensesService,
               protected licenseCollection: LicenseCollection,
@@ -127,6 +127,7 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
                                                          'user': 'Please select a user!',
                                                        },
                                                        submitHandler: function (form) {
+                                                         vm.isLoading = true;
                                                          vm.assignLicense();
                                                        }
                                                      });
@@ -134,10 +135,8 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
   
   private assignLicense() {
     MeteorObservable.call("license.assign_to_user", this.data).subscribe(() => {
-      this.isLoading = true;
       this.toast.success("Done");
     }, err => {
-      this.isLoading = false;
       this.toast.error(err['reason']);
     });
   }

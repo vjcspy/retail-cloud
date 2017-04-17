@@ -14,6 +14,7 @@ export class SignInComponent implements OnInit {
     username: "",
     password: ""
   };
+  isLoading: boolean = false;
   
   constructor(protected router: Router, protected authService: AuthService) { }
   
@@ -63,6 +64,7 @@ export class SignInComponent implements OnInit {
                                                   }
                                                 },
                                                 submitHandler : function (form) {
+                                                  vm.isLoading = true;
                                                   vm.authService.signIn(vm.user).then(() => {}, err => {
                                                   });
                                                 }
@@ -70,5 +72,5 @@ export class SignInComponent implements OnInit {
     };
     initValidationLogin();
   }
-  
+
 }
