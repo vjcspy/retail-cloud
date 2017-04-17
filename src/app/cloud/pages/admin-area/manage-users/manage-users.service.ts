@@ -10,6 +10,7 @@ export class ManageUsersService {
   viewState: any = {
     headerText: ""
   };
+  protected isLoading: boolean = false;
   viewData: any  = {};
 
   constructor(protected toast: ToastsManager,
@@ -19,9 +20,12 @@ export class ManageUsersService {
 
   createUser(data): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("user.create_user", data).subscribe(res => {
+        this.isLoading = false;
         resolve();
       }, (err) => {
+        this.isLoading = false;
         console.log(err);
         this.toast.error(err.reason, err.error);
       });
@@ -30,19 +34,25 @@ export class ManageUsersService {
 
   editUser(data): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("user.edit_user", data).subscribe(res => {
+        this.isLoading = false;
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
       });
     });
   }
   removeUser(data: any){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("user.remove_user", data).subscribe((res) => {
+        this.isLoading = false;
         this.toast.success("Remove User Successfully");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });
@@ -51,10 +61,13 @@ export class ManageUsersService {
 
   updatePermission(data: any){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.save_permission_to_role", data).subscribe((res) => {
+        this.isLoading = false;
         this.toast.success("Update Permission Successfully");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });

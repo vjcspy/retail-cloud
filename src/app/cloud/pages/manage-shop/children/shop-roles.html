@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="block-content block-content-full bg-gray-lighter text-center">
-                    <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check push-5-r"></i> Save Changes</button>
+                    <button class="btn btn-sm btn-primary" type="submit" [disabled]="userService.isLoading"><i class="fa fa-check push-5-r"></i> Save Changes</button>
                     <button class="btn btn-sm btn-warning" type="reset"><i class="fa fa-refresh push-5-r"></i> Reset</button>
                 </div>
             </div>

@@ -93,6 +93,7 @@ export class AuthService {
   
   signIn(user: any) {
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       Meteor.loginWithPassword(user.username, user.password, (e: Error) => {
         this.isLoading = false;
         if (e && e['reason']) {
@@ -127,9 +128,11 @@ export class AuthService {
 
   updateProfile(data) {
     return new Promise((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("user.update_profile", data).subscribe(res => {
         resolve();
       }, (err) => {
+        this.isLoading = false;
         if (!err){
           resolve();
         }else{
@@ -142,11 +145,13 @@ export class AuthService {
 
   changePassword(data){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       if (data['confirm_new_password'].localeCompare(data['new_password'])){
         this.toast.error('Confirm new password must equal new password');
         return;
       }
       Accounts.changePassword(data['old_password'], data['new_password'], (err) => {
+        this.isLoading = false;
         if (err) {
           this.toast.error(err);
         }else{
@@ -158,7 +163,9 @@ export class AuthService {
 
   forgotPassword(data){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       Accounts.forgotPassword(data, (err) => {
+        this.isLoading = false;
         if (!err) {
           this.toast.info("A message was sent to your email");
           resolve();
@@ -171,11 +178,13 @@ export class AuthService {
 
   resetPassword(token, data){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       if (data['confirm_new_password'].localeCompare(data['new_password'])){
         this.toast.error('Confirm new password must equal new password');
         return;
       }
       Accounts.resetPassword(token, data['new_password'], (err) => {
+        this.isLoading = false;
         if (!err) {
           this.toast.success('Password reset successfully');
           resolve();
@@ -188,8 +197,9 @@ export class AuthService {
 
   verifyEmail(token){
     return new Promise<void>((resolve, reject) => {
-
+      this.isLoading = true;
       Accounts.verifyEmail(token, (err) => {
+        this.isLoading = false;
         if (!err) {
           resolve();
         } else {
@@ -201,9 +211,12 @@ export class AuthService {
 
   sendVerifyEmailLink(){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call('user.send_verification').subscribe((res) => {
+        this.isLoading = false;
         this.toast.info('An email verify is sent to your email');
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err);
       });
     });

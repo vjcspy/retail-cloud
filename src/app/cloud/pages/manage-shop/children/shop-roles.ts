@@ -109,12 +109,7 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
               name: "Access XPOS to Setting",
               permission: "access_xpos_to_setting",
               is_active: 0
-            },
-            {
-              permission: "Access To XPOS",
-              name: "access_to_xpos",
-              is_active: 0
-            },
+            }
           ]
         },
         {
