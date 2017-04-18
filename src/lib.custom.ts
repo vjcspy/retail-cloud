@@ -29,6 +29,7 @@ import "jquery-validation/dist/jquery.validate.js";
 import "jquery-validation/dist/additional-methods.js";
 
 /*
+ http://stackoverflow.com/questions/40071845/how-to-import-css-from-node-modules-in-webpack-angular2-app
  Lưu ý không thể load file css ở đây. Lý do là trong config của webpack sẽ chỉ có:
  {
  test: /\.css$/,
