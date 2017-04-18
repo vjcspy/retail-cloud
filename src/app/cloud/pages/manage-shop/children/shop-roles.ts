@@ -289,23 +289,25 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
                                                      },
                                                      submitHandler: function (form) {
                                                        vm.isLoading = true;
-                                                       let permissions_data = [];
-                                                       _.forEach(vm.permissions, (group) => {
-                                                         _.forEach(group['sections'], (section) => {
-                                                           _.forEach(section['permissions'], (permission) => {
-                                                             permission['group'] = group['group'];
-                                                             permissions_data.push(permission);
+                                                       setTimeout(() => {
+                                                         let permissions_data = [];
+                                                         _.forEach(vm.permissions, (group) => {
+                                                           _.forEach(group['sections'], (section) => {
+                                                             _.forEach(section['permissions'], (permission) => {
+                                                               permission['group'] = group['group'];
+                                                               permissions_data.push(permission);
+                                                             });
                                                            });
                                                          });
-                                                       });
-                                                       let data = {
-                                                         role_id: vm.role_id,
-                                                         permissions: permissions_data
-                                                       };
-                                                       data['license_id'] = vm.license['_id'];
+                                                         let data = {
+                                                           role_id: vm.role_id,
+                                                           permissions: permissions_data
+                                                         };
+                                                         data['license_id'] = vm.license['_id'];
 
-                                                       vm.userService.updatePermission(data);
-
+                                                         vm.userService.updatePermission(data);
+                                                         vm.isLoading = false;
+                                                       }, 1000);
                                                      }
                                                    });
     };

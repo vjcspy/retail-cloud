@@ -120,11 +120,15 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
                                                        },
                                                        submitHandler: function (form) {
                                                          vm.isLoading = true;
-                                                         if (vm.id) {
-                                                           vm.priceService.editPricing(vm.pricing);
-                                                         } else {
-                                                           vm.priceService.createPricing(vm.pricing);
-                                                         }
+                                                         setTimeout(() => {
+                                                           if (vm.id) {
+                                                             vm.priceService.editPricing(vm.pricing);
+                                                           } else {
+                                                             vm.priceService.createPricing(vm.pricing);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

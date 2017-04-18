@@ -128,7 +128,11 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
                                                        },
                                                        submitHandler: function (form) {
                                                          vm.isLoading = true;
-                                                         vm.assignLicense();
+                                                         setTimeout(() => {
+                                                           vm.assignLicense();
+                                                           vm.isLoading = false;
+                                                         });
+
                                                        }
                                                      });
   }

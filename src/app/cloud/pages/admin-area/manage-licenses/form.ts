@@ -200,28 +200,32 @@ export class LicenseFormComponent extends AbstractRxComponent implements OnInit 
                                                        },
                                                        submitHandler: function (form) {
                                                          vm.isLoading = true;
-                                                         let result = _.filter(vm.products, (product) => {
-                                                           if (product['checked']) {
-                                                             return product;
+                                                         setTimeout(() => {
+                                                           let result = _.filter(vm.products, (product) => {
+                                                             if (product['checked']) {
+                                                               return product;
+                                                             }
+                                                           });
+                                                           if (vm.id) {
+                                                             vm.license = {
+                                                               _id: vm.id,
+                                                               shop_owner_id: jQuery("#val-owner").val(),
+                                                               status: vm.license.status,
+                                                               has_product: result
+                                                             };
+                                                             vm.licenseService.editLicense(vm.license).then(() => { }, e => { });
+                                                           } else {
+                                                             vm.license = {
+                                                               _id: "",
+                                                               shop_owner_id: jQuery("#val-owner").val(),
+                                                               status: vm.license.status,
+                                                               has_product: result
+                                                             };
+                                                             vm.licenseService.createLicense(vm.license).then(() => { }, e => { });
                                                            }
-                                                         });
-                                                         if (vm.id) {
-                                                           vm.license = {
-                                                             _id: vm.id,
-                                                             shop_owner_id: jQuery("#val-owner").val(),
-                                                             status: vm.license.status,
-                                                             has_product: result
-                                                           };
-                                                           vm.licenseService.editLicense(vm.license).then(() => { }, e => { });
-                                                         } else {
-                                                           vm.license = {
-                                                             _id: "",
-                                                             shop_owner_id: jQuery("#val-owner").val(),
-                                                             status: vm.license.status,
-                                                             has_product: result
-                                                           };
-                                                           vm.licenseService.createLicense(vm.license).then(() => { }, e => { });
-                                                         }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

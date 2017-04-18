@@ -133,16 +133,20 @@ export class ProductFormComponent extends AbstractRxComponent implements OnInit 
                                                        },
                                                        submitHandler: function (form) {
                                                          vm.isLoading = true;
-                                                         if (vm.checkVersionExistTwice(vm.product.versions)) {
-                                                           vm.toast.error('Version appear much than twice', 'Update Version');
-                                                           return;
-                                                         }
-                                                         vm.product['pricings'] = jQuery("#val-pricings").val();
-                                                         if (vm.id) {
-                                                           vm.productService.editProduct(vm.product);
-                                                         } else {
-                                                           vm.productService.createProduct(vm.product);
-                                                         }
+                                                         setTimeout(() => {
+                                                           if (vm.checkVersionExistTwice(vm.product.versions)) {
+                                                             vm.toast.error('Version appear much than twice', 'Update Version');
+                                                             return;
+                                                           }
+                                                           vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                           if (vm.id) {
+                                                             vm.productService.editProduct(vm.product);
+                                                           } else {
+                                                             vm.productService.createProduct(vm.product);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

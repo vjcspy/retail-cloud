@@ -104,13 +104,17 @@ export class RoleFormComponent extends AbstractRxComponent implements OnInit {
                                                        },
                                                        submitHandler: function (form) {
                                                          vm.isLoading = true;
-                                                         let data = vm.role;
-                                                         data['license_id'] = vm.license['_id'];
-                                                          if (!!vm.id){
-                                                            vm.roleService.editRole(data);
-                                                          }else{
-                                                            vm.roleService.addRole(data);
-                                                          }
+                                                         setTimeout(() => {
+                                                           let data = vm.role;
+                                                           data['license_id'] = vm.license['_id'];
+                                                           if (!!vm.id){
+                                                             vm.roleService.editRole(data);
+                                                           }else{
+                                                             vm.roleService.addRole(data);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

@@ -78,9 +78,14 @@ export class SignUpComponent implements OnInit {
                                                      'register-terms'    : 'You must agree to the service terms!'
                                                    },
                                                    submitHandler : function (form) {
-                                                     vm.authService.signUp(vm.user).then(() => {
-                                                       alert('An verification is sent to your email, please verify it before signing in');
-                                                     }, err => {});
+                                                     vm.isLoading = true;
+                                                     setTimeout(() => {
+                                                       vm.authService.signUp(vm.user).then(() => {
+                                                         vm.isLoading = false;
+                                                         alert('An verification is sent to your email, please verify it before signing in');
+                                                       }, err => {});
+                                                     }, 1000);
+
                                                    }
                                                  });
     };

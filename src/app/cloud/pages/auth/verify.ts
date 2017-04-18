@@ -66,12 +66,18 @@ export class VerifyEmailComponent implements OnInit {
                                                 messages      : {
                                                 },
                                                 submitHandler : function (form) {
-                                                  vm.authService.sendVerifyEmailLink()
-                                                    .then(() => {
-                                                      vm.router.navigate(['']);
-                                                    }).catch((err) => {
+                                                  vm.isLoading = true;
+                                                  setTimeout(() => {
+                                                    vm.authService.sendVerifyEmailLink()
+                                                      .then(() => {
+                                                        vm.isLoading = false;
+                                                        vm.router.navigate(['']);
+                                                      }).catch((err) => {
+                                                      vm.isLoading = false;
                                                       vm.toast.error(err);
                                                     });
+                                                  }, 1000);
+
                                                 }
                                               });
     };

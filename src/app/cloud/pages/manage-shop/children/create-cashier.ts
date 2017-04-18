@@ -179,24 +179,29 @@ export class CreateCashierComponent extends AbstractRxComponent implements OnIni
                                                      'cashier_products': 'Please select a value!',
                                                    },
                                                    submitHandler: () => {
-                                                     let data = {
-                                                       first_name: vm._data['first_name'],
-                                                       last_name: vm._data['last_name'],
-                                                       email: vm._data['email'],
-                                                       username: vm._data['username'],
-                                                       isDisabled: vm._data['disabled'],
-                                                       products: jQuery("#cashier_products").val(),
-                                                       license_id: vm.license['_id'],
-                                                     };
-                                                     if (vm._data['role'])
-                                                       data['role'] = vm._data['role'];
+                                                     vm.isLoading = true;
+                                                     setTimeout(() => {
+                                                       let data = {
+                                                         first_name: vm._data['first_name'],
+                                                         last_name: vm._data['last_name'],
+                                                         email: vm._data['email'],
+                                                         username: vm._data['username'],
+                                                         isDisabled: vm._data['disabled'],
+                                                         products: jQuery("#cashier_products").val(),
+                                                         license_id: vm.license['_id'],
+                                                       };
+                                                       if (vm._data['role'])
+                                                         data['role'] = vm._data['role'];
 
-                                                     if (!!vm.id) {
-                                                       data['_id'] = vm.id;
-                                                       vm.manageShopService.editCashier(data);
-                                                     }
-                                                     else
-                                                      vm.manageShopService.createCashier(data);
+                                                       if (!!vm.id) {
+                                                         data['_id'] = vm.id;
+                                                         vm.manageShopService.editCashier(data);
+                                                       }
+                                                       else
+                                                         vm.manageShopService.createCashier(data);
+                                                       vm.isLoading = false;
+                                                     },1000);
+
                                                    }
                                                  });
     };
