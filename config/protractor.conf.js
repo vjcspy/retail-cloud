@@ -6,7 +6,7 @@ require('ts-node/register');
 var helpers = require('./helpers');
 
 exports.config = {
-  baseUrl: 'http://http://xcloud.smartosc.com/',
+  baseUrl: 'http://xcloud.smartosc.com/',
 
   // use `npm run e2e`
   specs: [
