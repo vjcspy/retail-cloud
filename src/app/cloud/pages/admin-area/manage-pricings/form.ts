@@ -17,6 +17,7 @@ import {ManagePricingsService} from "./manage-pricings.service";
            })
 export class PricingFormComponent extends AbstractRxComponent implements OnInit {
   id: string                      = "";
+  isLoading: boolean = false;
   protected prices: any;
   protected pricing               = {
     code: "",
@@ -118,11 +119,16 @@ export class PricingFormComponent extends AbstractRxComponent implements OnInit 
                                                          }
                                                        },
                                                        submitHandler: function (form) {
-                                                         if (vm.id) {
-                                                           vm.priceService.editPricing(vm.pricing);
-                                                         } else {
-                                                           vm.priceService.createPricing(vm.pricing);
-                                                         }
+                                                         vm.isLoading = true;
+                                                         setTimeout(() => {
+                                                           if (vm.id) {
+                                                             vm.priceService.editPricing(vm.pricing);
+                                                           } else {
+                                                             vm.priceService.createPricing(vm.pricing);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

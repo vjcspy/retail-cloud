@@ -31,7 +31,7 @@ import {ManageProductsGridComponent} from "./cloud/pages/admin-area/manage-produ
 import {ManageProductsService} from "./cloud/pages/admin-area/manage-products/manage-products.service";
 import {ProductCollection} from "./cloud/services/ddp/collections/products";
 import {RouterModule} from "@angular/router";
-import {ToastModule} from "ng2-toastr";
+import {ToastModule, ToastOptions} from "ng2-toastr";
 import {ContainerComponent} from "./cloud/cloud-container/container";
 import {HeaderComponent} from "./cloud/cloud-container/container/header";
 import {FooterComponent} from "./cloud/cloud-container/container/footer";
@@ -69,14 +69,21 @@ import {ManagePricingsGridComponent} from "./cloud/pages/admin-area/manage-prici
 import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/form";
 import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
-import {RolesComponent} from "./cloud/pages/admin-area/manage-users/role";
 import {LoopGetKeyPipe} from "./cloud/pipes/LoopGetKeyPipe";
 import {RequestService} from "./service/request";
 import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
 import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
 import {RoleFormComponent} from "./cloud/pages/admin-area/manage-roles/form";
 import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-roles.service";
+import {RoleGuard} from "./cloud/services/router-guard/RoleGuard";
+import {PermissionGuard} from "./cloud/services/router-guard/PermissionGuard";
 
+export class CustomOptions extends ToastOptions {
+  animate = 'flyLeft';
+  positionClass = 'toast-top-right';
+  showCloseButton = true;
+  toastLife = 5500;
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -144,10 +151,13 @@ import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-r
               PriceCollection,
               AuthService,
               AuthenticateGuard,
+              RoleGuard,
+              PermissionGuard,
               ManageProductsService,
               ManageLicensesService,
               RequestService,
-              ManageRolesService
+              ManageRolesService,
+              { provide: ToastOptions, useClass: CustomOptions }
             ]
           })
 export class AppModule {

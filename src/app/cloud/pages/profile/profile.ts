@@ -10,6 +10,7 @@ import {ToastsManager} from "ng2-toastr";
              templateUrl: 'profile.html'
            })
 export class UserProfileComponent implements OnInit {
+  isLoading: boolean = false;
 
   private profile = {
     first_name: "",
@@ -80,23 +81,28 @@ export class UserProfileComponent implements OnInit {
                                                          }
                                                        },
                                                        submitHandler: function (form) {
-                                                         if (vm.resetPassword['old_password'] && vm.resetPassword['new_password'] && vm.resetPassword['confirm_new_password']){
-                                                           vm.authService.changePassword(vm.resetPassword)
-                                                             .then(() => {
-                                                                vm.resetPassword = {
-                                                                  old_password: "",
-                                                                  new_password: "",
-                                                                  confirm_new_password: ""
-                                                                };
-                                                               vm.toast.success('Password changed');
-                                                             }).catch((err) => {
+                                                         vm.isLoading = true;
+                                                         setTimeout(() => {
+                                                           if (vm.resetPassword['old_password'] && vm.resetPassword['new_password'] && vm.resetPassword['confirm_new_password']){
+                                                             vm.authService.changePassword(vm.resetPassword)
+                                                               .then(() => {
+                                                                 vm.resetPassword = {
+                                                                   old_password: "",
+                                                                   new_password: "",
+                                                                   confirm_new_password: ""
+                                                                 };
+                                                                 vm.toast.success('Password changed');
+                                                               }).catch((err) => {
                                                                vm.toast.error(err);
                                                                return;
                                                              });
-                                                         }else{
-                                                           vm.authService.updateProfile(vm._data);
-                                                           vm.toast.success("Profile Updated");
-                                                         }
+                                                           }else{
+                                                             vm.authService.updateProfile(vm._data);
+                                                             vm.toast.success("Profile Updated");
+                                                           }
+                                                           vm.isLoading = false;
+                                                         },1000);
+
                                                         }
                                                      });
     };

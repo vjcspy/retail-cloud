@@ -23,6 +23,7 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
     license: "",
     permission: "owner"
   };
+  isLoading: boolean = false;
   protected licenses: any;
   protected users: any;
   protected license: any;
@@ -126,7 +127,12 @@ export class AssignLicenseComponent extends AbstractRxComponent implements OnIni
                                                          'user': 'Please select a user!',
                                                        },
                                                        submitHandler: function (form) {
-                                                         vm.assignLicense();
+                                                         vm.isLoading = true;
+                                                         setTimeout(() => {
+                                                           vm.assignLicense();
+                                                           vm.isLoading = false;
+                                                         });
+
                                                        }
                                                      });
   }

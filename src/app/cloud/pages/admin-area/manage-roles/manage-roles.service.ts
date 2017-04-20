@@ -8,6 +8,7 @@ export class ManageRolesService {
   viewState: any = {
     headerText: ""
   };
+  protected isLoading: boolean = false;
   viewData: any  = {};
 
   constructor(protected toast: ToastsManager,
@@ -15,11 +16,14 @@ export class ManageRolesService {
 
   addRole(data: any){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.create_role", data).subscribe((res) => {
+        this.isLoading = false;
         this.router.navigate(['cloud/roles']);
         this.toast.success("Create Role Successful");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });
@@ -28,11 +32,14 @@ export class ManageRolesService {
 
   editRole(data: any){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.edit_role", data).subscribe((res) => {
+        this.isLoading = false;
         this.router.navigate(['cloud/roles']);
         this.toast.success("Edit Role Successful");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });
@@ -41,11 +48,14 @@ export class ManageRolesService {
 
   removeRole(data: any){
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.remove_role", data).subscribe((res) => {
+        this.isLoading = false;
         this.router.navigate(['cloud/roles']);
         this.toast.success("Remove Role Successful");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });

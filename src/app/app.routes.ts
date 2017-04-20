@@ -32,6 +32,8 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
 import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
 import {RoleFormComponent} from "./cloud/pages/admin-area/manage-roles/form";
+import {RoleGuard} from "./cloud/services/router-guard/RoleGuard";
+import {PermissionGuard} from "./cloud/services/router-guard/PermissionGuard";
 
 export const ROUTES: Routes = [
   {
@@ -101,6 +103,7 @@ export const ROUTES: Routes = [
       {
         path      : 'roles',
         component: ManageRolesComponent,
+        canActivate: [RoleGuard],
         children : [
           {path: '', component: ManageRolesGridComponent},
           {path: 'create', component: RoleFormComponent},
@@ -113,7 +116,7 @@ export const ROUTES: Routes = [
         children : [
           {path: '', component: CashierGridComponent},
           {path: 'cashiers', component: CashierGridComponent},
-          {path: 'roles/:id', component: ShopRolesComponent},
+          {path: 'roles/:id', component: ShopRolesComponent, canActivate: [PermissionGuard]},
           {path: 'create-cashier', component: CreateCashierComponent},
           {path: 'edit-cashier/:id', component: CreateCashierComponent}
         ]

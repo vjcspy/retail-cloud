@@ -11,6 +11,7 @@ import {ToastsManager} from "ng2-toastr";
              templateUrl: 'reset.html'
            })
 export class ResetPasswordComponent implements OnInit {
+  isLoading: boolean = false;
   token: string = "";
   private _data = {};
   constructor(protected router: Router,
@@ -79,21 +80,28 @@ export class ResetPasswordComponent implements OnInit {
                                                      },
                                                    },
                                                    submitHandler : function (form) {
-                                                     if (!!vm.token){
-                                                       vm.authService.resetPassword(vm.token, vm._data)
-                                                         .then(() => {
-                                                            vm.router.navigate(['signin']);
-                                                         }).catch((err) => {
+                                                     vm.isLoading = true;
+                                                     setTimeout(() => {
+                                                       if (!!vm.token){
+                                                         vm.authService.resetPassword(vm.token, vm._data)
+                                                           .then(() => {
+                                                             vm.router.navigate(['signin']);
+                                                           }).catch((err) => {
+                                                           vm.isLoading = false;
                                                            this.toast.error(err);
                                                          });
-                                                     }else{
-                                                       vm.authService.forgotPassword(vm._data)
-                                                         .then(() => {
-                                                           vm.router.navigate(['signin']);
-                                                         }).catch((err) => {
+                                                       }else{
+                                                         vm.authService.forgotPassword(vm._data)
+                                                           .then(() => {
+                                                             vm.router.navigate(['signin']);
+                                                           }).catch((err) => {
+                                                           vm.isLoading = false;
                                                            vm.toast.error(err);
                                                          });
-                                                     }
+                                                       }
+
+                                                     }, 1000);
+
                                                     }
                                                  });
     };

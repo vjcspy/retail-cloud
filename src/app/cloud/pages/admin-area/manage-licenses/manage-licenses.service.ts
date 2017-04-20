@@ -10,6 +10,7 @@ export class ManageLicensesService {
   viewState: any = {
     headerText: ""
   };
+  protected isLoading: boolean = false;
   viewData: any  = {};
 
   constructor(protected toast: ToastsManager,
@@ -18,11 +19,14 @@ export class ManageLicensesService {
 
   createLicense(license: any): Promise<any> {
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.admin_create_license", license).subscribe((res) => {
+        this.isLoading = false;
         this.router.navigate(['cloud/licenses']);
         this.toast.success("Create License Successful");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });
@@ -31,11 +35,14 @@ export class ManageLicensesService {
 
   editLicense(license: any): Promise<any> {
     return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
       MeteorObservable.call("license.edit_license", license).subscribe((res) => {
+        this.isLoading = false;
         this.router.navigate(['cloud/licenses/']);
         this.toast.success("Edit License Successfully");
         resolve();
       }, (err) => {
+        this.isLoading = false;
         this.toast.error(err.reason, err.error);
         return reject(err);
       });
@@ -44,9 +51,12 @@ export class ManageLicensesService {
 
   delete(licenseId: string): Promise<any> {
     let defer = $q.defer();
+    this.isLoading = true;
     MeteorObservable.call("license.delete", {id: licenseId}).subscribe(res => {
+      this.isLoading = false;
       this.toast.success("Remove License Successfully");
     }, (err) => {
+      this.isLoading = false;
       this.toast.error(err.reason, err.error);
       return $q.reject(err);
     });

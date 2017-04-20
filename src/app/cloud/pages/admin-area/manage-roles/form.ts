@@ -18,6 +18,7 @@ import {LicenseCollection} from "../../../services/ddp/collections/licenses";
 export class RoleFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
   protected form_title: string;
+  isLoading: boolean = false;
   protected role: any = {
     name: "",
     is_active: ""
@@ -102,13 +103,18 @@ export class RoleFormComponent extends AbstractRxComponent implements OnInit {
                                                          },
                                                        },
                                                        submitHandler: function (form) {
-                                                         let data = vm.role;
-                                                         data['license_id'] = vm.license['_id'];
-                                                          if (!!vm.id){
-                                                            vm.roleService.editRole(data);
-                                                          }else{
-                                                            vm.roleService.addRole(data);
-                                                          }
+                                                         vm.isLoading = true;
+                                                         setTimeout(() => {
+                                                           let data = vm.role;
+                                                           data['license_id'] = vm.license['_id'];
+                                                           if (!!vm.id){
+                                                             vm.roleService.editRole(data);
+                                                           }else{
+                                                             vm.roleService.addRole(data);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

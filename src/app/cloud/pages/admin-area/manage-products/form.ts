@@ -17,6 +17,7 @@ import {AbstractRxComponent} from "../../../../code/angular/AbstractRxComponent"
            })
 export class ProductFormComponent extends AbstractRxComponent implements OnInit {
   id: string                      = "";
+  isLoading: boolean = false;
   protected prices: any;
   protected product               = {
     _id: "",
@@ -131,16 +132,21 @@ export class ProductFormComponent extends AbstractRxComponent implements OnInit 
                                                          },
                                                        },
                                                        submitHandler: function (form) {
-                                                         if (vm.checkVersionExistTwice(vm.product.versions)) {
-                                                           vm.toast.error('Version appear much than twice', 'Update Version');
-                                                           return;
-                                                         }
-                                                         vm.product['pricings'] = jQuery("#val-pricings").val();
-                                                         if (vm.id) {
-                                                           vm.productService.editProduct(vm.product);
-                                                         } else {
-                                                           vm.productService.createProduct(vm.product);
-                                                         }
+                                                         vm.isLoading = true;
+                                                         setTimeout(() => {
+                                                           if (vm.checkVersionExistTwice(vm.product.versions)) {
+                                                             vm.toast.error('Version appear much than twice', 'Update Version');
+                                                             return;
+                                                           }
+                                                           vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                           if (vm.id) {
+                                                             vm.productService.editProduct(vm.product);
+                                                           } else {
+                                                             vm.productService.createProduct(vm.product);
+                                                           }
+                                                           vm.isLoading = false;
+                                                         }, 1000);
+
                                                        }
                                                      });
     };

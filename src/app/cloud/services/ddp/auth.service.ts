@@ -6,12 +6,17 @@ import {ReplaySubject, Observable} from "rxjs";
 import {UserCollection} from "./collections/users";
 import {MeteorObservable} from "meteor-rxjs";
 import {Accounts} from "meteor/accounts-base"
+import {LicenseCollection} from "./collections/licenses";
 
 @Injectable()
 export class AuthService {
   protected user: any;
-  protected isLoading: boolean = false;
   protected _data              = {};
+  protected license: any = {};
+  protected roles: any;
+  protected role_name: string;
+  protected permissions: any[] = [];
+  protected isUser: boolean;
   
   // store the URL so we can redirect after logging in
   public redirectUrl: string;
@@ -20,7 +25,8 @@ export class AuthService {
   
   constructor(protected toast: ToastsManager,
               protected router: Router,
-              protected userCollection: UserCollection) {
+              protected userCollection: UserCollection,
+              protected licenseCollection: LicenseCollection) {
     this.initUserSateObservable();
   }
   
@@ -32,11 +38,39 @@ export class AuthService {
           MeteorObservable.autorun().subscribe(() => {
             let user = collection.findOne({_id: this.getCurrentUser()['_id']});
             if (user) {
+              this.isUser = _.size(_.intersection(user['roles']['cloud_group'], ['user'])) > 0;
               this.userStateObservable
                   .next({
                           canAccessAdmin: _.size(_.intersection(user['roles']['cloud_group'], ['admin', 'sales', "super_admin"])) > 0,
-                          isUser: _.size(_.intersection(user['roles']['cloud_group'], ['user'])) > 0
+                          isUser: this.isUser
                         });
+              if (this.isUser){
+                Observable.combineLatest(this.licenseCollection.getCollectionObservable())
+                          .subscribe(([licenseCollection]) => {
+                            const licenses = licenseCollection.collection.find({}).fetch();
+                            if (_.size(licenses) == 1) {
+                              this.license = licenses[0];
+                              if(this.license.hasOwnProperty('has_roles')){
+                                this.roles = this.license['has_roles'];
+                                if (user['roles'].hasOwnProperty('shop_group')){
+                                  this.role_name = user['roles']['shop_group'];
+
+                                  let role = _.find(this.roles, (rol) => {
+                                    return rol['code'] == this.role_name;
+                                  });
+
+                                  if (role.hasOwnProperty('has_permissions')){
+                                    this.permissions = _.filter(role['has_permissions'], (perm) => {
+                                      return perm['is_active'] > 0 || perm['is_active'] == true;
+                                    }).map((perm) => {
+                                      return perm['permission'];
+                                    });
+                                  }
+                                }
+                              }
+                            }
+                          });
+              }
             } else {
               this.userStateObservable
                   .next({
@@ -46,6 +80,8 @@ export class AuthService {
             }
           });
         });
+
+
   }
   
   getCurrentUser(forceUpdate: boolean = false) {
@@ -57,7 +93,6 @@ export class AuthService {
   
   signUp(user: any) {
     return new Promise<void>((resolve, reject) => {
-      this.isLoading = true;
       Accounts.createUser({
                             username: user.username,
                             email: user.email,
@@ -67,7 +102,6 @@ export class AuthService {
                             //   last_name : user.last_name
                             // }
                           }, (err, res) => {
-        this.isLoading = false;
         if (err && err.error) {
           this.toast.error(err.reason, err.error);
           return reject(err);
@@ -93,8 +127,9 @@ export class AuthService {
   
   signIn(user: any) {
     return new Promise<void>((resolve, reject) => {
+
       Meteor.loginWithPassword(user.username, user.password, (e: Error) => {
-        this.isLoading = false;
+
         if (e && e['reason']) {
           this.toast.error(e['reason'], e['error']);
           return reject(e);
@@ -109,7 +144,6 @@ export class AuthService {
   signOut() {
     return new Promise<void>((resolve, reject) => {
       Meteor.logout((e: Error) => {
-        this.isLoading = false;
         if (e && e['reason']) {
           this.toast.error(e['reason'], e['error']);
           return reject(e);
@@ -188,7 +222,6 @@ export class AuthService {
 
   verifyEmail(token){
     return new Promise<void>((resolve, reject) => {
-
       Accounts.verifyEmail(token, (err) => {
         if (!err) {
           resolve();
@@ -209,4 +242,19 @@ export class AuthService {
     });
   }
 
+  userCan(permission: string) {
+    if (this.isUser) {
+      let user = this.getCurrentUser();
+      if (!permission) {
+        this.toast.error('Please select permission');
+        return false;
+      }
+      if (user['has_license'][0]['license_permission'] == "owner")
+        return true;
+      if (user['has_license'][0]['license_permission'] == "cashier" || user['roles'].hasOwnProperty('shop_group')) {
+        if (this.permissions.indexOf(permission) > -1)
+          return true;
+      }
+    }
+  }
 }

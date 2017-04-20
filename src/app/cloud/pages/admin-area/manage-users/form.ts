@@ -17,6 +17,7 @@ import {ToastsManager} from "ng2-toastr";
            })
 export class UserFormComponent extends AbstractRxComponent implements OnInit {
   id: string = "";
+  isLoading: boolean = false;
   roles: any;
   protected form_title: string;
   private user_edit = { emails: [{verified: 0}] };
@@ -141,24 +142,31 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                      'firstname': 'Please select a value!',
                                                    },
                                                    submitHandler: () => {
+                                                     vm.isLoading = true;
                                                      const data = vm._data;
-                                                     if (vm.id){
-                                                       vm.userService.editUser(data)
-                                                         .then(() => {
-                                                           vm.toast.success("Edit User Successful");
-                                                           vm.router.navigate(['cloud/users']);
-                                                          }).catch((err) => {
-                                                            vm.toast.error(err);
-                                                          });
-                                                     }else{
-                                                       vm.userService.createUser(data)
-                                                         .then(() => {
-                                                           vm.toast.success("Create User Successful");
-                                                           vm.router.navigate(['cloud/users']);
-                                                          }).catch((err) => {
+                                                     setTimeout(() => {
+                                                       if (vm.id){
+                                                         vm.userService.editUser(data)
+                                                           .then(() => {
+                                                             vm.toast.success("Edit User Successful");
+                                                             vm.router.navigate(['cloud/users']);
+                                                           }).catch((err) => {
+                                                           vm.isLoading = false;
                                                            vm.toast.error(err);
                                                          });
-                                                     }
+                                                       }else{
+                                                         vm.userService.createUser(data)
+                                                           .then(() => {
+                                                             vm.toast.success("Create User Successful");
+                                                             vm.router.navigate(['cloud/users']);
+                                                           }).catch((err) => {
+                                                           vm.isLoading = false;
+                                                           vm.toast.error(err);
+                                                         });
+                                                       }
+                                                     });
+
+
                                                    }
                                                  });
     };

@@ -45,7 +45,8 @@
 
             <div class="form-group">
               <div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                <button class="btn btn-sm btn-block btn-primary" type="submit">Reset Password</button>
+                  <button *ngIf="!token" class="btn btn-sm btn-block btn-primary" type="submit" [disabled]="!!isLoading">Enter Email</button>
+                <button *ngIf="!!token" class="btn btn-sm btn-block btn-primary" type="submit" [disabled]="!!isLoading">Enter New Password</button>
               </div>
             </div>
           </form>

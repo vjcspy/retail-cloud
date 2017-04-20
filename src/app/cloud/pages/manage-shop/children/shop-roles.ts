@@ -19,6 +19,7 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
   protected currentGroup: string;
   protected role_id: string;
   protected license: any = {};
+  isLoading: boolean = false;
   protected permissions: any = [
     {
       group: "xretail_permissions",
@@ -109,12 +110,7 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
               name: "Access XPOS to Setting",
               permission: "access_xpos_to_setting",
               is_active: 0
-            },
-            {
-              permission: "Access To XPOS",
-              name: "access_to_xpos",
-              is_active: 0
-            },
+            }
           ]
         },
         {
@@ -292,23 +288,26 @@ export class ShopRolesComponent extends AbstractRxComponent implements OnInit {
                                                      messages: {
                                                      },
                                                      submitHandler: function (form) {
-                                                       let permissions_data = [];
-                                                       _.forEach(vm.permissions, (group) => {
-                                                         _.forEach(group['sections'], (section) => {
-                                                           _.forEach(section['permissions'], (permission) => {
-                                                             permission['group'] = group['group'];
-                                                             permissions_data.push(permission);
+                                                       vm.isLoading = true;
+                                                       setTimeout(() => {
+                                                         let permissions_data = [];
+                                                         _.forEach(vm.permissions, (group) => {
+                                                           _.forEach(group['sections'], (section) => {
+                                                             _.forEach(section['permissions'], (permission) => {
+                                                               permission['group'] = group['group'];
+                                                               permissions_data.push(permission);
+                                                             });
                                                            });
                                                          });
-                                                       });
-                                                       let data = {
-                                                         role_id: vm.role_id,
-                                                         permissions: permissions_data
-                                                       };
-                                                       data['license_id'] = vm.license['_id'];
+                                                         let data = {
+                                                           role_id: vm.role_id,
+                                                           permissions: permissions_data
+                                                         };
+                                                         data['license_id'] = vm.license['_id'];
 
-                                                       vm.userService.updatePermission(data);
-
+                                                         vm.userService.updatePermission(data);
+                                                         vm.isLoading = false;
+                                                       }, 1000);
                                                      }
                                                    });
     };
