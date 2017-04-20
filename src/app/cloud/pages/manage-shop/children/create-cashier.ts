@@ -41,10 +41,10 @@ export class CreateCashierComponent extends AbstractRxComponent implements OnIni
 
     const params: Object = this.route.snapshot.params;
     if (params.hasOwnProperty('id') && !!params['id']) {
-      this.manageShopService.viewState.headerText = "Create cashier";
+      this.manageShopService.viewState.headerText = "Edit Shop User";
       this.id                               = params['id'];
     } else {
-      this.manageShopService.viewState.headerText = "Edit cashier";
+      this.manageShopService.viewState.headerText = "Create Shop User";
     }
 
     this._subscription['user'] = this.userCollection

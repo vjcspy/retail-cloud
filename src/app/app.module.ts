@@ -75,6 +75,8 @@ import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
 import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
 import {RoleFormComponent} from "./cloud/pages/admin-area/manage-roles/form";
 import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-roles.service";
+import {RoleGuard} from "./cloud/services/router-guard/RoleGuard";
+import {PermissionGuard} from "./cloud/services/router-guard/PermissionGuard";
 
 export class CustomOptions extends ToastOptions {
   animate = 'flyLeft';
@@ -149,6 +151,8 @@ export class CustomOptions extends ToastOptions {
               PriceCollection,
               AuthService,
               AuthenticateGuard,
+              RoleGuard,
+              PermissionGuard,
               ManageProductsService,
               ManageLicensesService,
               RequestService,
