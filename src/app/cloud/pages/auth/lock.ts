@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 @Component({
-             selector   : 'account-lock',
+             selector: 'account-lock',
              templateUrl: 'lock.html'
            })
 export class LockAccountComponent implements OnInit {
@@ -17,28 +17,28 @@ export class LockAccountComponent implements OnInit {
   private initPageJs() {
     let initValidationLock = function () {
       jQuery('.js-validation-lock').validate({
-                                               errorClass    : 'help-block text-right animated fadeInDown',
-                                               errorElement  : 'div',
+                                               errorClass: 'help-block text-right animated fadeInDown',
+                                               errorElement: 'div',
                                                errorPlacement: function (error, e) {
                                                  jQuery(e).parents('.form-group > div').append(error);
                                                },
-                                               highlight     : function (e) {
+                                               highlight: function (e) {
                                                  jQuery(e).closest('.form-group').removeClass('has-error').addClass('has-error');
                                                  jQuery(e).closest('.help-block').remove();
                                                },
-                                               success       : function (e) {
+                                               success: function (e) {
                                                  jQuery(e).closest('.form-group').removeClass('has-error');
                                                  jQuery(e).closest('.help-block').remove();
                                                },
-                                               rules         : {
+                                               rules: {
                                                  'lock-password': {
-                                                   required : true,
+                                                   required: true,
                                                    minlength: 5
                                                  }
                                                },
-                                               messages      : {
+                                               messages: {
                                                  'lock-password': {
-                                                   required : 'Please provide a password',
+                                                   required: 'Please provide a password',
                                                    minlength: 'Your password must be at least 5 characters long'
                                                  }
                                                }

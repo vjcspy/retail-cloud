@@ -47,6 +47,7 @@ import {ResetPasswordComponent} from "./cloud/pages/auth/reset";
 import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {LockAccountComponent} from "./cloud/pages/auth/lock";
 import {ProductsComponent} from "./cloud/pages/products/products";
+import {APIManager} from "./cloud/services/api-manager";
 
 
 /**
@@ -62,14 +63,14 @@ import {ProductsComponent} from "./cloud/pages/products/products";
               SideBarComponent,
               HeaderComponent,
               FooterComponent,
+              ProductsComponent,
               DashboardComponent,
               LoopGetKeyPipe,
               SignInComponent,
               SignUpComponent,
               ResetPasswordComponent,
               VerifyEmailComponent,
-              LockAccountComponent,
-              ProductsComponent
+              LockAccountComponent
             ],
             imports: [ // import Angular's modules
               BrowserModule,
@@ -90,6 +91,7 @@ import {ProductsComponent} from "./cloud/pages/products/products";
               AuthService,
               AuthenticateGuard,
               RequestService,
+              APIManager
             ]
           })
 export class AppModule {

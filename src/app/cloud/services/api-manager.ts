@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RetailDataManagement} from "./retail-data-management";
-import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
+import {CloudException} from "../../code/CloudException";
 
 @Injectable()
 export class APIManager {
@@ -9,9 +9,14 @@ export class APIManager {
   private _apiUrl            = {
     "dashboard": "dashboard-chart"
   };
-  private _baseUrls;
+  private _baseUrls          = [
+    {
+      status: 1,
+      url: "mage2.dev"
+    }
+  ];
   
-  setBaseUrls(baseUrls: string[]): APIManager {
+  setBaseUrls(baseUrls: any[]): APIManager {
     this._baseUrls = baseUrls;
     
     return this;
@@ -21,7 +26,7 @@ export class APIManager {
     if (!!url)
       return url;
     
-    return this._baseUrls[0];
+    return this._baseUrls[0]['url'];
   }
   
   constructor() { }
@@ -44,7 +49,7 @@ export class APIManager {
              this._apiUrl[apiKey];
     }
     else
-      throw new GeneralException("API not yet config");
+      throw new CloudException("API not yet config");
   }
   
   getUploaderUrl() {
