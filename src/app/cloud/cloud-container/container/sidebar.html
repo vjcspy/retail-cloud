@@ -110,20 +110,6 @@
             </ul>
           </li>
 
-          <li *ngIf="data.isUser" [ngClass]="{open: router.isActive('cloud/billing-pricing',false)}">
-            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-drawer"></i>
-              <span class="sidebar-mini-hide">Billing & Pricing</span>
-            </a>
-            <ul>
-              <li>
-                <a routerLink="/cloud/billing-pricing/pricing" routerLinkActive="active">Pricing</a>
-              </li>
-              <li>
-                <a routerLink="/cloud/billing-pricing/billing" routerLinkActive="active">Billing</a>
-              </li>
-            </ul>
-          </li>
-
           <li *ngIf="data.isUser" class="nav-main-heading"><span class="sidebar-mini-hide">Manage Shop</span></li>
           <li *ngIf="data.isUser" [ngClass]="{open: router.isActive('cloud/manage-shop',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-user"></i>

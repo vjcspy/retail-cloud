@@ -23,12 +23,6 @@ import {
 
 import {ROUTES} from "./app.routes";
 import {DashboardComponent} from "./cloud/pages/dashboard/dashboard";
-import {ProductsComponent} from "./cloud/pages/products/products";
-import {ManageLicensesComponent} from "./cloud/pages/admin-area/manage-licenses";
-import {ManageLicensesGridComponent} from "./cloud/pages/admin-area/manage-licenses/grid";
-import {ManageProductsComponent} from "./cloud/pages/admin-area/manage-products";
-import {ManageProductsGridComponent} from "./cloud/pages/admin-area/manage-products/grid";
-import {ManageProductsService} from "./cloud/pages/admin-area/manage-products/manage-products.service";
 import {ProductCollection} from "./cloud/services/ddp/collections/products";
 import {RouterModule} from "@angular/router";
 import {ToastModule} from "ng2-toastr";
@@ -39,50 +33,27 @@ import {SideBarComponent} from "./cloud/cloud-container/container/sidebar";
 import {SideOverlayComponent} from "./cloud/cloud-container/container/side-overlay";
 import {PageNotFoundComponent} from "./cloud/pages/404/not-found";
 import {AngularHelperModule} from "./code/angular/index";
-import {SignInComponent} from "./cloud/pages/auth/signin";
 import {AuthService} from "./cloud/services/ddp/auth.service";
 import {AuthenticateGuard} from "./cloud/services/router-guard/authenticate";
-import {SignUpComponent} from "./cloud/pages/auth/signup";
-import {ResetPasswordComponent} from "./cloud/pages/auth/reset";
-import {LockAccountComponent} from "./cloud/pages/auth/lock";
-import {UserProfileComponent} from "./cloud/pages/profile/profile";
 import {UserCollection} from "./cloud/services/ddp/collections/users";
-import {CashierGridComponent} from "./cloud/pages/manage-shop/children/cashier-grid";
-import {ManageShopComponent} from "./cloud/pages/manage-shop/manage-shop";
-import {ShopRolesComponent} from "./cloud/pages/manage-shop/children/shop-roles";
 import {LicenseCollection} from "./cloud/services/ddp/collections/licenses";
-import {BillingPricingComponent} from "./cloud/pages/billing-pricing/billing-pricing";
-import {CloudBillingComponent} from "./cloud/pages/billing-pricing/children/billing";
-import {CloudPricingComponent} from "./cloud/pages/billing-pricing/children/pricing";
-import {ManageUsersComponent} from "./cloud/pages/admin-area/manage-users";
-import {ManageUsersGridComponent} from "./cloud/pages/admin-area/manage-users/grid";
-import {CreateLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/create";
-import {AssignLicenseComponent} from "./cloud/pages/admin-area/manage-licenses/assign";
-import {CreateCashierComponent} from "./cloud/pages/manage-shop/children/create-cashier";
 
-import {ProductFormComponent} from "./cloud/pages/admin-area/manage-products/form";
 import {PriceCollection} from "./cloud/services/ddp/collections/prices";
-import {LicenseFormComponent} from "./cloud/pages/admin-area/manage-licenses/form";
-import {ManageLicensesService} from "./cloud/pages/admin-area/manage-licenses/manage-licenses.service";
-import {ManagePricingsComponent} from "./cloud/pages/admin-area/manage-pricings";
-import {ManagePricingsGridComponent} from "./cloud/pages/admin-area/manage-pricings/grid";
-import {PricingFormComponent} from "./cloud/pages/admin-area/manage-pricings/form";
-import {UserFormComponent} from "./cloud/pages/admin-area/manage-users/form";
-import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
-import {RolesComponent} from "./cloud/pages/admin-area/manage-users/role";
 import {LoopGetKeyPipe} from "./cloud/pipes/LoopGetKeyPipe";
 import {RequestService} from "./service/request";
-import {ManageRolesComponent} from "./cloud/pages/admin-area/manage-roles";
-import {ManageRolesGridComponent} from "./cloud/pages/admin-area/manage-roles/grid";
-import {RoleFormComponent} from "./cloud/pages/admin-area/manage-roles/form";
-import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-roles.service";
+import {SignInComponent} from "./cloud/pages/auth/signin";
+import {SignUpComponent} from "./cloud/pages/auth/signup";
+import {ResetPasswordComponent} from "./cloud/pages/auth/reset";
+import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
+import {LockAccountComponent} from "./cloud/pages/auth/lock";
+import {ProductsComponent} from "./cloud/pages/products/products";
 
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-            bootstrap   : [AppComponent],
+            bootstrap: [AppComponent],
             declarations: [
               AppComponent,
               PageNotFoundComponent,
@@ -91,42 +62,16 @@ import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-r
               SideBarComponent,
               HeaderComponent,
               FooterComponent,
-              ProductsComponent,
               DashboardComponent,
-              ManageLicensesComponent,
-              ManageLicensesGridComponent,
-              AssignLicenseComponent,
-              ManageProductsComponent,
-              ManageProductsGridComponent,
-              ProductFormComponent,
-              ManagePricingsComponent,
-              ManagePricingsGridComponent,
-              PricingFormComponent,
-              ManageUsersComponent,
-              ManageUsersGridComponent,
-              UserFormComponent,
-              ManageRolesComponent,
-              ManageRolesGridComponent,
-              RoleFormComponent,
+              LoopGetKeyPipe,
               SignInComponent,
               SignUpComponent,
               ResetPasswordComponent,
               VerifyEmailComponent,
               LockAccountComponent,
-              UserProfileComponent,
-              ManageShopComponent,
-              CashierGridComponent,
-              ShopRolesComponent,
-              BillingPricingComponent,
-              CloudBillingComponent,
-              CloudPricingComponent,
-              CreateLicenseComponent,
-              LicenseFormComponent,
-              CreateCashierComponent,
-
-              LoopGetKeyPipe,
+              ProductsComponent
             ],
-            imports     : [ // import Angular's modules
+            imports: [ // import Angular's modules
               BrowserModule,
               FormsModule,
               HttpModule,
@@ -134,7 +79,7 @@ import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-r
               ToastModule.forRoot(),
               RouterModule.forRoot(ROUTES, {useHash: true})
             ],
-            providers   : [ // expose our Services and Providers into Angular's dependency injection
+            providers: [ // expose our Services and Providers into Angular's dependency injection
               ENV_PROVIDERS,
               AppService,
               PriceCollection,
@@ -144,10 +89,7 @@ import {ManageRolesService} from "./cloud/pages/admin-area/manage-roles/manage-r
               PriceCollection,
               AuthService,
               AuthenticateGuard,
-              ManageProductsService,
-              ManageLicensesService,
               RequestService,
-              ManageRolesService
             ]
           })
 export class AppModule {
