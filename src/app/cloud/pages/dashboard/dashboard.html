@@ -45,27 +45,7 @@
 <!-- Page Content -->
 <div class="content">
   <div class="row">
-    <div class="col-lg-8">
-      <!-- Main Dashboard Chart -->
-      <div class="block">
-        <div class="block-header">
-          <ul class="block-options">
-            <li>
-              <button type="button" data-toggle="block-option" data-action="refresh_toggle" data-action-mode="demo">
-                <i class="si si-refresh"></i></button>
-            </li>
-          </ul>
-          <h3 class="block-title">Revenue Overview</h3>
-        </div>
-        <div class="block-content block-content-full bg-gray-lighter text-center">
-          <!-- Chart.js Charts (initialized in js/pages/base_pages_dashboard.js), for more examples you can check out http://www.chartjs.org/docs/ -->
-          <div style="height: 374px;">
-            <canvas #dashChartRevenue class="dash-chart-revenue"></canvas>
-          </div>
-        </div>
-      </div>
-      <!-- END Main Dashboard Chart -->
-    </div>
+    <dashboard-widget *ngFor="let widgetData of _data['widget']" [widgetData]="widgetData"></dashboard-widget>
     <div class="col-lg-4">
       <!-- Latest Sales Widget -->
       <div class="block">

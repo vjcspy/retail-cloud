@@ -48,6 +48,8 @@ import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
 import {LockAccountComponent} from "./cloud/pages/auth/lock";
 import {ProductsComponent} from "./cloud/pages/products/products";
 import {APIManager} from "./cloud/services/api-manager";
+import {DashboardWidgetComponent} from "./cloud/pages/dashboard/widget/dashboard-widget.component";
+import {DashboardDataService} from "./cloud/services/data-managment/client-api/dashboard-data";
 
 
 /**
@@ -64,13 +66,15 @@ import {APIManager} from "./cloud/services/api-manager";
               HeaderComponent,
               FooterComponent,
               ProductsComponent,
-              DashboardComponent,
               LoopGetKeyPipe,
               SignInComponent,
               SignUpComponent,
               ResetPasswordComponent,
               VerifyEmailComponent,
-              LockAccountComponent
+              LockAccountComponent,
+    
+              DashboardComponent,
+              DashboardWidgetComponent,
             ],
             imports: [ // import Angular's modules
               BrowserModule,
@@ -91,7 +95,8 @@ import {APIManager} from "./cloud/services/api-manager";
               AuthService,
               AuthenticateGuard,
               RequestService,
-              APIManager
+              APIManager,
+              DashboardDataService
             ]
           })
 export class AppModule {

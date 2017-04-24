@@ -7,7 +7,7 @@ export class APIManager {
   private _middleUrl: string = "xrest/v1/xretail";
   private _isSecureHttp;
   private _apiUrl            = {
-    "dashboard": "dashboard-chart"
+    "dashboard": "report-dashboard"
   };
   private _baseUrls          = [
     {

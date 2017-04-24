@@ -58,7 +58,6 @@ export class AuthenticateGuard implements CanActivate, Resolve<any> {
                       const license       = licenses[0];
                       const reportProduct = _.find(license['has_product'], p => p['product_id'] == reportPro['_id']);
                       if (reportProduct) {
-                        console.log(reportProduct);
                         if (_.isArray(reportProduct['base_url']) && _.size(reportProduct['base_url']) > 0) {
                           this.apiManager.setBaseUrls(reportProduct['base_url']);
                 
