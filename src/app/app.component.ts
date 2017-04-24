@@ -23,6 +23,7 @@ import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
                './app.component.css',
                '../../node_modules/ng2-toastr/ng2-toastr.css',
                '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.css',
+               '../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
                '../assets/css/daterangepicker.css',
                '../assets/css/custom.css',
              ],

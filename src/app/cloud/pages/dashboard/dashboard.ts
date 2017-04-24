@@ -8,9 +8,17 @@ import {AppService} from "../../../app.service";
            })
 export class DashboardComponent implements OnInit {
   @ViewChild('dashChartRevenue') protected dashChartRevenue: ElementRef;
-  protected _widgets = [
-    'revenue', 'quantity', 'customer_count', 'discount', 'discount_percent', 'average_sales'
-  ];
+  protected _widgets = {
+    'revenue': {
+      name: "Revenue",
+      type: 'revenue'
+    },
+    'quantity': {name: "Quantity", type: "quantity"},
+    'customer_count': {name: "Customer Count", type: "customer_count"},
+    'discount': {name: "Discount", type: "discount"},
+    'discount_percent': {name: "Discount Percent", type: "discount_percent"},
+    'average_sales': {name: "Average Sales", type: "average_sales"}
+  };
   
   protected _data = {
     widget: []
@@ -33,22 +41,23 @@ export class DashboardComponent implements OnInit {
   
   protected initWidgetChart() {
     this.dashboardDataService
-        .requestWidgetDataDashboard('outlet', '24h', '2017-04-21', '2017-04-21')
+        .requestWidgetDataDashboard('outlet', '24h', '2017-04-25', '2017-04-25')
         .then(widgetData => {
-          _.forEach(this._widgets, widgetName => {
+          _.forEach(this._widgets, widget => {
             let _data = {
-              name: widgetName,
-              type: widgetName,
+              name: widget['name'],
+              type: widget['type'],
               data: []
             };
         
             _.forEach(widgetData['series'], scope => {
-              const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widgetName);
+              const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widget['type']);
               if (chartDataOfCurrentScope) {
                 _data['data'].push({
                                      scopeName: scope['name'],
                                      chartData: chartDataOfCurrentScope
                                    });
+              } else {
               }
             });
         
