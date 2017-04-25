@@ -52,6 +52,7 @@ import {DashboardWidgetComponent} from "./cloud/pages/dashboard/widget/dashboard
 import {DashboardDataService} from "./cloud/services/data-managment/client-api/dashboard-data";
 import {ElementModule} from "./cloud/elements/index";
 import {CommonModule} from "@angular/common";
+import {PriceFormatPipe} from "./cloud/pipes/price-format";
 
 
 /**
@@ -77,6 +78,9 @@ import {CommonModule} from "@angular/common";
     
               DashboardComponent,
               DashboardWidgetComponent,
+    
+              //PIPE
+              PriceFormatPipe
             ],
             imports: [ // import Angular's modules
               BrowserModule,

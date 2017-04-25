@@ -3,7 +3,8 @@ import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChil
 @Component({
              // moduleId: module.id,
              selector: 'dashboard-widget',
-             templateUrl: 'dashboard-widget.component.html'
+             templateUrl: 'dashboard-widget.component.html',
+             styleUrls: ['dash-widget.component.scss']
            })
 export class DashboardWidgetComponent implements OnInit, OnChanges {
   @Input('widgetData') widgetData: {
@@ -21,11 +22,9 @@ export class DashboardWidgetComponent implements OnInit, OnChanges {
   @ViewChild('dashChartBar') protected dashChartBar: ElementRef;
   
   protected _selectedScope: string;
-  protected _lineChartData = {
-    label: [],
-    value: []
-  };
-  protected _barChartData  = {};
+  protected _lineChartData = {label: [], value: []};
+  protected _barChartData  = {label: [], value: []};
+  protected _totals;
   
   constructor() { }
   
@@ -65,6 +64,8 @@ export class DashboardWidgetComponent implements OnInit, OnChanges {
         value: _x
       };
     }
+    this._totals = _.round(_.sum(this._lineChartData['value']), 2);
+    
     
     // prepare barChart
     let _barChartX  = [];
