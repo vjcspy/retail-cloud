@@ -8,28 +8,29 @@
 <!-- END Page Header -->
 <div class="content">
   <div class="row">
-    <form class="form-inline">
-      <div class="form-group">
-        <label for="period">Period</label>
-        <select name="period" id="period" class="form-control">
-          <option value=""> -- Select One --</option>
-          <option value="24h">Day</option>
-          <option value="7d">Week</option>
-          <option value="1m">Month</option>
-        </select>
-      </div>
-      <j-week-picker></j-week-picker>
-      <div class="form-group">
-        <label for="scope">Scope</label>
-        <select name="scope" id="scope" class="form-control">
-          <option value=""> -- Select One --</option>
-          <option value="outlet">Outlet</option>
-          <option value="store">Store</option>
-          <option value="website">Website</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-default">View</button>
-    </form>
+    <div class="content-heading">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="period">Period</label>
+          <select name="period" id="period" class="form-control" [(ngModel)]="_data['period']"
+                  (change)="appService.getChangeDetectorStream().next(true)">
+            <option value="24h">Day</option>
+            <option value="7d">Week</option>
+            <option value="1m">Month</option>
+          </select>
+        </div>
+        <j-week-picker *ngIf="_data['period'] == '7d'" (startDate)="_data['startDate']= $event" (endDate)="_data['endDate'] = $event"></j-week-picker>
+        <div class="form-group">
+          <label for="scope">Scope</label>
+          <select name="scope" id="scope" class="form-control" [(ngModel)]="_data['scope']">
+            <option value="outlet">Outlet</option>
+            <option value="store">Store</option>
+            <option value="website">Website</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-default" (click)="initWidgetChart()">View</button>
+      </form>
+    </div>
   </div>
 </div>
 <!-- Stats -->
@@ -71,6 +72,8 @@
 <div class="content">
   <div class="row">
     <dashboard-widget *ngFor="let widgetData of _data['widget']" [widgetData]="widgetData"></dashboard-widget>
+  </div>
+  <div class="row">
     <div class="col-lg-4">
       <!-- Latest Sales Widget -->
       <div class="block">

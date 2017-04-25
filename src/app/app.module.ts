@@ -51,6 +51,7 @@ import {APIManager} from "./cloud/services/api-manager";
 import {DashboardWidgetComponent} from "./cloud/pages/dashboard/widget/dashboard-widget.component";
 import {DashboardDataService} from "./cloud/services/data-managment/client-api/dashboard-data";
 import {ElementModule} from "./cloud/elements/index";
+import {CommonModule} from "@angular/common";
 
 
 /**
@@ -80,6 +81,7 @@ import {ElementModule} from "./cloud/elements/index";
             imports: [ // import Angular's modules
               BrowserModule,
               FormsModule,
+              CommonModule,
               HttpModule,
               AngularHelperModule,
               ToastModule.forRoot(),

@@ -10,7 +10,6 @@ export class WeekPickerComponent implements OnInit, AfterViewInit {
   private _start_date: any = moment().startOf('week').toDate();
   private _end_date: any   = moment().startOf('week').toDate();
   protected _displayPicker = true;
-  protected _datePickerInstance;
   
   @Output('startDate') startDate = new EventEmitter();
   @Output('endDate') endDate     = new EventEmitter();

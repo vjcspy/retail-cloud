@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DashboardDataService} from "../../services/data-managment/client-api/dashboard-data";
 import {AppService} from "../../../app.service";
+import * as moment from 'moment';
 
 @Component({
              selector: 'z-dashboard',
@@ -21,14 +22,18 @@ export class DashboardComponent implements OnInit {
   };
   
   protected _data = {
-    widget: []
+    widget: [],
+    period: "7d",
+    scope: "outlet",
+    startDate: moment(),
+    endDate: moment()
   };
   
   constructor(protected dashboardDataService: DashboardDataService,
               protected appService: AppService) { }
   
   ngOnInit() {
-    this.initWidgetChart();
+    setTimeout(() => {this.initWidgetChart()}, 1000);
   }
   
   initPageJs() {
@@ -40,8 +45,12 @@ export class DashboardComponent implements OnInit {
   }
   
   protected initWidgetChart() {
+    this._data['widget'] = [];
     this.dashboardDataService
-        .requestWidgetDataDashboard('outlet', '24h', '2017-04-25', '2017-04-25')
+        .requestWidgetDataDashboard(this._data['scope'],
+                                    this._data['period'],
+                                    this._data['startDate'].format("YYYY-MM-DD"),
+                                    this._data['endDate'].format("YYYY-MM-DD"))
         .then(widgetData => {
           _.forEach(this._widgets, widget => {
             let _data = {
@@ -67,4 +76,7 @@ export class DashboardComponent implements OnInit {
         });
   }
   
+  log(e) {
+    console.log(e);
+  }
 }
