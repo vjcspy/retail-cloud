@@ -1,5 +1,5 @@
 /*Lib Core Theme*/
-import "assets/js/core/jquery.min";
+// import "assets/js/core/jquery.min";
 import "assets/js/core/bootstrap.min";
 import "assets/js/core/jquery.slimscroll.min";
 import "assets/js/core/jquery.scrollLock.min";
@@ -28,6 +28,8 @@ import "ng2-toastr/ng2-toastr.js";
 import "jquery-validation/dist/jquery.validate.js";
 import "jquery-validation/dist/additional-methods.js";
 
+// jQuery UI
+import "assets/js/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js";
 /*
  http://stackoverflow.com/questions/40071845/how-to-import-css-from-node-modules-in-webpack-angular2-app
  Lưu ý không thể load file css ở đây. Lý do là trong config của webpack sẽ chỉ có:

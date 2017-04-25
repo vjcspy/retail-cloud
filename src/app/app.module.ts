@@ -50,6 +50,7 @@ import {ProductsComponent} from "./cloud/pages/products/products";
 import {APIManager} from "./cloud/services/api-manager";
 import {DashboardWidgetComponent} from "./cloud/pages/dashboard/widget/dashboard-widget.component";
 import {DashboardDataService} from "./cloud/services/data-managment/client-api/dashboard-data";
+import {ElementModule} from "./cloud/elements/index";
 
 
 /**
@@ -82,7 +83,8 @@ import {DashboardDataService} from "./cloud/services/data-managment/client-api/d
               HttpModule,
               AngularHelperModule,
               ToastModule.forRoot(),
-              RouterModule.forRoot(ROUTES, {useHash: true})
+              RouterModule.forRoot(ROUTES, {useHash: true}),
+              ElementModule
             ],
             providers: [ // expose our Services and Providers into Angular's dependency injection
               ENV_PROVIDERS,

@@ -25,6 +25,7 @@ import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
                '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.css',
                '../../node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
                '../assets/css/daterangepicker.css',
+               '../assets/js/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.css',
                '../assets/css/custom.css',
              ],
              template     : `
