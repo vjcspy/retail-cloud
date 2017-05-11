@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, state} from '@angular/core';
 import {Subject} from "rxjs";
 import * as _ from "lodash";
 
@@ -10,6 +10,9 @@ export class AppService {
   data      = {
     isInstalledModule: {}
   };
+  
+  constructor() {
+  }
   
   overload(isOverLoad: boolean = true): void {
     this.viewState['isOverLoad'] = isOverLoad;
