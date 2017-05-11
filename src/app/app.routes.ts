@@ -1,13 +1,13 @@
-import {DashboardComponent} from "./cloud/pages/dashboard/dashboard";
+import {DashboardComponent} from "./+modules/report/pages/dashboard/dashboard";
 import {Routes} from "@angular/router";
 import {ContainerComponent} from "./cloud/cloud-container/container";
 import {PageNotFoundComponent} from "./cloud/pages/404/not-found";
 import {AuthenticateGuard} from "./cloud/services/router-guard/authenticate";
-import {LockAccountComponent} from "./cloud/pages/auth/lock";
-import {VerifyEmailComponent} from "./cloud/pages/auth/verify";
-import {ResetPasswordComponent} from "./cloud/pages/auth/reset";
-import {SignUpComponent} from "./cloud/pages/auth/signup";
-import {SignInComponent} from "./cloud/pages/auth/signin";
+import {LockAccountComponent} from "./cloud/pages/account/components/lock";
+import {VerifyEmailComponent} from "./cloud/pages/account/components/verify";
+import {ResetPasswordComponent} from "./cloud/pages/account/components/reset";
+import {SignUpComponent} from "./cloud/pages/account/components/signup";
+import {SignInComponent} from "./cloud/pages/account/components/signin";
 
 export const ROUTES: Routes = [
   {

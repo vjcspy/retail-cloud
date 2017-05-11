@@ -6,13 +6,6 @@ import * as _ from "lodash";
 export class AppService {
   viewState = {isOverLoad: false};
   _stream   = {};
-  modules   = {};
-  data      = {
-    isInstalledModule: {}
-  };
-  
-  constructor() {
-  }
   
   overload(isOverLoad: boolean = true): void {
     this.viewState['isOverLoad'] = isOverLoad;

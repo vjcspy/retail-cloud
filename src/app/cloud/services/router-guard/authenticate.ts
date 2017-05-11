@@ -46,32 +46,10 @@ export class AuthenticateGuard implements CanActivate, Resolve<any> {
   }
   
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
-    let defer                                  = $q.defer();
-    this._data['subscribeLicenseToGetBaseUrl'] =
-      Observable.combineLatest(this.productCollection.getCollectionObservable(), this.licenseCollection.getCollectionObservable())
-                .subscribe(([productCollection, licenseCollection]) => {
-                  const products  = productCollection.find().fetch();
-                  const reportPro = _.find(products, p => p['code'] == 'report');
-                  if (reportPro) {
-                    const licenses = licenseCollection.find().fetch();
-                    if (_.size(licenses) == 1) {
-                      const license       = licenses[0];
-                      const reportProduct = _.find(license['has_product'], p => p['product_id'] == reportPro['_id']);
-                      if (reportProduct) {
-                        if (_.isArray(reportProduct['base_url']) && _.size(reportProduct['base_url']) > 0) {
-                          this.apiManager.setBaseUrls(reportProduct['base_url']);
-                
-                          if (this._data.hasOwnProperty('subscribeLicenseToGetBaseUrl')) {
-                            this._data['subscribeLicenseToGetBaseUrl'].unsubscribe();
-                          }
-                          return defer.resolve(reportProduct['base_url']);
-                        }
-                      }
-                    }
-                  }
-                  this.notify.error("Can't get base url");
-                  return defer.reject("Can't get base url");
-                });
+    let defer = $q.defer();
+    setTimeout(() => {
+      defer.resolve(true);
+    });
     return <any>defer.promise;
   }
 }
