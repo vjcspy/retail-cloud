@@ -1,19 +1,19 @@
 import 'meteor-client';
 import "lib.custom";
-/*
- * Angular bootstraping
+/**
+ * Angular bootstrapping
  */
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {decorateModuleRef} from './app/environment';
 import {bootloader} from '@angularclass/hmr';
-/*
+/**
  * App Module
  * our top level module that holds all of our components
  */
 import {AppModule} from './app';
 import {MeteorObservable} from "meteor-rxjs";
 
-/*
+/**
  * Bootstrap our Angular app with a top level NgModule
  */
 export function main(): any {
@@ -32,7 +32,8 @@ export function main(): any {
     });
   });
 }
-
-// needed for hmr
-// in prod this is replace for document ready
+/**
+ * Needed for hmr
+ * in prod this is replace for document ready
+ */
 bootloader(main);

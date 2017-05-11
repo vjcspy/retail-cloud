@@ -1,4 +1,4 @@
-/*
+/**
  * Angular 2 decorators and services
  */
 import {
@@ -12,7 +12,7 @@ import {ToastsManager} from "ng2-toastr";
 import {AppService} from "./app.service";
 import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
 
-/*
+/**
  * App Component
  * Top Level Component
  */
@@ -51,7 +51,7 @@ export class AppComponent extends AbstractRxComponent implements OnInit {
   
 }
 
-/*
+/**
  * Please review the https://github.com/AngularClass/angular2-examples/ repo for
  * more angular app examples that you may copy/paste
  * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
