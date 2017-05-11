@@ -30,6 +30,7 @@ import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
              ],
              template: `
                <router-outlet></router-outlet>
+               <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
              `
            })
 export class AppComponent extends AbstractRxComponent implements OnInit {
