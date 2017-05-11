@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RetailDataManagement} from "./retail-data-management";
-import {CloudException} from "../../code/CloudException";
+import {CloudException} from "../../../code/CloudException";
 
 @Injectable()
 export class APIManager {

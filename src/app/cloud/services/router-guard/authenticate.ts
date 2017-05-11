@@ -6,12 +6,12 @@ import {
   Router, Resolve
 } from "@angular/router";
 import {Observable} from "rxjs";
-import {AuthService} from "../ddp/auth.service";
 import {LicenseCollection} from "../ddp/collections/licenses";
-import {APIManager} from "../api-manager";
+import {APIManager} from "../api/api-manager";
 import * as $q from 'q';
 import {ToastsManager} from "ng2-toastr";
 import {ProductCollection} from "../ddp/collections/products";
+import {AuthService} from "../auth";
 
 @Injectable()
 export class AuthenticateGuard implements CanActivate, Resolve<any> {

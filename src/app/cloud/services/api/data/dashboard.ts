@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {APIManager} from "../api-manager";
-import {RequestService} from "../request";
 import * as $q from 'q';
+import {RequestManager} from "../request-manager";
 
 @Injectable()
 export class DashboardAPI {
   protected _data = {};
   
   constructor(protected apiManager: APIManager,
-              protected request: RequestService) { }
+              protected request: RequestManager) { }
   
   requestWidgetDataDashboard(scope: string, period: string, start_date: string, end_date: string): Promise<any> {
     let defer = $q.defer();

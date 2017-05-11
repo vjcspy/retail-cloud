@@ -4,7 +4,7 @@ import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChil
              // moduleId: module.id,
              selector: 'dashboard-widget',
              templateUrl: 'dashboard-widget.component.html',
-             styleUrls: ['dash-widget.component.scss']
+             styleUrls: ['dashboard-widget.component.scss']
            })
 export class DashboardWidgetComponent implements OnInit, OnChanges {
   @Input('widgetData') widgetData: {

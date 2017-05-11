@@ -5,7 +5,7 @@ import {ToastsManager} from "ng2-toastr";
 import * as _ from 'lodash';
 
 @Injectable()
-export class RequestService {
+export class RequestManager {
   
   constructor(protected http: Http,
               protected notify: ToastsManager) { }

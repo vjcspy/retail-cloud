@@ -1,13 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {DashboardDataService} from "../../services/api/dashboard-data";
-import {AppService} from "../../../app.service";
 import * as moment from 'moment';
+import {DashboardAPI} from "../../../../cloud/services/api/data/dashboard";
+import {AppService} from "../../../../app.service";
 
 @Component({
              selector: 'z-dashboard',
              templateUrl: 'dashboard.html'
            })
-export class DashboardComponent implements OnInit {
+export class DashboardPage implements OnInit {
   @ViewChild('dashChartRevenue') protected dashChartRevenue: ElementRef;
   protected _widgets = {
     'revenue': {
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     endDate: moment()
   };
   
-  constructor(protected dashboardDataService: DashboardDataService,
+  constructor(protected dashboardDataService: DashboardAPI,
               protected appService: AppService) { }
   
   ngOnInit() {

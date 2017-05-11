@@ -7,7 +7,7 @@ import {
              selector: 'account-lock',
              templateUrl: 'lock.html'
            })
-export class LockAccountComponent implements OnInit {
+export class LockAccountPage implements OnInit {
   constructor() { }
   
   ngOnInit() {

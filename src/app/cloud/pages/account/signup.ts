@@ -2,15 +2,15 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {AuthService} from "../../../services/ddp/auth.service";
 import {Router} from "@angular/router";
 import {ToastsManager} from "ng2-toastr";
+import {AuthService} from "../../services/auth";
 
 @Component({
              selector   : 'sign-up',
              templateUrl: 'signup.html'
            })
-export class SignUpComponent implements OnInit {
+export class SignUpPage implements OnInit {
   protected user = {username: "", email: "", password: "", acceptTerm: false};
   
   constructor(protected router: Router, protected authService: AuthService, protected toast: ToastsManager) { }

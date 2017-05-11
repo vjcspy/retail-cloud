@@ -3,7 +3,7 @@ import {ToastsManager} from "ng2-toastr";
 import {Router} from "@angular/router";
 import * as _ from "lodash";
 import {ReplaySubject, Observable} from "rxjs";
-import {UserCollection} from "./collections/users";
+import {UserCollection} from "./ddp/collections/users";
 import {MeteorObservable} from "meteor-rxjs";
 import {Accounts} from "meteor/accounts-base"
 

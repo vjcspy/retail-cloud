@@ -2,7 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {AuthService} from "../../services/ddp/auth.service";
+import {AuthService} from "../../services/auth";
 
 @Component({
              selector: 'z-side-overlay',

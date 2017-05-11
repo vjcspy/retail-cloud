@@ -1,9 +1,7 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {
   NgModule,
 } from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -16,21 +14,12 @@ import {
 } from './app.service';
 
 import {ROUTES} from "./app.routes";
-import {DashboardComponent} from "./+modules/report/pages/dashboard/dashboard";
 import {RouterModule} from "@angular/router";
 import {ToastModule} from "ng2-toastr";
-import {ContainerComponent} from "./cloud/cloud-container/container";
-import {HeaderComponent} from "./cloud/cloud-container/container/header";
-import {FooterComponent} from "./cloud/cloud-container/container/footer";
-import {SideBarComponent} from "./cloud/cloud-container/container/sidebar";
-import {SideOverlayComponent} from "./cloud/cloud-container/container/side-overlay";
-import {PageNotFoundComponent} from "./cloud/pages/404/not-found";
 import {AngularHelperModule} from "./code/angular/index";
-import {DashboardWidgetComponent} from "./+modules/report/pages/dashboard/widget/dashboard-widget.component";
-import {ElementModule} from "./cloud/elements/index";
-import {CommonModule} from "@angular/common";
-import {PriceFormatPipe} from "./cloud/pipes/price-format";
-
+import {CloudModule} from "./cloud/";
+import {NotFoundPage} from "./code/angular/components/not-found";
+import {BrowserModule} from "@angular/platform-browser";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -39,28 +28,15 @@ import {PriceFormatPipe} from "./cloud/pipes/price-format";
             bootstrap: [AppComponent],
             declarations: [
               AppComponent,
-              PageNotFoundComponent,
-              ContainerComponent,
-              SideOverlayComponent,
-              SideBarComponent,
-              HeaderComponent,
-              FooterComponent,
-    
-              DashboardComponent,
-              DashboardWidgetComponent,
-    
-              //PIPE
-              PriceFormatPipe
+              NotFoundPage
             ],
             imports: [ // import Angular's modules
               BrowserModule,
-              FormsModule,
-              CommonModule,
-              HttpModule,
+              BrowserAnimationsModule,
+              CloudModule,
               AngularHelperModule,
               ToastModule.forRoot(),
               RouterModule.forRoot(ROUTES, {useHash: true}),
-              ElementModule
             ],
             providers: [ // expose our Services and Providers into Angular's dependency injection
               ENV_PROVIDERS,

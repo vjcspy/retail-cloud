@@ -65,8 +65,8 @@
             </a>
           </li>
 
-          <li *ngIf="data.canAccessAdmin" class="nav-main-heading"><span class="sidebar-mini-hide">Admin Area</span></li>
-          <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/licenses',false)}">
+          <li class="nav-main-heading"><span class="sidebar-mini-hide">Admin Area</span></li>
+          <li [ngClass]="{open: router.isActive('cloud/licenses',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wallet"></i>
               <span class="sidebar-mini-hide">Manage License</span>
             </a>
@@ -79,7 +79,7 @@
               </li>
             </ul>
           </li>
-          <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/products',false)}">
+          <li [ngClass]="{open: router.isActive('cloud/products',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-rocket"></i>
               <span class="sidebar-mini-hide">Manage Products</span>
             </a>
@@ -89,17 +89,17 @@
               </li>
             </ul>
           </li>
-            <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/pricings',false)}">
-                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-rocket"></i>
-                    <span class="sidebar-mini-hide">Manage Pricings</span>
-                </a>
-                <ul>
-                    <li>
-                        <a routerLink="/cloud/pricings/grid" routerLinkActive="active">List</a>
-                    </li>
-                </ul>
-            </li>
-          <li *ngIf="data.canAccessAdmin" [ngClass]="{open: router.isActive('cloud/users',false)}">
+          <li [ngClass]="{open: router.isActive('cloud/pricings',false)}">
+            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-rocket"></i>
+              <span class="sidebar-mini-hide">Manage Pricings</span>
+            </a>
+            <ul>
+              <li>
+                <a routerLink="/cloud/pricings/grid" routerLinkActive="active">List</a>
+              </li>
+            </ul>
+          </li>
+          <li [ngClass]="{open: router.isActive('cloud/users',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-wallet"></i>
               <span class="sidebar-mini-hide">Manage Users</span>
             </a>
@@ -110,8 +110,8 @@
             </ul>
           </li>
 
-          <li *ngIf="data.isUser" class="nav-main-heading"><span class="sidebar-mini-hide">Manage Shop</span></li>
-          <li *ngIf="data.isUser" [ngClass]="{open: router.isActive('cloud/manage-shop',false)}">
+          <li class="nav-main-heading"><span class="sidebar-mini-hide">Manage Shop</span></li>
+          <li [ngClass]="{open: router.isActive('cloud/manage-shop',false)}">
             <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-user"></i>
               <span class="sidebar-mini-hide">User Management</span>
             </a>
@@ -119,9 +119,9 @@
               <li>
                 <a routerLink="/cloud/manage-shop/cashiers" routerLinkActive="active">Cashiers</a>
               </li>
-                <li>
-                    <a routerLink="/cloud/roles" routerLinkActive="active">Roles</a>
-                </li>
+              <li>
+                <a routerLink="/cloud/roles" routerLinkActive="active">Roles</a>
+              </li>
               <li>
                 <a [routerLink]="['manage-shop/roles', role_code]" routerLinkActive="active">Permissions</a>
               </li>

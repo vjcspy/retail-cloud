@@ -17,9 +17,9 @@ import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
  * Top Level Component
  */
 @Component({
-             selector     : 'app',
+             selector: 'app',
              encapsulation: ViewEncapsulation.None,
-             styleUrls    : [
+             styleUrls: [
                './app.component.css',
                '../../node_modules/ng2-toastr/ng2-toastr.css',
                '../../node_modules/datatables.net-bs/css/dataTables.bootstrap.css',
@@ -28,9 +28,9 @@ import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
                '../assets/js/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.css',
                '../assets/css/custom.css',
              ],
-             template     : `
-    <router-outlet></router-outlet>
-  `
+             template: `
+               <router-outlet></router-outlet>
+             `
            })
 export class AppComponent extends AbstractRxComponent implements OnInit {
   
@@ -47,6 +47,7 @@ export class AppComponent extends AbstractRxComponent implements OnInit {
     this._subscription['changeDetect'] = this.appService.getChangeDetectorStream().subscribe(() => {
       this.changeDetector.detectChanges();
     });
+    setTimeout(() => {this.toastr.warning("ok")}, 2000);
   }
   
 }

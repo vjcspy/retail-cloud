@@ -7,7 +7,7 @@ import {
              selector: 'page-not-found',
              templateUrl: 'not-found.html'
            })
-export class PageNotFoundComponent implements OnInit {
+export class NotFoundPage implements OnInit {
   constructor() { }
   
   ngOnInit() { }
