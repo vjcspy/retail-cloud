@@ -59,10 +59,27 @@
       <div class="side-content">
         <ul class="nav-main">
           <li>
-            <a routerLink="/cloud" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a routerLink="/report/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
               <i class="si si-speedometer"></i>
               <span class="sidebar-mini-hide">Dashboard</span>
             </a>
+          </li>
+
+          <li [ngClass]="{open: router.isActive('report/sales',false)}">
+            <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-user"></i>
+              <span class="sidebar-mini-hide">Sales</span>
+            </a>
+            <ul>
+              <li>
+                <a routerLink="/cloud/manage-shop/cashiers" routerLinkActive="active">Sales Reports</a>
+              </li>
+              <li>
+                <a (click)="routerActions.navigate({path:'report/sales/advanced'})" routerLinkActive="active">Advanced Reports</a>
+              </li>
+              <li>
+                <a [routerLink]="['manage-shop/roles', role_code]" routerLinkActive="active">Inventory Reports</a>
+              </li>
+            </ul>
           </li>
 
           <li class="nav-main-heading"><span class="sidebar-mini-hide">Admin Area</span></li>

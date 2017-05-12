@@ -1,0 +1,16 @@
+<div class="content bg-gray-lighter">
+  <div class="row items-push">
+    <div class="col-sm-7">
+      <h1 class="page-heading">
+        {{(salesReportState$ | async)?.headerState}}
+        <small> {{(salesReportState$ | async)?.headerDescription}}</small>
+      </h1>
+    </div>
+  </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Page Content -->
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

@@ -11,6 +11,7 @@ import {
 import {ToastsManager} from "ng2-toastr";
 import {AppService} from "./app.service";
 import {AbstractRxComponent} from "./code/angular/AbstractRxComponent";
+import {Observable} from "rxjs";
 
 /**
  * App Component
@@ -48,7 +49,6 @@ export class AppComponent extends AbstractRxComponent implements OnInit {
     this._subscription['changeDetect'] = this.appService.getChangeDetectorStream().subscribe(() => {
       this.changeDetector.detectChanges();
     });
-    setTimeout(() => {this.toastr.warning("ok")}, 2000);
   }
   
 }

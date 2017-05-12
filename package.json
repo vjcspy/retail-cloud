@@ -99,6 +99,7 @@
     "datatables.net-bs": "^1.10.13",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
+    "immutable": "^3.8.1",
     "jasmine-core": "^2.5.2",
     "jquery": "^2.2.4",
     "jquery-validation": "^1.16.0",
