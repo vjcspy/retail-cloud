@@ -5,6 +5,8 @@ import {RouterReducer, RouterState} from "./router/router.reducer";
 import {RouterEffects} from "./router/router.effects";
 import {RouterActions} from "./router/router.action";
 import {EffectsModule} from "@ngrx/effects";
+import {storeFreeze} from "./store-immutable";
+import {compose} from "@ngrx/core";
 
 export interface AppState {
   router?: RouterState
@@ -14,9 +16,12 @@ export const rootReducers = {
   router: RouterReducer
 };
 
+const metaReducers = 'production' !== ENV
+  ? [storeFreeze, combineReducers]
+  : [combineReducers];
 
 export function createReducer(asyncReducers = {}): ActionReducer<any> {
-  return combineReducers(Object.assign(rootReducers, asyncReducers));
+  return compose(...metaReducers)(Object.assign(rootReducers, asyncReducers));
 }
 
 export const rootReducer      = createReducer();
