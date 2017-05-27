@@ -1,2 +1,6 @@
 import {Routes} from "@angular/router";
-export const MAIN_ROUTES: Routes = [];
+import {PageNotFound} from "./pages/404";
+
+export const MAIN_ROUTES: Routes = [
+  {path: '**', component: PageNotFound}
+];
