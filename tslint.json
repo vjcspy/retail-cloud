@@ -11,7 +11,7 @@
     "interface-name": [false, "always-prefix"],
     // Angular 2
     "component-class-suffix": false,
-//     "component-selector": [true, "element", "my", "kebab-case"],
+    //     "component-selector": [true, "element", "my", "kebab-case"],
     "directive-class-suffix": true,
     // "directive-selector": [true, "attribute", "my", "camelCase"],
     "import-destructuring-spacing": false,
@@ -30,34 +30,36 @@
     "use-pipe-transform-interface": true,
     "member-access": false,
     // General
-    "no-console": [true,
+    "no-console": [
+      true,
       "time",
       "timeEnd",
       "trace"
     ],
     "max-line-length": [
-//      true,
-//      100
+      //      true,
+      //      100
     ],
     "no-string-literal": false,
     "no-use-before-declare": true,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "quotemark": [
-//      true,
-//      "double",
-//      "single",
-//      "avoid-escape"
+      //      true,
+      //      "double",
+      //      "single",
+      //      "avoid-escape"
     ],
     "variable-name": [
-//      true,
-//      "allow-leading-underscore",
-//      "allow-pascal-case",
-//      "allow-trailing-underscore",
-//      "ban-keywords",
-//      "check-format"
+      //      true,
+      //      "allow-leading-underscore",
+      //      "allow-pascal-case",
+      //      "allow-trailing-underscore",
+      //      "ban-keywords",
+      //      "check-format"
     ],
     "member-ordering": false,
-    "radix": false
+    "radix": false,
+    "no-trailing-whitespace": false
   }
 }

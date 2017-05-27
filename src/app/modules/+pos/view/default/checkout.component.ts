@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {ProgressBarService} from "../../../share/provider/progess-bar";
 
 @Component({
              // moduleId: module.id,
@@ -6,7 +8,10 @@ import {Component, OnInit} from '@angular/core';
              templateUrl: 'checkout.component.html'
            })
 export class PosCheckoutComponent implements OnInit {
-  constructor() { }
-
-  ngOnInit() { }
+  constructor(private progressBar: ProgressBarService) {}
+  
+  ngOnInit(): void {
+    this.progressBar.start();
+    setInterval(() => this.progressBar.randomIncrements(), 1000);
+  }
 }

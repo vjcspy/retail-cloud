@@ -1,3 +1,4 @@
+import 'vendor.lib';
 /**
  * Angular bootstrapping
  */
