@@ -1,12 +1,12 @@
-import {db} from "./retail-db";
 import {Timezone} from "../../../core/framework/General/DateTime/Timezone";
+
 export class EntityInformation {
     id: string;
     storeId: number;
     currentPage: number;
     pageSize: number;
     isFinished: boolean;
-    cache_time:number;
+    cache_time: number;
     base_url: string;
     createdAt: string;
     updatedAt: string;
@@ -16,13 +16,14 @@ export class EntityInformation {
     }
 
     async save(createNew: boolean = false) {
-        await db.transaction(
-            'rw', db.entityInformation, async() => {
-                this.updatedAt = Timezone.getCurrentStringTime();
-                if (createNew)
-                    this.createdAt = Timezone.getCurrentStringTime();
-                this.id = await db.entityInformation.put(this);
-            });
+        await  window['retailDB'].transaction(
+          'rw', window['retailDB'].entityInformation, async () => {
+            this.updatedAt = Timezone.getCurrentStringTime();
+            if (createNew) {
+              this.createdAt = Timezone.getCurrentStringTime();
+            }
+            this.id = await  window['retailDB'].entityInformation.put(this);
+          });
         return this;
     }
 }

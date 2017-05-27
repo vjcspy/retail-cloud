@@ -1,5 +1,4 @@
 import {DataObject} from "../../../core/framework/General/DataObject";
-import {db} from "./retail-db";
 
 export class RetailConfigDB extends DataObject {
     key: string;
@@ -15,7 +14,7 @@ export class RetailConfigDB extends DataObject {
 
     static async save(key, value) {
         try {
-            await db.retailConfig.put(value, key);
+            await window['retailDB'].retailConfig.put(value, key);
             RetailConfigDB[key] = value;
         } catch (e) {
             console.log(e);

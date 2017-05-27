@@ -6,7 +6,6 @@ export class UserOrderCountDB extends DataObject {
     user_id: string;
     order_count: number;
 
-
     static getFields(): string {
         return "id,outlet_id,user_id,order_count";
     }

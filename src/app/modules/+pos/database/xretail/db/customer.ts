@@ -1,6 +1,6 @@
 import * as _ from "lodash";
-import {db} from "./retail-db";
 import {DataObject} from "../../../core/framework/General/DataObject";
+
 export class CustomerDB extends DataObject {
   id: number;
   customer_group_id: number;
@@ -41,7 +41,7 @@ export class CustomerDB extends DataObject {
 
   async getById(id: number | string): Promise<any> {
     if (id) {
-      let productData = await db[CustomerDB.getCode()].where("id").equals(id + "").first();
+      let productData = await window['retailDB'][CustomerDB.getCode()].where("id").equals(id + "").first();
       return this.mapWithParent(productData);
     }
     return false;

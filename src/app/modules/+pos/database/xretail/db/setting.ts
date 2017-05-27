@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import {GeneralException} from "../../../core/framework/General/Exception/GeneralException";
-import {db} from "./retail-db";
+
 export class SettingDB {
     static _SETTING: ConfigInterface[];
 
@@ -33,7 +33,7 @@ export class SettingDB {
 
     static async retrieveAllSettings(force:boolean = false) {
         if (force || typeof  SettingDB._SETTING == "undefined")
-            SettingDB._SETTING = await db.settings.toArray();
+            SettingDB._SETTING = await window['retailDB'].settings.toArray();
         return true;
     }
 }

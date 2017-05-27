@@ -1,4 +1,5 @@
 import {DataObject} from "../../../core/framework/General/DataObject";
+
 export class CustomerGroupDB extends DataObject {
     id: string;
     code: string;

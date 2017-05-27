@@ -1,4 +1,5 @@
 import {DataObject} from "../../../core/framework/General/DataObject";
+
 export class CategoryDB extends DataObject {
     id: string;
     name: string;

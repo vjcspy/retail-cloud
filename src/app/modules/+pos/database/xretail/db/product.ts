@@ -1,10 +1,6 @@
-import {TierPrices} from "./product/tier-prices";
-import {XOptions} from "./product/x-options";
-import {StockItems} from "./product/stock-items";
 import * as _ from "lodash";
-import {db} from "./retail-db";
-import {CustomizableOption} from "./product/customizable-option";
 import {DataObject} from "../../../core/framework/General/DataObject";
+
 export class ProductDB extends DataObject {
   id: number;
   sku: string;
@@ -51,7 +47,7 @@ export class ProductDB extends DataObject {
 
   async getById(id: number | string): Promise<any> {
     if (id) {
-      let productData = await db[ProductDB.getCode()].where("id").equals(id + "").first();
+      let productData = await  window['retailDB'][ProductDB.getCode()].where("id").equals(id + "").first();
       return this.mapWithParent(productData);
     }
     return false;
