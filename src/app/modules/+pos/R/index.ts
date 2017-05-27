@@ -3,20 +3,29 @@ import {EffectsModule} from "@ngrx/effects";
 import {QuoteEffects} from "./quote/quote.effects";
 import {createReducer} from "../../main/R/index";
 import {QuoteActions} from "./quote/quote.actions";
-
-export interface PosState {
-  quote: QuoteState;
-}
+import {entitiesReducer, EntitiesState} from "./entities/entities.reducer";
+import {EntitiesActions} from "./entities/entities.actions";
+import {EntitiesEffects} from "./entities/entities.effects";
 
 export const R_POS_IMPORTS = [
-  EffectsModule.run(QuoteEffects)
+  EffectsModule.run(QuoteEffects),
+  EffectsModule.run(EntitiesEffects)
 ];
 
 export const R_POS_PROVIDERS = [
+  EntitiesActions,
+  EntitiesEffects,
+  
   QuoteEffects,
   QuoteActions
 ];
 
+export interface PosState {
+  entities: EntitiesState;
+  quote: QuoteState;
+}
+
 export const posReducer = createReducer({
-                                          quote: quoteReducer
+                                          quote: quoteReducer,
+                                          entities: entitiesReducer
                                         });

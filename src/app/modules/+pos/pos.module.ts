@@ -10,7 +10,7 @@ import {PosComponent} from "./pos.component";
             imports: [
               ShareModule,
               RouterModule.forChild(POS_ROUTES),
-              R_POS_IMPORTS
+              ...R_POS_IMPORTS
             ],
             exports: [],
             declarations: [
@@ -18,7 +18,7 @@ import {PosComponent} from "./pos.component";
               ...DEFAULT_VIEW_COMPONENTS
             ],
             providers: [
-              R_POS_PROVIDERS
+              ...R_POS_PROVIDERS
             ],
           })
 export class PosModule {
