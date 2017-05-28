@@ -19,7 +19,7 @@ import {RootState} from "./R/root.state";
              encapsulation: ViewEncapsulation.None,
              styleUrls: [
                "./app.component.css",
-               "../../node_modules/materialize-css/dist/css/materialize.min.css",
+               "../../node_modules/bootstrap/dist/css/bootstrap.min.css",
                "../../node_modules/nprogress/nprogress.css"
              ],
              template: `

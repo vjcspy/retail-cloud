@@ -4,4 +4,6 @@ export interface Entity {
   entityCode: string;
   apiUrlCode: string;
   entityPrimaryKey?: string;
+  isLoading: boolean;
+  isLoadComplete: boolean;
 }

@@ -1,4 +1,4 @@
-export interface QuoteState {
+export interface PosQuoteState {
   customer?: Object;
   shippingAdd?: Object;
   billingAdd?: Object;

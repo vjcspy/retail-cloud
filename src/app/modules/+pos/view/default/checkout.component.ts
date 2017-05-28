@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
 
@@ -7,7 +7,10 @@ import {ProgressBarService} from "../../../share/provider/progess-bar";
              selector: 'pos-checkout',
              templateUrl: 'checkout.component.html'
            })
-export class PosCheckoutComponent implements OnInit {
+export class PosCheckoutComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+  }
+  
   constructor(private progressBar: ProgressBarService) {}
   
   ngOnInit(): void {

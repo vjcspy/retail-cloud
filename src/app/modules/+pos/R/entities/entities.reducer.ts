@@ -1,25 +1,26 @@
-import {Entity} from "./entities.model";
 import {Action} from "@ngrx/store";
 import {ProductDB} from "../../database/xretail/db/product";
 import {CustomerDB} from "../../database/xretail/db/customer";
+import {posEntitiesStateFactory, PosEntitiesStateRecord} from "./entities.state";
 
-export interface EntitiesState {
-  products?: Entity;
-  categories?: Entity;
-  customers?: Entity;
-  taxes?: Entity;
-  orders?: Entity;
-  payments?: Entity;
-  warehouse?: Entity;
-  countries?: Entity;
-  outlets?: Entity;
-  stores?: Entity;
-}
-
-export const entitiesReducer = (state: EntitiesState = {
-                                  products: {entityCode: ProductDB.getCode(), pageSize: 100, items: [], apiUrlCode: ProductDB.getCode()},
-                                  customers: {entityCode: CustomerDB.getCode(), pageSize: 100, items: [], apiUrlCode: CustomerDB.getCode()},
-                                }, action: Action) => {
+export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesStateFactory({
+                                                                                          products: {
+                                                                                            entityCode: ProductDB.getCode(),
+                                                                                            pageSize: 100,
+                                                                                            items: [],
+                                                                                            apiUrlCode: ProductDB.getCode(),
+                                                                                            isLoading: false,
+                                                                                            isLoadComplete: false
+                                                                                          },
+                                                                                          customers: {
+                                                                                            entityCode: CustomerDB.getCode(),
+                                                                                            pageSize: 100,
+                                                                                            items: [],
+                                                                                            apiUrlCode: CustomerDB.getCode(),
+                                                                                            isLoading: false,
+                                                                                            isLoadComplete: false
+                                                                                          }
+                                                                                        }), action: Action) => {
   switch (action.payload) {
     default:
       return state;
