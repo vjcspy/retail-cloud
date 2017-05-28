@@ -3,6 +3,7 @@ import {StoreLogMonitorModule, useLogMonitor} from "@ngrx/store-log-monitor";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {RootState} from "./root.state";
 import {rootReducer} from "./root.reducer";
+import {RootActions} from "./root.actions";
 
 export interface AppState {
   rootState: RootState;
@@ -34,4 +35,6 @@ export const R_IMPORTS = [
   StoreLogMonitorModule
 ];
 
-export const R_PROVIDERS = [];
+export const R_PROVIDERS = [
+  RootActions
+];

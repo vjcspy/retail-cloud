@@ -60,6 +60,7 @@
     ],
     "member-ordering": false,
     "radix": false,
-    "no-trailing-whitespace": false
+    "no-trailing-whitespace": false,
+    "object-literal-key-quotes": false
   }
 }

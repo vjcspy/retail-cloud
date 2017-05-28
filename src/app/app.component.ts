@@ -3,12 +3,13 @@
  */
 import {
   Component,
-  OnInit,
+  OnInit, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
 import {Store} from "@ngrx/store";
 import {AppState} from "./R/index";
 import {RootState} from "./R/root.state";
+import {ToastsManager} from "ng2-toastr";
 
 /**
  * App Component
@@ -20,7 +21,8 @@ import {RootState} from "./R/root.state";
              styleUrls: [
                "./app.component.css",
                "../../node_modules/bootstrap/dist/css/bootstrap.min.css",
-               "../../node_modules/nprogress/nprogress.css"
+               "../../node_modules/nprogress/nprogress.css",
+               "../../node_modules/ng2-toastr/ng2-toastr.css"
              ],
              template: `
                <router-outlet></router-outlet>
@@ -30,11 +32,13 @@ import {RootState} from "./R/root.state";
 export class AppComponent implements OnInit {
   protected rootState;
   
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private toastr: ToastsManager, vcr: ViewContainerRef) {
     this.rootState = this.store.select('rootState');
+    this.toastr.setRootViewContainerRef(vcr);
   }
   
   public ngOnInit() {
+    this.toastr.success('You are awesome!', 'Success!');
     this.rootState.subscribe((state: RootState) => {console.log(state); });
   }
 }

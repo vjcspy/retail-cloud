@@ -20,6 +20,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterExternalModule} from "./modules/router/router.module";
 import {R_IMPORTS, R_PROVIDERS} from "./R/index";
 import {APP_PAGES} from "./pages/index";
+import {ToastModule, ToastOptions} from "ng2-toastr";
+import {CustomToastOptions} from "./services/toast-options";
+import {APP_PROVIDERS} from "./services/index";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -35,6 +38,7 @@ import {APP_PAGES} from "./pages/index";
              */
             imports: [
               ShareModule,
+              ToastModule.forRoot(),
               R_IMPORTS,
               BrowserModule,
               BrowserAnimationsModule,
@@ -45,6 +49,8 @@ import {APP_PAGES} from "./pages/index";
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
+              {provide: ToastOptions, useClass: CustomToastOptions},
+              ...APP_PROVIDERS,
               ENV_PROVIDERS,
               R_PROVIDERS
             ]
