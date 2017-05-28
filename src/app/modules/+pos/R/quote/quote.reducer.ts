@@ -1,11 +1,5 @@
 import {Action} from "@ngrx/store";
-export interface QuoteState {
-  customer?: Object;
-  shippingAdd?: Object;
-  billingAdd?: Object;
-  items: any[];
-  hasShipment?: boolean;
-}
+import {QuoteState} from "./quote.state";
 
 export const quoteReducer = (state: QuoteState = {items: []}, action: Action) => {
   switch (action.type) {

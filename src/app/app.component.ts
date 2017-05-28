@@ -6,7 +6,9 @@ import {
   OnInit,
   ViewEncapsulation
 } from "@angular/core";
-import {AppState} from "./app.service";
+import {Store} from "@ngrx/store";
+import {AppState} from "./R/index";
+import {RootState} from "./R/root.state";
 
 /**
  * App Component
@@ -22,12 +24,17 @@ import {AppState} from "./app.service";
              ],
              template: `
                <router-outlet></router-outlet>
+               <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
              `
            })
 export class AppComponent implements OnInit {
-  constructor(public appState: AppState) {}
-
+  protected rootState;
+  
+  constructor(private store: Store<AppState>) {
+    this.rootState = this.store.select('rootState');
+  }
+  
   public ngOnInit() {
-    console.log("Initial App State", this.appState.state);
+    this.rootState.subscribe((state: RootState) => {console.log(state); });
   }
 }

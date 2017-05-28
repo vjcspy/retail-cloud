@@ -1,7 +1,4 @@
-import {
-  NgModule,
-  ApplicationRef
-} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {
   RouterModule,
   PreloadAllModules
@@ -14,23 +11,15 @@ import {ENV_PROVIDERS} from "./environment";
 import {ROUTES} from "./app.routes";
 // App is our top level component
 import {AppComponent} from "./app.component";
-import {APP_RESOLVER_PROVIDERS} from "./app.resolver";
-import {AppState} from "./app.service";
 
 import "../styles/styles.scss";
 import "../styles/headings.css";
 import {ShareModule} from "./modules/share/share.module";
-import {R_IMPORTS, R_PROVIDERS} from "./modules/main/R/index";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterExternalModule} from "./modules/router/router.module";
-import {MainModule} from "./modules/main";
-
-// Application wide providers
-const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
-  AppState
-];
+import {R_IMPORTS, R_PROVIDERS} from "./R/index";
+import {APP_PAGES} from "./pages/index";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -39,6 +28,7 @@ const APP_PROVIDERS = [
             bootstrap: [AppComponent],
             declarations: [
               AppComponent,
+              ...APP_PAGES
             ],
             /**
              * Import Angular's modules.
@@ -49,7 +39,6 @@ const APP_PROVIDERS = [
               BrowserModule,
               BrowserAnimationsModule,
               RouterExternalModule,
-              MainModule,
               RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules})
             ],
             /**
@@ -57,11 +46,8 @@ const APP_PROVIDERS = [
              */
             providers: [
               ENV_PROVIDERS,
-              APP_PROVIDERS,
               R_PROVIDERS
             ]
           })
 export class AppModule {
-  constructor(public appRef: ApplicationRef,
-              public appState: AppState) {}
 }
