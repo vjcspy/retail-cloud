@@ -23,6 +23,7 @@ import {APP_PAGES} from "./pages/index";
 import {ToastModule, ToastOptions} from "ng2-toastr";
 import {CustomToastOptions} from "./services/toast-options";
 import {APP_PROVIDERS} from "./services/index";
+import {METEOR_COLLECTION} from "./services/meteor-collections/index";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -51,6 +52,7 @@ import {APP_PROVIDERS} from "./services/index";
             providers: [
               {provide: ToastOptions, useClass: CustomToastOptions},
               ...APP_PROVIDERS,
+              ...METEOR_COLLECTION,
               ENV_PROVIDERS,
               R_PROVIDERS
             ]

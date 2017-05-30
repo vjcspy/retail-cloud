@@ -10,7 +10,7 @@ import {EntityInformation} from "../../database/xretail/db/entity-information";
 import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
-import {RealtimeStorage} from "../../../../meteor-collections/reailtime-storage";
+import {RealtimeStorage} from "../../../../services/meteor-collections/reailtime-storage";
 
 @Injectable()
 export class PosEntitiesService {

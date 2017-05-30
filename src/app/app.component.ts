@@ -24,7 +24,7 @@ import {AppState} from "./R/index";
              ],
              template: `
                <router-outlet></router-outlet>
-               <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
+               <!--<ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>-->
              `
            })
 export class AppComponent {

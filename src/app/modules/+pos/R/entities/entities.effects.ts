@@ -30,8 +30,8 @@ export class PosEntitiesEffects {
                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                          .switchMap(([action, generalState, entitiesState]) => {
                                            return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
-                                                            .filter((entityCode: string) => action.payload.hasOwnerProperty('entityCode') && !!action.payload['entityCode'] ?
-                                                              entityCode === action.payload['entityCode'] : false
+                                                            .filter((entityCode: string) => !!action.payload && action.payload.hasOwnProperty('entityCode') && !!action.payload['entityCode'] ?
+                                                              entityCode === action.payload['entityCode'] : true
                                                             )
                                                             .switchMap((entityCode: string) => {
                                                               return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))

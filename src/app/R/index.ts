@@ -21,11 +21,11 @@ export function createReducer(asyncReducers = {}): ActionReducer<any> {
 
 const STORE_DEV_TOOLS_IMPORTS = [];
 STORE_DEV_TOOLS_IMPORTS.push(...[
-  StoreDevtoolsModule.instrumentStore({
-                                        monitor: useLogMonitor({
-                                                                 visible: true,
-                                                                 position: "right"
-                                                               })
+  StoreDevtoolsModule.instrumentOnlyWithExtension({
+                                        // monitor: useLogMonitor({
+                                        //                          visible: true,
+                                        //                          position: "right"
+                                        //                        })
                                       })]);
 
 export const R_IMPORTS = [
