@@ -1,27 +1,49 @@
 import {Action} from "@ngrx/store";
-import {ProductDB} from "../../database/xretail/db/product";
-import {CustomerDB} from "../../database/xretail/db/customer";
 import {posEntitiesStateFactory, PosEntitiesStateRecord} from "./entities.state";
+import {PosEntitiesActions} from "./entities.actions";
+import * as _ from 'lodash';
 
-export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesStateFactory({
-                                                                                          products: {
-                                                                                            entityCode: ProductDB.getCode(),
-                                                                                            pageSize: 100,
-                                                                                            items: [],
-                                                                                            apiUrlCode: ProductDB.getCode(),
-                                                                                            isLoading: false,
-                                                                                            isLoadComplete: false
-                                                                                          },
-                                                                                          customers: {
-                                                                                            entityCode: CustomerDB.getCode(),
-                                                                                            pageSize: 100,
-                                                                                            items: [],
-                                                                                            apiUrlCode: CustomerDB.getCode(),
-                                                                                            isLoading: false,
-                                                                                            isLoadComplete: false
-                                                                                          }
-                                                                                        }), action: Action) => {
-  switch (action.payload) {
+export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesStateFactory(), action: Action) => {
+  switch (action.type) {
+    
+    case  PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB:
+      let newState = state;
+      _.forEach(action.payload, (data: any, entityCode: string) => {
+        let mergeData = {};
+        if (!!data['pageSize']) {
+          mergeData['pageSize'] = data['pageSize'];
+        }
+        if (!!data['currentPage']) {
+          mergeData['currentPage'] = data['currentPage'];
+        }
+        if (!!data['isFinished']) {
+          mergeData['isFinished'] = data['isFinished'];
+        }
+        newState = newState.updateIn([entityCode, 'items'], (list) => list.push(...data['items']))
+                           .mergeIn([entityCode], mergeData);
+      });
+      return newState;
+    
+    case PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER:
+      switch (action.payload['entityCode']) {
+        default:
+          let _query           = '';
+          const propertyFilter = state[action.payload['entityCode']]['propertyFilter'];
+          _.forEach(propertyFilter, (val, key) => {
+            _query += `&searchCriteria[${key}]=${val}`;
+          });
+          _query += `&searchCriteria[pageSize]=${state[action.payload['entityCode']]['pageSize']}`;
+          return state.setIn([action.payload['entityCode'], 'query'], _query);
+      }
+    
+    case PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS:
+      return state.updateIn([action.payload['entityCode'], 'currentPage'], (currentPage) => ++currentPage)
+                  .updateIn([action.payload['entityCode'], 'items'], (list) => list.push(...action.payload.items));
+    
+    case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
+      return !!action.payload['currentPage'] ? state.setIn([action.payload['entityCode'], 'currentPage'], action.payload['currentPage']) : state;
+    
+    case PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB:
     default:
       return state;
   }

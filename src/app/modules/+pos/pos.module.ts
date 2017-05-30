@@ -5,6 +5,7 @@ import {POS_ROUTES} from "./pos.routes";
 import {R_POS_IMPORTS, R_POS_PROVIDERS} from "./R/index";
 import {DEFAULT_VIEW_COMPONENTS} from "./view/default/index";
 import {PosComponent} from "./pos.component";
+import {POS_SERVICES} from "./services/index";
 
 @NgModule({
             imports: [
@@ -18,6 +19,7 @@ import {PosComponent} from "./pos.component";
               ...DEFAULT_VIEW_COMPONENTS
             ],
             providers: [
+              ...POS_SERVICES,
               ...R_POS_PROVIDERS
             ],
           })

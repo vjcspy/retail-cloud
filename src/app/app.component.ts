@@ -2,14 +2,12 @@
  * Angular 2 decorators and services
  */
 import {
-  Component,
-  OnInit, ViewContainerRef,
+  Component, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
 import {Store} from "@ngrx/store";
-import {AppState} from "./R/index";
-import {RootState} from "./R/root.state";
 import {ToastsManager} from "ng2-toastr";
+import {AppState} from "./R/index";
 
 /**
  * App Component
@@ -29,16 +27,10 @@ import {ToastsManager} from "ng2-toastr";
                <ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>
              `
            })
-export class AppComponent implements OnInit {
-  protected rootState;
-  
-  constructor(private store: Store<AppState>, private toastr: ToastsManager, vcr: ViewContainerRef) {
-    this.rootState = this.store.select('rootState');
+export class AppComponent {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {
     this.toastr.setRootViewContainerRef(vcr);
+    this.store.subscribe((appState) => window['appState'] = appState);
   }
   
-  public ngOnInit() {
-    this.toastr.success('You are awesome!', 'Success!');
-    this.rootState.subscribe((state: RootState) => {console.log(state); });
-  }
 }

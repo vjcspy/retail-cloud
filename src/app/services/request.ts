@@ -19,7 +19,7 @@ export class RequestService {
                  (error: any) => {
                    let errMsg;
                    if (error['status'] === 0) {
-                     this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                     // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
                    } else {
                      // In a real world app, we might use a remote logging infrastructure
                      // We'd also dig deeper into the error to get a better message
@@ -43,7 +43,7 @@ export class RequestService {
                  (error: any) => {
                    if (showError) {
                      if (error['status'] === 0) {
-                       this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                       // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
                      } else {
                        if (error.status === 400 && error.hasOwnProperty('_body')) {
                          let _mess = JSON.parse(error['_body']);
@@ -54,10 +54,10 @@ export class RequestService {
                              enableHTML: true
                            });
                          } else {
-                           this.translate.get("unknown_error").subscribe((res) => this.notify.warning(res));
+                           // this.translate.get("unknown_error").subscribe((res) => this.notify.warning(res));
                          }
                        } else {
-                         this.translate.get("server_not_responding").subscribe((res) => this.notify.error(res));
+                         // this.translate.get("server_not_responding").subscribe((res) => this.notify.error(res));
                        }
                      }
                    }
@@ -88,7 +88,7 @@ export class RequestService {
                .catch(
                  (error: any) => {
                    if (error['status'] === 0) {
-                     this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                     // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
                    } else {
                      // In a real world app, we might use a remote logging infrastructure
                      // We'd also dig deeper into the error to get a better message

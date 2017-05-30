@@ -99,6 +99,7 @@
     "moment": "^2.18.1",
     "ng2-toastr": "^4.0.1",
     "nprogress": "^0.2.0",
+    "q": "^1.5.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "5.0.2",
     "typed-immutable-record": "^0.0.6",

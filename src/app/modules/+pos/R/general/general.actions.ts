@@ -3,19 +3,26 @@ import {Store} from "@ngrx/store";
 import {PosState} from "./pos.state";
 
 @Injectable()
-export class PosActions {
+export class PosGeneralActions {
   static ACTION_SELECT_OUTLET   = 'ACTION_SELECT_OUTLET';
   static ACTION_SELECT_REGISTER = 'ACTION_SELECT_REGISTER';
+  static ACTION_SELECT_WEBSITE  = 'ACTION_SELECT_WEBSITE';
+  
+  static ACTION_GENERAL_STATE_NOT_VALID = 'ACTION_GENERAL_STATE_NOT_VALID';
   
   constructor(private store: Store<any>) {
   
   }
   
-  selectOutlet(outlet): void {
-    this.store.dispatch({type: PosActions.ACTION_SELECT_OUTLET, payload: outlet});
+  selectWebsite(website: any): void {
+    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_WEBSITE, payload: website});
   }
   
-  selectRegister(register): void {
-    this.store.dispatch({type: PosActions.ACTION_SELECT_REGISTER, payload: register});
+  selectOutlet(outlet: any): void {
+    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_OUTLET, payload: outlet});
+  }
+  
+  selectRegister(register: any): void {
+    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_REGISTER, payload: register});
   }
 }

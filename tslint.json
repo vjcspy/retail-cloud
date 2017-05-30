@@ -22,7 +22,7 @@
     "no-input-rename": true,
     "no-output-rename": true,
     "pipe-naming": [true, "camelCase", "my"],
-    "templates-use-public": true,
+    "templates-use-public": false,
     "use-host-property-decorator": true,
     "use-input-property-decorator": true,
     "use-life-cycle-interface": true,

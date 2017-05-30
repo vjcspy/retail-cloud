@@ -1,17 +1,19 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface PosGeneralState {
-  store: any;
-  register: any;
-  warehouse: any;
-  outlet: any;
+  baseUrl: string;
+  store: Object;
+  register: Object;
+  warehouse: Object;
+  outlet: Object;
 }
 
-export interface PosStateRecord extends TypedRecord<PosStateRecord>, PosGeneralState {}
+export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord>, PosGeneralState {}
 
-export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosStateRecord>({
-                                                                                          store: null,
-                                                                                          register: null,
-                                                                                          warehouse: null,
-                                                                                          outlet: null
-                                                                                        });
+export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGeneralStateRecord>({
+                                                                                                 baseUrl: "http://mage2.dev",
+                                                                                                 store: {},
+                                                                                                 register: {},
+                                                                                                 warehouse: {},
+                                                                                                 outlet: {}
+                                                                                               });

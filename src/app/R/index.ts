@@ -23,7 +23,7 @@ const STORE_DEV_TOOLS_IMPORTS = [];
 STORE_DEV_TOOLS_IMPORTS.push(...[
   StoreDevtoolsModule.instrumentStore({
                                         monitor: useLogMonitor({
-                                                                 visible: false,
+                                                                 visible: true,
                                                                  position: "right"
                                                                })
                                       })]);
@@ -35,6 +35,12 @@ export const R_IMPORTS = [
   StoreLogMonitorModule
 ];
 
+/*
+ * Có thể bao gồm service, actions và effects.
+ *  - service: Không được phụ thuộc vào action hoặc effects và cũng không được phụ thuộc vào service nằm trong R
+ *  - actions: Không được phụ thuộc vào service hoặc effects, đây chỉ là nơi cung cấp các actions trong R
+ *  - effects: Được phụ thuộc service của nó và các service khác nằm trong R. Không được phụ thuộc actions.
+ */
 export const R_PROVIDERS = [
   RootActions
 ];

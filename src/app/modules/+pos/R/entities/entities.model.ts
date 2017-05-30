@@ -1,9 +1,29 @@
+import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
+import {List} from "immutable";
+
 export interface Entity {
-  items: any[];
+  items: List<any>;
+  currentPage: number;
+  query?: string;
+  propertyFilter?: Object;
   pageSize: number;
   entityCode: string;
   apiUrlCode: string;
   entityPrimaryKey?: string;
-  isLoading: boolean;
-  isLoadComplete: boolean;
+  isFinished: boolean;
+  isDependStore: boolean;
 }
+export interface EntityRecord extends TypedRecord<EntityRecord>, Entity {}
+
+export const entityFactory = makeTypedFactory<Entity, EntityRecord>({
+                                                                      items: List.of(),
+                                                                      currentPage: 0,
+                                                                      query: "",
+                                                                      propertyFilter: {},
+                                                                      pageSize: 100,
+                                                                      entityCode: null,
+                                                                      apiUrlCode: null,
+                                                                      entityPrimaryKey: 'id',
+                                                                      isFinished: false,
+                                                                      isDependStore: false
+                                                                    });

@@ -46,16 +46,13 @@ export class ApiManager {
     updateCustomerWishlist: "update-wishlist",
   };
   
-  get(apiKey, url?: string): string {
+  get(apiKey, baseUrl: string): string {
     if (this._apiUrl.hasOwnProperty(apiKey)) {
-      let baseUrl = "";
-      if (this.getBaseUrl().indexOf("http") > -1) {
-        baseUrl = this.getBaseUrl(!!url ? url : null);
-      } else {
+      if (baseUrl.indexOf("http") === -1) {
         baseUrl = this._isSecureHttp ?
           "https://" :
           "http://" +
-          this.getBaseUrl(!!url ? url : null);
+          baseUrl;
       }
       return baseUrl +
              "/" +
@@ -67,17 +64,13 @@ export class ApiManager {
     }
   }
   
-  getUploaderUrl() {
-    if (this.getBaseUrl().indexOf("http") > -1) {
-      return this.getBaseUrl() + "/xrest/v1/uploader";
+  getUploaderUrl(baseUrl: string) {
+    if (baseUrl.indexOf("http") > -1) {
+      return baseUrl + "/xrest/v1/uploader";
     } else {
       return this._isSecureHttp ?
         "https://" :
-        "http://" + this.getBaseUrl() + "/xrest/v1/uploader";
+        "http://" + baseUrl + "/xrest/v1/uploader";
     }
-  }
-  
-  getBaseUrl(url: string = "") {
-    return "http://mage2.dev";
   }
 }
