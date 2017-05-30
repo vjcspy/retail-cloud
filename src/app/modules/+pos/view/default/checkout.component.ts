@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {ProgressBarService} from "../../../share/provider/progess-bar";
 import {Store} from "@ngrx/store";
 import {PosEntitiesActions} from "../../R/entities/entities.actions";
 import {FakeService} from "../../services/fake";
+import {PosPullActions} from "../../R/entities/pull.actions";
 
 @Component({
              // moduleId: module.id,
@@ -20,7 +20,8 @@ export class PosCheckoutComponent implements OnInit {
   
   constructor(protected store: Store<any>,
               protected fakeService: FakeService,
-              protected posEntitiesActions: PosEntitiesActions) {
+              protected posEntitiesActions: PosEntitiesActions,
+              protected posPullActions: PosPullActions) {
   }
   
   ngOnInit(): void {
@@ -33,7 +34,11 @@ export class PosCheckoutComponent implements OnInit {
     this.store.dispatch({type: this.data['action'], payload: this.data['payload']});
   }
   
-  fake() {
+  protected fake() {
     this.fakeService.fakeGeneralData();
+  }
+  
+  protected pullFull() {
+    this.posPullActions.pullEntities(['customers', 'outlets', 'taxes', 'settings', 'countries']);
   }
 }

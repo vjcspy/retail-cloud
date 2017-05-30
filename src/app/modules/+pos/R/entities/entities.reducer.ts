@@ -43,7 +43,6 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
     case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
       return !!action.payload['currentPage'] ? state.setIn([action.payload['entityCode'], 'currentPage'], action.payload['currentPage']) : state;
     
-    case PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB:
     default:
       return state;
   }

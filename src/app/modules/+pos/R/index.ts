@@ -13,10 +13,15 @@ import {generalReducer} from "./general/general.reducer";
 import {PosGeneralActions} from "./general/general.actions";
 import {PosEntitiesService} from "./entities/entities.service";
 import {PosGeneralService} from "./general/general.service";
+import {PosPullState} from "./entities/pull.state";
+import {pullReducer} from "./entities/pull.reducer";
+import {PosPullActions} from "./entities/pull.actions";
+import {PosPullEffects} from "./entities/pull.effects";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosQuoteEffects),
-  EffectsModule.run(PosEntitiesEffects)
+  EffectsModule.run(PosEntitiesEffects),
+  EffectsModule.run(PosPullEffects)
 ];
 
 export const R_POS_PROVIDERS = [
@@ -28,17 +33,23 @@ export const R_POS_PROVIDERS = [
   PosEntitiesEffects,
   
   PosQuoteEffects,
-  PosQuoteActions
+  PosQuoteActions,
+  
+  PosPullActions,
+  PosPullEffects
 ];
 
+/*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
 export interface PosState {
   general: PosGeneralState;
   entities: PosEntitiesState;
   quote: PosQuoteState;
+  pull: PosPullState;
 }
 
 export const posReducer = createReducer({
                                           general: generalReducer,
                                           quote: quoteReducer,
-                                          entities: entitiesReducer
+                                          entities: entitiesReducer,
+                                          pull: pullReducer
                                         });

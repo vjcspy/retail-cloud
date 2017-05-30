@@ -13,8 +13,7 @@ import {GeneralMessage} from "../../services/general/message";
 export class PosEntitiesEffects {
   constructor(private action$: Actions,
               private store: Store<PosState>,
-              private posEntityService: PosEntitiesService,
-              private posGeneralService: PosGeneralService) {}
+              private posEntityService: PosEntitiesService) {}
   
   /*
    * Sau khi app init thì bắt đầu lấy data từ trong cache ra.
@@ -27,7 +26,7 @@ export class PosEntitiesEffects {
                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                          .switchMap(([action, generalState, entitiesState]) => {
                                            const entityCode = action.payload['entityCode'];
-                                           return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(action.payload['entityCode'], generalState, entitiesState[entityCode]))
+                                           return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                             .switchMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
                                                                                        .map((mes: GeneralMessage) => {
                                                                                          return {
@@ -39,14 +38,16 @@ export class PosEntitiesEffects {
                                          });
   
   @Effect() pullEntityDataFromServer$ = this.action$
-                                            .ofType(PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
-                                                    PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
+                                            .ofType(
+                                              PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
+                                              PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS
+                                            )
                                             .withLatestFrom(this.store.select('general'))
                                             .withLatestFrom(this.store.select('entities'),
                                                             ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                             .switchMap(([action, generalState, entitiesState]) => {
                                               const entityCode = action.payload['entityCode'];
-                                              return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(entityCode, generalState, entitiesState[entityCode]))
+                                              return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                                .map((entityState: GeneralMessage) => {
                                                                  return entityState.data['isFinished'] === true ?
                                                                    {
@@ -67,15 +68,17 @@ export class PosEntitiesEffects {
                                             });
   
   @Effect() pullEntityNextPage$ = this.action$
-                                      .ofType(PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE, PosEntitiesActions.ACTION_PULL_CANCEL)
+                                      .ofType(
+                                        PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
+                                        PosEntitiesActions.ACTION_PULL_CANCEL
+                                      )
                                       .withLatestFrom(this.store.select('general'))
                                       .withLatestFrom(this.store.select('entities'),
                                                       ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                      .switchMap(([action, generalState, entitiesState]) =>
-                                                   action.type === PosEntitiesActions.ACTION_PULL_CANCEL ?
+                                      .switchMap(([action, generalState, entitiesState]) => {
+                                                   return action.type === PosEntitiesActions.ACTION_PULL_CANCEL ?
                                                      Observable.of({type: RootActions.ACTION_NOTHING}) :
-                                                     Observable.fromPromise(this.posEntityService
-                                                                                .pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
+                                                     Observable.fromPromise(this.posEntityService.pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
                                                                .map((pullData: GeneralMessage) => {
                                                                  if (pullData.data['isFinished'] === true) {
                                                                    return {
@@ -93,6 +96,14 @@ export class PosEntitiesEffects {
                                                                    };
                                                                  }
                                                                })
+                                                               .catch(() => Observable.of({
+                                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
+                                                                                            payload: {
+                                                                                              entityCode: action.payload.entityCode
+                                                                                            }
+                                                                                          })
+                                                               );
+                                                 }
                                       );
   
 }

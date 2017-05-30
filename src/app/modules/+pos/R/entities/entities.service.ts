@@ -24,9 +24,10 @@ export class PosEntitiesService {
     return db['entityInformation'].where('id').equals(entity).first();
   }
   
-  async getStateCurrentEntityDb(entityCode: string, generalState: PosGeneralState, entity: Entity): Promise<GeneralMessage> {
+  async getStateCurrentEntityDb(generalState: PosGeneralState, entity: Entity): Promise<GeneralMessage> {
+    const entityCode = entity.entityCode;
     
-    let entityDataInfo = await this.getEntityDataInformation(entityCode);
+    let entityDataInfo = await this.getEntityDataInformation(entity.entityCode);
     
     if (entity.isDependStore === true && parseInt(generalState.store['id']) < 1) {
       throw new GeneralException("Entity depend store, so we need select store before");
