@@ -20,12 +20,19 @@ export class PosEntitiesEffects {
    * Lưu ý KHÔNG phải entity nào cũng phụ thuộc vào store.
    */
   @Effect() initEntityFromLocalDB$ = this.action$
-                                         .ofType(PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB)
+                                         .ofType(
+                                           PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
+                                           // Cứ mỗi khi realtime thì lại init lại, liệu có nên làm như thế này không ??????
+                                           PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB
+                                         )
                                          .withLatestFrom(this.store.select('general'))
                                          .withLatestFrom(this.store.select('entities'),
                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                          .switchMap(([action, generalState, entitiesState]) => {
                                            return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
+                                                            .filter((entityCode: string) => action.payload.hasOwnerProperty('entityCode') && !!action.payload['entityCode'] ?
+                                                              entityCode === action.payload['entityCode'] : false
+                                                            )
                                                             .switchMap((entityCode: string) => {
                                                               return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                                                .switchMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
@@ -107,10 +114,26 @@ export class PosEntitiesEffects {
                                                  }
                                       );
   
-  // @Effect() realTimeEntity = this.action$
-  //                                .ofType(PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB)
-  //                                .withLatestFrom(this.store.select('entities'))
-  //                                .map(([action, entitiesState]) => {
-  //
-  //                                });
+  @Effect() realTimeEntity = this.action$
+                                 .ofType(PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB)
+                                 .withLatestFrom(this.store.select('general'))
+                                 .withLatestFrom(this.store.select('entities'),
+                                                 ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                 .switchMap(([action, generalState, entitiesState]) => {
+                                   return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
+                                                    .filter((entityCode: string) => entitiesState[entityCode]['needRealTime'] === true)
+                                                    .flatMap((entityCode: string) => {
+                                                      return Observable.fromPromise(this.posEntityService.subscribeRealtimeAndSaveToDB(entitiesState[entityCode], generalState))
+                                                                       .map(() => ({
+                                                                         type: PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB,
+                                                                         payload: {entityCode}
+                                                                       }))
+                                                                       .catch(() => Observable.of({
+                                                                                                    type: PosEntitiesActions.ACTION_REALTIME_ENTITY_ERROR,
+                                                                                                    payload: {
+                                                                                                      entityCode: action.payload.entityCode
+                                                                                                    }
+                                                                                                  }));
+                                                    });
+                                 });
 }
