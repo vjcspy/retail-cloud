@@ -119,6 +119,10 @@
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/@types/marked/-/marked-0.0.28.tgz#44ba754e9fa51432583e8eb30a7c4dd249b52faa"
 
+"@types/meteor@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@types/meteor/-/meteor-1.4.1.tgz#a10ad18f27bc615c21b73d6c3f3e8c2d1deefab5"
+
 "@types/minimatch@^2.0.29":
   version "2.0.29"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-2.0.29.tgz#5002e14f75e2d71e564281df0431c8c1b4a2a36a"
@@ -644,6 +648,10 @@ boom@2.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+bootstrap@^3.3.7:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
 
 boxen@^1.0.0:
   version "1.1.0"
@@ -2206,10 +2214,6 @@ gulplog@^1.0.0:
   dependencies:
     glogg "^1.0.0"
 
-hammerjs@^2.0.4:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
-
 handle-thing@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-1.2.5.tgz#fd7aad726bf1a5fd16dfc29b2f7a6601d27139c4"
@@ -2794,10 +2798,6 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jquery@^2.1.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
-
 jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
@@ -3330,14 +3330,6 @@ marked@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
-materialize-css@^0.98.2:
-  version "0.98.2"
-  resolved "https://registry.yarnpkg.com/materialize-css/-/materialize-css-0.98.2.tgz#f9e4239fd27e2a917a0de379d74d508e2d92ec8e"
-  dependencies:
-    hammerjs "^2.0.4"
-    jquery "^2.1.4"
-    node-archiver "^0.3.0"
-
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
@@ -3371,6 +3363,14 @@ meow@^3.3.0, meow@^3.7.0:
 merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
+
+meteor-rxjs@^0.4.7:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/meteor-rxjs/-/meteor-rxjs-0.4.7.tgz#5c206ec0fe384bfcd38536878e37fa2ea2ec0f5c"
+
+meteor-typings@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/meteor-typings/-/meteor-typings-1.3.1.tgz#1f8965919b874fb21ed985e8cde2b12981ab60fc"
 
 methods@~1.1.2:
   version "1.1.2"
@@ -3505,6 +3505,10 @@ ng-router-loader@^2.1.0:
     loader-utils "^0.2.16"
     recast "^0.11.20"
 
+ng2-toastr@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.0.1.tgz#87d5ea60e4fd0ff3626980a3c1bd9c76dc06bfdc"
+
 ngc-webpack@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ngc-webpack/-/ngc-webpack-2.0.0.tgz#ebd1f6937b7b81cbcd6d9d1bd1fa9001c6be145f"
@@ -3518,13 +3522,6 @@ no-case@^2.2.0:
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"
   dependencies:
     lower-case "^1.1.1"
-
-node-archiver@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/node-archiver/-/node-archiver-0.3.0.tgz#b9f1afe5006d0bdf29260181833a070978bc6947"
-  dependencies:
-    fstream "^1.0.10"
-    tar "^2.2.1"
 
 node-dir@^0.1.10:
   version "0.1.16"
@@ -4353,9 +4350,13 @@ q-io@1.13.2:
     qs "^1.2.1"
     url2 "^0.0.0"
 
-q@1.4.1, q@^1.0.1, q@^1.1.2, q@^1.4.1:
+q@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
+
+q@^1.0.1, q@^1.1.2, q@^1.4.1, q@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.0.tgz#dd01bac9d06d30e6f219aecb8253ee9ebdc308f1"
 
 qjobs@^1.1.4:
   version "1.1.5"
