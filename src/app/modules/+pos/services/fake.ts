@@ -12,6 +12,6 @@ export class FakeService {
   fakeGeneralData() {
     this.posGeneralActions.selectOutlet({id: 1});
     this.posGeneralActions.selectRegister({id: 1});
-    this.posGeneralActions.selectWebsite({baseUrl: 'http://mage2.dev1'});
+    this.posGeneralActions.selectWebsite({baseUrl: 'http://mage2.dev'});
   }
 }

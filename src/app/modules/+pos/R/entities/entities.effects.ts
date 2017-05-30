@@ -5,9 +5,9 @@ import {Store} from "@ngrx/store";
 import {PosState} from "../index";
 import {Observable} from "rxjs";
 import {PosEntitiesService} from "./entities.service";
-import {PosGeneralService} from "../general/general.service";
 import {RootActions} from "../../../../R/root.actions";
 import {GeneralMessage} from "../../services/general/message";
+import {List} from "immutable";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -25,16 +25,17 @@ export class PosEntitiesEffects {
                                          .withLatestFrom(this.store.select('entities'),
                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                          .switchMap(([action, generalState, entitiesState]) => {
-                                           const entityCode = action.payload['entityCode'];
-                                           return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
-                                                            .switchMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
-                                                                                       .map((mes: GeneralMessage) => {
-                                                                                         return {
-                                                                                           type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
-                                                                                           payload: mes.data
-                                                                                         };
-                                                                                       }));
-    
+                                           return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
+                                                            .switchMap((entityCode: string) => {
+                                                              return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                                                               .switchMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
+                                                                                                          .map((mes: GeneralMessage) => {
+                                                                                                            return {
+                                                                                                              type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
+                                                                                                              payload: mes.data
+                                                                                                            };
+                                                                                                          }));
+                                                            });
                                          });
   
   @Effect() pullEntityDataFromServer$ = this.action$
@@ -60,7 +61,7 @@ export class PosEntitiesEffects {
                                                                      type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
                                                                      payload: {
                                                                        entityCode: action.payload['entityCode'],
-                                                                       // ensure currentPage always exactly
+                                                                       // ensure currentPage always exactly when entity haven't initialized yet
                                                                        currentPage: entityState.data['currentPage']
                                                                      }
                                                                    };
@@ -106,4 +107,10 @@ export class PosEntitiesEffects {
                                                  }
                                       );
   
+  // @Effect() realTimeEntity = this.action$
+  //                                .ofType(PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB)
+  //                                .withLatestFrom(this.store.select('entities'))
+  //                                .map(([action, entitiesState]) => {
+  //
+  //                                });
 }

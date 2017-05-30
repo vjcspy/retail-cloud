@@ -44,7 +44,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                 visibility: "",
                                 status: 0
                               },
-                              query: ""
+                              query: "",
+                              needRealTime: true
                             }),
     customers: entityFactory({
                                entityCode: CustomerDB.getCode(),
@@ -55,7 +56,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                isFinished: false,
                                isDependStore: true,
                                query: "",
-                               propertyFilter: {}
+                               propertyFilter: {},
+                               needRealTime: true
                              }),
     outlets: entityFactory({
                              entityCode: OutletDB.getCode(),
@@ -110,7 +112,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                            isFinished: false,
                            isDependStore: false,
                            query: "",
-                           propertyFilter: {}
+                           propertyFilter: {},
+                           needRealTime: true
                          }),
     countries: entityFactory({
                                entityCode: CountryDB.getCode(),

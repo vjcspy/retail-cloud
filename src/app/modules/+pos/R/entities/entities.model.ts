@@ -12,6 +12,7 @@ export interface Entity {
   entityPrimaryKey?: string;
   isFinished: boolean;
   isDependStore: boolean;
+  needRealTime?: boolean;
 }
 export interface EntityRecord extends TypedRecord<EntityRecord>, Entity {}
 
@@ -25,5 +26,6 @@ export const entityFactory = makeTypedFactory<Entity, EntityRecord>({
                                                                       apiUrlCode: null,
                                                                       entityPrimaryKey: 'id',
                                                                       isFinished: false,
-                                                                      isDependStore: false
+                                                                      isDependStore: false,
+                                                                      needRealTime: false
                                                                     });

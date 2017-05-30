@@ -16,7 +16,6 @@ export class PosPullEffects {
                                   PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                 .withLatestFrom(this.store.select('pull'))
                                 .filter(([action, pullState]) => {
-                                  console.log(pullState['pullingChain']);
                                   return pullState['isPullingChain'] === true || pullState['pullingChain'].count() > 0;
                                 })
                                 .map(([action, pullState]) => {
