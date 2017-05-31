@@ -22,10 +22,10 @@ export interface PosEntitiesState {
   customers?: EntityRecord;
   taxes?: EntityRecord;
   orders?: EntityRecord;
-  payments?: EntityRecord;
+  payment?: EntityRecord;
   warehouse?: EntityRecord;
   countries?: EntityRecord;
-  outlets?: EntityRecord;
+  outlet?: EntityRecord;
   stores?: EntityRecord;
   receipts?: EntityRecord;
   settings?: EntityRecord;
@@ -81,7 +81,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                            propertyFilter: {},
                            needRealTime: true
                          }),
-    outlets: entityFactory({
+    outlet: entityFactory({
                              entityCode: OutletDB.getCode(),
                              currentPage: 0,
                              pageSize: 100,
@@ -92,7 +92,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                              query: "",
                              propertyFilter: {}
                            }),
-    payments: entityFactory({
+    payment: entityFactory({
                               entityCode: PaymentDB.getCode(),
                               currentPage: 0,
                               pageSize: 100,

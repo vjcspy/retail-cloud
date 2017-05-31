@@ -134,7 +134,7 @@ export class PosEntitiesService {
       while (entityCode.done === false) {
         let items                         = await db[entityCode['value']].toArray();
         let entityInfo: EntityInformation = await this.getEntityDataInformation(entityCode['value']);
-        data[entityCode['value']]         = {items, ...entityInfo};
+        data[entityCode['value']]         = {items, ...entityInfo, entityCode: entityCode['value']};
         entityCode                        = entitiesCode.next();
       }
       

@@ -8,6 +8,8 @@ import {PosEntitiesService} from "./entities.service";
 import {RootActions} from "../../../../R/root.actions";
 import {GeneralMessage} from "../../services/general/message";
 import {List} from "immutable";
+import {Entity} from "./entities.model";
+import {PosPullState} from "./pull.state";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -22,57 +24,70 @@ export class PosEntitiesEffects {
   @Effect() initEntityFromLocalDB$ = this.action$
                                          .ofType(
                                            PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
-                                           // Cứ mỗi khi realtime thì lại init lại, liệu có nên làm như thế này không ??????
+                                           // Cứ mỗi khi realtime thì lại init lại
                                            PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB
                                          )
                                          .withLatestFrom(this.store.select('general'))
                                          .withLatestFrom(this.store.select('entities'),
                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                         .switchMap(([action, generalState, entitiesState]) => {
-                                           return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
-                                                            .filter((entityCode: string) => !!action.payload && action.payload.hasOwnProperty('entityCode') && !!action.payload['entityCode'] ?
-                                                              entityCode === action.payload['entityCode'] : true
-                                                            )
-                                                            .switchMap((entityCode: string) => {
-                                                              return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
-                                                                               .switchMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
-                                                                                                          .map((mes: GeneralMessage) => {
-                                                                                                            return {
-                                                                                                              type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
-                                                                                                              payload: mes.data
-                                                                                                            };
-                                                                                                          }));
-                                                            });
+                                         .flatMap(([action, generalState, entitiesState]) => {
+                                           const entityCode = (entitiesState[action.payload['entityCode']] as Entity).entityCode;
+                                           return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                                            .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
+                                                                                     .map((mes: GeneralMessage) => {
+                                                                                       return {
+                                                                                         type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
+                                                                                         payload: {data: mes.data[entityCode], entityCode}
+                                                                                       };
+                                                                                     }));
                                          });
   
   @Effect() pullEntityDataFromServer$ = this.action$
                                             .ofType(
+                                              // Trigger từ actions
                                               PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
-                                              PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS
+                                              // Repeat để pull page tiếp theo
+                                              PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS,
+                                              // Trường hợp nếu chưa init từ DB thì sẽ init sau đó init thành công thì quay lại load
+                                              PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB
                                             )
                                             .withLatestFrom(this.store.select('general'))
                                             .withLatestFrom(this.store.select('entities'),
                                                             ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                            .switchMap(([action, generalState, entitiesState]) => {
-                                              const entityCode = action.payload['entityCode'];
-                                              return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
-                                                               .map((entityState: GeneralMessage) => {
-                                                                 return entityState.data['isFinished'] === true ?
-                                                                   {
-                                                                     type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                     payload: {
-                                                                       entityCode: action.payload['entityCode']
-                                                                     }
-                                                                   } :
-                                                                   {
-                                                                     type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
-                                                                     payload: {
-                                                                       entityCode: action.payload['entityCode'],
-                                                                       // ensure currentPage always exactly when entity haven't initialized yet
-                                                                       currentPage: entityState.data['currentPage']
-                                                                     }
-                                                                   };
-                                                               });
+                                            .withLatestFrom(this.store.select('pull'), ([action, generalState, entitiesState], pullState) => {
+                                              return [action, generalState, entitiesState, pullState];
+                                            })
+                                            // Chỉ được pull entity khi dùng pull chain
+                                            .filter(([action, generalState, entitiesState, pullState]) => (pullState as PosPullState).isPullingChain === true)
+                                            .flatMap(([action, generalState, entitiesState]) => {
+                                              const entityCode     = action.payload['entityCode'];
+                                              const entity: Entity = entitiesState[entityCode];
+                                              // Kiểm tra xem là entity sắp pull đã được init từ DB ra chưa?
+                                              if (entity.isLoadedFromDB !== true) {
+                                                return Observable.of({
+                                                                       type: PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
+                                                                       payload: {entityCode}
+                                                                     });
+                                              } else {
+                                                return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                                                 .map((entityState: GeneralMessage) => {
+                                                                   return entityState.data['isFinished'] === true ?
+                                                                     {
+                                                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                                       payload: {
+                                                                         entityCode: action.payload['entityCode']
+                                                                       }
+                                                                     } :
+                                                                     {
+                                                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
+                                                                       payload: {
+                                                                         entityCode: action.payload['entityCode'],
+                                                                         // ensure currentPage always exactly when entity haven't initialized yet
+                                                                         currentPage: entityState.data['currentPage']
+                                                                       }
+                                                                     };
+                                                                 });
+                                              }
                                             });
   
   @Effect() pullEntityNextPage$ = this.action$
@@ -115,7 +130,10 @@ export class PosEntitiesEffects {
                                       );
   
   @Effect() realTimeEntity = this.action$
-                                 .ofType(PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB)
+                                 .ofType(
+                                   // Trigger realtime subscriber sau khi entity được init từ DB
+                                   PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB
+                                 )
                                  .withLatestFrom(this.store.select('general'))
                                  .withLatestFrom(this.store.select('entities'),
                                                  ([action, generalState], entitiesState) => [action, generalState, entitiesState])

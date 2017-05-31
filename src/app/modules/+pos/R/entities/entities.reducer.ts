@@ -7,22 +7,21 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
   switch (action.type) {
     
     case  PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB:
-      let newState = state;
-      _.forEach(action.payload, (data: any, entityCode: string) => {
-        let mergeData = {};
-        if (!!data['pageSize']) {
-          mergeData['pageSize'] = data['pageSize'];
-        }
-        if (!!data['currentPage']) {
-          mergeData['currentPage'] = data['currentPage'];
-        }
-        if (!!data['isFinished']) {
-          mergeData['isFinished'] = data['isFinished'];
-        }
-        newState = newState.updateIn([entityCode, 'items'], (list) => list.push(...data['items']))
-                           .mergeIn([entityCode], mergeData);
-      });
-      return newState;
+      const data       = action.payload['data'];
+      const entityCode = action.payload['entityCode'];
+      let mergeData    = {};
+      if (!!data['pageSize']) {
+        mergeData['pageSize'] = data['pageSize'];
+      }
+      if (!!data['currentPage']) {
+        mergeData['currentPage'] = data['currentPage'];
+      }
+      if (!!data['isFinished']) {
+        mergeData['isFinished'] = data['isFinished'];
+      }
+      return state.updateIn([entityCode, 'items'], (list) => list.push(...data['items']))
+                  .setIn([entityCode, 'isLoadedFromDB'], true)
+                  .mergeIn([entityCode], mergeData);
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER:
       switch (action.payload['entityCode']) {

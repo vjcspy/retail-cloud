@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
 
 @Injectable()
 export class PosEntitiesActions {
@@ -21,14 +20,4 @@ export class PosEntitiesActions {
   
   static ACTION_REALTIME_ENTITY_ERROR               = 'ACTION_REALTIME_ENTITY_ERROR';
   static ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB = 'ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB';
-  
-  constructor(private store: Store<any>) {}
-  
-  initEntityFromLocalDB(entityCode?: string): void {
-    this.store.dispatch({type: PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB, payload: {entityCode}});
-  }
-  
-  // getEntityDataFromSv(entityCode: string): void {
-  //   this.store.dispatch({type: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER, payload: {entityCode}});
-  // }
 }
