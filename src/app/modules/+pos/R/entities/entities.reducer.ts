@@ -39,9 +39,6 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
       return state.updateIn([action.payload['entityCode'], 'currentPage'], (currentPage) => ++currentPage)
                   .updateIn([action.payload['entityCode'], 'items'], (list) => list.push(...action.payload.items));
     
-    case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
-      return !!action.payload['currentPage'] ? state.setIn([action.payload['entityCode'], 'currentPage'], action.payload['currentPage']) : state;
-    
     default:
       return state;
   }

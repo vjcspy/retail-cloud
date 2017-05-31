@@ -17,10 +17,6 @@ export class PosEntitiesEffects {
               private store: Store<PosState>,
               private posEntityService: PosEntitiesService) {}
   
-  /*
-   * Sau khi app init thì bắt đầu lấy data từ trong cache ra.
-   * Lưu ý KHÔNG phải entity nào cũng phụ thuộc vào store.
-   */
   @Effect() initEntityFromLocalDB$ = this.action$
                                          .ofType(
                                            PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
@@ -81,9 +77,7 @@ export class PosEntitiesEffects {
                                                                      {
                                                                        type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
                                                                        payload: {
-                                                                         entityCode: action.payload['entityCode'],
-                                                                         // ensure currentPage always exactly when entity haven't initialized yet
-                                                                         currentPage: entityState.data['currentPage']
+                                                                         entityCode: action.payload['entityCode']
                                                                        }
                                                                      };
                                                                  });
