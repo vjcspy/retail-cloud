@@ -56,7 +56,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               },
                               query: "",
                               needRealTime: true,
-                              proportion: 6
+                              proportion: 2
                             }),
     customers: entityFactory({
                                entityCode: CustomerDB.getCode(),
@@ -69,7 +69,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                query: "",
                                propertyFilter: {},
                                needRealTime: true,
-                               proportion: 3
+                               proportion: 2
                              }),
     taxes: entityFactory({
                            entityCode: TaxDB.getCode(),
