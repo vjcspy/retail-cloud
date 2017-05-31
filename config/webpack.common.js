@@ -175,7 +175,7 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          loader: 'raw-loader!sass-loader', // FIX LOAD font
           exclude: [helpers.root('src', 'styles')]
         },
 

@@ -1,0 +1,83 @@
+@import '~bootstrap-daterangepicker/daterangepicker';
+
+.daterangepicker {
+  margin-top: 16px; margin-left: 39px;
+  background: #113158; border-radius: 7px;
+  z-index: 99999 !important;
+  select {
+    background: #113158;
+    display: inline !important;
+    border: none !important;
+  }
+  .ampmselect{
+   min-width: 54px !important;
+  }
+  &:before {display: none;}
+  &:after {border-bottom-color: #113158;}
+  &.openscenter {
+    &:after {margin-left: 18px;}
+  }
+  &.dropdown-menu {
+    border: none;
+    color: #FFF;
+  }
+  &.ltr {
+    .calendar.left {
+      .calendar-table {padding: 0!important;}
+    }
+  }
+  .calendar {max-width: 280px; margin: 0;}
+  table {
+    thead {border: none;}
+    th, td {
+      color: #FFF; font-size: 13px;
+      border-radius: 0; border: none;
+      &:hover {
+        background-color: transparent!important;
+        color: #47FFA6!important;
+      }
+      -webkit-transition: all .3s ease-in-out;
+      -moz-transition: all .3s ease-in-out;
+      -o-transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
+    }
+    th {
+      font-family: 'OpenSans', sans-serif;
+      opacity: .2;
+      &.month, &.prev, &.next {opacity: 1;}
+    }
+    td {
+      &.off, &.off.in-range, &.off.start-date, &.off.end-date {
+        background-color: #113158;
+        &, &:hover {color: rgba(255,255,255,.2)!important;}
+      }
+      &.start-date.end-date {border-radius: 0;}
+      &.active {
+        &, &:hover {
+          background-color: transparent;
+          color: #47FFA6;
+          border-bottom: #47FFA6 solid 1px;
+        }
+      }
+    }
+  }
+  .calendar-table {
+    background: transparent;
+    border-radius: 0;
+  }
+  .fa {
+    font-family: 'icomoon';
+    font-size: 26px;
+    &.fa-chevron-left {
+      &:before {
+        content: "\e906";
+      }
+    }
+    &.fa-chevron-right {
+      &:before {
+        content: "\e907";
+      }
+    }
+  }
+}
+

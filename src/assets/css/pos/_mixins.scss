@@ -1,0 +1,144 @@
+//position
+@mixin ver-pos {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+@mixin hoz-pos {
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+@mixin center-pos {
+  top: 50%; left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+@mixin no-pos {
+  top: auto; left: auto;
+  -ms-transform: translate(0,0);
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+}
+@mixin pos($x,$y) {
+  top: $y; left: $x;
+  -ms-transform: translate(-$x,-$y);
+  -webkit-transform: translate(-$x,-$y);
+  transform: translate(-$x,-$y);
+}
+
+//box shadow
+@mixin box-shadow($box-value) {
+  -webkit-box-shadow: $box-value;
+  -moz-box-shadow: $box-value;
+  box-shadow: $box-value;
+}
+
+//box-sizing
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model;
+  -moz-box-sizing: $box-model;
+  box-sizing: $box-model;
+}
+
+//border-radius
+@mixin border-radius($b-deg) {
+  -webkit-border-radius: $b-deg;
+  -moz-border-radius: $b-deg;
+  border-radius: $b-deg;
+}
+
+//transition
+@mixin single-transition($property,$duration){
+  -webkit-transition: $property $duration ease-in-out;
+  -moz-transition: $property $duration ease-in-out;
+  -o-transition: $property $duration ease-in-out;
+  transition: $property $duration ease-in-out;
+}
+
+//rotate
+@mixin rotate($deg) {
+  -ms-transform: rotate($deg);
+  -webkit-transform: rotate($deg);
+  transform: rotate($deg);
+}
+
+//user selected
+@mixin user-select ($user-select) {
+  -moz-user-select: $user-select;
+  -webkit-user-select: $user-select;
+  -ms-user-select: $user-select;
+  user-select: $user-select;
+}
+
+//arrow style
+@mixin arrow-up ($color,$width,$bwidth) {
+  width: 0; height: 0;
+  border: transparent solid $width;
+  border-bottom-width: $bwidth;
+  border-top-width: 0;
+  border-bottom-color: $color;
+}
+
+@mixin arrow-down ($color,$width,$twidth) {
+  width: 0; height: 0;
+  border: transparent solid $width;
+  border-top-width: $twidth;
+  border-bottom-width: 0;
+  border-top-color: $color;
+}
+
+@mixin arrow-right ($color,$width,$rwidth) {
+  width: 0; height: 0;
+  border: transparent solid $width;
+  border-left-width: $rwidth;
+  border-right-width: 0;
+  border-left-color: $color;
+}
+
+@mixin arrow-left ($color,$width,$lwidth) {
+  width: 0; height: 0;
+  border: transparent solid $width;
+  border-right-width: $lwidth;
+  border-left-width: 0;
+  border-right-color: $color;
+}
+
+//ellipsis
+@mixin ellipsis {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+//size of product
+@mixin img-size($h) {
+  position: relative;
+  &:before {
+    content: "";
+    display: block;
+    padding-top: $h;
+  }
+}
+
+//clearfix
+@mixin clearfix {
+  zoom: 1;
+  &:after {
+    content: '.';
+    display: block;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+  }
+}
+
+$w-tablet: 1366px;
+@mixin tablet {
+  //@media only screen and (max-width: $w-tablet - 1) {@content;}
+  @media only screen and (min-device-pixel-ratio: 1.5) and (max-width: $w-tablet),
+  only screen and (min-resolution: 144dpi) and (max-width: $w-tablet) {@content;}
+}

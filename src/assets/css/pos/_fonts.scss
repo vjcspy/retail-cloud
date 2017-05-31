@@ -1,0 +1,171 @@
+$opensans-font-path: "../assets/fonts/opensans" !default;
+@each $font-face in
+  OpenSans,
+  OpenSans-Semibold,
+  OpenSans-Bold,
+  OpenSans-Extrabold,
+  OpenSans-Italic,
+  OpenSans-Light,
+  icomoon {
+  @font-face {
+    font-family: quote($font-face);
+    src:  url('#{$opensans-font-path}/#{$font-face}.eot');
+    src:  url('#{$opensans-font-path}/#{$font-face}.eot?#iefix') format('embedded-opentype'),
+          url('#{$opensans-font-path}/#{$font-face}.woff') format('woff'),
+          url('#{$opensans-font-path}/#{$font-face}.ttf') format('truetype'),
+          url('#{$opensans-font-path}/#{$font-face}.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-order:before {
+  content: "\e92c";
+}
+.icon-error:before {
+  content: "\e929";
+}
+.icon-more:before {
+  content: "\e92a";
+}
+.icon-news:before {
+  content: "\e92b";
+}
+.icon-pencil:before {
+  content: "\e928";
+}
+.icon-noted:before {
+  content: "\e927";
+}
+.icon-close-thin2:before {
+  content: "\e926";
+}
+.icon-icon-edit-square:before {
+  content: "\e925";
+}
+.icon-card:before {
+  content: "\e920";
+}
+.icon-diamond:before {
+  content: "\e921";
+}
+.icon-mail:before {
+  content: "\e922";
+}
+.icon-payment:before {
+  content: "\e923";
+}
+.icon-wallet:before {
+  content: "\e924";
+}
+.icon-left-thin:before {
+  content: "\e91f";
+}
+.icon-close-thin:before {
+  content: "\e91e";
+}
+.icon-tick-bold:before {
+  content: "\e91c";
+}
+.icon-user-bold:before {
+  content: "\e91d";
+}
+.icon-sync:before {
+  content: "\e91b";
+}
+.icon-dashboard:before {
+  content: "\e91a";
+}
+.icon-user:before {
+  content: "\e919";
+}
+.icon-tick:before {
+  content: "\e918";
+}
+.icon-list:before {
+  content: "\e916";
+}
+.icon-categories:before {
+  content: "\e917";
+}
+.icon-trash:before {
+  content: "\e900";
+}
+.icon-upload:before {
+  content: "\e901";
+}
+.icon-notification:before {
+  content: "\e902";
+}
+.icon-timer:before {
+  content: "\e903";
+}
+.icon-note:before {
+  content: "\e904";
+}
+.icon-edit:before {
+  content: "\e905";
+}
+.icon-left:before {
+  content: "\e906";
+}
+.icon-right:before {
+  content: "\e907";
+}
+.icon-info:before {
+  content: "\e908";
+}
+.icon-up:before {
+  content: "\e909";
+}
+.icon-down:before {
+  content: "\e90a";
+}
+.icon-minus:before {
+  content: "\e90b";
+}
+.icon-plus:before {
+  content: "\e90c";
+}
+.icon-menu:before {
+  content: "\e90d";
+}
+.icon-close:before {
+  content: "\e90e";
+}
+.icon-search:before {
+  content: "\e90f";
+}
+.icon-prev:before {
+  content: "\e910";
+}
+.icon-next:before {
+  content: "\e911";
+}
+.icon-grid:before {
+  content: "\e912";
+}
+.icon-equalizer:before {
+  content: "\e913";
+}
+.icon-truck:before {
+  content: "\e914";
+}
+.icon-follow:before {
+  content: "\e915";
+}
