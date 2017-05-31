@@ -24,4 +24,8 @@ export function main(): Promise<any> {
  * Needed for hmr
  * in prod this is replace for document ready
  */
-$(document).ready(() => main());
+export function bootstrapDomReady() {
+  document.addEventListener('DOMContentLoaded', main);
+}
+
+bootstrapDomReady();
