@@ -1,0 +1,31 @@
+<!--<div class="grid-product-inner" (window:resize)="onResize()"-->
+<!--#gridProductInner>-->
+<!--<div class="grid-mode" *ngIf="!getViewState()['isCategoryMode']">-->
+<!--<div *ngFor="let product of getProducts();trackBy: trackByItemFn;"-->
+<!--class="item animated fadeIn"-->
+<!--[ngStyle]="getViewData()['productGridStyles']">-->
+<!--<span class="tags sale" *ngIf="isSales(product)"><img src="../assets/icon/sale-icon148x84.png" alt=""/></span>-->
+<!--<span class="tags info" *ngIf="isOutOfStock(product)"><img src="../assets/icon/info-icon80x80.png" alt=""/></span>-->
+<!--<span class="show-label" (click)="viewDetail(product)"><span>{{ 'View Details' | translate }}</span></span>-->
+<!--<div class="inner" (click)="addToCart(product)">-->
+<!--<grid-product-img [imageUrl]="product['origin_image']"></grid-product-img>-->
+<!--<h3 class="product-name"><span>{{product['name']}}</span></h3>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="search-no-result"-->
+<!--*ngIf="(getProducts().length == 0 && !getViewState()['isCategoryMode'])">-->
+<!--<h3>{{ 'THERE IS NO RESULTS FOR' | translate }}-->
+<!--<span *ngIf="!!productViewService.viewData.searchText || !!productViewService.viewData.currentCategory">-->
+<!--"{{productViewService.viewData.searchText}}"-->
+<!--</span>-->
+<!--</h3>-->
+<!--<p>-->
+<!--Please try a different <span style="color: darkcyan;" class="click" (click)="productViewService.getClearSearchTextStream().next(true)">search-->
+<!--</span> or-->
+<!--<span style="color: darkcyan;" class="click" (click)="toggleCategoryMode()">-->
+<!--{{ 'category' | translate }}-->
+<!--</span>-->
+<!--</p>-->
+<!--</div>-->
+<!--</div>-->

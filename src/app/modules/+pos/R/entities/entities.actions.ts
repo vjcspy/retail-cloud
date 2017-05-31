@@ -24,7 +24,7 @@ export class PosEntitiesActions {
   
   constructor(private store: Store<any>) {}
   
-  initEntityFromLocalDB(entityCode: string): void {
+  initEntityFromLocalDB(entityCode?: string): void {
     this.store.dispatch({type: PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB, payload: {entityCode}});
   }
   

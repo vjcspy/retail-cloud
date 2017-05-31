@@ -81,7 +81,9 @@ export class PosEntitiesService {
         url.indexOf("?") > -1 ?
           "&" : "?" + entity.query
                 + "&searchCriteria[currentPage]=" + nextPagePull
-                + "&searchCriteria[storeId]=" + generalState.store['id'];
+                + "&searchCriteria[storeId]=" + generalState.store['id']
+                + "&searchCriteria[outlet_id]=" + generalState.outlet['id']
+                + "&searchCriteria[register_id]=" + generalState.register['id'];
       
       this.requestService
           .makeGet(url)

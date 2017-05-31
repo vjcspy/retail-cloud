@@ -3,15 +3,15 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Store} from "@ngrx/store";
 import {PosEntitiesActions} from "../../R/entities/entities.actions";
 import {FakeService} from "../../services/fake";
-import {PosPullActions} from "../../R/entities/pull.actions";
 import {NotifyManager} from "../../../../services/notify-manager";
+import {ProgressBarService} from "../../../share/provider/progess-bar";
 
 @Component({
              // moduleId: module.id,
-             selector: 'pos-default-checkout',
-             templateUrl: 'checkout.html'
+             selector: 'pos-default-sales',
+             templateUrl: 'sales.html'
            })
-export class PosDefaultCheckoutPage implements OnInit {
+export class PosDefaultSalesPage implements OnInit {
   protected data = {
     action: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
     payload: {
@@ -22,26 +22,17 @@ export class PosDefaultCheckoutPage implements OnInit {
   constructor(protected store: Store<any>,
               protected fakeService: FakeService,
               protected posEntitiesActions: PosEntitiesActions,
-              protected posPullActions: PosPullActions,
-              protected notifyManager: NotifyManager) {
+              protected notifyManager: NotifyManager,
+              protected progressBar: ProgressBarService) {
   }
   
   ngOnInit(): void {
     this.fake();
-    
-    this.posEntitiesActions.initEntityFromLocalDB('products');
-    this.notifyManager.success("OK");
-  }
-  
-  protected dispatch() {
-    this.store.dispatch({type: this.data['action'], payload: this.data['payload']});
+    this.progressBar.start();
+    setInterval(() => this.progressBar.randomIncrements(), 1000);
   }
   
   protected fake() {
     this.fakeService.fakeGeneralData();
-  }
-  
-  protected pullFull() {
-    this.posPullActions.pullEntities(['customers', 'outlets', 'taxes', 'settings', 'countries']);
   }
 }

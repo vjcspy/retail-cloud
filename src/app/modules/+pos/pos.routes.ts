@@ -1,7 +1,8 @@
 import {Routes} from "@angular/router";
 import {PosComponent} from "./pos.component";
 import {PosDefaultTheme} from "./view/default/default";
-import {PosDefaultCheckoutPage} from "./view/default/checkout";
+import {PosDefaultSalesPage} from "./view/default/sales";
+import {PosDefaultSalesCheckoutComponent} from "./view/default/sales/checkout.component";
 
 export const POS_ROUTES: Routes = [
   {
@@ -12,7 +13,15 @@ export const POS_ROUTES: Routes = [
         path: 'default',
         component: PosDefaultTheme,
         children: [
-          {path: 'checkout', component: PosDefaultCheckoutPage}
+          {
+            path: 'sales',
+            component: PosDefaultSalesPage,
+            children: [
+              {path: 'checkout', component: PosDefaultSalesCheckoutComponent},
+              {path: 'order-list', component: PosDefaultSalesCheckoutComponent},
+              {path: 'shift', component: PosDefaultSalesCheckoutComponent},
+            ]
+          }
         ]
       }
     ]

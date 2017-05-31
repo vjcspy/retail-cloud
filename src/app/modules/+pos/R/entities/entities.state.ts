@@ -10,6 +10,11 @@ import {SettingDB} from "../../database/xretail/db/setting";
 import {TaxDB} from "../../database/xretail/db/tax";
 import {CountryDB} from "../../database/xretail/db/country";
 import {StoreDB} from "../../database/xretail/db/store";
+import {RetailConfigDB} from "../../database/xretail/db/retail-config";
+import {CustomerGroupDB} from "../../database/xretail/db/customer-group";
+import {TaxClassDB} from "../../database/xretail/db/tax-class";
+import {ShiftDB} from "../../database/xretail/db/shift";
+import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
 
 export interface PosEntitiesState {
   products?: EntityRecord;
@@ -24,6 +29,11 @@ export interface PosEntitiesState {
   stores?: EntityRecord;
   receipts?: EntityRecord;
   settings?: EntityRecord;
+  retailConfig?: EntityRecord;
+  customerGroup?: EntityRecord;
+  taxClass?: EntityRecord;
+  shifts?: EntityRecord;
+  userOrderCount?: EntityRecord;
 }
 
 export interface PosEntitiesStateRecord extends TypedRecord<PosEntitiesStateRecord>, PosEntitiesState {}
@@ -59,6 +69,18 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                propertyFilter: {},
                                needRealTime: true
                              }),
+    taxes: entityFactory({
+                           entityCode: TaxDB.getCode(),
+                           currentPage: 0,
+                           pageSize: 100,
+                           items: List.of(),
+                           apiUrlCode: TaxDB.getCode(),
+                           isFinished: false,
+                           isDependStore: false,
+                           query: "",
+                           propertyFilter: {},
+                           needRealTime: true
+                         }),
     outlets: entityFactory({
                              entityCode: OutletDB.getCode(),
                              currentPage: 0,
@@ -103,18 +125,6 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               query: "",
                               propertyFilter: {}
                             }),
-    taxes: entityFactory({
-                           entityCode: TaxDB.getCode(),
-                           currentPage: 0,
-                           pageSize: 100,
-                           items: List.of(),
-                           apiUrlCode: TaxDB.getCode(),
-                           isFinished: false,
-                           isDependStore: false,
-                           query: "",
-                           propertyFilter: {},
-                           needRealTime: true
-                         }),
     countries: entityFactory({
                                entityCode: CountryDB.getCode(),
                                currentPage: 0,
@@ -137,5 +147,62 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                             query: "",
                             propertyFilter: {}
                           }),
+    retailConfig: entityFactory({
+                                  entityCode: RetailConfigDB.getCode(),
+                                  currentPage: 0,
+                                  pageSize: 100,
+                                  items: List.of(),
+                                  apiUrlCode: RetailConfigDB.getCode(),
+                                  isFinished: false,
+                                  isDependStore: false,
+                                  query: "",
+                                  propertyFilter: {
+                                    group: "pos,warehouse"
+                                  }
+                                }),
+    customerGroup: entityFactory({
+                                   entityCode: CustomerGroupDB.getCode(),
+                                   currentPage: 0,
+                                   pageSize: 100,
+                                   items: List.of(),
+                                   apiUrlCode: CustomerGroupDB.getCode(),
+                                   isFinished: false,
+                                   isDependStore: false,
+                                   query: "",
+                                   propertyFilter: {}
+                                 }),
+    taxClass: entityFactory({
+                              entityCode: TaxClassDB.getCode(),
+                              currentPage: 0,
+                              pageSize: 100,
+                              items: List.of(),
+                              apiUrlCode: TaxClassDB.getCode(),
+                              isFinished: false,
+                              isDependStore: false,
+                              query: "",
+                              propertyFilter: {}
+                            }),
+    shifts: entityFactory({
+                            entityCode: ShiftDB.getCode(),
+                            currentPage: 0,
+                            pageSize: 100,
+                            items: List.of(),
+                            apiUrlCode: ShiftDB.getCode(),
+                            isFinished: false,
+                            isDependStore: false,
+                            query: "",
+                            propertyFilter: {}
+                          }),
+    userOrderCount: entityFactory({
+                                    entityCode: UserOrderCountDB.getCode(),
+                                    currentPage: 0,
+                                    pageSize: 100,
+                                    items: List.of(),
+                                    apiUrlCode: UserOrderCountDB.getCode(),
+                                    isFinished: false,
+                                    isDependStore: false,
+                                    query: "",
+                                    propertyFilter: {}
+                                  })
   }
 );

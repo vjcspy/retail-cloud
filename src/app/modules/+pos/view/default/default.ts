@@ -5,7 +5,7 @@ import {Component, ViewEncapsulation} from '@angular/core';
              encapsulation: ViewEncapsulation.None,
              selector: 'pos-default-theme',
              template: '<router-outlet></router-outlet>',
-             styleUrls: ['default.scss']
+             styleUrls: ['default.scss', '../../../../../assets/css/pos.scss']
            })
 export class PosDefaultTheme {
 }
