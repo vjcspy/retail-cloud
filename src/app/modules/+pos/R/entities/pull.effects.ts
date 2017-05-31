@@ -4,10 +4,11 @@ import {Store} from "@ngrx/store";
 import {PosPullActions} from "./pull.actions";
 import {PosEntitiesActions} from "./entities.actions";
 import {List} from "immutable";
+import {ProgressBarService} from "../../../share/provider/progess-bar";
 
 @Injectable()
 export class PosPullEffects {
-  constructor(private actions$: Actions, private store: Store<any>) {}
+  constructor(private actions$: Actions, private store: Store<any>, private progressBar: ProgressBarService) {}
   
   @Effect() pullEntities$ = this.actions$
                                 .ofType(
@@ -15,13 +16,27 @@ export class PosPullEffects {
                                   // Repeat after each entity pull successful
                                   PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                 .withLatestFrom(this.store.select('pull'))
+                                .withLatestFrom(this.store.select('entities'),
+                                                ([action, pullState], entitiesState) => [action, pullState, entitiesState])
                                 .filter(([action, pullState]) => {
                                   return pullState['isPullingChain'] === true || pullState['pullingChain'].count() > 0;
                                 })
-                                .map(([action, pullState]) => {
+                                .map(([action, pullState, entitiesState]) => {
                                   if (pullState['pullingChain'].count() === 0) {
+                                    this.progressBar.done(true);
                                     return {type: PosPullActions.ACTION_PULL_ENTITIES_FULL};
                                   } else {
+                                    const pullEntitySuccess: List<string> = pullState['pullingChainSuccess'];
+                                    const pullingEntity: List<string>     = pullState['pullingChain'];
+      
+                                    const totalProportionSuccess       = pullEntitySuccess.reduce((t, entityCode) => {
+                                      return t += entitiesState[entityCode]['proportion'];
+                                    }, 0);
+                                    const totalProportionEntityPulling = pullingEntity.reduce((t, entityCode) => {
+                                      return t += entitiesState[entityCode]['proportion'];
+                                    }, 0);
+                                    this.progressBar.set(totalProportionSuccess * 100 / (totalProportionSuccess + totalProportionEntityPulling));
+      
                                     return {
                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
                                       payload: {entityCode: (pullState['pullingChain'] as List<string>).first()}

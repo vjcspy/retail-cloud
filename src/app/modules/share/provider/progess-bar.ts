@@ -7,8 +7,8 @@ export class ProgressBarService {
     NProgress.start();
   }
   
-  done(): void {
-    NProgress.done();
+  done(force: boolean = false): void {
+    NProgress.done(force);
   }
   
   remove(): void {
