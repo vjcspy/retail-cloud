@@ -19,10 +19,13 @@ export class PosPullEffects {
                                   return pullState['isPullingChain'] === true || pullState['pullingChain'].count() > 0;
                                 })
                                 .map(([action, pullState]) => {
-                                  return pullState['pullingChain'].count() === 0 ? {type: PosPullActions.ACTION_PULL_ENTITIES_FULL} :
-                                    {
+                                  if (pullState['pullingChain'].count() === 0) {
+                                    return {type: PosPullActions.ACTION_PULL_ENTITIES_FULL};
+                                  } else {
+                                    return {
                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
                                       payload: {entityCode: (pullState['pullingChain'] as List<string>).first()}
                                     };
+                                  }
                                 });
 }

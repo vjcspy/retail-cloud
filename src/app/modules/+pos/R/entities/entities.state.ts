@@ -55,7 +55,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                 status: 0
                               },
                               query: "",
-                              needRealTime: true
+                              needRealTime: true,
+                              proportion: 6
                             }),
     customers: entityFactory({
                                entityCode: CustomerDB.getCode(),
@@ -67,7 +68,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                isDependStore: true,
                                query: "",
                                propertyFilter: {},
-                               needRealTime: true
+                               needRealTime: true,
+                               proportion: 3
                              }),
     taxes: entityFactory({
                            entityCode: TaxDB.getCode(),
@@ -82,27 +84,27 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                            needRealTime: true
                          }),
     outlet: entityFactory({
-                             entityCode: OutletDB.getCode(),
+                            entityCode: OutletDB.getCode(),
+                            currentPage: 0,
+                            pageSize: 100,
+                            items: List.of(),
+                            apiUrlCode: OutletDB.getCode(),
+                            isFinished: false,
+                            isDependStore: false,
+                            query: "",
+                            propertyFilter: {}
+                          }),
+    payment: entityFactory({
+                             entityCode: PaymentDB.getCode(),
                              currentPage: 0,
                              pageSize: 100,
                              items: List.of(),
-                             apiUrlCode: OutletDB.getCode(),
+                             apiUrlCode: PaymentDB.getCode(),
                              isFinished: false,
                              isDependStore: false,
                              query: "",
                              propertyFilter: {}
                            }),
-    payment: entityFactory({
-                              entityCode: PaymentDB.getCode(),
-                              currentPage: 0,
-                              pageSize: 100,
-                              items: List.of(),
-                              apiUrlCode: PaymentDB.getCode(),
-                              isFinished: false,
-                              isDependStore: false,
-                              query: "",
-                              propertyFilter: {}
-                            }),
     receipts: entityFactory({
                               entityCode: ReceiptDB.getCode(),
                               currentPage: 0,

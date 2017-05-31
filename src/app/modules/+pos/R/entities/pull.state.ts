@@ -5,6 +5,7 @@ export interface PosPullState {
   isPullingChain: boolean;
   pullingEntity: string;
   pullingChain: List<string>;
+  pullingChainSuccess: List<string>;
 }
 
 export interface PosPullStateRecord extends TypedRecord<any>, PosPullState {}
@@ -12,5 +13,6 @@ export interface PosPullStateRecord extends TypedRecord<any>, PosPullState {}
 export const posPullStateFactory = makeTypedFactory<PosPullState, PosPullStateRecord>({
                                                                                         isPullingChain: false,
                                                                                         pullingEntity: '',
-                                                                                        pullingChain: List.of(null)
+                                                                                        pullingChain: <any> List.of(),
+                                                                                        pullingChainSuccess: <any> List.of()
                                                                                       });

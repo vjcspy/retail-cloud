@@ -14,6 +14,7 @@ export interface Entity {
   isDependStore: boolean;
   needRealTime?: boolean;
   isLoadedFromDB?: boolean;
+  proportion?: number;
 }
 export interface EntityRecord extends TypedRecord<EntityRecord>, Entity {}
 
@@ -29,5 +30,6 @@ export const entityFactory = makeTypedFactory<Entity, EntityRecord>({
                                                                       isFinished: false,
                                                                       isDependStore: false,
                                                                       needRealTime: false,
-                                                                      isLoadedFromDB: false
+                                                                      isLoadedFromDB: false,
+                                                                      proportion: 1
                                                                     });

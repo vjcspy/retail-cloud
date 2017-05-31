@@ -8,7 +8,8 @@ export const pullReducer: ActionReducer<PosPullStateRecord> = (state: PosPullSta
   switch (action.type) {
     case PosPullActions.ACTION_PULL_ENTITIES:
       return state.set('pullingChain', List.of(...action.payload['entitiesCode']))
-                  .set('isPullingChain', true);
+                  .set('isPullingChain', true)
+                  .set('pullingChainSuccess', List.of());
     
     case PosPullActions.ACTION_PULL_ENTITIES_FULL:
       return state.set('isPullingChain', false);
@@ -16,6 +17,7 @@ export const pullReducer: ActionReducer<PosPullStateRecord> = (state: PosPullSta
     case PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS:
       return state.isPullingChain === true ?
         state.update('pullingChain', (pullingChain: List<string>) => pullingChain.filter((entityCode) => entityCode !== action.payload['entityCode']))
+             .update('pullingChainSuccess', (pullingChainSuccess: List<string>) => pullingChainSuccess.push(action.payload['entityCode']))
              .set('pullingEntity', null)
         : state;
     

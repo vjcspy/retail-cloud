@@ -17,6 +17,7 @@ import {PosPullState} from "./entities/pull.state";
 import {pullReducer} from "./entities/pull.reducer";
 import {PosPullActions} from "./entities/pull.actions";
 import {PosPullEffects} from "./entities/pull.effects";
+import {PosPullService} from "./entities/pull.service";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosQuoteEffects),
@@ -36,7 +37,8 @@ export const R_POS_PROVIDERS = [
   PosQuoteActions,
   
   PosPullActions,
-  PosPullEffects
+  PosPullEffects,
+  PosPullService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
