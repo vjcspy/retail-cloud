@@ -24,6 +24,12 @@ import {ToastModule, ToastOptions} from "ng2-toastr";
 import {CustomToastOptions} from "./services/toast-options";
 import {APP_PROVIDERS} from "./services/index";
 import {METEOR_COLLECTION} from "./services/meteor-collections/index";
+import {TranslateLoader, TranslateModule, TranslateStaticLoader} from "ng2-translate";
+import {Http} from "@angular/http";
+
+function retailTranslateLoader(http: Http) {
+  return new TranslateStaticLoader(http, './', '.json');
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -44,7 +50,12 @@ import {METEOR_COLLECTION} from "./services/meteor-collections/index";
               BrowserModule,
               BrowserAnimationsModule,
               RouterExternalModule,
-              RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules})
+              RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+              TranslateModule.forRoot({
+                                        provide: TranslateLoader,
+                                        useFactory: (retailTranslateLoader),
+                                        deps: [Http]
+                                      })
             ],
             /**
              * Expose our Services and Providers into Angular's dependency injection.

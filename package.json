@@ -105,6 +105,7 @@
     "moment": "^2.18.1",
     "ng2-eonasdan-datetimepicker": "^0.0.5",
     "ng2-toastr": "^4.0.1",
+    "ng2-translate": "^5.0.0",
     "nprogress": "^0.2.0",
     "perfect-scrollbar": "^0.7.1",
     "q": "^1.5.0",

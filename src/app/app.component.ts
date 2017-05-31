@@ -40,7 +40,6 @@ export class AppComponent {
   constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {
     this.toastr.setRootViewContainerRef(vcr);
     this.store.subscribe((appState) => window['appState'] = appState);
-    this.toastr.success("OK");
   }
   
 }

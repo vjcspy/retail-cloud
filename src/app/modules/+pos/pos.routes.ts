@@ -1,7 +1,7 @@
 import {Routes} from "@angular/router";
-import {PosCheckoutComponent} from "./view/default/checkout.component";
 import {PosComponent} from "./pos.component";
 import {PosDefaultTheme} from "./view/default/default";
+import {PosDefaultCheckoutPage} from "./view/default/checkout";
 
 export const POS_ROUTES: Routes = [
   {
@@ -12,7 +12,7 @@ export const POS_ROUTES: Routes = [
         path: 'default',
         component: PosDefaultTheme,
         children: [
-          {path: 'checkout', component: PosCheckoutComponent}
+          {path: 'checkout', component: PosDefaultCheckoutPage}
         ]
       }
     ]

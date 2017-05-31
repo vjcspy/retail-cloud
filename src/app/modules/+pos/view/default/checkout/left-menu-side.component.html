@@ -1,0 +1,57 @@
+<div class="left-menu-side mn-xpos" #menuElem *ngIf="prePosService.getSelectedOutlet()">
+  <div class="account-side">
+    <span class="icon-user-bold"></span>
+    <p class="name">{{getUserName()}}</p>
+    <p class="txt">{{getOutletRegisterData()}}</p>
+  </div>
+  <ul class="left-menu-link">
+    <li *ngIf="posContainer.viewState['showBlockState'] != 'cart'">
+            <span class="click" (click)="openCart()">
+                <span class="icon-more"></span>
+                {{ 'pos' | translate}}
+            </span>
+    </li>
+    <li *ngIf="posContainer.viewState['showBlockState'] != 'shift'">
+            <span class="click" [ngClass]="{disabled: !onlineOfflineMode.isOnline}" (click)="openShift()">
+                <span class="icon-noted"></span>
+                {{'shift' | translate}}
+            </span>
+    </li>
+    <li *ngIf="posContainer.viewState['showBlockState'] != 'order_list' && authService.userCan('view_order_list')">
+            <span class="click" (click)="openOrderList()">
+                <span class="icon-news"></span>
+              {{'order list' | translate}}
+            </span>
+    </li>
+    <li>
+            <span class="click" [ngClass]="{disabled: !onlineOfflineMode.isOnline}" (click)="goPosSetting()">
+                <span class="icon-info"></span>
+               {{'setting' | translate}}
+            </span>
+    </li>
+    <li>
+            <span class="click" [ngClass]="{disabled: !onlineOfflineMode.isOnline}" (click)="changeOutlet()">
+            <span class="icon-list"></span>
+            {{'Change outlet' | translate}}
+            </span>
+    </li>
+    <li>
+            <span class="click" (click)="flushCache()">
+            <span class="icon-trash"></span>
+            {{'Flush cache' | translate}}
+            </span>
+    </li>
+  </ul>
+  <div class="bot-bar">
+    <button class="red" (click)="authService.signOut()">{{'Logout' | translate}}</button>
+    <div style="margin-top: 15px;width: 100%;margin-bottom: -40px;margin-left: -10px;">
+      <ul class="fr-control">
+        <li>
+          <label>{{'language' |translate}}</label>
+          <retail-select2 [elementData]="retailLanguageManager.getListLanguageSupport()" [(model)]="retailLanguageManager.currentLanguage"
+                          (modelChange)="retailLanguageManager.updateLanguage($event)"></retail-select2>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

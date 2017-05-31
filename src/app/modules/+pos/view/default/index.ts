@@ -1,6 +1,7 @@
-import {PosCheckoutComponent} from "./checkout.component";
 import {PosDefaultTheme} from "./default";
+import {PosDefaultCheckoutPage} from "./checkout";
+
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
-  PosCheckoutComponent
+  PosDefaultCheckoutPage
 ];
