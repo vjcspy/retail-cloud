@@ -1,5 +1,5 @@
 <div class="grid-product-inner" (window:resize)="onResize()" #gridProductInner>
-  <div class="grid-mode" *ngIf="checkoutState.isCategoryMode">
+  <div class="grid-mode" *ngIf="!checkoutState.isCategoryMode">
     <div *ngFor="let product of checkoutState.productGridProducts;trackBy: trackByItemFn;"
          class="item animated fadeIn"
          [ngStyle]="!checkoutState.productGridStyles">

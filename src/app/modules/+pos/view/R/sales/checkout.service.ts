@@ -77,7 +77,8 @@ export class PosCheckoutService {
           }
         });
       } else {
-        let _offset = (checkoutState.productGridCurrentPage - 1) * checkoutState.productGridNumOfProductPerPage;
+        currentPage = checkoutState.productGridCurrentPage;
+        let _offset = (currentPage - 1) * checkoutState.productGridNumOfProductPerPage;
         if (checkoutState.isGridMode) {
           let _totals         = products.count();
           totalsPage          = Math.ceil(_totals / checkoutState.productGridNumOfProductPerPage);

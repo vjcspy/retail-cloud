@@ -36,7 +36,7 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStat
     productGridCurrentPage: 1,
     productGridNumOfProductPerPage: 0,
     productGridStyleValue: {
-      marginProductLeftRight: 10, // margin left and right each product image
+      marginProductLeftRight: 10, // totals margin left and right each product image
       marginProductTop: 10, // margin top each product image
       baseWidthProductGrid: 190, // width product image
       paddingGrid: 40, // padding product-grid-inner 20px * 2

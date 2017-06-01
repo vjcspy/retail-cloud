@@ -1,5 +1,8 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
+/*
+ * Bao gồm 2 phần đó là phần default setting cho POS và những constrain setting
+ */
 export interface PosConfigState {
   posRetailConfig: Object;
   constrain: Object;

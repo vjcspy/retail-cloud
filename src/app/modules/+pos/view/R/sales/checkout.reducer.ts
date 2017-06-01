@@ -54,8 +54,12 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       return state.set('productGridStyles', {width: itemWidth + "px", height: itemHeight + "px"})
                   .set('productGridNumOfProductPerPage', numOfCol * numOfRow);
     
+    case PosCheckoutActions.ACTION_RESOLVE_GRID_PRODUCT:
+      return state.set('productGridProducts', action.payload['productGridProducts'])
+                  .set('productGridCurrentPage', action.payload['currentPage'])
+                  .set('productGridTotalsPage', action.payload['totalsPage']);
+    
     default:
       return state;
   }
 };
-
