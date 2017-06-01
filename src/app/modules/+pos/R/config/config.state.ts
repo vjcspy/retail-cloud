@@ -1,7 +1,7 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface PosConfigState {
-  setting: Object;
+  posRetailConfig: Object;
   constrain: Object;
 }
 
@@ -9,7 +9,7 @@ export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {
 
 export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigStateRecord>(
   {
-    setting: {
+    posRetailConfig: {
       numberOfSearchCustomerResult: 7,
       fieldSearchProduct: ["name", "sku", "id", "price", "type_id"],
       fieldSearchProductLable: ["Name", "Sku", "Id", "Price", "Type"],

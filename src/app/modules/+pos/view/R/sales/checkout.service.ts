@@ -55,7 +55,7 @@ export class PosCheckoutService {
           }
           
           let fullStringSearch: string = "";
-          _.forEach(config.setting['fieldSearchProduct'], (field: string) => {
+          _.forEach(config.posRetailConfig['fieldSearchProduct'], (field: string) => {
             if (product.hasOwnProperty(field) && _.isString(product[field])) {
               if (field === 'price') {
                 // Search theo giá converted
