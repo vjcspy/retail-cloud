@@ -2,6 +2,7 @@ import {Action} from "@ngrx/store";
 import {posEntitiesStateFactory, PosEntitiesStateRecord} from "./entities.state";
 import {PosEntitiesActions} from "./entities.actions";
 import * as _ from 'lodash';
+import {ProductDB} from "../../database/xretail/db/product";
 
 export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesStateFactory(), action: Action) => {
   switch (action.type) {
@@ -39,6 +40,9 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
       return state.updateIn([action.payload['entityCode'], 'currentPage'], (currentPage) => ++currentPage)
                   .updateIn([action.payload['entityCode'], 'items'], (list) => list.push(...action.payload.items));
     
+    case PosEntitiesActions.ACTION_FILTERED_PRODUCTS:
+      return state.setIn([ProductDB.getCode(), 'itemFiltered'], action.payload['productsFiltered']);
+      
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from "@ngrx/effects";
 import {PosEntitiesActions} from "./entities.actions";
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {PosState} from "../index";
 import {Observable} from "rxjs";
 import {PosEntitiesService} from "./entities.service";
@@ -10,6 +10,8 @@ import {GeneralMessage} from "../../services/general/message";
 import {List} from "immutable";
 import {Entity} from "./entities.model";
 import {PosPullState} from "./pull.state";
+import {ProductDB} from "../../database/xretail/db/product";
+import {PosEntitiesState} from "./entities.state";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -148,4 +150,18 @@ export class PosEntitiesEffects {
                                                                                                   }));
                                                     });
                                  });
+  
+  @Effect() resolveProductFilteredBySetting = this.action$
+                                                  .ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS, PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
+                                                  .filter((action: Action) => action.payload['entityCode'] === ProductDB.getCode())
+                                                  .withLatestFrom(this.store.select('entities'))
+                                                  .flatMap((data) => {
+                                                    const entities: PosEntitiesState = data[1];
+                                                    return Observable.fromPromise(this.posEntityService.getProductFilteredBySetting(entities.products, entities.retailConfig, entities.settings))
+                                                                     .map((mes: GeneralMessage) => {
+                                                                       return {type: PosEntitiesActions.ACTION_FILTERED_PRODUCTS, payload: mes.data};
+                                                                     });
+                                                  });
+  
+  
 }

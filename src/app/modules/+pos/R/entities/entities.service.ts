@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {RealtimeStorage} from "../../../../services/meteor-collections/reailtime-storage";
+import {List} from "immutable";
 
 @Injectable()
 export class PosEntitiesService {
@@ -216,6 +217,88 @@ export class PosEntitiesService {
                              });
                        }
     );
+  }
+  
+  async getProductFilteredBySetting(productsEntity: Entity, retailConfigEntity: Entity, settingEntity: Entity): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+      const products       = productsEntity.items;
+      let productsFiltered: any;
+      const retailConfig   = retailConfigEntity.items.find((v) => v['key'] === 'pos');
+      const productSetting = settingEntity.items.find((v) => v['key'] === 'product');
+      
+      let visibility: any     = true;
+      let type: any           = true;
+      let sort: any           = true;
+      let isSortAsc: any      = true;
+      let showOutOfStock: any = true;
+      let showDisabled: any   = true;
+      
+      if (retailConfig.hasOwnProperty('xretail/pos/show_product_by_visibility')) {
+        visibility = retailConfig['xretail/pos/show_product_by_visibility'];
+      }
+      if (retailConfig.hasOwnProperty('xretail/pos/show_product_by_type')) {
+        type = retailConfig['xretail/pos/show_product_by_type'];
+      }
+      if (retailConfig.hasOwnProperty('xretail/pos/sort_product_base_on')) {
+        sort = retailConfig['xretail/pos/sort_product_base_on'];
+      }
+      if (retailConfig.hasOwnProperty('xretail/pos/sort_product_sorting')) {
+        isSortAsc = retailConfig['xretail/pos/sort_product_sorting'];
+      }
+      if (retailConfig.hasOwnProperty('xretail/pos/show_outofstock_product')) {
+        showOutOfStock = retailConfig['xretail/pos/show_outofstock_product'];
+      }
+      if (retailConfig.hasOwnProperty('xretail/pos/show_disable_product')) {
+        showDisabled = retailConfig['xretail/pos/show_disable_product'];
+      }
+      productsFiltered = products.filter((product: any) => {
+        if (product.getData('id') === productSetting['custom_sale_product_id']) {
+          return false;
+        }
+        
+        // load visibility
+        if (visibility !== true) {
+          if (_.indexOf(visibility, product.getData('visibility')) === -1) {
+            return false;
+          }
+        }
+        if (type !== true) {
+          if (_.indexOf(type, product.getData('type_id')) === -1) {
+            return false;
+          }
+        }
+        // FiX XRT-187 : show out of stock product
+        if (parseInt(showOutOfStock) !== 1) {
+          if (product['stock_items']['is_in_stock'] === 0) {
+            return false;
+          }
+        }
+        // Fix XRT-185: filter disabled product
+        if (parseInt(showDisabled) !== 1) {
+          if (product['status'] === "2") {
+            return false;
+          }
+        }
+        return true;
+      });
+      
+      if (sort !== true && isSortAsc !== true) {
+        productsFiltered = productsFiltered.sortBy((product) => {
+          if (sort === 'price' || sort === 'id') {
+            return parseFloat(product.getData(sort));
+          } else {
+            // FIx 192 : get lower case to sort product by name , sku
+            return _.toLower(product.getData(sort));
+          }
+        });
+        if (isSortAsc !== 'asc') {
+          //noinspection TypeScriptUnresolvedFunction
+          productsFiltered = productsFiltered.reverse();
+        }
+      }
+      
+      return resolve({data: {productsFiltered}});
+    });
   }
   
 }

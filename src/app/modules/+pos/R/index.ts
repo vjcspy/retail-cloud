@@ -17,6 +17,8 @@ import {PosPullState} from "./entities/pull.state";
 import {pullReducer} from "./entities/pull.reducer";
 import {PosPullActions} from "./entities/pull.actions";
 import {PosPullEffects} from "./entities/pull.effects";
+import {posConfigReducer} from "./config/config.reducer";
+import {PosConfigState} from "./config/config.state";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosQuoteEffects),
@@ -45,11 +47,13 @@ export interface PosState {
   entities: PosEntitiesState;
   quote: PosQuoteState;
   pull: PosPullState;
+  config: PosConfigState;
 }
 
 export const posReducer = createReducer({
                                           general: generalReducer,
                                           quote: quoteReducer,
                                           entities: entitiesReducer,
-                                          pull: pullReducer
+                                          pull: pullReducer,
+                                          config: posConfigReducer
                                         });

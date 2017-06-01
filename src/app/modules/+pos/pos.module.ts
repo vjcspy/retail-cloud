@@ -7,6 +7,7 @@ import {DEFAULT_VIEW_COMPONENTS} from "./view/default/index";
 import {PosComponent} from "./pos.component";
 import {POS_SERVICES} from "./services/index";
 import {R_POS_VIEW_IMPORTS, R_POS_VIEW_PROVIDERS} from "./view/R/index";
+import {POS_PIPES} from "./pipes/index";
 
 @NgModule({
             imports: [
@@ -18,7 +19,8 @@ import {R_POS_VIEW_IMPORTS, R_POS_VIEW_PROVIDERS} from "./view/R/index";
             exports: [],
             declarations: [
               PosComponent,
-              ...DEFAULT_VIEW_COMPONENTS
+              ...DEFAULT_VIEW_COMPONENTS,
+              ...POS_PIPES
             ],
             providers: [
               ...POS_SERVICES,

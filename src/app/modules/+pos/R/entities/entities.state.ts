@@ -56,7 +56,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               },
                               query: "",
                               needRealTime: true,
-                              proportion: 2
+                              proportion: 2,
+                              itemFiltered: List.of()
                             }),
     customers: entityFactory({
                                entityCode: CustomerDB.getCode(),

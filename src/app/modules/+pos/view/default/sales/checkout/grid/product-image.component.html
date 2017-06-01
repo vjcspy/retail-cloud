@@ -1,0 +1,3 @@
+<p #productImgElem class="product-img" (click)="addToCart(product)" (window:resize)="onResize()">
+  <img *ngIf="!!imageUrl" src="{{imageUrl}}" alt=""/>
+</p>

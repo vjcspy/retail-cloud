@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {PosEntitiesActions} from "../../R/entities/entities.actions";
 import {FakeService} from "../../services/fake";
-import {posViewReducer} from "../R/index";
+import {posSalesReducer} from "../R/index";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +19,7 @@ export class PosDefaultSalesPage implements OnInit {
   
   constructor(protected store: Store<any>,
               protected fakeService: FakeService) {
-    this.store.replaceReducer(posViewReducer);
+    this.store.replaceReducer(posSalesReducer);
   }
   
   ngOnInit(): void {

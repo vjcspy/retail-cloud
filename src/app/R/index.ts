@@ -21,12 +21,8 @@ export function createReducer(asyncReducers = {}): ActionReducer<any> {
 
 const STORE_DEV_TOOLS_IMPORTS = [];
 STORE_DEV_TOOLS_IMPORTS.push(...[
-  StoreDevtoolsModule.instrumentOnlyWithExtension({
-                                        // monitor: useLogMonitor({
-                                        //                          visible: true,
-                                        //                          position: "right"
-                                        //                        })
-                                      })]);
+  StoreDevtoolsModule.instrumentOnlyWithExtension({maxAge: 10})
+]);
 
 export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
