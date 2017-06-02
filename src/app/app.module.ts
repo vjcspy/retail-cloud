@@ -26,6 +26,7 @@ import {APP_PROVIDERS} from "./services/index";
 import {METEOR_COLLECTION} from "./services/meteor-collections/index";
 import {TranslateLoader, TranslateModule, TranslateStaticLoader} from "ng2-translate";
 import {Http} from "@angular/http";
+import {SelectivePreloadingStrategy} from "./services/preloading-router";
 
 function retailTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, './', '.json');
@@ -50,7 +51,7 @@ function retailTranslateLoader(http: Http) {
               BrowserModule,
               BrowserAnimationsModule,
               RouterExternalModule,
-              RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+              RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: SelectivePreloadingStrategy}),
               TranslateModule.forRoot({
                                         provide: TranslateLoader,
                                         useFactory: (retailTranslateLoader),
@@ -61,6 +62,7 @@ function retailTranslateLoader(http: Http) {
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
+              SelectivePreloadingStrategy,
               {provide: ToastOptions, useClass: CustomToastOptions},
               ...APP_PROVIDERS,
               ...METEOR_COLLECTION,
