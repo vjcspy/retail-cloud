@@ -1,5 +1,5 @@
 <div class="grid-product">
-  <pos-default-sales-checkout-top-bar [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-top-bar>
+  <pos-default-sales-checkout-top-bar [checkoutState]="checkoutState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-top-bar>
   <pos-default-sales-checkout-grid [checkoutState]="checkoutState$ | async" [entitiesState]="entitiesState$ | async"></pos-default-sales-checkout-grid>
   <pos-default-sales-checkout-list></pos-default-sales-checkout-list>
   <pos-default-sales-checkout-bottom-bar [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-bottom-bar>

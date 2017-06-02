@@ -69,46 +69,44 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       const totalPage   = action.payload['totalsPage'];
       const currentPage = action.payload['currentPage'];
       
-      if (!totalPage) {
-        return [];
-      }
-      
       let pagesView: any[] = [];
-      if (totalPage <= 6) {
-        for (let i = 1; i <= totalPage; i++) {
-          pagesView.push(i);
-        }
-      } else {
-        pagesView.push(1);
-        // Before
-        if ((currentPage - 1) > 3) {
-          pagesView.push("...");
-          for (let i = (currentPage - 2); i < currentPage; i++) {
+      if (_.isNumber(totalPage) && totalPage > 0) {
+        if (totalPage <= 6) {
+          for (let i = 1; i <= totalPage; i++) {
             pagesView.push(i);
           }
-        } else if (currentPage > 1) {
-          for (let i = 2; i < currentPage; i++) {
-            pagesView.push(i);
+        } else {
+          pagesView.push(1);
+          // Before
+          if ((currentPage - 1) > 3) {
+            pagesView.push("...");
+            for (let i = (currentPage - 2); i < currentPage; i++) {
+              pagesView.push(i);
+            }
+          } else if (currentPage > 1) {
+            for (let i = 2; i < currentPage; i++) {
+              pagesView.push(i);
+            }
           }
-        }
-        // current
-        if (currentPage !== 1) {
-          pagesView.push(currentPage);
-        }
-        // After
-        if ((totalPage - currentPage) > 3) {
-          for (let i = (currentPage + 1); i < (currentPage + 3); i++) {
-            pagesView.push(i);
+          // current
+          if (currentPage !== 1) {
+            pagesView.push(currentPage);
           }
-          pagesView.push("...");
-        } else if (currentPage < totalPage) {
-          for (let i = (currentPage + 1); i < totalPage; i++) {
-            pagesView.push(i);
+          // After
+          if ((totalPage - currentPage) > 3) {
+            for (let i = (currentPage + 1); i < (currentPage + 3); i++) {
+              pagesView.push(i);
+            }
+            pagesView.push("...");
+          } else if (currentPage < totalPage) {
+            for (let i = (currentPage + 1); i < totalPage; i++) {
+              pagesView.push(i);
+            }
           }
-        }
-        // End
-        if (currentPage !== totalPage) {
-          pagesView.push(totalPage);
+          // End
+          if (currentPage !== totalPage) {
+            pagesView.push(totalPage);
+          }
         }
       }
       

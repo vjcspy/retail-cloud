@@ -48,9 +48,9 @@ export class PosCheckoutService {
         let work = 0;
         
         let _priceFormat = new PriceFormatPipe();
-        _.forEach(products, (product: ProductDB) => {
+        products.forEach((product: ProductDB) => {
           let re = new RegExp(reString, "gi");
-          if (work >= checkoutState.productGridNumOfProductPerPage || reString !== checkoutState.searchStringPattern) {
+          if (work >= checkoutState.productGridNumOfProductPerPage) {
             return false;
           }
           
@@ -72,8 +72,8 @@ export class PosCheckoutService {
           });
           //noinspection TypeScriptUnresolvedFunction
           if (re.test(fullStringSearch)) {
-            productGridProducts.push(product);
             ++work;
+            productGridProducts = <any> productGridProducts.push(product);
           }
         });
       } else {
