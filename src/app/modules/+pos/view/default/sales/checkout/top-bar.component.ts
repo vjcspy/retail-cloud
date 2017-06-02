@@ -3,7 +3,6 @@ import {CheckoutState} from "../../../R/sales/checkout.state";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {FormControl} from "@angular/forms";
 import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
-import {config} from "shelljs";
 import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
 
 @Component({
