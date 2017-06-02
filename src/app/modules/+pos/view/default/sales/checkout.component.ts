@@ -12,7 +12,7 @@ import {PosEntitiesState} from "../../../R/entities/entities.state";
            })
 export class PosDefaultSalesCheckoutComponent implements OnInit {
   protected checkoutState$: Observable<CheckoutState>;
-  protected entitiesState$: Observable<PosEntitiesState>
+  protected entitiesState$: Observable<PosEntitiesState>;
   
   constructor(private store$: Store<any>, private pullActions: PosPullActions) {
     this.checkoutState$ = this.store$.select('checkout');
