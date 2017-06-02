@@ -38,11 +38,12 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS:
       return state.updateIn([action.payload['entityCode'], 'currentPage'], (currentPage) => ++currentPage)
-                  .updateIn([action.payload['entityCode'], 'items'], (list) => list.push(...action.payload.items));
+                  .updateIn([action.payload['entityCode'], 'items'],
+                            (list) => list.push(..._.map(action.payload.items, (p) => (new ProductDB()).addData(p))));
     
     case PosEntitiesActions.ACTION_FILTERED_PRODUCTS:
       return state.setIn([ProductDB.getCode(), 'itemFiltered'], action.payload['productsFiltered']);
-      
+    
     default:
       return state;
   }

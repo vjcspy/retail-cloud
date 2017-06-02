@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {RealtimeStorage} from "../../../../services/meteor-collections/reailtime-storage";
-import {List} from "immutable";
+import {ProductDB} from "../../database/xretail/db/product";
 
 @Injectable()
 export class PosEntitiesService {
@@ -251,7 +251,7 @@ export class PosEntitiesService {
       if (retailConfig.hasOwnProperty('xretail/pos/show_disable_product')) {
         showDisabled = retailConfig['xretail/pos/show_disable_product'];
       }
-      productsFiltered = products.filter((product: any) => {
+      productsFiltered = products.filter((product: ProductDB) => {
         if (product.getData('id') === productSetting['custom_sale_product_id']) {
           return false;
         }
@@ -275,7 +275,7 @@ export class PosEntitiesService {
         }
         // Fix XRT-185: filter disabled product
         if (parseInt(showDisabled) !== 1) {
-          if (product['status'] === "2") {
+          if (product.getData('status') === "2") {
             return false;
           }
         }
