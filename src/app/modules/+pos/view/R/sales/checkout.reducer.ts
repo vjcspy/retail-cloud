@@ -6,8 +6,17 @@ import {PosCheckoutActions} from "./checkout.actions";
 export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: CheckoutStateRecord = checkoutStateFactory(), action: Action) => {
   switch (action.type) {
     case PosCheckoutActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
+      let baseWidthProductGrid: number;
+      if (action.payload['gridWidth'] < 800) {
+        baseWidthProductGrid = 120;
+      } else if (action.payload['gridWidth'] < 1200) {
+        baseWidthProductGrid = 190;
+      } else {
+        baseWidthProductGrid = 220;
+      }
       return state.set('productGridWidth', action.payload['gridWidth'])
-                  .set('productGridHeight', action.payload['gridHeight']);
+                  .set('productGridHeight', action.payload['gridHeight'])
+                  .set('productGridStyleValue', Object.assign({}, state.productGridStyleValue, {baseWidthProductGrid}));
     
     case PosCheckoutActions.ACTION_CALCULATE_GRID_STYLE:
       const gridWidth  = state.productGridWidth;

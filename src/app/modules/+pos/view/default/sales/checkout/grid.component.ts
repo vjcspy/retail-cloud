@@ -35,4 +35,12 @@ export class PosDefaultSalesCheckoutGridComponent implements OnInit, AfterViewIn
   protected trackByItemFn(index, product) {
     return product['id'];
   }
+  
+  protected viewDetail() {
+    console.log("not implement");
+  }
+  
+  protected swipe(event){
+    console.log(event);
+  }
 }
