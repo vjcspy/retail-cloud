@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {CheckoutState} from "../../../R/sales/checkout.state";
 
 @Component({
              // moduleId: module.id,
@@ -6,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
              templateUrl: 'top-bar.component.html'
            })
 export class PosDefaultSalesCheckoutTopBarComponent implements OnInit {
-  constructor() { }
+  @Input() checkoutState: CheckoutState;
   
   ngOnInit() { }
   

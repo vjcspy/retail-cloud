@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CheckoutState} from "../../../R/sales/checkout.state";
-import {Store} from "@ngrx/store";
 import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
 
 @Component({
@@ -9,10 +8,9 @@ import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
              templateUrl: 'bottom-bar.component.html'
            })
 export class PosDefaultSalesCheckoutBottomBarComponent {
-  protected checkoutState: CheckoutState;
+  @Input() checkoutState: CheckoutState;
   
-  constructor(protected store: Store<any>, protected checkoutActions: PosCheckoutActions) {
-    this.store.select('checkout').subscribe((checkoutState: CheckoutState) => this.checkoutState = checkoutState);
+  constructor(protected checkoutActions: PosCheckoutActions) {
   }
   
   protected changePage(productGridCurrentPage: number) {
