@@ -1083,7 +1083,7 @@ textarea[readonly="readonly"] {
 }
 .grid-mode, .category-mode {
   padding-top: 3px;
-  margin: 0 -5px;
+  margin: 0;
   @include clearfix;
   .item {
     float: left; width: 200px;

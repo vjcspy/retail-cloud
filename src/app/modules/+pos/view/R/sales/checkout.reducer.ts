@@ -22,8 +22,9 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       let numOfCol   = parseInt(trueColumn + "");
       
       // 1px for rounding
-      let resizePercent     = (currentWidth - viewExtend * numOfCol) * 100 / (numOfCol * state.productGridStyleValue['baseWidthProductGrid']);
-      let itemWidth: string = (state.productGridStyleValue['baseWidthProductGrid'] * (100 + resizePercent) / 100).toFixed(2);
+      let resizePercent     = (currentWidth - viewExtend * numOfCol - 1) * 100 / (numOfCol * viewExtend);
+      let itemWidth: number = (viewExtend * (100 + resizePercent) / 100) - state.productGridStyleValue['marginProductLeftRight'];
+      itemWidth             = NumberHelper.round(itemWidth, 4);
       
       /*------------------------------------------------------------------------------------------------------------*/
       
