@@ -23,7 +23,8 @@ export class PosCheckoutEffects {
   @Effect() resolveProductInGrid = this.actions$
                                        .ofType(
                                          PosCheckoutActions.ACTION_CALCULATE_GRID_STYLE,
-                                         PosEntitiesActions.ACTION_FILTERED_PRODUCTS
+                                         PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
+                                         PosCheckoutActions.ACTION_UPDATE_GRID_STATE
                                        )
                                        .withLatestFrom(this.store$.select('checkout'))
                                        .withLatestFrom(this.store$.select('entities'),

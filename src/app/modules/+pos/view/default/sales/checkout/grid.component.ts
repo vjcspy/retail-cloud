@@ -40,7 +40,11 @@ export class PosDefaultSalesCheckoutGridComponent implements OnInit, AfterViewIn
     console.log("not implement");
   }
   
-  protected swipe(event){
-    console.log(event);
+  protected swipe(event: string) {
+    if (event === 'swipeleft') {
+      this.checkoutActions.updateGridState({productGridCurrentPage: this.checkoutState.productGridCurrentPage + 1});
+    } else if (event === 'swiperight') {
+      this.checkoutActions.updateGridState({productGridCurrentPage: this.checkoutState.productGridCurrentPage - 1});
+    }
   }
 }

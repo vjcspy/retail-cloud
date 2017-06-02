@@ -1,0 +1,27 @@
+<div class="bottom-bar">
+  <ul class="paging" *ngIf="checkoutState.productGridTotalsPage >1 && checkoutState.isGridMode">
+    <li [ngClass]="{disable: checkoutState.productGridCurrentPage == 1}"><span class="click" (click)="changePage(checkoutState.productGridCurrentPage -1)"><span
+      class="icon-prev"></span></span></li>
+    <li *ngFor="let page of checkoutState.productGridPagingData" [ngClass]="{current: page == checkoutState.productGridCurrentPage}" (click)="changePage(page)">
+      <span [ngClass]="{click: page != '...'}">{{page}}</span>
+    </li>
+    <li [ngClass]="{disable: checkoutState.productGridCurrentPage == checkoutState.productGridTotalsPage}">
+      <span class="click" (click)="changePage(checkoutState.productGridCurrentPage +1)"><span class="icon-next"></span></span>
+    </li>
+  </ul>
+  <!--<span *ngIf="!!productViewService.viewData.currentCategory" class="category-name">-->
+  <!--&lt;!&ndash;<i class="fa fa-bars" aria-hidden="true"></i>&ndash;&gt;-->
+  <!--Category:&nbsp;-->
+  <!--<span (click)="toggleCategoryMode()" class="click" style="font-weight: 900;font-style: italic;color: darkcyan;">-->
+  <!--{{productViewService.viewData.currentCategory['name']}}-->
+  <!--</span>-->
+  <!--</span>-->
+  <span class="icon-link">
+        <span class="icon-truck"></span>
+        <span class="tooltiptext-top">{{"Shipment" | translate}}</span>
+    </span>
+  <span class="icon-link">
+        <span class="icon-notification"></span>
+        <span class="tooltiptext-top">{{"Custom Sale" | translate}}</span>
+    </span>
+</div>
