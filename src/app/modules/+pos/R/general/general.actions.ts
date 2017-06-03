@@ -4,9 +4,10 @@ import {PosState} from "./pos.state";
 
 @Injectable()
 export class PosGeneralActions {
-  static ACTION_SELECT_OUTLET   = 'ACTION_SELECT_OUTLET';
-  static ACTION_SELECT_REGISTER = 'ACTION_SELECT_REGISTER';
-  static ACTION_SELECT_WEBSITE  = 'ACTION_SELECT_WEBSITE';
+  static ACTION_SELECT_OUTLET_REGISTER = 'ACTION_SELECT_OUTLET_REGISTER';
+  static ACTION_SELECT_WEBSITE         = 'ACTION_SELECT_WEBSITE';
+  
+  static ACTION_SAVE_STATE = 'ACTION_SAVE_STATE';
   
   static ACTION_GENERAL_STATE_NOT_VALID = 'ACTION_GENERAL_STATE_NOT_VALID';
   
@@ -18,11 +19,7 @@ export class PosGeneralActions {
     this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_WEBSITE, payload: website});
   }
   
-  selectOutlet(outlet: any): void {
-    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_OUTLET, payload: outlet});
-  }
-  
-  selectRegister(register: any): void {
-    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_REGISTER, payload: register});
+  selectOutletRegister(outletId: number, registerId): void {
+    this.store.dispatch({type: PosGeneralActions.ACTION_SELECT_OUTLET_REGISTER, payload: {outletId, registerId}});
   }
 }
