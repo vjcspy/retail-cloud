@@ -34,7 +34,7 @@ export class PosCheckoutEffects {
                                        .filter(([action, checkoutState, entitiesState, configState]) => {
                                          return checkoutState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
                                        })
-                                       .flatMap(([action, checkoutState, entitiesState, configState]) => {
+                                       .switchMap(([action, checkoutState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutService.resolveSearchProduct(checkoutState, entitiesState.products.itemFiltered, configState))
                                                           .map((data: GeneralMessage) => {
                                                             return {
