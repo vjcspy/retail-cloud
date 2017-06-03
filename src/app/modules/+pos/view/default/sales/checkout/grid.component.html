@@ -1,7 +1,6 @@
 <div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner>
   <div class="grid-mode selectDisable" *ngIf="!checkoutState.isCategoryMode">
-    <div *ngFor="let product of checkoutState.productGridProducts;trackBy: trackByItemFn;"
-         class="item animated fadeIn"
+    <div *ngFor="let product of checkoutState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutState.productGridStyles">
       <span class="tags sale" *ngIf="productHelper.isSales(product)"><img src="../assets/icon/sale-icon148x84.png" alt=""/></span>
       <span class="tags info" *ngIf="productHelper.isOutOfStock(product)"><img src="../assets/icon/info-icon80x80.png" alt=""/></span>
