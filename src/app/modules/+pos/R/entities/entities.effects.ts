@@ -79,7 +79,8 @@ export class PosEntitiesEffects {
                                                                      {
                                                                        type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
                                                                        payload: {
-                                                                         entityCode: action.payload['entityCode']
+                                                                         entityCode: action.payload['entityCode'],
+                                                                         generalState // Để tạo query dựa vào outlet/register/store
                                                                        }
                                                                      };
                                                                  });

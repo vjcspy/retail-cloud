@@ -78,13 +78,7 @@ export class PosEntitiesService {
     return new Promise((resolve, reject) => {
       let url            = this.apiManager.get(entity.apiUrlCode, generalState.baseUrl);
       const nextPagePull = (entity.currentPage + 1);
-      url +=
-        url.indexOf("?") > -1 ?
-          "&" : "?" + entity.query
-                + "&searchCriteria[currentPage]=" + nextPagePull
-                + "&searchCriteria[storeId]=" + generalState.store['id']
-                + "&searchCriteria[outlet_id]=" + generalState.outlet['id']
-                + "&searchCriteria[register_id]=" + generalState.register['id'];
+      url += url.indexOf("?") > -1 ? "&" : "?" + entity.query;
       
       this.requestService
           .makeGet(url)
