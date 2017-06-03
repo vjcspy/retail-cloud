@@ -7,6 +7,9 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
       return state.set('customer', action.payload['customer']);
     
+    case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
+      return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
+      
     default:
       return state;
   }

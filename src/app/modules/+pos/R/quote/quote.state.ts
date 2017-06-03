@@ -16,6 +16,8 @@ export interface PosQuoteState {
   
   isRefunding: boolean;
   
+  info: Object;
+  
   grandTotal: number; // Phải tính trong cả 2 trường hợp là refund và không refund
 }
 
@@ -31,6 +33,8 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
                                                                                            useDefaultCustomer: false,
   
                                                                                            isRefunding: false,
+  
+                                                                                           info: {},
   
                                                                                            grandTotal: 0
                                                                                          });

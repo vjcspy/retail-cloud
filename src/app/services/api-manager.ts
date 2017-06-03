@@ -31,7 +31,7 @@ export class ApiManager {
     shipment: "shipment",
     payment: "payment",
     shifts: "shifts",
-    'check-shifts': "check-shifts",
+    'check-open-shift': "check-open-shift",
     'open-shift': "open-shift",
     'close-shift': "close-shift",
     'adjust-shift': "adjust-shift",
