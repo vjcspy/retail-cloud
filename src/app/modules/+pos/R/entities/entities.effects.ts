@@ -154,6 +154,7 @@ export class PosEntitiesEffects {
   @Effect() resolveProductFilteredBySetting = this.action$
                                                   .ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS, PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
                                                   .filter((action: Action) => action.payload['entityCode'] === ProductDB.getCode())
+                                                  .debounceTime(2000)
                                                   .withLatestFrom(this.store.select('entities'))
                                                   .flatMap((data) => {
                                                     const entities: PosEntitiesState = data[1];
