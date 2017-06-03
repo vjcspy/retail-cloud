@@ -4,15 +4,18 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {RootState} from "./root.state";
 import {rootReducer} from "./root.reducer";
 import {RootActions} from "./root.actions";
+import {routerReducer, RouterState, RouterStoreModule} from "@ngrx/router-store";
 
 export interface AppState {
   rootState: RootState;
+  router: RouterState;
   
   [propName: string]: any;
 }
 
 const appReducers = {
   rootState: rootReducer,
+  router: routerReducer
 };
 
 export function createReducer(asyncReducers = {}): ActionReducer<any> {
@@ -28,7 +31,8 @@ export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
   STORE_DEV_TOOLS_IMPORTS,
   StoreDevtoolsModule,
-  StoreLogMonitorModule
+  StoreLogMonitorModule,
+  RouterStoreModule.connectRouter()
 ];
 
 /*
