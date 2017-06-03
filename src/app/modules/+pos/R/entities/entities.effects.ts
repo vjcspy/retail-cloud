@@ -12,6 +12,11 @@ import {Entity} from "./entities.model";
 import {PosPullState} from "./pull.state";
 import {ProductDB} from "../../database/xretail/db/product";
 import {PosEntitiesState} from "./entities.state";
+import {PosGeneralState} from "../general/general.state";
+import {CustomerDB} from "../../database/xretail/db/customer";
+import {SettingDB} from "../../database/xretail/db/setting";
+import {ShiftDB} from "../../database/xretail/db/shift";
+import * as _ from 'lodash';
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -58,7 +63,7 @@ export class PosEntitiesEffects {
                                             // Chỉ được pull entity khi dùng pull chain
                                             .filter(([action, generalState, entitiesState, pullState]) => (pullState as PosPullState).isPullingChain === true)
                                             .flatMap(([action, generalState, entitiesState]) => {
-                                              const entityCode = action.payload['entityCode'];
+                                              const entityCode     = action.payload['entityCode'];
                                               const entity: Entity = entitiesState[entityCode];
                                               // Kiểm tra xem là entity sắp pull đã được init từ DB ra chưa?
                                               if (entity.isLoadedFromDB !== true) {
@@ -80,7 +85,7 @@ export class PosEntitiesEffects {
                                                                        type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
                                                                        payload: {
                                                                          entityCode: action.payload['entityCode'],
-                                                                         generalState // Để tạo query dựa vào outlet/register/store
+                                                                         query: this.createQueryPull(entity, generalState)
                                                                        }
                                                                      };
                                                                  });
@@ -169,4 +174,24 @@ export class PosEntitiesEffects {
                                                   });
   
   
+  protected createQueryPull(entity: Entity, generalState: PosGeneralState) {
+    let _query = '';
+    _.forEach(entity.propertyFilter, (val, key) => {
+      _query += `&searchCriteria[${key}]=${val}`;
+    });
+    _query += `&searchCriteria[pageSize]=${entity.pageSize}&searchCriteria[currentPage]=${entity.currentPage + 1}`;
+    
+    switch (entity.entityCode) {
+      case ProductDB.getCode():
+      case CustomerDB.getCode():
+      case SettingDB.getCode():
+      case ShiftDB.getCode():
+        _query += "&searchCriteria[storeId]=" + generalState.store['id']
+                  + "&searchCriteria[outlet_id]=" + generalState.outlet['id']
+                  + "&searchCriteria[register_id]=" + generalState.register['id'];
+        break;
+      default:
+    }
+    return _query;
+  }
 }
