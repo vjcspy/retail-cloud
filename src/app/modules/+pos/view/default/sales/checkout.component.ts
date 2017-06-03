@@ -41,7 +41,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
                                         'countries',
                                         'taxClass',
                                         'taxes',
-                                        'shifts',
+                                        // 'shifts',
                                         'receipts',
                                         'payment',
                                         'userOrderCount',

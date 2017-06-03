@@ -15,6 +15,7 @@ import {CustomerGroupDB} from "../../database/xretail/db/customer-group";
 import {TaxClassDB} from "../../database/xretail/db/tax-class";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
+import {OrderDB} from "../../database/xretail/db/order";
 
 export interface PosEntitiesState {
   products?: EntityRecord;
@@ -188,13 +189,26 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
     shifts: entityFactory({
                             entityCode: ShiftDB.getCode(),
                             currentPage: 0,
-                            pageSize: 100,
+                            pageSize: 50,
                             items: List.of(),
                             apiUrlCode: ShiftDB.getCode(),
                             isFinished: false,
                             isDependStore: false,
                             query: "",
-                            propertyFilter: {}
+                            propertyFilter: {},
+                            limitPage: 1
+                          }),
+    orders: entityFactory({
+                            entityCode: OrderDB.getCode(),
+                            currentPage: 0,
+                            pageSize: 20,
+                            items: List.of(),
+                            apiUrlCode: OrderDB.getCode(),
+                            isFinished: false,
+                            isDependStore: false,
+                            query: "",
+                            propertyFilter: {},
+                            limitPage: 1
                           }),
     userOrderCount: entityFactory({
                                     entityCode: UserOrderCountDB.getCode(),

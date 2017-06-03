@@ -12,6 +12,7 @@ import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {RealtimeStorage} from "../../../../services/meteor-collections/reailtime-storage";
 import {ProductDB} from "../../database/xretail/db/product";
+import {ShiftDB} from "../../database/xretail/db/shift";
 
 @Injectable()
 export class PosEntitiesService {
@@ -98,11 +99,13 @@ export class PosEntitiesService {
                 return resolve({error: false, data: {isFinished: true}});
               } else {
                 // not yet finished
-                let db: RetailDB = this.databaseManager.getDbInstance();
-                try {
-                  await db[entity.entityCode].bulkAdd(items);
-                } catch (e) {
-                  console.log("add entities to cache failed");
+                if (entity.entityCode !== ShiftDB.getCode()) {
+                  let db: RetailDB = this.databaseManager.getDbInstance();
+                  try {
+                    await db[entity.entityCode].bulkAdd(items);
+                  } catch (e) {
+                    console.log("add entities to cache failed");
+                  }
                 }
             
                 // save data pull success

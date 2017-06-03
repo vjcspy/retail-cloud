@@ -25,26 +25,26 @@ export class PosEntitiesEffects {
               private store: Store<PosState>,
               private posEntityService: PosEntitiesService) {}
   
-  @Effect() initEntityFromLocalDB$ = this.action$
-                                         .ofType(
-                                           PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
-                                           // Cứ mỗi khi realtime thì lại init lại
-                                           PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB
-                                         )
-                                         .withLatestFrom(this.store.select('general'))
-                                         .withLatestFrom(this.store.select('entities'),
-                                                         ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                         .flatMap(([action, generalState, entitiesState]) => {
-                                           const entityCode = (entitiesState[action.payload['entityCode']] as Entity).entityCode;
-                                           return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
-                                                            .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
-                                                                                     .map((mes: GeneralMessage) => {
-                                                                                       return {
-                                                                                         type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
-                                                                                         payload: {data: mes.data[entityCode], entityCode}
-                                                                                       };
-                                                                                     }));
-                                         });
+  @Effect() initEntityBeforeGetFromSV$ = this.action$
+                                             .ofType(
+                                               PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
+                                               // Cứ mỗi khi realtime thì lại init lại
+                                               PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB
+                                             )
+                                             .withLatestFrom(this.store.select('general'))
+                                             .withLatestFrom(this.store.select('entities'),
+                                                             ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                             .flatMap(([action, generalState, entitiesState]) => {
+                                               const entityCode = (entitiesState[action.payload['entityCode']] as Entity).entityCode;
+                                               return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                                                .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
+                                                                                         .map((mes: GeneralMessage) => {
+                                                                                           return {
+                                                                                             type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
+                                                                                             payload: {data: mes.data[entityCode], entityCode}
+                                                                                           };
+                                                                                         }));
+                                             });
   
   @Effect() pullEntityDataFromServer$ = this.action$
                                             .ofType(
@@ -108,31 +108,41 @@ export class PosEntitiesEffects {
                                                                             payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
                                                                           });
                                                    } else {
-                                                     return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
-                                                                      .map((pullData: GeneralMessage) => {
-                                                                        if (pullData.data['isFinished'] === true) {
-                                                                          return {
-                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                            payload: {
-                                                                              entityCode: action.payload.entityCode
-                                                                            }
-                                                                          };
-                                                                        } else {
-                                                                          return {
-                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {
-                                                                              entityCode: action.payload.entityCode,
-                                                                              items: pullData.data['items']
-                                                                            }
-                                                                          };
-                                                                        }
-                                                                      })
-                                                                      .catch(() => Observable.of({
-                                                                                                   type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
-                                                                                                   payload: {
-                                                                                                     entityCode: action.payload.entityCode
-                                                                                                   }
-                                                                                                 })
-                                                                      );
+                                                     const entity: Entity = entitiesState[action.payload.entityCode];
+                                                     if (entity.limitPage > 0 && entity.currentPage === entity.limitPage) {
+                                                       return Observable.of({
+                                                                              type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                                              payload: {
+                                                                                entityCode: action.payload.entityCode
+                                                                              }
+                                                                            });
+                                                     } else {
+                                                       return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entity, generalState))
+                                                                        .map((pullData: GeneralMessage) => {
+                                                                          if (pullData.data['isFinished'] === true) {
+                                                                            return {
+                                                                              type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                                              payload: {
+                                                                                entityCode: action.payload.entityCode
+                                                                              }
+                                                                            };
+                                                                          } else {
+                                                                            return {
+                                                                              type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {
+                                                                                entityCode: action.payload.entityCode,
+                                                                                items: pullData.data['items']
+                                                                              }
+                                                                            };
+                                                                          }
+                                                                        })
+                                                                        .catch(() => Observable.of({
+                                                                                                     type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
+                                                                                                     payload: {
+                                                                                                       entityCode: action.payload.entityCode
+                                                                                                     }
+                                                                                                   })
+                                                                        );
+                                                     }
                                                    }
                                                  }
                                       );
