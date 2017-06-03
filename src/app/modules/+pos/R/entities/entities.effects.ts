@@ -58,7 +58,7 @@ export class PosEntitiesEffects {
                                             // Chỉ được pull entity khi dùng pull chain
                                             .filter(([action, generalState, entitiesState, pullState]) => (pullState as PosPullState).isPullingChain === true)
                                             .flatMap(([action, generalState, entitiesState]) => {
-                                              const entityCode     = action.payload['entityCode'];
+                                              const entityCode = action.payload['entityCode'];
                                               const entity: Entity = entitiesState[entityCode];
                                               // Kiểm tra xem là entity sắp pull đã được init từ DB ra chưa?
                                               if (entity.isLoadedFromDB !== true) {
@@ -96,7 +96,10 @@ export class PosEntitiesEffects {
                                                       ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                       .switchMap(([action, generalState, entitiesState]) => {
                                                    return action.type === PosEntitiesActions.ACTION_PULL_CANCEL ?
-                                                     Observable.of({type: RootActions.ACTION_NOTHING}) :
+                                                     Observable.of({
+                                                                     type: RootActions.ACTION_NOTHING,
+                                                                     payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
+                                                                   }) :
                                                      Observable.fromPromise(this.posEntityService.pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
                                                                .map((pullData: GeneralMessage) => {
                                                                  if (pullData.data['isFinished'] === true) {
