@@ -10,7 +10,9 @@ export class PriceFormatPipe implements PipeTransform {
     integerRequired: 1,
     decimalSymbol: ',',
     groupSymbol: ',',
-    groupLength: ','
+    pattern: "$%s",
+    precision: 2,
+    groupLength: 3
   };
   
   protected isShowSign = true;
@@ -19,16 +21,18 @@ export class PriceFormatPipe implements PipeTransform {
     if (isNaN(amount)) {
       return 0;
     }
+    let format: any = this.globalPriceFormat;
     
-    if (typeof args !== "undefined" && args[0] === true) {
-      amount = StoreManager.getStore().convertPrice(amount);
+    try {
+      if (typeof args !== "undefined" && args[0] === true) {
+        amount = StoreManager.getStore().convertPrice(amount);
+      }
+      format = _.extend(this.globalPriceFormat, StoreManager.getStore().getPriceFormat());
+    } catch (e) {
+    // when user not yet pick store
     }
     
-    if (!StoreManager.getStore()) {
-      throw new GeneralException("Can't format price before select store");
-    }
-    let format: any = _.extend(this.globalPriceFormat, StoreManager.getStore().getPriceFormat());
-    let precision   = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision,
+    let precision = isNaN(format.requiredPrecision = Math.abs(format.requiredPrecision)) ? 2 : format.requiredPrecision,
         integerRequired = isNaN(format.integerRequired = Math.abs(format.integerRequired)) ? 1 : format.integerRequired,
         decimalSymbol = format.decimalSymbol === undefined ? ',' : format.decimalSymbol,
         groupSymbol   = format.groupSymbol === undefined ? '.' : format.groupSymbol,
