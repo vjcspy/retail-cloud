@@ -17,6 +17,7 @@ import {CustomerDB} from "../../database/xretail/db/customer";
 import {SettingDB} from "../../database/xretail/db/setting";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import * as _ from 'lodash';
+import {OrderDB} from "../../database/xretail/db/order";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -101,36 +102,38 @@ export class PosEntitiesEffects {
                                       .withLatestFrom(this.store.select('entities'),
                                                       ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                       .switchMap(([action, generalState, entitiesState]) => {
-                                                   return action.type === PosEntitiesActions.ACTION_PULL_CANCEL ?
-                                                     Observable.of({
-                                                                     type: RootActions.ACTION_NOTHING,
-                                                                     payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
-                                                                   }) :
-                                                     Observable.fromPromise(this.posEntityService.pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
-                                                               .map((pullData: GeneralMessage) => {
-                                                                 if (pullData.data['isFinished'] === true) {
-                                                                   return {
-                                                                     type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                     payload: {
-                                                                       entityCode: action.payload.entityCode
-                                                                     }
-                                                                   };
-                                                                 } else {
-                                                                   return {
-                                                                     type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {
-                                                                       entityCode: action.payload.entityCode,
-                                                                       items: pullData.data['items']
-                                                                     }
-                                                                   };
-                                                                 }
-                                                               })
-                                                               .catch(() => Observable.of({
-                                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
-                                                                                            payload: {
-                                                                                              entityCode: action.payload.entityCode
-                                                                                            }
-                                                                                          })
-                                                               );
+                                                   if (action.type === PosEntitiesActions.ACTION_PULL_CANCEL) {
+                                                     return Observable.of({
+                                                                            type: RootActions.ACTION_NOTHING,
+                                                                            payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
+                                                                          });
+                                                   } else {
+                                                     return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entitiesState[action.payload.entityCode], generalState))
+                                                                      .map((pullData: GeneralMessage) => {
+                                                                        if (pullData.data['isFinished'] === true) {
+                                                                          return {
+                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                                            payload: {
+                                                                              entityCode: action.payload.entityCode
+                                                                            }
+                                                                          };
+                                                                        } else {
+                                                                          return {
+                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {
+                                                                              entityCode: action.payload.entityCode,
+                                                                              items: pullData.data['items']
+                                                                            }
+                                                                          };
+                                                                        }
+                                                                      })
+                                                                      .catch(() => Observable.of({
+                                                                                                   type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
+                                                                                                   payload: {
+                                                                                                     entityCode: action.payload.entityCode
+                                                                                                   }
+                                                                                                 })
+                                                                      );
+                                                   }
                                                  }
                                       );
   
@@ -186,9 +189,10 @@ export class PosEntitiesEffects {
       case CustomerDB.getCode():
       case SettingDB.getCode():
       case ShiftDB.getCode():
+      case OrderDB.getCode():
         _query += "&searchCriteria[storeId]=" + generalState.store['id']
-                  + "&searchCriteria[outlet_id]=" + generalState.outlet['id']
-                  + "&searchCriteria[register_id]=" + generalState.register['id'];
+                  + "&searchCriteria[outletId]=" + generalState.outlet['id']
+                  + "&searchCriteria[registerId]=" + generalState.register['id'];
         break;
       default:
     }
