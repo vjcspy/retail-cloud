@@ -1,0 +1,6 @@
+<div class="bottom-bar" *ngIf="shiftDataManagement.isShiftOpening">
+  <div class="pay-info" (click)="syncOrder()" [ngClass]="{refund: quoteState.grandTotal < 0}">
+    <span class="value">{{ 'pay' | translate }}</span>
+    <span class="grand-total">{{quoteState.grandTotal | priceFormat}}</span>
+  </div>
+</div>

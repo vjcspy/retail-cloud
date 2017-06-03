@@ -1,8 +1,12 @@
-import {Action} from "@ngrx/store";
-import {PosQuoteState} from "./quote.state";
+import {Action, ActionReducer} from "@ngrx/store";
+import {posQuoteStateFactory, PosQuoteStateRecord} from "./quote.state";
+import {PosQuoteActions} from "./quote.actions";
 
-export const quoteReducer = (state: PosQuoteState = {items: []}, action: Action) => {
+export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
   switch (action.type) {
+    case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
+      return state.set('customer', action.payload['customer']);
+    
     default:
       return state;
   }

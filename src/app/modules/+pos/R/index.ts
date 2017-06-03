@@ -19,21 +19,26 @@ import {PosPullActions} from "./entities/pull.actions";
 import {PosPullEffects} from "./entities/pull.effects";
 import {posConfigReducer} from "./config/config.reducer";
 import {PosConfigState} from "./config/config.state";
+import {PosQuoteService} from "./quote/quote.service";
+import {PosGeneralEffects} from "./general/general.effects";
 
 export const R_POS_IMPORTS = [
-  EffectsModule.run(PosQuoteEffects),
+  EffectsModule.run(PosGeneralEffects),
   EffectsModule.run(PosEntitiesEffects),
-  EffectsModule.run(PosPullEffects)
+  EffectsModule.run(PosPullEffects),
+  EffectsModule.run(PosQuoteEffects)
 ];
 
 export const R_POS_PROVIDERS = [
   PosGeneralActions,
   PosGeneralService,
+  PosGeneralEffects,
   
   PosEntitiesService,
   PosEntitiesActions,
   PosEntitiesEffects,
   
+  PosQuoteService,
   PosQuoteEffects,
   PosQuoteActions,
   
