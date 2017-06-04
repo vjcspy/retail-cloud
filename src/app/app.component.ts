@@ -28,7 +28,8 @@ import {AppState} from "./R/index";
                '../assets/css/bootstrap-datetimepicker-standalone.css',
                '../assets/css/ion.rangeSlider.css',
                '../assets/css/ion.rangeSlider.skinNice.css',
-               '../../node_modules/select2/dist/css/select2.css'
+               '../../node_modules/select2/dist/css/select2.css',
+               '../../node_modules/ladda/dist/ladda.min.css'
              ],
              template: `
                <router-outlet></router-outlet>

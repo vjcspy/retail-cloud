@@ -6,6 +6,7 @@ import {MomentModule} from "angular2-moment";
 import {SHARE_PROVIDERS} from "./provider/index";
 import {TranslateModule} from "ng2-translate";
 import {SHARE_DIRECTIVES} from "./directives/index";
+import {LaddaModule} from "angular2-ladda";
 
 @NgModule({
             imports: [
@@ -14,7 +15,13 @@ import {SHARE_DIRECTIVES} from "./directives/index";
               HttpModule,
               MomentModule,
               TranslateModule,
-              ReactiveFormsModule
+              ReactiveFormsModule,
+              LaddaModule.forRoot({
+                                    // style: "zoom-in",
+                                    spinnerSize: 40,
+                                    spinnerColor: "white",
+                                    spinnerLines: 12
+                                  })
             ],
             exports: [
               CommonModule,
@@ -23,7 +30,7 @@ import {SHARE_DIRECTIVES} from "./directives/index";
               MomentModule,
               TranslateModule,
               ReactiveFormsModule,
-    
+              LaddaModule,
               ...SHARE_DIRECTIVES
             ],
             declarations: [

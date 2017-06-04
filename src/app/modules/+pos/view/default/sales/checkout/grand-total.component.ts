@@ -8,8 +8,9 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
            })
 export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
+  protected isLoading: boolean = false;
   
   protected syncOrder() {
-    console.log('not implement');
+    this.isLoading = true;
   }
 }
