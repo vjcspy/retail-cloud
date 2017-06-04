@@ -5,6 +5,7 @@ import {CommonModule} from "@angular/common";
 import {MomentModule} from "angular2-moment";
 import {SHARE_PROVIDERS} from "./provider/index";
 import {TranslateModule} from "ng2-translate";
+import {SHARE_DIRECTIVES} from "./directives/index";
 
 @NgModule({
             imports: [
@@ -21,9 +22,13 @@ import {TranslateModule} from "ng2-translate";
               HttpModule,
               MomentModule,
               TranslateModule,
-              ReactiveFormsModule
+              ReactiveFormsModule,
+    
+              ...SHARE_DIRECTIVES
             ],
-            declarations: [],
+            declarations: [
+              ...SHARE_DIRECTIVES
+            ],
             providers: [...SHARE_PROVIDERS],
           })
 export class ShareModule {
