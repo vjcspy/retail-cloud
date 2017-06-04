@@ -56,11 +56,8 @@ export class PosCheckoutEffects {
                                        .filter(([action, checkoutState, entitiesState, configState]) => _.isString(action.payload['cartCustomerSearchString']) && action.payload['cartCustomerSearchString'].length >= configState.constrain.minLengthSearching)
                                        .switchMap(([action, checkoutState, entitiesState, configState]) => {
                                          if (configState['posRetailConfig']['useCustomerOnlineMode'] === false) {
-                                           console.log('here');
-                                           const customerEntity: Entity = entitiesState[CustomerDB.getCode()];
-                                           return Observable.fromPromise(this.checkoutService.resolveSearchCustomer(checkoutState, customerEntity.items, configState))
+                                           return Observable.fromPromise(this.checkoutService.resolveSearchCustomer(checkoutState,  entitiesState[CustomerDB.getCode()]['items'], configState))
                                                             .map((data: GeneralMessage) => {
-                                                              console.log(data);
                                                               return {type: PosCheckoutActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
                                                             });
                                          }
