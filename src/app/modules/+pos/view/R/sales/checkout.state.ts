@@ -18,6 +18,9 @@ export interface CheckoutState {
   productGridNumOfProductPerPage: number;
   productGridStyleValue: Object;
   productGridPagingData: any[];
+  
+  cartCustomers: List<any>;
+  cartCustomerSearchString: string;
 }
 
 // Typed thực sự của state dùng trong reducer
@@ -46,5 +49,8 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStat
     },
     productGridTotalsPage: 0,
     productGridProducts: List.of(),
-    productGridPagingData: []
+    productGridPagingData: [],
+    
+    cartCustomers: List.of(),
+    cartCustomerSearchString: null
   });

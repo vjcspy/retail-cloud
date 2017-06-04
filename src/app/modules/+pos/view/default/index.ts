@@ -8,6 +8,8 @@ import {PosDefaultSalesCheckoutListComponent} from "./sales/checkout/list.compon
 import {PosDefaultSalesCheckoutGridProductImageComponent} from "./sales/checkout/grid/product-image.component";
 import {PosDefaultSalesCheckoutGrandTotalComponent} from "./sales/checkout/grand-total.component";
 import {PosDefaultSalesOutletRegisterComponent} from "./sales/outlet-register.component";
+import {PosDefaultSalesCheckoutCartComponent} from "./sales/checkout/cart.component";
+import {PosDefaultSalesCheckoutCartCustomersComponent} from "./sales/checkout/cart/customers.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -22,5 +24,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutGridProductImageComponent,
   PosDefaultSalesCheckoutListComponent,
   PosDefaultSalesCheckoutBottomBarComponent,
+  PosDefaultSalesCheckoutCartComponent,
+  PosDefaultSalesCheckoutCartCustomersComponent,
   PosDefaultSalesCheckoutGrandTotalComponent
 ];

@@ -128,6 +128,12 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       });
       return newState;
     
+    case PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER:
+      return state.set('cartCustomerSearchString', action.payload['cartCustomerSearchString']);
+    
+    case PosCheckoutActions.ACTION_RESOLVE_CART_CUSTOMERS:
+      return state.set('cartCustomers', action.payload['cartCustomers']);
+      
     default:
       return state;
   }

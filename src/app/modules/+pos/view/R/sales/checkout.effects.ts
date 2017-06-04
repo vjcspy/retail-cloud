@@ -6,6 +6,9 @@ import {Observable} from "rxjs";
 import {PosCheckoutService} from "./checkout.service";
 import {GeneralMessage} from "../../../services/general/message";
 import {PosEntitiesActions} from "../../../R/entities/entities.actions";
+import {CustomerDB} from "../../../database/xretail/db/customer";
+import {Entity} from "../../../R/entities/entities.model";
+import * as _ from "lodash";
 
 @Injectable()
 export class PosCheckoutEffects {
@@ -43,4 +46,23 @@ export class PosCheckoutEffects {
                                                           });
                                        });
   
+  @Effect() resolveCartCustomers = this.actions$
+                                       .ofType(PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER)
+                                       .withLatestFrom(this.store$.select('checkout'))
+                                       .withLatestFrom(this.store$.select('entities'),
+                                                       ([action, checkoutState], entitiesState) => [action, checkoutState, entitiesState])
+                                       .withLatestFrom(this.store$.select('config'), (([action, checkoutState, entitiesState], configState) =>
+                                         [action, checkoutState, entitiesState, configState]))
+                                       .filter(([action, checkoutState, entitiesState, configState]) => _.isString(action.payload['cartCustomerSearchString']) && action.payload['cartCustomerSearchString'].length >= configState.constrain.minLengthSearching)
+                                       .switchMap(([action, checkoutState, entitiesState, configState]) => {
+                                         if (configState['posRetailConfig']['useCustomerOnlineMode'] === false) {
+                                           console.log('here');
+                                           const customerEntity: Entity = entitiesState[CustomerDB.getCode()];
+                                           return Observable.fromPromise(this.checkoutService.resolveSearchCustomer(checkoutState, customerEntity.items, configState))
+                                                            .map((data: GeneralMessage) => {
+                                                              console.log(data);
+                                                              return {type: PosCheckoutActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
+                                                            });
+                                         }
+                                       });
 }

@@ -1,0 +1,9 @@
+<div class="cart-product-inner refund-blk" perfectScroll (window:resize)="onResizeCart()">
+
+  <div class="unopened-shift" *ngIf="!quoteState.info.isShiftOpening">
+    <h3>{{ 'There is no opening shift' | translate }}</h3>
+    <button class="bounder">{{ 'Open' | translate }}</button>
+  </div>
+
+  <pos-default-sales-checkout-cart-customers [checkoutState]="checkoutState" [configState]="configState"></pos-default-sales-checkout-cart-customers>
+</div>

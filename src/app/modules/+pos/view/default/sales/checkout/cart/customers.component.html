@@ -1,0 +1,20 @@
+<div class="customer-table">
+  <div class="c-search">
+    <input placeholder="{{ 'Type email, phone, name' | translate }} ..." type="text" name="cartCustomerSearchString"
+           [formControl]="cartCustomerSearchString"
+           [value]="checkoutState.cartCustomerSearchString">
+  </div>
+  <div class="customer-row" *ngFor="let customer of checkoutState.cartCustomers;trackBy:customerTrackBy">
+    <div class="customer-head">
+      <span class="icon-user click"></span>
+      <div class="c-name">
+        <span class="c-user">{{customer['first_name'] +" "+ customer['last_name']}}</span>
+        <span class="c-mail">{{customer['email']}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="c-bottom">
+    <button class="gray">{{ 'Cancel' | translate }}</button>
+    <button>{{ 'Create New' | translate }}</button>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import {ProductDB} from "../../../database/xretail/db/product";
 import {PosConfigState} from "../../../R/config/config.state";
 import {StringHelper} from "../../../services/helper/string-helper";
 import {List} from "immutable";
+import {CustomerDB} from "../../../database/xretail/db/customer";
 
 @Injectable()
 export class PosCheckoutService {
@@ -95,4 +96,41 @@ export class PosCheckoutService {
     });
   }
   
+  async resolveSearchCustomer(checkoutState: CheckoutState, customers: List<CustomerDB>, configState: PosConfigState): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+      let cartCustomers = List.of();
+      if (_.isString(checkoutState.cartCustomerSearchString)) {
+        let reString: string = "";
+        _.forEach(checkoutState.cartCustomerSearchString.split(" "), (v) => {
+          if (!_.isString(v))
+            return true;
+          //noinspection TypeScriptUnresolvedFunction
+          v = _.toLower(v);
+          // escape regular expression special characters
+          v = v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+          reString += ".*(" + v + "){1}";
+        });
+        reString += ".*";
+        
+        let _result = 0;
+        customers.forEach((customer: CustomerDB) => {
+          let re = new RegExp(reString, "gi");
+          if (_result > configState.posRetailConfig.numberOfSearchCustomerResult)
+            return false;
+          
+          let fullStringSearch: string = "";
+          _.forEach(configState.posRetailConfig.fieldSearchCustomer, (field: string) => {
+            if (customer.hasOwnProperty(field) && _.isString(customer[field]))
+              fullStringSearch += " " + (customer[field]);
+          });
+          //noinspection TypeScriptUnresolvedFunction
+          if (re.test(fullStringSearch)) {
+            ++_result;
+            cartCustomers = cartCustomers.push(customer);
+          }
+        });
+      }
+      return resolve({data: {cartCustomers}})
+    });
+  }
 }

@@ -4,8 +4,30 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
  * Bao gồm 2 phần đó là phần default setting cho POS và những constrain setting
  */
 export interface PosConfigState {
-  posRetailConfig: Object;
-  constrain: Object;
+  posRetailConfig: {
+    numberOfSearchCustomerResult: number;
+    fieldSearchProduct: string[];
+    fieldSearchProductLable: string[];
+    fieldSearchCustomer: string[];
+    useCustomerOnlineMode: boolean;
+    fieldSearchOrderOffline: string[];
+    supportUnicodeInSearch: boolean;
+    waitTimeEachSearch: number;
+    displayRealTax: boolean;
+    allowSplitPayment: boolean;
+    allowPartialPayment: boolean;
+    isIntegrateRP: boolean;
+    rpType: string;
+    inclDiscountPerItemInDiscount: boolean
+  };
+  constrain: {
+    debounceTimeUpdateItemBuyRequest: number;
+    debounceTimeResize: number;
+    debounceTimeSearch: number;
+    debounceTimeWaitAnimation: number;
+    debounceTimeResolveQuote: number;
+    minLengthSearching: number;
+  };
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -17,6 +39,7 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       fieldSearchProduct: ["name", "sku", "type_id"],
       fieldSearchProductLable: ["Name", "Sku", "Id", "Price", "Type"],
       fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
+      useCustomerOnlineMode: false,
       fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
       supportUnicodeInSearch: false,
       waitTimeEachSearch: 177,
@@ -33,5 +56,6 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       debounceTimeSearch: 500,
       debounceTimeWaitAnimation: 250,
       debounceTimeResolveQuote: 250,
+      minLengthSearching: 2
     }
   });

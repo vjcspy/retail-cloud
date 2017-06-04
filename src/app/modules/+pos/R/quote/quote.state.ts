@@ -16,7 +16,9 @@ export interface PosQuoteState {
   
   isRefunding: boolean;
   
-  info: Object;
+  info: {
+    isShiftOpening: boolean
+  };
   
   grandTotal: number; // Phải tính trong cả 2 trường hợp là refund và không refund
 }
@@ -34,7 +36,9 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
   
                                                                                            isRefunding: false,
   
-                                                                                           info: {},
+                                                                                           info: {
+                                                                                             isShiftOpening: false
+                                                                                           },
   
                                                                                            grandTotal: 0
                                                                                          });
