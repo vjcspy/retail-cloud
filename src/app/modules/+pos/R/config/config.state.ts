@@ -32,6 +32,7 @@ export interface PosConfigState {
     debounceTimeResolveQuote: number;
     minLengthSearching: number;
   };
+  isResolveSetting: boolean;
   setting: {
     tax: TaxConfig;
     customer: CustomerSetting;
@@ -68,6 +69,7 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       debounceTimeResolveQuote: 250,
       minLengthSearching: 2
     },
+    isResolveSetting: false,
     setting: {
       tax: null,
       customer: null,

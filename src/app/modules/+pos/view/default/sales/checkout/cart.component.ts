@@ -15,7 +15,8 @@ export class PosDefaultSalesCheckoutCartComponent implements OnInit {
   
   constructor() { }
   
-  ngOnInit() { }
+  ngOnInit() {
+  }
   
   protected onResizeCart() {
     console.log('not implement resize cart');

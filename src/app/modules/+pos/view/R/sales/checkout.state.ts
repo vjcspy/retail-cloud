@@ -22,8 +22,10 @@ export interface CheckoutState {
   inSearchCustomers: boolean;
   cartCustomers: List<any>;
   cartCustomerSearchString: string;
+  cartItemsStyle: Object;
+  cartItemRowSelected: number;
   
-  isOpeningNote:boolean;
+  isOpeningNote: boolean;
 }
 
 // Typed thực sự của state dùng trong reducer
@@ -57,6 +59,8 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStat
     inSearchCustomers: false,
     cartCustomers: List.of(),
     cartCustomerSearchString: null,
+    cartItemsStyle: {},
+    cartItemRowSelected: -1,
     
-    isOpeningNote:false
+    isOpeningNote: false
   });
