@@ -21,12 +21,15 @@ import {posConfigReducer} from "./config/config.reducer";
 import {PosConfigState} from "./config/config.state";
 import {PosQuoteService} from "./quote/quote.service";
 import {PosGeneralEffects} from "./general/general.effects";
+import {PosConfigEffects} from "./config/config.effects";
+import {PosConfigActions} from "./config/config.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosGeneralEffects),
   EffectsModule.run(PosEntitiesEffects),
   EffectsModule.run(PosPullEffects),
-  EffectsModule.run(PosQuoteEffects)
+  EffectsModule.run(PosQuoteEffects),
+  EffectsModule.run(PosConfigEffects)
 ];
 
 export const R_POS_PROVIDERS = [
@@ -44,6 +47,9 @@ export const R_POS_PROVIDERS = [
   
   PosPullActions,
   PosPullEffects,
+  
+  PosConfigActions,
+  PosConfigEffects
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/

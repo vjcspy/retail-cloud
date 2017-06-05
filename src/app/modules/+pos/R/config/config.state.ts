@@ -1,4 +1,8 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
+import {TaxConfig} from "../../core/framework/tax/Model/TaxConfig";
+import {CustomerSetting} from "../../core/framework/setting/CustomerSetting";
+import {ProductSetting} from "../../core/framework/setting/ProductSetting";
+import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
 
 /*
  * Bao gồm 2 phần đó là phần default setting cho POS và những constrain setting
@@ -28,6 +32,12 @@ export interface PosConfigState {
     debounceTimeResolveQuote: number;
     minLengthSearching: number;
   };
+  setting: {
+    tax: TaxConfig;
+    customer: CustomerSetting;
+    product: ProductSetting;
+    shipping: ShippingSetting;
+  }
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -57,5 +67,11 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       debounceTimeWaitAnimation: 250,
       debounceTimeResolveQuote: 250,
       minLengthSearching: 2
+    },
+    setting: {
+      tax: null,
+      customer: null,
+      shipping: null,
+      product: null
     }
   });
