@@ -17,7 +17,6 @@ export class PosDefaultSalesCheckoutActionsBarNoteComponent {
   constructor(protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) { }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
-    console.log(target.className);
     if (target.className.indexOf('icon-edit') > -1 || target.className.indexOf('snote-edit') > -1) {
     }
     else if (this.noteElem && !this.noteElem.nativeElement.contains(target)) {
