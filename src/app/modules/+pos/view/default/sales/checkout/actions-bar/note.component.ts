@@ -17,11 +17,17 @@ export class PosDefaultSalesCheckoutActionsBarNoteComponent {
   constructor(protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) { }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
-    if (target.className.indexOf('icon-edit') > -1 || target.className.indexOf('snote-edit') > -1)
-      return;
-    if (this.noteElem && !this.noteElem.nativeElement.contains(target)) {
-      this.quoteActions.updateQuoteInfoState('isOpeningNote', false);
+    console.log(target.className);
+    if (target.className.indexOf('icon-edit') > -1 || target.className.indexOf('snote-edit') > -1) {
+    }
+    else if (this.noteElem && !this.noteElem.nativeElement.contains(target)) {
+      this.checkoutActions.updateActionCartState('isOpeningNote', false);
     }
   }
   
+  protected toggleNote(event) {
+    if (event.target.className.indexOf('icon-edit') > -1 || event.target.className.indexOf('snote-edit') > -1) {
+      this.checkoutActions.updateActionCartState('isOpeningNote', !this.checkoutState.isOpeningNote)
+    }
+  }
 }
