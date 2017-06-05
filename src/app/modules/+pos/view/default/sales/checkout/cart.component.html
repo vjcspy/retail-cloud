@@ -5,5 +5,5 @@
     <button class="bounder">{{ 'Open' | translate }}</button>
   </div>
 
-  <pos-default-sales-checkout-cart-customers [checkoutState]="checkoutState" [configState]="configState"></pos-default-sales-checkout-cart-customers>
+  <pos-default-sales-checkout-cart-customers [checkoutState]="checkoutState" [configState]="configState" *ngIf="checkoutState.inSearchCustomers"></pos-default-sales-checkout-cart-customers>
 </div>

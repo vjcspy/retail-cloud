@@ -11,7 +11,7 @@ export class PosQuoteActions {
   static ACTION_SET_BILLING_ADDRESS      = 'ACTION_SET_BILLING_ADDRESS';
   static ACTION_SET_SHIPPING_INFORMATION = 'ACTION_SET_SHIPPING_INFORMATION';
   
-  static ACTION_RESOLVE_QUOTE     = 'ACTION_RESOLVE_QUOTE';
+  static ACTION_RESOLVE_QUOTE = 'ACTION_RESOLVE_QUOTE';
   
   static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO';
   
@@ -19,5 +19,11 @@ export class PosQuoteActions {
   
   setCustomerToQuote(customer: Customer): void {
     this.store.dispatch({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
+  }
+  
+  updateQuoteInfoState(key: string, state: any) {
+    let newState  = {};
+    newState[key] = state;
+    this.store.dispatch({type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO, payload: newState})
   }
 }

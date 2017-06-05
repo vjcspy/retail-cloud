@@ -1,0 +1,11 @@
+<span class="icon-link snote-edit" [ngClass]="{open: checkoutState.isOpeningNote}" (click)="checkoutActions.updateActionCartState('isOpeningNote',!checkoutState.isOpeningNote)">
+            <span class="icon-edit"></span>
+            <span class="tooltiptext-bottom">{{"Take note" | translate}}</span>
+            <div class="popover-wrapper up right-pos add-note" *ngIf="checkoutState.isOpeningNote">
+                <div class="p-outer" #noteElem>
+                    <div class="p-inner">
+                        <textarea placeholder="{{ 'Add note here' | translate }}" [value]="quoteState.info.note"></textarea>
+                    </div>
+                </div>
+            </div>
+</span>

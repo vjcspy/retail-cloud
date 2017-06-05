@@ -16,7 +16,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   @Input() configState: PosConfigState;
   protected cartCustomerSearchString = new FormControl();
   
-  constructor(private checkoutAction: PosCheckoutActions) {
+  constructor(protected checkoutActions: PosCheckoutActions) {
     super();
   }
   
@@ -27,7 +27,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
                                        .debounceTime(this.configState.constrain.debounceTimeSearch)
                                        .distinctUntilChanged()
                                        .subscribe((cartCustomerSearchString: string) => {
-                                         this.checkoutAction.searchCustomer(cartCustomerSearchString);
+                                         this.checkoutActions.searchCustomer(cartCustomerSearchString);
                                        }));
   }
   

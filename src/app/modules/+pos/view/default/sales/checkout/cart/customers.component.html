@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="c-bottom">
-    <button class="gray">{{ 'Cancel' | translate }}</button>
+    <button class="gray" (click)="checkoutActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
     <button>{{ 'Create New' | translate }}</button>
   </div>
 </div>

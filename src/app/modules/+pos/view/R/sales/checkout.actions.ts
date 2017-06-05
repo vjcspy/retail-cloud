@@ -12,8 +12,9 @@ export class PosCheckoutActions {
   static ACTION_RESOLVE_GRID_PRODUCT   = 'ACTION_RESOLVE_GRID_PRODUCT';
   
   /*-------- ACTION CART --------*/
-  static ACTION_SEARCH_CART_CUSTOMER = 'ACTION_SEARCH_CART_CUSTOMER';
-  static ACTION_RESOLVE_CART_CUSTOMERS = 'ACTION_RESOLVE_CART_CUSTOMERS';
+  static ACTION_SEARCH_CART_CUSTOMER     = 'ACTION_SEARCH_CART_CUSTOMER';
+  static ACTION_RESOLVE_CART_CUSTOMERS   = 'ACTION_RESOLVE_CART_CUSTOMERS';
+  static ACTION_UPDATE_ACTION_CART_STATE = 'ACTION_UPDATE_ACTION_CART_STATE';
   
   constructor(private store: Store<any>) { }
   
@@ -27,5 +28,9 @@ export class PosCheckoutActions {
   
   searchCustomer(cartCustomerSearchString: string): void {
     this.store.dispatch({type: PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER, payload: {cartCustomerSearchString}});
+  }
+  
+  updateActionCartState(key: string, state: any) {
+    this.store.dispatch({type: PosCheckoutActions.ACTION_UPDATE_ACTION_CART_STATE, payload: {state, key}})
   }
 }

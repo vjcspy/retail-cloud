@@ -5,6 +5,7 @@
   <pos-default-sales-checkout-bottom-bar [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-bottom-bar>
 </div>
 <div class="cart-product">
+  <pos-default-sales-checkout-actions-bar [quoteState]="quoteState$ | async" [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-actions-bar>
   <pos-default-sales-checkout-cart [quoteState]="quoteState$ | async" [checkoutState]="checkoutState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-cart>
   <pos-default-sales-checkout-grand-total [quoteState]="quoteState$ | async"></pos-default-sales-checkout-grand-total>
 </div>

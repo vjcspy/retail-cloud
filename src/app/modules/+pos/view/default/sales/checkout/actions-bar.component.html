@@ -1,0 +1,34 @@
+<div class="top-bar" *ngIf="quoteState.info.isShiftOpening">
+  <div class="icon-navigation">
+        <span class="icon-link">
+            <span class="icon-trash"></span>
+            <span class="tooltiptext-bottom">{{"Clear Cart" | translate}}</span>
+        </span>
+    <pos-default-sales-checkout-actions-bar-note [checkoutState]="checkoutState" [quoteState]="quoteState"></pos-default-sales-checkout-actions-bar-note>
+    <span class="icon-link">
+            <span class="icon-upload"></span>
+            <span class="tooltiptext-bottom">{{"Send order to customer's wishlist" | translate}}</span>
+        </span>
+    <span class="icon-link">
+            <span class="icon-note"></span>
+            <span class="tooltiptext-bottom">{{"Save order" | translate}}</span>
+        </span>
+    <span class="icon-link">
+            <span class="icon-timer"></span>
+            <span class="tooltiptext-bottom">{{"Onhold Orders" | translate}}</span>
+        </span>
+    <span class="icon-link" [ngClass]="{active: checkoutState.inSearchCustomers}" (click)="checkoutActions.updateActionCartState('inSearchCustomers',!checkoutState.inSearchCustomers)">
+            <span class="icon-follow"></span>
+            <span class="tooltiptext-bottom">{{"Select customer for order" | translate}}</span>
+        </span>
+  </div>
+  <div class="cart-info">
+    {{ 'Cart' | translate }}
+    <!--<span class="cart-num" style="font-size: 20px;margin-left: 5px;" *ngIf="!!checkDecimalsTotalQtyCart()">-->
+    <!--{{(posQuote.getQuote().getShippingAddress().getData('total_qty') || 0) | number : "1.2-2"}}-->
+    <!--</span>-->
+    <!--<span class="cart-num" style="font-size: 20px;margin-left: 5px;" *ngIf="!checkDecimalsTotalQtyCart()">-->
+    <!--{{(posQuote.getQuote().getShippingAddress().getData('total_qty') || 0)}}-->
+    <!--</span>-->
+  </div>
+</div>
