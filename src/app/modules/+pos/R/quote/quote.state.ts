@@ -14,10 +14,9 @@ export interface PosQuoteState {
   hasShipment: boolean;
   useDefaultCustomer: boolean;
   
-  isRefunding: boolean;
-  
   info: {
     isShiftOpening: boolean,
+    isRefunding: boolean;
     note: string;
   };
   
@@ -35,10 +34,9 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
                                                                                            hasShipment: false,
                                                                                            useDefaultCustomer: false,
   
-                                                                                           isRefunding: false,
-  
                                                                                            info: {
                                                                                              isShiftOpening: false,
+                                                                                             isRefunding: false,
                                                                                              note: ""
                                                                                            },
   
