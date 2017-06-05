@@ -155,7 +155,7 @@ export class PosCheckoutService {
               cartCustomers = cartCustomers.push((new CustomerDB()).addData(c));
             });
             return resolve({data: {cartCustomers}});
-          });
+          }, (e) => reject({isError: true, e}));
     });
   }
 }
