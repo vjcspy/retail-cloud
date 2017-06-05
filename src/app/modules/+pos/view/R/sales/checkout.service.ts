@@ -8,9 +8,15 @@ import {PosConfigState} from "../../../R/config/config.state";
 import {StringHelper} from "../../../services/helper/string-helper";
 import {List} from "immutable";
 import {CustomerDB} from "../../../database/xretail/db/customer";
+import {PosGeneralState} from "../../../R/general/general.state";
+import {ApiManager} from "../../../../../services/api-manager";
+import {RequestService} from "../../../../../services/request";
+import {ProgressBarService} from "../../../../share/provider/progess-bar";
 
 @Injectable()
 export class PosCheckoutService {
+  
+  constructor(private apiManager: ApiManager, private request: RequestService, private progress: ProgressBarService) {}
   
   async resolveSearchProduct(checkoutState: CheckoutState, products: List<any>, config: PosConfigState): Promise<GeneralMessage> {
     return new Promise((resolve, reject) => {
@@ -131,6 +137,25 @@ export class PosCheckoutService {
         });
       }
       return resolve({data: {cartCustomers}})
+    });
+  }
+  
+  async searchCustomerOnline(checkoutState: CheckoutState, configState: PosConfigState, generalState: PosGeneralState): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+      let _query = '';
+      _query += `searchCriteria[currentPage]=1&searchCriteria[pageSize]=${configState.posRetailConfig.numberOfSearchCustomerResult}&searchCriteria[storeId]=${generalState.store['id']}&searchCriteria[searchFields]=${configState.posRetailConfig.fieldSearchCustomer.join(',')}&searchCriteria[searchValue]=${checkoutState.cartCustomerSearchString}&searchCriteria[searchOnline]=1`;
+      let url    = this.apiManager.get("customers", generalState.baseUrl);
+      url += url.indexOf('?') > -1 ? `&${_query}` : `?${_query}`;
+      this.progress.start();
+      this.request.makeGet(url)
+          .subscribe((data) => {
+            this.progress.done(true);
+            let cartCustomers = List.of();
+            _.forEach(data['items'], c => {
+              cartCustomers = cartCustomers.push((new CustomerDB()).addData(c));
+            });
+            return resolve({data: {cartCustomers}});
+          });
     });
   }
 }
