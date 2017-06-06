@@ -2,8 +2,8 @@
   <div class="grid-mode selectDisable" *ngIf="!checkoutState.isCategoryMode">
     <div *ngFor="let product of checkoutState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutState.productGridStyles">
-      <span class="tags sale" *ngIf="productHelper.isSales(product)"><img src="../assets/icon/sale-icon148x84.png" alt=""/></span>
-      <span class="tags info" *ngIf="productHelper.isOutOfStock(product)"><img src="../assets/icon/info-icon80x80.png" alt=""/></span>
+      <span class="tags sale" *ngIf="productHelper.isSales(product)"><img src="assets/icon/sale-icon148x84.png" alt=""/></span>
+      <span class="tags info" *ngIf="productHelper.isOutOfStock(product)"><img src="assets/icon/info-icon80x80.png" alt=""/></span>
       <span class="show-label" (click)="viewDetail(product)"><span>{{ 'View Details' | translate }}</span></span>
       <div class="inner">
         <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
