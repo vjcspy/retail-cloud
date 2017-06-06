@@ -11,6 +11,8 @@ import {PosEntitiesActions} from "../entities/entities.actions";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import {Observable} from "rxjs";
 import {RootActions} from "../../../../R/root.actions";
+import {CustomerDB} from "../../database/xretail/db/customer";
+import {Quote} from "../../core/framework/quote/Model/Quote";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -20,7 +22,14 @@ export class PosQuoteEffects {
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
                                      .withLatestFrom(this.store$.select('entities'))
                                      .map((z) => {
-                                       const customer: Customer                    = z[0].payload.customer;
+                                       const customerEntity = z[0].payload.customer;
+                                       let customer         = new Customer();
+                                       if (customerEntity instanceof CustomerDB) {
+                                         Object.assign(customer, customerEntity);
+                                         customer.mapWithParent();
+                                       } else {
+                                         customer = customerEntity;
+                                       }
                                        const entitiesState: PosEntitiesState       = z[1];
                                        const customerGroups: List<CustomerGroupDB> = entitiesState.customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
@@ -34,7 +43,10 @@ export class PosQuoteEffects {
                                      .map((customer: Customer) => {
                                        this.quoteService.setCustomerToQuote(customer);
     
-                                       return {type: PosQuoteActions.ACTION_RESOLVE_QUOTE}
+                                       return {
+                                         type: PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
+                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer)
+                                       }
                                      });
   
   @Effect() checkShiftOpening = this.actions$
@@ -71,4 +83,27 @@ export class PosQuoteEffects {
                                       }
                                     }).catch((e) => Observable.of({type: RootActions.ACTION_ERROR, payload: {e}}));
   
+  @Effect() resolveQuote = this.actions$
+                               .ofType(
+                                 // Sau khi add xong customer và init address
+                                 PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
+                               )
+                               .withLatestFrom(this.store$.select('quote'))
+                               .withLatestFrom(this.store$.select('config'),
+                                               ([action, quoteState], configState) => [action, quoteState, configState])
+                               .withLatestFrom(this.store$.select('general'),
+                                               ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
+                               .map(([action, quoteState, configState, generalState]) => {
+                                 const quote: Quote = quoteState.quote;
+                                 // resolve customer
+                                 this.quoteService.resolveCustomer(quote, configState, generalState);
+    
+                                 /*
+                                  * Resolve address
+                                  *
+                                  * Address resolve được save vào quote chứ không save vào view, ở view vẫn không hiển thị gì nếu trước đó customer không có address
+                                  */
+                                 
+                                 
+                               });
 }

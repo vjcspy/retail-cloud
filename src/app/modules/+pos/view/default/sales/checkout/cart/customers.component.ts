@@ -5,6 +5,9 @@ import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractS
 import {PosConfigState} from "../../../../../R/config/config.state";
 import * as _ from 'lodash';
 import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
+import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import {CustomerDB} from "../../../../../database/xretail/db/customer";
+import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +19,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   @Input() configState: PosConfigState;
   protected cartCustomerSearchString = new FormControl();
   
-  constructor(protected checkoutActions: PosCheckoutActions) {
+  constructor(protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) {
     super();
   }
   
