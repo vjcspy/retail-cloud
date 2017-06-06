@@ -1,6 +1,6 @@
 #nprogress .spinner {
   left: 50% !important;
-  transform: translate(-50%, 0) !important;
+  /*transform: translate(-50%, 0) !important;*/
 }
 
 #nprogress .spinner-icon {
