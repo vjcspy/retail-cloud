@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
 import {CheckoutState} from "../../../../R/sales/checkout.state";
 import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
@@ -7,7 +7,8 @@ import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-actions-bar-note',
-             templateUrl: 'note.component.html'
+             templateUrl: 'note.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutActionsBarNoteComponent {
   @Input() checkoutState: CheckoutState;

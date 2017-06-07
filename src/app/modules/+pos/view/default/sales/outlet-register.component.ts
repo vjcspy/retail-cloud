@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {PosPullActions} from "../../../R/entities/pull.actions";
 import {PosGeneralActions} from "../../../R/general/general.actions";
 import {Store} from "@ngrx/store";
@@ -10,7 +10,8 @@ import {PosEntitiesState} from "../../../R/entities/entities.state";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-outlet-register',
-             templateUrl: 'outlet-register.component.html'
+             templateUrl: 'outlet-register.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscriptionComponent implements OnInit {
   protected entitiesState$: PosEntitiesState;

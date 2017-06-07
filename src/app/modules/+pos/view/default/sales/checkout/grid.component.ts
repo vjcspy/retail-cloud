@@ -1,14 +1,16 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {SalesState} from "../../../R/sales/sales.state";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {ProductHelper} from "../../../../services/helper/product";
 import {CheckoutState} from "../../../R/sales/checkout.state";
 import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
+import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-grid',
-             templateUrl: 'grid.component.html'
+             templateUrl: 'grid.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @ViewChild('gridProductInner') gridProductInner: ElementRef;
@@ -16,7 +18,7 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @Input() checkoutState: CheckoutState;
   @Input() entitiesState: PosEntitiesState;
   
-  constructor(protected productHelper: ProductHelper, protected checkoutActions: PosCheckoutActions) {}
+  constructor(protected productHelper: ProductHelper, protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
     this.onResize();

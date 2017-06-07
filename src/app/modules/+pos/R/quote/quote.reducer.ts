@@ -2,6 +2,8 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {posQuoteStateFactory, PosQuoteStateRecord} from "./quote.state";
 import {PosQuoteActions} from "./quote.actions";
 import * as _ from 'lodash';
+import {DataObject} from "../../core/framework/General/DataObject";
+import {List} from "immutable";
 
 export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
   switch (action.type) {
@@ -19,6 +21,27 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
       return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
+    
+    case PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD:
+      return state.set('productSelected', {product: action.payload['product'], buyRequest: null});
+    
+    case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
+      let items: List<DataObject> = action.payload['items'];
+      items.filter((item: DataObject) => item.getData('qty') > 0);
+      
+      return state.set('items', action.payload['items'])
+                  .set('productSelected', {product: null, buyRequest: null});
+    
+    case PosQuoteActions.ACTION_RESOLVE_QUOTE:
+      let refundAmount = 0;
+      let gt           = 0;
+      if (state.info.isRefunding && state.creditmemo) {
+        refundAmount = this.posRefund.creditmemo['totals']['grand_total'];
+      }
+      if (state.quote.getShippingAddress()['grand_total'])
+        gt = state.quote.getShippingAddress()['grand_total'];
+      
+      return state.set('grandTotal', gt - refundAmount);
     
     default:
       return state;

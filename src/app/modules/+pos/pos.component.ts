@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {posReducer, PosState} from "./R/index";
 import {OfflineService} from "../share/provider/offline";
@@ -7,7 +7,8 @@ import {OfflineService} from "../share/provider/offline";
              // moduleId: module.id,
              selector: 'pos',
              template: `
-               <router-outlet></router-outlet>`
+               <router-outlet></router-outlet>`,
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {
   constructor(private store: Store<PosState>, private offline: OfflineService) {

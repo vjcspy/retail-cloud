@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {PosPullActions} from "../../../R/entities/pull.actions";
 import {CheckoutState} from "../../R/sales/checkout.state";
@@ -14,7 +14,8 @@ import {Router} from "@angular/router";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout',
-             templateUrl: 'checkout.component.html'
+             templateUrl: 'checkout.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionComponent implements OnInit {
   protected checkoutState$: Observable<CheckoutState>;

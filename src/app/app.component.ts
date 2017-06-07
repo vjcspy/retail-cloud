@@ -2,6 +2,7 @@
  * Angular 2 decorators and services
  */
 import {
+  ChangeDetectionStrategy,
   Component, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
@@ -34,7 +35,8 @@ import {AppState} from "./R/index";
              template: `
                <router-outlet></router-outlet>
                <!--<ngrx-store-log-monitor toggleCommand="ctrl-h" positionCommand="ctrl-m"></ngrx-store-log-monitor>-->
-             `
+             `,
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class AppComponent {
   constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {

@@ -11,8 +11,17 @@ import {PosEntitiesActions} from "../entities/entities.actions";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import {Observable} from "rxjs";
 import {RootActions} from "../../../../R/root.actions";
-import {CustomerDB} from "../../database/xretail/db/customer";
 import {Quote} from "../../core/framework/quote/Model/Quote";
+import {Product} from "../../core/framework/catalog/Model/Product";
+import {DataObject} from "../../core/framework/General/DataObject";
+import * as _ from 'lodash';
+import {PosCheckoutActions} from "../../view/R/sales/checkout.actions";
+import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
+import {Configurable} from "../../core/framework/configurable-product/Model/Product/Type/Configurable";
+import {Bundle} from "../../core/framework/bundle/Model/Product/Type";
+import {Grouped} from "../../core/framework/grouped-product/Model/Product/Type/Grouped";
+import {ObjectManager} from "../../core/framework/General/App/ObjectManager";
+import {SessionQuote} from "../../core/framework/Backend/Model/Session/Quote";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -24,14 +33,7 @@ export class PosQuoteEffects {
                                      .withLatestFrom(this.store$.select('entities'),
                                                      ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                      .map(([action, generalState, entitiesState]) => {
-                                       const customerEntity = action.payload.customer;
-                                       let customer         = new Customer();
-                                       if (customerEntity instanceof CustomerDB) {
-                                         Object.assign(customer, customerEntity);
-                                         customer.mapWithParent();
-                                       } else {
-                                         customer = customerEntity;
-                                       }
+                                       const customer                              = action.payload.customer;
                                        const customerGroups: List<CustomerGroupDB> = entitiesState.customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
     
@@ -47,6 +49,43 @@ export class PosQuoteEffects {
                                        }
                                      });
   
+  @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
+                                  .withLatestFrom(this.store$.select('quote'))
+                                  .map(([action, quoteState]) => {
+                                    const product: Product         = action.payload['product'];
+                                    const forceProductCustomOption = action.payload['forceProductCustomOptions'];
+                                    let buyRequest                 = new DataObject();
+    
+                                    if (!!action.payload['config']) {
+                                      buyRequest.addData(action.payload['config']);
+                                    }
+                                    buyRequest.setData('qty', action.payload['qty'])
+                                              .setData('product_id', product.getData('id'))
+                                              .setData('product', product);
+    
+                                    switch (product.getTypeId()) {
+                                      case 'virtual':
+                                      case 'simple':
+                                        if (!forceProductCustomOption) {
+                                          // custom option
+                                          if (!_.isEmpty(product.customizable_options)) {
+                                            return {type: PosCheckoutActions.ACTION_OPEN_PRODUCT_DETAIL, payload: {product, buyRequest}};
+                                          }
+                                        }
+                                        break;
+                                      case 'configurable':
+                                      case 'bundle':
+                                      case 'grouped':
+                                        return {type: PosCheckoutActions.ACTION_OPEN_PRODUCT_DETAIL, payload: {product, buyRequest}};
+                                    }
+    
+                                    let {items, isMatching} = this._getItemByBuyRequest(buyRequest, quoteState['items']);
+                                    if (isMatching === false) {
+                                      items = items.push(buyRequest);
+                                    }
+    
+                                    return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                                  });
   
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
@@ -86,13 +125,15 @@ export class PosQuoteEffects {
                                .ofType(
                                  // Sau khi add xong customer và init address
                                  PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
+                                 // After update quote items
+                                 PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS
                                )
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),
                                                ([action, quoteState], configState) => [action, quoteState, configState])
                                .withLatestFrom(this.store$.select('general'),
                                                ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
-                               .map(([action, quoteState, configState, generalState]) => {
+                               .switchMap(([action, quoteState, configState, generalState]) => {
                                  const quote: Quote = quoteState.quote;
     
                                  quote.removeAllAddresses();
@@ -103,17 +144,184 @@ export class PosQuoteEffects {
                                    quote.setBillingAddress(quoteState.billingAdd);
       
                                    quote.removeAllItems();
-                                   //fake
-                                   return {type: RootActions.ACTION_NOTHING};
-                                 }
-                                 else if (!!generalState.outlet['enable_guest_checkout']) {
+      
+                                   const items: List<DataObject> = quoteState.items;
+      
+                                   return Observable.fromPromise(this.prepareAddProductToQuote(items))
+                                                    .map(() => {
+                                                      console.log('here');
+                                                      items.forEach((item: DataObject) => {
+                                                        ObjectManager.getInstance()
+                                                                     .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
+                                                                     .getSalesCreate()
+                                                                     .addProductToQuote(item);
+                                                      });
+        
+                                                      quote.setTotalsCollectedFlag(false).collectTotals();
+        
+                                                      return {type: PosQuoteActions.ACTION_RESOLVE_QUOTE};
+                                                    });
+                                 } else if (!!generalState.outlet['enable_guest_checkout']) {
                                    let customer = new Customer();
                                    Object.assign(customer, configState.setting.customer.getDefaultCustomer());
                                    quote.setData('use_default_customer', true);
       
-                                   return {type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}};
+                                   return Observable.of({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
                                  } else {
-                                   return {type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}};
+                                   return Observable.of({type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}});
                                  }
                                });
+  
+  
+  private _getItemByBuyRequest(buyRequest: DataObject, items: List<DataObject>) {
+    let isMatching = false;
+    if (buyRequest.getData('is_custom_sales') === true)
+      return {items, isMatching};
+    
+    if (buyRequest.getData('product').getTypeId() === 'grouped') {
+      // Tất cả grouped đều chuyển thành simple nên không bao h tồn tại group trong cart
+      return {items, isMatching};
+    }
+    
+    items.map((itemBuyRequest: DataObject) => {
+      if (this._representBuyRequest(itemBuyRequest, buyRequest)) {
+        isMatching = true;
+        // Sau khi apply sync thì sẽ mất product trong items.
+        if (!itemBuyRequest.getData('product')) {
+          itemBuyRequest.setData('product', buyRequest.getData('product'));
+        }
+        switch (itemBuyRequest.getData('product').getTypeId()) {
+          case 'virtual':
+          case 'simple':
+          case 'configurable':
+            itemBuyRequest.setData('qty', parseFloat(itemBuyRequest.getData('qty')) + buyRequest.getData('qty'));
+            break;
+          case 'grouped':
+            _.forEach(itemBuyRequest.getData('super_group'), (associateQty, associateId) => {
+              if (buyRequest.getData('super_group').hasOwnProperty(associateId) &&
+                  !isNaN(parseFloat(buyRequest.getData('super_group')[associateId]))) {
+                associateQty                                       = isNaN(parseFloat(associateQty)) ? 0 : parseFloat(associateQty);
+                itemBuyRequest.getData('super_group')[associateId] =
+                  parseFloat(associateQty) + parseFloat(buyRequest.getData('super_group')[associateId]);
+              }
+            });
+            break;
+          case 'bundle':
+            itemBuyRequest.setData('qty', itemBuyRequest.getData('qty') + buyRequest.getData('qty'));
+            break;
+          default:
+            throw new GeneralException("Can't get item buyRequest");
+        }
+      }
+      return itemBuyRequest;
+    });
+    
+    return {items, isMatching};
+  }
+  
+  private _representBuyRequest(itemBuyRequest: DataObject, buyRequest: DataObject) {
+    if (itemBuyRequest.getData('product_id') != buyRequest.getData('product_id'))
+      return false;
+    
+    // check options:
+    if (buyRequest.getData('options') || itemBuyRequest.getData('options')) {
+      if (!this._compareOptions(buyRequest.getData('options'), itemBuyRequest.getData('options')))
+        return false;
+    }
+    // check groups
+    if (itemBuyRequest.getData('super_group') || buyRequest.getData('super_group')) {
+      return !!(_.isObject(itemBuyRequest.getData('super_group')) && buyRequest.getData('super_group'));
+    }
+    // check super_attribute
+    if (buyRequest.getData('super_attribute') || itemBuyRequest.getData('super_attribute')) {
+      if (!this._compareOptions(buyRequest.getData('super_attribute'), itemBuyRequest.getData('super_attribute')))
+        return false;
+    }
+    // bundle_option
+    if (buyRequest.getData('bundle_option') || itemBuyRequest.getData('bundle_option')) {
+      if (!this._compareOptions(buyRequest.getData('bundle_option'), itemBuyRequest.getData('bundle_option')))
+        return false;
+    }
+    return true;
+  }
+  
+  
+  private _compareOptions(option1: Object, option2: Object) {
+    if (_.isObject(option1) && _.isObject(option2)) {
+      let isMatch = true;
+      _.forEach(option1, (v, k) => {
+        if (!option2.hasOwnProperty(k) || !_.isEqual(option2[k], v)) {
+          return isMatch = false;
+        }
+      });
+      if (!isMatch)
+        return false;
+      _.forEach(option2, (v, k) => {
+        if (!option1.hasOwnProperty(k) || !_.isEqual(option1[k], v)) {
+          return isMatch = false;
+        }
+      });
+      
+      return isMatch;
+    } else
+      return false;
+  }
+  
+  private async prepareAddProductToQuote(items: List<DataObject>) {
+    return new Promise((resolve, reject) => {
+      let work = 0;
+      let size = items.count();
+      if (size == 0) {
+        setTimeout(() => {
+          return resolve();
+        }, 0);
+      } else {
+        items.forEach(async (buyRequest: DataObject) => {
+          // NEEDCHECK: Ensure product are fresh. In case change buy request maybe use old product with price is calculated
+          // let _p = new Product();
+          // if (!buyRequest.getData('product')) {
+          //   await _p.getById(buyRequest.getData('product_id'));
+          // }
+          // _p.mapWithParent(buyRequest.getData('product'));
+          //
+          // buyRequest.unsetData('product')
+          //           .setData('product', _p);
+          
+          switch (buyRequest.getData('product').getTypeId()) {
+            case 'virtual':
+            case 'simple':
+              break;
+            case 'configurable':
+              let configurableProduct: Product;
+              configurableProduct = buyRequest.getData('product');
+              
+              let configurableType = new Configurable();
+              await configurableType.resolveConfigurable(buyRequest, configurableProduct);
+              break;
+            case 'bundle':
+              let bundleProduct: Product;
+              bundleProduct = buyRequest.getData('product');
+              
+              let bundleType;
+              bundleType = <Bundle>bundleProduct.getTypeInstance();
+              await bundleType.resolveBundle(buyRequest, bundleProduct);
+              
+              break;
+            case 'grouped':
+              let groupedProduct: Product;
+              groupedProduct = buyRequest.getData('product');
+              
+              let groupedType = <Grouped> groupedProduct.getTypeInstance();
+              await groupedType.resolveAssociatedProducts(groupedProduct);
+              break;
+            default:
+              throw new GeneralException("We not yet support type of this product.");
+          }
+          if (++work >= size) {
+            return resolve();
+          }
+        });
+      }
+    });
+  }
 }

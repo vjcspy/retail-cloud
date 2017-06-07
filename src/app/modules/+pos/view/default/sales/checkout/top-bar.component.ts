@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CheckoutState} from "../../../R/sales/checkout.state";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {FormControl} from "@angular/forms";
@@ -8,7 +8,8 @@ import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-top-bar',
-             templateUrl: 'top-bar.component.html'
+             templateUrl: 'top-bar.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit {
   @Input() checkoutState: CheckoutState;

@@ -1,11 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CheckoutState} from "../../../R/sales/checkout.state";
 import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-bottom-bar',
-             templateUrl: 'bottom-bar.component.html'
+             templateUrl: 'bottom-bar.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutBottomBarComponent {
   @Input() checkoutState: CheckoutState;

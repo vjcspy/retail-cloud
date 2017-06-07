@@ -6,7 +6,7 @@ export class StoreManager implements ShareInstance {
     static _storeInstance          = null;
     static _currentStoreId: number = null;
 
-    static setStore(store: any) {
+    static setStore(store: Store) {
         StoreManager._storeInstance = store;
     }
 
