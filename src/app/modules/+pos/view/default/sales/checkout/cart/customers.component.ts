@@ -1,18 +1,16 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CheckoutState} from "../../../../R/sales/checkout.state";
 import {FormControl} from "@angular/forms";
 import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
 import {PosConfigState} from "../../../../../R/config/config.state";
-import * as _ from 'lodash';
 import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
-import {CustomerDB} from "../../../../../database/xretail/db/customer";
-import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-cart-customers',
-             templateUrl: 'customers.component.html'
+             templateUrl: 'customers.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubscriptionComponent implements AfterViewInit {
   @Input() checkoutState: CheckoutState;
