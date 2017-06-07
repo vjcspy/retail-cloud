@@ -37,6 +37,10 @@ export class PosConfigEffects {
                                       CustomerSetting.config = customerConfig['value'];
                                       ProductSetting.config  = productConfig['value'];
                                       ShippingSetting.config = productConfig['value'];
+                                      
+                                      // Init Setting for core
+                                      SettingDB._SETTING = settings.toJS();
+                                      
                                       return {type: PosConfigActions.ACTION_INIT_POS_SETTINGS, payload: {tax, customer, product, shipping}};
                                     }
                                   });
