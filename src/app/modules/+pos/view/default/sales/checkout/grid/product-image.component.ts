@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-grid-product-image',
-             templateUrl: 'product-image.component.html'
+             templateUrl: 'product-image.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class PosDefaultSalesCheckoutGridProductImageComponent implements OnInit, AfterViewInit {
   @Input('imageUrl') protected imageUrl: string;
