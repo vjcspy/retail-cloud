@@ -20,9 +20,11 @@ export class PosQuoteEffects {
   
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
-                                     .withLatestFrom(this.store$.select('entities'))
-                                     .map((z) => {
-                                       const customerEntity = z[0].payload.customer;
+                                     .withLatestFrom(this.store$.select('general'))
+                                     .withLatestFrom(this.store$.select('entities'),
+                                                     ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                     .map(([action, generalState, entitiesState]) => {
+                                       const customerEntity = action.payload.customer;
                                        let customer         = new Customer();
                                        if (customerEntity instanceof CustomerDB) {
                                          Object.assign(customer, customerEntity);
@@ -30,7 +32,6 @@ export class PosQuoteEffects {
                                        } else {
                                          customer = customerEntity;
                                        }
-                                       const entitiesState: PosEntitiesState       = z[1];
                                        const customerGroups: List<CustomerGroupDB> = entitiesState.customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
     
@@ -38,16 +39,14 @@ export class PosQuoteEffects {
                                          customer.setData('tax_class_id', customerGroup['tax_class_id']);
                                        }
     
-                                       return customer;
-                                     })
-                                     .map((customer: Customer) => {
                                        this.quoteService.setCustomerToQuote(customer);
     
                                        return {
                                          type: PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
-                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer)
+                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState)
                                        }
                                      });
+  
   
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
@@ -95,15 +94,26 @@ export class PosQuoteEffects {
                                                ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
                                .map(([action, quoteState, configState, generalState]) => {
                                  const quote: Quote = quoteState.quote;
-                                 // resolve customer
-                                 this.quoteService.resolveCustomer(quote, configState, generalState);
     
-                                 /*
-                                  * Resolve address
-                                  *
-                                  * Address resolve được save vào quote chứ không save vào view, ở view vẫn không hiển thị gì nếu trước đó customer không có address
-                                  */
-                                 
-                                 
+                                 quote.removeAllAddresses();
+    
+                                 if (quote.getCustomer() && quote.getCustomer().getId()) {
+                                   quote.setData('use_default_customer', false);
+                                   quote.setShippingAddress(quoteState.shippingAdd);
+                                   quote.setBillingAddress(quoteState.billingAdd);
+      
+                                   quote.removeAllItems();
+                                   //fake
+                                   return {type: RootActions.ACTION_NOTHING};
+                                 }
+                                 else if (!!generalState.outlet['enable_guest_checkout']) {
+                                   let customer = new Customer();
+                                   Object.assign(customer, configState.setting.customer.getDefaultCustomer());
+                                   quote.setData('use_default_customer', true);
+      
+                                   return {type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}};
+                                 } else {
+                                   return {type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}};
+                                 }
                                });
 }

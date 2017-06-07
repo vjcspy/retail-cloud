@@ -11,6 +11,7 @@ import {Address} from "../../core/framework/quote/Model/Quote/Address";
 import {PosConfigState} from "../config/config.state";
 import {config} from "shelljs";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
+import {Outlet} from "../../core/framework/outlet/Model/Outlet";
 
 @Injectable()
 export class PosQuoteService {
@@ -32,37 +33,27 @@ export class PosQuoteService {
                .makeGet(this.apiManger.get('check-open-shift', generalState.baseUrl) + `?outlet_id=${generalState.outlet['id']}&register_id=${generalState.register['id']}`)
   }
   
-  getDefaultAddressOfCustomer(customer: Customer) {
-    let shippingAdd;
-    let billingAdd;
+  getDefaultAddressOfCustomer(customer: Customer, outlet: Object) {
+    let shippingAdd = new Address();
+    let billingAdd  = new Address();
     if (customer.hasOwnProperty('default_billing') && customer['default_billing']) {
       const _billingAdd = _.find(customer.address, (add) => add['id'] == customer['default_billing']);
       if (_billingAdd) {
-        billingAdd = new Address();
         Object.assign(billingAdd, _billingAdd);
       }
+    } else {
+      Object.assign(billingAdd, Outlet.getAddress(outlet));
     }
+    
     if (customer.hasOwnProperty('default_shipping') && customer['default_shipping']) {
       const _shippingAdd = _.find(customer.address, (add) => add['id'] == customer['default_shipping']);
       if (_shippingAdd) {
-        shippingAdd = new Address();
         Object.assign(shippingAdd, _shippingAdd);
       }
+    } else {
+      Object.assign(shippingAdd, Outlet.getAddress(outlet));
     }
     return {shippingAdd, billingAdd};
   }
   
-  resolveCustomer(quote: Quote, configState: PosConfigState, generalState: PosGeneralState) {
-    if (quote.getCustomer() && quote.getCustomer().getId()) {
-      quote.setData('use_default_customer', false);
-    }
-    else if (!!generalState.outlet['enable_guest_checkout']) {
-      let customer = new Customer();
-      Object.assign(customer, configState.setting.customer.getDefaultCustomer());
-      this.setCustomerToQuote(customer);
-      quote.setData('use_default_customer', true);
-    } else {
-      throw new GeneralException("Not allow guest checkout");
-    }
-  }
 }

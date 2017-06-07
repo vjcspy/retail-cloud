@@ -1,17 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CheckoutState} from "../../../../R/sales/checkout.state";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {PosConfigState} from "../../../../../R/config/config.state";
-import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 import * as _ from 'lodash';
 import {Item} from "../../../../../core/framework/quote/Model/Quote/Item";
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-cart-items',
-             templateUrl: 'items.component.html'
+             templateUrl: 'items.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class PosDefaultSalesCheckoutCartItemsComponent implements OnInit {
   @Input() checkoutState: CheckoutState;

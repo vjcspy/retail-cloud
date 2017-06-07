@@ -3,6 +3,7 @@ import {NumberHelper} from "../../../services/helper/number-helper";
 import {checkoutStateFactory, CheckoutStateRecord} from "./checkout.state";
 import {PosCheckoutActions} from "./checkout.actions";
 import * as _ from 'lodash';
+import {PosQuoteActions} from "../../../R/quote/quote.actions";
 
 export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: CheckoutStateRecord = checkoutStateFactory(), action: Action) => {
   switch (action.type) {
@@ -137,6 +138,9 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
     case PosCheckoutActions.ACTION_UPDATE_ACTION_CART_STATE:
       return state.set(action.payload['key'], action.payload['state']);
     
+    case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
+      return state.set('inSearchCustomers', false);
+      
     default:
       return state;
   }
