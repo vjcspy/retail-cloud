@@ -1,14 +1,12 @@
 import {Action, ActionReducer} from "@ngrx/store";
-import {NumberHelper} from "../../../services/helper/number-helper";
-import {checkoutStateFactory, CheckoutStateRecord} from "./checkout.state";
-import {PosCheckoutActions} from "./checkout.actions";
+import {checkoutProductStateFactory, CheckoutProductStateRecord} from "./product.state";
+import {CheckoutProductActions} from "./product.actions";
+import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from 'lodash';
-import {PosQuoteActions} from "../../../R/quote/quote.actions";
 
-export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: CheckoutStateRecord = checkoutStateFactory(), action: Action) => {
+export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord = checkoutProductStateFactory(), action: Action) => {
   switch (action.type) {
-    /*----------------------------------------- GRID PRODUCT -----------------------------------------*/
-    case PosCheckoutActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
+    case CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
       let baseWidthProductGrid: number;
       if (action.payload['gridWidth'] < 800) {
         baseWidthProductGrid = 120;
@@ -21,7 +19,7 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
                   .set('productGridHeight', action.payload['gridHeight'])
                   .set('productGridStyleValue', Object.assign({}, state.productGridStyleValue, {baseWidthProductGrid}));
     
-    case PosCheckoutActions.ACTION_CALCULATE_GRID_STYLE:
+    case CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE:
       const gridWidth  = state.productGridWidth;
       const gridHeight = state.productGridHeight;
       
@@ -37,8 +35,6 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       let resizePercent     = (currentWidth - viewExtend * numOfCol - 1) * 100 / (numOfCol * viewExtend);
       let itemWidth: number = (viewExtend * (100 + resizePercent) / 100) - state.productGridStyleValue['marginProductLeftRight'];
       itemWidth             = NumberHelper.round(itemWidth, 4);
-      
-      /*------------------------------------------------------------------------------------------------------------*/
       
       // Calculate height and item per page
       let currentHeight   = gridHeight;
@@ -67,7 +63,7 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       return state.set('productGridStyles', {width: itemWidth + "px", height: itemHeight + "px"})
                   .set('productGridNumOfProductPerPage', numOfCol * numOfRow);
     
-    case PosCheckoutActions.ACTION_RESOLVE_GRID_PRODUCT:
+    case CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT:
       const totalPage   = action.payload['totalsPage'];
       const currentPage = action.payload['currentPage'];
       
@@ -117,7 +113,7 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
                   .set('productGridCurrentPage', action.payload['currentPage'])
                   .set('productGridTotalsPage', action.payload['totalsPage']);
     
-    case PosCheckoutActions.ACTION_UPDATE_GRID_STATE:
+    case CheckoutProductActions.ACTION_UPDATE_GRID_STATE:
       let newState = state;
       _.forEach(action.payload, (v, k) => {
         if (k === 'productGridCurrentPage') {
@@ -129,24 +125,6 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
         }
       });
       return newState;
-    
-    /*----------------------------------------- CART -----------------------------------------*/
-    case PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER:
-      return state.set('cartCustomerSearchString', action.payload['cartCustomerSearchString']);
-    
-    case PosCheckoutActions.ACTION_RESOLVE_CART_CUSTOMERS:
-      return state.set('cartCustomers', action.payload['cartCustomers']);
-    
-    case PosCheckoutActions.ACTION_UPDATE_ACTION_CART_STATE:
-      return state.set(action.payload['key'], action.payload['state']);
-    
-    /*----------------------------------------- COMMUNICATE QUOTE -----------------------------------------*/
-    case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
-      return state.set('inSearchCustomers', false);
-    
-    case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
-      return;
-    
     default:
       return state;
   }

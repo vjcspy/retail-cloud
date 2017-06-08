@@ -1,8 +1,7 @@
-import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 import {List} from "immutable";
+import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
-// Dùng trong service hoặc component... Không thể sửa giá trị
-export interface CheckoutState {
+export interface CheckoutProductState {
   isCategoryMode: boolean;
   isGridMode: boolean;
   currentCategory: Object;
@@ -18,29 +17,18 @@ export interface CheckoutState {
   productGridNumOfProductPerPage: number;
   productGridStyleValue: Object;
   productGridPagingData: any[];
-  
-  inSearchCustomers: boolean;
-  cartCustomers: List<any>;
-  cartCustomerSearchString: string;
-  cartItemsStyle: Object;
-  cartItemRowSelected: number;
-  
-  isOpeningNote: boolean;
-  isOpeningPopupDiscount: boolean;
-  isDiscountWholeOrderValue: boolean;
-  isOpenProductDetail: boolean;
 }
 
-// Typed thực sự của state dùng trong reducer
-export interface CheckoutStateRecord extends TypedRecord<any>, CheckoutState {}
+export interface CheckoutProductStateRecord extends TypedRecord<any>, CheckoutProductState {}
 
-export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStateRecord>(
+export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState, CheckoutProductStateRecord>(
   {
     isCategoryMode: false,
     isGridMode: true,
     currentCategory: null,
     searchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
+    
     
     productGridStyles: {},
     productGridHeight: null,
@@ -58,15 +46,4 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStat
     productGridTotalsPage: 0,
     productGridProducts: List.of(),
     productGridPagingData: [],
-    
-    inSearchCustomers: false,
-    cartCustomers: List.of(),
-    cartCustomerSearchString: null,
-    cartItemsStyle: {},
-    cartItemRowSelected: -1,
-    
-    isOpeningNote: false,
-    isOpeningPopupDiscount: false,
-    isDiscountWholeOrderValue: false,
-    isOpenProductDetail: false
   });
