@@ -3,7 +3,6 @@ import {Customer} from "../../core/framework/customer/Model/Customer";
 import {Address} from "../../core/framework/quote/Model/Quote/Address";
 import {Quote} from "../../core/framework/quote/Model/Quote";
 import {PosQuote} from "./quote";
-import {Product} from "../../core/framework/catalog/Model/Product";
 import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
 
