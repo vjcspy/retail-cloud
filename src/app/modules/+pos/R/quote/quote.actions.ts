@@ -8,17 +8,15 @@ import {ProductDB} from "../../database/xretail/db/product";
 @Injectable()
 export class PosQuoteActions {
   
-  static ACTION_SELECT_PRODUCT_TO_ADD         = 'ACTION_SELECT_PRODUCT_TO_ADD';
-  static ACTION_UPDATE_QUOTE_ITEMS            = 'ACTION_UPDATE_QUOTE_ITEMS';
+  static ACTION_SELECT_PRODUCT_TO_ADD         = 'ACTION_SELECT_PRODUCT_TO_ADD'; // when user select product to add
+  static ACTION_WAIT_GET_PRODUCT_OPTIONS      = 'ACTION_WAIT_GET_PRODUCT_OPTIONS'; // when product has options, we will wait options has been selected
+  static ACTION_UPDATE_QUOTE_ITEMS            = 'ACTION_UPDATE_QUOTE_ITEMS'; // product has been added so we need update quote state items
   static ACTION_SET_CUSTOMER_TO_QUOTE         = 'ACTION_SET_CUSTOMER_TO_QUOTE';
-  static ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS = 'ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS';
-  static ACTION_SET_SHIPPING_ADDRESS          = 'ACTION_SET_SHIPPING_ADDRESS';
-  static ACTION_SET_BILLING_ADDRESS           = 'ACTION_SET_BILLING_ADDRESS';
-  static ACTION_SET_SHIPPING_INFORMATION      = 'ACTION_SET_SHIPPING_INFORMATION';
+  static ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS = 'ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS'; // after customer added, we will resolve and save address
   
-  static ACTION_RESOLVE_QUOTE = 'ACTION_RESOLVE_QUOTE';
+  static ACTION_RESOLVE_QUOTE = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
   
-  static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO';
+  static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO'; // quote state information
   
   constructor(private store: Store<any>) {}
   

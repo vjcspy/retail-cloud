@@ -15,7 +15,6 @@ import {Quote} from "../../core/framework/quote/Model/Quote";
 import {Product} from "../../core/framework/catalog/Model/Product";
 import {DataObject} from "../../core/framework/General/DataObject";
 import * as _ from 'lodash';
-import {PosCheckoutActions} from "../../view/R/sales/checkout.actions";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {Configurable} from "../../core/framework/configurable-product/Model/Product/Type/Configurable";
 import {Bundle} from "../../core/framework/bundle/Model/Product/Type";
@@ -69,14 +68,14 @@ export class PosQuoteEffects {
                                         if (!forceProductCustomOption) {
                                           // custom option
                                           if (!_.isEmpty(product.customizable_options)) {
-                                            return {type: PosCheckoutActions.ACTION_OPEN_PRODUCT_DETAIL, payload: {product, buyRequest}};
+                                            return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
                                           }
                                         }
                                         break;
                                       case 'configurable':
                                       case 'bundle':
                                       case 'grouped':
-                                        return {type: PosCheckoutActions.ACTION_OPEN_PRODUCT_DETAIL, payload: {product, buyRequest}};
+                                        return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
                                     }
     
                                     let {items, isMatching} = this._getItemByBuyRequest(buyRequest, quoteState['items']);

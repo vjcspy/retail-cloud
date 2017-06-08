@@ -16,8 +16,7 @@ export class PosCheckoutActions {
   static ACTION_RESOLVE_CART_CUSTOMERS   = 'ACTION_RESOLVE_CART_CUSTOMERS';
   static ACTION_UPDATE_ACTION_CART_STATE = 'ACTION_UPDATE_ACTION_CART_STATE';
   
-  /*-------- ACTION CART --------*/
-  static ACTION_OPEN_PRODUCT_DETAIL = 'ACTION_OPEN_PRODUCT_DETAIL';
+  /*-------- ACTION COMMUNICATE QUOTE --------*/
   
   constructor(private store: Store<any>) { }
   

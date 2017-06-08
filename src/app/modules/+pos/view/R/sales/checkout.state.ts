@@ -28,6 +28,7 @@ export interface CheckoutState {
   isOpeningNote: boolean;
   isOpeningPopupDiscount: boolean;
   isDiscountWholeOrderValue: boolean;
+  isOpenProductDetail: boolean;
 }
 
 // Typed thực sự của state dùng trong reducer
@@ -66,5 +67,6 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutStat
     
     isOpeningNote: false,
     isOpeningPopupDiscount: false,
-    isDiscountWholeOrderValue: false
+    isDiscountWholeOrderValue: false,
+    isOpenProductDetail: false
   });

@@ -19,18 +19,11 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
       });
       return newState;
     
-    case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
-      return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
-    
-    case PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD:
-      return state.set('productSelected', {product: action.payload['product'], buyRequest: null});
-    
     case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
       let items: List<DataObject> = action.payload['items'];
       items.filter((item: DataObject) => item.getData('qty') > 0);
       
-      return state.set('items', action.payload['items'])
-                  .set('productSelected', {product: null, buyRequest: null});
+      return state.set('items', action.payload['items']);
     
     case PosQuoteActions.ACTION_RESOLVE_QUOTE:
       let refundAmount = 0;
@@ -42,6 +35,9 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
         gt = state.quote.getShippingAddress()['grand_total'];
       
       return state.set('grandTotal', gt - refundAmount);
+    
+    case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
+      return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
     
     default:
       return state;

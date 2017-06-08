@@ -15,6 +15,7 @@ export class PosCheckoutEffects {
   
   constructor(private store$: Store<any>, private actions$: Actions, private checkoutService: PosCheckoutService) { }
   
+  /*----------------------------------------- GRID PRODUCT -----------------------------------------*/
   @Effect() calculateStyleAfterSaveCurrentWidthHeight = this.actions$
                                                             .ofType(PosCheckoutActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
                                                             .debounceTime(100)
@@ -46,6 +47,7 @@ export class PosCheckoutEffects {
                                                           });
                                        });
   
+  /*----------------------------------------- CART -----------------------------------------*/
   @Effect() resolveCartCustomers = this.actions$
                                        .ofType(PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER)
                                        .withLatestFrom(this.store$.select('checkout'))

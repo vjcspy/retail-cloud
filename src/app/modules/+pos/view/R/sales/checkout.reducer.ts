@@ -7,6 +7,7 @@ import {PosQuoteActions} from "../../../R/quote/quote.actions";
 
 export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: CheckoutStateRecord = checkoutStateFactory(), action: Action) => {
   switch (action.type) {
+    /*----------------------------------------- GRID PRODUCT -----------------------------------------*/
     case PosCheckoutActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
       let baseWidthProductGrid: number;
       if (action.payload['gridWidth'] < 800) {
@@ -129,6 +130,7 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
       });
       return newState;
     
+    /*----------------------------------------- CART -----------------------------------------*/
     case PosCheckoutActions.ACTION_SEARCH_CART_CUSTOMER:
       return state.set('cartCustomerSearchString', action.payload['cartCustomerSearchString']);
     
@@ -138,9 +140,13 @@ export const checkoutReducer: ActionReducer<CheckoutStateRecord> = (state: Check
     case PosCheckoutActions.ACTION_UPDATE_ACTION_CART_STATE:
       return state.set(action.payload['key'], action.payload['state']);
     
+    /*----------------------------------------- COMMUNICATE QUOTE -----------------------------------------*/
     case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
       return state.set('inSearchCustomers', false);
-      
+    
+    case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
+      return;
+    
     default:
       return state;
   }

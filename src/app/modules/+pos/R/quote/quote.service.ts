@@ -8,9 +8,6 @@ import {PosGeneralState} from "../general/general.state";
 import {Observable} from "rxjs";
 import * as _ from 'lodash';
 import {Address} from "../../core/framework/quote/Model/Quote/Address";
-import {PosConfigState} from "../config/config.state";
-import {config} from "shelljs";
-import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {Outlet} from "../../core/framework/outlet/Model/Outlet";
 
 @Injectable()

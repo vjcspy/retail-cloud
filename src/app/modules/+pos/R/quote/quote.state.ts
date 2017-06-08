@@ -13,10 +13,6 @@ export interface PosQuoteState {
   shippingAdd: Address;
   billingAdd: Address;
   items: List<DataObject>;
-  productSelected: { // Selected item will pass data to product detail detail
-    product: Product;
-    buyRequest: Object;
-  };
   hasShipment: boolean;
   
   info: {
@@ -38,10 +34,6 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
                                                                                            shippingAdd: null,
                                                                                            billingAdd: null,
                                                                                            items: <any>List.of(),
-                                                                                           productSelected: {
-                                                                                             product: null,
-                                                                                             buyRequest: null
-                                                                                           },
                                                                                            hasShipment: false,
   
                                                                                            info: {
