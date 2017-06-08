@@ -1,3 +1,5 @@
+import 'meteor-client';
+import 'vendor.lib';
 /**
  * Angular bootstrapping
  */

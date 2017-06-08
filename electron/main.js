@@ -8,7 +8,7 @@ let win
 
 function createWindow() {
   // Create the browser window.
-  if (process.env.NODE_ENV = 'development') {
+  if (process.env.NODE_ENV === 'development') {
     // Initialize the window to our specified dimensions
     win = new BrowserWindow({
                                      width         : 900,
