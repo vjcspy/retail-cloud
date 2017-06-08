@@ -149,7 +149,6 @@ export class PosQuoteEffects {
       
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
                                                     .map(() => {
-                                                      console.log('here');
                                                       items.forEach((item: DataObject) => {
                                                         ObjectManager.getInstance()
                                                                      .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)

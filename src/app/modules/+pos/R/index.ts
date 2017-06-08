@@ -23,8 +23,11 @@ import {PosQuoteService} from "./quote/quote.service";
 import {PosGeneralEffects} from "./general/general.effects";
 import {PosConfigEffects} from "./config/config.effects";
 import {PosConfigActions} from "./config/config.actions";
+import {PosAssignActions} from "./core/assign.actions";
+import {PosAssignEffects} from "./core/assign.effects";
 
 export const R_POS_IMPORTS = [
+  EffectsModule.run(PosAssignEffects),
   EffectsModule.run(PosGeneralEffects),
   EffectsModule.run(PosEntitiesEffects),
   EffectsModule.run(PosPullEffects),
@@ -33,6 +36,9 @@ export const R_POS_IMPORTS = [
 ];
 
 export const R_POS_PROVIDERS = [
+  PosAssignActions,
+  PosAssignEffects,
+  
   PosGeneralActions,
   PosGeneralService,
   PosGeneralEffects,

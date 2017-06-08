@@ -10,10 +10,6 @@ export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosG
     case PosGeneralActions.ACTION_SAVE_STATE:
       let newState = state;
       _.forEach(action.payload, (v, k) => {
-        if (k === 'store') {
-          let store = new Store();
-          StoreManager.setStore(store.mapWithParent(v));
-        }
         newState = newState.set(k, v);
       });
       return newState;
