@@ -303,7 +303,7 @@ export class PosQuoteEffects {
               
               let bundleType;
               bundleType = <Bundle>bundleProduct.getTypeInstance();
-              await bundleType.resolveBundle(buyRequest, bundleProduct);
+              bundleType.resolveBundle(buyRequest, bundleProduct);
               
               break;
             case 'grouped':

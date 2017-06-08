@@ -5,7 +5,6 @@ import * as _ from "lodash";
 import {GeneralException} from "../../../General/Exception/GeneralException";
 import {Price} from "./Price";
 import {PriceCurrency} from "../../../directory/Model/PriceCurrency";
-import * as $q from "q";
 
 export class Bundle extends AbstractType {
     static TYPE_CODE                  = 'bundle';
@@ -188,7 +187,7 @@ export class Bundle extends AbstractType {
             throw  new GeneralException("Error when resolve each child bundle product");
     }
     
-    async resolveBundle(buyRequest: DataObject, product: Product) {
+    resolveBundle(buyRequest: DataObject, product: Product) {
         return this.resolveSelectionsAndMergeWithOption(buyRequest.getData('bundle_option'), product);
     }
     
@@ -200,11 +199,9 @@ export class Bundle extends AbstractType {
             return Bundle._SELECTIONPRODUCTS[key];
     }
     
-    protected async resolveSelectionsAndMergeWithOption(options: Object, product: Product) {
+    protected resolveSelectionsAndMergeWithOption(options: Object, product: Product) {
         if (product.getTypeId() != 'bundle')
             throw new GeneralException("Can't resolve because of this product not a bundle");
-        
-        let defer = $q.defer();
         
         let key = this.getCacheKeyOptions(options, product);
         if (!Bundle._SELECTIONPRODUCTS.hasOwnProperty(key)) {
@@ -232,26 +229,17 @@ export class Bundle extends AbstractType {
             /*
              * Không thể dùng lodash với async nên phải dùng bộ đếm để biết lúc nào end
              */
-            let _process = 0;
             let result   = [];
-            _.forEach(selections, async (_s: Object) => {
+            _.forEach(selections, (_s: Object) => {
                 let _p = new Product();
-                // bundle product not need pull children product.
-                // await _p.getById(_s['id']);
                 _p.addData(_s);
                 result.push(_p);
-                if (++_process == selections.length) {
-                    let _cacheKey                 = this.getCacheKeySelection(product, selections);
-                    Bundle._SELECTIONS[_cacheKey] = Bundle._SELECTIONPRODUCTS[key] = result;
-                    return defer.resolve(result);
-                }
             });
-        } else {
-            setTimeout(() => {
-                return defer.resolve(Bundle._SELECTIONPRODUCTS[key]);
-            }, 0);
+          let _cacheKey                 = this.getCacheKeySelection(product, selections);
+          Bundle._SELECTIONS[_cacheKey] = Bundle._SELECTIONPRODUCTS[key] = result;
         }
-        return defer.promise;
+  
+      return Bundle._SELECTIONPRODUCTS[key];
     }
     
     private getCacheKeyOptions(options: Object, product: Product): string {

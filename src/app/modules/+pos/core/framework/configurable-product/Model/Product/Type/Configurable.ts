@@ -2,9 +2,9 @@ import {AbstractType} from "../../../../catalog/Model/Product/Type/AbstractType"
 import {DataObject} from "../../../../General/DataObject";
 import {Product} from "../../../../catalog/Model/Product";
 import {GeneralException} from "../../../../General/Exception/GeneralException";
-import * as $q from "q";
 import * as _ from "lodash";
 import {Option as ConfigurationOption} from "../../../../catalog/Model/Product/Configuration/Option";
+
 export class Configurable extends AbstractType {
     static TYPE_CODE              = "configurable";
     static _CHILDPRODUCTS: Object = {};
@@ -92,56 +92,56 @@ export class Configurable extends AbstractType {
      * Override lại magento bởi vì đã có giá trị trả về từ connector.
      */
     private async getProductByAttributes(attributesInfo: Object, product: Product) {
-        let defer     = $q.defer();
+      return new Promise((resolve, reject)=>{
         let _cacheKey = this.getChildProductCacheKey(attributesInfo, product);
         if (!Configurable._CHILDPRODUCTS.hasOwnProperty(_cacheKey)) {
-            if (!product.hasOwnProperty('x_options')
-                || !product.x_options.hasOwnProperty('configurable')
-                || !product.x_options['configurable'].hasOwnProperty('attributes'))
-                throw new GeneralException("Can't find configurable data of this product");
-            
-            let attributes     = product.x_options['configurable']['attributes'];
-            let productIdArray = [];
-            
-            // product options will use in order list
-            let _productOptionsAttr = [];
-            _.forEach(attributesInfo, (attributeValue, attributeId) => {
-                if (!attributes.hasOwnProperty(attributeId))
-                    throw new GeneralException("Not found attribute id =  " + attributeId + " in product configurable");
-                
-                let selectOption = _.find(attributes[attributeId]['options'], o => o['id'] == attributeValue);
-                
-                if (!selectOption)
-                    throw new GeneralException("Not found selected option attribute id =  " +
-                                               attributeId +
-                                               " with option value id = " +
-                                               attributeValue +
-                                               " in product" +
-                                               " configurable");
-                
-                productIdArray.push(selectOption['products']);
-                _productOptionsAttr.push({value: selectOption['label'], label: attributes[attributeId]['label']});
-            });
-            
-            let childProductId: any = _.intersection(...productIdArray);
-            if (_.isArray(childProductId)) {
-                childProductId   = childProductId[0];
-                let childProduct = new Product();
-                childProduct.getById(childProductId)
-                            .then(() => {
-                                childProduct.setData('product_options_attributes_info', _productOptionsAttr);
-                                Configurable._CHILDPRODUCTS[_cacheKey] = childProduct;
-                                return defer.resolve(childProduct);
-                            });
-            } else {
-                throw new GeneralException("Can't resolve child product id");
-            }
+          if (!product.hasOwnProperty('x_options')
+              || !product.x_options.hasOwnProperty('configurable')
+              || !product.x_options['configurable'].hasOwnProperty('attributes'))
+            throw new GeneralException("Can't find configurable data of this product");
+    
+          let attributes     = product.x_options['configurable']['attributes'];
+          let productIdArray = [];
+    
+          // product options will use in order list
+          let _productOptionsAttr = [];
+          _.forEach(attributesInfo, (attributeValue, attributeId) => {
+            if (!attributes.hasOwnProperty(attributeId))
+              throw new GeneralException("Not found attribute id =  " + attributeId + " in product configurable");
+      
+            let selectOption = _.find(attributes[attributeId]['options'], o => o['id'] == attributeValue);
+      
+            if (!selectOption)
+              throw new GeneralException("Not found selected option attribute id =  " +
+                                         attributeId +
+                                         " with option value id = " +
+                                         attributeValue +
+                                         " in product" +
+                                         " configurable");
+      
+            productIdArray.push(selectOption['products']);
+            _productOptionsAttr.push({value: selectOption['label'], label: attributes[attributeId]['label']});
+          });
+    
+          let childProductId: any = _.intersection(...productIdArray);
+          if (_.isArray(childProductId)) {
+            childProductId   = childProductId[0];
+            let childProduct = new Product();
+            childProduct.getById(childProductId)
+                        .then(() => {
+                          childProduct.setData('product_options_attributes_info', _productOptionsAttr);
+                          Configurable._CHILDPRODUCTS[_cacheKey] = childProduct;
+                          return resolve(childProduct);
+                        });
+          } else {
+            throw new GeneralException("Can't resolve child product id");
+          }
         } else {
-            setTimeout(() => {
-                return defer.resolve(Configurable._CHILDPRODUCTS[_cacheKey]);
-            }, 0);
+          setTimeout(() => {
+            return resolve(Configurable._CHILDPRODUCTS[_cacheKey]);
+          }, 0);
         }
-        return defer.promise;
+      });
     }
     
     getChildProductCacheKey(attributesInfo: Object, product: Product): string {

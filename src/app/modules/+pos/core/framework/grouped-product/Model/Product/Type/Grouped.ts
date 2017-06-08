@@ -2,7 +2,6 @@ import {AbstractType} from "../../../../catalog/Model/Product/Type/AbstractType"
 import {DataObject} from "../../../../General/DataObject";
 import {Product} from "../../../../catalog/Model/Product";
 import {GeneralException} from "../../../../General/Exception/GeneralException";
-import * as $q from "q";
 import * as _ from "lodash";
 
 export class Grouped extends AbstractType {
@@ -96,35 +95,34 @@ export class Grouped extends AbstractType {
    * Phải gọi ở view trước để tạo data cho associated product
    */
   async resolveAssociatedProducts(product: Product) {
-    if (Grouped._ASSOCIATEDPRODUCTS.hasOwnProperty(product.getData('id'))) {
-      return true;
-    }
-
-    if (product.getTypeId() !== Grouped.TYPE_CODE) {
-      throw new GeneralException("Can't get associated product becase this isn't a grouped product");
-    }
-
-    let defer              = $q.defer();
-    let groupeds: Object[] = product.x_options['grouped'];
-
-    /*
-     * Không thể dùng lodash với async nên phải dùng bộ đếm để biết lúc nào end
-     */
-    let _process = 1;
-    let result   = [];
-    _.forEach(groupeds, async (group) => {
-      let _p  = new Product();
-      let _id = group.hasOwnProperty('id') ? group['id'] : group['entity_id'];
-      await _p.getById(_id);
-      _p.addData(group);
-      result.push(_p);
-      if (++_process === groupeds.length) {
-        Grouped._ASSOCIATEDPRODUCTS[product.getData('id')] = result;
-        return defer.resolve(result);
+    return new Promise((resolve, reject) => {
+      if (Grouped._ASSOCIATEDPRODUCTS.hasOwnProperty(product.getData('id'))) {
+        return true;
       }
+  
+      if (product.getTypeId() !== Grouped.TYPE_CODE) {
+        throw new GeneralException("Can't get associated product becase this isn't a grouped product");
+      }
+  
+      let groupeds: Object[] = product.x_options['grouped'];
+  
+      /*
+       * Không thể dùng lodash với async nên phải dùng bộ đếm để biết lúc nào end
+       */
+      let _process = 1;
+      let result   = [];
+      _.forEach(groupeds, async (group) => {
+        let _p  = new Product();
+        let _id = group.hasOwnProperty('id') ? group['id'] : group['entity_id'];
+        await _p.getById(_id);
+        _p.addData(group);
+        result.push(_p);
+        if (++_process === groupeds.length) {
+          Grouped._ASSOCIATEDPRODUCTS[product.getData('id')] = result;
+          return resolve(result);
+        }
+      });
     });
-
-    return defer.promise;
   }
 
 }
