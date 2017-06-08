@@ -5,7 +5,15 @@
     <button class="bounder">{{ 'Open' | translate }}</button>
   </div>
 
-  <pos-default-sales-checkout-cart-customers *ngIf="checkoutState.inSearchCustomers" [checkoutState]="checkoutState" [configState]="configState"></pos-default-sales-checkout-cart-customers>
+  <pos-default-sales-checkout-cart-customers *ngIf="checkoutState.inSearchCustomers"
+                                             [checkoutState]="checkoutState" [configState]="configState">
+  </pos-default-sales-checkout-cart-customers>
 
-  <pos-default-sales-checkout-cart-items *ngIf="configState.isResolveSetting" [configState]="configState" [quoteState]="quoteState" [checkoutState]="checkoutState"></pos-default-sales-checkout-cart-items>
+  <pos-default-sales-checkout-cart-items *ngIf="configState.isResolveSetting"
+                                         [configState]="configState" [quoteState]="quoteState" [checkoutState]="checkoutState">
+  </pos-default-sales-checkout-cart-items>
+
+  <pos-default-sales-checkout-cart-totals *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !checkoutState.inSearchCustomers"
+                                          [checkoutState]="checkoutState" [quoteState]="quoteState" [configState]="configState"
+  ></pos-default-sales-checkout-cart-totals>
 </div>

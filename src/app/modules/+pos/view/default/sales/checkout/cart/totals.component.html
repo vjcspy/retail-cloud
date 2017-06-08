@@ -1,0 +1,112 @@
+<div class="total-blk animated fadeIn" #totalsElement>
+  <div class="total-row has-popover hover">
+    <div class="t-txt">
+      <span class="click">{{ 'Subtotal' | translate }}</span>
+      <div class="popover-wrapper left bottom" *ngIf="quoteState.quote.getShippingAddress()['subtotal_incl_tax'] != quoteState.quote.getShippingAddress()['subtotal']">
+        <div class="p-outer">
+          <div class="p-inner">
+            <div class="content-list">
+              <h3>{{ 'Subtotal' | translate }}</h3>
+              <ul>
+                <li>
+                  <p class="name">{{ 'Including' | translate }} {{ 'Tax' | translate }}</p>
+                  <p class="value">{{(quoteState.quote.getShippingAddress()['subtotal_incl_tax']||0) |priceFormat}}</p>
+                </li>
+                <li>
+                  <p class="name">{{ 'Excluding' | translate }} {{ 'Tax' | translate }}</p>
+                  <p class="value">{{(quoteState.quote.getShippingAddress()['subtotal']||0) |priceFormat}}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="t-value">
+      {{(configState.setting.tax.displayCartSubtotalExclTax() ? (quoteState.quote.getShippingAddress()['subtotal'] ||
+      0):(quoteState.quote.getShippingAddress()['subtotal_incl_tax']||0)) | priceFormat}}
+    </div>
+  </div>
+  <div class="total-row has-popover" [ngClass]="{open: checkoutState.isOpeningPopupDiscount}" #discountPopup>
+    <div class="t-txt">
+                <span class="click" (click)="checkoutActions.updateActionCartState('isOpeningPopupDiscount',true)">
+                    {{ 'Discount' | translate }}
+                </span>
+      <div class="popover-wrapper color down discount">
+        <div class="p-outer">
+          <div class="p-inner">
+            <div class="small-topbar">
+              <h3>{{ 'CART DISCOUNT' | translate }}</h3>
+            </div>
+            <div class="small-content">
+              <div class="stop-row">
+                                    <span class="click" (click)="checkoutActions.updateActionCartState('isDiscountWholeOrderValue',true)"
+                                          [ngClass]="{current: checkoutState.isDiscountWholeOrderValue}">
+                                    $
+                                    </span>
+                <span class="click" (click)="checkoutActions.updateActionCartState('isDiscountWholeOrderValue',false)"
+                      [ngClass]="{current: !checkoutState.isDiscountWholeOrderValue}">
+                                    %
+                                    </span>
+                <input [value]="quoteState.quote.getData('discount_whole_order')"
+                       (ngModelChange)="quoteState.quote.setData('discount_whole_order',$event)" type="text"
+                       inputSelectText/>
+              </div>
+              <div class="sbot-row">
+                <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')"
+                       (ngModelChange)="quoteState.quote.setData('coupon_code',$event)"
+                       placeholder="Coupon Code"
+                       inputSelectText/>
+              </div>
+            </div>
+            <div class="small-botbar">
+              <span class="click gray">
+                Remove
+              </span>
+              <span class="click" [ngClass]="{disabled: !quoteState.quote.getData('discount_whole_order') && !quoteState.quote.getData('coupon_code')}">
+                Check
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="t-value">
+      {{ ((quoteState.quote.getShippingAddress()['discount'] || 0) + (configState.posRetailConfig.inclDiscountPerItemInDiscount ?
+      (quoteState.quote.getShippingAddress()['retail_discount_per_item']||0):0)) | priceFormat}}
+    </div>
+  </div>
+  <div class="total-row" *ngIf="quoteState.hasShipment">
+    <div class="t-txt">
+      <span class="">{{configState.setting.tax.displayCartShippingExclTax() ? "Shipping" : "Shipping Incl.tax"}}</span>
+    </div>
+    <div class="t-value">
+      {{(configState.setting.tax.displayCartShippingExclTax() ? quoteState.quote.getShippingAddress()['shipping'] :
+      quoteState.quote.getShippingAddress()['shipping_incl_tax']) | priceFormat}}
+    </div>
+  </div>
+  <div class="total-row has-popover hover">
+    <div class="t-txt">
+      <span [hidden]="getAppliedTaxes().length > 0">{{ 'Tax' | translate }}</span>
+      <span class="click" style="border-bottom: dotted cornflowerblue;" [hidden]="getAppliedTaxes().length == 0">{{ 'Tax' | translate }}</span>
+      <div class="popover-wrapper left bottom" *ngIf="getAppliedTaxes().length > 0">
+        <div class="p-outer">
+          <div class="p-inner">
+            <div class="content-list">
+              <h3>{{ 'Tax' | translate }}</h3>
+              <ul>
+                <li *ngFor="let applied of getAppliedTaxes()">
+                  <p class="name">{{applied['id'] +' (' + applied['percent'] + '%)'}}</p>
+                  <p class="value">{{applied['amount'] | priceFormat}}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="t-value">
+      {{((quoteState.quote.getShippingAddress()['tax_only'] || 0)) | priceFormat}}
+    </div>
+  </div>
+</div>

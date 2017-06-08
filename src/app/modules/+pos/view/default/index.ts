@@ -13,6 +13,7 @@ import {PosDefaultSalesCheckoutCartCustomersComponent} from "./sales/checkout/ca
 import {PosDefaultSalesCheckoutActionBarComponent} from "./sales/checkout/actions-bar.component";
 import {PosDefaultSalesCheckoutActionsBarNoteComponent} from "./sales/checkout/actions-bar/note.component";
 import {PosDefaultSalesCheckoutCartItemsComponent} from "./sales/checkout/cart/items.component";
+import {PosDefaultSalesCheckoutCartTotalsComponent} from "./sales/checkout/cart/totals.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -32,5 +33,6 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutActionsBarNoteComponent,
   PosDefaultSalesCheckoutCartCustomersComponent,
   PosDefaultSalesCheckoutCartItemsComponent,
+  PosDefaultSalesCheckoutCartTotalsComponent,
   PosDefaultSalesCheckoutGrandTotalComponent
 ];
