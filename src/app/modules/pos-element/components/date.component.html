@@ -1,0 +1,6 @@
+<div class="select-wrapper hz-fix" (click)="triggerDatePicker()"
+     [ngClass]="{'error-valid':!_validProperty['isValid']}">
+    <span class="icon-down"></span>
+    <input #dateSelect name="date-select" type="text" [value]="getOutputTime()">
+</div>
+<span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>

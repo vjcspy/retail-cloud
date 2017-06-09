@@ -44,5 +44,5 @@ export const DEFAULT_VIEW_COMPONENTS = [
 
   PosDefaultSalesCheckoutPopupComponent,
   PosDefaultSalesCheckoutPopupProductDetailComponent,
-  // PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent
+  PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent
 ];

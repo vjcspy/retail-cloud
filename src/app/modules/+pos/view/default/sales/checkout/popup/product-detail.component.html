@@ -52,8 +52,8 @@
                       <input [value]="productOptionsState.buyRequest.getData('qty')" type="text" name="qty">
                     </div>
                   </li>
-                  <!--<pos-default-sales-checkout-popup-product-detail-customizable-options *ngFor="let option of productOptionsState.product['customizable_options']"-->
-                  <!--[option]="option"></pos-default-sales-checkout-popup-product-detail-customizable-options>-->
+                  <pos-default-sales-checkout-popup-product-detail-customizable-options *ngFor="let option of productOptionsState.product['customizable_options']" [option]="option" [productOptionsState]="productOptionsState">
+                  </pos-default-sales-checkout-popup-product-detail-customizable-options>
 
                   <!--<super-attribute *ngFor="let attribute of productDetailService.getSuperAttributes()"-->
                   <!--[attribute]="attribute"></super-attribute>-->

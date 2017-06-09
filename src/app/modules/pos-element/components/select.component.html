@@ -1,0 +1,13 @@
+<div class="select-wrapper" [ngClass]="{active: isActive,disabled:disabled,'error-valid':!_validProperty['isValid']}" (click)="toggleSelect($event)">
+    <span class="icon-down"></span>
+    <input [value]="selectedLabel()|translate" type="text">
+    <ul>
+        <li class="select-option"
+            *ngFor="let option of elementData.data;trackBy:trackOption"
+            (click)="selectOption(option)"
+            [ngClass]="{disabled:!!option.disabled,active:isSelect(option)}">
+            {{option.label|translate}}
+        </li>
+    </ul>
+</div>
+<span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>

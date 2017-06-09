@@ -5,6 +5,7 @@ import {GeneralException} from "../../../../../../core/framework/General/Excepti
 import {PriceFormatPipe} from "../../../../../../pipes/price-format";
 import * as _ from 'lodash';
 import {ProductOptionsState} from "../../../../../R/sales/checkout/popup/product-options.state";
+import {ProductOptionsActions} from "../../../../../R/sales/checkout/popup/product-options.actions";
 
 @Component({
              // moduleId: module.id,
@@ -16,44 +17,67 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
   @Input() option: Object;
   @Input() productOptionsState: ProductOptionsState;
   
+  private _options = {};
+  
   private _selectData;
   
-  constructor() {
+  constructor(private productOptionsActions: ProductOptionsActions) {
   
   }
   
+  get options(): {} {
+    return this._options;
+  }
+  
+  set options(value: {}) {
+    this._options = value;
+  }
+  
   ngOnInit() {
+    this.options = Object.assign({}, this.productOptionsState.data.options);
+    
     if (this.option['type'] == "date" || this.option['type'] == "date_time" || this.option['type'] == "time") {
-      if (this.getOption()[this.option['option_id']] == null) {
-        this.getOption()[this.option['option_id']] = {};
+      if (this.options[this.option['option_id']] == null) {
+        this.options[this.option['option_id']] = {};
         if (this.option['type'] == "date" || this.option['type'] == "date_time") {
-          this.getOption()[this.option['option_id']]['data_date'] = null;
+          this.options[this.option['option_id']]['data_date'] = null;
         } else if (this.option['type'] == "time" || this.option['type'] == "date_time") {
-          this.getOption()[this.option['option_id']]['data_time'] = null;
+          this.options[this.option['option_id']]['data_time'] = null;
         }
       } else {
         // FIx xrt-1022 : khi add custom option có date time từ trên mangeto
         if (this.option['type'] == "date" || this.option['type'] == "date_time") {
-          let month = this.getOption()[this.option['option_id']]['month'];
-          let day   = this.getOption()[this.option['option_id']]['day'];
-          let year  = this.getOption()[this.option['option_id']]['year'];
+          let month = this.options[this.option['option_id']]['month'];
+          let day   = this.options[this.option['option_id']]['day'];
+          let year  = this.options[this.option['option_id']]['year'];
           
-          if (!this.getOption()[this.option['option_id']].hasOwnProperty('data_date')) {
-            this.getOption()[this.option['option_id']]['data_date'] = moment().year(year).month(month - 1).date(day).format("MM/DD/YYYY");
+          if (!this.options[this.option['option_id']].hasOwnProperty('data_date')) {
+            this.options[this.option['option_id']]['data_date'] = moment().year(year).month(month - 1).date(day).format("MM/DD/YYYY");
           }
         }
         if (this.option['type'] == "time" || this.option['type'] == "date_time") {
-          let hour     = this.getOption()[this.option['option_id']]['hour'];
-          let minute   = this.getOption()[this.option['option_id']]['minute'];
-          let day_part = this.getOption()[this.option['option_id']]['day_part'];
+          let hour     = this.options[this.option['option_id']]['hour'];
+          let minute   = this.options[this.option['option_id']]['minute'];
+          let day_part = this.options[this.option['option_id']]['day_part'];
           if (day_part == "pm") {
             hour = parseFloat(hour) + 12;
           }
-          if (!this.getOption()[this.option['option_id']].hasOwnProperty('data_time')) {
-            this.getOption()[this.option['option_id']]['data_time'] = moment().hour(hour).minute(minute).format();
+          if (!this.options[this.option['option_id']].hasOwnProperty('data_time')) {
+            this.options[this.option['option_id']]['data_time'] = moment().hour(hour).minute(minute).format();
           }
         }
       }
+    }
+    
+    this.updateProductCustomizableOptions();
+  }
+  
+  updateProductCustomizableOptions(k: string = null, v: any = null) {
+    if (!!k) {
+      this.options[k] = v;
+    }
+    if (!_.isEmpty(this.options)) {
+      this.productOptionsActions.updateProductCustomizableOption(this.options);
     }
   }
   
@@ -105,9 +129,4 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
     }
     return this._selectData;
   }
-  
-  getOption() {
-    return this.productOptionsState.options;
-  }
-  
 }
