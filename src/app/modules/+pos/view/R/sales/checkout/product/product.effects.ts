@@ -12,14 +12,13 @@ export class CheckoutProductEffects {
   
   constructor(private store$: Store<any>, private actions$: Actions, private checkoutProductsService: CheckoutProductService) { }
   
-  /*----------------------------------------- GRID PRODUCT -----------------------------------------*/
-  @Effect() calculateStyleAfterSaveCurrentWidthHeight = this.actions$
-                                                            .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
-                                                            .debounceTime(100)
-                                                            .switchMap(() => {
-                                                              return Observable.of({type: CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE})
-                                                                               .debounceTime(750);
-                                                            });
+  @Effect() triggerCalculateGridStyle = this.actions$
+                                            .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
+                                            .debounceTime(100)
+                                            .switchMap(() => {
+                                              return Observable.of({type: CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE})
+                                                               .debounceTime(750);
+                                            });
   
   @Effect() resolveProductInGrid = this.actions$
                                        .ofType(
@@ -27,16 +26,16 @@ export class CheckoutProductEffects {
                                          PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
                                          CheckoutProductActions.ACTION_UPDATE_GRID_STATE
                                        )
-                                       .withLatestFrom(this.store$.select('productOptions'))
+                                       .withLatestFrom(this.store$.select('checkoutProduct'))
                                        .withLatestFrom(this.store$.select('entities'),
-                                                       ([action, checkoutState], entitiesState) => [action, checkoutState, entitiesState])
-                                       .withLatestFrom(this.store$.select('config'), (([action, checkoutState, entitiesState], configState) =>
-                                         [action, checkoutState, entitiesState, configState]))
-                                       .filter(([action, productOptionsState, entitiesState, configState]) => {
-                                         return productOptionsState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
+                                                       ([action, checkoutProductState], entitiesState) => [action, checkoutProductState, entitiesState])
+                                       .withLatestFrom(this.store$.select('config'), (([action, checkoutProductState, entitiesState], configState) =>
+                                         [action, checkoutProductState, entitiesState, configState]))
+                                       .filter(([action, checkoutProductState, entitiesState, configState]) => {
+                                         return checkoutProductState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
                                        })
-                                       .switchMap(([action, checkoutState, entitiesState, configState]) => {
-                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(checkoutState, entitiesState.products.itemFiltered, configState))
+                                       .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
+                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(checkoutProductState, entitiesState.products.itemFiltered, configState))
                                                           .map((data: GeneralMessage) => {
                                                             return {
                                                               type: CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT, payload: data.data
