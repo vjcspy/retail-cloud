@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import * as moment from 'moment';
-import {CheckoutState} from "../../../../../R/sales/checkout.state";
 import {Product} from "../../../../../../core/framework/catalog/Model/Product";
 import {GeneralException} from "../../../../../../core/framework/General/Exception/GeneralException";
 import {PriceFormatPipe} from "../../../../../../pipes/price-format";
 import * as _ from 'lodash';
+import {ProductOptionsState} from "../../../../../R/sales/checkout/popup/product-options.state";
 
 @Component({
              // moduleId: module.id,
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
            })
 export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent implements OnInit {
   @Input() option: Object;
-  @Input() checkoutState: CheckoutState;
+  @Input() productOptionsState: ProductOptionsState;
   
   private _selectData;
   
@@ -62,7 +62,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
   }
   
   getProduct(): Product {
-    return this.checkoutState.productOptions.product;
+    return this.productOptionsState.product;
   }
   
   getOptionTypeData() {
@@ -107,7 +107,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
   }
   
   getOption() {
-    return this.checkoutState.productOptions.options;
+    return this.productOptionsState.options;
   }
   
 }

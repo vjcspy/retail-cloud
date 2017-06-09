@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
-import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
 import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-options.actions";
+import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
+import {ProductHelper} from "../../../../../services/helper/product";
 
 @Component({
              // moduleId: module.id,
@@ -14,13 +14,14 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
   
   indexImage: number = 0;
   
-  constructor(public productOptionsActions: ProductOptionsActions) { }
+  constructor(public productOptionsActions: ProductOptionsActions, public productHelper: ProductHelper) { }
   
-  ngOnInit() { }
+  ngOnInit() {
+  }
   
   changeIndexImage(isIncrease) {
     if (isIncrease === 1) {
-      if (this.indexImage < (this.productOptionsState.productOptions.product.media_gallery.length - 1)) {
+      if (this.indexImage < (this.productOptionsState.product.media_gallery.length - 1)) {
         this.indexImage += 1;
       }
     } else {

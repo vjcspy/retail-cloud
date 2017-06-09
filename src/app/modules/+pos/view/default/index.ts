@@ -42,7 +42,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutCartTotalsComponent,
   PosDefaultSalesCheckoutGrandTotalComponent,
 
-  // PosDefaultSalesCheckoutPopupComponent,
-  // PosDefaultSalesCheckoutPopupProductDetailComponent,
+  PosDefaultSalesCheckoutPopupComponent,
+  PosDefaultSalesCheckoutPopupProductDetailComponent,
   // PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent
 ];

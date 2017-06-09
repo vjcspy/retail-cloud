@@ -23,11 +23,17 @@ import {productOptionsReducer} from "./sales/checkout/popup/product-options.redu
 import {ProductOptionsState} from "./sales/checkout/popup/product-options.state";
 import {CartActionBarActions} from "./sales/checkout/cart/action-bar.actions";
 import {CartTotalsActions} from "./sales/checkout/cart/totals.actions";
+import {ProductOptionsEffects} from "./sales/checkout/popup/product-options.effects";
+import {ProductOptionsActions} from "./sales/checkout/popup/product-options.actions";
+import {ProductOptionsService} from "./sales/checkout/popup/product-options.service";
+import {CartActionBarService} from "./sales/checkout/cart/action-bar.service";
+import {CartActionBarEffects} from "./sales/checkout/cart/action-bar.effects";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CheckoutProductEffects),
   EffectsModule.run(CartCustomEffects),
   EffectsModule.run(CartItemEffects),
+  EffectsModule.run(ProductOptionsEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -35,17 +41,28 @@ export const R_POS_VIEW_PROVIDERS = [
   CheckoutProductEffects,
   CheckoutProductService,
   
+  /*Cart action bar*/
   CartActionBarActions,
+  CartActionBarService,
+  CartActionBarEffects,
   
+  /*Cart customer*/
   CartCustomerActions,
   CartCustomEffects,
   CartCustomerService,
   
+  /*Cart items*/
   CartItemActions,
   CartItemEffects,
   CartItemService,
   
+  /*Cart totals*/
   CartTotalsActions,
+  
+  /*Popup*/
+  ProductOptionsActions,
+  ProductOptionsEffects,
+  ProductOptionsService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/

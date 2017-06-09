@@ -1,1 +1,4 @@
-<pos-default-sales-checkout-popup-product-detail *ngIf="productOptionsState.productOptions.isOpenProductDetailPopup"></pos-default-sales-checkout-popup-product-detail>
+<pos-default-sales-checkout-popup-product-detail *ngIf="productOptionsState.isOpenProductDetailPopup"
+                                                 [productOptionsState]="productOptionsState">
+
+</pos-default-sales-checkout-popup-product-detail>
