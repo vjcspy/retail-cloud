@@ -1,4 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Observable, Subject} from "rxjs";
+import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -6,19 +8,26 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, On
              templateUrl: 'product-image.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
-export class PosDefaultSalesCheckoutGridProductImageComponent implements OnInit, AfterViewInit {
+export class PosDefaultSalesCheckoutGridProductImageComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   @Input('imageUrl') protected imageUrl: string;
   @ViewChild('productImgElem') protected productImgElem: ElementRef;
-  protected img = new Image();
+  protected img          = new Image();
+  private _resizeSubject = new Subject();
+  
+  get resizeSubject(): Observable<any> {
+    return this._resizeSubject.asObservable().share();
+  }
   
   ngOnInit() {
     if (!this.imageUrl) {
       this.imageUrl = "../assets/img/no-image1.png";
     }
-  }
-  
-  addToCart(product: any) {
-    console.log('not implement');
+    
+    this.subscribeObservable('handle_resize', () => this._resizeSubject.debounceTime(250).subscribe(() => {
+      if (!!this.img) {
+        this.resizeMyImg(this.img.width, this.img.height);
+      }
+    }));
   }
   
   ngAfterViewInit(): void {
@@ -38,13 +47,11 @@ export class PosDefaultSalesCheckoutGridProductImageComponent implements OnInit,
     }
   }
   
-  protected onResize() {
-    const imgw = this.img.width;
-    const imgh = this.img.height;
-    this.resizeMyImg(imgw, imgh);
+  onResize() {
+    this._resizeSubject.next();
   }
   
-  protected resizeMyImg(w, h) {
+  private resizeMyImg(w, h) {
     const div = jQuery(this.productImgElem.nativeElement);
     // the width is larger
     if (w > h) {
