@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {PosQuoteState} from "../../../../R/quote/quote.state";
-import {CheckoutState} from "../../../R/sales/checkout.state";
+import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 import {PosConfigState} from "../../../../R/config/config.state";
+import {CartItemState} from "../../../R/sales/checkout/cart/item.state";
+import {CartTotalsState} from "../../../R/sales/checkout/cart/totals.state";
 
 @Component({
              // moduleId: module.id,
@@ -11,8 +13,10 @@ import {PosConfigState} from "../../../../R/config/config.state";
            })
 export class PosDefaultSalesCheckoutCartComponent implements OnInit {
   @Input() quoteState: PosQuoteState;
-  @Input() checkoutState: CheckoutState;
+  @Input() cartCustomerState: CartCustomerState;
   @Input() configState: PosConfigState;
+  @Input() cartItemState: CartItemState;
+  @Input() cartTotalsState: CartTotalsState;
   
   constructor() { }
   

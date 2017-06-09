@@ -1,10 +1,10 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CheckoutState} from "../../../../R/sales/checkout.state";
-import {FormControl} from "@angular/forms";
-import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
+import {CartCustomerState} from "../../../../R/sales/checkout/cart/customer.state";
 import {PosConfigState} from "../../../../../R/config/config.state";
-import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
+import {FormControl} from "@angular/forms";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import {CartCustomerActions} from "../../../../R/sales/checkout/cart/customer.actions";
+import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -13,11 +13,11 @@ import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubscriptionComponent implements AfterViewInit {
-  @Input() checkoutState: CheckoutState;
   @Input() configState: PosConfigState;
+  @Input() cartCustomerState: CartCustomerState;
   protected cartCustomerSearchString = new FormControl();
   
-  constructor(protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) {
+  constructor(protected cartCustomerActions: CartCustomerActions, protected quoteActions: PosQuoteActions) {
     super();
   }
   
@@ -28,7 +28,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
                                        .debounceTime(this.configState.constrain.debounceTimeSearch)
                                        .distinctUntilChanged()
                                        .subscribe((cartCustomerSearchString: string) => {
-                                         this.checkoutActions.searchCustomer(cartCustomerSearchString);
+                                         this.cartCustomerActions.searchCustomer(cartCustomerSearchString);
                                        }));
   }
   

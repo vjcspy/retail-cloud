@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {CheckoutState} from "../../../R/sales/checkout.state";
+import {CartActionBarState} from "../../../R/sales/checkout/cart/action-bar.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
-import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
+import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
+import {CartCustomerActions} from "../../../R/sales/checkout/cart/customer.actions";
 
 @Component({
              // moduleId: module.id,
@@ -10,10 +11,11 @@ import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
-  @Input() checkoutState: CheckoutState;
+  @Input() cartActionBarState: CartActionBarState;
   @Input() quoteState: PosQuoteState;
+  @Input() cartCustomerState: CartCustomerState;
   
-  constructor(protected checkoutActions: PosCheckoutActions) { }
+  constructor(protected cartCustomerActions:CartCustomerActions){}
   
   ngOnInit() { }
   

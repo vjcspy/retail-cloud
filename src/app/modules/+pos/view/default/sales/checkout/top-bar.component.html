@@ -19,8 +19,8 @@
   <div class="search-blk">
     <span class="icon-search"></span>
     <input id="pos_search_text" type="text"
-           [value]="checkoutState.searchString"
+           [value]="checkoutProductState.searchString"
            [formControl]="searchString"
-           placeholder="{{('Search by ' + configState.posRetailConfig['fieldSearchProduct']) | translate }}"/>
+           placeholder="{{('Search by ' + configState.posRetailConfig.fieldSearchProduct) | translate }}"/>
   </div>
 </div>

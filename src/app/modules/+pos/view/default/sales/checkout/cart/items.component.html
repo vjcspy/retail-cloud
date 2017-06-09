@@ -1,4 +1,4 @@
-<div class="cart-table" [ngStyle]="checkoutState.cartItemsStyle" *ngIf="!checkoutState.inSearchCustomers && quoteState.info.isShiftOpening">
+<div class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
   <div class="customer-row" *ngIf="!!quoteState.customer && !!quoteState.customer['id']">
     <div class="customer-head">
       <span class="icon-user click"></span>
@@ -15,7 +15,7 @@
   <!--</div>-->
 
   <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;trackBy: trackByItemFn;" class="cart-row"
-       [ngClass]="{active: i === checkoutState.cartItemRowSelected}"
+       [ngClass]="{active: i === cartItemState.cartItemRowSelected}"
        (click)="toggleItemInCart($event,i)">
     <div class="cart-head">
       <div class="c-num"

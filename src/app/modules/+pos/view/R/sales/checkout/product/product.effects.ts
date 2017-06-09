@@ -27,13 +27,13 @@ export class CheckoutProductEffects {
                                          PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
                                          CheckoutProductActions.ACTION_UPDATE_GRID_STATE
                                        )
-                                       .withLatestFrom(this.store$.select('checkout'))
+                                       .withLatestFrom(this.store$.select('productOptions'))
                                        .withLatestFrom(this.store$.select('entities'),
                                                        ([action, checkoutState], entitiesState) => [action, checkoutState, entitiesState])
                                        .withLatestFrom(this.store$.select('config'), (([action, checkoutState, entitiesState], configState) =>
                                          [action, checkoutState, entitiesState, configState]))
-                                       .filter(([action, checkoutState, entitiesState, configState]) => {
-                                         return checkoutState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
+                                       .filter(([action, productOptionsState, entitiesState, configState]) => {
+                                         return productOptionsState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
                                        })
                                        .switchMap(([action, checkoutState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(checkoutState, entitiesState.products.itemFiltered, configState))

@@ -4,7 +4,7 @@
             <span class="icon-trash"></span>
             <span class="tooltiptext-bottom">{{"Clear Cart" | translate}}</span>
         </span>
-    <pos-default-sales-checkout-actions-bar-note [checkoutState]="checkoutState" [quoteState]="quoteState"></pos-default-sales-checkout-actions-bar-note>
+    <pos-default-sales-checkout-actions-bar-note [cartActionBarState]="cartActionBarState" [quoteState]="quoteState"></pos-default-sales-checkout-actions-bar-note>
     <span class="icon-link">
             <span class="icon-upload"></span>
             <span class="tooltiptext-bottom">{{"Send order to customer's wishlist" | translate}}</span>
@@ -17,7 +17,7 @@
             <span class="icon-timer"></span>
             <span class="tooltiptext-bottom">{{"Onhold Orders" | translate}}</span>
         </span>
-    <span class="icon-link" [ngClass]="{active: checkoutState.inSearchCustomers}" (click)="checkoutActions.updateActionCartState('inSearchCustomers',!checkoutState.inSearchCustomers)">
+    <span class="icon-link" [ngClass]="{active: cartCustomerState.inSearchCustomers}" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',!cartCustomerState.inSearchCustomers)">
             <span class="icon-follow"></span>
             <span class="tooltiptext-bottom">{{"Select customer for order" | translate}}</span>
         </span>

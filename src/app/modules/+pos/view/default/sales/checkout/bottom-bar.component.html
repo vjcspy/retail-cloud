@@ -1,12 +1,12 @@
 <div class="bottom-bar">
-  <ul class="paging" *ngIf="checkoutState.productGridTotalsPage >1 && checkoutState.isGridMode">
-    <li [ngClass]="{disable: checkoutState.productGridCurrentPage == 1}"><span class="click" (click)="changePage(checkoutState.productGridCurrentPage -1)"><span
+  <ul class="paging" *ngIf="checkoutProductState.productGridTotalsPage >1 && checkoutProductState.isGridMode">
+    <li [ngClass]="{disable: checkoutProductState.productGridCurrentPage == 1}"><span class="click" (click)="changePage(checkoutProductState.productGridCurrentPage -1)"><span
       class="icon-prev"></span></span></li>
-    <li *ngFor="let page of checkoutState.productGridPagingData" [ngClass]="{current: page == checkoutState.productGridCurrentPage}" (click)="changePage(page)">
+    <li *ngFor="let page of checkoutProductState.productGridPagingData" [ngClass]="{current: page == checkoutProductState.productGridCurrentPage}" (click)="changePage(page)">
       <span [ngClass]="{click: page != '...'}">{{page}}</span>
     </li>
-    <li [ngClass]="{disable: checkoutState.productGridCurrentPage == checkoutState.productGridTotalsPage}">
-      <span class="click" (click)="changePage(checkoutState.productGridCurrentPage +1)"><span class="icon-next"></span></span>
+    <li [ngClass]="{disable: checkoutProductState.productGridCurrentPage == checkoutProductState.productGridTotalsPage}">
+      <span class="click" (click)="changePage(checkoutProductState.productGridCurrentPage +1)"><span class="icon-next"></span></span>
     </li>
   </ul>
   <!--<span *ngIf="!!productViewService.viewData.currentCategory" class="category-name">-->

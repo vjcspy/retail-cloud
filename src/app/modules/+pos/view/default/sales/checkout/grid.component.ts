@@ -1,9 +1,8 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {SalesState} from "../../../R/sales/sales.state";
-import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {ProductHelper} from "../../../../services/helper/product";
-import {CheckoutState} from "../../../R/sales/checkout.state";
-import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
+import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
+import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 
 @Component({
@@ -15,17 +14,17 @@ import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @ViewChild('gridProductInner') gridProductInner: ElementRef;
   
-  @Input() checkoutState: CheckoutState;
+  @Input() checkoutProductState: CheckoutProductState;
   @Input() entitiesState: PosEntitiesState;
   
-  constructor(protected productHelper: ProductHelper, protected checkoutActions: PosCheckoutActions, protected quoteActions: PosQuoteActions) {}
+  constructor(protected productHelper: ProductHelper, protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
     this.onResize();
   }
   
   protected onResize() {
-    this.checkoutActions.saveGridWidthHeight(this.gridProductInner.nativeElement.offsetWidth, this.gridProductInner.nativeElement.offsetHeight);
+    this.checkoutProductActions.saveGridWidthHeight(this.gridProductInner.nativeElement.offsetWidth, this.gridProductInner.nativeElement.offsetHeight);
   }
   
   protected trackByItemFn(index, product) {
@@ -38,9 +37,9 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   
   protected swipe(event: string) {
     if (event === 'swipeleft') {
-      this.checkoutActions.updateGridState({productGridCurrentPage: this.checkoutState.productGridCurrentPage + 1});
+      this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage + 1});
     } else if (event === 'swiperight') {
-      this.checkoutActions.updateGridState({productGridCurrentPage: this.checkoutState.productGridCurrentPage - 1});
+      this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage - 1});
     }
   }
 }

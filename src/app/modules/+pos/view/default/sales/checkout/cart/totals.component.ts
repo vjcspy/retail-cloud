@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import * as _ from 'lodash';
+import {CartTotalsState} from "../../../../R/sales/checkout/cart/totals.state";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosConfigState} from "../../../../../R/config/config.state";
-import {CheckoutState} from "../../../../R/sales/checkout.state";
-import {PosCheckoutActions} from "../../../../R/sales/checkout.actions";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
-import * as _ from 'lodash';
+import {CartTotalsActions} from "../../../../R/sales/checkout/cart/totals.actions";
 
 @Component({
              // moduleId: module.id,
@@ -15,9 +15,9 @@ import * as _ from 'lodash';
 export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   @Input() quoteState: PosQuoteState;
   @Input() configState: PosConfigState;
-  @Input() checkoutState: CheckoutState;
+  @Input() cartTotalsState: CartTotalsState;
   
-  constructor(protected checkoutActions: PosCheckoutActions) { }
+  constructor(protected cartTotalsActions: CartTotalsActions) { }
   
   ngOnInit() { }
   

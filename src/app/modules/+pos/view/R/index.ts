@@ -21,6 +21,8 @@ import {CartActionBarState} from "./sales/checkout/cart/action-bar.state";
 import {cartActionBarReducer} from "./sales/checkout/cart/action-bar.reducer";
 import {productOptionsReducer} from "./sales/checkout/popup/product-options.reducer";
 import {ProductOptionsState} from "./sales/checkout/popup/product-options.state";
+import {CartActionBarActions} from "./sales/checkout/cart/action-bar.actions";
+import {CartTotalsActions} from "./sales/checkout/cart/totals.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CheckoutProductEffects),
@@ -33,13 +35,17 @@ export const R_POS_VIEW_PROVIDERS = [
   CheckoutProductEffects,
   CheckoutProductService,
   
+  CartActionBarActions,
+  
   CartCustomerActions,
   CartCustomEffects,
   CartCustomerService,
   
   CartItemActions,
   CartItemEffects,
-  CartItemService
+  CartItemService,
+  
+  CartTotalsActions,
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/

@@ -27,9 +27,9 @@
       0):(quoteState.quote.getShippingAddress()['subtotal_incl_tax']||0)) | priceFormat}}
     </div>
   </div>
-  <div class="total-row has-popover" [ngClass]="{open: checkoutState.isOpeningPopupDiscount}" #discountPopup>
+  <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" #discountPopup>
     <div class="t-txt">
-                <span class="click" (click)="checkoutActions.updateActionCartState('isOpeningPopupDiscount',true)">
+                <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
                     {{ 'Discount' | translate }}
                 </span>
       <div class="popover-wrapper color down discount">
@@ -40,12 +40,12 @@
             </div>
             <div class="small-content">
               <div class="stop-row">
-                                    <span class="click" (click)="checkoutActions.updateActionCartState('isDiscountWholeOrderValue',true)"
-                                          [ngClass]="{current: checkoutState.isDiscountWholeOrderValue}">
+                                    <span class="click" (click)="cartTotalsActions.changeDiscountType(true)"
+                                          [ngClass]="{current: cartTotalsState.isDiscountWholeOrderValue}">
                                     $
                                     </span>
-                <span class="click" (click)="checkoutActions.updateActionCartState('isDiscountWholeOrderValue',false)"
-                      [ngClass]="{current: !checkoutState.isDiscountWholeOrderValue}">
+                <span class="click" (click)="cartTotalsActions.changeDiscountType(false)"
+                      [ngClass]="{current: !cartTotalsState.isDiscountWholeOrderValue}">
                                     %
                                     </span>
                 <input [value]="quoteState.quote.getData('discount_whole_order')"

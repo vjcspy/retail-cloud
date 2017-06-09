@@ -2,9 +2,9 @@
   <div class="c-search">
     <input placeholder="{{ 'Type email, phone, name' | translate }} ..." type="text" name="cartCustomerSearchString"
            [formControl]="cartCustomerSearchString"
-           [value]="checkoutState.cartCustomerSearchString">
+           [value]="cartCustomerState.cartCustomerSearchString">
   </div>
-  <div class="customer-row animated fadeIn" *ngFor="let customer of checkoutState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer)">
+  <div class="customer-row animated fadeIn" *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer)">
     <div class="customer-head">
       <span class="icon-user click"></span>
       <div class="c-name">
@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="c-bottom">
-    <button class="gray" (click)="checkoutActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
+    <button class="gray" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
     <button>{{ 'Create New' | translate }}</button>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CheckoutState} from "../../../R/sales/checkout.state";
-import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
+import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
+import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 
 @Component({
              // moduleId: module.id,
@@ -9,12 +9,11 @@ import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutBottomBarComponent {
-  @Input() checkoutState: CheckoutState;
+  @Input() checkoutProductState: CheckoutProductState;
   
-  constructor(protected checkoutActions: PosCheckoutActions) {
-  }
+  constructor(protected checkoutProductActions: CheckoutProductActions) {}
   
   protected changePage(productGridCurrentPage: number) {
-    this.checkoutActions.updateGridState({productGridCurrentPage});
+    this.checkoutProductActions.updateGridState({productGridCurrentPage});
   }
 }

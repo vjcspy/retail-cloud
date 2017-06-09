@@ -1,9 +1,9 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {CheckoutState} from "../../../R/sales/checkout.state";
+import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
+import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {FormControl} from "@angular/forms";
-import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
-import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
+import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 
 @Component({
              // moduleId: module.id,
@@ -12,11 +12,11 @@ import {PosCheckoutActions} from "../../../R/sales/checkout.actions";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit {
-  @Input() checkoutState: CheckoutState;
+  @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   protected searchString = new FormControl();
   
-  constructor(private checkoutActions: PosCheckoutActions) {
+  constructor(private checkoutProductActions: CheckoutProductActions) {
     super();
   }
   
@@ -25,7 +25,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                                  .valueChanges
                                                                  .debounceTime(this.configState.constrain['debounceTimeSearch'])
                                                                  .distinctUntilChanged()
-                                                                 .subscribe((searchString: string) => this.checkoutActions.updateGridState({searchString}))
+                                                                 .subscribe((searchString: string) => this.checkoutProductActions.updateGridState({searchString}))
     );
   }
 }

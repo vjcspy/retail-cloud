@@ -1,13 +1,22 @@
 <div class="grid-product">
-  <pos-default-sales-checkout-top-bar [checkoutState]="checkoutState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-top-bar>
-  <pos-default-sales-checkout-grid [checkoutState]="checkoutState$ | async" [entitiesState]="entitiesState$ | async"></pos-default-sales-checkout-grid>
+  <pos-default-sales-checkout-top-bar [checkoutProductState]="checkoutProductState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-top-bar>
+
+  <pos-default-sales-checkout-grid [checkoutProductState]="checkoutProductState$ | async" [entitiesState]="entitiesState$ | async"></pos-default-sales-checkout-grid>
+
   <pos-default-sales-checkout-list></pos-default-sales-checkout-list>
-  <pos-default-sales-checkout-bottom-bar [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-bottom-bar>
+
+  <pos-default-sales-checkout-bottom-bar [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-bottom-bar>
+
 </div>
 <div class="cart-product">
-  <pos-default-sales-checkout-actions-bar [quoteState]="quoteState$ | async" [checkoutState]="checkoutState$ | async"></pos-default-sales-checkout-actions-bar>
-  <pos-default-sales-checkout-cart [quoteState]="quoteState$ | async" [checkoutState]="checkoutState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-cart>
+  <pos-default-sales-checkout-actions-bar [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async" [cartActionBarState]="cartActionBarState$ | async">
+  </pos-default-sales-checkout-actions-bar>
+
+  <pos-default-sales-checkout-cart [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async" [configState]="configState$ | async" [cartItemState]="cartItemState$ | async" [cartTotalsState]="cartTotalsState$ | async">
+  </pos-default-sales-checkout-cart>
+
   <pos-default-sales-checkout-grand-total [quoteState]="quoteState$ | async"></pos-default-sales-checkout-grand-total>
+
 </div>
 <div class="checkout-popup">
   <!--<pos-default-sales-checkout-popup></pos-default-sales-checkout-popup>-->
