@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {CheckoutState} from "../../../R/sales/checkout.state";
+import {ProductOptionsState} from "../../../R/sales/checkout/popup/product-options.state";
 
 @Component({
              // moduleId: module.id,
@@ -8,7 +8,7 @@ import {CheckoutState} from "../../../R/sales/checkout.state";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutPopupComponent implements OnInit {
-  @Input() checkoutState: CheckoutState;
+  @Input() productOptionsState: ProductOptionsState;
   
   constructor() { }
   
