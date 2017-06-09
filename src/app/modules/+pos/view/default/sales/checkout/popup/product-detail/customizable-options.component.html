@@ -1,0 +1,44 @@
+<li *ngIf="option['type'] =='field' || option['type']=='area' || option['type']=='file'">
+  <label>{{option['title']}} <span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
+  <pos-text [(model)]="getOption()[option['option_id']]"
+            [validation]="option['is_require']=='1'? 'require' :''"
+            [formKey]="'pos-product-detail'">
+  </pos-text>
+</li>
+
+<li *ngIf="option['type'] =='drop_down' || option['type']=='radio' || option['type']=='checkbox' || option['type']=='multiple'">
+  <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
+  <pos-select [(model)]="getOption()[option['option_id']]"
+              [elementData]="getOptionTypeData()"
+              [formKey]="'pos-product-detail'"
+              [validation]="option['is_require']=='1'? 'require' :''">
+  </pos-select>
+</li>
+
+<li *ngIf="option['type'] =='date'">
+  <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
+  <date-select [(model)]="getOption()[option['option_id']]"
+               [formKey]="'pos-product-detail'"
+               [validation]="option['is_require']=='1'? 'require' :''">
+  </date-select>
+</li>
+
+<li *ngIf="option['type'] == 'time'">
+  <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
+  <time-select [(model)]="getOption()[option['option_id']]"
+               [formKey]="'pos-product-detail'"
+               [validation]="option['is_require']=='1'? 'require' :''">
+  </time-select>
+</li>
+
+<li *ngIf="option['type'] =='date_time'">
+  <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
+  <time-select [(model)]="getOption()[option['option_id']]"
+               [formKey]="'pos-product-detail'"
+               [validation]="option['is_require']=='1'? 'require' :''">
+  </time-select>
+  <date-select [(model)]="getOption()[option['option_id']]"
+               [formKey]="'pos-product-detail'"
+               [validation]="option['is_require']=='1'? 'require' :''">
+  </date-select>
+</li>

@@ -1,0 +1,10 @@
+<li>
+  <label>{{attribute['label']|translate}}</label>
+  <pos-select [(model)]="getSupperAttribute()[attribute['id']]"
+              (modelChange)="productDetailService.getConfigurableChangeValueStream().next(attribute['id'])"
+              [elementData]="getOptionsSelectData()"
+              [disabled]="productDetailService.isDisableAttribute(attribute)"
+              [validation]="'require'"
+              [formKey]="'pos-product-detail'">
+  </pos-select>
+</li>

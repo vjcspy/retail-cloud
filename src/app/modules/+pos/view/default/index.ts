@@ -14,6 +14,9 @@ import {PosDefaultSalesCheckoutActionBarComponent} from "./sales/checkout/action
 import {PosDefaultSalesCheckoutActionsBarNoteComponent} from "./sales/checkout/actions-bar/note.component";
 import {PosDefaultSalesCheckoutCartItemsComponent} from "./sales/checkout/cart/items.component";
 import {PosDefaultSalesCheckoutCartTotalsComponent} from "./sales/checkout/cart/totals.component";
+import {PosDefaultSalesCheckoutPopupComponent} from "./sales/checkout/popup.component";
+import {PosDefaultSalesCheckoutPopupProductDetailComponent} from "./sales/checkout/popup/product-detail.component";
+import {PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent} from "./sales/checkout/popup/product-detail/customizable-options.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -23,16 +26,23 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesOutletRegisterComponent,
   
   PosDefaultSalesCheckoutComponent,
+  
   PosDefaultSalesCheckoutTopBarComponent,
   PosDefaultSalesCheckoutGridComponent,
   PosDefaultSalesCheckoutGridProductImageComponent,
   PosDefaultSalesCheckoutListComponent,
   PosDefaultSalesCheckoutBottomBarComponent,
-  PosDefaultSalesCheckoutCartComponent,
+
   PosDefaultSalesCheckoutActionBarComponent,
   PosDefaultSalesCheckoutActionsBarNoteComponent,
+  
+  PosDefaultSalesCheckoutCartComponent,
   PosDefaultSalesCheckoutCartCustomersComponent,
   PosDefaultSalesCheckoutCartItemsComponent,
   PosDefaultSalesCheckoutCartTotalsComponent,
-  PosDefaultSalesCheckoutGrandTotalComponent
+  PosDefaultSalesCheckoutGrandTotalComponent,
+
+  // PosDefaultSalesCheckoutPopupComponent,
+  // PosDefaultSalesCheckoutPopupProductDetailComponent,
+  // PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent
 ];

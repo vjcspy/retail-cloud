@@ -1,0 +1,187 @@
+<div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': checkoutState.productOptions.isOpenProductDetailPopup}">
+  <div class="popup-content">
+    <div class="product-information">
+      <div class="media-blk">
+        <div class="media-img"><img src="{{checkoutState.productOptions.product.media_gallery[indexImage]}}"/></div>
+        <div class="media-thumb">
+          <div class="inner">
+            <ul>
+              <li *ngFor="let image of checkoutState.productOptions.product.media_gallery;let i = index"
+                  [ngClass]="{active: i==indexImage}" (click)="indexImage= i"
+                  [hidden]="i>(indexImage + 2) || i<indexImage">
+                <img src="{{image}}"/>
+              </li>
+            </ul>
+          </div>
+          <p class="media-control">
+            <span class="icon-left" [ngClass]="{disable: indexImage == 0}" (click)="changeIndexImage(-1)"></span>
+            <span class="icon-right"
+                  [ngClass]="{disable: indexImage == (checkoutState.productOptions.product.media_gallery.length-1)}"
+                  (click)="changeIndexImage(1)"></span>
+          </p>
+        </div>
+      </div>
+      <div class="description-blk">
+        <div class="tabs-blk">
+          <!--tabs header-->
+          <ul class="tabs-header">
+            <li [ngClass]="{active: checkoutState.productOptions.tabView ==='option'}" (click)="checkoutActions.updateProductOptions({tabView:'option'})">
+              {{ 'Option' | translate }}
+            </li>
+            <li [ngClass]="{active: checkoutState.productOptions.tabView ==='detail'}" (click)="checkoutActions.updateProductOptions({tabView:'detail'})">
+              {{ 'Detail' | translate }}
+            </li>
+            <li class="disabled">{{ 'Warehouse' | translate }}</li>
+          </ul>
+          <div id="option" class="tabs-content"
+               [ngClass]="{'d-show': checkoutState.productOptions.tabView ==='option','d-hide':checkoutState.productOptions.tabView !=='option'}">
+            <div class="inner" #posPerfectScroll>
+              <div class="name-row">
+                <p class="product-name">{{checkoutState.productOptions.product['name']}}</p>
+                <p class="price">{{checkoutState.productOptions.product['price'] | priceFormat : true}}</p>
+                <p class="sku">SKU</p>
+                <p class="sku-val">{{checkoutState.productOptions.product['sku']}}</p>
+              </div>
+              <form class="form-row">
+                <ul class="fr-control">
+                  <li *ngIf="checkoutState.productOptions.product.getTypeId()!='grouped'">
+                    <label>{{ 'Quantity' | translate }}</label>
+                    <div class="quantity-blk">
+                      <span class="icon-minus" [ngClass]="{disable: checkoutState.productOptions.buyRequest.getData('qty') <= 1}"></span>
+                      <span class="icon-plus"></span>
+                      <input [value]="checkoutState.productOptions.buyRequest.getData('qty')" type="text" name="qty">
+                    </div>
+                  </li>
+                  <pos-default-sales-checkout-popup-product-detail-customizable-options *ngFor="let option of checkoutState.productOptions.product['customizable_options']"
+                                        [option]="option"></pos-default-sales-checkout-popup-product-detail-customizable-options>
+
+                  <!--<super-attribute *ngFor="let attribute of productDetailService.getSuperAttributes()"-->
+                                   <!--[attribute]="attribute"></super-attribute>-->
+                  <!--<super-group *ngIf="productDetailService.getProduct().getTypeId()=='grouped'"></super-group>-->
+                </ul>
+              </form>
+              <!--<bundle-options *ngFor="let option of productDetailService.getBundleOptions()" [option]="option"></bundle-options>-->
+            </div>
+          </div>
+          <!--Detail Content-->
+          <div id="detail" class="tabs-content"
+               [ngClass]="{'d-show': checkoutState.productOptions.tabView ==='detail','d-hide':checkoutState.productOptions.tabView !=='detail'}">
+            <div class="inner" #posPerfectScroll1>
+              <div class="name-row">
+                <p class="product-name">{{checkoutState.productOptions.product.getData('name')}}</p>
+                <p class="price">{{checkoutState.productOptions.product.getData('price') | priceFormat : true}}</p>
+                <p class="sku">{{checkoutState.productOptions.product.getData('sku')}}</p>
+                <p class="sku-val"></p>
+              </div>
+
+              <div class="info-row">
+                <table class="table">
+                  <tr>
+                    <td>{{ 'Qty' | translate }}</td>
+                    <td>{{checkoutState.productOptions.product.stock_items['qty']}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'In stock' | translate }}</td>
+                    <td>{{checkoutState.productOptions.product.stock_items['is_in_stock'] == '1'? ("Yes"|translate) : ("No"|translate)}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Attribute set id' | translate }}</td>
+                    <td>{{checkoutState.productOptions.product.attribute_set_id}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Tax class' | translate }}</td>
+                    <td>{{getProductTaxClass(getProduct().tax_class_id)}}</td>
+                  </tr>
+                  <tr *ngIf="checkoutState.productOptions.product.special_price">
+                    <td>{{ 'Special price' | translate }}</td>
+                    <td>
+                      {{checkoutState.productOptions.product.special_price | priceFormat}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="checkoutState.productOptions.product.special_price">
+                    <td>{{ 'Special from date' | translate }}</td>
+                    <td>
+                      {{checkoutState.productOptions.product.special_from_date}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="checkoutState.productOptions.product.special_price">
+                    <td>{{ 'Special to date' | translate }}</td>
+                    <td>
+                      {{checkoutState.productOptions.product.special_to_date}}
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- <div class="detail-row">
+                   <h4>Description</h4>
+                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                       consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                   <h4>Sort Description</h4>
+                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+               </div>-->
+            </div>
+          </div>
+
+          <!--Stock Content-->
+          <div id="stock" class="tabs-content"
+               [ngClass]="{'d-show': checkoutState.productOptions.tabView ==='stock','d-hide':checkoutState.productOptions.tabView !=='stock'}">
+            <div class="inner" #posPerfectScroll2>
+              <div class="name-row">
+                <p class="product-name">{{ 'Product name' | translate }}</p>
+                <p class="price">$100.00</p>
+                <p class="sku">{{ 'Product-SKU' | translate }}</p>
+                <p class="sku-val">WSKB2019</p>
+              </div>
+              <div class="info-row">
+                <table>
+                  <tr>
+                    <td>{{ 'Quantity' | translate }} in {{ 'Outlet' | translate }} A</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Quantity' | translate }} in {{ 'Outlet' | translate }} A</td>
+                    <td>100</td>
+                  </tr>
+                </table>
+              </div>
+              <table class="table">
+                <tr>
+                  <th>{{ 'Outlet' | translate }}</th>
+                  <th>{{ 'Inventory Count' | translate }}</th>
+                </tr>
+                <tr>
+                  <td>{{ 'Outlet' | translate }} A</td>
+                  <td>25</td>
+                </tr>
+                <tr>
+                  <td>{{ 'Outlet' | translate }} Nguyen Chi Thanh</td>
+                  <td>31</td>
+                </tr>
+                <tr>
+                  <td>{{ 'Outlet' | translate }} Westlake</td>
+                  <td>12</td>
+                </tr>
+                <tr>
+                  <td>{{ 'Outlet' | translate }} Hang Khay</td>
+                  <td>30</td>
+                </tr>
+                <tr>
+                  <td>{{ 'Outlet' | translate }} Trang Tien</td>
+                  <td>50</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="desc-bottom">
+          <button class="gray">{{ 'Cancel' | translate }}</button>
+          <button>OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay" [ngClass]="{'open': checkoutState.productOptions.isOpenProductDetailPopup}"></div>

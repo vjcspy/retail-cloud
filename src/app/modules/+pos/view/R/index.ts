@@ -19,6 +19,8 @@ import {CartItemEffects} from "./sales/checkout/cart/item.effects";
 import {CartItemService} from "./sales/checkout/cart/item.service";
 import {CartActionBarState} from "./sales/checkout/cart/action-bar.state";
 import {cartActionBarReducer} from "./sales/checkout/cart/action-bar.reducer";
+import {productOptionsReducer} from "./sales/checkout/popup/product-options.reducer";
+import {ProductOptionsState} from "./sales/checkout/popup/product-options.state";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CheckoutProductEffects),
@@ -47,6 +49,7 @@ export interface SalesState {
   cartItem: CartItemState;
   cartTotals: CartTotalsState;
   cartActionBar: CartActionBarState;
+  productOptions: ProductOptionsState;
 }
 
 export const salesReducer = createReducer({
@@ -54,5 +57,6 @@ export const salesReducer = createReducer({
                                             cartCustomer: cartCustomerReducer,
                                             cartItem: cartItemReducer,
                                             cartTotals: cartTotalsReducer,
-                                            cartActionBar: cartActionBarReducer
+                                            cartActionBar: cartActionBarReducer,
+                                            productOptions: productOptionsReducer
                                           });
