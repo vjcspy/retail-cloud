@@ -21,6 +21,7 @@ import {Bundle} from "../../core/framework/bundle/Model/Product/Type";
 import {Grouped} from "../../core/framework/grouped-product/Model/Product/Type/Grouped";
 import {ObjectManager} from "../../core/framework/General/App/ObjectManager";
 import {SessionQuote} from "../../core/framework/Backend/Model/Session/Quote";
+import {AsyncHelper} from "../../../../code/AsyncHelper";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -306,7 +307,7 @@ export class PosQuoteEffects {
           return resolve();
         }, 0);
       } else {
-        items.forEach(async (buyRequest: DataObject) => {
+        AsyncHelper.forEach(items.toArray(), async (buyRequest: DataObject) => {
           // NEEDCHECK: Ensure product are fresh. In case change buy request maybe use old product with price is calculated
           // let _p = new Product();
           // if (!buyRequest.getData('product')) {
@@ -350,7 +351,7 @@ export class PosQuoteEffects {
           if (++work >= size) {
             return resolve();
           }
-        });
+        }).then(() => resolve());
       }
     });
   }
