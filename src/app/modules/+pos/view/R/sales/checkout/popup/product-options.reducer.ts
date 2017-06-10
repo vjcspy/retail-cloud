@@ -9,7 +9,8 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
       return state.set('tabView', action.payload['tabView']);
     
     case ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION:
-      return state.set('product', action.payload['product']);
+      return state.set('product', action.payload['product'])
+                  .set('isOpenProductDetailPopup', true);
     
     case ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA:
       if (action.payload['forceCreateNew'] === true) {
@@ -20,11 +21,14 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
         );
       }
     
+    case ProductOptionsActions.ACTION_RE_INIT_SUPER_ATTRIBUTE_SELECT_DATA:
+      return state.set('product', action.payload['product'])
+                  .setIn(['optionData', 'super_attribute'], action.payload['super_attribute']);
+    
     case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
       state = state.clear();
       return state.set('product', action.payload['product'])
-                  .set('buyRequest', action.payload['buyRequest'])
-                  .set('isOpenProductDetailPopup', true);
+                  .set('buyRequest', action.payload['buyRequest']);
     
     case ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS:
       return state.clear();

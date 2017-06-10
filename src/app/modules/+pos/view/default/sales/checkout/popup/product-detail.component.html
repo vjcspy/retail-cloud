@@ -55,8 +55,12 @@
                   <pos-default-sales-checkout-popup-product-detail-customizable-options *ngFor="let option of productOptionsState.product['customizable_options']" [option]="option" [productOptionsState]="productOptionsState">
                   </pos-default-sales-checkout-popup-product-detail-customizable-options>
 
-                  <!--<super-attribute *ngFor="let attribute of productDetailService.getSuperAttributes()"-->
-                  <!--[attribute]="attribute"></super-attribute>-->
+                  <div *ngIf="productOptionsState.product.getTypeId()==='configurable'">
+                    <pos-default-sales-checkout-popup-product-detail-super-attribute *ngFor="let attribute of convertAttributeObjectToArray()"
+                                                                                     [attribute]="attribute"
+                                                                                     [productOptionsState]="productOptionsState">
+                    </pos-default-sales-checkout-popup-product-detail-super-attribute>
+                  </div>
                   <pos-default-sales-checkout-popup-product-detail-super-group *ngIf="productOptionsState.product.getTypeId()==='grouped'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-super-group>
                 </ul>
               </form>

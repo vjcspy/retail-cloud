@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import {TaxClassDB} from "../../../../../database/xretail/db/tax-class";
@@ -9,11 +9,14 @@ import {ProductOptionsActions} from "./product-options.actions";
 import {ProductHelper} from "../../../../../core/framework/catalog/Helper/Product";
 import * as _ from 'lodash';
 import {ProductDB} from "../../../../../database/xretail/db/product";
+import {ProductOptionsService} from "./product-options.service";
+import {ProductOptionsState} from "./product-options.state";
+import {_if} from "rxjs/observable/if";
 
 @Injectable()
 export class ProductOptionsEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions) { }
+  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService) { }
   
   @Effect() retrieveProductDataForPopup = this.actions$.ofType(PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS)
                                               .withLatestFrom(this.store$.select('productOptions'))
@@ -58,7 +61,90 @@ export class ProductOptionsEffects {
                                                   product.setData('associatedProducts', associatedProducts);
                                                 }
     
+                                                // create select data for each attribute in super_attribute
+                                                if (product.getTypeId() === 'configurable') {
+                                                  let attributeSelectData = {};
+                                                  _.forEach(product.x_options['configurable']['attributes'], (attribute: Object) => {
+                                                    let _selectData = {
+                                                      data: [
+                                                        {
+                                                          value: "",
+                                                          label: "Choose an Option",
+                                                          disabled: false
+                                                        }
+                                                      ],
+                                                      isMultiSelect: false,
+                                                      isDisabled: this.productOptionsService.isDisableAttribute(product, attribute, (productOptionsState as ProductOptionsState).optionData.super_attribute)
+                                                    };
+        
+                                                    _.forEach(attribute['options'], (option: Object) => {
+                                                      _selectData.data.push({
+                                                                              value: option['id'],
+                                                                              label: option['label'],
+                                                                              disabled: this.productOptionsService.isDisableOption(product, option, (productOptionsState as ProductOptionsState).optionData.super_attribute)
+                                                                            });
+                                                    });
+        
+                                                    attributeSelectData[attribute['id']] = _selectData;
+                                                  });
+      
+                                                  product.setData('attributeSelectData', attributeSelectData);
+                                                }
+    
                                                 return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}}
     
-                                              })
+                                              });
+  
+  @Effect() handleWhenChangeOptionConfigurable = this.actions$.ofType(ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA)
+                                                     .filter((action: Action) => {
+                                                       return action.payload['optionType'] === 'super_attribute' && !_.isEmpty(action.payload['optionValue']);
+                                                     })
+                                                     .withLatestFrom(this.store$.select('productOptions'))
+                                                     .map(([action, productOptionsState]) => {
+                                                       const product: Product = productOptionsState['product'];
+                                                       let super_attribute    = {};
+    
+                                                       // when user select attribute, all attribute standing behind will be remove
+                                                       _.forEach(productOptionsState['optionData'].super_attribute, (value, key) => {
+                                                         super_attribute[key] = value;
+                                                         if (action['payload']['optionValue'][key] === value) {
+                                                           return false;
+                                                         }
+                                                       });
+    
+                                                       if (product.getTypeId() === 'configurable') {
+                                                         let attributeSelectData = {};
+                                                         _.forEach(product.x_options['configurable']['attributes'], (attribute: Object) => {
+                                                           let _selectData = {
+                                                             data: [
+                                                               {
+                                                                 value: "",
+                                                                 label: "Choose an Option",
+                                                                 disabled: false
+                                                               }
+                                                             ],
+                                                             isMultiSelect: false,
+                                                             isDisabled: this.productOptionsService.isDisableAttribute(product, attribute, super_attribute)
+                                                           };
+        
+                                                           _.forEach(attribute['options'], (option: Object) => {
+                                                             option['attribute_id'] = attribute['id'];
+                                                             _selectData.data.push({
+                                                                                     value: option['id'],
+                                                                                     label: option['label'],
+                                                                                     disabled: this.productOptionsService.isDisableOption(product, option, super_attribute)
+                                                                                   });
+                                                           });
+        
+                                                           attributeSelectData[attribute['id']] = _selectData;
+                                                         });
+      
+                                                         product.setData('attributeSelectData', attributeSelectData);
+                                                       }
+    
+                                                       return {
+                                                         type: ProductOptionsActions.ACTION_RE_INIT_SUPER_ATTRIBUTE_SELECT_DATA,
+                                                         payload: {product, super_attribute}
+                                                       }
+                                                     });
 }

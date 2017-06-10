@@ -19,6 +19,7 @@ import {PosDefaultSalesCheckoutPopupProductDetailComponent} from "./sales/checko
 import {PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent} from "./sales/checkout/popup/product-detail/customizable-options.component";
 import {PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent} from "./sales/checkout/popup/product-detail/bundle-options.component";
 import {PosDefaultSalesCheckoutPopupProductDetailSuperGroupComponent} from "./sales/checkout/popup/product-detail/super-group.component";
+import {PosDefaultSalesCheckoutPopupProductDetailSuperAttributeComponent} from "./sales/checkout/popup/product-detail/super-attribute.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -48,5 +49,6 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutPopupProductDetailComponent,
   PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent,
   PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent,
-  PosDefaultSalesCheckoutPopupProductDetailSuperGroupComponent
+  PosDefaultSalesCheckoutPopupProductDetailSuperGroupComponent,
+  PosDefaultSalesCheckoutPopupProductDetailSuperAttributeComponent
 ];

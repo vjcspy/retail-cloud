@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-options.actions";
 import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -28,5 +29,19 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
         this.indexImage -= 1;
       }
     }
+  }
+  
+  private _attributes;
+  
+  convertAttributeObjectToArray() {
+    if (typeof this._attributes === 'undefined') {
+      if (this.productOptionsState.product.getTypeId() == 'configurable') {
+        this._attributes = [];
+        _.forEach(this.productOptionsState.product.x_options['configurable']['attributes'], (attribute) => {
+          this._attributes.push(attribute);
+        });
+      }
+    }
+    return this._attributes;
   }
 }
