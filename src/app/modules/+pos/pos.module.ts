@@ -9,6 +9,7 @@ import {POS_SERVICES} from "./services/index";
 import {R_POS_VIEW_IMPORTS, R_POS_VIEW_PROVIDERS} from "./view/R/index";
 import {POS_PIPES} from "./pipes/index";
 import {PosElementModule} from "../pos-element";
+import {POS_DIRECTIVES} from "./view/directives/index";
 
 @NgModule({
             imports: [
@@ -22,6 +23,7 @@ import {PosElementModule} from "../pos-element";
             declarations: [
               PosComponent,
               ...DEFAULT_VIEW_COMPONENTS,
+              ...POS_DIRECTIVES,
               ...POS_PIPES
             ],
             providers: [
