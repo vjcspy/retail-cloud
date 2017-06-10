@@ -57,7 +57,7 @@
 
                   <!--<super-attribute *ngFor="let attribute of productDetailService.getSuperAttributes()"-->
                   <!--[attribute]="attribute"></super-attribute>-->
-                  <!--<super-group *ngIf="productDetailService.getProduct().getTypeId()=='grouped'"></super-group>-->
+                  <pos-default-sales-checkout-popup-product-detail-super-group *ngIf="productOptionsState.product.getTypeId()==='grouped'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-super-group>
                 </ul>
               </form>
               <div *ngIf="productOptionsState.product.getTypeId() === 'bundle'">

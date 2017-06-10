@@ -44,6 +44,20 @@ export class ProductOptionsEffects {
                                                   product.setData('childBundleImages', childBundleImages);
                                                 }
     
+                                                // get associate of group product
+                                                if (product.getTypeId() === 'grouped') {
+                                                  let associatedProducts          = [];
+                                                  const products: List<ProductDB> = entitiesState[ProductDB.getCode()]['items'];
+                                                  _.forEach(product.x_options['grouped'], (a) => {
+                                                    const productAssociate = products.find((p) => parseInt(p.id + '') === parseInt(a['entity_id'] + ''));
+                                                    if (productAssociate) {
+                                                      associatedProducts.push(productAssociate);
+                                                    }
+                                                  });
+      
+                                                  product.setData('associatedProducts', associatedProducts);
+                                                }
+    
                                                 return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}}
     
                                               })
