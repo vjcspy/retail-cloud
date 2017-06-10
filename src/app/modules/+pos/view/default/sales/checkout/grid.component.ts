@@ -1,9 +1,9 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {ProductHelper} from "../../../../services/helper/product";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
+import {ProductHelper} from "../../../../core/framework/catalog/Helper/Product";
 
 @Component({
              // moduleId: module.id,
@@ -17,7 +17,7 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @Input() checkoutProductState: CheckoutProductState;
   @Input() entitiesState: PosEntitiesState;
   
-  constructor(protected productHelper: ProductHelper, protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
+  constructor(protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
     this.onResize();
@@ -41,5 +41,13 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
     } else if (event === 'swiperight') {
       this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage - 1});
     }
+  }
+  
+  isSales(product){
+    return ProductHelper.isSales(product);
+  }
+  
+  isOutOfStock(product){
+    return ProductHelper.isOutOfStock(product);
   }
 }

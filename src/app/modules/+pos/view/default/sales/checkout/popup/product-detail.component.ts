@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-options.actions";
 import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
-import {ProductHelper} from "../../../../../services/helper/product";
 
 @Component({
              // moduleId: module.id,
@@ -14,7 +13,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
   
   indexImage: number = 0;
   
-  constructor(public productOptionsActions: ProductOptionsActions, public productHelper: ProductHelper) { }
+  constructor(public productOptionsActions: ProductOptionsActions) { }
   
   ngOnInit() {
   }
