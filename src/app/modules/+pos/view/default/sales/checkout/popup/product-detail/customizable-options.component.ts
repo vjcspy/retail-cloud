@@ -34,7 +34,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
   }
   
   ngOnInit() {
-    this.options = Object.assign({}, this.productOptionsState.data.options);
+    this.options = Object.assign({}, this.productOptionsState.optionData.options);
     
     if (this.option['type'] == "date" || this.option['type'] == "date_time" || this.option['type'] == "time") {
       if (this.options[this.option['option_id']] == null) {
@@ -77,7 +77,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
       this.options[k] = v;
     }
     if (!_.isEmpty(this.options)) {
-      this.productOptionsActions.updateProductCustomizableOption(this.options);
+      this.productOptionsActions.updateProductOptionData('options', this.options);
     }
   }
   

@@ -11,8 +11,8 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
     case ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION:
       return state.set('product', action.payload['product']);
     
-    case ProductOptionsActions.ACTION_UPDATE_PRODUCT_CUSTOMIZABLE_OPTION:
-      return state.update('data', (data) => Object.assign({}, {...data}, {options: Object.assign({}, {...data['options']}, {...action.payload['options']})}));
+    case ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA:
+      return state.setIn(['optionData', action.payload['optionType']], action.payload['optionValue']);
     
     case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
       state = state.clear();
