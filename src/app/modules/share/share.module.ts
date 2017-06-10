@@ -1,12 +1,16 @@
 import {NgModule} from "@angular/core";
-import {HttpModule} from "@angular/http";
+import {Http, HttpModule} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MomentModule} from "angular2-moment";
 import {SHARE_PROVIDERS} from "./provider/index";
-import {TranslateModule} from "ng2-translate";
+import {TranslateLoader, TranslateModule, TranslateStaticLoader} from "ng2-translate";
 import {SHARE_DIRECTIVES} from "./directives/index";
 import {LaddaModule} from "angular2-ladda";
+
+export function retailTranslateLoader(http:Http){
+  return new TranslateStaticLoader(http , 'assets/i18n/' , '.json');
+}
 
 @NgModule({
             imports: [
@@ -14,7 +18,11 @@ import {LaddaModule} from "angular2-ladda";
               FormsModule,
               HttpModule,
               MomentModule,
-              TranslateModule,
+              TranslateModule.forRoot({
+                                        provide: TranslateLoader,
+                                        useFactory:(retailTranslateLoader),
+                                        deps: [Http]
+                                      }),
               ReactiveFormsModule,
               LaddaModule.forRoot({
                                     // style: "zoom-in",
