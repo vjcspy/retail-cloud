@@ -57,8 +57,9 @@ export class ProductOptionsEffects {
                                                     if (productAssociate) {
                                                       associatedProducts.push(productAssociate);
                                                     } else {
-                                                      a['id'] = a['entity_id'];
-                                                      let _p  = new Product();
+                                                      a['id']           = a['entity_id'];
+                                                      a['origin_image'] = 'assets/img/no-image1.png';
+                                                      let _p            = new Product();
                                                       _p.mapWithParent(a);
                                                       associatedProducts.push(a);
                                                     }
