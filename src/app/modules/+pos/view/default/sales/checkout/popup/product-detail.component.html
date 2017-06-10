@@ -35,7 +35,7 @@
           </ul>
           <div id="option" class="tabs-content"
                [ngClass]="{'d-show': productOptionsState.tabView ==='option','d-hide':productOptionsState.tabView !=='option'}">
-            <div class="inner" #posPerfectScroll>
+            <div class="inner" perfectScroll>
               <div class="name-row">
                 <p class="product-name">{{productOptionsState.product['name']}}</p>
                 <p class="price">{{productOptionsState.product['price'] | priceFormat : true}}</p>
@@ -60,13 +60,18 @@
                   <!--<super-group *ngIf="productDetailService.getProduct().getTypeId()=='grouped'"></super-group>-->
                 </ul>
               </form>
-              <!--<bundle-options *ngFor="let option of productDetailService.getBundleOptions()" [option]="option"></bundle-options>-->
+              <div *ngIf="productOptionsState.product.getTypeId() === 'bundle'">
+                <pos-default-sales-checkout-popup-product-detail-bundle-options *ngFor="let option of productOptionsState.product.x_options['bundle']['options']"
+                                                                                [option]="option"
+                                                                                [productOptionsState]="productOptionsState">
+                </pos-default-sales-checkout-popup-product-detail-bundle-options>
+              </div>
             </div>
           </div>
           <!--Detail Content-->
           <div id="detail" class="tabs-content"
                [ngClass]="{'d-show': productOptionsState.tabView ==='detail','d-hide':productOptionsState.tabView !=='detail'}">
-            <div class="inner" #posPerfectScroll1>
+            <div class="inner" perfectScroll>
               <div class="name-row">
                 <p class="product-name">{{productOptionsState.product.getData('name')}}</p>
                 <p class="price">{{productOptionsState.product.getData('price') | priceFormat : true}}</p>
@@ -128,7 +133,7 @@
           <!--Stock Content-->
           <div id="stock" class="tabs-content"
                [ngClass]="{'d-show': productOptionsState.tabView ==='stock','d-hide':productOptionsState.tabView !=='stock'}">
-            <div class="inner" #posPerfectScroll2>
+            <div class="inner" perfectScroll>
               <div class="name-row">
                 <p class="product-name">{{ 'Product name' | translate }}</p>
                 <p class="price">$100.00</p>

@@ -12,7 +12,13 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
       return state.set('product', action.payload['product']);
     
     case ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA:
-      return state.setIn(['optionData', action.payload['optionType']], action.payload['optionValue']);
+      if (action.payload['forceCreateNew'] === true) {
+        return state.setIn(['optionData', action.payload['optionType']], action.payload['optionValue']);
+      } else {
+        return state.updateIn(['optionData',
+                               action.payload['optionType']], (options) => Object.assign({}, {...options}, {...action.payload['optionValue']})
+        );
+      }
     
     case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
       state = state.clear();

@@ -7,6 +7,8 @@ import {List} from "immutable";
 import {Product} from "../../../../../core/framework/catalog/Model/Product";
 import {ProductOptionsActions} from "./product-options.actions";
 import {ProductHelper} from "../../../../../core/framework/catalog/Helper/Product";
+import * as _ from 'lodash';
+import {ProductDB} from "../../../../../database/xretail/db/product";
 
 @Injectable()
 export class ProductOptionsEffects {
@@ -21,7 +23,27 @@ export class ProductOptionsEffects {
                                                 const taxClass: List<TaxClassDB> = entitiesState[TaxClassDB.getCode()]['items'];
                                                 const product: Product           = productOptionsState['product'];
                                                 product.setTaxClassName(ProductHelper.getProductTaxClass(product.tax_class_id, taxClass));
-                                                
+    
+                                                // get Image for child of bundle product
+                                                if (product.getTypeId() === 'bundle') {
+                                                  let childBundleImages           = {};
+                                                  const products: List<ProductDB> = entitiesState[ProductDB.getCode()]['items'];
+                                                  const options                   = product.x_options['bundle']['options'];
+                                                  _.forEach(options, (option) => {
+                                                    const selections = option['selections'];
+                                                    _.forEach(selections, (selection) => {
+                                                      const childProduct = products.find((p) => parseInt(p.id + '') === parseInt(selection['entity_id'] + ''));
+                                                      if (childProduct) {
+                                                        childBundleImages[selection['entity_id']] = childProduct['origin_image'];
+                                                      } else {
+                                                        childBundleImages[selection['entity_id']] = 'assets/img/no-image1.png';
+                                                      }
+                                                    });
+                                                  });
+      
+                                                  product.setData('childBundleImages', childBundleImages);
+                                                }
+    
                                                 return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}}
     
                                               })

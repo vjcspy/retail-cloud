@@ -20,7 +20,7 @@ export class ProductOptionsActions {
     this.store$.dispatch({type: ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS})
   }
   
-  updateProductOptionData(optionType: string, optionValue: any) {
-    this.store$.dispatch({type: ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA, payload: {optionType, optionValue}});
+  updateProductOptionData(optionType: string, optionValue: any, forceCreateNew: boolean = false) {
+    this.store$.dispatch({type: ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA, payload: {optionType, optionValue, forceCreateNew}});
   }
 }

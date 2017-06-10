@@ -1,7 +1,7 @@
 <div class="bundle-item" [ngClass]="{unselected: isActive}">
   <div class="b-head click" (click)="toggleActiveState($event)">
-    <input type="text" [(ngModel)]="productDetailService.viewData.bundle_option_qty[option['option_id']]" class="count-num"
-           [disabled]="!_bundleProperty['canChangeQty']" inputQty/>
+    <input type="text" [ngModel]="productOptionsState.optionData.bundle_option_qty[option['option_id']]" (ngModelChange)="changeQtyOption(option['option_id'],$event)" class="count-num"
+           [disabled]="!_bundleProperty['canChangeQty']" inputQty inputSelectText/>
     <h3>{{option['title']}} <span *ngIf="option['required'] =='1'">*</span></h3>
     <span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>
     <span class="icon-right"></span>
@@ -10,14 +10,14 @@
     <div class="b-content" *ngFor="let selection of option['selections']"
          (click)="selectSelection(selection)" [ngClass]="{selected: isSelectedSelection(selection)}">
       <span class="count-num none" *ngIf="_bundleProperty.multiSelect">{{getFloatQty(selection['selection_qty'])}}</span>
-      <span class="item-img"><img [src]="getImage(selection['entity_id'])" alt=""/></span>
+      <span class="item-img"><img [src]="productOptionsState.product.getData('childBundleImages')[selection['entity_id']]" alt=""/></span>
       <span class="item-name">{{selection['label']}}</span>
     </div>
   </div>
   <div *ngIf="!isActive">
     <div class="b-content" *ngFor="let selection of getSelectedOfCurrentOption()">
       <span class="count-num none" *ngIf="_bundleProperty.multiSelect">{{getFloatQty(selection['selection_qty'])}}</span>
-      <span class="item-img"><img [src]="getImage(selection['entity_id'])" alt=""/></span>
+      <span class="item-img"><img [src]="productOptionsState.product.getData('childBundleImages')[selection['entity_id']]" alt=""/></span>
       <span class="item-name">{{selection['label']}}</span>
     </div>
   </div>

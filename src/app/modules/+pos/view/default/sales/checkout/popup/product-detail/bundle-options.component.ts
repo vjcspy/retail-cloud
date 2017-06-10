@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {ProductOptionsState} from "../../../../../R/sales/checkout/popup/product-options.state";
 import {PriceFormatPipe} from "../../../../../../pipes/price-format";
@@ -9,7 +9,8 @@ import * as _ from 'lodash';
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-popup-product-detail-bundle-options',
-             templateUrl: 'bundle-options.component.html'
+             templateUrl: 'bundle-options.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent extends AbstractSubscriptionComponent implements OnInit {
   isActive: boolean = false;
@@ -71,7 +72,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
           if (selection['is_default'] == '1') {
             this._bundle_option_qty[this.option['option_id']] = parseFloat(selection['selection_qty']);
             this._bundle_option[this.option['option_id']]     = selection['selection_id'];
-            this._bundleProperty.canChangeQty                 = selection['selection_can_change_qty'] == '1';
+            this._bundleProperty.canChangeQty                 = selection['selection_can_change_qty'] === '1';
             return false;
           }
         });
@@ -122,6 +123,11 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
     }
   }
   
+  changeQtyOption(optionId, qty) {
+    this._bundle_option_qty[optionId] = qty;
+    this.updateBundleData();
+  }
+  
   selectSelection(selection: Object) {
     // Khi chọn thì remove validate đi
     this._validateOption(false);
@@ -147,28 +153,20 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
       this._bundle_option_qty[this.option['option_id']] = parseFloat(selection['selection_qty']);
       this._bundleProperty.canChangeQty                 = selection['selection_can_change_qty'] == '1';
     }
+    this.updateBundleData();
   }
   
   isSelectedSelection(selection: Object) {
     if (this.option['type'] == 'multi' || this.option['type'] == 'checkbox') {
-      if (_.isArray(this._bundle_option[this.option['option_id']]))
-        return _.indexOf(this._bundle_option[this.option['option_id']], selection['selection_id']) > -1;
-      else
+      if (_.isArray(this.productOptionsState.optionData.bundle_option[this.option['option_id']])) {
+        return _.indexOf(this.productOptionsState.optionData.bundle_option[this.option['option_id']], selection['selection_id']) > -1;
+      }
+      else {
         return false;
+      }
     } else {
-      return this._bundle_option[this.option['option_id']] == selection['selection_id'];
+      return this.productOptionsState.optionData.bundle_option[this.option['option_id']] === selection['selection_id'];
     }
-  }
-  
-  getImage(productId): string {
-    if (typeof this._image[productId] == "undefined") {
-      let product = this.productDataManagement.getProduct(productId);
-      if (product)
-        this._image[productId] = product['origin_image'];
-      else
-        this._image[productId] = "";
-    }
-    return this._image[productId];
   }
   
   toggleActiveState(event: any) {
@@ -182,8 +180,8 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
   getSelectedOfCurrentOption() {
     let selectedSelection = [];
     if (this.option['type'] == 'multi' || this.option['type'] == 'checkbox') {
-      if (_.isArray(this._bundle_option[this.option['option_id']])) {
-        _.forEach(this._bundle_option[this.option['option_id']], (selectionId) => {
+      if (_.isArray(this.productOptionsState.optionData.bundle_option[this.option['option_id']])) {
+        _.forEach(this.productOptionsState.optionData.bundle_option[this.option['option_id']], (selectionId) => {
           let _selection = _.find(this.option['selections'], _s => _s['selection_id'] == selectionId);
           if (_selection)
             selectedSelection.push(_selection);
@@ -191,9 +189,9 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
       }
     }
     else {
-      if (this._bundle_option[this.option['option_id']]) {
+      if (this.productOptionsState.optionData.bundle_option[this.option['option_id']]) {
         let _selection = _.find(this.option['selections'],
-                                _s => _s['selection_id'] == this._bundle_option[this.option['option_id']]);
+                                _s => _s['selection_id'] == this.productOptionsState.optionData.bundle_option[this.option['option_id']]);
         if (_selection)
           selectedSelection.push(_selection);
       }
