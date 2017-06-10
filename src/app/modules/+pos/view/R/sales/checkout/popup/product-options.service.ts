@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Product} from "../../../../../core/framework/catalog/Model/Product";
 import * as _ from 'lodash';
+import {FormValidationService} from "../../../../../../share/provider/form-validation";
+import {DataObject} from "../../../../../core/framework/General/DataObject";
 
 @Injectable()
 export class ProductOptionsService {
+  static FORM_KEY = "pos-product-detail";
   
-  constructor() { }
+  constructor(private formValidation: FormValidationService) { }
   
   /*
    * Các attribute của configurable phải được chọn theo thứ tự
@@ -59,4 +62,13 @@ export class ProductOptionsService {
     
     return _.size(_.intersection(...productArray)) === 0;
   }
+  
+  confirmProductOptionsForm() {
+    return new Promise((resolve) => {
+      this.formValidation.submit(ProductOptionsService.FORM_KEY, () => {
+        resolve();
+      }, true);
+    });
+  }
+  
 }

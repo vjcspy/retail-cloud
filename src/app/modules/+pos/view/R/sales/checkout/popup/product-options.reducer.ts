@@ -30,6 +30,7 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
       return state.set('product', action.payload['product'])
                   .set('buyRequest', action.payload['buyRequest']);
     
+    case PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE:
     case ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS:
       return state.clear();
     

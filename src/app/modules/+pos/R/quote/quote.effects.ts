@@ -78,13 +78,44 @@ export class PosQuoteEffects {
                                         return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
                                     }
     
-                                    let {items, isMatching} = this._getItemByBuyRequest(buyRequest, quoteState['items']);
-                                    if (isMatching === false) {
-                                      items = items.push(buyRequest);
-                                    }
-    
-                                    return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                                    return {type: PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE, payload: {buyRequest}}
                                   });
+  
+  @Effect() addToQuote = this.actions$.ofType(PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE)
+                             .withLatestFrom(this.store$.select('quote'))
+                             .map(([action, quoteState]) => {
+                               const buyRequest = action['payload']['buyRequest'];
+                               let items        = quoteState['items'];
+                               if (buyRequest.getData('super_group')) {
+                                 _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
+                                   if (qty != '' && _.isNumber(parseFloat(qty))) {
+                                     let _p = _.find(buyRequest.getData('associatedProducts'), (pr) => parseInt(pr['id'] + '') === parseInt(productId + ''));
+                                     if (!!_p) {
+                                       let childProduct = new Product();
+                                       childProduct.mapWithParent(_p);
+                                       let childBuyRequest = new DataObject();
+                                       childBuyRequest.setData('qty', qty)
+                                                      .setData('product_id', productId)
+                                                      .setData('product', childProduct);
+            
+                                       let info = this._getItemByBuyRequest(childBuyRequest, items);
+                                       items    = info['items'];
+                                       if (info['isMatching'] === false) {
+                                         items = items.push(childBuyRequest);
+                                       }
+                                     }
+                                   }
+                                 });
+                               } else {
+                                 let info = this._getItemByBuyRequest(buyRequest, items);
+                                 items    = info['items'];
+                                 if (info['isMatching'] === false) {
+                                   items = items.push(buyRequest);
+                                 }
+                               }
+    
+                               return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                             });
   
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
@@ -178,10 +209,11 @@ export class PosQuoteEffects {
     
     if (buyRequest.getData('product').getTypeId() === 'grouped') {
       // Tất cả grouped đều chuyển thành simple nên không bao h tồn tại group trong cart
+      isMatching = true;
       return {items, isMatching};
     }
     
-    items.map((itemBuyRequest: DataObject) => {
+    items = <any>items.map((itemBuyRequest: DataObject) => {
       if (this._representBuyRequest(itemBuyRequest, buyRequest)) {
         isMatching = true;
         // Sau khi apply sync thì sẽ mất product trong items.
@@ -192,7 +224,7 @@ export class PosQuoteEffects {
           case 'virtual':
           case 'simple':
           case 'configurable':
-            itemBuyRequest.setData('qty', parseFloat(itemBuyRequest.getData('qty')) + buyRequest.getData('qty'));
+            itemBuyRequest.setData('qty', parseFloat(itemBuyRequest.getData('qty')) + parseFloat(buyRequest.getData('qty')));
             break;
           case 'grouped':
             _.forEach(itemBuyRequest.getData('super_group'), (associateQty, associateId) => {

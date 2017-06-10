@@ -187,7 +187,8 @@
         </div>
         <div class="desc-bottom">
           <button class="gray" (click)="productOptionsActions.cancelProductOptions()">{{ 'Cancel' | translate }}</button>
-          <button *ngIf="productOptionsState.currentProcessing==='addNew'">Add to Cart</button>
+          <button *ngIf="productOptionsState.currentProcessing==='addNew'" (click)="productOptionsActions.confirmProductOptions()">Add to Cart
+          </button>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {ProductDB} from "../../database/xretail/db/product";
 export class PosQuoteActions {
   
   static ACTION_SELECT_PRODUCT_TO_ADD         = 'ACTION_SELECT_PRODUCT_TO_ADD'; // when user select product to add
+  static ACTION_ADD_PRODUCT_TO_QUOTE          = 'ACTION_ADD_PRODUCT_TO_QUOTE';
   static ACTION_WAIT_GET_PRODUCT_OPTIONS      = 'ACTION_WAIT_GET_PRODUCT_OPTIONS'; // when product has options, we will wait options has been selected
   static ACTION_UPDATE_QUOTE_ITEMS            = 'ACTION_UPDATE_QUOTE_ITEMS'; // product has been added so we need update quote state items
   static ACTION_SET_CUSTOMER_TO_QUOTE         = 'ACTION_SET_CUSTOMER_TO_QUOTE';

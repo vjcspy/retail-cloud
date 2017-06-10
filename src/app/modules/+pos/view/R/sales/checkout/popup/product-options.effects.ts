@@ -12,6 +12,7 @@ import {ProductDB} from "../../../../../database/xretail/db/product";
 import {ProductOptionsService} from "./product-options.service";
 import {ProductOptionsState} from "./product-options.state";
 import {_if} from "rxjs/observable/if";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ProductOptionsEffects {
@@ -55,6 +56,11 @@ export class ProductOptionsEffects {
                                                     const productAssociate = products.find((p) => parseInt(p.id + '') === parseInt(a['entity_id'] + ''));
                                                     if (productAssociate) {
                                                       associatedProducts.push(productAssociate);
+                                                    } else {
+                                                      a['id'] = a['entity_id'];
+                                                      let _p  = new Product();
+                                                      _p.mapWithParent(a);
+                                                      associatedProducts.push(a);
                                                     }
                                                   });
       
@@ -147,4 +153,33 @@ export class ProductOptionsEffects {
                                                          payload: {product, super_attribute}
                                                        }
                                                      });
+  
+  @Effect() confirmProductOptions = this.actions$.ofType(ProductOptionsActions.ACTION_CONFIRM_PRODUCT_OPTIONS)
+                                        .withLatestFrom(this.store$.select('productOptions'))
+                                        .switchMap((z) => {
+                                          return Observable.fromPromise(this.productOptionsService.confirmProductOptionsForm())
+                                                           .map(() => {
+                                                             const productOptionsState: ProductOptionsState = <any>z[1];
+                                                             if (!_.isEmpty(productOptionsState['product'].customizable_options))
+                                                               productOptionsState.buyRequest.setData('options', productOptionsState.optionData.options);
+                                                             if (productOptionsState.product.getTypeId() == "configurable") {
+                                                               productOptionsState.buyRequest.setData('super_attribute', productOptionsState.optionData.super_attribute);
+                                                             }
+                                                             if (productOptionsState.product.getTypeId() == "grouped") {
+                                                               productOptionsState.buyRequest
+                                                                                  .setData('super_group', productOptionsState.optionData.super_group)
+                                                                                  .setData('associatedProducts', productOptionsState.product.getData('associatedProducts'));
+                                                             }
+                                                             if (productOptionsState.product.getTypeId() == "bundle") {
+                                                               productOptionsState.buyRequest
+                                                                                  .setData('bundle_option', productOptionsState.optionData.bundle_option)
+                                                                                  .setData('bundle_option_qty', productOptionsState.optionData.bundle_option_qty);
+                                                             }
+      
+                                                             return {
+                                                               type: PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE,
+                                                               payload: {buyRequest: productOptionsState.buyRequest}
+                                                             };
+                                                           });
+                                        });
 }
