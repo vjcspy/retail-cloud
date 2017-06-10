@@ -70,6 +70,10 @@ export class Create extends DataObject {
       throw new GeneralException("Buy request must instance of DataObject");
     }
     
+    if (!(product instanceof Product)){
+      throw new GeneralException("product must instance of Product");
+    }
+    
     let item = this.getQuoteInitializer().init(this.getQuote(), product, config);
     
     if (_.isString(item))

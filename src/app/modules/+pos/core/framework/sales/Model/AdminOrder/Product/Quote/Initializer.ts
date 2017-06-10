@@ -6,7 +6,7 @@ import {Item} from "../../../../../quote/Model/Quote/Item";
 export class Initializer {
     init(quote: Quote, product: Product, config: DataObject): Item|string {
         let stockItem = product.getData('stock_items');
-        if (stockItem.hasOwnProperty('is_qty_decimal') && stockItem['is_qty_decimal'] == 1) {
+        if (stockItem && stockItem.hasOwnProperty('is_qty_decimal') && stockItem['is_qty_decimal'] == 1) {
             product.setData('is_qty_decimal', 1);
         }
         else {
