@@ -87,7 +87,6 @@
     "@ngrx/router-store": "^1.2.6",
     "@ngrx/store": "^2.2.2",
     "@ngrx/store-devtools": "^3.2.4",
-    "@ngrx/store-log-monitor": "^3.0.2",
     "@types/meteor": "^1.4.1",
     "angular2-ladda": "^1.2.1",
     "angular2-moment": "^1.3.3",

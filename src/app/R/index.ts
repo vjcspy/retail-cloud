@@ -1,5 +1,4 @@
 import {ActionReducer, combineReducers, StoreModule} from "@ngrx/store";
-import {StoreLogMonitorModule, useLogMonitor} from "@ngrx/store-log-monitor";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {RootState} from "./root.state";
 import {rootReducer} from "./root.reducer";
@@ -31,7 +30,6 @@ export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
   STORE_DEV_TOOLS_IMPORTS,
   StoreDevtoolsModule,
-  StoreLogMonitorModule,
   RouterStoreModule.connectRouter()
 ];
 
