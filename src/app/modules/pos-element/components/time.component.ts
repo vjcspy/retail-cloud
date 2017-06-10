@@ -1,4 +1,6 @@
-import {Component, OnInit, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy
+} from '@angular/core';
 import {Subscription} from "rxjs";
 import * as moment from "moment";
 import {FormValidationService} from "../../share/provider/form-validation";
@@ -6,7 +8,8 @@ import {FormValidationService} from "../../share/provider/form-validation";
 @Component({
              //moduleId: module.id,
              selector: 'time-select',
-             templateUrl: 'time.component.html'
+             templateUrl: 'time.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailTimeSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() validation: string = "";

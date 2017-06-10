@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener, OnDestroy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import * as _ from "lodash";
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
@@ -6,7 +6,8 @@ import {FormValidationService} from "../../share/provider/form-validation";
 @Component({
                //moduleId: module.id,
                selector: 'retail-select',
-               templateUrl: 'select.component.html'
+               templateUrl: 'select.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailSelectComponent implements OnInit,OnDestroy {
     @Input('elementData') elementData: ElementData;

@@ -1,4 +1,6 @@
-import {Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+import {
+  Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
+} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 import {GeneralException} from "../../+pos/core/framework/General/Exception/GeneralException";
@@ -8,7 +10,8 @@ import {GeneralException} from "../../+pos/core/framework/General/Exception/Gene
              encapsulation: ViewEncapsulation.None,
              selector: 'retail-select2',
              templateUrl: 'select2.component.html',
-             styleUrls: ['select2.component.scss']
+             styleUrls: ['select2.component.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailSelect2Component implements OnInit, AfterViewInit {
   @Input('elementData') elementData: any;

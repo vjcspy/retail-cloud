@@ -1,11 +1,12 @@
-import {Component, OnInit, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 
 @Component({
              //moduleId: module.id,
              selector: 'date-select',
-             templateUrl: 'date.component.html'
+             templateUrl: 'date.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() validation: string = "";
