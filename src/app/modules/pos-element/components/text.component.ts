@@ -23,9 +23,16 @@ export class RetailTextComponent implements OnInit, OnDestroy {
   set model(optionValue: string) {
     // remove validate
     this._validateElement(false);
-    
+    if (!optionValue) {
+      optionValue = '';
+    }
     this.modelValue = optionValue;
-    this.modelChange.emit(this.modelValue);
+  }
+  
+  changeValue(value) {
+    // remove validate
+    this._validateElement(false);
+    this.modelChange.emit(value);
   }
   
   get model() {

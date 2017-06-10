@@ -1,3 +1,3 @@
-<input type="text" [(ngModel)]="model"
+<input type="text" [value]="model" (change)="changeValue($event.target.value)"
        [ngClass]="{'error-valid':!_validProperty['isValid']}">
 <span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>
