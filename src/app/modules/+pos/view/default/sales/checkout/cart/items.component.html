@@ -14,9 +14,7 @@
   <!--<pos-refund-item *ngFor="let item of posRefund.creditmemo['items']" [item]="item"></pos-refund-item>-->
   <!--</div>-->
 
-  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;trackBy: trackByItemFn;" class="cart-row"
-       [ngClass]="{active: i === cartItemState.cartItemRowSelected}"
-       (click)="toggleItemInCart($event,i)">
+  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;trackBy: trackByItemFn;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
     <div class="cart-head">
       <div class="c-num"
            *ngIf="item.getProduct()['stock_items'] && item.getProduct()['stock_items']['is_qty_decimal'] == '1' && !numberHelper.isInteger(item.getQty())">
