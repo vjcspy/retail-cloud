@@ -1,6 +1,6 @@
 <div class="group-item">
   <div class="b-content" *ngFor="let option of productOptionsState.product.getData('associatedProducts')" [ngClass]="{disable: isSalesAble(option['id'])}">
-    <input type="text" [ngModel]="productOptionsState.optionData.super_group[option['id']]" (ngModelChange)="changeAssociateQty(option['id'],$event)" class="count-num" inputQty inputSelectText/>
+    <input type="text" [ngModel]="productOptionsState.optionData.super_group[option['id']]" (change)="changeAssociateQty(option['id'],$event.target.value)" class="count-num" inputQty inputSelectText/>
     <span class="item-img"><img src="{{option['origin_image']}}" alt=""/></span>
     <span class="item-name">{{option['name']}}</span>
   </div>
