@@ -45,35 +45,13 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
     
     this.checkoutProductState$ = this.store$.select('checkoutProduct');
     this.productOptionsState$  = this.store$.select('productOptions');
-    this.cartActionBarState$       = this.store$.select('cartActionBar');
+    this.cartActionBarState$   = this.store$.select('cartActionBar');
     this.cartCustomerState$    = this.store$.select('cartCustomer');
     this.cartItemState$        = this.store$.select('cartItem');
     this.cartTotalsState$      = this.store$.select('cartTotals');
   }
   
   ngOnInit() {
-    this.subscribeObservable('check_general_state', () => this.generalState$.subscribe((generalState: PosGeneralState) => {
-      if (!!generalState.register['id'] && !!generalState.outlet['id'] && !!generalState.store['id']) {
-        this.pullActions.pullEntities([
-                                        'settings',
-                                        'countries',
-                                        'taxClass',
-                                        'taxes',
-                                        'receipts',
-                                        'payment',
-                                        'userOrderCount',
-                                        // 'warehouse',
-                                        // 'permission',
-                                        'customerGroup',
-                                        'customers',
-                                        // 'category',
-                                        'products'
-                                      ]);
-      } else {
-        this.router.navigate(['pos/default/sales/outlet-register']);
-      }
-    }));
-    
   }
   
 }

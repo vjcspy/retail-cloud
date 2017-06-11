@@ -28,8 +28,10 @@ import {ProductOptionsActions} from "./sales/checkout/popup/product-options.acti
 import {ProductOptionsService} from "./sales/checkout/popup/product-options.service";
 import {CartActionBarService} from "./sales/checkout/cart/action-bar.service";
 import {CartActionBarEffects} from "./sales/checkout/cart/action-bar.effects";
+import {PosViewRouterEffects} from "./router/router-effects";
 
 export const R_POS_VIEW_IMPORTS = [
+  EffectsModule.run(PosViewRouterEffects),
   EffectsModule.run(CheckoutProductEffects),
   EffectsModule.run(CartCustomEffects),
   EffectsModule.run(CartItemEffects),
@@ -37,6 +39,8 @@ export const R_POS_VIEW_IMPORTS = [
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
+  PosViewRouterEffects,
+  
   CheckoutProductActions,
   CheckoutProductEffects,
   CheckoutProductService,
