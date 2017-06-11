@@ -298,59 +298,47 @@ export class PosQuoteEffects {
   
   private async prepareAddProductToQuote(items: List<DataObject>) {
     return new Promise((resolve, reject) => {
-      let work = 0;
-      let size = items.count();
-      if (size == 0) {
-        setTimeout(() => {
-          return resolve();
-        }, 0);
-      } else {
-        AsyncHelper.forEach(items.toArray(), async (buyRequest: DataObject) => {
-          // NEEDCHECK: Ensure product are fresh. In case change buy request maybe use old product with price is calculated
-          // let _p = new Product();
-          // if (!buyRequest.getData('product')) {
-          //   await _p.getById(buyRequest.getData('product_id'));
-          // }
-          // _p.mapWithParent(buyRequest.getData('product'));
-          //
-          // buyRequest.unsetData('product')
-          //           .setData('product', _p);
-          
-          switch (buyRequest.getData('product').getTypeId()) {
-            case 'virtual':
-            case 'simple':
-              break;
-            case 'configurable':
-              let configurableProduct: Product;
-              configurableProduct = buyRequest.getData('product');
-              
-              let configurableType = new Configurable();
-              await configurableType.resolveConfigurable(buyRequest, configurableProduct);
-              break;
-            case 'bundle':
-              let bundleProduct: Product;
-              bundleProduct = buyRequest.getData('product');
-              
-              let bundleType;
-              bundleType = <Bundle>bundleProduct.getTypeInstance();
-              bundleType.resolveBundle(buyRequest, bundleProduct);
-              
-              break;
-            case 'grouped':
-              let groupedProduct: Product;
-              groupedProduct = buyRequest.getData('product');
-              
-              let groupedType = <Grouped> groupedProduct.getTypeInstance();
-              await groupedType.resolveAssociatedProducts(groupedProduct);
-              break;
-            default:
-              throw new GeneralException("We not yet support type of this product.");
-          }
-          if (++work >= size) {
-            return resolve();
-          }
-        }).then(() => resolve());
-      }
+      AsyncHelper.forEach(items.toArray(), async (buyRequest: DataObject) => {
+        // NEEDCHECK: Ensure product are fresh. In case change buy request maybe use old product with price is calculated
+        // let _p = new Product();
+        // if (!buyRequest.getData('product')) {
+        //   await _p.getById(buyRequest.getData('product_id'));
+        // }
+        // _p.mapWithParent(buyRequest.getData('product'));
+        //
+        // buyRequest.unsetData('product')
+        //           .setData('product', _p);
+        
+        switch (buyRequest.getData('product').getTypeId()) {
+          case 'virtual':
+          case 'simple':
+            break;
+          case 'configurable':
+            const configurableProduct: Product = buyRequest.getData('product');
+            
+            let configurableType = new Configurable();
+            await configurableType.resolveConfigurable(buyRequest, configurableProduct);
+            break;
+          case 'bundle':
+            let bundleProduct: Product;
+            bundleProduct = buyRequest.getData('product');
+            
+            let bundleType;
+            bundleType = <Bundle>bundleProduct.getTypeInstance();
+            bundleType.resolveBundle(buyRequest, bundleProduct);
+            
+            break;
+          case 'grouped':
+            let groupedProduct: Product;
+            groupedProduct = buyRequest.getData('product');
+            
+            let groupedType = <Grouped> groupedProduct.getTypeInstance();
+            await groupedType.resolveAssociatedProducts(groupedProduct);
+            break;
+          default:
+            throw new GeneralException("We not yet support type of this product.");
+        }
+      }).then(() => resolve());
     });
   }
 }

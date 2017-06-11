@@ -6,12 +6,16 @@ export class AsyncHelper {
       try {
         const size = _.size(e);
         let work   = 0;
-        _.forEach(e, async (v, k) => {
-          await callBack(v, k);
-          if (++work === size) {
-            resolve();
-          }
-        });
+        if (size === 0) {
+          resolve();
+        } else {
+          _.forEach(e, async (v, k) => {
+            await callBack(v, k);
+            if (++work === size) {
+              resolve();
+            }
+          });
+        }
       } catch (e) {
         reject(e);
       }
