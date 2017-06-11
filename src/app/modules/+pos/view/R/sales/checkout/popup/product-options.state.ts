@@ -40,5 +40,5 @@ export const productOptionsStateFactory = makeTypedFactory<ProductOptionsState, 
     isOpenProductDetailPopup: false,
     product: null,
     buyRequest: null,
-    currentProcessing: 'addNew'
+    currentProcessing: 'ADD_NEW'
   });

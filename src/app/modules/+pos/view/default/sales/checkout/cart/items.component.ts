@@ -7,6 +7,7 @@ import {Item} from "../../../../../core/framework/quote/Model/Quote/Item";
 import {CartItemState} from "../../../../R/sales/checkout/cart/item.state";
 import {CartCustomerState} from "../../../../R/sales/checkout/cart/customer.state";
 import {CartItemActions} from "../../../../R/sales/checkout/cart/item.actions";
+import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 
 @Component({
              // moduleId: module.id,
@@ -14,13 +15,13 @@ import {CartItemActions} from "../../../../R/sales/checkout/cart/item.actions";
              templateUrl: 'items.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
-export class PosDefaultSalesCheckoutCartItemsComponent  {
+export class PosDefaultSalesCheckoutCartItemsComponent {
   @Input() quoteState: PosQuoteState;
   @Input() configState: PosConfigState;
   @Input() cartItemState: CartItemState;
   @Input() cartCustomerState: CartCustomerState;
   
-  constructor(protected cartItemActions: CartItemActions, protected numberHelper: NumberHelper) { }
+  constructor(protected cartItemActions: CartItemActions, protected numberHelper: NumberHelper, protected posQuoteActions: PosQuoteActions) { }
   
   trackByItemFn(index, item) {
     return item.getProduct()['id'];

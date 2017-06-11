@@ -157,9 +157,10 @@ export class ProductOptionsEffects {
   @Effect() confirmProductOptions = this.actions$.ofType(ProductOptionsActions.ACTION_CONFIRM_PRODUCT_OPTIONS)
                                         .withLatestFrom(this.store$.select('productOptions'))
                                         .switchMap((z) => {
+                                          const productOptionsState: ProductOptionsState = <any>z[1];
+    
                                           return Observable.fromPromise(this.productOptionsService.confirmProductOptionsForm())
                                                            .map(() => {
-                                                             const productOptionsState: ProductOptionsState = <any>z[1];
                                                              if (!_.isEmpty(productOptionsState['product'].customizable_options)) {
                                                                productOptionsState.buyRequest.setData('options', {...productOptionsState.optionData.options});
                                                              }
@@ -176,11 +177,17 @@ export class ProductOptionsEffects {
                                                                                   .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
-      
-                                                             return {
-                                                               type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
-                                                               payload: {buyRequest: productOptionsState.buyRequest}
-                                                             };
+                                                             if (productOptionsState.currentProcessing === 'ADD_NEW') {
+                                                               return {
+                                                                 type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
+                                                                 payload: {buyRequest: productOptionsState.buyRequest}
+                                                               };
+                                                             } else {
+                                                               return {
+                                                                 type: PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE
+                                                               };
+                                                             }
                                                            });
+    
                                         });
 }

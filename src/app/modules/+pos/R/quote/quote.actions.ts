@@ -4,6 +4,7 @@ import {Store} from "@ngrx/store";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {Product} from "../../core/framework/catalog/Model/Product";
 import {ProductDB} from "../../database/xretail/db/product";
+import {DataObject} from "../../core/framework/General/DataObject";
 
 @Injectable()
 export class PosQuoteActions {
@@ -15,12 +16,13 @@ export class PosQuoteActions {
   static ACTION_SET_CUSTOMER_TO_QUOTE         = 'ACTION_SET_CUSTOMER_TO_QUOTE';
   static ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS = 'ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS'; // after customer added, we will resolve and save address
   
-  static ACTION_RESOLVE_QUOTE = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
-  static ACTION_CLEAR_QUOTE   = 'ACTION_CLEAR_QUOTE';
+  static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
+  static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
+  static ACTION_CLEAR_QUOTE        = 'ACTION_CLEAR_QUOTE';
   
   static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO'; // quote state information
   
-  constructor(private store: Store<any>) {}
+  constructor(private store$: Store<any>) {}
   
   setCustomerToQuote(customerEntity: Customer | CustomerDB): void {
     let customer = new Customer();
@@ -30,23 +32,27 @@ export class PosQuoteActions {
     } else {
       customer = customerEntity;
     }
-    this.store.dispatch({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
+    this.store$.dispatch({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
   }
   
   selectProductToAdd(productEntity: Product | ProductDB, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null) {
     let product = new Product();
     product.mapWithParent(productEntity);
     
-    this.store.dispatch({type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD, payload: {product, qty, forceProductCustomOptions, config}});
+    this.store$.dispatch({type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD, payload: {product, qty, forceProductCustomOptions, config}});
   }
   
-  clearQuote(){
-    this.store.dispatch({type: PosQuoteActions.ACTION_CLEAR_QUOTE});
+  clearQuote() {
+    this.store$.dispatch({type: PosQuoteActions.ACTION_CLEAR_QUOTE});
+  }
+  
+  editProductOptionBuyRequest(product: Product, buyRequest: DataObject) {
+    this.store$.dispatch({type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest, currentProcessing: 'EDIT'}})
   }
   
   updateQuoteInfoState(key: string, state: any) {
     let newState  = {};
     newState[key] = state;
-    this.store.dispatch({type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO, payload: newState})
+    this.store$.dispatch({type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO, payload: newState})
   }
 }

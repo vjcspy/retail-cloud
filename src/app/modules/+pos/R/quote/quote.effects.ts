@@ -70,7 +70,7 @@ export class PosQuoteEffects {
                                           if (!_.isEmpty(product.customizable_options)) {
                                             return {
                                               type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
-                                              payload: {product, buyRequest, currentProcessing: 'addNew'}
+                                              payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
                                             };
                                           }
                                         }
@@ -80,7 +80,7 @@ export class PosQuoteEffects {
                                       case 'grouped':
                                         return {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
-                                          payload: {product, buyRequest, currentProcessing: 'addNew'}
+                                          payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
                                         };
                                     }
     
@@ -160,6 +160,7 @@ export class PosQuoteEffects {
   
   @Effect() resolveQuote = this.actions$
                                .ofType(
+                                 PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE,
                                  // Sau khi add xong customer và init address
                                  PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
                                  // After update quote items

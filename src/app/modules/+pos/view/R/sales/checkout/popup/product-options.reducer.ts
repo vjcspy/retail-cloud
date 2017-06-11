@@ -2,6 +2,7 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {productOptionsStateFactory, ProductOptionsStateRecord} from "./product-options.state";
 import {ProductOptionsActions} from "./product-options.actions";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import * as _ from 'lodash';
 
 export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (state = productOptionsStateFactory(), action: Action) => {
   switch (action.type) {
@@ -34,11 +35,40 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
                    .setIn(['optionData', 'super_attribute'], {})
                    .setIn(['optionData', 'super_group'], {});
       
-      return state.set('product', action.payload['product'])
-                  .set('buyRequest', action.payload['buyRequest'])
+      const product    = action.payload['product'];
+      const buyRequest = action.payload['buyRequest'];
+      // convert if in case edit:
+      switch (product.getTypeId()) {
+        case 'configurable':
+          if (buyRequest.getData('super_attribute')) {
+            state = state.setIn(['optionData', 'super_attribute'], buyRequest.getData('super_attribute'));
+          }
+          break;
+        case 'bundle':
+          if (buyRequest.getData('bundle_option') && buyRequest.getData('bundle_option_qty')) {
+            state = state.setIn(['optionData', 'bundle_option'], buyRequest.getData('bundle_option'))
+                         .setIn(['optionData', 'bundle_option_qty'], buyRequest.getData('bundle_option_qty'));
+          }
+          break;
+      }
+      
+      // convert multi select to array
+      _.forEach(buyRequest.getData('options'), (optionValue, optionId) => {
+        if (!!optionValue && !_.isObject(optionValue) && optionValue.indexOf(",") > -1) {
+          buyRequest.getData('options')[optionId] = optionValue.split(",");
+        }
+      });
+      
+      if (buyRequest.getData('options')) {
+        state = state.setIn(['optionData', 'options'], buyRequest.getData('options'));
+      }
+      
+      return state.set('product', product)
+                  .set('buyRequest', buyRequest)
                   .set('currentProcessing', action.payload['currentProcessing']);
     
     case PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE:
+    case PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE:
     case ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS:
       return state.clear()
                   // TODO: clear have bug here. It will take old reference of object

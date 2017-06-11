@@ -84,7 +84,10 @@
           </li>
         </ul>
       </div>
-      <p *ngIf="!item.getData('buy_request')['custom_sale']" class="c-bot"><span class="click">{{ 'Product Information' | translate }}</span>
+      <p *ngIf="!item.getData('buy_request')['custom_sale']" class="c-bot">
+        <span class="click" (click)="posQuoteActions.editProductOptionBuyRequest(item.getProduct(),item.getData('buy_request'))">
+          {{ 'Product Information' | translate }}
+        </span>
       </p>
     </div>
   </div>
