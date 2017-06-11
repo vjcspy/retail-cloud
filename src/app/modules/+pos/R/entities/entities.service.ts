@@ -102,9 +102,9 @@ export class PosEntitiesService {
                 if (entity.entityCode !== ShiftDB.getCode()) {
                   let db: RetailDB = this.databaseManager.getDbInstance();
                   try {
-                    await db[entity.entityCode].bulkAdd(items);
+                    await db[entity.entityCode].bulkPut(items);
                   } catch (e) {
-                    console.log("add entities to cache failed");
+                    console.log("add entities to cache failed" + entity.entityCode);
                   }
                 }
             
