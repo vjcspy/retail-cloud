@@ -35,7 +35,8 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
                    .setIn(['optionData', 'super_group'], {});
       
       return state.set('product', action.payload['product'])
-                  .set('buyRequest', action.payload['buyRequest']);
+                  .set('buyRequest', action.payload['buyRequest'])
+                  .set('currentProcessing', action.payload['currentProcessing']);
     
     case PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE:
     case ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS:

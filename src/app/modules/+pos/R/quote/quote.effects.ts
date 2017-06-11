@@ -68,14 +68,20 @@ export class PosQuoteEffects {
                                         if (!forceProductCustomOption) {
                                           // custom option
                                           if (!_.isEmpty(product.customizable_options)) {
-                                            return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
+                                            return {
+                                              type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
+                                              payload: {product, buyRequest, currentProcessing: 'addNew'}
+                                            };
                                           }
                                         }
                                         break;
                                       case 'configurable':
                                       case 'bundle':
                                       case 'grouped':
-                                        return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
+                                        return {
+                                          type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
+                                          payload: {product, buyRequest, currentProcessing: 'addNew'}
+                                        };
                                     }
     
                                     return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}}
