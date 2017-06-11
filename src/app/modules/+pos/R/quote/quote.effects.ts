@@ -167,19 +167,17 @@ export class PosQuoteEffects {
                                .switchMap(([action, quoteState, configState, generalState]) => {
                                  const quote: Quote = quoteState.quote;
     
-                                 quote.removeAllAddresses();
-    
                                  if (quote.getCustomer() && quote.getCustomer().getId()) {
-                                   quote.setData('use_default_customer', false);
-                                   quote.setShippingAddress(quoteState.shippingAdd);
-                                   quote.setBillingAddress(quoteState.billingAdd);
-      
-                                   quote.removeAllItems();
-      
                                    const items: List<DataObject> = quoteState.items;
       
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
                                                     .map(() => {
+                                                      quote.removeAllAddresses()
+                                                           .removeAllItems()
+                                                           .setData('use_default_customer', false)
+                                                           .setShippingAddress(quoteState.shippingAdd)
+                                                           .setBillingAddress(quoteState.billingAdd);
+        
                                                       items.forEach((item: DataObject) => {
                                                         ObjectManager.getInstance()
                                                                      .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
