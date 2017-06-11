@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import * as _ from 'lodash';
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosConfigState} from "../../../../../R/config/config.state";
@@ -14,15 +14,13 @@ import {CartItemActions} from "../../../../R/sales/checkout/cart/item.actions";
              templateUrl: 'items.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
-export class PosDefaultSalesCheckoutCartItemsComponent implements OnInit {
+export class PosDefaultSalesCheckoutCartItemsComponent  {
   @Input() quoteState: PosQuoteState;
   @Input() configState: PosConfigState;
   @Input() cartItemState: CartItemState;
   @Input() cartCustomerState: CartCustomerState;
   
   constructor(protected cartItemActions: CartItemActions, protected numberHelper: NumberHelper) { }
-  
-  ngOnInit() { }
   
   trackByItemFn(index, item) {
     return item.getProduct()['id'];

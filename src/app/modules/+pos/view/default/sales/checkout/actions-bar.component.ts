@@ -3,6 +3,7 @@ import {CartActionBarState} from "../../../R/sales/checkout/cart/action-bar.stat
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 import {CartCustomerActions} from "../../../R/sales/checkout/cart/customer.actions";
+import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 
 @Component({
              // moduleId: module.id,
@@ -15,7 +16,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   @Input() quoteState: PosQuoteState;
   @Input() cartCustomerState: CartCustomerState;
   
-  constructor(protected cartCustomerActions:CartCustomerActions){}
+  constructor(protected cartCustomerActions: CartCustomerActions, public posQuoteActions: PosQuoteActions) {}
   
   ngOnInit() { }
   
