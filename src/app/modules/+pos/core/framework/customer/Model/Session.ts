@@ -34,4 +34,8 @@ export class Session extends DataObject implements ShareInstance {
         this.setData('customer', customer);
         return this;
     }
+    
+    removeCustomer(){
+      this.unsetData('customer');
+    }
 }

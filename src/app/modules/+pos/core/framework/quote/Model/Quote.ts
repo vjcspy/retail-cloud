@@ -365,6 +365,11 @@ export class Quote extends DataObject {
         this.getCustomerSession().setCustomer(customer);
         return this;
     }
+    
+    removeCustomer():Quote{
+      this.getCustomerSession().removeCustomer();
+      return this;
+    }
 
     getSetting(): SettingManagement {
         return ObjectManager.getInstance().get<SettingManagement>(SettingManagement.CODE_INSTANCE, SettingManagement);
