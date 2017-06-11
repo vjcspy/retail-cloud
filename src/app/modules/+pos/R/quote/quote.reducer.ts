@@ -21,9 +21,9 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
       let items: List<DataObject> = action.payload['items'];
-      items.filter((item: DataObject) => item.getData('qty') > 0);
+      items                       = <any>items.filter((item: DataObject) => item.getData('qty') > 0);
       
-      return state.set('items', action.payload['items']);
+      return state.set('items', items);
     
     case PosQuoteActions.ACTION_RESOLVE_QUOTE:
       let refundAmount = 0;

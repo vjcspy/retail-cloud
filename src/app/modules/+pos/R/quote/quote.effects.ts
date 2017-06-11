@@ -50,8 +50,7 @@ export class PosQuoteEffects {
                                      });
   
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
-                                  .withLatestFrom(this.store$.select('quote'))
-                                  .map(([action, quoteState]) => {
+                                  .map((action: Action) => {
                                     const product: Product         = action.payload['product'];
                                     const forceProductCustomOption = action.payload['forceProductCustomOptions'];
                                     let buyRequest                 = new DataObject();
@@ -79,14 +78,15 @@ export class PosQuoteEffects {
                                         return {type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest}};
                                     }
     
-                                    return {type: PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE, payload: {buyRequest}}
+                                    return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}}
                                   });
   
-  @Effect() addToQuote = this.actions$.ofType(PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE)
+  @Effect() addToQuote = this.actions$.ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
                              .withLatestFrom(this.store$.select('quote'))
                              .map(([action, quoteState]) => {
                                const buyRequest = action['payload']['buyRequest'];
                                let items        = quoteState['items'];
+    
                                if (buyRequest.getData('super_group')) {
                                  _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
                                    if (qty != '' && _.isNumber(parseFloat(qty))) {
@@ -209,7 +209,7 @@ export class PosQuoteEffects {
       return {items, isMatching};
     
     if (buyRequest.getData('product').getTypeId() === 'grouped') {
-      // Tất cả grouped đều chuyển thành simple nên không bao h tồn tại group trong cart
+      // Grouped product will be converted before add to cart
       isMatching = true;
       return {items, isMatching};
     }
@@ -225,21 +225,19 @@ export class PosQuoteEffects {
           case 'virtual':
           case 'simple':
           case 'configurable':
+          case 'bundle':
             itemBuyRequest.setData('qty', parseFloat(itemBuyRequest.getData('qty')) + parseFloat(buyRequest.getData('qty')));
             break;
-          case 'grouped':
-            _.forEach(itemBuyRequest.getData('super_group'), (associateQty, associateId) => {
-              if (buyRequest.getData('super_group').hasOwnProperty(associateId) &&
-                  !isNaN(parseFloat(buyRequest.getData('super_group')[associateId]))) {
-                associateQty                                       = isNaN(parseFloat(associateQty)) ? 0 : parseFloat(associateQty);
-                itemBuyRequest.getData('super_group')[associateId] =
-                  parseFloat(associateQty) + parseFloat(buyRequest.getData('super_group')[associateId]);
-              }
-            });
-            break;
-          case 'bundle':
-            itemBuyRequest.setData('qty', itemBuyRequest.getData('qty') + buyRequest.getData('qty'));
-            break;
+          // case 'grouped':
+          //   _.forEach(itemBuyRequest.getData('super_group'), (associateQty, associateId) => {
+          //     if (buyRequest.getData('super_group').hasOwnProperty(associateId) &&
+          //         !isNaN(parseFloat(buyRequest.getData('super_group')[associateId]))) {
+          //       associateQty                                       = isNaN(parseFloat(associateQty)) ? 0 : parseFloat(associateQty);
+          //       itemBuyRequest.getData('super_group')[associateId] =
+          //         parseFloat(associateQty) + parseFloat(buyRequest.getData('super_group')[associateId]);
+          //     }
+          //   });
+          // break;
           default:
             throw new GeneralException("Can't get item buyRequest");
         }

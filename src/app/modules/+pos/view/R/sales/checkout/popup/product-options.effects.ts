@@ -29,7 +29,7 @@ export class ProductOptionsEffects {
                                                 product.setTaxClassName(ProductHelper.getProductTaxClass(product.tax_class_id, taxClass));
     
                                                 // get Image for child of bundle product
-                                                if (product.getTypeId() === 'bundle') {
+                                                if (product.getTypeId() === 'bundle' && !product.getData('childBundleImages')) {
                                                   let childBundleImages           = {};
                                                   const products: List<ProductDB> = entitiesState[ProductDB.getCode()]['items'];
                                                   const options                   = product.x_options['bundle']['options'];
@@ -49,7 +49,7 @@ export class ProductOptionsEffects {
                                                 }
     
                                                 // get associate of group product
-                                                if (product.getTypeId() === 'grouped') {
+                                                if (product.getTypeId() === 'grouped' && !product.getData('associatedProducts')) {
                                                   let associatedProducts          = [];
                                                   const products: List<ProductDB> = entitiesState[ProductDB.getCode()]['items'];
                                                   _.forEach(product.x_options['grouped'], (a) => {
@@ -69,7 +69,7 @@ export class ProductOptionsEffects {
                                                 }
     
                                                 // create select data for each attribute in super_attribute
-                                                if (product.getTypeId() === 'configurable') {
+                                                if (product.getTypeId() === 'configurable' && !product.getData('attributeSelectData')) {
                                                   let attributeSelectData = {};
                                                   _.forEach(product.x_options['configurable']['attributes'], (attribute: Object) => {
                                                     let _selectData = {
@@ -99,7 +99,6 @@ export class ProductOptionsEffects {
                                                 }
     
                                                 return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}}
-    
                                               });
   
   @Effect() handleWhenChangeOptionConfigurable = this.actions$.ofType(ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA)
@@ -178,7 +177,7 @@ export class ProductOptionsEffects {
                                                              }
       
                                                              return {
-                                                               type: PosQuoteActions.ACTION_ADD_PRODUCT_TO_QUOTE,
+                                                               type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
                                                                payload: {buyRequest: productOptionsState.buyRequest}
                                                              };
                                                            });
