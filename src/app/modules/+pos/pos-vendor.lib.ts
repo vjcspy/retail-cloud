@@ -17,7 +17,7 @@ import "ng2-toastr/ng2-toastr.js";
 import "assets/js/iclientsimulator-v1.js";
 // import "assets/js/iclient-v1.js";
 
-// add tiny mce
+// add tiny mce 
 // import "tinymce/tinymce.js";
 // import "tinymce/themes/modern/theme.js";
 // import "tinymce/plugins/link/plugin.js";
