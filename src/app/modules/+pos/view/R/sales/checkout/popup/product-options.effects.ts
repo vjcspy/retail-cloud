@@ -160,20 +160,21 @@ export class ProductOptionsEffects {
                                           return Observable.fromPromise(this.productOptionsService.confirmProductOptionsForm())
                                                            .map(() => {
                                                              const productOptionsState: ProductOptionsState = <any>z[1];
-                                                             if (!_.isEmpty(productOptionsState['product'].customizable_options))
-                                                               productOptionsState.buyRequest.setData('options', productOptionsState.optionData.options);
+                                                             if (!_.isEmpty(productOptionsState['product'].customizable_options)) {
+                                                               productOptionsState.buyRequest.setData('options', {...productOptionsState.optionData.options});
+                                                             }
                                                              if (productOptionsState.product.getTypeId() == "configurable") {
-                                                               productOptionsState.buyRequest.setData('super_attribute', productOptionsState.optionData.super_attribute);
+                                                               productOptionsState.buyRequest.setData('super_attribute', {...productOptionsState.optionData.super_attribute});
                                                              }
                                                              if (productOptionsState.product.getTypeId() == "grouped") {
                                                                productOptionsState.buyRequest
-                                                                                  .setData('super_group', productOptionsState.optionData.super_group)
+                                                                                  .setData('super_group', {...productOptionsState.optionData.super_group})
                                                                                   .setData('associatedProducts', productOptionsState.product.getData('associatedProducts'));
                                                              }
                                                              if (productOptionsState.product.getTypeId() == "bundle") {
                                                                productOptionsState.buyRequest
-                                                                                  .setData('bundle_option', productOptionsState.optionData.bundle_option)
-                                                                                  .setData('bundle_option_qty', productOptionsState.optionData.bundle_option_qty);
+                                                                                  .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
+                                                                                  .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
       
                                                              return {
