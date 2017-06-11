@@ -30,10 +30,10 @@ export class PosPullEffects {
                                     const pullingEntity: List<string>     = pullState['pullingChain'];
       
                                     const totalProportionSuccess       = pullEntitySuccess.reduce((t, entityCode) => {
-                                      return t += entitiesState[entityCode]['proportion'];
+                                      return t + entitiesState[entityCode]['proportion'];
                                     }, 0);
                                     const totalProportionEntityPulling = pullingEntity.reduce((t, entityCode) => {
-                                      return t += entitiesState[entityCode]['proportion'];
+                                      return t + entitiesState[entityCode]['proportion'];
                                     }, 0);
                                     this.progressBar.set(totalProportionSuccess * 100 / (totalProportionSuccess + totalProportionEntityPulling));
       
