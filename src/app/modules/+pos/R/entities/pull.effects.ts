@@ -40,8 +40,9 @@ export class PosPullEffects {
                                     }, 0);
                                     this.progressBar.set(totalProportionSuccess * 100 / (totalProportionSuccess + totalProportionEntityPulling));
       
-                                    return Observable.interval(100)
-                                                     .take(pullingChain.count())
+                                    let takeWhile = true;
+                                    return Observable.interval(0)
+                                                     .takeWhile(() => takeWhile)
                                                      .map(() => {
                                                        const entityNeedPull = pullingChain.find((entity) => pullingChainStarted.indexOf(entity) === -1);
                                                        if (entityNeedPull) {
@@ -51,7 +52,8 @@ export class PosPullEffects {
                                                            payload: {entityCode: entityNeedPull}
                                                          }
                                                        } else {
-                                                         return {type: RootActions.ACTION_NOTHING}
+                                                         takeWhile = false;
+                                                         return {type: RootActions.ACTION_NOTHING, payload: {mess: "Nothing to pull entities"}}
                                                        }
                                                      });
                                   }
