@@ -26,13 +26,26 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
                   .setIn(['optionData', 'super_attribute'], action.payload['super_attribute']);
     
     case PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS:
-      state = state.clear();
+      state = state.clear()
+                   // TODO: clear have bug here. It will take old reference of object
+                   .setIn(['optionData', 'bundle_option'], {})
+                   .setIn(['optionData', 'bundle_option_qty'], {})
+                   .setIn(['optionData', 'options'], {})
+                   .setIn(['optionData', 'super_attribute'], {})
+                   .setIn(['optionData', 'super_group'], {});
+      
       return state.set('product', action.payload['product'])
                   .set('buyRequest', action.payload['buyRequest']);
     
     case PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE:
     case ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS:
-      return state.clear();
+      return state.clear()
+                  // TODO: clear have bug here. It will take old reference of object
+                  .setIn(['optionData', 'bundle_option'], {})
+                  .setIn(['optionData', 'bundle_option_qty'], {})
+                  .setIn(['optionData', 'options'], {})
+                  .setIn(['optionData', 'super_attribute'], {})
+                  .setIn(['optionData', 'super_group'], {});
     
     default:
       return state;
