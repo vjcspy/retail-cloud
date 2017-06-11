@@ -16,6 +16,7 @@ export class PosQuoteActions {
   static ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS = 'ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS'; // after customer added, we will resolve and save address
   
   static ACTION_RESOLVE_QUOTE = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
+  static ACTION_CLEAR_QUOTE   = 'ACTION_CLEAR_QUOTE';
   
   static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO'; // quote state information
   
@@ -37,6 +38,10 @@ export class PosQuoteActions {
     product.mapWithParent(productEntity);
     
     this.store.dispatch({type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD, payload: {product, qty, forceProductCustomOptions, config}});
+  }
+  
+  clearQuote(){
+    this.store.dispatch({type: PosQuoteActions.ACTION_CLEAR_QUOTE});
   }
   
   updateQuoteInfoState(key: string, state: any) {

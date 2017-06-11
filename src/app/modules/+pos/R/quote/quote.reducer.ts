@@ -39,6 +39,12 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
       return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
     
+    case PosQuoteActions.ACTION_CLEAR_QUOTE:
+      const isShiftOpening = state.info.isShiftOpening;
+      state.quote.removeCustomer().removeAllItems().removeAllAddresses();
+      
+      return state.clear().set('info', {isShiftOpening}).set('quote', state.quote);
+    
     default:
       return state;
   }

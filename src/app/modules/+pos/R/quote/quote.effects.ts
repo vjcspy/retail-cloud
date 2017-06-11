@@ -202,7 +202,6 @@ export class PosQuoteEffects {
                                  }
                                });
   
-  
   private _getItemByBuyRequest(buyRequest: DataObject, items: List<DataObject>) {
     let isMatching = false;
     if (buyRequest.getData('is_custom_sales') === true)
