@@ -5,6 +5,7 @@ import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
 import {PaymentDB} from "../../../../../database/xretail/db/payment";
 import {List} from "immutable";
 import {PosStepActions} from "./step.actions";
+import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 
 @Injectable()
 export class PosStepEffects {

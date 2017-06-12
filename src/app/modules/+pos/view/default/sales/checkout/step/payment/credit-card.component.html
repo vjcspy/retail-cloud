@@ -1,0 +1,15 @@
+<div class="checkout-row">
+  <div class="checkout-head">
+    <div class="c-name"><span class="icon-card"></span> {{method['title']}}</div>
+    <div class="c-price">
+      <input [disabled]="!method['isChanging'] && posStepState.totals.remain <= 0.01"
+             type="text" inputSelectText
+             [value]="method['amount']"
+             (keyup)="changeAmount($event.target.value)"/>
+    </div>
+    <div class="c-other">
+      <input type="text" placeholder="ref #" [(ngModel)]="method.data['ref']"/>
+    </div>
+    <span class="delete-btn" (click)="remove()"><span class="icon-close-thin"></span></span>
+  </div>
+</div>

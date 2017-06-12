@@ -1,0 +1,50 @@
+<div class="cover">
+  <span class="click back-btn" (click)="posStepActions.back()"><span class="icon-left-thin"></span>{{ 'Back' | translate }}</span>
+
+  <!--content of checkout-->
+  <div class="content-top">
+    <div class="total-top">
+      <span>{{ 'Total Paid' | translate }}:</span><span class="grand-total">{{posStepState.totals.totalPaid | priceFormat}}</span>
+    </div>
+    <div class="control-bar">
+      <button *ngFor="let payment of posStepState.paymentMethodCanUse;trackBy:trackById"
+              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))"
+              (click)="posStepActions.addPaymentMethodToOrder(payment)" class="c-huge">
+                        <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
+                              'icon-wallet':payment['type'] == 'cash',
+                              'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',
+                              'icon-diamond':payment['type'] == 'reward_point'}">
+                        </span>
+        {{payment['title']}}
+      </button>
+    </div>
+  </div>
+  <div class="checkout-table" perfectScroll="">
+    <div class="checkout-row" *ngFor="let selectedPayment of posStepState.paymentMethodUsed">
+      <checkout-cash *ngIf="selectedPayment['type'] =='cash'" [posStepState]="posStepState" [method]="selectedPayment"></checkout-cash>
+      <checkout-credit-card *ngIf="selectedPayment['type'] =='credit_card'" [method]="selectedPayment" [posStepState]="posStepState"></checkout-credit-card>
+      <!--<checkout-payment-tyro *ngIf="selectedPayment['type'] =='tyro' && offlineService.online" [method]="selectedPayment" [posStepState]="posStepState"></checkout-payment-tyro>-->
+    </div>
+    <div class="checkout-row"
+         *ngIf="showRewardPointPayment()">
+      <checkout-rewardpoint [integrateRpState]="integrateRpState" [posStepState]="posStepState" [posQuoteState]="posQuoteState"></checkout-rewardpoint>
+    </div>
+  </div>
+  <div class="content-bot">
+    <div class="info-checkout">
+      <div class="info-row">
+                        <span class="value">
+                            {{(posStepState.totals.remain | priceFormat)}}</span>
+        <span class="txt">{{checkActionOrder() ?  ('Change'|translate) : ('Remain'|translate)}}</span>
+      </div>
+      <div class="info-row disabled">
+        <span class="value">0</span>
+        <span class="txt">{{ 'Points earned' | translate }}</span>
+      </div>
+    </div>
+    <button [disabled]="posStepState.canSaveOrder" class="huge" (click)="stepViewService.saveOrder()">
+      {{checkActionOrder() ? ("Complete"|translate):("Partial"|translate)}}
+    </button>
+  </div>
+  <!--end content of checkout-->
+</div>

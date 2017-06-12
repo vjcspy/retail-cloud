@@ -6,6 +6,17 @@ export enum CheckoutStep{
   COMPLETE
 }
 
+export interface PaymentMethod {
+  type: string,
+  title: string,
+  time: number,
+  amount: number,
+  isChanging: boolean, // If method is changing so we can edit input
+  created_at: string,
+  data: Object,
+  payment_data: Object
+}
+
 export interface PosStepState {
   checkoutStep: number;
   totals: {
@@ -13,7 +24,9 @@ export interface PosStepState {
     remain: number;
   },
   paymentMethodCanUse: Object[],
-  paymentMethodUse: Object[]
+  paymentMethodUsed: PaymentMethod[],
+  canSaveOrder: boolean;
+  moneySuggestion: number[]
 }
 
 export interface PosStepStateRecord extends TypedRecord<any>, PosStepState {}
@@ -23,6 +36,8 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     checkoutStep: CheckoutStep.NONE,
     totals: {totalPaid: 0, remain: null},
     paymentMethodCanUse: [],
-    paymentMethodUse: []
+    paymentMethodUsed: [],
+    canSaveOrder: false,
+    moneySuggestion: []
   }
 );

@@ -1,0 +1,18 @@
+<div class="checkout-row">
+  <div class="checkout-head">
+    <div class="c-name"><span class="icon-wallet"></span> {{method['title']}}</div>
+    <div class="c-price">
+      <input [disabled]="!method['isChanging'] && posStepState.totals.remain <= 0.01"
+             type="text" inputSelectText
+             [value]="method['amount']"
+             (keyup)="changeAmount($event.target.value)"/>
+    </div>
+    <div class="c-other">
+      <div class="value-price">
+                <span *ngFor="let m of posStepState.moneySuggestion"
+                      (click)="changeAmount(m)">{{m|priceFormat}}</span>
+      </div>
+    </div>
+    <span class="delete-btn" (click)="remove()"><span class="icon-close-thin"></span></span>
+  </div>
+</div>

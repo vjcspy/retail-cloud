@@ -16,6 +16,8 @@ import {PosState} from "../../../R/index";
 import {PosPullActions} from "../../../R/entities/pull.actions";
 import {Router} from "@angular/router";
 import {PosSyncState} from "../../../R/sync/sync.state";
+import {IntegrateRpState} from "../../../R/integrate/rp/integrate-rp.state";
+import {PosStepState} from "../../R/sales/checkout/step/step.state";
 
 @Component({
              // moduleId: module.id,
@@ -29,6 +31,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   quoteState$: Observable<PosQuoteState>;
   generalState$: Observable<PosGeneralState>;
   posSyncState$: Observable<PosSyncState>;
+  integrateRpState$: Observable<IntegrateRpState>;
   
   checkoutProductState$: Observable<CheckoutProductState>;
   productOptionsState$: Observable<ProductOptionsState>;
@@ -36,15 +39,17 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   cartCustomerState$: Observable<CartCustomerState>;
   cartItemState$: Observable<CartItemState>;
   cartTotalsState$: Observable<CartTotalsState>;
+  posStepState$: Observable<PosStepState>;
   
   constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router) {
     super();
     
-    this.entitiesState$ = this.store$.select('entities');
-    this.configState$   = this.store$.select('config');
-    this.quoteState$    = this.store$.select('quote');
-    this.generalState$  = this.store$.select('general');
-    this.posSyncState$  = this.store$.select('sync');
+    this.entitiesState$    = this.store$.select('entities');
+    this.configState$      = this.store$.select('config');
+    this.quoteState$       = this.store$.select('quote');
+    this.generalState$     = this.store$.select('general');
+    this.posSyncState$     = this.store$.select('sync');
+    this.integrateRpState$ = this.store$.select('integrateRp');
     
     this.checkoutProductState$ = this.store$.select('checkoutProduct');
     this.productOptionsState$  = this.store$.select('productOptions');
@@ -52,6 +57,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
     this.cartCustomerState$    = this.store$.select('cartCustomer');
     this.cartItemState$        = this.store$.select('cartItem');
     this.cartTotalsState$      = this.store$.select('cartTotals');
+    this.posStepState$         = this.store$.select('step');
   }
   
   ngOnInit() {

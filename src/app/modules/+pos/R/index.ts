@@ -30,6 +30,11 @@ import {PosSyncService} from "./sync/sync.service";
 import {PosSyncActions} from "./sync/sync.actions";
 import {posSyncReducer} from "./sync/sync.reducer";
 import {PosSyncState} from "./sync/sync.state";
+import {IntegrateRpState} from "./integrate/rp/integrate-rp.state";
+import {integrateRpReducer} from "./integrate/rp/integrate-rp.reducer";
+import {IntegrateRpActions} from "./integrate/rp/integrate-rp.actions";
+import {IntegrateRpEffects} from "./integrate/rp/integrate-rp.effects";
+import {IntegrateRpService} from "./integrate/rp/integrate-rp.service";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -38,7 +43,8 @@ export const R_POS_IMPORTS = [
   EffectsModule.run(PosPullEffects),
   EffectsModule.run(PosQuoteEffects),
   EffectsModule.run(PosConfigEffects),
-  EffectsModule.run(PosSyncEffects)
+  EffectsModule.run(PosSyncEffects),
+  EffectsModule.run(IntegrateRpEffects),
 ];
 
 export const R_POS_PROVIDERS = [
@@ -65,7 +71,11 @@ export const R_POS_PROVIDERS = [
   
   PosSyncEffects,
   PosSyncService,
-  PosSyncActions
+  PosSyncActions,
+  
+  IntegrateRpActions,
+  IntegrateRpEffects,
+  IntegrateRpService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -76,6 +86,7 @@ export interface PosState {
   pull: PosPullState;
   config: PosConfigState;
   sync: PosSyncState;
+  integrateRp: IntegrateRpState;
 }
 
 export const posReducer = createReducer({
@@ -84,5 +95,6 @@ export const posReducer = createReducer({
                                           entities: entitiesReducer,
                                           pull: pullReducer,
                                           config: posConfigReducer,
-                                          sync: posSyncReducer
+                                          sync: posSyncReducer,
+                                          integrateRp: integrateRpReducer
                                         });

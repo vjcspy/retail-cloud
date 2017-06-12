@@ -1,0 +1,30 @@
+<div class="checkout-completed" *ngIf="stepViewService.viewState['isSavedOrder']">
+  <div class="total-top">
+    <span>{{ 'Paid' | translate }}</span>
+    <span class="grand-total">
+                {{(stepViewService.viewData['remain'] > 0 ? stepViewService.viewData['totalPaid'] : stepViewService.getGt()) | priceFormat}}
+                </span>
+  </div>
+
+  <div class="sign-icon"><span class="icon-tick"></span></div>
+
+  <div class="control-bar">
+    <button (click)="printReceipt()">{{ 'Print Receipt' | translate }}</button>
+    <button [ngClass]="{active: stepViewService.viewState['isSendEmail']}"
+            (click)=" stepViewService.viewState['isSendEmail'] = !stepViewService.viewState['isSendEmail']">
+      Email
+    </button>
+    <button (click)="orderSync.printGift()">{{ 'Print' | translate }} {{ 'Gift Receipt' | translate }}</button>
+
+    <div class="s-blk" [ngClass]="{'d-show': stepViewService.viewState['isSendEmail']}">
+      <button (click)="orderSync.sendEmail(stepViewService.viewData['emailSend'])">{{ 'Send' | translate }}</button>
+      <input type="text" [(ngModel)]="stepViewService.viewData['emailSend']" placeholder="Type customer Email"/>
+    </div>
+  </div>
+
+  <div class="completed-bot">
+    <button (click)="stepViewService.newOrder()">
+      {{ 'New order' | translate }}
+    </button>
+  </div>
+</div>

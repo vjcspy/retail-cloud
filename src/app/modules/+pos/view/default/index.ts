@@ -20,6 +20,11 @@ import {PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent} f
 import {PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent} from "./sales/checkout/popup/product-detail/bundle-options.component";
 import {PosDefaultSalesCheckoutPopupProductDetailSuperGroupComponent} from "./sales/checkout/popup/product-detail/super-group.component";
 import {PosDefaultSalesCheckoutPopupProductDetailSuperAttributeComponent} from "./sales/checkout/popup/product-detail/super-attribute.component";
+import {PosDefaultSalesCheckoutStepComponent} from "./sales/checkout/step.component";
+import {PosDefaultSalesCheckoutStepPaymentsComponent} from "./sales/checkout/step/payment.component";
+import {CheckoutCashComponent} from "./sales/checkout/step/payment/cash.component";
+import {CheckoutCreditCardComponent} from "./sales/checkout/step/payment/credit-card.component";
+import {CheckoutRewardPointComponent} from "./sales/checkout/step/payment/rewardpoint.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -35,7 +40,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutGridProductImageComponent,
   PosDefaultSalesCheckoutListComponent,
   PosDefaultSalesCheckoutBottomBarComponent,
-
+  
   PosDefaultSalesCheckoutActionBarComponent,
   PosDefaultSalesCheckoutActionsBarNoteComponent,
   
@@ -44,11 +49,17 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutCartItemsComponent,
   PosDefaultSalesCheckoutCartTotalsComponent,
   PosDefaultSalesCheckoutGrandTotalComponent,
-
+  
   PosDefaultSalesCheckoutPopupComponent,
   PosDefaultSalesCheckoutPopupProductDetailComponent,
   PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent,
   PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent,
   PosDefaultSalesCheckoutPopupProductDetailSuperGroupComponent,
-  PosDefaultSalesCheckoutPopupProductDetailSuperAttributeComponent
+  PosDefaultSalesCheckoutPopupProductDetailSuperAttributeComponent,
+  
+  PosDefaultSalesCheckoutStepComponent,
+  PosDefaultSalesCheckoutStepPaymentsComponent,
+  CheckoutCashComponent,
+  CheckoutCreditCardComponent,
+  CheckoutRewardPointComponent
 ];

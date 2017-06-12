@@ -1,0 +1,37 @@
+<div class="checkout-row">
+  <div class="checkout-head">
+    <div class="c-name"><span class="icon-diamond"></span> {{ 'Reward Point' | translate }}</div>
+    <!--<div *ngIf="configData.configData['rpType'] != 'aheadWorld'">-->
+    <!--<div class="c-price">-->
+    <!--<input type="text" value="2000"/>-->
+    <!--</div>-->
+    <!--<div class="c-other">-->
+    <!--<input type="text" id="progress-bar" name="example_name" value=""/>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div *ngIf="isAheadWorldRp()">
+      <div class="c-price">
+        <button *ngIf="integrateRpState.isUsingPoint" style="background: darkred" (click)="integrateRpActions.removePoint()">
+          {{ 'Remove' | translate }} {{ 'Reward Point' | translate }}
+        </button>
+        <button *ngIf="!integrateRpState.isUsingPoint" (click)="integrateRpActions.usePoint({})" [disabled]="posStepState.totals.remain <=0">
+          {{ 'Use' | translate }} {{ 'Reward Point' | translate }}
+        </button>
+        <div *ngIf="!integrateRpState.isUsingPoint" class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
+                    <span>
+                        {{getRewardPointDetail()['customer_balance'] || 0}} {{'store reward point available' | translate }}
+                        ({{getRewardPointDetail()['customer_balance_base_currency'] |
+                        priceFormat : true}})
+                    </span>
+        </div>
+        <div *ngIf="integrateRpState.isUsingPoint" class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
+                    <span>
+                        {{ 'Used' | translate }} {{getRewardPointDetail()['reward_point_spent'] || 0}} {{ 'Reward Point' | translate }}
+                        ({{getRewardPointDetail()['base_reward_point_discount_amount'] | priceFormat:true}})
+                    </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

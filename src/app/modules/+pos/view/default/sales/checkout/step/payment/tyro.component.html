@@ -1,0 +1,25 @@
+<div class="checkout-row">
+  <div class="checkout-head">
+    <div class="c-name"><span class="icon-wallet"></span> {{method['title']}}</div>
+    <div class="c-price">
+      <input [disabled]="!method['isChanging'] && posStepState.totals.remain <= 0.01"
+             type="text" inputSelectText
+             [value]="method['amount']"
+             (keyup)="changeAmount($event.target.value)"/>
+    </div>
+    <div class="c-other" *ngIf="data.questions.length==0">
+      {{data['statusMessage']}}
+    </div>
+    <span class="delete-btn" (click)="cancel()"><span class="icon-close-thin"></span></span>
+  </div>
+</div>
+<div class="popup-wrapper" [ngClass]="{open: (data.questions.length >0 && data['statusMessage'])}" id="newOutletInfo">
+  <div class="popup-content">
+    <h3>{{ 'Tyro Payment Gateway' | translate }}</h3>
+    <p> {{data['statusMessage']}}</p>
+    <div class="button-bar">
+      <button *ngFor="let question of data.questions" (click)="selectAnswer(question['value'])">{{question['label']}}</button>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay" [ngClass]="{open: data.questions.length >0}"></div>
