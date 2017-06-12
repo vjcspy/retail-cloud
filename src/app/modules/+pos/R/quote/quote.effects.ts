@@ -181,7 +181,7 @@ export class PosQuoteEffects {
                                                     .map(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
-                                                           .setData('use_default_customer', false)
+                                                           .setUseDefaultCustomer(false)
                                                            .setShippingAddress(quoteState.shippingAdd)
                                                            .setBillingAddress(quoteState.billingAdd);
         
@@ -199,7 +199,7 @@ export class PosQuoteEffects {
                                  } else if (!!generalState.outlet['enable_guest_checkout']) {
                                    let customer = new Customer();
                                    Object.assign(customer, configState.setting.customer.getDefaultCustomer());
-                                   quote.setData('use_default_customer', true);
+                                   quote.setUseDefaultCustomer(true);
       
                                    return Observable.of({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
                                  } else {
