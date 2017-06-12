@@ -6,6 +6,7 @@ export interface PosGeneralState {
   register: Object;
   warehouse: Object;
   outlet: Object;
+  user: Object;
 }
 
 export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord>, PosGeneralState {}
@@ -16,5 +17,6 @@ export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGener
                                                                                                  store: {},
                                                                                                  register: {},
                                                                                                  warehouse: {},
-                                                                                                 outlet: {}
+                                                                                                 outlet: {},
+                                                                                                 user: {id: 1}
                                                                                                });

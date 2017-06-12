@@ -301,18 +301,8 @@ export class PosQuoteEffects {
   }
   
   private async prepareAddProductToQuote(items: List<DataObject>) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       AsyncHelper.forEach(items.toArray(), async (buyRequest: DataObject) => {
-        // NEEDCHECK: Ensure product are fresh. In case change buy request maybe use old product with price is calculated
-        // let _p = new Product();
-        // if (!buyRequest.getData('product')) {
-        //   await _p.getById(buyRequest.getData('product_id'));
-        // }
-        // _p.mapWithParent(buyRequest.getData('product'));
-        //
-        // buyRequest.unsetData('product')
-        //           .setData('product', _p);
-        
         switch (buyRequest.getData('product').getTypeId()) {
           case 'virtual':
           case 'simple':

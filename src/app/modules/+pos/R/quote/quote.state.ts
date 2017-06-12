@@ -13,6 +13,7 @@ export interface PosQuoteState {
   billingAdd: Address;
   items: List<DataObject>;
   hasShipment: boolean;
+  shippingAmount: number;
   
   info: {
     isShiftOpening: boolean,
@@ -34,6 +35,7 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
                                                                                            billingAdd: null,
                                                                                            items: <any>List.of(),
                                                                                            hasShipment: false,
+                                                                                           shippingAmount: 0,
   
                                                                                            info: {
                                                                                              isShiftOpening: false,

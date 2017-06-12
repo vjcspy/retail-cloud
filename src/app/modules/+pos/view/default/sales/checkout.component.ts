@@ -15,6 +15,7 @@ import {CartTotalsState} from "../../R/sales/checkout/cart/totals.state";
 import {PosState} from "../../../R/index";
 import {PosPullActions} from "../../../R/entities/pull.actions";
 import {Router} from "@angular/router";
+import {PosSyncState} from "../../../R/sync/sync.state";
 
 @Component({
              // moduleId: module.id,
@@ -27,6 +28,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   configState$: Observable<PosConfigState>;
   quoteState$: Observable<PosQuoteState>;
   generalState$: Observable<PosGeneralState>;
+  posSyncState$: Observable<PosSyncState>;
   
   checkoutProductState$: Observable<CheckoutProductState>;
   productOptionsState$: Observable<ProductOptionsState>;
@@ -42,6 +44,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
     this.configState$   = this.store$.select('config');
     this.quoteState$    = this.store$.select('quote');
     this.generalState$  = this.store$.select('general');
+    this.posSyncState$  = this.store$.select('sync');
     
     this.checkoutProductState$ = this.store$.select('checkoutProduct');
     this.productOptionsState$  = this.store$.select('productOptions');

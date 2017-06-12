@@ -4,6 +4,7 @@ import {PosQuoteActions} from "./quote.actions";
 import * as _ from 'lodash';
 import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
+import {PosSyncActions} from "../sync/sync.actions";
 
 export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
   switch (action.type) {
@@ -26,6 +27,7 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
       return state.set('items', items);
     
     case PosQuoteActions.ACTION_RESOLVE_QUOTE:
+    case PosSyncActions.ACTION_SYNC_ORDER_SUCCESS:
       let refundAmount = 0;
       let gt           = 0;
       if (state.info.isRefunding && state.creditmemo) {

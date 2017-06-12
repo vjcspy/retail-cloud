@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosQuoteState} from "../../../../R/quote/quote.state";
+import {PosSyncActions} from "../../../../R/sync/sync.actions";
+import {PosSyncState} from "../../../../R/sync/sync.state";
 
 @Component({
              // moduleId: module.id,
@@ -9,9 +11,9 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
            })
 export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
+  @Input() posSyncState: PosSyncState;
+  
   protected isLoading: boolean = false;
   
-  protected syncOrder() {
-    this.isLoading = true;
-  }
+  constructor(public posSyncActions: PosSyncActions) {}
 }
