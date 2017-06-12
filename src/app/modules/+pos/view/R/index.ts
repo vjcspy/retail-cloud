@@ -29,6 +29,11 @@ import {ProductOptionsService} from "./sales/checkout/popup/product-options.serv
 import {CartActionBarService} from "./sales/checkout/cart/action-bar.service";
 import {CartActionBarEffects} from "./sales/checkout/cart/action-bar.effects";
 import {PosViewRouterEffects} from "./router/router-effects";
+import {posStepReducer} from "./sales/checkout/step/step.reducer";
+import {PosStepState} from "./sales/checkout/step/step.state";
+import {PosStepActions} from "./sales/checkout/step/step.actions";
+import {PosStepEffects} from "./sales/checkout/step/step.effects";
+import {PosStepService} from "./sales/checkout/step/step.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -36,6 +41,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CartCustomEffects),
   EffectsModule.run(CartItemEffects),
   EffectsModule.run(ProductOptionsEffects),
+  EffectsModule.run(PosStepEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -66,7 +72,12 @@ export const R_POS_VIEW_PROVIDERS = [
   /*Popup*/
   ProductOptionsActions,
   ProductOptionsEffects,
-  ProductOptionsService
+  ProductOptionsService,
+  
+  /*Checkout Step*/
+  PosStepActions,
+  PosStepEffects,
+  PosStepService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -77,6 +88,7 @@ export interface SalesState {
   cartTotals: CartTotalsState;
   cartActionBar: CartActionBarState;
   productOptions: ProductOptionsState;
+  step: PosStepState;
 }
 
 export const salesReducer = createReducer({
@@ -85,5 +97,6 @@ export const salesReducer = createReducer({
                                             cartItem: cartItemReducer,
                                             cartTotals: cartTotalsReducer,
                                             cartActionBar: cartActionBarReducer,
-                                            productOptions: productOptionsReducer
+                                            productOptions: productOptionsReducer,
+                                            step: posStepReducer
                                           });
