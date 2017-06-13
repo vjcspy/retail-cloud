@@ -15,6 +15,7 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 import * as _ from 'lodash';
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
+import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 
 @Injectable()
 export class PosStepEffects {
@@ -48,10 +49,12 @@ export class PosStepEffects {
                                          }
     
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
-                                           let totals = this.calculateTotals([], posQuoteState.grandTotal);
+                                           let totals            = this.calculateTotals([], posQuoteState.grandTotal);
+                                           let suggestion        = new MoneySuggestionService();
+                                           const moneySuggestion = suggestion.getSuggestion(posQuoteState.grandTotal);
                                            return {
                                              type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
-                                             payload: {totals}
+                                             payload: {totals, moneySuggestion}
                                            };
                                          }
     

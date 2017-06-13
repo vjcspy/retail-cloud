@@ -21,6 +21,9 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
       return state.update('paymentMethodUsed', (p) => p.filter((_p) => _p['time'] !== action.payload['payment']['time']));
     
     case PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA:
+      if (action.payload.hasOwnProperty('moneySuggestion')) {
+        state = state.set('moneySuggestion', action.payload['moneySuggestion']);
+      }
       return state.set('checkoutStep', CheckoutStep.PAYMENT)
                   .update('totals', (t) => Object.assign({}, {...t}, {...action.payload['totals']}));
     

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
+import * as _ from 'lodash';
 
 @Component({
              //moduleId: module.id,
@@ -15,6 +16,7 @@ export class CheckoutCashComponent {
   constructor(public posStepActions: PosStepActions) {}
   
   changeAmount(value) {
+    value += '';
     if (isNaN(value) || !value) {
       value = 0;
     }
