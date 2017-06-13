@@ -10,6 +10,11 @@ import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {RootActions} from "../../../../../../../R/root.actions";
+import {PaymentMethod, PosStepState} from "./step.state";
+import {PosConfigState} from "../../../../../R/config/config.state";
+import * as _ from 'lodash';
+import {NumberHelper} from "../../../../../services/helper/number-helper";
+import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 
 @Injectable()
 export class PosStepEffects {
@@ -43,9 +48,109 @@ export class PosStepEffects {
                                          }
     
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
-                                           return {type: PosStepActions.ACTION_INIT_CHECKOUT_STEP_DATA};
+                                           let totals = this.calculateTotals([], posQuoteState.grandTotal);
+                                           return {
+                                             type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
+                                             payload: {totals}
+                                           };
                                          }
     
                                          return {type: RootActions.ACTION_ERROR, payload: {mess: "can't init checkout step data"}};
                                        });
+  
+  @Effect() checkMethodWhenUserSelect = this.actions$.ofType(PosStepActions.ACTION_USER_SELECT_PAYMENT_METHOD)
+                                            .withLatestFrom(this.store$.select('quote'))
+                                            .withLatestFrom(this.store$.select('config'),
+                                                            ([action, quoteState], configState) => [action, quoteState, configState])
+                                            .withLatestFrom(this.store$.select('step'),
+                                                            ([action, quoteState, configState], stepState) => [action,
+                                                                                                               quoteState,
+                                                                                                               configState,
+                                                                                                               stepState])
+                                            .map((z) => {
+                                              const paymentToAdd: PaymentMethod = z[0].payload['payment'];
+                                              const quoteState: PosQuoteState   = <any>z[1];
+                                              let amount                        = this.canAddMorePaymentMethod(paymentToAdd, z[3], z[2], quoteState);
+                                              if (amount !== false) {
+                                                let payment = {
+                                                  id: paymentToAdd['id'],
+                                                  type: paymentToAdd.type,
+                                                  title: paymentToAdd.title,
+                                                  code: Date.now(),
+                                                  amount: parseFloat(<any>amount),
+                                                  refund_amount: quoteState.creditmemo ? quoteState.creditmemo['totals']['grand_total'] : 0,
+                                                  data: {},
+                                                  isChanging: paymentToAdd.allow_amount_tendered && !quoteState.info.isRefunding,
+                                                  allow_amount_tendered: paymentToAdd.allow_amount_tendered,
+                                                  created_at: Timezone.getCurrentStringTime(),
+                                                  is_purchase: quoteState.info.isRefunding ? 0 : 1,
+                                                  payment_data: paymentToAdd['payment_data'] // config data of payment
+                                                };
+      
+                                                return {type: PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER, payload: {payment}};
+                                              } else {
+                                                return {type: RootActions.ACTION_NOTHING, payload: {mess: "Can't add more payment method"}};
+                                              }
+                                            });
+  
+  @Effect() checkChangeTotals = this.actions$
+                                    .ofType(
+                                      PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER,
+                                      PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER)
+                                    .withLatestFrom(this.store$.select('step'))
+                                    .map((z) => {
+                                      const stepState: PosStepState = <any>z[1];
+                                      let totals                    = this.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
+    
+                                      return {
+                                        type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
+                                        payload: {totals}
+                                      };
+                                    });
+  
+  private calculateTotals(paymentInUse: PaymentMethod[], grandTotal: number) {
+    let totalPaid = 0;
+    _.forEach(paymentInUse, (p) => {
+      totalPaid += this.getvalidatedAmountPayment(p.amount);
+    });
+    let remain = grandTotal - totalPaid;
+    return {totalPaid, remain, grandTotal};
+  }
+  
+  canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number | boolean {
+    // check split payment
+    if (_.size(stepState.paymentMethodUsed) >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
+      return false;
+    
+    // check payment gateway
+    if (method['type'] == 'tyro') {
+      let isDuplicate = false;
+      _.forEach(stepState.paymentMethodUsed, (_method: PaymentMethod) => {
+        if ('tyro' == _method['type']) {
+          isDuplicate = true;
+          return false;
+        }
+      });
+      if (isDuplicate) {
+        this.notify.warning('can_not_add_tyro');
+        return false;
+      }
+    }
+    
+    // check amount
+    let gt             = stepState.totals.grandTotal;
+    let _currentAmount = 0;
+    _.forEach(stepState.paymentMethodUsed, (method: PaymentMethod) => {
+      _currentAmount += this.getvalidatedAmountPayment(method.amount);
+    });
+    if (_currentAmount >= gt && !quoteState.info.isRefunding)
+      return false;
+    
+    return NumberHelper.round((gt - _currentAmount), 2);
+  }
+  
+  private getvalidatedAmountPayment(methodAmount: any): number {
+    return (isNaN(methodAmount) || !methodAmount) ? 0 : parseFloat(methodAmount + '');
+  }
+  
 }

@@ -14,12 +14,14 @@ export interface PaymentMethod {
   isChanging: boolean, // If method is changing so we can edit input
   created_at: string,
   data: Object,
-  payment_data: Object
+  payment_data: Object,
+  allow_amount_tendered: boolean;
 }
 
 export interface PosStepState {
   checkoutStep: number;
   totals: {
+    grandTotal: number;
     totalPaid: number;
     remain: number;
   },
@@ -34,7 +36,7 @@ export interface PosStepStateRecord extends TypedRecord<any>, PosStepState {}
 export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRecord>(
   {
     checkoutStep: CheckoutStep.NONE,
-    totals: {totalPaid: 0, remain: null},
+    totals: {totalPaid: 0, remain: null, grandTotal: 0},
     paymentMethodCanUse: [],
     paymentMethodUsed: [],
     canSaveOrder: false,

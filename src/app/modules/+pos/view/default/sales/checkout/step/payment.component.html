@@ -9,7 +9,7 @@
     <div class="control-bar">
       <button *ngFor="let payment of posStepState.paymentMethodCanUse;trackBy:trackById"
               [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))"
-              (click)="posStepActions.addPaymentMethodToOrder(payment)" class="c-huge">
+              (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge">
                         <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',
                               'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',

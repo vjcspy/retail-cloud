@@ -20,6 +20,13 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
     case PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER:
       return state.update('paymentMethodUsed', (p) => p.filter((_p) => _p['time'] !== action.payload['payment']['time']));
     
+    case PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA:
+      return state.set('checkoutStep', CheckoutStep.PAYMENT)
+                  .update('totals', (t) => Object.assign({}, {...t}, {...action.payload['totals']}));
+    
+    case PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER:
+      return state.update('paymentMethodUsed', (l) => [...l, ...action.payload['payment']]);
+    
     default:
       return state;
   }
