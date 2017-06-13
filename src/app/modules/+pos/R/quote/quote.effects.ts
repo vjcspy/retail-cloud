@@ -22,6 +22,7 @@ import {Grouped} from "../../core/framework/grouped-product/Model/Product/Type/G
 import {ObjectManager} from "../../core/framework/General/App/ObjectManager";
 import {SessionQuote} from "../../core/framework/Backend/Model/Session/Quote";
 import {AsyncHelper} from "../../../../code/AsyncHelper";
+import {PosSyncState} from "../sync/sync.state";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -50,7 +51,9 @@ export class PosQuoteEffects {
                                      });
   
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
-                                  .map((action: Action) => {
+                                  .withLatestFrom(this.store$.select('sync'))
+                                  .filter(([action, syncState]) => (syncState as PosSyncState).isSyncing === false)
+                                  .map(([action]) => {
                                     const product: Product         = action.payload['product'];
                                     const forceProductCustomOption = action.payload['forceProductCustomOptions'];
                                     let buyRequest                 = new DataObject();
