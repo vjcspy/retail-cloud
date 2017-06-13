@@ -12,13 +12,14 @@ import {OfflineService} from "../../../../../../share/provider/offline";
 import {RootActions} from "../../../../../../../R/root.actions";
 import {PaymentMethod, PosStepState} from "./step.state";
 import {PosConfigState} from "../../../../../R/config/config.state";
-import * as _ from 'lodash';
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 
 @Injectable()
 export class PosStepEffects {
+  
+  private moneySuggestion = new MoneySuggestionService();
   
   constructor(private store$: Store<any>, private actions$: Actions, private notify: NotifyManager, private offlineService: OfflineService) { }
   
@@ -50,8 +51,7 @@ export class PosStepEffects {
     
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
                                            let totals            = this.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
-                                           let suggestion        = new MoneySuggestionService();
-                                           const moneySuggestion = suggestion.getSuggestion(posQuoteState.grandTotal);
+                                           const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
                                            return {
                                              type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
                                              payload: {totals, moneySuggestion}
@@ -104,11 +104,18 @@ export class PosStepEffects {
                                     .withLatestFrom(this.store$.select('step'))
                                     .map((z) => {
                                       const stepState: PosStepState = <any>z[1];
+                                      const action: Action          = z[0];
                                       let totals                    = this.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
+                                      let moneySuggestion           = stepState.moneySuggestion;
+    
+                                      // Retrieve amount before payment added
+                                      if (action.type === PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER) {
+                                        moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + action.payload['payment']['amount']);
+                                      }
     
                                       return {
                                         type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
-                                        payload: {totals}
+                                        payload: {totals, moneySuggestion}
                                       };
                                     });
   

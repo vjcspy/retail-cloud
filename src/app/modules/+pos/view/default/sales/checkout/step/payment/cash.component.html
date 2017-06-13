@@ -7,7 +7,7 @@
              [value]="method['amount']"
              (keyup)="changeAmount($event.target.value)"/>
     </div>
-    <div class="c-other">
+    <div class="c-other" *ngIf="method.isChanging">
       <div class="value-price">
                 <span *ngFor="let m of posStepState.moneySuggestion"
                       (click)="changeAmount(m)">{{m|priceFormat}}</span>

@@ -33,4 +33,8 @@ export class PosStepActions {
   removePaymentMethodFromOrder(payment: PaymentMethod) {
     this.store$.dispatch({type: PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER, payload: {payment}});
   }
+  
+  changeAmountPayment(payment: PaymentMethod, amount: number) {
+    this.store$.dispatch({type: PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT, payload: {payment, amount}});
+  }
 }
