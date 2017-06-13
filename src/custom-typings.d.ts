@@ -48,6 +48,7 @@ declare module "*";
 // declare var $: any;
 declare var NProgress: any;
 declare var Offline: any;
+declare var TYRO: any;
 /*
 // for legacy tslint etc to understand rename 'modern-lru' with your package
 // then comment out `declare module '*';`. For each new module copy/paste

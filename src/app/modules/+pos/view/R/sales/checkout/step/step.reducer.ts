@@ -6,7 +6,10 @@ import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord = posStepStateFactory(), action: Action) => {
   switch (action.type) {
     case PosSyncActions.ACTION_SYNC_ORDER_SUCCESS:
-      return state.set('checkoutStep', CheckoutStep.PAYMENT);
+      return state.delete('checkoutStep')
+                  .delete('paymentMethodUsed')
+                  .delete('canSaveOrder')
+                  .delete('moneySuggestion');
     
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
       return state.set('checkoutStep', CheckoutStep.NONE);

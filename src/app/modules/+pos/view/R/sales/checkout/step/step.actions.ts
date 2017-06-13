@@ -10,6 +10,7 @@ export class PosStepActions {
   
   static ACTION_ADD_PAYMENT_METHOD_TO_ORDER      = 'ACTION_ADD_PAYMENT_METHOD_TO_ORDER';
   static ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER = 'ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER';
+  static ACTION_INIT_CHECKOUT_STEP_DATA          = 'ACTION_INIT_CHECKOUT_STEP_DATA';
   
   constructor(private store$: Store<any>) { }
   

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import * as _ from "lodash";
 import {NotifyManager} from "../../../../../../../../services/notify-manager";
+import {GeneralException} from "../../../../../../core/framework/General/Exception/GeneralException";
 
 @Injectable()
 export class TyroService {
@@ -8,8 +8,13 @@ export class TyroService {
   data: any;
   iClient: any;
   
+  // Config transaction callback when complete
   transactionCompleteCallback: (response: any) => void;
+  
+  // Config callback to display message
   statusMessageCallback: (message: any) => void;
+  
+  // Config callback when have a question from tyro
   questionCallback: (question: any, answerCallback: any) => void;
   
   constructor(protected notify: NotifyManager) {

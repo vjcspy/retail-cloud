@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
-import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
+import {PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 
 @Component({
              //moduleId: module.id,
@@ -9,7 +9,7 @@ import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class CheckoutCreditCardComponent {
-  @Input() method: any;
+  @Input() method: PaymentMethod;
   @Input() posStepState: PosStepState;
   
   constructor(public posStepActions: PosStepActions) {}

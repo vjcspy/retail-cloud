@@ -23,7 +23,7 @@
     <div class="checkout-row" *ngFor="let selectedPayment of posStepState.paymentMethodUsed">
       <checkout-cash *ngIf="selectedPayment['type'] =='cash'" [posStepState]="posStepState" [method]="selectedPayment"></checkout-cash>
       <checkout-credit-card *ngIf="selectedPayment['type'] =='credit_card'" [method]="selectedPayment" [posStepState]="posStepState"></checkout-credit-card>
-      <!--<checkout-payment-tyro *ngIf="selectedPayment['type'] =='tyro' && offlineService.online" [method]="selectedPayment" [posStepState]="posStepState"></checkout-payment-tyro>-->
+      <checkout-payment-tyro *ngIf="selectedPayment['type'] =='tyro' && offlineService.online" [method]="selectedPayment" [posStepState]="posStepState"></checkout-payment-tyro>
     </div>
     <div class="checkout-row"
          *ngIf="showRewardPointPayment()">

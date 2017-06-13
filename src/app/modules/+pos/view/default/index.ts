@@ -25,6 +25,7 @@ import {PosDefaultSalesCheckoutStepPaymentsComponent} from "./sales/checkout/ste
 import {CheckoutCashComponent} from "./sales/checkout/step/payment/cash.component";
 import {CheckoutCreditCardComponent} from "./sales/checkout/step/payment/credit-card.component";
 import {CheckoutRewardPointComponent} from "./sales/checkout/step/payment/rewardpoint.component";
+import {CheckoutTyroComponent} from "./sales/checkout/step/payment/tyro.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -61,5 +62,6 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutStepPaymentsComponent,
   CheckoutCashComponent,
   CheckoutCreditCardComponent,
-  CheckoutRewardPointComponent
+  CheckoutRewardPointComponent,
+  CheckoutTyroComponent
 ];

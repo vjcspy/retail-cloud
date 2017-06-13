@@ -1,9 +1,11 @@
-import {Component, OnInit, Input, OnDestroy} from '@angular/core';
-import {Subscription, Subject} from "rxjs";
+import {Component, OnInit, Input} from '@angular/core';
 import * as _ from "lodash";
 import {GeneralException} from "../../../../../../core/framework/General/Exception/GeneralException";
 import {TyroService} from "./tyro.service";
 import {NotifyManager} from "../../../../../../../../services/notify-manager";
+import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
+import {PosStepService} from "../../../../../R/sales/checkout/step/step.service";
+import {PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 
 
 @Component({
@@ -12,13 +14,9 @@ import {NotifyManager} from "../../../../../../../../services/notify-manager";
              templateUrl: 'tyro.component.html',
              providers: [TyroService]
            })
-export class CheckoutTyroComponent implements OnInit, OnDestroy {
-  @Input() method: any;
-  
-  stream = {};
-  subscription: {
-    [propName: string]: Subscription;
-  }      = {};
+export class CheckoutTyroComponent implements OnInit {
+  @Input() method: PaymentMethod;
+  @Input() posStepState: PosStepState;
   
   data = {
     statusMessage: "",
@@ -28,31 +26,25 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
   };
   
   constructor(protected tyroService: TyroService,
-              protected notify: NotifyManager) { }
+              protected notify: NotifyManager,
+              protected posStepActions: PosStepActions,
+              protected posStepService: PosStepService) { }
   
   ngOnInit() {
     this.tyroService.initConfig(this.method);
     this.resetDataPayment();
-    this.setHandlePaymentGateway();
+    this.initHandleCallBackFromTyro();
   }
   
-  
-  ngOnDestroy(): void {
-    _.forEach(this.subscription, (sub) => sub.unsubscribe());
-    _.remove(this.stepViewService.stepPaymentChecker, (checker: any, key: string) => key == 'check_tyro');
-  }
   
   cancel() {
     this.tyroService.canel();
-    this.stepViewService.viewState['is_paying_gateway'] = false;
     this.resetDataPayment();
-    this.stepViewService.stepPaymentChecker['check_tyro'] = () => {
-      return true;
-    };
-    this.stepViewService.removePayment(this.method);
+    this.posStepService.removeTaskBeforeSaveOrder(this.method.type);
+    this.posStepActions.removePaymentMethodFromOrder(this.method);
   }
   
-  private setHandlePaymentGateway() {
+  private initHandleCallBackFromTyro() {
     // show message
     this.tyroService.statusMessageCallback = (message) => {
       this.data['statusMessage'] = message;
@@ -65,7 +57,6 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
         this.notify.error(question['text']);
         this.tyroService.canel();
         this.resetDataPayment();
-        this.stepViewService.viewState['is_paying_gateway'] = false;
       }
       this.data.answerCallback = (value) => {
         answerCallback(value);
@@ -78,7 +69,6 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
           this.data.questions.push({label: value, value: value});
         });
       }
-      this.appService.getChangeDetectorStream().next();
     };
     
     // handle complete transaction
@@ -91,37 +81,33 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
           authorisationCode: response['authorisationCode'],
           issuerActionCode: response['issuerActionCode']
         };
-        await this.stepViewService.saveOrder();
         
         // if (response.hasOwnProperty('customerReceipt')) {
         //     this.tyroService.print(response['customerReceipt']);
         // }
       } else {
-        this.stepViewService.viewState['is_paying_gateway'] = false;
-        this.data.isPaySuccess                              = false;
+        this.data.isPaySuccess = false;
       }
-      this.appService.getChangeDetectorStream().next();
     };
     
-    
     // set checker in step service when user pay immediately
-    if (isNaN(this.method['amount']) || parseFloat(this.method['amount']) == 0) {
-      this.translate.get("check_amount_tyro").subscribe(res => this.notify.warning(res));
+    if (isNaN(this.method['amount']) || parseFloat(this.method['amount'] + '') == 0) {
+      this.notify.warning('check_amount_tyro');
     } else {
-      this.stepViewService.stepPaymentChecker['check_tyro'] = () => {
+      this.posStepService.addTaskBeforeSaveOrder(this.method.type, () => {
         if (!this.data.isPaySuccess) {
           this.pay();
           return false;
         }
-        else
+        else {
           return true;
-      };
+        }
+      });
     }
   }
   
   pay() {
     this.resetDataPayment();
-    this.setHandlePaymentGateway();
     try {
       let amount: string = this.method['amount'] + "";
       amount             = amount.replace(",", "");
@@ -149,7 +135,6 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
       else {
         this.tyroService.doPurchase(amount);
       }
-      this.stepViewService.viewState['is_paying_gateway'] = true;
     } catch (e) {
       this.data.statusMessage = e.toString();
     }
@@ -168,7 +153,6 @@ export class CheckoutTyroComponent implements OnInit, OnDestroy {
     if (this.data.answerCallback) {
       this.data.answerCallback(value);
       this.resetDataPayment();
-      this.stepViewService.viewState['is_paying_gateway'] = false;
     } else {
       throw new GeneralException("Please define answerCallback");
     }
