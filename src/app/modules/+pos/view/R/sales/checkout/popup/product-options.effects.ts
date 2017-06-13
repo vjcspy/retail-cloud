@@ -11,8 +11,8 @@ import * as _ from 'lodash';
 import {ProductDB} from "../../../../../database/xretail/db/product";
 import {ProductOptionsService} from "./product-options.service";
 import {ProductOptionsState} from "./product-options.state";
-import {_if} from "rxjs/observable/if";
 import {Observable} from "rxjs";
+import {PosSyncState} from "../../../../../R/sync/sync.state";
 
 @Injectable()
 export class ProductOptionsEffects {
@@ -156,6 +156,9 @@ export class ProductOptionsEffects {
   
   @Effect() confirmProductOptions = this.actions$.ofType(ProductOptionsActions.ACTION_CONFIRM_PRODUCT_OPTIONS)
                                         .withLatestFrom(this.store$.select('productOptions'))
+                                        .withLatestFrom(this.store$.select('sync'),
+                                                        ([action, productOptions], syncState) => [action, productOptions, syncState])
+                                        .filter((z) => (z[2] as PosSyncState).isSyncing === false)
                                         .switchMap((z) => {
                                           const productOptionsState: ProductOptionsState = <any>z[1];
     
