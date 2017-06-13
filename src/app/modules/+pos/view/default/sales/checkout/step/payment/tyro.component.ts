@@ -36,6 +36,17 @@ export class CheckoutTyroComponent implements OnInit {
     this.initHandleCallBackFromTyro();
   }
   
+  changeAmount(value) {
+    value += '';
+    if (isNaN(value) || !value) {
+      value = 0;
+    }
+    if (value.indexOf(".") === (value.length - 1) || value.indexOf(",") === (value.length - 1)) {
+      return;
+    }
+    
+    this.posStepActions.changeAmountPayment(this.method, parseFloat(value));
+  }
   
   cancel() {
     this.tyroService.canel();
