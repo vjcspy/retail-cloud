@@ -20,6 +20,9 @@ export class PosStepActions {
   // when data payment change, need recollect totals
   static ACTION_UPDATE_CHECKOUT_PAYMENT_DATA = 'ACTION_UPDATE_CHECKOUT_PAYMENT_DATA';
   
+  static ACTION_CHECK_BEFORE_SAVE_ORDER = 'ACTION_CHECK_BEFORE_SAVE_ORDER';
+  static ACTION_USER_SAVE_ORDER         = 'ACTION_USER_SAVE_ORDER';
+  
   constructor(private store$: Store<any>) { }
   
   back() {
@@ -36,5 +39,9 @@ export class PosStepActions {
   
   changeAmountPayment(payment: PaymentMethod, amount: number) {
     this.store$.dispatch({type: PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT, payload: {payment, amount}});
+  }
+  
+  userSaveOrder() {
+    this.store$.dispatch({type: PosStepActions.ACTION_USER_SAVE_ORDER});
   }
 }

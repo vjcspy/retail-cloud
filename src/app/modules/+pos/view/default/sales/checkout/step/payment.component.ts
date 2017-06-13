@@ -4,6 +4,7 @@ import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {IntegrateRpState} from "../../../../../R/integrate/rp/integrate-rp.state";
+import {PosConfigState} from "../../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -15,6 +16,7 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   @Input() posStepState: PosStepState;
   @Input() posQuoteState: PosQuoteState;
   @Input() integrateRpState: IntegrateRpState;
+  @Input() posConfigState: PosConfigState;
   
   constructor(public posStepActions: PosStepActions, public offlineService: OfflineService) { }
   
@@ -30,5 +32,11 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   
   checkActionOrder() {
     return this.posStepState.totals.remain < 0.01 || this.posQuoteState.info.isRefunding;
+  }
+  
+  disableClickSaveOrder(): boolean {
+    return this.posStepState.isChecking3rd
+           || (!this.posConfigState.posRetailConfig.allowPartialPayment && this.posStepState.totals.remain >= 0.01 && !this.posQuoteState.info.isRefunding)
+           || (this.posQuoteState.info.isRefunding && Math.abs(this.posStepState.totals.remain) > 0.01);
   }
 }

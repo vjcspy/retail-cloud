@@ -3,6 +3,7 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {CheckoutStep, PosStepState} from "../../../R/sales/checkout/step/step.state";
 import {Router} from "@angular/router";
 import {IntegrateRpState} from "../../../../R/integrate/rp/integrate-rp.state";
+import {PosConfigState} from "../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -14,6 +15,7 @@ export class PosDefaultSalesCheckoutStepComponent implements OnInit {
   @Input() posQuoteState: PosQuoteState;
   @Input() posStepState: PosStepState;
   @Input() integrateRpState: IntegrateRpState;
+  @Input() posConfigState: PosConfigState;
   
   constructor(protected router: Router) { }
   

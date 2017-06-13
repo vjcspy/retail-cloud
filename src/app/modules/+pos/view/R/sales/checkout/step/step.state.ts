@@ -28,7 +28,7 @@ export interface PosStepState {
   },
   paymentMethodCanUse: List<Object>,
   paymentMethodUsed: List<PaymentMethod>,
-  canSaveOrder: boolean;
+  isChecking3rd: boolean;
   moneySuggestion: number[]
 }
 
@@ -40,7 +40,7 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     totals: {totalPaid: 0, remain: null, grandTotal: 0},
     paymentMethodCanUse: <any>List.of(),
     paymentMethodUsed: <any>List.of(),
-    canSaveOrder: false,
+    isChecking3rd: false,
     moneySuggestion: []
   }
 );

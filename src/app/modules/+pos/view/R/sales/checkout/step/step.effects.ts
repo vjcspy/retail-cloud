@@ -15,13 +15,19 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
+import {Observable} from "rxjs";
+import {PosStepService} from "./step.service";
 
 @Injectable()
 export class PosStepEffects {
   
   private moneySuggestion = new MoneySuggestionService();
   
-  constructor(private store$: Store<any>, private actions$: Actions, private notify: NotifyManager, private offlineService: OfflineService) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private notify: NotifyManager,
+              private offlineService: OfflineService,
+              private posStepService: PosStepService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -118,6 +124,15 @@ export class PosStepEffects {
                                         payload: {totals, moneySuggestion}
                                       };
                                     });
+  
+  @Effect() checkBeforeSaveOrder = this.actions$
+                                       .ofType(PosStepActions.ACTION_USER_SAVE_ORDER)
+                                       .switchMap((z) => {
+                                         return Observable.fromPromise(this.posStepService.resolveTaskBeforeSaveOrder())
+                                                          .map((canSaveOrder: boolean) => {
+                                                            return {type: PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER, payload: {canSaveOrder}};
+                                                          });
+                                       });
   
   private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
     let totalPaid = 0;
