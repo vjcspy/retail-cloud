@@ -2,6 +2,7 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {CheckoutStep, posStepStateFactory, PosStepStateRecord} from "./step.state";
 import {PosStepActions} from "./step.actions";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
+import * as _ from 'lodash';
 
 export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord = posStepStateFactory(), action: Action) => {
   switch (action.type) {
@@ -18,7 +19,7 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
       return state.set('paymentMethodCanUse', action.payload['paymentMethodCanUse']);
     
     case PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER:
-      return state.update('paymentMethodUsed', (p) => p.filter((_p) => _p['time'] !== action.payload['payment']['time']));
+      return state.update('paymentMethodUsed', (p) => p.filter((_p) => _p['created_at'] !== action.payload['payment']['created_at']));
     
     case PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA:
       if (action.payload.hasOwnProperty('moneySuggestion')) {
@@ -28,7 +29,12 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
                   .update('totals', (t) => Object.assign({}, {...t}, {...action.payload['totals']}));
     
     case PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER:
-      return state.update('paymentMethodUsed', (l) => [...l, ...action.payload['payment']]);
+      return state.update('paymentMethodUsed', (l) => l.push(action.payload['payment']));
+    
+    // case PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT:
+    //   let paymentChange = _.find(state.paymentMethodUsed, (p) => p.created_at === action.payload['payment']['created_at']);
+    //
+    //   return state.update('paymentMethodUsed', (l) =>)
     
     default:
       return state;

@@ -15,6 +15,7 @@ export class PosStepActions {
   static ACTION_ADD_PAYMENT_METHOD_TO_ORDER      = 'ACTION_ADD_PAYMENT_METHOD_TO_ORDER';
   // User remove payment method from order
   static ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER = 'ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER';
+  static ACTION_CHANGE_AMOUNT_PAYMENT            = 'ACTION_CHANGE_AMOUNT_PAYMENT';
   
   // when data payment change, need recollect totals
   static ACTION_UPDATE_CHECKOUT_PAYMENT_DATA = 'ACTION_UPDATE_CHECKOUT_PAYMENT_DATA';

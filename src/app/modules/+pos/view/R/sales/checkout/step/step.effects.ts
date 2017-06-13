@@ -27,10 +27,10 @@ export class PosStepEffects {
                                    .withLatestFrom(this.store$.select('entities'))
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;
-                                     let paymentMethodCanUse         = [];
+                                     let paymentMethodCanUse         = List.of();
                                      payments.forEach((p) => {
                                        if (!!p.is_active) {
-                                         paymentMethodCanUse.push(p);
+                                         paymentMethodCanUse = paymentMethodCanUse.push(p);
                                        }
                                      });
     
@@ -49,7 +49,7 @@ export class PosStepEffects {
                                          }
     
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
-                                           let totals            = this.calculateTotals([], posQuoteState.grandTotal);
+                                           let totals            = this.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
                                            let suggestion        = new MoneySuggestionService();
                                            const moneySuggestion = suggestion.getSuggestion(posQuoteState.grandTotal);
                                            return {
@@ -79,7 +79,7 @@ export class PosStepEffects {
                                                   id: paymentToAdd['id'],
                                                   type: paymentToAdd.type,
                                                   title: paymentToAdd.title,
-                                                  code: Date.now(),
+                                                  // code: Date.now(),
                                                   amount: parseFloat(<any>amount),
                                                   refund_amount: quoteState.creditmemo ? quoteState.creditmemo['totals']['grand_total'] : 0,
                                                   data: {},
@@ -99,7 +99,8 @@ export class PosStepEffects {
   @Effect() checkChangeTotals = this.actions$
                                     .ofType(
                                       PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER,
-                                      PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER)
+                                      PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER,
+                                      PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT)
                                     .withLatestFrom(this.store$.select('step'))
                                     .map((z) => {
                                       const stepState: PosStepState = <any>z[1];
@@ -111,9 +112,9 @@ export class PosStepEffects {
                                       };
                                     });
   
-  private calculateTotals(paymentInUse: PaymentMethod[], grandTotal: number) {
+  private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
     let totalPaid = 0;
-    _.forEach(paymentInUse, (p) => {
+    paymentInUse.forEach((p) => {
       totalPaid += this.getvalidatedAmountPayment(p.amount);
     });
     let remain = grandTotal - totalPaid;
@@ -122,13 +123,13 @@ export class PosStepEffects {
   
   canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number | boolean {
     // check split payment
-    if (_.size(stepState.paymentMethodUsed) >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
+    if (stepState.paymentMethodUsed.count() >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
       return false;
     
     // check payment gateway
     if (method['type'] == 'tyro') {
       let isDuplicate = false;
-      _.forEach(stepState.paymentMethodUsed, (_method: PaymentMethod) => {
+      stepState.paymentMethodUsed.forEach((_method: PaymentMethod) => {
         if ('tyro' == _method['type']) {
           isDuplicate = true;
           return false;
@@ -143,7 +144,7 @@ export class PosStepEffects {
     // check amount
     let gt             = stepState.totals.grandTotal;
     let _currentAmount = 0;
-    _.forEach(stepState.paymentMethodUsed, (method: PaymentMethod) => {
+    stepState.paymentMethodUsed.forEach((method: PaymentMethod) => {
       _currentAmount += this.getvalidatedAmountPayment(method.amount);
     });
     if (_currentAmount >= gt && !quoteState.info.isRefunding)

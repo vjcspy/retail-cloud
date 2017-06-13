@@ -1,4 +1,5 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
+import {List} from "immutable";
 
 export enum CheckoutStep{
   NONE = 0,
@@ -25,8 +26,8 @@ export interface PosStepState {
     totalPaid: number;
     remain: number;
   },
-  paymentMethodCanUse: Object[],
-  paymentMethodUsed: PaymentMethod[],
+  paymentMethodCanUse: List<Object>,
+  paymentMethodUsed: List<PaymentMethod>,
   canSaveOrder: boolean;
   moneySuggestion: number[]
 }
@@ -37,8 +38,8 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
   {
     checkoutStep: CheckoutStep.NONE,
     totals: {totalPaid: 0, remain: null, grandTotal: 0},
-    paymentMethodCanUse: [],
-    paymentMethodUsed: [],
+    paymentMethodCanUse: <any>List.of(),
+    paymentMethodUsed: <any>List.of(),
     canSaveOrder: false,
     moneySuggestion: []
   }
