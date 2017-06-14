@@ -38,7 +38,8 @@ export interface PosConfigState {
     customer: CustomerSetting;
     product: ProductSetting;
     shipping: ShippingSetting;
-  }
+  },
+  orderCount: {}
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -75,5 +76,6 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       customer: null,
       shipping: null,
       product: null
-    }
+    },
+    orderCount: {}
   });

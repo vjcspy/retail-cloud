@@ -10,6 +10,8 @@ import {PosConfigActions} from "./config.actions";
 import {CustomerSetting} from "../../core/framework/setting/CustomerSetting";
 import {ProductSetting} from "../../core/framework/setting/ProductSetting";
 import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
+import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
+import {PosGeneralState} from "../general/general.state";
 
 @Injectable()
 export class PosConfigEffects {
@@ -41,4 +43,17 @@ export class PosConfigEffects {
                                       return {type: PosConfigActions.ACTION_INIT_POS_SETTINGS, payload: {tax, customer, product, shipping}};
                                     }
                                   });
+  
+  @Effect() retrieveOrderCount = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                     .filter((action: Action) => action.payload['entityCode'] === UserOrderCountDB.getCode())
+                                     .withLatestFrom(this.store$.select('entities'))
+                                     .withLatestFrom(this.store$.select('general'),
+                                                     ([action, entitiesState], generalState) => [action, entitiesState, generalState])
+                                     .map(([action, entitiesState, generalState]) => {
+                                       const orderCounts: List<UserOrderCountDB> = entitiesState[UserOrderCountDB.getCode()].items;
+    
+                                       const orderCount = orderCounts.find((o: UserOrderCountDB) => o.register_id === (generalState as PosGeneralState).register['id']);
+    
+                                       return {type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}}
+                                     });
 }
