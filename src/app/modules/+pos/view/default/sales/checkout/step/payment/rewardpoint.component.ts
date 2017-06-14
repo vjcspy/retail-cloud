@@ -1,9 +1,10 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {IntegrateRpState, RewardPointType} from "../../../../../../R/integrate/rp/integrate-rp.state";
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
-import * as _ from 'lodash';
 import {IntegrateRpActions} from "../../../../../../R/integrate/rp/integrate-rp.actions";
 import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
+import {PosConfigState} from "../../../../../../R/config/config.state";
+import {PosSyncState} from "../../../../../../R/sync/sync.state";
 
 @Component({
              //moduleId: module.id,
@@ -12,23 +13,25 @@ import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class CheckoutRewardPointComponent {
-  @Input() integrateRpState: IntegrateRpState;
   @Input() posQuoteState: PosQuoteState;
   @Input() posStepState: PosStepState;
-  
-  protected data = {
-    useRp: false
-  };
+  @Input() posConfigState: PosConfigState;
+  @Input() posSyncState: PosSyncState;
   
   constructor(public integrateRpActions: IntegrateRpActions) {}
   
   isAheadWorldRp() {
-    return this.integrateRpState.rpType === RewardPointType.AheadWorld;
+    return this.posConfigState.posRetailConfig.rpType === 'aheadWorld';
   }
   
+  isUsingPoint() {
+    const rpData = this.posQuoteState.quote.getRewardPointData();
+    return (!!rpData && rpData['use_reward_point'] === true);
+  }
   
   getRewardPointDetail() {
-    return _.isObject(this.posQuoteState.quote.getData("reward_point")) ? this.posQuoteState.quote.getData("reward_point") : {};
+    const rpData = this.posQuoteState.quote.getRewardPointData();
+    return !!rpData ? rpData : {};
   }
   
 }

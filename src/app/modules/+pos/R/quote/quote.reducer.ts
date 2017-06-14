@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
 import {PosSyncActions} from "../sync/sync.actions";
+import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
 
 export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
   switch (action.type) {
@@ -46,6 +47,12 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
       state.quote.removeCustomer().removeAllItems().removeAllAddresses();
       
       return state.clear().set('info', {isShiftOpening}).set('quote', state.quote);
+    
+    case IntegrateRpActions.ACTION_USE_REWARD_POINT:
+      return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {...q.getData('reward_point')}, {...action.payload['rpData']}, {use_reward_point: true})));
+    
+    case IntegrateRpActions.ACTION_REMOVE_REWARD_POINT:
+      return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {use_reward_point: false})));
     
     default:
       return state;

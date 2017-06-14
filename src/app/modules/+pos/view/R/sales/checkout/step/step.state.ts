@@ -17,13 +17,13 @@ export interface Payment3rd {
 export interface PaymentMethod {
   type: string,
   title: string,
-  time: number,
   amount: number,
   isChanging: boolean, // If method is changing so we can edit input
   created_at: string,
-  data: Object,
-  payment_data: Object,
-  allow_amount_tendered: boolean;
+  data?: Object,
+  is_purchase: boolean;
+  payment_data?: Object,
+  allow_amount_tendered?: boolean;
 }
 
 export interface PosStepState {

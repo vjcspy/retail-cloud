@@ -5,6 +5,7 @@ import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {IntegrateRpState} from "../../../../../R/integrate/rp/integrate-rp.state";
 import {PosConfigState} from "../../../../../R/config/config.state";
+import {PosSyncState} from "../../../../../R/sync/sync.state";
 
 @Component({
              // moduleId: module.id,
@@ -15,15 +16,15 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   @Input() posStepState: PosStepState;
   @Input() posQuoteState: PosQuoteState;
-  @Input() integrateRpState: IntegrateRpState;
   @Input() posConfigState: PosConfigState;
+  @Input() posSyncState: PosSyncState;
   
   constructor(public posStepActions: PosStepActions, public offlineService: OfflineService) { }
   
   ngOnInit() { }
   
   showRewardPointPayment() {
-    return this.integrateRpState.isIntegrate && this.posQuoteState.quote.getData('reward_point') && this.posQuoteState.items.count() > 0 && !this.posQuoteState.quote.getUseDefaultCustomer();
+    return this.posConfigState.posRetailConfig.isIntegrateRP && this.posQuoteState.items.count() > 0 && !this.posQuoteState.quote.getUseDefaultCustomer();
   }
   
   trackById(index, method) {

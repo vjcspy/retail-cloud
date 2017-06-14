@@ -8,7 +8,8 @@ export const posSyncReducer: ActionReducer<PosSyncStateRecord> = (state: PosSync
       return state.set('isSyncing', true);
     
     case PosSyncActions.ACTION_PREPARE_ORDER_SYNC:
-      return state.set('order', posOrderSyncFactory(action.payload['order']));
+      return state.set('order', posOrderSyncFactory(action.payload['order']))
+                  .set('isSyncing', true);
     
     case PosSyncActions.ACTION_SYNC_ORDER_SUCCESS:
     case PosSyncActions.ACTION_SYNC_ORDER_ERROR:

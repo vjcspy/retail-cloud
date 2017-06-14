@@ -16,7 +16,7 @@ import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 import {Observable} from "rxjs";
-import {PosStepService} from "./step.service";
+import {PosQuoteService} from "../../../../../R/quote/quote.service";
 
 @Injectable()
 export class PosStepEffects {
@@ -27,7 +27,7 @@ export class PosStepEffects {
               private actions$: Actions,
               private notify: NotifyManager,
               private offlineService: OfflineService,
-              private posStepService: PosStepService) { }
+              private posQuoteService: PosQuoteService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -162,18 +162,42 @@ export class PosStepEffects {
                                       }
                                     });
   
-  @Effect() saveOrder = this.actions$
-                            .ofType(
-                              PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
-                              PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
-                            .withLatestFrom(this.store$.select('step'))
-                            .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
-                            .map(() => {
-    
-                              // Save order function
-    
-                              return {type: PosStepActions.ACTION_SAVED_ORDER};
-                            });
+  // @Effect() saveOrder = this.actions$
+  //                           .ofType(
+  //                             PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
+  //                             PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
+  //                           .withLatestFrom(this.store$.select('step'))
+  //                           .withLatestFrom(this.store$.select('quote'))
+  //                           .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
+  //                           .switchMap((z) => {
+  //                             const posStepState: PosStepState      = <any>z[1];
+  //                             let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
+  //
+  //                             // Save order function
+  //                             if (posStepState.totals.remain < -0.01) {
+  //                               paymentInUse = paymentInUse.push({
+  //                                                                  type: "cash",
+  //                                                                  title: "Change",
+  //                                                                  // We save to payment data in order, not payment_transaction, so need this field
+  //                                                                  is_purchase: true,
+  //                                                                  amount: posStepState.totals.remain,
+  //                                                                  isChanging: false,
+  //                                                                  created_at: Timezone.getCurrentStringTime()
+  //                                                                });
+  //                             }
+  //
+  //                             const posQuoteState: PosQuoteState = <any>z[2];
+  //                             if (posQuoteState.info.isRefunding) {
+  //                               return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
+  //                                                .map(() => {
+  //                                                  // push to db
+  //                                                });
+  //                             } else {
+  //
+  //                             }
+  //
+  //                             return {type: PosStepActions.ACTION_SAVED_ORDER};
+  //                           });
   
   
   private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {

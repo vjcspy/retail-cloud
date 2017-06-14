@@ -7,13 +7,20 @@ import {Observable} from "rxjs";
 import * as _ from 'lodash';
 import {NotifyManager} from "../../../../services/notify-manager";
 import {OfflineService} from "../../../share/provider/offline";
+import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
 
 @Injectable()
 export class PosSyncEffects {
   
   constructor(private store$: Store<any>, private actions$: Actions, private posSyncService: PosSyncService, private notify: NotifyManager, private offline: OfflineService) { }
   
-  @Effect() prepareOrderToSync = this.actions$.ofType(PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER)
+  @Effect() prepareOrderToSync = this.actions$
+                                     .ofType(
+                                       PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER,
+                                       // use or remove rp
+                                       IntegrateRpActions.ACTION_USE_REWARD_POINT,
+                                       IntegrateRpActions.ACTION_REMOVE_REWARD_POINT
+                                     )
                                      .withLatestFrom(this.store$.select('general'))
                                      .withLatestFrom(this.store$.select('quote'),
                                                      ([action, generalState], quoteState) => [action, generalState, quoteState])

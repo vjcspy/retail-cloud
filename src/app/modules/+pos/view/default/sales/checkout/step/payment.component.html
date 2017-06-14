@@ -27,7 +27,7 @@
     </div>
     <div class="checkout-row"
          *ngIf="showRewardPointPayment()">
-      <checkout-rewardpoint [integrateRpState]="integrateRpState" [posStepState]="posStepState" [posQuoteState]="posQuoteState"></checkout-rewardpoint>
+      <checkout-rewardpoint [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></checkout-rewardpoint>
     </div>
   </div>
   <div class="content-bot">

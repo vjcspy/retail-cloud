@@ -9,6 +9,7 @@ import {Observable} from "rxjs";
 import * as _ from 'lodash';
 import {Address} from "../../core/framework/quote/Model/Quote/Address";
 import {Outlet} from "../../core/framework/outlet/Model/Outlet";
+import {GeneralMessage} from "../../services/general/message";
 
 @Injectable()
 export class PosQuoteService {
@@ -53,4 +54,10 @@ export class PosQuoteService {
     return {shippingAdd, billingAdd};
   }
   
+  
+  loadCreditmemo(orderId: number, creditmemo: Object = null, isSave: boolean = false): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+    
+    });
+  }
 }

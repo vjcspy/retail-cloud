@@ -410,4 +410,8 @@ export class Quote extends DataObject {
   getUseDefaultCustomer(): boolean {
     return this.getData('use_default_customer');
   }
+  
+  getRewardPointData() {
+    return this.getData('reward_point');
+  }
 }
