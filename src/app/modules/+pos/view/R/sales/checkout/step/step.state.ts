@@ -7,6 +7,13 @@ export enum CheckoutStep{
   COMPLETE
 }
 
+export interface Payment3rd {
+  type: string;
+  inUse: boolean;
+  isPaySuccess: boolean;
+  additionData: Object;
+}
+
 export interface PaymentMethod {
   type: string,
   title: string,
@@ -26,10 +33,13 @@ export interface PosStepState {
     totalPaid: number;
     remain: number;
   },
-  paymentMethodCanUse: List<Object>,
-  paymentMethodUsed: List<PaymentMethod>,
+  paymentMethodCanUse: List<Object>;
+  paymentMethodUsed: List<PaymentMethod>;
+  moneySuggestion: number[];
+  isSavingOrder: boolean;
+  
+  listPayment3rdData: List<Payment3rd>;
   isChecking3rd: boolean;
-  moneySuggestion: number[]
 }
 
 export interface PosStepStateRecord extends TypedRecord<any>, PosStepState {}
@@ -40,7 +50,10 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     totals: {totalPaid: 0, remain: null, grandTotal: 0},
     paymentMethodCanUse: <any>List.of(),
     paymentMethodUsed: <any>List.of(),
+    moneySuggestion: [],
+    isSavingOrder: false,
+    
+    listPayment3rdData: <any>List.of(),
     isChecking3rd: false,
-    moneySuggestion: []
   }
 );

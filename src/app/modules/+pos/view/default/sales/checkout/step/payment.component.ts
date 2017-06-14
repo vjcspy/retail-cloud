@@ -35,7 +35,7 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   }
   
   disableClickSaveOrder(): boolean {
-    return this.posStepState.isChecking3rd
+    return this.posStepState.isChecking3rd || this.posStepState.isSavingOrder
            || (!this.posConfigState.posRetailConfig.allowPartialPayment && this.posStepState.totals.remain >= 0.01 && !this.posQuoteState.info.isRefunding)
            || (this.posQuoteState.info.isRefunding && Math.abs(this.posStepState.totals.remain) > 0.01);
   }

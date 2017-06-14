@@ -126,13 +126,55 @@ export class PosStepEffects {
                                     });
   
   @Effect() checkBeforeSaveOrder = this.actions$
-                                       .ofType(PosStepActions.ACTION_USER_SAVE_ORDER)
-                                       .switchMap((z) => {
-                                         return Observable.fromPromise(this.posStepService.resolveTaskBeforeSaveOrder())
-                                                          .map((canSaveOrder: boolean) => {
-                                                            return {type: PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER, payload: {canSaveOrder}};
-                                                          });
+                                       .ofType(PosStepActions.ACTION_START_SAVE_ORDER)
+                                       .withLatestFrom(this.store$.select('step'))
+                                       .map((z) => {
+                                         const stepState: PosStepState = <any>z[1];
+    
+                                         // checking 3rd payment
+                                         let isChecking3rd = false;
+                                         stepState.listPayment3rdData.forEach((payment) => {
+                                           if (payment.inUse && !payment.isPaySuccess) {
+                                             isChecking3rd = true;
+                                             return false;
+                                           }
+                                         });
+    
+                                         return {type: PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER, payload: {isChecking3rd}};
                                        });
+  
+  @Effect() resolve3rdPayment = this.actions$
+                                    .ofType(
+                                      PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
+                                      PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS
+                                    )
+                                    .withLatestFrom(this.store$.select('step'))
+                                    .filter((z) => (z[1] as PosStepState).isChecking3rd === true)
+                                    .map((z) => {
+                                      const stepState: PosStepState = <any>z[1];
+    
+                                      const payment3rdData = stepState.listPayment3rdData.find((payment) => payment.inUse && !payment.isPaySuccess);
+    
+                                      if (payment3rdData) {
+                                        return {type: PosStepActions.ACTION_PROCESS_PAYMENT_3RD, payload: {payment3rdData}};
+                                      } else {
+                                        return {type: PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD}
+                                      }
+                                    });
+  
+  @Effect() saveOrder = this.actions$
+                            .ofType(
+                              PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
+                              PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
+                            .withLatestFrom(this.store$.select('step'))
+                            .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
+                            .map(() => {
+    
+                              // Save order function
+    
+                              return {type: PosStepActions.ACTION_SAVED_ORDER};
+                            });
+  
   
   private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
     let totalPaid = 0;

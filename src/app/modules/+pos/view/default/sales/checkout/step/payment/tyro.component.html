@@ -7,19 +7,26 @@
              [value]="method['amount']"
              (keyup)="changeAmount($event.target.value)"/>
     </div>
-    <div class="c-other" *ngIf="data.questions.length==0">
-      {{data['statusMessage']}}
+    <div class="c-other" *ngIf="!hasQuestion()">
+      {{getMessage()}}
     </div>
-    <span class="delete-btn" (click)="cancel()"><span class="icon-close-thin"></span></span>
+    <div class="c-other" *ngIf="isSuccess()">
+      Successfully
+    </div>
+    <span *ngIf="!isSuccess()" class="delete-btn" (click)="remove()"><span class="icon-close-thin"></span></span>
   </div>
 </div>
-<div class="popup-wrapper" [ngClass]="{open: (data.questions.length >0 && data['statusMessage'])}" id="newOutletInfo">
+
+<!-- Pop Up Question of tyro -->
+<div *ngIf="hasQuestion() && !!getMessage()" class="popup-wrapper open" id="newOutletInfo">
   <div class="popup-content">
     <h3>{{ 'Tyro Payment Gateway' | translate }}</h3>
-    <p> {{data['statusMessage']}}</p>
+    <p> {{getMessage()}}</p>
     <div class="button-bar">
-      <button *ngFor="let question of data.questions" (click)="selectAnswer(question['value'])">{{question['label']}}</button>
+      <button *ngFor="let question of getTyroTransactionData().additionData['questions']" (click)="tyroActions.userSelectAnswer(question['value'])">
+        {{question['label']}}
+      </button>
     </div>
   </div>
 </div>
-<div class="popup-overlay" [ngClass]="{open: data.questions.length >0}"></div>
+<div class="popup-overlay" [ngClass]="{open: hasQuestion()}"></div>

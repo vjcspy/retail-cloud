@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {PaymentMethod} from "./step.state";
+import {Payment3rd, PaymentMethod} from "./step.state";
 
 @Injectable()
 export class PosStepActions {
@@ -20,8 +20,17 @@ export class PosStepActions {
   // when data payment change, need recollect totals
   static ACTION_UPDATE_CHECKOUT_PAYMENT_DATA = 'ACTION_UPDATE_CHECKOUT_PAYMENT_DATA';
   
+  static ACTION_START_SAVE_ORDER        = 'ACTION_START_SAVE_ORDER';
   static ACTION_CHECK_BEFORE_SAVE_ORDER = 'ACTION_CHECK_BEFORE_SAVE_ORDER';
-  static ACTION_USER_SAVE_ORDER         = 'ACTION_USER_SAVE_ORDER';
+  static ACTION_SAVED_ORDER             = 'ACTION_SAVED_ORDER';
+  
+  /* WORK WITH 3RD PAYMENT */
+  static ACTION_ADD_PAYMENT_3RD         = 'ACTION_ADD_PAYMENT_3RD';
+  static ACTION_PROCESS_PAYMENT_3RD     = 'ACTION_PROCESS_PAYMENT_3RD';
+  static ACTION_PAYMENT_3RD_UPDATE_INFO = 'ACTION_PAYMENT_3RD_UPDATE_INFO';
+  static ACTION_PAYMENT_3RD_PAY_SUCCESS = 'ACTION_PAYMENT_3RD_PAY_SUCCESS';
+  static ACTION_PAYMENT_3RD_PAY_FAIL    = 'ACTION_PAYMENT_3RD_PAY_FAIL';
+  static ACTION_RESOLVE_ALL_PAYMENT_3RD = 'ACTION_RESOLVE_ALL_PAYMENT_3RD';
   
   constructor(private store$: Store<any>) { }
   
@@ -42,6 +51,10 @@ export class PosStepActions {
   }
   
   userSaveOrder() {
-    this.store$.dispatch({type: PosStepActions.ACTION_USER_SAVE_ORDER});
+    this.store$.dispatch({type: PosStepActions.ACTION_START_SAVE_ORDER});
+  }
+  
+  add3rdPayment(payment3rdData: Payment3rd) {
+    return this.store$.dispatch({type: PosStepActions.ACTION_ADD_PAYMENT_3RD, payload: {payment3rdData}});
   }
 }

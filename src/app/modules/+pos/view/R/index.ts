@@ -34,6 +34,9 @@ import {PosStepState} from "./sales/checkout/step/step.state";
 import {PosStepActions} from "./sales/checkout/step/step.actions";
 import {PosStepEffects} from "./sales/checkout/step/step.effects";
 import {PosStepService} from "./sales/checkout/step/step.service";
+import {TyroEffects} from "./sales/checkout/step/payment/tyro.effects";
+import {TyroActions} from "./sales/checkout/step/payment/tyro.actions";
+import {TyroService} from "./sales/checkout/step/payment/tyro.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -42,6 +45,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CartItemEffects),
   EffectsModule.run(ProductOptionsEffects),
   EffectsModule.run(PosStepEffects),
+  EffectsModule.run(TyroEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -77,7 +81,12 @@ export const R_POS_VIEW_PROVIDERS = [
   /*Checkout Step*/
   PosStepActions,
   PosStepEffects,
-  PosStepService
+  PosStepService,
+  
+  // 3RD payment
+  TyroActions,
+  TyroEffects,
+  TyroService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
