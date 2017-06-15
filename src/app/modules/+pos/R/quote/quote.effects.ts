@@ -46,7 +46,7 @@ export class PosQuoteEffects {
     
                                        return {
                                          type: PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
-                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState)
+                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState.outlet)
                                        }
                                      });
   
