@@ -7,11 +7,21 @@ import {PosOrderSync} from "./sync.state";
 import {RequestService} from "../../../../services/request";
 import {ApiManager} from "../../../../services/api-manager";
 import {Observable} from "rxjs";
+import {PosConfigState} from "../config/config.state";
+import {Quote} from "../../core/framework/quote/Model/Quote";
+import {Timezone} from "../../core/framework/General/DateTime/Timezone";
+import {Item} from "../../core/framework/quote/Model/Quote/Item";
+import {DatabaseManager} from "../../../../services/database-manager";
+import {GeneralMessage} from "../../services/general/message";
+import {StringHelper} from "../../services/helper/string-helper";
 
 @Injectable()
 export class PosSyncService {
   
-  constructor(private onlineOffline: OfflineService, private requestService: RequestService, private apiManager: ApiManager) { }
+  constructor(private onlineOffline: OfflineService,
+              private requestService: RequestService,
+              private apiManager: ApiManager,
+              private db: DatabaseManager) { }
   
   prepareOrder(quoteState: PosQuoteState, generalState: PosGeneralState): PosOrderSync {
     const quote = quoteState.quote;
@@ -72,4 +82,174 @@ export class PosSyncService {
     return this.requestService.makePost(this.apiManager.get('loadOrderData', generalState.baseUrl), orderData);
   }
   
+  prepareOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
+    const order        = this.prepareOrder(quoteState, generalState);
+    order['retail_id'] = this.getOrderClientId(configState.orderCount);
+    
+    const quote: Quote = quoteState.quote;
+    
+    let orderOffline = {
+      retail_id: this.getOrderClientId(configState.orderCount),
+      retail_status: null,
+      retail_note: order['retail_note'],
+      customer: {
+        id: quote.getCustomer().getId(),
+        name: quote.getCustomer().getData('first_name') +
+              " " +
+              quote.getCustomer().getData('last_name'),
+        email: quote.getCustomer().getData('email'),
+        phone: quote.getCustomer().getData('telephone')
+      },
+      items: [],
+      billing_address: quote.getBillingAddress().toJS(),
+      shipping_address: quote.getShippingAddress().toJS(),
+      payment: quote.getData('payment_data'),
+      totals: {
+        "shipping_incl_tax": quote.getShippingAddress().getData('shipping_incl_tax'),
+        "shipping": quote.getShippingAddress().getData('shipping'),
+        "subtotal": quote.getShippingAddress().getData('subtotal'),
+        "subtotal_incl_tax": quote.getShippingAddress().getData('subtotal_incl_tax'),
+        "tax": quote.getShippingAddress().getData('tax_only'),
+        "discount": quote.getShippingAddress().getData('discount'),
+        'retail_discount_pert_item': quote.getShippingAddress().getData('retail_discount_per_item'),
+        "reward_point_discount_amount": (_.isObject(quote.getData('reward_point')) && quote.getData(
+          'reward_point')['use_reward_point']) ?
+          quote.getData('reward_point')['reward_point_discount_amount'] :
+          null,
+        "grand_total": quote.getShippingAddress().getData('grand_total')
+      },
+      sync_data: order,
+      is_offline: true,
+      pushed: false,
+      has_shipment: order['retail_has_shipment'] == true,
+      user_id: generalState.user['id'],
+      created_at: Timezone.getCurrentStringTime()
+    };
+    
+    orderOffline['retail_status'] = this.getRetailStatus(quote);
+    
+    // init item data for order detail
+    _.forEach(quote.getShippingAddress().getItems(), (item: Item) => {
+      if (item.getParentItem()) {
+        return true;
+      }
+      let _item = this._initItemData(item);
+      //if bundle product will be response children items
+      if (item.getHasChildren() && item.getProduct().getTypeId() == 'bundle') {
+        _.forEach(item.getChildren(), (child: Item) => {
+          _item['children'].push(this._initItemData(child));
+        });
+      }
+      orderOffline ['items'].push(_item);
+    });
+    
+    return orderOffline;
+  }
+  
+  protected getOrderClientId(orderCount) {
+    return (StringHelper.pad(orderCount.register_id, 3) +
+            // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
+            StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
+  }
+  
+  private _initItemData(item: Item) {
+    let sku;
+    if (item.getProduct().getTypeId() === 'configurable') {
+      const child = item.getChildren()[0];
+      if (child) {
+        sku = child.getProduct().getData('sku');
+      }
+    } else {
+      sku = item.getProduct().getData('sku');
+    }
+    return {
+      "name": item.getProduct().getData('name'),
+      "id": item.getProduct().getData('id'),
+      "type_id": item.getProduct().getTypeId(),
+      "sku": sku,
+      "qty_ordered": item.getQty(),
+      "row_total": item.getData('row_total'),
+      "row_total_incl_tax": item.getData('row_total_incl_tax'),
+      "product_options": item.getData('product_options'),
+      "buy_request": item.getData('buy_request'),
+      "origin_image": item.getProduct().getData('origin_image'),//init new field for offline order
+      "children": []
+    };
+  }
+  
+  getRetailStatus(quote: Quote) {
+    let paid = 0;
+    let retail_status;
+    if (_.isArray(quote.getData('payment_data'))) {
+      _.forEach(quote.getData('payment_data'), (method) => {
+        paid += method['amount'];
+      });
+    }
+    if (quote.getData('is_exchange')) {
+      if (quote.getData('retail_has_shipment')) {
+        retail_status = 9;
+      } else {
+        retail_status = 10;
+      }
+    }
+    else if (Math.abs(paid - quote.getShippingAddress().getGrandTotal()) > 0.01) {
+      if (quote.getData('retail_has_shipment')) {
+        retail_status = 2;
+      } else {
+        retail_status = 3;
+      }
+    } else {
+      if (quote.getData('retail_has_shipment')) {
+        retail_status = 12;
+      } else {
+        retail_status = 13;
+      }
+    }
+    
+    return retail_status;
+  }
+  
+  saveOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
+    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
+    const db           = this.db.getDbInstance();
+    
+    return new Promise((resolve, reject) => {
+      db.orders.add(<any>orderOffline).then(() => resolve(orderOffline)).catch((e) => reject(e));
+    });
+  }
+  
+  saveOrderOnline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
+    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
+    
+    return new Promise((resolve, reject) => {
+      this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), orderOffline['sync_data'])
+          .subscribe(
+            () => {
+              resolve({data: orderOffline});
+            },
+            (e) => {
+              let message;
+              if (e.status == 400) {
+                let _mess = JSON.parse(e['_body']);
+                if (_mess.hasOwnProperty('message')) {
+                  message = _mess['message'];
+                }
+                else {
+                  message = "Unknown error when push order to server";
+                }
+              } else {
+                message = "Unknown error when push order to server";
+              }
+              if (saveDBIfError) {
+                orderOffline['retail_note'] = message;
+                orderOffline['pushed']      = true;
+            
+                const db = this.db.getDbInstance();
+                db.orders.add(<any>orderOffline).then(() => resolve({data: orderOffline})).catch((e) => reject({isError: true, e}));
+              } else {
+                reject({isError: true, e});
+              }
+            })
+    });
+  }
 }

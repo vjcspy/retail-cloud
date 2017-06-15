@@ -17,6 +17,7 @@ import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone"
 import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 import {Observable} from "rxjs";
 import {PosQuoteService} from "../../../../../R/quote/quote.service";
+import {PosSyncService} from "../../../../../R/sync/sync.service";
 
 @Injectable()
 export class PosStepEffects {
@@ -27,7 +28,8 @@ export class PosStepEffects {
               private actions$: Actions,
               private notify: NotifyManager,
               private offlineService: OfflineService,
-              private posQuoteService: PosQuoteService) { }
+              private posQuoteService: PosQuoteService,
+              private syncService: PosSyncService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -162,42 +164,60 @@ export class PosStepEffects {
                                       }
                                     });
   
-  // @Effect() saveOrder = this.actions$
-  //                           .ofType(
-  //                             PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
-  //                             PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
-  //                           .withLatestFrom(this.store$.select('step'))
-  //                           .withLatestFrom(this.store$.select('quote'))
-  //                           .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
-  //                           .switchMap((z) => {
-  //                             const posStepState: PosStepState      = <any>z[1];
-  //                             let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
-  //
-  //                             // Save order function
-  //                             if (posStepState.totals.remain < -0.01) {
-  //                               paymentInUse = paymentInUse.push({
-  //                                                                  type: "cash",
-  //                                                                  title: "Change",
-  //                                                                  // We save to payment data in order, not payment_transaction, so need this field
-  //                                                                  is_purchase: true,
-  //                                                                  amount: posStepState.totals.remain,
-  //                                                                  isChanging: false,
-  //                                                                  created_at: Timezone.getCurrentStringTime()
-  //                                                                });
-  //                             }
-  //
-  //                             const posQuoteState: PosQuoteState = <any>z[2];
-  //                             if (posQuoteState.info.isRefunding) {
-  //                               return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
-  //                                                .map(() => {
-  //                                                  // push to db
-  //                                                });
-  //                             } else {
-  //
-  //                             }
-  //
-  //                             return {type: PosStepActions.ACTION_SAVED_ORDER};
-  //                           });
+  @Effect() saveOrder = this.actions$
+                            .ofType(
+                              PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
+                              PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
+                            .withLatestFrom(this.store$.select('step'))
+                            .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
+                            .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
+                            .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
+                            .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
+                            .switchMap((z) => {
+                              const posStepState: PosStepState      = <any>z[1];
+                              let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
+    
+                              // Save order function
+                              if (posStepState.totals.remain < -0.01) {
+                                paymentInUse = paymentInUse.push({
+                                                                   type: "cash",
+                                                                   title: "Change",
+                                                                   // We save to payment data in order, not payment_transaction, so need this field
+                                                                   is_purchase: true,
+                                                                   amount: posStepState.totals.remain,
+                                                                   isChanging: false,
+                                                                   created_at: Timezone.getCurrentStringTime()
+                                                                 });
+                              }
+    
+                              const posQuoteState: PosQuoteState = <any>z[2];
+                              if (posQuoteState.info.isRefunding) {
+                                return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
+                                                 .map(() => {
+                                                   // push to db
+                                                 });
+                              } else {
+                                if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
+                                  return Observable.fromPromise(this.syncService.saveOrderOffline(z[2], z[3], z[4]))
+                                                   .map((orderOffline) => {
+                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline}};
+                                                   })
+                                                   .catch((e) => Observable.of(<any>{
+                                                     type: PosStepActions.ACTION_SAVE_ORDER_FAILED,
+                                                     payload: {e, isSaveOnline: false}
+                                                   }));
+                                } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
+                                  return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4], false))
+                                                   .map((orderOffline) => {
+                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline}};
+                                                   })
+                                                   .catch((e) => Observable.of(<any>{
+                                                     type: PosStepActions.ACTION_SAVE_ORDER_FAILED,
+                                                     payload: {e, isSaveOnline: true}
+                                                   }));
+                                }
+                              }
+                            });
   
   
   private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {

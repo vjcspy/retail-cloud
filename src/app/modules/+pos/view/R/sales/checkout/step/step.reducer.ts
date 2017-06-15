@@ -88,9 +88,14 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
         });
       });
     
+    case PosStepActions.ACTION_SAVE_ORDER_FAILED:
     case PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL:
       return state.set('isChecking3rd', false)
                   .set('isSavingOrder', false);
+    
+    case PosStepActions.ACTION_SAVED_ORDER:
+      return state.set('checkoutStep', CheckoutStep.COMPLETE);
+    
     default:
       return state;
   }

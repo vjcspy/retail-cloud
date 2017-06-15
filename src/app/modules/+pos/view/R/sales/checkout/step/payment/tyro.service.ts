@@ -118,7 +118,8 @@ export class TyroService {
       console.log(response);
       
       // if success
-      this.config['integrationKey'] = response['integrationKey'];
+      if (response.hasOwnProperty('integrationKey'))
+        this.config['integrationKey'] = response['integrationKey'];
     });
     
     return this.config;
