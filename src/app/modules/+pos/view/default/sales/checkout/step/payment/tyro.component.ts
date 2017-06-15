@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
 import * as _ from "lodash";
 import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
 import {Payment3rd, PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
@@ -8,6 +8,7 @@ import {TyroActions} from "../../../../../R/sales/checkout/step/payment/tyro.act
              //moduleId: module.id,
              selector: 'checkout-payment-tyro',
              templateUrl: 'tyro.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class CheckoutTyroComponent implements OnInit {
   @Input() method: PaymentMethod;

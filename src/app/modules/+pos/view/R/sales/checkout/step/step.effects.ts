@@ -175,6 +175,7 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
                               const posStepState: PosStepState      = <any>z[1];
+                              const posQuoteState: PosQuoteState = <any>z[2];
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
     
                               // Save order function
@@ -189,8 +190,8 @@ export class PosStepEffects {
                                                                    created_at: Timezone.getCurrentStringTime()
                                                                  });
                               }
-    
-                              const posQuoteState: PosQuoteState = <any>z[2];
+                              posQuoteState.quote.setData('payment_data', paymentInUse);
+                              
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
                                                  .map(() => {

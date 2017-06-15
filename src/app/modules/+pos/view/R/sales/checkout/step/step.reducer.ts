@@ -65,28 +65,18 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
     case PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD:
       return state.set('isChecking3rd', false);
     
+    case PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS:
     case PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO:
       return state.update('listPayment3rdData', (l: List<Payment3rd>) => l.map((_p) => {
         if (_p.type === action.payload['type']) {
-          if (action.payload['forceNew'] === true) {
-            _p.additionData = Object.assign({}, {...action.payload['additionData']});
-          } else {
-            _p.additionData = Object.assign({}, {..._p.additionData}, {...action.payload['additionData']});
+          _p = Object.assign({}, {..._p}, action.payload);
+          
+          if (action.type === PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS) {
+            _p.isPaySuccess = true;
           }
         }
         return _p;
       }));
-    
-    case PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS:
-      return state.update('listPayment3rdData', (list: List<Payment3rd>) => {
-        return list.map((_l) => {
-          if (_l.type === action.payload['type']) {
-            _l.isPaySuccess = true;
-            _l.additionData = action.payload['additionData'];
-          }
-          return _l;
-        });
-      });
     
     case PosStepActions.ACTION_SAVE_ORDER_FAILED:
     case PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL:

@@ -7,7 +7,7 @@
              [value]="method['amount']"
              (keyup)="changeAmount($event.target.value)"/>
     </div>
-    <div class="c-other" *ngIf="!hasQuestion()">
+    <div class="c-other" *ngIf="!hasQuestion() && !isSuccess()">
       {{getMessage()}}
     </div>
     <div class="c-other" *ngIf="isSuccess()">

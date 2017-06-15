@@ -12,6 +12,8 @@ export interface Payment3rd {
   inUse: boolean;
   isPaySuccess: boolean;
   additionData: Object;
+  merchantReceipt: any;
+  customerReceipt: any;
 }
 
 export interface PaymentMethod {

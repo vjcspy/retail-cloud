@@ -2,7 +2,7 @@
   <div class="total-top">
     <span>{{ 'Paid' | translate }}</span>
     <span class="grand-total">
-                {{(stepViewService.viewData['remain'] > 0 ? stepViewService.viewData['totalPaid'] : stepViewService.getGt()) | priceFormat}}
+                {{(posStepState.totals.remain > 0 ? posStepState.totals.totalPaid : posStepState.totals.grandTotal) | priceFormat}}
                 </span>
   </div>
 

@@ -16,7 +16,7 @@ export class TyroEffects {
                               .ofType(PosStepActions.ACTION_PROCESS_PAYMENT_3RD)
                               .filter((action: Action) => action.payload['payment3rdData']['type'] === 'tyro')
                               .withLatestFrom(this.store$.select('step'))
-                              .switchMap((z) => {
+                              .map((z) => {
                                 const action: Action             = z[0];
                                 const posStepState: PosStepState = <any>z[1];
                                 const payment                    = posStepState.paymentMethodUsed.find((p) => p.type === action.payload['payment3rdData']['type'])
@@ -28,57 +28,52 @@ export class TyroEffects {
                                 const amount   = this.tyroService.convertAmount(Math.abs(payment.amount) + '');
     
     
-                                if (isRefund) {
-                                  this.tyroService.doRefund(amount);
-                                }
-                                else {
-                                  this.tyroService.doPurchase(amount);
-                                }
+                                setTimeout(() => {
+                                  if (isRefund) {
+                                    this.tyroService.doRefund(amount);
+                                  }
+                                  else {
+                                    this.tyroService.doPurchase(amount);
+                                  }
+                                }, 100);
     
-                                return this.tyroService.getTyroObservable()
-                                           .map((res) => {
-                                             if (_.indexOf(['receiptCallback', 'questionCallback', 'statusMessageCallback'], res['type']) > -1) {
-                                               return {
-                                                 type: PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO,
-                                                 payload: {type: 'tyro', additionData: res['data']}
-                                               }
-                                             } else if (res['type'] === 'transactionCompleteCallback') {
-                                               return {
-                                                 type: PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS,
-                                                 payload: {type: 'tyro', additionData: res['data']}
-                                               }
-                                             } else if (res['type'] === 'error') {
-                                               return {
-                                                 type: PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL,
-                                                 payload: {type: 'tyro', additionData: res['data']}
-                                               }
-                                             }
-                                           });
+                                return {type: TyroActions.ACTION_WAIT_STREAM_FROM_TYRO};
                               });
   
-  @Effect() selectAnswer = this.actions.ofType(TyroActions.ACTION_SELECT_ANSWER)
-                               .switchMap((action) => {
-                                 this.tyroService.answerCallback(action.payload['answer']);
-                                 return this.tyroService.getTyroObservable()
-                                            .map((res) => {
-                                              if (_.indexOf(['receiptCallback', 'questionCallback', 'statusMessageCallback'], res['type']) > -1) {
-                                                return {
-                                                  type: PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO,
-                                                  payload: {type: 'tyro', additionData: res['data']}
-                                                }
-                                              } else if (res  ['type'] === 'transactionCompleteCallback') {
-                                                return {
-                                                  type: PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS,
-                                                  payload: {type: 'tyro', additionData: res['data']}
-                                                }
-                                              } else if (res['type'] === 'error') {
-                                                return {
-                                                  type: PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL,
-                                                  payload: {type: 'tyro', additionData: res['data']}
-                                                }
-                                              }
-                                            });
+  @Effect() selectAnswer = this.actions
+                               .ofType(TyroActions.ACTION_SELECT_ANSWER)
+                               .map((action: Action) => {
+                                 setTimeout(() => {this.tyroService.answerCallback(action.payload['answer'])}, 100);
+                                 return {type: TyroActions.ACTION_WAIT_STREAM_FROM_TYRO};
                                });
+  
+  @Effect() waitStreamFromTyro = this.actions
+                                     .ofType(
+                                       TyroActions.ACTION_WAIT_STREAM_FROM_TYRO,
+                                     )
+                                     .switchMap(() => {
+                                       return this.tyroService.getTyroObservable()
+                                                  .map((res) => {
+                                                    if (_.indexOf(['receiptCallback',
+                                                                   'questionCallback',
+                                                                   'statusMessageCallback'], res['type']) > -1) {
+                                                      return {
+                                                        type: PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO,
+                                                        payload: {type: 'tyro', ...res['data']}
+                                                      }
+                                                    } else if (res  ['type'] === 'transactionCompleteCallback') {
+                                                      return {
+                                                        type: PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS,
+                                                        payload: {type: 'tyro', ...res['data']}
+                                                      }
+                                                    } else if (res['type'] === 'error') {
+                                                      return {
+                                                        type: PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL,
+                                                        payload: {type: 'tyro', ...res['data']}
+                                                      }
+                                                    }
+                                                  });
+                                     });
   
   @Effect() removeTyro = this.actions.ofType(PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER)
                              .filter((action: Action) => action.payload['payment']['type'] === 'tyro')

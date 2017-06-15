@@ -17,9 +17,7 @@ export class TyroService {
   
   // Config transaction callback when complete
   transactionCompleteCallback: (response: any) => void = (response) => {
-    let isPaySuccess;
     if (response['result'] == 'APPROVED') {
-      isPaySuccess = true;
       
       let customerReceipt;
       if (response.hasOwnProperty('customerReceipt')) {
@@ -28,8 +26,8 @@ export class TyroService {
       return this.tyroStream.next({
                                     type: 'transactionCompleteCallback',
                                     data: {
-                                      isPaySuccess,
-                                      transactionData: {
+                                      isError: false,
+                                      additionData: {
                                         cardType: response['cardType'],
                                         transactionReference: response['transactionReference'],
                                         authorisationCode: response['authorisationCode'],
@@ -41,7 +39,7 @@ export class TyroService {
     } else {
       return this.tyroStream.next({
                                     type: 'error',
-                                    data: {isError: true, response: response}
+                                    data: {isError: true, additionData: {}, response: response}
                                   })
     }
   };
@@ -50,7 +48,7 @@ export class TyroService {
   statusMessageCallback: (message: any) => void = (message) => {
     this.tyroStream.next({
                            type: 'statusMessageCallback',
-                           data: {message}
+                           data: {isError: false, additionData: {message}}
                          });
   };
   
@@ -67,7 +65,7 @@ export class TyroService {
       this.notify.error(question['text']);
       return this.tyroStream.next({
                                     type: 'error',
-                                    data: {isError: true, message: question['text']}
+                                    data: {isError: true, additionData: {message: question['text']}}
                                   })
     } else {
       let questions = [];
@@ -84,7 +82,7 @@ export class TyroService {
       
       this.tyroStream.next({
                              type: 'questionCallback',
-                             data: {questions, message}
+                             data: {isError: false, additionData: {questions, message}}
                            });
     }
   };
@@ -92,7 +90,7 @@ export class TyroService {
   receiptCallback: (merchantReceipt) => void = (merchantReceipt) => {
     this.tyroStream.next({
                            type: 'receiptCallback',
-                           data: {merchantReceipt}
+                           data: {merchantReceipt: merchantReceipt['merchantReceipt'], isError: false}
                          })
   };
   

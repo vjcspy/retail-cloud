@@ -37,6 +37,11 @@ import {PosStepService} from "./sales/checkout/step/step.service";
 import {TyroEffects} from "./sales/checkout/step/payment/tyro.effects";
 import {TyroActions} from "./sales/checkout/step/payment/tyro.actions";
 import {TyroService} from "./sales/checkout/step/payment/tyro.service";
+import {ReceiptState} from "./sales/receipts/receipt.state";
+import {receiptReducer} from "./sales/receipts/receipt.reducer";
+import {ReceiptActions} from "./sales/receipts/receipt.actions";
+import {ReceiptEffects} from "./sales/receipts/receipt.effects";
+import {ReceiptService} from "./sales/receipts/receipt.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -86,7 +91,12 @@ export const R_POS_VIEW_PROVIDERS = [
   // 3RD payment
   TyroActions,
   TyroEffects,
-  TyroService
+  TyroService,
+  
+  //Receipt
+  ReceiptActions,
+  ReceiptEffects,
+  ReceiptService
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -98,6 +108,7 @@ export interface SalesState {
   cartActionBar: CartActionBarState;
   productOptions: ProductOptionsState;
   step: PosStepState;
+  receipt: ReceiptState;
 }
 
 export const salesReducer = createReducer({
@@ -107,5 +118,6 @@ export const salesReducer = createReducer({
                                             cartTotals: cartTotalsReducer,
                                             cartActionBar: cartActionBarReducer,
                                             productOptions: productOptionsReducer,
-                                            step: posStepReducer
+                                            step: posStepReducer,
+                                            receipt: receiptReducer
                                           });
