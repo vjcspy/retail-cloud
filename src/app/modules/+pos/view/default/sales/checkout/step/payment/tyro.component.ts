@@ -34,10 +34,10 @@ export class CheckoutTyroComponent implements OnInit {
   }
   
   changeAmount(value) {
-    value += '';
     if (isNaN(value) || !value) {
       value = 0;
     }
+    value += '';
     if (value.indexOf(".") === (value.length - 1) || value.indexOf(",") === (value.length - 1)) {
       return;
     }

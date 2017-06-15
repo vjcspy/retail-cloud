@@ -3,9 +3,9 @@
     <div class="c-name"><span class="icon-wallet"></span> {{method['title']}}</div>
     <div class="c-price">
       <input [disabled]="!method['isChanging'] && posStepState.totals.remain <= 0.01"
-             type="text" inputSelectText
+             type="text" inputSelectText enterBlur
              [value]="method['amount']"
-             (keyup)="changeAmount($event.target.value)"/>
+             (blur)="changeAmount($event.target.value)"/>
     </div>
     <div class="c-other" *ngIf="method.isChanging">
       <div class="value-price">
