@@ -36,7 +36,7 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
     
     case PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER:
       return state.update('paymentMethodUsed', (l) => l.map((_p) => {
-        return Object.assign({}, {..._p}, {isChanging: true});
+        return Object.assign({}, {..._p}, {isChanging: false});
       }).push(action.payload['payment']));
     
     case PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT:
