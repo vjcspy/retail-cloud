@@ -24,6 +24,7 @@ export class PosStepActions {
   static ACTION_CHECK_BEFORE_SAVE_ORDER = 'ACTION_CHECK_BEFORE_SAVE_ORDER';
   static ACTION_SAVED_ORDER             = 'ACTION_SAVED_ORDER';
   static ACTION_SAVE_ORDER_FAILED       = 'ACTION_SAVE_ORDER_FAILED';
+  static ACTION_STEP_NEW_ORDER          = 'ACTION_STEP_NEW_ORDER';
   
   /* WORK WITH 3RD PAYMENT */
   static ACTION_ADD_PAYMENT_3RD         = 'ACTION_ADD_PAYMENT_3RD';
@@ -57,5 +58,9 @@ export class PosStepActions {
   
   add3rdPayment(payment3rdData: Payment3rd) {
     return this.store$.dispatch({type: PosStepActions.ACTION_ADD_PAYMENT_3RD, payload: {payment3rdData}});
+  }
+  
+  newOrder() {
+    this.store$.dispatch({type: PosStepActions.ACTION_STEP_NEW_ORDER});
   }
 }

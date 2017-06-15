@@ -12,8 +12,8 @@ export interface Payment3rd {
   inUse: boolean;
   isPaySuccess: boolean;
   additionData: Object;
-  merchantReceipt: any;
-  customerReceipt: any;
+  merchantReceipt?: any;
+  customerReceipt?: any;
 }
 
 export interface PaymentMethod {
@@ -39,6 +39,7 @@ export interface PosStepState {
   paymentMethodUsed: List<PaymentMethod>;
   moneySuggestion: number[];
   isSavingOrder: boolean;
+  orderOffline: Object;
   
   listPayment3rdData: List<Payment3rd>;
   isChecking3rd: boolean;
@@ -54,6 +55,7 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     paymentMethodUsed: <any>List.of(),
     moneySuggestion: [],
     isSavingOrder: false,
+    orderOffline: null,
     
     listPayment3rdData: <any>List.of(),
     isChecking3rd: false,

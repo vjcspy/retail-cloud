@@ -1,5 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {PosStepState} from "../../../../R/sales/checkout/step/step.state";
+import {ReceiptActions} from "../../../../R/sales/receipts/receipt.actions";
+import {PosQuoteState} from "../../../../../R/quote/quote.state";
+import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 
 @Component({
              // moduleId: module.id,
@@ -9,9 +12,20 @@ import {PosStepState} from "../../../../R/sales/checkout/step/step.state";
            })
 export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   @Input() posStepState: PosStepState;
+  @Input() posQuoteState: PosQuoteState;
   
-  constructor() { }
+  openEmailSender: boolean = false;
+  customerEmail: string    = '';
   
-  ngOnInit() { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions) { }
   
+  ngOnInit() {
+    if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
+      this.customerEmail = this.posQuoteState.quote.getCustomer().getData('email');
+    }
+  }
+  
+  printReceipt(typePrint: string = 'receipt') {
+    this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint);
+  }
 }

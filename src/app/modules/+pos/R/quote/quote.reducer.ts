@@ -6,6 +6,7 @@ import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
 import {PosSyncActions} from "../sync/sync.actions";
 import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
+import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 
 export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
   switch (action.type) {
@@ -42,6 +43,7 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
       return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
     
+    case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:
       const isShiftOpening = state.info.isShiftOpening;
       state.quote.removeCustomer().removeAllItems().removeAllAddresses();

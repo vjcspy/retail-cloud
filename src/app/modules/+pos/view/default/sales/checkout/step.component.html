@@ -3,6 +3,6 @@
   <div class="inner">
     <pos-default-sales-checkout-step-payments *ngIf="isStepPayment()" [posQuoteState]="posQuoteState" [posStepState]="posStepState" [posConfigState]="posConfigState" [posSyncState]="posSyncState">
     </pos-default-sales-checkout-step-payments>
-    <!--<pos-default-sales-checkout-step-complete *ngIf="isStepComplete()"></pos-default-sales-checkout-step-complete>-->
+    <pos-default-sales-checkout-step-complete *ngIf="isStepComplete()" [posStepState]="posStepState" [posQuoteState]="posQuoteState"></pos-default-sales-checkout-step-complete>
   </div>
 </div>

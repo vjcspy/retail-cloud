@@ -14,7 +14,7 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
                   .delete('listPayment3rdData')
                   .delete('isChecking3rd');
     
-    
+    case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
       return state.delete('checkoutStep')
                   .delete('totals')
@@ -84,7 +84,8 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
                   .set('isSavingOrder', false);
     
     case PosStepActions.ACTION_SAVED_ORDER:
-      return state.set('checkoutStep', CheckoutStep.COMPLETE);
+      return state.set('checkoutStep', CheckoutStep.COMPLETE)
+                  .set('orderOffline', action.payload['orderOffline']);
     
     default:
       return state;
