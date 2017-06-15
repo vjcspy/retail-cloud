@@ -31,6 +31,7 @@ import {PosSyncActions} from "./sync/sync.actions";
 import {posSyncReducer} from "./sync/sync.reducer";
 import {PosSyncState} from "./sync/sync.state";
 import {IntegrateRpActions} from "./integrate/rp/integrate-rp.actions";
+import {PosConfigService} from "./config/config.service";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -63,6 +64,7 @@ export const R_POS_PROVIDERS = [
   
   PosConfigActions,
   PosConfigEffects,
+  PosConfigService,
   
   PosSyncEffects,
   PosSyncService,

@@ -12,11 +12,13 @@ import {ProductSetting} from "../../core/framework/setting/ProductSetting";
 import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
 import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
 import {PosGeneralState} from "../general/general.state";
+import {Observable} from "rxjs";
+import {PosConfigService} from "./config.service";
 
 @Injectable()
 export class PosConfigEffects {
   
-  constructor(private store$: Store<any>, private actions: Actions) { }
+  constructor(private store$: Store<any>, private actions: Actions, private configService: PosConfigService) { }
   
   @Effect() initPosSettings = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                   .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
@@ -49,11 +51,21 @@ export class PosConfigEffects {
                                      .withLatestFrom(this.store$.select('entities'))
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
-                                     .map(([action, entitiesState, generalState]) => {
+                                     .flatMap(([action, entitiesState, generalState]) => {
                                        const orderCounts: List<UserOrderCountDB> = entitiesState[UserOrderCountDB.getCode()].items;
     
                                        const orderCount = orderCounts.find((o: UserOrderCountDB) => o.register_id === (generalState as PosGeneralState).register['id']);
     
-                                       return {type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}}
+                                       if (!orderCount) {
+                                         return Observable.fromPromise(this.configService.createNewOrderCount(generalState))
+                                                          .map((orderCount) => {
+                                                            return {type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}};
+                                                          })
+                                                          .catch(() => Observable.of(<any>{
+                                                            type: RootActions.ACTION_ERROR,
+                                                            payload: {mess: "Can't not create order offline count"}
+                                                          }));
+                                       }
+                                       return Observable.of({type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}});
                                      });
 }
