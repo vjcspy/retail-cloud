@@ -7,19 +7,15 @@ import {List} from "immutable";
 export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord = posStepStateFactory(), action: Action) => {
   switch (action.type) {
     case PosSyncActions.ACTION_SYNC_ORDER_SUCCESS:
-      return state.delete('checkoutStep')
-                  .delete('totals')
-                  .delete('canSaveOrder')
-                  .delete('moneySuggestion')
-                  .delete('listPayment3rdData')
-                  .delete('isChecking3rd');
-    
     case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
+      if (action.type === PosStepActions.ACTION_BACK_CHECKOUT_PAGE) {
+        state = state.delete('paymentMethodUsed');
+      }
       return state.delete('checkoutStep')
                   .delete('totals')
-                  .delete('paymentMethodUsed')
                   .delete('canSaveOrder')
+                  .delete('isSavingOrder')
                   .delete('moneySuggestion')
                   .delete('listPayment3rdData')
                   .delete('isChecking3rd');
