@@ -37,13 +37,17 @@ export class PosStepEffects {
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;
                                      let paymentMethodCanUse         = List.of();
+                                     let cashPaymentId;
                                      payments.forEach((p) => {
+                                       if (p['type'] === 'cash') {
+                                         cashPaymentId = p['id'];
+                                       }
                                        if (!!p.is_active) {
                                          paymentMethodCanUse = paymentMethodCanUse.push(p);
                                        }
                                      });
     
-                                     return {type: PosStepActions.ACTION_GET_PAYMENT_METHOD_CAN_USE, payload: {paymentMethodCanUse}};
+                                     return {type: PosStepActions.ACTION_GET_PAYMENT_METHOD_CAN_USE, payload: {paymentMethodCanUse, cashPaymentId}};
                                    });
   
   @Effect() initCheckoutStepData = this.actions$.ofType(PosSyncActions.ACTION_SYNC_ORDER_SUCCESS)
@@ -181,6 +185,7 @@ export class PosStepEffects {
                               // Save order function
                               if (posStepState.totals.remain < -0.01) {
                                 paymentInUse = paymentInUse.push({
+                                                                   id: posStepState.cashPaymentId,
                                                                    type: "cash",
                                                                    title: "Change",
                                                                    // We save to payment data in order, not payment_transaction, so need this field

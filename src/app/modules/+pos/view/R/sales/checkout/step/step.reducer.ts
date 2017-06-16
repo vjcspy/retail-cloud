@@ -21,7 +21,8 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
                   .delete('isChecking3rd');
     
     case PosStepActions.ACTION_GET_PAYMENT_METHOD_CAN_USE:
-      return state.set('paymentMethodCanUse', action.payload['paymentMethodCanUse']);
+      return state.set('paymentMethodCanUse', action.payload['paymentMethodCanUse'])
+                  .set('cashPaymentId', action.payload['cashPaymentId']);
     
     case PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER:
       return state.update('paymentMethodUsed', (p) => p.filter((_p) => _p['created_at'] !== action.payload['payment']['created_at']))

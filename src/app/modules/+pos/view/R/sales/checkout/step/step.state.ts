@@ -17,14 +17,15 @@ export interface Payment3rd {
 }
 
 export interface PaymentMethod {
-  type: string,
-  title: string,
-  amount: number,
-  isChanging: boolean, // If method is changing so we can edit input
-  created_at: string,
-  data?: Object,
+  id: number; // must have id when we use it to group payment in shift detail
+  type: string;
+  title: string;
+  amount: number;
+  isChanging: boolean; // If method is changing so we can edit input
+  created_at: string;
+  data?: Object;
   is_purchase: boolean;
-  payment_data?: Object,
+  payment_data?: Object;
   allow_amount_tendered?: boolean;
 }
 
@@ -35,6 +36,7 @@ export interface PosStepState {
     totalPaid: number;
     remain: number;
   },
+  cashPaymentId: number;
   paymentMethodCanUse: List<Object>;
   paymentMethodUsed: List<PaymentMethod>;
   moneySuggestion: number[];
@@ -51,6 +53,7 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
   {
     checkoutStep: CheckoutStep.NONE,
     totals: {totalPaid: 0, remain: null, grandTotal: 0},
+    cashPaymentId: null,
     paymentMethodCanUse: <any>List.of(),
     paymentMethodUsed: <any>List.of(),
     moneySuggestion: [],
