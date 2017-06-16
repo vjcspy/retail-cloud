@@ -23,6 +23,7 @@ import {ObjectManager} from "../../core/framework/General/App/ObjectManager";
 import {SessionQuote} from "../../core/framework/Backend/Model/Session/Quote";
 import {AsyncHelper} from "../../../../code/AsyncHelper";
 import {PosSyncState} from "../sync/sync.state";
+import {QuoteItemActions} from "./item/item.actions";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -126,6 +127,17 @@ export class PosQuoteEffects {
     
                                return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
                              });
+  
+  @Effect() addSplitItem = this.actions$.ofType(QuoteItemActions.ACTION_ADD_SPLIT_ITEM)
+                               .withLatestFrom(this.store$.select('quote'))
+                               .map(([action, quoteState]) => {
+                                 const newItemBuyRequest = action['payload']['newItemBuyRequest'];
+                                 let items               = quoteState['items'];
+    
+                                 items = items.push(newItemBuyRequest);
+    
+                                 return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                               });
   
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(

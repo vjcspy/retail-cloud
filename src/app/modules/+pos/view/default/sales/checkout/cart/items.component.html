@@ -65,7 +65,7 @@
             <label>{{ 'Split' | translate }}</label>
             <input [disabled]="item.getProduct().getTypeId() == 'configurable' || item.getProduct().getTypeId() == 'bundle'"
                    inputSelectText
-                   (keyup)="updateItemBuyRequest($event,item,'split_item')"
+                   (keyup)="updateItemBuyRequest($event,item,'add_split_item')"
                    type="text">
           </li>
           <li>

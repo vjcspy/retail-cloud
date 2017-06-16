@@ -5,6 +5,8 @@ import {QuoteItemActions} from "./item.actions";
 import {Item} from "../../../core/framework/quote/Model/Quote/Item";
 import {PosQuoteActions} from "../quote.actions";
 import {PosConfigState} from "../../config/config.state";
+import {DataObject} from "../../../core/framework/General/DataObject";
+import {Product} from "../../../core/framework/catalog/Model/Product";
 
 @Injectable()
 export class QuoteItemEffects {
@@ -49,6 +51,26 @@ export class QuoteItemEffects {
                                                    .setData('retail_discount_per_items_percent', value);
                                              }
                                              break;
+      
+                                           case 'add_split_item':
+                                             let currentQty = item.getBuyRequest().getData('qty') - value;
+                                             if (isNaN(currentQty) || currentQty < 0) {
+                                               currentQty = 1;
+                                             }
+                                             item.getBuyRequest().setData('qty', currentQty);
+        
+                                             // add new item
+                                             let newItemBuyRequest = new DataObject();
+                                             let newItemProduct    = new Product();
+                                             newItemProduct.mapWithParent(item.getBuyRequest().getData('product'));
+                                             newItemBuyRequest.setData('qty', value)
+                                                              .setData('product_id', newItemProduct.getData('id'))
+                                                              .setData('product', newItemProduct);
+                                             if (item.getBuyRequest().getData('options')) {
+                                               newItemBuyRequest.setData('options', item.getBuyRequest().getData('options'));
+                                             }
+        
+                                             return {type: QuoteItemActions.ACTION_ADD_SPLIT_ITEM, payload: {newItemBuyRequest}};
       
                                            default:
                                              item.getBuyRequest().setData(action.payload['key'], value);
