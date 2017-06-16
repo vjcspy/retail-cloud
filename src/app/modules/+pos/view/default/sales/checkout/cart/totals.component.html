@@ -27,12 +27,12 @@
       0):(quoteState.quote.getShippingAddress()['subtotal_incl_tax']||0)) | priceFormat}}
     </div>
   </div>
-  <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" clickOutSide (outside)="cartTotalsActions.changeDiscountPopupState($event)">
+  <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" [clickOutSide]="cartTotalsState.isOpeningPopupDiscount" (outside)="cartTotalsActions.changeDiscountPopupState($event)">
     <div class="t-txt">
       <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
         {{ 'Discount' | translate }}
       </span>
-      <div class="popover-wrapper color down discount">
+      <div *ngIf="cartTotalsState.isOpeningPopupDiscount" class="popover-wrapper color down discount">
         <div class="p-outer">
           <div class="p-inner">
             <div class="small-topbar">

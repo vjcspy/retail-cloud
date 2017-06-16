@@ -49,6 +49,7 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   }
   
   removeOrderDiscount() {
+    this.cartTotalsActions.changeDiscountPopupState(false);
     this.quoteState
         .quote
         .unsetData('discount_whole_order')

@@ -12,7 +12,7 @@
                                          [configState]="configState" [quoteState]="quoteState" [cartItemState]="cartItemState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-items>
 
-  <pos-default-sales-checkout-cart-totals *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
+  <pos-default-sales-checkout-cart-totals *ngIf="quoteState.items.count()>0 && configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
                                           [cartTotalsState]="cartTotalsState" [quoteState]="quoteState" [configState]="configState"
   ></pos-default-sales-checkout-cart-totals>
 </div>
