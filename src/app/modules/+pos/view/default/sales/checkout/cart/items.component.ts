@@ -23,10 +23,6 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
   
   constructor(protected cartItemActions: CartItemActions, protected numberHelper: NumberHelper, protected posQuoteActions: PosQuoteActions) { }
   
-  trackByItemFn(index, item) {
-    return item.getProduct()['id'];
-  }
-  
   toggleItemInCart(event, i): void {
     if (_.indexOf(["product-name", "c-num", "cart-head", "c-name", "old-pr", "cart-row", "c-price", "p-product-name", "regular-pr"],
                   event.target.className) > -1) {
