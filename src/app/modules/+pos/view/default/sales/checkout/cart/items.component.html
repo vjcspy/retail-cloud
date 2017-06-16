@@ -51,14 +51,14 @@
           <li>
             <label>{{ 'Quantity' | translate }}</label>
             <input inputSelectText value="{{item.getQty() | number : '1.2-2'}}"
-                   (keyup)="updateItemBuyRequest($event,item,'qty')"
+                   (blur)="updateItemBuyRequest($event,item,'qty')" enterBlur
                    type="text">
           </li>
           <li>
             <label>{{ 'Price' | translate }}</label>
             <input [disabled]="item.isChildrenCalculated()" inputSelectText
                    value="{{(item.getData('is_price_incl_tax') ? item.getData('price_incl_tax'): item.getCalculationPriceOriginal())| number : '1.2-2'}}"
-                   (keyup)="updateItemBuyRequest($event,item,'custom_price')"
+                   (blur)="updateItemBuyRequest($event,item,'custom_price')"
                    type="text">
           </li>
           <li>
@@ -72,14 +72,14 @@
             <label>
               {{ 'Discount' | translate }}
               <span class="click"
-                    [ngClass]="{currency: !item.getData('buy_request').getData('is_discount_value')}">%</span>
+                    [ngClass]="{currency: !item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item,false)">%</span>
               |
               <span class="click"
-                    [ngClass]="{currency: item.getData('buy_request').getData('is_discount_value')}">$</span>
+                    [ngClass]="{currency: item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item)">$</span>
             </label>
             <input inputSelectText
                    value="{{(item.getData('buy_request').getData('is_discount_value')? (item.getData('buy_request').getData('discount_per_item') || 0) : (item.getData('buy_request').getData('retail_discount_per_items_percent')|| 0))  |  number : '1.2-2'}}"
-                   (keyup)="updateItemBuyRequest($event,item,'discount_per_item')"
+                   (blur)="updateItemBuyRequest($event,item,'discount_per_item')"
                    type="text">
           </li>
         </ul>

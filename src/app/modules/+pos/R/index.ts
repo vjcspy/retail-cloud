@@ -32,6 +32,8 @@ import {posSyncReducer} from "./sync/sync.reducer";
 import {PosSyncState} from "./sync/sync.state";
 import {IntegrateRpActions} from "./integrate/rp/integrate-rp.actions";
 import {PosConfigService} from "./config/config.service";
+import {QuoteItemEffects} from "./quote/item/item.effects";
+import {QuoteItemActions} from "./quote/item/item.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -39,6 +41,7 @@ export const R_POS_IMPORTS = [
   EffectsModule.run(PosEntitiesEffects),
   EffectsModule.run(PosPullEffects),
   EffectsModule.run(PosQuoteEffects),
+  EffectsModule.run(QuoteItemEffects),
   EffectsModule.run(PosConfigEffects),
   EffectsModule.run(PosSyncEffects),
 ];
@@ -58,6 +61,8 @@ export const R_POS_PROVIDERS = [
   PosQuoteService,
   PosQuoteEffects,
   PosQuoteActions,
+  QuoteItemEffects,
+  QuoteItemActions,
   
   PosPullActions,
   PosPullEffects,
