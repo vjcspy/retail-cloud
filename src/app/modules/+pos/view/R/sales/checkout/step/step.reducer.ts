@@ -82,6 +82,7 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
     
     case PosStepActions.ACTION_SAVED_ORDER:
       return state.set('checkoutStep', CheckoutStep.COMPLETE)
+                  .set('isSavingOrder', false)
                   .set('orderOffline', action.payload['orderOffline']);
     
     default:

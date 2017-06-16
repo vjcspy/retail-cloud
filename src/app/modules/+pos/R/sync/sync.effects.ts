@@ -12,6 +12,7 @@ import {PosStepState} from "../../view/R/sales/checkout/step/step.state";
 import {PosSyncState} from "./sync.state";
 import {RootActions} from "../../../../R/root.actions";
 import {PosPullState} from "../entities/pull.state";
+import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 
 @Injectable()
 export class PosSyncEffects {
@@ -65,28 +66,45 @@ export class PosSyncEffects {
                               }
                             });
   
-  @Effect() autoSyncOfflineOrder = this.actions$.ofType(PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER)
+  @Effect() autoSyncOfflineOrder = this.actions$
+                                       .ofType(PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER,
+                                               PosStepActions.ACTION_SAVED_ORDER)
                                        .withLatestFrom(this.store$.select('step'))
                                        .withLatestFrom(this.store$.select('sync'), (z, z1) => [...z, z1])
                                        .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                                        .withLatestFrom(this.store$.select('pull'), (z, z1) => [...z, z1])
-                                       .filter((z) => this.offline.online && !(z[1] as PosStepState).isSavingOrder && !(z[2] as PosSyncState).isSyncing && !(z[4] as PosPullState).isPullingChain)
                                        .switchMap((z) => {
-                                         return Observable.interval(10000)
-                                                          .flatMap(() => Observable.fromPromise(this.posSyncService.autoGetAndPushOrderOffline(<any>z[3]))
-                                                                                   .map((res) => {
-                                                                                     return {
-                                                                                       type: PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER,
-                                                                                       payload: res['data']
-                                                                                     };
-                                                                                   })
-                                                                                   .catch((e) => Observable.of({
-                                                                                                                 type: RootActions.ACTION_ERROR,
-                                                                                                                 payload: {
-                                                                                                                   e,
-                                                                                                                   mess: "Can't push order offline"
-                                                                                                                 }
-                                                                                                               }))
+                                         let isSyncing  = false;
+                                         let isPushFull = false;
+                                         return Observable.interval(5000)
+                                                          .takeWhile(() => isPushFull === false)
+                                                          .filter(() => {
+                                                            return isSyncing === false && this.offline.online && !(z[1] as PosStepState).isSavingOrder && !(z[2] as PosSyncState).isSyncing && !(z[4] as PosPullState).isPullingChain;
+                                                          })
+                                                          .flatMap(() => {
+                                                                     isSyncing = true;
+                                                                     return Observable.fromPromise(this.posSyncService.autoGetAndPushOrderOffline(<any>z[3]))
+                                                                                      .map((res) => {
+                                                                                        isSyncing = false;
+                                                                                        if (res['data']['syncAllOfflineOrder'] === true) {
+                                                                                          isPushFull = true;
+                                                                                        }
+                                                                                        return {
+                                                                                          type: PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER,
+                                                                                          payload: res['data']
+                                                                                        };
+                                                                                      })
+                                                                                      .catch((e) => {
+                                                                                        isSyncing = false;
+                                                                                        return Observable.of({
+                                                                                                               type: RootActions.ACTION_ERROR,
+                                                                                                               payload: {
+                                                                                                                 e,
+                                                                                                                 mess: "Can't push order offline"
+                                                                                                               }
+                                                                                                             });
+                                                                                      });
+                                                                   }
                                                           );
                                        });
 }

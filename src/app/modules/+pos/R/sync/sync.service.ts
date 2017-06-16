@@ -156,7 +156,8 @@ export class PosSyncService {
     
     return new Promise((resolve, reject) => {
       db.orders.add(<any>orderOffline).then((id) => {
-        resolve(orderOffline['id'] = id);
+        orderOffline['id'] = id;
+        resolve(orderOffline);
       }).catch((e) => reject(e));
     });
   }
@@ -172,7 +173,7 @@ export class PosSyncService {
                        (rej) => reject(rej)
                      );
         } else {
-          return resolve({data: {mess: "Nothing to push"}});
+          return resolve({data: {syncAllOfflineOrder: true, mess: "Nothing to push"}});
         }
       });
     });
@@ -211,11 +212,15 @@ export class PosSyncService {
   }
   
   protected pushOrderOfflineToServer(orderOffline: any, generalState: PosGeneralState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
+    const db = this.db.getDbInstance();
     return new Promise((resolve, reject) => {
       this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), orderOffline['sync_data'])
           .subscribe(
             () => {
-              resolve({data: {orderOffline, isPushSuccess: true}});
+              orderOffline.pushed = 1;
+              db.orders.put(<any>orderOffline)
+                .then(() => resolve({data: {orderOffline, isPushSuccess: true}}))
+                .catch((e) => reject({isError: true, e}));
             },
             (e) => {
               let message;
@@ -234,7 +239,6 @@ export class PosSyncService {
                 orderOffline['retail_note'] = message;
                 orderOffline.pushed         = 3;
             
-                const db = this.db.getDbInstance();
                 db.orders.put(<any>orderOffline)
                   .then(() => resolve({data: {orderOffline, isPushSuccess: false}}))
                   .catch((e) => reject({isError: true, e}));
