@@ -17,6 +17,7 @@ import {PosPullActions} from "../../../R/entities/pull.actions";
 import {Router} from "@angular/router";
 import {PosSyncState} from "../../../R/sync/sync.state";
 import {PosStepState} from "../../R/sales/checkout/step/step.state";
+import {PosSyncActions} from "../../../R/sync/sync.actions";
 
 @Component({
              // moduleId: module.id,
@@ -39,7 +40,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   cartTotalsState$: Observable<CartTotalsState>;
   posStepState$: Observable<PosStepState>;
   
-  constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router) {
+  constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router, private syncActions: PosSyncActions) {
     super();
     
     this.entitiesState$ = this.store$.select('entities');
@@ -58,6 +59,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   }
   
   ngOnInit() {
+    this.syncActions.autoSyncOfflineOrder();
   }
   
 }

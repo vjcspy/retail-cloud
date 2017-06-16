@@ -175,7 +175,7 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
                               const posStepState: PosStepState      = <any>z[1];
-                              const posQuoteState: PosQuoteState = <any>z[2];
+                              const posQuoteState: PosQuoteState    = <any>z[2];
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
     
                               // Save order function
@@ -191,7 +191,7 @@ export class PosStepEffects {
                                                                  });
                               }
                               posQuoteState.quote.setData('payment_data', paymentInUse);
-                              
+    
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
                                                  .map(() => {
@@ -201,16 +201,16 @@ export class PosStepEffects {
                                 if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(z[2], z[3], z[4]))
                                                    .map((orderOffline) => {
-                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline}};
+                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline, saveOffline: true}};
                                                    })
                                                    .catch((e) => Observable.of(<any>{
                                                      type: PosStepActions.ACTION_SAVE_ORDER_FAILED,
                                                      payload: {e, isSaveOnline: false}
                                                    }));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
-                                  return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4], false))
+                                  return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4]))
                                                    .map((orderOffline) => {
-                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline}};
+                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline, saveOffline: false}};
                                                    })
                                                    .catch((e) => Observable.of(<any>{
                                                      type: PosStepActions.ACTION_SAVE_ORDER_FAILED,

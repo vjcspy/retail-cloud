@@ -4,6 +4,8 @@ import {RootState} from "./root.state";
 import {rootReducer} from "./root.reducer";
 import {RootActions} from "./root.actions";
 import {routerReducer, RouterState, RouterStoreModule} from "@ngrx/router-store";
+import {EffectsModule} from "@ngrx/effects";
+import {RootEffects} from "./root.effects";
 
 export interface AppState {
   rootState: RootState;
@@ -30,7 +32,8 @@ export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
   STORE_DEV_TOOLS_IMPORTS,
   StoreDevtoolsModule,
-  RouterStoreModule.connectRouter()
+  RouterStoreModule.connectRouter(),
+  EffectsModule.run(RootEffects)
 ];
 
 /*
@@ -40,5 +43,6 @@ export const R_IMPORTS = [
  *  - effects: Được phụ thuộc service của nó và các service khác nằm trong R. Không được phụ thuộc actions.
  */
 export const R_PROVIDERS = [
-  RootActions
+  RootActions,
+  RootEffects
 ];

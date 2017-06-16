@@ -78,10 +78,6 @@ export class PosSyncService {
     return <any>order;
   }
   
-  syncOrderOnline(orderData: Object, generalState: PosGeneralState): Observable<any> {
-    return this.requestService.makePost(this.apiManager.get('loadOrderData', generalState.baseUrl), orderData);
-  }
-  
   prepareOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
     const order        = this.prepareOrder(quoteState, generalState);
     order['retail_id'] = this.getOrderClientId(configState.orderCount);
@@ -119,8 +115,7 @@ export class PosSyncService {
         "grand_total": quote.getShippingAddress().getData('grand_total')
       },
       sync_data: order,
-      is_offline: true,
-      pushed: false,
+      pushed: 0,
       has_shipment: order['retail_has_shipment'] == true,
       user_id: generalState.user['id'],
       created_at: Timezone.getCurrentStringTime()
@@ -133,11 +128,11 @@ export class PosSyncService {
       if (item.getParentItem()) {
         return true;
       }
-      let _item = this._initItemData(item);
+      let _item = this.initItemData(item);
       //if bundle product will be response children items
       if (item.getHasChildren() && item.getProduct().getTypeId() == 'bundle') {
         _.forEach(item.getChildren(), (child: Item) => {
-          _item['children'].push(this._initItemData(child));
+          _item['children'].push(this.initItemData(child));
         });
       }
       orderOffline ['items'].push(_item);
@@ -146,38 +141,44 @@ export class PosSyncService {
     return orderOffline;
   }
   
-  protected getOrderClientId(orderCount) {
-    return (StringHelper.pad(orderCount.register_id, 3) +
-            // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
-            StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
+  syncOrderOnline(orderData: Object, generalState: PosGeneralState): Observable<any> {
+    return this.requestService.makePost(this.apiManager.get('loadOrderData', generalState.baseUrl), orderData);
   }
   
-  private _initItemData(item: Item) {
-    let sku;
-    if (item.getProduct().getTypeId() === 'configurable') {
-      const child = item.getChildren()[0];
-      if (child) {
-        sku = child.getProduct().getData('sku');
-      }
-    } else {
-      sku = item.getProduct().getData('sku');
-    }
-    return {
-      "name": item.getProduct().getData('name'),
-      "id": item.getProduct().getData('id'),
-      "type_id": item.getProduct().getTypeId(),
-      "sku": sku,
-      "qty_ordered": item.getQty(),
-      "row_total": item.getData('row_total'),
-      "row_total_incl_tax": item.getData('row_total_incl_tax'),
-      "product_options": item.getData('product_options'),
-      "buy_request": item.getData('buy_request'),
-      "origin_image": item.getProduct().getData('origin_image'),//init new field for offline order
-      "children": []
-    };
+  saveOrderOnline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState): Promise<GeneralMessage> {
+    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
+    return this.pushOrderOfflineToServer(orderOffline, generalState, false);
   }
   
-  getRetailStatus(quote: Quote) {
+  saveOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
+    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
+    const db           = this.db.getDbInstance();
+    
+    return new Promise((resolve, reject) => {
+      db.orders.add(<any>orderOffline).then((id) => {
+        resolve(orderOffline['id'] = id);
+      }).catch((e) => reject(e));
+    });
+  }
+  
+  autoGetAndPushOrderOffline(generalState: PosGeneralState): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+      const db = this.db.getDbInstance();
+      db.orders.where("pushed").equals(0).first().then((order) => {
+        if (!!order && !!order['id']) {
+          return this.pushOrderOfflineToServer(order, generalState)
+                     .then(
+                       (res) => resolve(res),
+                       (rej) => reject(rej)
+                     );
+        } else {
+          return resolve({data: {mess: "Nothing to push"}});
+        }
+      });
+    });
+  }
+  
+  protected getRetailStatus(quote: Quote) {
     let paid = 0;
     let retail_status;
     if (_.isArray(quote.getData('payment_data'))) {
@@ -209,23 +210,12 @@ export class PosSyncService {
     return retail_status;
   }
   
-  saveOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
-    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
-    const db           = this.db.getDbInstance();
-    
-    return new Promise((resolve, reject) => {
-      db.orders.add(<any>orderOffline).then(() => resolve(orderOffline)).catch((e) => reject(e));
-    });
-  }
-  
-  saveOrderOnline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
-    const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
-    
+  protected pushOrderOfflineToServer(orderOffline: any, generalState: PosGeneralState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
     return new Promise((resolve, reject) => {
       this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), orderOffline['sync_data'])
           .subscribe(
             () => {
-              resolve({data: orderOffline});
+              resolve({data: {orderOffline, isPushSuccess: true}});
             },
             (e) => {
               let message;
@@ -242,14 +232,47 @@ export class PosSyncService {
               }
               if (saveDBIfError) {
                 orderOffline['retail_note'] = message;
-                orderOffline['pushed']      = true;
+                orderOffline.pushed         = 3;
             
                 const db = this.db.getDbInstance();
-                db.orders.add(<any>orderOffline).then(() => resolve({data: orderOffline})).catch((e) => reject({isError: true, e}));
+                db.orders.put(<any>orderOffline)
+                  .then(() => resolve({data: {orderOffline, isPushSuccess: false}}))
+                  .catch((e) => reject({isError: true, e}));
               } else {
                 reject({isError: true, e});
               }
             })
     });
+  }
+  
+  protected getOrderClientId(orderCount) {
+    return (StringHelper.pad(orderCount.register_id, 3) +
+            // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
+            StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
+  }
+  
+  protected initItemData(item: Item) {
+    let sku;
+    if (item.getProduct().getTypeId() === 'configurable') {
+      const child = item.getChildren()[0];
+      if (child) {
+        sku = child.getProduct().getData('sku');
+      }
+    } else {
+      sku = item.getProduct().getData('sku');
+    }
+    return {
+      "name": item.getProduct().getData('name'),
+      "id": item.getProduct().getData('id'),
+      "type_id": item.getProduct().getTypeId(),
+      "sku": sku,
+      "qty_ordered": item.getQty(),
+      "row_total": item.getData('row_total'),
+      "row_total_incl_tax": item.getData('row_total_incl_tax'),
+      "product_options": item.getData('product_options'),
+      "buy_request": item.getData('buy_request'),
+      "origin_image": item.getProduct().getData('origin_image'),//init new field for offline order
+      "children": []
+    };
   }
 }

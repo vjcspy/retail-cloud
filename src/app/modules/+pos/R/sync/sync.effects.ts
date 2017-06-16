@@ -8,6 +8,10 @@ import * as _ from 'lodash';
 import {NotifyManager} from "../../../../services/notify-manager";
 import {OfflineService} from "../../../share/provider/offline";
 import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
+import {PosStepState} from "../../view/R/sales/checkout/step/step.state";
+import {PosSyncState} from "./sync.state";
+import {RootActions} from "../../../../R/root.actions";
+import {PosPullState} from "../entities/pull.state";
 
 @Injectable()
 export class PosSyncEffects {
@@ -60,4 +64,29 @@ export class PosSyncEffects {
                                 return Observable.of({type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote: quote}});
                               }
                             });
+  
+  @Effect() autoSyncOfflineOrder = this.actions$.ofType(PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER)
+                                       .withLatestFrom(this.store$.select('step'))
+                                       .withLatestFrom(this.store$.select('sync'), (z, z1) => [...z, z1])
+                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
+                                       .withLatestFrom(this.store$.select('pull'), (z, z1) => [...z, z1])
+                                       .filter((z) => this.offline.online && !(z[1] as PosStepState).isSavingOrder && !(z[2] as PosSyncState).isSyncing && !(z[4] as PosPullState).isPullingChain)
+                                       .switchMap((z) => {
+                                         return Observable.interval(10000)
+                                                          .flatMap(() => Observable.fromPromise(this.posSyncService.autoGetAndPushOrderOffline(<any>z[3]))
+                                                                                   .map((res) => {
+                                                                                     return {
+                                                                                       type: PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER,
+                                                                                       payload: res['data']
+                                                                                     };
+                                                                                   })
+                                                                                   .catch((e) => Observable.of({
+                                                                                                                 type: RootActions.ACTION_ERROR,
+                                                                                                                 payload: {
+                                                                                                                   e,
+                                                                                                                   mess: "Can't push order offline"
+                                                                                                                 }
+                                                                                                               }))
+                                                          );
+                                       });
 }
