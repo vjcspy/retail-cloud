@@ -21,17 +21,16 @@ import {TranslateService} from "ng2-translate";
              styleUrls: [
                "./app.component.css",
                "../../node_modules/bootstrap/dist/css/bootstrap.min.css",
+               '../../node_modules/ladda/dist/ladda.min.css',
                "../../node_modules/nprogress/nprogress.css",
                "../../node_modules/ng2-toastr/ng2-toastr.css",
                "../../node_modules/font-awesome/scss/font-awesome.scss",
-               // '../assets/css/font-awesome.scss',
                '../assets/css/daterangepicker.scss',
                '../assets/css/animate.css',
                '../assets/css/bootstrap-datetimepicker-standalone.css',
                '../assets/css/ion.rangeSlider.css',
                '../assets/css/ion.rangeSlider.skinNice.css',
                '../../node_modules/select2/dist/css/select2.css',
-               '../../node_modules/ladda/dist/ladda.min.css'
              ],
              template: `
                <router-outlet></router-outlet>

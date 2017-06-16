@@ -190,7 +190,7 @@ export class PosStepEffects {
                                                                    created_at: Timezone.getCurrentStringTime()
                                                                  });
                               }
-                              posQuoteState.quote.setData('payment_data', paymentInUse);
+                              posQuoteState.quote.setData('payment_data', paymentInUse.toJS());
     
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))

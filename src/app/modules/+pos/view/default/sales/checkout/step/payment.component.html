@@ -42,7 +42,7 @@
         <span class="txt">{{ 'Points earned' | translate }}</span>
       </div>
     </div>
-    <button [disabled]="disableClickSaveOrder()" class="huge" (click)="posStepActions.userSaveOrder()">
+    <button [disabled]="disableClickSaveOrder()" class="huge" (click)="posStepActions.userSaveOrder()" [ladda]="posStepState.isSavingOrder">
       {{checkActionOrder() ? ("Complete" | translate) : ("Partial" | translate)}}
     </button>
   </div>
