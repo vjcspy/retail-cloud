@@ -47,7 +47,14 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
     case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:
       const isShiftOpening = state.info.isShiftOpening;
-      state.quote.removeCustomer().removeAllItems().removeAllAddresses();
+      state.quote.removeCustomer().removeAllItems().removeAllAddresses()
+           .unsetData('discount_whole_order')
+           .unsetData('is_exchange')
+           .unsetData('retail_note')
+           .unsetData('coupon_code')
+           .unsetData('payment_data')
+           .unsetData('reward_point')
+           .resetRetailAdditionData();
       
       return state.clear().set('info', {isShiftOpening}).set('quote', state.quote);
     

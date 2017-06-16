@@ -1,6 +1,7 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {cartTotalsStateFactory, CartTotalsStateRecord} from "./totals.state";
 import {CartTotalsActions} from "./totals.actions";
+import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 
 export const cartTotalsReducer: ActionReducer<CartTotalsStateRecord> = (state = cartTotalsStateFactory(), action: Action) => {
   switch (action.type) {
@@ -9,6 +10,9 @@ export const cartTotalsReducer: ActionReducer<CartTotalsStateRecord> = (state = 
     
     case CartTotalsActions.ACTION_CHANGE_DISCOUNT_TYPE:
       return state.set('isDiscountWholeOrderValue', action.payload['isDiscountWholeOrderValue']);
+    
+    case PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER:
+      return state.set('isOpeningPopupDiscount', false);
     
     default:
       return state;

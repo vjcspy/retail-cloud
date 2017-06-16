@@ -27,11 +27,11 @@
       0):(quoteState.quote.getShippingAddress()['subtotal_incl_tax']||0)) | priceFormat}}
     </div>
   </div>
-  <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" #discountPopup>
+  <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" clickOutSide (outside)="cartTotalsActions.changeDiscountPopupState($event)">
     <div class="t-txt">
-                <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
-                    {{ 'Discount' | translate }}
-                </span>
+      <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
+        {{ 'Discount' | translate }}
+      </span>
       <div class="popover-wrapper color down discount">
         <div class="p-outer">
           <div class="p-inner">
@@ -40,30 +40,28 @@
             </div>
             <div class="small-content">
               <div class="stop-row">
-                                    <span class="click" (click)="cartTotalsActions.changeDiscountType(true)"
-                                          [ngClass]="{current: cartTotalsState.isDiscountWholeOrderValue}">
+                <span class="click" (click)="cartTotalsActions.changeDiscountType(true)"
+                      [ngClass]="{current: cartTotalsState.isDiscountWholeOrderValue}">
                                     $
-                                    </span>
+                </span>
                 <span class="click" (click)="cartTotalsActions.changeDiscountType(false)"
                       [ngClass]="{current: !cartTotalsState.isDiscountWholeOrderValue}">
                                     %
-                                    </span>
-                <input [value]="quoteState.quote.getData('discount_whole_order')"
-                       (ngModelChange)="quoteState.quote.setData('discount_whole_order',$event)" type="text"
-                       inputSelectText/>
+                </span>
+                <input [value]="quoteState.quote.getData('discount_whole_order')" enterBlur inputSelectText
+                       (blur)="updateOrderDiscount('discount_whole_order',$event)" type="text"/>
               </div>
               <div class="sbot-row">
-                <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')"
-                       (ngModelChange)="quoteState.quote.setData('coupon_code',$event)"
-                       placeholder="Coupon Code"
-                       inputSelectText/>
+                <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')" enterBlur inputSelectText
+                       (blur)="updateOrderDiscount('coupon_code',$event)"
+                       placeholder="Coupon Code"/>
               </div>
             </div>
             <div class="small-botbar">
-              <span class="click gray">
+              <span class="click gray" (click)="removeOrderDiscount()">
                 Remove
               </span>
-              <span class="click" [ngClass]="{disabled: !quoteState.quote.getData('discount_whole_order') && !quoteState.quote.getData('coupon_code')}">
+              <span class="click" (click)="syncOrder()">
                 Check
               </span>
             </div>

@@ -13,6 +13,7 @@ import {PosSyncState} from "./sync.state";
 import {RootActions} from "../../../../R/root.actions";
 import {PosPullState} from "../entities/pull.state";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
+import {PosQuoteState} from "../quote/quote.state";
 
 @Injectable()
 export class PosSyncEffects {
@@ -29,6 +30,7 @@ export class PosSyncEffects {
                                      .withLatestFrom(this.store$.select('general'))
                                      .withLatestFrom(this.store$.select('quote'),
                                                      ([action, generalState], quoteState) => [action, generalState, quoteState])
+                                     .filter((z) => (z[2] as PosQuoteState).items.count() > 0)
                                      .map(([action, generalState, quoteState]) => {
                                        let order = this.posSyncService.prepareOrder(quoteState, generalState);
                                        return {type: PosSyncActions.ACTION_PREPARE_ORDER_SYNC, payload: {order}};
