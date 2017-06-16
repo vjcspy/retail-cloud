@@ -1,5 +1,5 @@
 <div class="bottom-bar" *ngIf="quoteState.info['isShiftOpening']">
-  <div class="pay-info" [ladda]="posSyncState.isSyncing" (click)="posSyncActions.syncCurrentOrder()" [ngClass]="{refund: quoteState.grandTotal < 0}">
+  <div class="pay-info" [ladda]="posSyncState.isSyncing" (click)="goCheckoutStep()" [ngClass]="{refund: quoteState.grandTotal < 0}">
     <span class="value">{{ 'pay' | translate }}</span>
     <span class="grand-total">{{quoteState.grandTotal | priceFormat}}</span>
   </div>

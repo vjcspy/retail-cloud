@@ -14,4 +14,10 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() posSyncState: PosSyncState;
   
   constructor(public posSyncActions: PosSyncActions) {}
+  
+  goCheckoutStep() {
+    if (this.quoteState.items.count() > 0) {
+      this.posSyncActions.syncCurrentOrder();
+    }
+  }
 }

@@ -30,12 +30,13 @@ STORE_DEV_TOOLS_IMPORTS.push(...[
 
 export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
-  STORE_DEV_TOOLS_IMPORTS,
-  StoreDevtoolsModule,
   RouterStoreModule.connectRouter(),
   EffectsModule.run(RootEffects)
 ];
 
+if ('production' !== ENV) {
+  R_IMPORTS.push(...STORE_DEV_TOOLS_IMPORTS);
+}
 /*
  * Có thể bao gồm service, actions và effects.
  *  - service: Không được phụ thuộc vào action hoặc effects và cũng không được phụ thuộc vào service nằm trong R
