@@ -13,7 +13,5 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
   @Input() posSyncState: PosSyncState;
   
-  protected isLoading: boolean = false;
-  
   constructor(public posSyncActions: PosSyncActions) {}
 }
