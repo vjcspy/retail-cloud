@@ -10,7 +10,7 @@ import {RootActions} from "../../../../R/root.actions";
 
 @Injectable()
 export class PosPullEffects {
-  constructor(private actions$: Actions, private store: Store<any>, private progressBar: ProgressBarService) {}
+  constructor(private actions$: Actions, private store: Store<any>, private progressBar: ProgressBarService, private entitiesActions: PosEntitiesActions) {}
   
   @Effect() pullEntities$ = this.actions$
                                 .ofType(
@@ -47,10 +47,7 @@ export class PosPullEffects {
                                                        const entityNeedPull = pullingChain.find((entity) => pullingChainStarted.indexOf(entity) === -1);
                                                        if (entityNeedPull) {
                                                          pullingChainStarted = pullingChainStarted.push(entityNeedPull);
-                                                         return {
-                                                           type: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER,
-                                                           payload: {entityCode: entityNeedPull}
-                                                         }
+                                                         return this.entitiesActions.pullEntityDataFromServer(entityNeedPull,false);
                                                        } else {
                                                          takeWhile = false;
                                                          return {type: RootActions.ACTION_NOTHING, payload: {mess: "Nothing to pull entities"}}

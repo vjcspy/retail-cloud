@@ -124,7 +124,7 @@ export class PosEntitiesService {
   }
   
   async getDataFromLocalDB(entitiesCode: Iterator<any>): Promise<GeneralMessage> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       let data         = {};
       let db: RetailDB = this.databaseManager.getDbInstance();
       

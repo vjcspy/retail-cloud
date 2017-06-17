@@ -23,7 +23,8 @@ import {OrderDB} from "../../database/xretail/db/order";
 export class PosEntitiesEffects {
   constructor(private action$: Actions,
               private store: Store<PosState>,
-              private posEntityService: PosEntitiesService) {}
+              private posEntityService: PosEntitiesService,
+              private entitiesActions: PosEntitiesActions) {}
   
   @Effect() initEntityBeforeGetFromSV$ = this.action$
                                              .ofType(
@@ -39,10 +40,7 @@ export class PosEntitiesEffects {
                                                return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                                 .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
                                                                                          .map((mes: GeneralMessage) => {
-                                                                                           return {
-                                                                                             type: PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB,
-                                                                                             payload: {data: mes.data[entityCode], entityCode}
-                                                                                           };
+                                                                                           return this.entitiesActions.getEntityDataFromDB(entityCode, mes.data[entityCode], false);
                                                                                          }));
                                              });
   
@@ -68,27 +66,13 @@ export class PosEntitiesEffects {
                                               const entity: Entity = entitiesState[entityCode];
                                               // Kiểm tra xem là entity sắp pull đã được init từ DB ra chưa?
                                               if (entity.isLoadedFromDB !== true) {
-                                                return Observable.of({
-                                                                       type: PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
-                                                                       payload: {entityCode}
-                                                                     });
+                                                return Observable.of(this.entitiesActions.initDataFromDB(entityCode, false));
                                               } else {
                                                 return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                                  .map((entityState: GeneralMessage) => {
                                                                    return entityState.data['isFinished'] === true ?
-                                                                     {
-                                                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                       payload: {
-                                                                         entityCode: action.payload['entityCode']
-                                                                       }
-                                                                     } :
-                                                                     {
-                                                                       type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
-                                                                       payload: {
-                                                                         entityCode: action.payload['entityCode'],
-                                                                         query: this.createQueryPull(entity, generalState)
-                                                                       }
-                                                                     };
+                                                                     this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
+                                                                     this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, generalState), false);
                                                                  });
                                               }
                                             });
@@ -110,37 +94,15 @@ export class PosEntitiesEffects {
                                                  } else {
                                                    const entity: Entity = entitiesState[action.payload.entityCode];
                                                    if (entity.limitPage > 0 && entity.currentPage === entity.limitPage) {
-                                                     return Observable.of({
-                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                            payload: {
-                                                                              entityCode: action.payload.entityCode
-                                                                            }
-                                                                          });
+                                                     return Observable.of(this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false));
                                                    } else {
                                                      return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entity, generalState))
                                                                       .map((pullData: GeneralMessage) => {
-                                                                        if (pullData.data['isFinished'] === true) {
-                                                                          return {
-                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                                                            payload: {
-                                                                              entityCode: action.payload.entityCode
-                                                                            }
-                                                                          };
-                                                                        } else {
-                                                                          return {
-                                                                            type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {
-                                                                              entityCode: action.payload.entityCode,
-                                                                              items: pullData.data['items']
-                                                                            }
-                                                                          };
-                                                                        }
+                                                                        return pullData.data['isFinished'] === true ?
+                                                                          this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
+                                                                          this.entitiesActions.pullEntityPageSuccess(action.payload.entityCode, pullData.data['items'], false);
                                                                       })
-                                                                      .catch(() => Observable.of({
-                                                                                                   type: PosEntitiesActions.ACTION_PULL_ENTITY_FAILED,
-                                                                                                   payload: {
-                                                                                                     entityCode: action.payload.entityCode
-                                                                                                   }
-                                                                                                 })
+                                                                      .catch(() => Observable.of(this.entitiesActions.pullEntityFailed(action.payload.entityCode, false))
                                                                       );
                                                    }
                                                  }
@@ -149,7 +111,6 @@ export class PosEntitiesEffects {
   
   @Effect() realTimeEntity = this.action$
                                  .ofType(
-                                   // Trigger realtime subscriber sau khi entity được init từ DB
                                    PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB
                                  )
                                  .withLatestFrom(this.store.select('general'))
@@ -160,21 +121,15 @@ export class PosEntitiesEffects {
                                                     .filter((entityCode: string) => entitiesState[entityCode]['needRealTime'] === true)
                                                     .flatMap((entityCode: string) => {
                                                       return Observable.fromPromise(this.posEntityService.subscribeRealtimeAndSaveToDB(entitiesState[entityCode], generalState))
-                                                                       .map(() => ({
-                                                                         type: PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB,
-                                                                         payload: {entityCode}
-                                                                       }))
-                                                                       .catch(() => Observable.of({
-                                                                                                    type: PosEntitiesActions.ACTION_REALTIME_ENTITY_ERROR,
-                                                                                                    payload: {
-                                                                                                      entityCode: action.payload.entityCode
-                                                                                                    }
-                                                                                                  }));
+                                                                       .map(() => this.entitiesActions.realtimePulledAndSavedDB(entityCode, false))
+                                                                       .catch(() => Observable.of(this.entitiesActions.realtimeEntityError(action.payload.entityCode, false)));
                                                     });
                                  });
   
   @Effect() resolveProductFilteredBySetting = this.action$
-                                                  .ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS, PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
+                                                  .ofType(
+                                                    PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                    PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
                                                   .filter((action: Action) => action.payload['entityCode'] === ProductDB.getCode())
                                                   .debounceTime(500)
                                                   .withLatestFrom(this.store.select('entities'))
@@ -182,7 +137,7 @@ export class PosEntitiesEffects {
                                                     const entities: PosEntitiesState = data[1];
                                                     return Observable.fromPromise(this.posEntityService.getProductFilteredBySetting(entities.products, entities.retailConfig, entities.settings))
                                                                      .map((mes: GeneralMessage) => {
-                                                                       return {type: PosEntitiesActions.ACTION_FILTERED_PRODUCTS, payload: mes.data};
+                                                                       return this.entitiesActions.filteredProducts(mes.data['productsFiltered'], false);
                                                                      });
                                                   });
   

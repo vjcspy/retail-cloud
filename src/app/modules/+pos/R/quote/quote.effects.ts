@@ -152,7 +152,7 @@ export class PosQuoteEffects {
                                     .switchMap((z) => {
                                       const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
                                       const shiftOpening      = shifts.filter((s: ShiftDB) => parseInt(s.is_open) === 1);
-                                      if (z[0].type == PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS || !!shiftOpening) {
+                                      if (z[0].type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS || !!shiftOpening) {
                                         return Observable.of({
                                                                type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO,
                                                                payload: {isShiftOpening: !!shiftOpening}
