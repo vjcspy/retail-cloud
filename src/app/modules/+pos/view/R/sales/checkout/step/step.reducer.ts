@@ -1,22 +1,21 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {CheckoutStep, Payment3rd, posStepStateFactory, PosStepStateRecord} from "./step.state";
 import {PosStepActions} from "./step.actions";
-import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 import {List} from "immutable";
+import {mergeSliceReducers} from "../../../../../../../R/index";
+import {tyroReducer} from "./payment/tyro.reducer";
 
-export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord = posStepStateFactory(), action: Action) => {
+const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state, action: Action) => {
   switch (action.type) {
-    case PosSyncActions.ACTION_SYNC_ORDER_SUCCESS:
-    case PosStepActions.ACTION_STEP_NEW_ORDER:
+    
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
-      if (action.type === PosStepActions.ACTION_BACK_CHECKOUT_PAGE) {
-        state = state.delete('paymentMethodUsed');
-      }
+    case PosStepActions.ACTION_STEP_NEW_ORDER:
       return state.delete('checkoutStep')
                   .delete('totals')
-                  .delete('canSaveOrder')
-                  .delete('isSavingOrder')
+                  .delete('paymentMethodUsed')
                   .delete('moneySuggestion')
+                  .delete('isSavingOrder')
+                  .delete('orderOffline')
                   .delete('listPayment3rdData')
                   .delete('isChecking3rd');
     
@@ -56,9 +55,6 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
     case PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER:
       return state.set('isChecking3rd', action.payload['isChecking3rd']);
     
-    case PosStepActions.ACTION_ADD_PAYMENT_3RD:
-      return state.update('listPayment3rdData', (l) => l.push(action.payload['payment3rdData']));
-    
     case PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD:
       return state.set('isChecking3rd', false);
     
@@ -89,3 +85,5 @@ export const posStepReducer: ActionReducer<PosStepStateRecord> = (state: PosStep
       return state;
   }
 };
+
+export const posStepReducer: ActionReducer<PosStepStateRecord> = mergeSliceReducers(posStepStateFactory(), posStepMainReducer, tyroReducer);

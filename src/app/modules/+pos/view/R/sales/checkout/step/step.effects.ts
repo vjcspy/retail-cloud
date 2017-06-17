@@ -29,7 +29,8 @@ export class PosStepEffects {
               private notify: NotifyManager,
               private offlineService: OfflineService,
               private posQuoteService: PosQuoteService,
-              private syncService: PosSyncService) { }
+              private syncService: PosSyncService,
+              private stepActions: PosStepActions) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -37,7 +38,7 @@ export class PosStepEffects {
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;
                                      let paymentMethodCanUse         = List.of();
-                                     let cashPaymentId;
+                                     let cashPaymentId               = null;
                                      payments.forEach((p) => {
                                        if (p['type'] === 'cash') {
                                          cashPaymentId = p['id'];
@@ -47,7 +48,7 @@ export class PosStepEffects {
                                        }
                                      });
     
-                                     return {type: PosStepActions.ACTION_GET_PAYMENT_METHOD_CAN_USE, payload: {paymentMethodCanUse, cashPaymentId}};
+                                     return this.stepActions.savePaymentMethodCanUseFromDB(paymentMethodCanUse, cashPaymentId, false);
                                    });
   
   @Effect() initCheckoutStepData = this.actions$.ofType(PosSyncActions.ACTION_SYNC_ORDER_SUCCESS)
@@ -102,7 +103,7 @@ export class PosStepEffects {
                                                   payment_data: paymentToAdd['payment_data'] // config data of payment
                                                 };
       
-                                                return {type: PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER, payload: {payment}};
+                                                return this.stepActions.addPaymentMethodToOrder(payment, false);
                                               } else {
                                                 return {type: RootActions.ACTION_NOTHING, payload: {mess: "Can't add more payment method"}};
                                               }
@@ -125,10 +126,7 @@ export class PosStepEffects {
                                         moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + action.payload['payment']['amount']);
                                       }
     
-                                      return {
-                                        type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
-                                        payload: {totals, moneySuggestion}
-                                      };
+                                      return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                     });
   
   @Effect() checkBeforeSaveOrder = this.actions$
@@ -146,7 +144,7 @@ export class PosStepEffects {
                                            }
                                          });
     
-                                         return {type: PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER, payload: {isChecking3rd}};
+                                         return this.stepActions.saveDataCheckingBeforeSaveOrder(isChecking3rd, false);
                                        });
   
   @Effect() resolve3rdPayment = this.actions$
@@ -162,9 +160,9 @@ export class PosStepEffects {
                                       const payment3rdData = stepState.listPayment3rdData.find((payment) => payment.inUse && !payment.isPaySuccess);
     
                                       if (payment3rdData) {
-                                        return {type: PosStepActions.ACTION_PROCESS_PAYMENT_3RD, payload: {payment3rdData}};
+                                        return this.stepActions.process3rdPayment(payment3rdData, false);
                                       } else {
-                                        return {type: PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD}
+                                        return this.stepActions.resolvedAll3rdPayment(false);
                                       }
                                     });
   
@@ -200,33 +198,27 @@ export class PosStepEffects {
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
                                                  .map(() => {
-                                                   // push to db
+                                                   return {};
                                                  });
                               } else {
                                 if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(z[2], z[3], z[4]))
                                                    .map((orderOffline) => {
-                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline, saveOffline: true}};
+                                                     return this.stepActions.savedOrder(orderOffline, true, false)
                                                    })
-                                                   .catch((e) => Observable.of(<any>{
-                                                     type: PosStepActions.ACTION_SAVE_ORDER_FAILED,
-                                                     payload: {e, isSaveOnline: false}
-                                                   }));
+                                                   .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4]))
                                                    .map((orderOffline) => {
-                                                     return {type: PosStepActions.ACTION_SAVED_ORDER, payload: {orderOffline, saveOffline: false}};
+                                                     return this.stepActions.savedOrder(orderOffline, false, false)
                                                    })
-                                                   .catch((e) => Observable.of(<any>{
-                                                     type: PosStepActions.ACTION_SAVE_ORDER_FAILED,
-                                                     payload: {e, isSaveOnline: true}
-                                                   }));
+                                                   .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 }
                               }
                             });
   
   
-  private calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
+  protected calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
     let totalPaid = 0;
     paymentInUse.forEach((p) => {
       totalPaid += this.getvalidatedAmountPayment(p.amount);
@@ -235,24 +227,17 @@ export class PosStepEffects {
     return {totalPaid, remain, grandTotal};
   }
   
-  canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number | boolean {
+  protected canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number
+    | boolean {
     // check split payment
     if (stepState.paymentMethodUsed.count() >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
       return false;
     
     // check payment gateway
-    if (method['type'] == 'tyro') {
-      let isDuplicate = false;
-      stepState.paymentMethodUsed.forEach((_method: PaymentMethod) => {
-        if ('tyro' == _method['type']) {
-          isDuplicate = true;
-          return false;
-        }
-      });
-      if (isDuplicate) {
-        this.notify.warning('can_not_add_tyro');
-        return false;
-      }
+    if (['tyro'].indexOf(method['type']) >= 0 && stepState.listPayment3rdData.count() > 0) {
+      this.notify.warning("can't_add_more_3rd_payment");
+      
+      return false;
     }
     
     // check amount
@@ -267,7 +252,7 @@ export class PosStepEffects {
     return NumberHelper.round((gt - _currentAmount), 2);
   }
   
-  private getvalidatedAmountPayment(methodAmount: any): number {
+  protected getvalidatedAmountPayment(methodAmount: any): number {
     return (isNaN(methodAmount) || !methodAmount) ? 0 : parseFloat(methodAmount + '');
   }
   

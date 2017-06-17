@@ -18,15 +18,6 @@ export class CheckoutTyroComponent implements OnInit {
               protected tyroActions: TyroActions) { }
   
   ngOnInit() {
-    this.posStepActions.add3rdPayment({
-                                        type: 'tyro',
-                                        isPaySuccess: false,
-                                        inUse: true,
-                                        additionData: Object.assign({
-                                                                      message: '',
-                                                                      questions: []
-                                                                    }, this.method.payment_data)
-                                      });
   }
   
   getTyroTransactionData(): Payment3rd {

@@ -12,6 +12,19 @@ export class TyroEffects {
   
   constructor(private store$: Store<any>, private actions: Actions, private tyroService: TyroService) {}
   
+  @Effect() initTyroConfig = this.actions
+                                 .ofType(
+                                   PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER
+                                 )
+                                 .filter((action: Action) => action.payload['payment']['type'] === 'tyro')
+                                 .map((action: Action) => {
+    
+                                   // init data for tyro (TID-MID)
+                                   this.tyroService.initConfig(action.payload['payment']);
+    
+                                   return {type: TyroActions.ACTION_INITED_TYRO_CONFIG};
+                                 });
+  
   @Effect() processTyro = this.actions
                               .ofType(PosStepActions.ACTION_PROCESS_PAYMENT_3RD)
                               .filter((action: Action) => action.payload['payment3rdData']['type'] === 'tyro')
@@ -20,9 +33,6 @@ export class TyroEffects {
                                 const action: Action             = z[0];
                                 const posStepState: PosStepState = <any>z[1];
                                 const payment                    = posStepState.paymentMethodUsed.find((p) => p.type === action.payload['payment3rdData']['type'])
-    
-                                // init data for tyro (TID-MID)
-                                this.tyroService.initConfig(payment);
     
                                 const isRefund = parseFloat(payment.amount + '') < 0;
                                 const amount   = this.tyroService.convertAmount(Math.abs(payment.amount) + '');
