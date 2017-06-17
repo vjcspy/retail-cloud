@@ -15,7 +15,7 @@ import {TaxDB} from "../../database/xretail/db/tax";
 @Injectable()
 export class PosAssignEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions) {}
+  constructor(private store$: Store<any>, private actions$: Actions, private assignActions: PosAssignActions) {}
   
   @Effect() assignSettingToCore = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                       .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
@@ -26,7 +26,7 @@ export class PosAssignEffects {
                                         // Init Setting for core
                                         SettingDB._SETTING = settings.toJS();
     
-                                        return {type: PosAssignActions.ACTION_ASSIGN_DATA_TO_CORE, payload: {entityCode: SettingDB.getCode()}}
+                                        return this.assignActions.saveAssignedDataToCore(SettingDB.getCode(), false);
                                       });
   
   @Effect() assignCurrentStoreToCore = this.actions$.ofType(PosGeneralActions.ACTION_SAVE_STATE)
@@ -37,7 +37,7 @@ export class PosAssignEffects {
                                                  StoreManager.setStore(store.mapWithParent(v));
                                                }
                                              });
-                                             return {type: PosAssignActions.ACTION_ASSIGN_DATA_TO_CORE, payload: {entityCode: StoreDB.getCode()}}
+                                             return this.assignActions.saveAssignedDataToCore(SettingDB.getCode(), false);
                                            });
   
   @Effect() assignTaxesToCore = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
@@ -47,6 +47,6 @@ export class PosAssignEffects {
                                       const taxes: List<TaxDB> = entitiesState[TaxDB.getCode()].items;
                                       TaxDB._RATES             = taxes.toJS();
     
-                                      return {type: PosAssignActions.ACTION_ASSIGN_DATA_TO_CORE, payload: {entityCode: TaxDB.getCode()}}
+                                      return this.assignActions.saveAssignedDataToCore(SettingDB.getCode(), false);
                                     });
 }

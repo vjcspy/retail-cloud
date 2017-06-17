@@ -59,13 +59,13 @@ export class PosConfigEffects {
                                        if (!orderCount) {
                                          return Observable.fromPromise(this.configService.createNewOrderCount(generalState))
                                                           .map((orderCount) => {
-                                                            return this.configActions.retrieveOrderCount(orderCount);
+                                                            return this.configActions.retrieveOrderCount(orderCount, false);
                                                           })
                                                           .catch(() => Observable.of(<any>{
                                                             type: RootActions.ACTION_ERROR,
                                                             payload: {mess: "Can't not create order offline count"}
                                                           }));
                                        }
-                                       return Observable.of(this.configActions.retrieveOrderCount(orderCount));
+                                       return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });
 }
