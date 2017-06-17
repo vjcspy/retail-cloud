@@ -18,7 +18,7 @@ import {PosConfigService} from "./config.service";
 @Injectable()
 export class PosConfigEffects {
   
-  constructor(private store$: Store<any>, private actions: Actions, private configService: PosConfigService) { }
+  constructor(private store$: Store<any>, private actions: Actions, private configService: PosConfigService, private configActions: PosConfigActions) { }
   
   @Effect() initPosSettings = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                   .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
@@ -42,7 +42,7 @@ export class PosConfigEffects {
                                       ProductSetting.config  = productConfig['value'];
                                       ShippingSetting.config = productConfig['value'];
       
-                                      return {type: PosConfigActions.ACTION_INIT_POS_SETTINGS, payload: {tax, customer, product, shipping}};
+                                      return this.configActions.initPosSetting({tax, customer, product, shipping}, false);
                                     }
                                   });
   
@@ -59,13 +59,13 @@ export class PosConfigEffects {
                                        if (!orderCount) {
                                          return Observable.fromPromise(this.configService.createNewOrderCount(generalState))
                                                           .map((orderCount) => {
-                                                            return {type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}};
+                                                            return this.configActions.retrieveOrderCount(orderCount);
                                                           })
                                                           .catch(() => Observable.of(<any>{
                                                             type: RootActions.ACTION_ERROR,
                                                             payload: {mess: "Can't not create order offline count"}
                                                           }));
                                        }
-                                       return Observable.of({type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}});
+                                       return Observable.of(this.configActions.retrieveOrderCount(orderCount));
                                      });
 }
