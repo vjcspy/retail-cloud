@@ -118,7 +118,13 @@ export class PosEntitiesActions {
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:
    *
-   *
+   * Assign data to core
+   * Retrieve order count
+   * Filter product in grid
+   * Retrieve outlet and register
+   * Trigger pull next entity
+   * Check shift opening
+   * Get all payment method can use
    */
   static ACTION_PULL_ENTITY_SUCCESS = 'ACTION_PULL_ENTITY_SUCCESS';
   
