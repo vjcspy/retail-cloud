@@ -1,4 +1,4 @@
-import {ActionReducer, combineReducers, StoreModule} from "@ngrx/store";
+import {Action, ActionReducer, combineReducers, StoreModule} from "@ngrx/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {RootState} from "./root.state";
 import {rootReducer} from "./root.reducer";
@@ -6,6 +6,7 @@ import {RootActions} from "./root.actions";
 import {routerReducer, RouterState, RouterStoreModule} from "@ngrx/router-store";
 import {EffectsModule} from "@ngrx/effects";
 import {RootEffects} from "./root.effects";
+import * as _ from 'lodash';
 
 export interface AppState {
   rootState: RootState;
@@ -47,3 +48,12 @@ export const R_PROVIDERS = [
   RootActions,
   RootEffects
 ];
+
+
+export const mergeSliceReducers = (initialState: any, ...sliceReducer: ActionReducer<any>[]) => {
+  return (state = initialState, action: Action) => {
+    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => state = reducer(state, action));
+    
+    return state;
+  };
+};
