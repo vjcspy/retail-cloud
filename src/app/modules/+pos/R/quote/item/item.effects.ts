@@ -17,10 +17,10 @@ export class QuoteItemEffects {
                                        .ofType(QuoteItemActions.ACTION_UPDATE_ITEM_BUY_REQUEST)
                                        .withLatestFrom(this.store$.select('config'))
                                        .map((z) => {
-                                         const action: Action              = <any>z[0];
+                                         const action: Action = <any>z[0];
                                          const configState: PosConfigState = <any>z[1];
-                                         const item: Item                  = action.payload['item'];
-                                         let value                         = action.payload['value'];
+                                         const item: Item = action.payload['item'];
+                                         let value = action.payload['value'];
     
                                          switch (action.payload['key']) {
                                            case 'qty':
@@ -70,7 +70,10 @@ export class QuoteItemEffects {
                                                newItemBuyRequest.setData('options', item.getBuyRequest().getData('options'));
                                              }
         
-                                             return {type: QuoteItemActions.ACTION_ADD_SPLIT_ITEM, payload: {newItemBuyRequest}};
+                                             return {
+                                               type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
+                                               payload: {buyRequest: newItemBuyRequest, skipCheckExisted: true}
+                                             };
       
                                            default:
                                              item.getBuyRequest().setData(action.payload['key'], value);

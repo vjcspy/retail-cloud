@@ -91,53 +91,47 @@ export class PosQuoteEffects {
                                     return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}}
                                   });
   
-  @Effect() addToQuote = this.actions$.ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
-                             .withLatestFrom(this.store$.select('quote'))
-                             .map(([action, quoteState]) => {
-                               const buyRequest = action['payload']['buyRequest'];
-                               let items        = quoteState['items'];
+  @Effect() addItemBuyRequest = this.actions$.ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
+                                    .withLatestFrom(this.store$.select('quote'))
+                                    .map(([action, quoteState]) => {
+                                      const buyRequest = action['payload']['buyRequest'];
+                                      let items        = quoteState['items'];
     
-                               if (buyRequest.getData('super_group')) {
-                                 _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
-                                   if (qty != '' && _.isNumber(parseFloat(qty))) {
-                                     let _p = _.find(buyRequest.getData('associatedProducts'), (pr) => parseInt(pr['id'] + '') === parseInt(productId + ''));
-                                     if (!!_p) {
-                                       let childProduct = new Product();
-                                       childProduct.mapWithParent(_p);
-                                       let childBuyRequest = new DataObject();
-                                       childBuyRequest.setData('qty', qty)
-                                                      .setData('product_id', productId)
-                                                      .setData('product', childProduct);
+                                      if (buyRequest.getData('super_group')) {
+                                        _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
+                                          if (qty != '' && _.isNumber(parseFloat(qty))) {
+                                            let _p = _.find(buyRequest.getData('associatedProducts'), (pr) => parseInt(pr['id'] + '') === parseInt(productId + ''));
+                                            if (!!_p) {
+                                              let childProduct = new Product();
+                                              childProduct.mapWithParent(_p);
+                                              let childBuyRequest = new DataObject();
+                                              childBuyRequest.setData('qty', qty)
+                                                             .setData('product_id', productId)
+                                                             .setData('product', childProduct);
             
-                                       let info = this._getItemByBuyRequest(childBuyRequest, items);
-                                       items    = info['items'];
-                                       if (info['isMatching'] === false) {
-                                         items = items.push(childBuyRequest);
-                                       }
-                                     }
-                                   }
-                                 });
-                               } else {
-                                 let info = this._getItemByBuyRequest(buyRequest, items);
-                                 items    = info['items'];
-                                 if (info['isMatching'] === false) {
-                                   items = items.push(buyRequest);
-                                 }
-                               }
+                                              let info = this._getItemByBuyRequest(childBuyRequest, items);
+                                              items    = info['items'];
+                                              if (info['isMatching'] === false) {
+                                                items = items.push(childBuyRequest);
+                                              }
+                                            }
+                                          }
+                                        });
+                                      } else {
+                                        // when adding split item
+                                        if (action.payload['skipCheckExisted'] === true) {
+                                          items = items.push(buyRequest);
+                                        } else {
+                                          let info = this._getItemByBuyRequest(buyRequest, items);
+                                          items    = info['items'];
+                                          if (info['isMatching'] === false) {
+                                            items = items.push(buyRequest);
+                                          }
+                                        }
+                                      }
     
-                               return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
-                             });
-  
-  @Effect() addSplitItem = this.actions$.ofType(QuoteItemActions.ACTION_ADD_SPLIT_ITEM)
-                               .withLatestFrom(this.store$.select('quote'))
-                               .map(([action, quoteState]) => {
-                                 const newItemBuyRequest = action['payload']['newItemBuyRequest'];
-                                 let items               = quoteState['items'];
-    
-                                 items = items.push(newItemBuyRequest);
-    
-                                 return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
-                               });
+                                      return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                                    });
   
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
