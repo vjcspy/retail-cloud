@@ -56,7 +56,7 @@
           </li>
           <li>
             <label>{{ 'Price' | translate }}</label>
-            <input [disabled]="item.isChildrenCalculated()" inputSelectText
+            <input [disabled]="item.isChildrenCalculated()" inputSelectText enterBlur
                    value="{{(item.getData('is_price_incl_tax') ? item.getData('price_incl_tax'): item.getCalculationPriceOriginal())| number : '1.2-2'}}"
                    (blur)="updateItemBuyRequest($event,item,'custom_price')"
                    type="text">
@@ -64,8 +64,8 @@
           <li>
             <label>{{ 'Split' | translate }}</label>
             <input [disabled]="item.getProduct().getTypeId() == 'configurable' || item.getProduct().getTypeId() == 'bundle'"
-                   inputSelectText
-                   (keyup)="updateItemBuyRequest($event,item,'add_split_item')"
+                   inputSelectText enterBlur
+                   (blur)="updateItemBuyRequest($event,item,'add_split_item')"
                    type="text">
           </li>
           <li>
