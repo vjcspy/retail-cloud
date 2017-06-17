@@ -18,7 +18,8 @@ import {PosQuoteState} from "../quote/quote.state";
 @Injectable()
 export class PosSyncEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private posSyncService: PosSyncService, private notify: NotifyManager, private offline: OfflineService) { }
+  constructor(private store$: Store<any>, private actions$: Actions, private posSyncService: PosSyncService, private notify: NotifyManager, private offline: OfflineService,
+              private syncActions: PosSyncActions) { }
   
   @Effect() prepareOrderToSync = this.actions$
                                      .ofType(
@@ -31,8 +32,7 @@ export class PosSyncEffects {
                                      .withLatestFrom(this.store$.select('quote'),
                                                      ([action, generalState], quoteState) => [action, generalState, quoteState])
                                      .map(([action, generalState, quoteState]) => {
-                                       let order = this.posSyncService.prepareOrder(quoteState, generalState);
-                                       return {type: PosSyncActions.ACTION_PREPARE_ORDER_SYNC, payload: {order}};
+                                       return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(quoteState, generalState), false);
                                      });
   
   @Effect() syncOrder = this.actions$.ofType(PosSyncActions.ACTION_PREPARE_ORDER_SYNC)
@@ -59,11 +59,11 @@ export class PosSyncEffects {
                                                this.notify.success('coupon_code_accepted');
                                              }
         
-                                             return {type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote: quote}};
+                                             return this.syncActions.syncOrderSuccess(quote, false);
                                            })
-                                           .catch((e) => Observable.of(<any>{type: PosSyncActions.ACTION_SYNC_ORDER_ERROR, payload: {e}}));
+                                           .catch((e) => Observable.of(this.syncActions.syncOrderError(e, false)));
                               } else {
-                                return Observable.of({type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote: quote}});
+                                return Observable.of(this.syncActions.syncOrderSuccess(quote, false));
                               }
                             });
   
@@ -90,10 +90,7 @@ export class PosSyncEffects {
                                                                                         if (res['data']['syncAllOfflineOrder'] === true) {
                                                                                           isPushFull = true;
                                                                                         }
-                                                                                        return {
-                                                                                          type: PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER,
-                                                                                          payload: res['data']
-                                                                                        };
+                                                                                        return this.syncActions.syncedOfflineOrder(res['data'], false);
                                                                                       })
                                                                                       .catch((e) => {
                                                                                         isSyncing = false;
