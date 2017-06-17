@@ -52,7 +52,7 @@ export const R_PROVIDERS = [
 
 export const mergeSliceReducers = (initialState: any, ...sliceReducer: ActionReducer<any>[]) => {
   return (state = initialState, action: Action) => {
-    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => state = reducer(state, action));
+    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => {state = reducer(state, action)});
     
     return state;
   };

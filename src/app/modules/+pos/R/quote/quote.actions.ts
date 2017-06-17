@@ -9,12 +9,18 @@ import {DataObject} from "../../core/framework/General/DataObject";
 @Injectable()
 export class PosQuoteActions {
   
-  static ACTION_SELECT_PRODUCT_TO_ADD         = 'ACTION_SELECT_PRODUCT_TO_ADD'; // when user select product to add
-  static ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE = 'ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE';
-  static ACTION_WAIT_GET_PRODUCT_OPTIONS      = 'ACTION_WAIT_GET_PRODUCT_OPTIONS'; // when product has options, we will wait options has been selected
-  static ACTION_UPDATE_QUOTE_ITEMS            = 'ACTION_UPDATE_QUOTE_ITEMS'; // product has been added so we need update quote state items
-  static ACTION_SET_CUSTOMER_TO_QUOTE         = 'ACTION_SET_CUSTOMER_TO_QUOTE';
-  static ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS = 'ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS'; // after customer added, we will resolve and save address
+  // when user select product to add
+  static ACTION_SELECT_PRODUCT_TO_ADD            = 'ACTION_SELECT_PRODUCT_TO_ADD';
+  // push item buy request
+  static ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE    = 'ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE';
+  // when product has options, we will wait options has been selected
+  static ACTION_WAIT_GET_PRODUCT_OPTIONS         = 'ACTION_WAIT_GET_PRODUCT_OPTIONS';
+  // product has been added so we need update quote state items
+  static ACTION_UPDATE_QUOTE_ITEMS               = 'ACTION_UPDATE_QUOTE_ITEMS';
+  // set customer to quote
+  static ACTION_SET_CUSTOMER_TO_QUOTE            = 'ACTION_SET_CUSTOMER_TO_QUOTE';
+  // after customer added, we will resolve and save address
+  static ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER = 'ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER';
   
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data

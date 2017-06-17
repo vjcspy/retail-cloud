@@ -1,6 +1,7 @@
 import {Product} from "../../../catalog/Model/Product";
 import {Format} from "../../../Locale/Format";
 import {AbstractItem} from "./Item/AbstractItem";
+import {DataObject} from "../../../General/DataObject";
 
 export class Item extends AbstractItem {
   checkData(): Item {
@@ -36,7 +37,7 @@ export class Item extends AbstractItem {
     return this;
   }
   
-  getBuyRequest() {
+  getBuyRequest(): DataObject {
     return this.getData('buy_request');
   }
 }

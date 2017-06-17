@@ -36,7 +36,7 @@
                         {{(item.getOriginalPrice() * item.getQty()) | priceFormat}}
                     </span>
       </div>
-      <span class="delete-btn"><span class="icon-close"></span></span>
+      <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close"></span></span>
       <div class="c-name" *ngIf="!item.getData('buy_request')['custom_sale']">
         <h3 class="product-name">{{item.getProduct().getData('name')}}</h3>
         <p class="p-product-name">{{getSKU(item)}}</p>

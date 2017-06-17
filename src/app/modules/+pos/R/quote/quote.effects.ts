@@ -46,7 +46,7 @@ export class PosQuoteEffects {
                                        this.quoteService.setCustomerToQuote(customer);
     
                                        return {
-                                         type: PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
+                                         type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
                                          payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState.outlet)
                                        }
                                      });
@@ -91,7 +91,8 @@ export class PosQuoteEffects {
                                     return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}}
                                   });
   
-  @Effect() addItemBuyRequest = this.actions$.ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
+  @Effect() addItemBuyRequest = this.actions$
+                                    .ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
                                     .withLatestFrom(this.store$.select('quote'))
                                     .map(([action, quoteState]) => {
                                       const buyRequest = action['payload']['buyRequest'];
@@ -171,9 +172,10 @@ export class PosQuoteEffects {
                                .ofType(
                                  PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE,
                                  // Sau khi add xong customer và init address
-                                 PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS,
+                                 PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
                                  // After update quote items
-                                 PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS
+                                 PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS,
+                                 QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST
                                )
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),

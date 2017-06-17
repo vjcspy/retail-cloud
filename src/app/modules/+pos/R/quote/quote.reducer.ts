@@ -7,13 +7,16 @@ import {List} from "immutable";
 import {PosSyncActions} from "../sync/sync.actions";
 import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
+import {mergeSliceReducers} from "../../../../R/index";
+import {quoteItemReducer} from "./item/item.reducer";
 
-export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord = posQuoteStateFactory(), action: Action) => {
+
+const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
   switch (action.type) {
     case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
       return state.set('customer', action.payload['customer']);
     
-    case PosQuoteActions.ACTION_INIT_DEFAULT_CUSTOMER_ADDRESS:
+    case PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER:
       let newState = state;
       _.forEach(action.payload, (v, k) => {
         if (!!v) {
@@ -68,3 +71,5 @@ export const quoteReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuote
       return state;
   }
 };
+
+export const quoteReducer: ActionReducer<PosQuoteStateRecord> = mergeSliceReducers(posQuoteStateFactory(), quoteMainReducer, quoteItemReducer);
