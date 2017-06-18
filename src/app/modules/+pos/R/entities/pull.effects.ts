@@ -6,7 +6,6 @@ import {PosEntitiesActions} from "./entities.actions";
 import {List} from "immutable";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
 import {Observable} from "rxjs";
-import {RootActions} from "../../../../R/root.actions";
 
 @Injectable()
 export class PosPullEffects {
@@ -16,7 +15,8 @@ export class PosPullEffects {
                                 .ofType(
                                   PosPullActions.ACTION_PULL_ENTITIES,
                                   // Repeat after each entity pull successful
-                                  PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                  PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                )
                                 .withLatestFrom(this.store.select('pull'))
                                 .withLatestFrom(this.store.select('entities'),
                                                 ([action, pullState], entitiesState) => [action, pullState, entitiesState])
@@ -40,19 +40,14 @@ export class PosPullEffects {
                                     }, 0);
                                     this.progressBar.set(totalProportionSuccess * 100 / (totalProportionSuccess + totalProportionEntityPulling));
       
-                                    let takeWhile = true;
-                                    return Observable.interval(0)
-                                                     .takeWhile(() => takeWhile)
-                                                     .map(() => {
-                                                       const entityNeedPull = pullingChain.find((entity) => pullingChainStarted.indexOf(entity) === -1);
-                                                       if (entityNeedPull) {
-                                                         pullingChainStarted = pullingChainStarted.push(entityNeedPull);
-                                                         return this.entitiesActions.pullEntityDataFromServer(entityNeedPull,false);
-                                                       } else {
-                                                         takeWhile = false;
-                                                         return {type: RootActions.ACTION_NOTHING, payload: {mess: "Nothing to pull entities"}}
-                                                       }
-                                                     });
+                                    let pullObservable = [];
+                                    pullingChain.forEach((entity) => {
+                                      if (pullingChainStarted.indexOf(entity) === -1) {
+                                        pullObservable.push(this.entitiesActions.pullEntityDataFromServer(entity, false));
+                                      }
+                                    });
+      
+                                    return Observable.from(pullObservable);
                                   }
                                 });
 }

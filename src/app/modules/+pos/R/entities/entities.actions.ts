@@ -57,7 +57,7 @@ export class PosEntitiesActions {
    *
    * Pull entity data from server
    */
-  static ACTION_PULL_ENTITY_DATA_FROM_SERVER = 'ACTION_GET_ENTITY_DATA_FROM_SERVER';
+  static ACTION_PULL_ENTITY_DATA_FROM_SERVER = 'ACTION_PULL_ENTITY_DATA_FROM_SERVER';
   
   pullEntityDataFromServer(entityCode, dispatch: boolean = true): Action {
     const action = {type: PosEntitiesActions.ACTION_PULL_ENTITY_DATA_FROM_SERVER, payload: {entityCode}};
