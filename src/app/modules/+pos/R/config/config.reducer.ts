@@ -11,6 +11,9 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
     case PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT:
       return state.set('orderCount', action.payload['orderCount']);
     
+    case PosConfigActions.ACTION_SAVE_RECEIPT_SETTING:
+      return state.set('receipt', action.payload['receipt']);
+    
     default:
       return state;
   }

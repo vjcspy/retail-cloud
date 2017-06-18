@@ -14,6 +14,8 @@ import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
 import {PosGeneralState} from "../general/general.state";
 import {Observable} from "rxjs";
 import {PosConfigService} from "./config.service";
+import {ReceiptDB} from "../../database/xretail/db/receipt";
+import {PosEntitiesState} from "../entities/entities.state";
 
 @Injectable()
 export class PosConfigEffects {
@@ -68,4 +70,19 @@ export class PosConfigEffects {
                                        }
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });
+  
+  @Effect() retrieveReceipt = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                  .filter((action: Action) => action.payload['entityCode'] === ReceiptDB.getCode())
+                                  .withLatestFrom(this.store$.select('entities'))
+                                  .withLatestFrom(this.store$.select('general'),
+                                                  ([action, entitiesState], generalState) => [action, entitiesState, generalState])
+                                  .map(([action, entitiesState, generalState]) => {
+                                    let receipt;
+                                    receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => parseInt(r['id'] + '') === parseInt(generalState.outlet['paper_receipt_template_id'] + ''));
+                                    if (!receipt) {
+                                      receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => r['is_default'] === true);
+                                    }
+    
+                                    return this.configActions.saveReceiptSetting(receipt);
+                                  })
 }

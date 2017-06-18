@@ -49,4 +49,25 @@ export class PosConfigActions {
     
     return dispatch === true ? this.store$.dispatch(action) : action;
   }
+  
+  /**
+   ** @REDUCER:
+   *
+   * Save current receipt
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static ACTION_SAVE_RECEIPT_SETTING = 'ACTION_SAVE_RECEIPT_SETTING';
+  
+  saveReceiptSetting(receipt, dispatch: boolean = true): Action {
+    const action = {type: PosConfigActions.ACTION_SAVE_RECEIPT_SETTING, payload: {receipt}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

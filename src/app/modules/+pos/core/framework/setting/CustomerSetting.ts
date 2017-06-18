@@ -16,4 +16,8 @@ export class CustomerSetting {
     }
     throw new GeneralException("Can't get customer setting");
   }
+  
+  getDefaultCustomerId() {
+    return this.loadConfig("default_customer_id");
+  }
 }

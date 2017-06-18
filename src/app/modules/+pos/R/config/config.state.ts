@@ -39,7 +39,8 @@ export interface PosConfigState {
     product: ProductSetting;
     shipping: ShippingSetting;
   },
-  orderCount: {}
+  orderCount: Object,
+  receipt: Object
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -77,5 +78,6 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       shipping: null,
       product: null
     },
-    orderCount: {}
+    orderCount: {},
+    receipt: {}
   });
