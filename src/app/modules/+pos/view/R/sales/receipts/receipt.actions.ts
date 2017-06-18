@@ -68,7 +68,7 @@ export class ReceiptActions {
   /**
    ** @REDUCER:
    *
-   * Change sending email state
+   * Clear state
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:
    *
@@ -86,6 +86,15 @@ export class ReceiptActions {
     return action;
   }
   
+  /**
+   ** @REDUCER:
+   *
+   * Clear state
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
   static ACTION_SEND_RECEIPT_EMAIL_FAILED = 'ACTION_SEND_RECEIPT_EMAIL_FAILED';
   
   sendReceiptEmailFailed(e, dispatch: boolean = true): Action {
