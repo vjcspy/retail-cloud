@@ -8,6 +8,7 @@ import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscri
 import {ReceiptService} from "../../R/sales/receipts/receipt.service";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as JsBarcode from 'jsbarcode';
+import {ReceiptActions} from "../../R/sales/receipts/receipt.actions";
 
 @Component({
              // moduleId: module.id,
@@ -30,7 +31,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   
   protected countryHelper = new CountryHelper();
   
-  constructor(private userCollection: UserCollection, private receiptService: ReceiptService, private notify: NotifyManager) {
+  constructor(private userCollection: UserCollection, private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
     super();
   }
   
@@ -39,7 +40,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       return this.receiptService.getReceiptObservable()
                  .subscribe(() => {
                    this.initBarcode();
-                   this.print();
+                   if (['receipt'].indexOf(this.receiptState.salesReceipt.typePrint) > 0) {
+                     this.print();
+                   } else if (this.receiptState.salesReceipt.typePrint === 'email') {
+                     this.receiptActions.resolvedEmailReceipt(this.getHtml());
+                   }
                  });
     });
   }

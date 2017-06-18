@@ -1,5 +1,5 @@
 import {Action, ActionReducer} from "@ngrx/store";
-import {receiptStateFactory, ReceiptStateRecord} from "./receipt.state";
+import {receiptStateFactory, ReceiptStateRecord, SalesReceiptRecord} from "./receipt.state";
 import {ReceiptActions} from "./receipt.actions";
 import {PosStepActions} from "../checkout/step/step.actions";
 
@@ -25,9 +25,22 @@ export const receiptReducer: ActionReducer<ReceiptStateRecord> = (state: Receipt
       return state.update('salesReceipt', (salesReceipt) => {
         return salesReceipt.clear()
                            .set('orderOffline', action.payload['orderOffline'])
-                           .set('customerEmail', action.payload['customerEmail'])
-                           .set('typePrint', 'email');
+                           .set('typePrint', 'email')
+                           .set('emailReceipt', {
+                             email: action.payload['customerEmail'],
+                             name: action.payload['customerName'],
+                             isSending: true
+                           });
       });
+    
+    case ReceiptActions.ACTION_RESOLVED_RECEIPT_EMAIL:
+      return state.update('salesReceipt', (salesReceipt: SalesReceiptRecord) => {
+        return salesReceipt.set('emailReceipt', Object.assign({}, salesReceipt.emailReceipt, {template: action.payload['template']}));
+      });
+    
+    case ReceiptActions.ACTION_SENT_RECEIPT_EMAIL:
+    case ReceiptActions.ACTION_SEND_RECEIPT_EMAIL_FAILED:
+      return state.clear();
     
     default:
       return state;

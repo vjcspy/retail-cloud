@@ -4,6 +4,8 @@ import {ReceiptActions} from "../../../../R/sales/receipts/receipt.actions";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {PosGeneralState} from "../../../../../R/general/general.state";
+import {NotifyManager} from "../../../../../../../services/notify-manager";
+import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
 
 @Component({
              // moduleId: module.id,
@@ -15,11 +17,12 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   @Input() posStepState: PosStepState;
   @Input() posQuoteState: PosQuoteState;
   @Input() posGeneralState: PosGeneralState;
+  @Input() receiptState: ReceiptState;
   
   openEmailSender: boolean = false;
   customerEmail: string    = '';
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager) { }
   
   ngOnInit() {
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
@@ -39,5 +42,15 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       merchantReceipt              = payment3rd.merchantReceipt;
     }
     this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
+  }
+  
+  sendEmailReceipt() {
+    const email = this.customerEmail;
+    let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(email) === false) {
+      return this.notify.warning("Email not valid");
+    }
+    let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
+    this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name);
   }
 }

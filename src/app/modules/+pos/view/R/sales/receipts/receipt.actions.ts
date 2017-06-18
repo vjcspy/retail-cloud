@@ -40,7 +40,61 @@ export class ReceiptActions {
    */
   static ACTION_SEND_RECEIPT_EMAIL = 'ACTION_SEND_RECEIPT_EMAIL';
   
-  sendEmailReceipt(orderOffline: any, customerEmail: string) {
-    this.store$.dispatch({type: ReceiptActions.ACTION_SEND_RECEIPT_EMAIL, payload: {orderOffline, customerEmail}});
+  sendEmailReceipt(orderOffline: any, customerEmail: string, customerName: string) {
+    this.store$.dispatch({type: ReceiptActions.ACTION_SEND_RECEIPT_EMAIL, payload: {orderOffline, customerEmail, customerName}});
+  }
+  
+  /**
+   ** @REDUCER:
+   *
+   * Save email receipt template
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   * Send email data to server
+   */
+  static ACTION_RESOLVED_RECEIPT_EMAIL = 'ACTION_RESOLVED_RECEIPT_EMAIL';
+  
+  resolvedEmailReceipt(template, dispatch: boolean = true): Action {
+    const action = {type: ReceiptActions.ACTION_RESOLVED_RECEIPT_EMAIL, payload: {template}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  /**
+   ** @REDUCER:
+   *
+   * Change sending email state
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static ACTION_SENT_RECEIPT_EMAIL = 'ACTION_SENT_RECEIPT_EMAIL';
+  
+  sentReceiptEmail(dispatch: boolean = true): Action {
+    const action = {type: ReceiptActions.ACTION_SENT_RECEIPT_EMAIL, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SEND_RECEIPT_EMAIL_FAILED = 'ACTION_SEND_RECEIPT_EMAIL_FAILED';
+  
+  sendReceiptEmailFailed(e, dispatch: boolean = true): Action {
+    const action = {type: ReceiptActions.ACTION_SEND_RECEIPT_EMAIL_FAILED, payload: {e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }

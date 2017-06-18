@@ -2,10 +2,15 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface SalesReceipt {
   typePrint: string;
-  customerEmail: string;
   orderOffline: Object;
   customerReceipt: any;
   merchantReceipt: any;
+  emailReceipt: {
+    email: string;
+    name: string;
+    template: string;
+    isSending: boolean
+  };
 }
 
 export interface SalesReceiptRecord extends TypedRecord<any>, SalesReceipt {}
@@ -13,10 +18,15 @@ export interface SalesReceiptRecord extends TypedRecord<any>, SalesReceipt {}
 export const salesReceiptFactory = makeTypedFactory<SalesReceipt, SalesReceiptRecord>(
   {
     typePrint: 'receipt', // receipt, email, gift
-    customerEmail: null,
     orderOffline: null,
     customerReceipt: null,
-    merchantReceipt: null
+    merchantReceipt: null,
+    emailReceipt: {
+      email: null,
+      name: null,
+      template: null,
+      isSending: false
+    }
   }
 );
 

@@ -17,7 +17,9 @@
     <button (click)="printReceipt('gift')">{{ 'Print' | translate }} {{ 'Gift Receipt' | translate }}</button>
 
     <div class="s-blk" [ngClass]="{'d-show':openEmailSender}">
-      <button (click)="receiptActions.sendEmailReceipt(posStepState.orderOffline,customerEmail)">{{ 'Send' | translate }}</button>
+      <button (click)="sendEmailReceipt()" [disabled]="receiptState.salesReceipt.emailReceipt.isSending" [ladda]="receiptState.salesReceipt.emailReceipt.isSending">
+        {{ 'Send' | translate }}
+      </button>
       <input type="text" [(ngModel)]="customerEmail" placeholder="Type customer Email"/>
     </div>
   </div>

@@ -1,8 +1,7 @@
-<div class="checkout-blk" *ngIf="posStepState.checkoutStep"
-     [ngClass]="{'order-list-checkout': isOrderListPage()}">
+<div class="checkout-blk" [ngClass]="{'order-list-checkout': isOrderListPage()}">
   <div class="inner">
     <pos-default-sales-checkout-step-payments *ngIf="isStepPayment()" [posQuoteState]="posQuoteState" [posStepState]="posStepState" [posConfigState]="posConfigState" [posSyncState]="posSyncState">
     </pos-default-sales-checkout-step-payments>
-    <pos-default-sales-checkout-step-complete *ngIf="isStepComplete()" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posGeneralState]="posGeneralState"></pos-default-sales-checkout-step-complete>
+    <pos-default-sales-checkout-step-complete *ngIf="isStepComplete()" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posGeneralState]="posGeneralState" [receiptState]="receiptState"></pos-default-sales-checkout-step-complete>
   </div>
 </div>

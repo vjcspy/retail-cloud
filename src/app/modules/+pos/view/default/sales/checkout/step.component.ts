@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {PosSyncState} from "../../../../R/sync/sync.state";
 import {PosGeneralState} from "../../../../R/general/general.state";
+import {ReceiptState} from "../../../R/sales/receipts/receipt.state";
 
 @Component({
              // moduleId: module.id,
@@ -18,6 +19,7 @@ export class PosDefaultSalesCheckoutStepComponent implements OnInit {
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
   @Input() posGeneralState: PosGeneralState;
+  @Input() receiptState: ReceiptState;
   
   constructor(protected router: Router) { }
   
