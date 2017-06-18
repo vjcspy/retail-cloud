@@ -7,7 +7,8 @@ import * as moment from "moment";
 
 export class DateTimeFormatPipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
-    let m = moment(value);
+    const date = new Date(value);
+    let m = moment(date);
     switch (args[0]) {
       case "order_list":
         return m.format("dddd, MMMM Do YYYY");

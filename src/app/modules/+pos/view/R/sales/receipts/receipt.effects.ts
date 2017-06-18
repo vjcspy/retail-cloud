@@ -15,16 +15,11 @@ export class ReceiptEffects {
   
   @Effect() printReceipt = this.actions$
                                .ofType(
-                                 ReceiptActions.ACTION_PRINT_SALE_RECEIPT,
-                                 PosStepActions.ACTION_SAVED_ORDER)
-                               .withLatestFrom(this.store$.select('general'))
-                               .filter(([action, generalState]) => {
-                                 return action.type === PosStepActions.ACTION_SAVED_ORDER ?
-                                   !!(generalState as PosGeneralState).register['is_print_receipt'] : true;
-                               })
+                                 ReceiptActions.ACTION_PRINT_SALE_RECEIPT
+                               )
                                .map(() => {
                                  this.receiptService.printReceipt();
-                                 
+    
                                  return {type: RootActions.ACTION_NOTHING, payload: {mess: "Just print receipt"}};
                                });
 }

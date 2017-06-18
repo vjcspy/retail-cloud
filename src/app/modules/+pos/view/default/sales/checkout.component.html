@@ -23,6 +23,6 @@
 </div>
 
 <div class="checkout-step">
-  <pos-default-sales-checkout-step [posQuoteState]="quoteState$ | async" [posStepState]="posStepState$ | async" [posConfigState]="configState$ | async" [posSyncState]="posSyncState$ | async"></pos-default-sales-checkout-step>
+  <pos-default-sales-checkout-step [posQuoteState]="quoteState$ | async" [posStepState]="posStepState$ | async" [posConfigState]="configState$ | async" [posSyncState]="posSyncState$ | async" [posGeneralState]="generalState$ | async"></pos-default-sales-checkout-step>
 </div>
 <pos-default-sales-receipt [hidden]="true" [posConfigState]="configState$ | async" [receiptState]="receiptState$ | async"></pos-default-sales-receipt>
