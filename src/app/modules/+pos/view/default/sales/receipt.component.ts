@@ -40,7 +40,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       return this.receiptService.getReceiptObservable()
                  .subscribe(() => {
                    this.initBarcode();
-                   if (['receipt'].indexOf(this.receiptState.salesReceipt.typePrint) > 0) {
+                   if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > 0) {
                      this.print();
                    } else if (this.receiptState.salesReceipt.typePrint === 'email') {
                      this.receiptActions.resolvedEmailReceipt(this.getHtml());
