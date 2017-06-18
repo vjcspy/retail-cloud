@@ -18,6 +18,7 @@ import {Router} from "@angular/router";
 import {PosSyncState} from "../../../R/sync/sync.state";
 import {PosStepState} from "../../R/sales/checkout/step/step.state";
 import {PosSyncActions} from "../../../R/sync/sync.actions";
+import {ReceiptState} from "../../R/sales/receipts/receipt.state";
 
 @Component({
              // moduleId: module.id,
@@ -39,6 +40,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   cartItemState$: Observable<CartItemState>;
   cartTotalsState$: Observable<CartTotalsState>;
   posStepState$: Observable<PosStepState>;
+  receiptState$: Observable<ReceiptState>;
   
   constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router, private syncActions: PosSyncActions) {
     super();
@@ -56,6 +58,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
     this.cartItemState$        = this.store$.select('cartItem');
     this.cartTotalsState$      = this.store$.select('cartTotals');
     this.posStepState$         = this.store$.select('step');
+    this.receiptState$         = this.store$.select('receipt');
   }
   
   ngOnInit() {

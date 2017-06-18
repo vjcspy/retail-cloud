@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {ProductOptionsState} from "../../../../../R/sales/checkout/popup/product-options.state";
-import {PriceFormatPipe} from "../../../../../../pipes/price-format";
+import {PriceFormatPipe} from "../../../../../pipes/price-format";
 import {AbstractSubscriptionComponent} from "../../../../../../../../code/AbstractSubscriptionComponent";
 import {ProductOptionsActions} from "../../../../../R/sales/checkout/popup/product-options.actions";
 import * as _ from 'lodash';

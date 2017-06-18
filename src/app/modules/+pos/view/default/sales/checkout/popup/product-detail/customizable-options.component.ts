@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {Product} from "../../../../../../core/framework/catalog/Model/Product";
 import {GeneralException} from "../../../../../../core/framework/General/Exception/GeneralException";
-import {PriceFormatPipe} from "../../../../../../pipes/price-format";
+import {PriceFormatPipe} from "../../../../../pipes/price-format";
 import * as _ from 'lodash';
 import {ProductOptionsState} from "../../../../../R/sales/checkout/popup/product-options.state";
 import {ProductOptionsActions} from "../../../../../R/sales/checkout/popup/product-options.actions";

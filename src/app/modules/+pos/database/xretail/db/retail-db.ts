@@ -97,4 +97,4 @@ export class RetailDB extends Dexie {
 if (!window.hasOwnProperty('retailDB')) {
     window['retailDB'] = new RetailDB();
 }
-export let db = window['retailDB'];
+export const db:RetailDB = window['retailDB'];

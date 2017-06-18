@@ -5,11 +5,12 @@ import {ReceiptActions} from "./receipt.actions";
 import {RootActions} from "../../../../../../R/root.actions";
 import {PosStepActions} from "../checkout/step/step.actions";
 import {PosGeneralState} from "../../../../R/general/general.state";
+import {ReceiptService} from "./receipt.service";
 
 @Injectable()
 export class ReceiptEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions) { }
+  constructor(private store$: Store<any>, private actions$: Actions, private receiptService: ReceiptService) { }
   
   
   @Effect() printReceipt = this.actions$
@@ -22,8 +23,8 @@ export class ReceiptEffects {
                                    !!(generalState as PosGeneralState).register['is_print_receipt'] : true;
                                })
                                .map(() => {
-                                 // print receipt here
-    
+                                 this.receiptService.printReceipt();
+                                 
                                  return {type: RootActions.ACTION_NOTHING, payload: {mess: "Just print receipt"}};
                                });
 }

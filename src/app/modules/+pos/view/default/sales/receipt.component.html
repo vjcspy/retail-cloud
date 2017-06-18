@@ -37,7 +37,7 @@
         </p>
         <p>{{ 'OrderID' | translate }}: #{{getOrder()['retail_id']}}</p>
         <p *ngIf="!!getReceiptSetting()['order_info']['sales_person']">
-          {{ 'Served By' | translate }}:{{userDataManagement.getUserNameById(getOrder()['user_id'])}}
+          {{ 'Served By' | translate }}:{{getUserNameById(getOrder()['user_id'])}}
         </p>
       </div>
       <table class="invoice-table" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -108,11 +108,10 @@
         </tbody>
         <tfoot *ngIf="getOrder()['type_print'] == 'receipt'">
         <tr *ngFor="let payment of getOrder()['payment']">
-          <template [ngIf]="payment['amount']!=0">
-            <td>&nbsp;</td>
-            <td class="c-left">{{getPaymentTitle(payment)}}</td>
-            <td class="c-right">{{payment['amount'] | priceFormat}}</td>
-          </template>
+        <tr *ngFor="let payment of receiptData['payment']">
+          <td>&nbsp;</td>
+          <td class="c-left">{{getPaymentTitle(payment)}}</td>
+          <td class="c-right">{{payment['amount'] | priceFormat}}</td>
         </tr>
         </tfoot>
         <tfoot class="grand-total" *ngIf="getOrder()['type_print'] == 'receipt'">
@@ -124,7 +123,7 @@
             | priceFormat}}
           </td>
         </tr>
-        <tr *ngIf="showDiscountOrShipment(getOrder()['totals']['discount'] ? getOrder()['totals']['discount'] : 0 + (getPosConfig('xretail/pos/display_discount_incl_discount_peritem') == true && getOrder()['totals']['retail_discount_pert_item']) ? getOrder()['totals']['retail_discount_pert_item'] : 0)">
+        <tr *ngIf="showDiscountOrShipment(getOrder()['totals']['discount'] ? getOrder()['totals']['discount'] : 0 + (posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && getOrder()['totals']['retail_discount_pert_item']) ? getOrder()['totals']['retail_discount_pert_item'] : 0)">
           <td>&nbsp;</td>
           <td class="c-left">{{ 'Discount' | translate }}</td>
           <td class="c-right">
@@ -168,7 +167,7 @@
       <div [innerHtml]="getReceiptSetting()['footer']"></div>
       <img [hidden]="!getReceiptSetting()['enable_barcode'] || !getOrder() || !getOrder()['retail_id']" id="barcode1"/>
       <div class="footer-img">
-        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']" [src]="default_footer"
+        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']" src="assets/img/logo-customer.png"
              alt="SmartOSC"/>
         <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && getReceiptSetting()['footer_url']"
              [src]="getReceiptSetting()['footer_url']"/>

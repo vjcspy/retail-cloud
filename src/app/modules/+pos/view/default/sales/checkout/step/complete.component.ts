@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {PosStepState} from "../../../../R/sales/checkout/step/step.state";
+import {Payment3rd, PosStepState} from "../../../../R/sales/checkout/step/step.state";
 import {ReceiptActions} from "../../../../R/sales/receipts/receipt.actions";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
@@ -26,6 +26,12 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   }
   
   printReceipt(typePrint: string = 'receipt') {
-    this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint);
+    let customerReceipt: any = null, merchantReceipt: any = null;
+    if (this.posStepState.listPayment3rdData.count() > 0) {
+      const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
+      customerReceipt              = payment3rd.customerReceipt;
+      merchantReceipt              = payment3rd.merchantReceipt;
+    }
+    this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
   }
 }

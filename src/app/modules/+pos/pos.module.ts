@@ -7,7 +7,7 @@ import {DEFAULT_VIEW_COMPONENTS} from "./view/default/index";
 import {PosComponent} from "./pos.component";
 import {POS_SERVICES} from "./services/index";
 import {R_POS_VIEW_IMPORTS, R_POS_VIEW_PROVIDERS} from "./view/R/index";
-import {POS_PIPES} from "./pipes/index";
+import {POS_PIPES} from "./view/pipes/index";
 import {PosElementModule} from "../pos-element";
 import {POS_DIRECTIVES} from "./view/directives/index";
 

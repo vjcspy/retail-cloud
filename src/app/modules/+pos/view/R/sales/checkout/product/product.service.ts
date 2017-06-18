@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {List} from "immutable";
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {GeneralMessage} from "../../../../../services/general/message";
-import {PriceFormatPipe} from "../../../../../pipes/price-format";
+import {PriceFormatPipe} from "../../../../pipes/price-format";
 import {ProductDB} from "../../../../../database/xretail/db/product";
 import {StringHelper} from "../../../../../services/helper/string-helper";
 import * as _ from 'lodash';

@@ -101,6 +101,7 @@
     "immutable": "^3.8.1",
     "ion-rangeslider": "^2.1.7",
     "jquery": "^3.2.1",
+    "jsbarcode": "^3.8.0",
     "lodash": "^4.17.4",
     "meteor-rxjs": "^0.4.7",
     "meteor-typings": "^1.3.1",

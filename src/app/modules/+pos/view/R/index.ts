@@ -51,6 +51,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(ProductOptionsEffects),
   EffectsModule.run(PosStepEffects),
   EffectsModule.run(TyroEffects),
+  EffectsModule.run(ReceiptEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [

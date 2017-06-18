@@ -5,4 +5,12 @@ import {AbstractCollection} from "../../code/meteor/AbstractCollection";
 export class UserCollection extends AbstractCollection {
   protected $collection: string = "users";
   protected $collectionExisted  = true;
+  
+  getUserNameById(id) {
+    const cashier = this.getCollection().findOne({_id: id});
+    if (cashier) {
+      return cashier['username'];
+    } else
+      return " Unknown";
+  }
 }

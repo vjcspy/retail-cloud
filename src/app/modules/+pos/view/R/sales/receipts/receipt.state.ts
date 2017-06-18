@@ -2,6 +2,7 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface SalesReceipt {
   typePrint: string;
+  customerEmail: string;
   orderOffline: Object;
   customerReceipt: any;
   merchantReceipt: any;
@@ -11,7 +12,8 @@ export interface SalesReceiptRecord extends TypedRecord<any>, SalesReceipt {}
 
 export const salesReceiptFactory = makeTypedFactory<SalesReceipt, SalesReceiptRecord>(
   {
-    typePrint: 'receipt',
+    typePrint: 'receipt', // receipt, email, gift
+    customerEmail: null,
     orderOffline: null,
     customerReceipt: null,
     merchantReceipt: null

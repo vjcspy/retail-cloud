@@ -1,7 +1,6 @@
 import {Pipe, PipeTransform} from "@angular/core";
 import * as _ from "lodash";
-import {GeneralException} from "../core/framework/General/Exception/GeneralException";
-import {StoreManager} from "../core/framework/store/Model/StoreManager";
+import {StoreManager} from "../../core/framework/store/Model/StoreManager";
 
 @Pipe({name: 'priceFormat'})
 export class PriceFormatPipe implements PipeTransform {
