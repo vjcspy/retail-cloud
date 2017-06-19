@@ -3,7 +3,7 @@ import {PosComponent} from "./pos.component";
 import {PosDefaultTheme} from "./view/default/default";
 import {PosDefaultSalesPage} from "./view/default/sales";
 import {PosDefaultSalesCheckoutComponent} from "./view/default/sales/checkout.component";
-import {PosDefaultSalesOutletRegisterComponent} from "./view/default/sales/outlet-register.component";
+import {PosDefaultSalesOutletRegisterComponent} from "./view/default/outlet-register.component";
 
 export const POS_ROUTES: Routes = [
   {

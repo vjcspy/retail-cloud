@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PosPullActions} from "../../../R/entities/pull.actions";
-import {PosGeneralActions} from "../../../R/general/general.actions";
+import {PosPullActions} from "../../R/entities/pull.actions";
+import {PosGeneralActions} from "../../R/general/general.actions";
 import {Store} from "@ngrx/store";
 import {Router} from "@angular/router";
-import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
-import {PosGeneralState} from "../../../R/general/general.state";
-import {PosEntitiesState} from "../../../R/entities/entities.state";
+import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscriptionComponent";
+import {PosGeneralState} from "../../R/general/general.state";
+import {PosEntitiesState} from "../../R/entities/entities.state";
 
 @Component({
              // moduleId: module.id,
