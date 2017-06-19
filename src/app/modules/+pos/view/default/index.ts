@@ -28,13 +28,15 @@ import {CheckoutRewardPointComponent} from "./sales/checkout/step/payment/reward
 import {CheckoutTyroComponent} from "./sales/checkout/step/payment/tyro.component";
 import {PosDefaultSalesCheckoutStepCompleteComponent} from "./sales/checkout/step/complete.component";
 import {PosDefaultSalesReceiptComponent} from "./sales/receipt.component";
+import {PosDefaultMenuLeftComponent} from "./sales/menu-left.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
   
   PosDefaultSalesPage,
-  
   PosDefaultSalesOutletRegisterComponent,
+  
+  PosDefaultMenuLeftComponent,
   PosDefaultSalesReceiptComponent,
   PosDefaultSalesCheckoutComponent,
   

@@ -1,4 +1,4 @@
-<div class="wrapper selectDisable" [ngClass]="{active: posStepState.checkoutStep}">
-  <!--<left-menu-side></left-menu-side>-->
+<div class="wrapper selectDisable" [ngClass]="{active: posStepState.checkoutStep, open: menuState.leftMenu.isOpen}">
+  <pos-default-menu-left [menuState]="menuState"></pos-default-menu-left>
   <router-outlet></router-outlet>
 </div>

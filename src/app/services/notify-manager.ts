@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
-import {TranslateService} from "ng2-translate";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable()
 export class NotifyManager {

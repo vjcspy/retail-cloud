@@ -42,6 +42,9 @@ import {receiptReducer} from "./sales/receipts/receipt.reducer";
 import {ReceiptActions} from "./sales/receipts/receipt.actions";
 import {ReceiptEffects} from "./sales/receipts/receipt.effects";
 import {ReceiptService} from "./sales/receipts/receipt.service";
+import {MenuState} from "./sales/menu/menu.state";
+import {menuReducer} from "./sales/menu/menu.reducer";
+import {MenuLeftActions} from "./sales/menu/left/left.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -97,7 +100,10 @@ export const R_POS_VIEW_PROVIDERS = [
   //Receipt
   ReceiptActions,
   ReceiptEffects,
-  ReceiptService
+  ReceiptService,
+  
+  // Menu
+  MenuLeftActions
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -110,6 +116,7 @@ export interface SalesState {
   productOptions: ProductOptionsState;
   step: PosStepState;
   receipt: ReceiptState;
+  menu: MenuState;
 }
 
 export const salesReducer = createReducer({
@@ -120,5 +127,6 @@ export const salesReducer = createReducer({
                                             cartActionBar: cartActionBarReducer,
                                             productOptions: productOptionsReducer,
                                             step: posStepReducer,
-                                            receipt: receiptReducer
+                                            receipt: receiptReducer,
+                                            menu: menuReducer
                                           });

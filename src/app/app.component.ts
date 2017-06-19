@@ -9,7 +9,6 @@ import {
 import {Store} from "@ngrx/store";
 import {ToastsManager} from "ng2-toastr";
 import {AppState} from "./R/index";
-import {TranslateService} from "ng2-translate";
 
 /**
  * App Component
@@ -38,11 +37,9 @@ import {TranslateService} from "ng2-translate";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class AppComponent {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>, private translate: TranslateService) {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {
     this.toastr.setRootViewContainerRef(vcr);
     this.store.subscribe((appState) => window['appState'] = appState);
-    translate.setDefaultLang('en');
-    translate.use('en');
   }
   
 }

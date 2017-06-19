@@ -18,12 +18,12 @@ export const POS_ROUTES: Routes = [
             path: 'sales',
             component: PosDefaultSalesPage,
             children: [
-              {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent},
               {path: 'checkout', component: PosDefaultSalesCheckoutComponent},
               {path: 'order-list', component: PosDefaultSalesCheckoutComponent},
               {path: 'shift', component: PosDefaultSalesCheckoutComponent},
             ]
-          }
+          },
+          {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent}
         ]
       }
     ]

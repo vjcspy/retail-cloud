@@ -4,6 +4,7 @@ import {CheckoutProductState} from "../../../R/sales/checkout/product/product.st
 import {PosConfigState} from "../../../../R/config/config.state";
 import {FormControl} from "@angular/forms";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
+import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +17,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() configState: PosConfigState;
   protected searchString = new FormControl();
   
-  constructor(private checkoutProductActions: CheckoutProductActions) {
+  constructor(private checkoutProductActions: CheckoutProductActions, public menuLeftActions: MenuLeftActions) {
     super();
   }
   

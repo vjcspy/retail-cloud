@@ -38,7 +38,7 @@ export class PosViewRouterEffects {
                                        }
                                      };
                                    } else {
-                                     return go(['/pos/default/sales/outlet-register']);
+                                     return go(['/pos/default/outlet-register']);
                                    }
                                  });
 }
