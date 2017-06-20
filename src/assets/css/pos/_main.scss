@@ -1263,14 +1263,14 @@ textarea[readonly="readonly"] {
   text-transform: uppercase;
   cursor: pointer;
   background: $cgreen;
-  padding: 9px 48px 10px 16px;
+  padding: 9px 16px 10px 16px;
   @include border-radius(6px);
   @include single-transition(all,.3s);
   @include clearfix;
   &:hover {background: $cblueDark;}
   .value {
     float: left;
-    width: 30%;
+    width: 150px;
     opacity: .5;
     margin-top: 6px;
     text-align: left;
@@ -3851,7 +3851,10 @@ h2.p-head {padding: 18px 20px;}
           padding-right: 10px;
           .c-price{
             margin-right: 0;
-            width: 150px;
+            width: 175px;
+          }
+          .c-other{
+            max-width: 300px !important;
           }
         }
       }
