@@ -75,7 +75,6 @@ export class RetailTranslate {
   }
   
   updateLanguage(lang: string): Promise<GeneralMessage> {
-    console.log(lang);
     this.translate.use(lang);
     return new Promise((resolve, reject) => {
       this.db.getDbInstance().retailConfig

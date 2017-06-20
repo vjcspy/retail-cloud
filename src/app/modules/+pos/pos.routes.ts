@@ -4,6 +4,8 @@ import {PosDefaultTheme} from "./view/default/default";
 import {PosDefaultSalesPage} from "./view/default/sales";
 import {PosDefaultSalesCheckoutComponent} from "./view/default/sales/checkout.component";
 import {PosDefaultSalesOutletRegisterComponent} from "./view/default/outlet-register.component";
+import {PosDefaultSalesOrdersComponent} from "./view/default/sales/orders.component";
+import {PosDefaultSalesShiftsComponent} from "./view/default/sales/shifts.component";
 
 export const POS_ROUTES: Routes = [
   {
@@ -19,8 +21,8 @@ export const POS_ROUTES: Routes = [
             component: PosDefaultSalesPage,
             children: [
               {path: 'checkout', component: PosDefaultSalesCheckoutComponent},
-              {path: 'order-list', component: PosDefaultSalesCheckoutComponent},
-              {path: 'shift', component: PosDefaultSalesCheckoutComponent},
+              {path: 'orders', component: PosDefaultSalesOrdersComponent},
+              {path: 'shifts', component: PosDefaultSalesShiftsComponent},
             ]
           },
           {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent}

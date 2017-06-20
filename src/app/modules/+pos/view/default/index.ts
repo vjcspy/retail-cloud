@@ -29,6 +29,10 @@ import {CheckoutTyroComponent} from "./sales/checkout/step/payment/tyro.componen
 import {PosDefaultSalesCheckoutStepCompleteComponent} from "./sales/checkout/step/complete.component";
 import {PosDefaultSalesReceiptComponent} from "./sales/receipt.component";
 import {PosDefaultMenuLeftComponent} from "./sales/menu-left.component";
+import {PosDefaultSalesOrdersComponent} from "./sales/orders.component";
+import {PosDefaultSalesOrdersListComponent} from "./sales/orders/list.component";
+import {PosDefaultSalesShiftsComponent} from "./sales/shifts.component";
+import {PosDefaultSalesOrdersListItemComponent} from "./sales/orders/list/item.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -68,5 +72,11 @@ export const DEFAULT_VIEW_COMPONENTS = [
   CheckoutCashComponent,
   CheckoutCreditCardComponent,
   CheckoutRewardPointComponent,
-  CheckoutTyroComponent
+  CheckoutTyroComponent,
+  
+  PosDefaultSalesOrdersComponent,
+  PosDefaultSalesOrdersListComponent,
+  PosDefaultSalesOrdersListItemComponent,
+  
+  PosDefaultSalesShiftsComponent,
 ];

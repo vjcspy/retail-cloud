@@ -7,6 +7,7 @@ import {routerReducer, RouterState, RouterStoreModule} from "@ngrx/router-store"
 import {EffectsModule} from "@ngrx/effects";
 import {RootEffects} from "./root.effects";
 import * as _ from 'lodash';
+import {RouterActions} from "./router/router.actions";
 
 export interface AppState {
   rootState: RootState;
@@ -48,7 +49,8 @@ export const R_IMPORTS = [
  */
 export const R_PROVIDERS = [
   RootActions,
-  RootEffects
+  RootEffects,
+  RouterActions
 ];
 
 
