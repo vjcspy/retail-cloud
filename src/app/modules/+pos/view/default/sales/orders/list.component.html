@@ -20,7 +20,7 @@
   <div class="top-field">
     <input #dateSelectFrom type="text" class="calendar-picker"/>
     <input #dateSelectTo class="calendar-picker" type="text"/>
-    <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="listService.getStatusElementData()"
+    <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
                    [model]="ordersState.list.searchOrderStatus"
                    (modelChange)="searchOrderStatus($event)">
     </retail-select>

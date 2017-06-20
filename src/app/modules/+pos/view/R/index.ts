@@ -49,6 +49,7 @@ import {ordersReducer} from "./sales/orders/order.reducer";
 import {ListActions} from "./sales/orders/list/list.actions";
 import {ListService} from "./sales/orders/list/list.service";
 import {ListEffects} from "./sales/orders/list/list.effects";
+import {OrderService} from "./sales/orders/order.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -111,6 +112,7 @@ export const R_POS_VIEW_PROVIDERS = [
   MenuLeftActions,
   
   // Orders
+  OrderService,
   ListActions,
   ListService,
   ListEffects,

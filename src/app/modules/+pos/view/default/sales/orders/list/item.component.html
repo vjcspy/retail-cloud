@@ -1,6 +1,6 @@
 <div class="items" [ngClass]="{active: isActive()}">
   <div class="value">
-    <h3 class="status" *ngIf="order['retail_status']">{{listService.getClientStatus(order['retail_status'])|translate}}</h3>
+    <h3 class="status" *ngIf="order['retail_status']">{{orderService.getClientStatus(order['retail_status'])|translate}}</h3>
     <h3 class="status" *ngIf="!order['retail_status']">{{order['status']}}</h3>
     <p class="price">{{order['totals']['grand_total'] | priceFormat}}</p>
   </div>

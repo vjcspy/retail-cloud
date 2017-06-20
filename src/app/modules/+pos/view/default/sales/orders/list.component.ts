@@ -4,6 +4,7 @@ import {OrdersState} from "../../../R/sales/orders/order.state";
 import {ListActions} from "../../../R/sales/orders/list/list.actions";
 import {ListService} from "../../../R/sales/orders/list/list.service";
 import {OfflineService} from "../../../../../share/provider/offline";
+import {OrderService} from "../../../R/sales/orders/order.service";
 
 @Component({
              // moduleId: module.id,
@@ -20,7 +21,8 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
   constructor(public menuLeftActions: MenuLeftActions,
               public listActions: ListActions,
               public listService: ListService,
-              public offline: OfflineService) { }
+              public offline: OfflineService,
+              public orderService: OrderService) { }
   
   ngOnInit() { }
   
