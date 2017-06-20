@@ -1,0 +1,40 @@
+<div class="order-list-leftside">
+  <div class="top-bar">
+        <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span
+          class="text">X-Retail</span></span>
+    <div class="check-box">
+      <input [value]="ordersState.list.isSearchOnline" (change)="listActions.changeStateSearchOnline($event)"
+             type="checkbox">
+      <span></span>{{ 'Search Online' | translate }}
+    </div>
+    <div class="search-blk">
+      <span class="icon-search"></span><input #searchElement [value]="ordersState.list.searchString"
+                                              placeholder="Client ID, Magento ID, Customer..."
+                                              (blur)="searchOrder($event.target.value)"
+                                              enterBlur inputSelectText
+                                              type="text">
+    </div>
+  </div><!--end top-bar-->
+
+  <div class="top-field">
+    <input #dateSelectFrom type="text" class="calendar-picker"/>
+    <input #dateSelectTo class="calendar-picker" type="text"/>
+    <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="listService.getStatusElementData()"
+                   [model]="ordersState.list.searchOrderStatus"
+                   (modelChange)="listActions.changeSearchData({searchOrderStatus: $event})">
+    </retail-select>
+  </div><!--end top-field-->
+
+  <div class="order-list-inner" style="top: -20px" perfectScroll>
+    <h1 *ngIf="ordersState.list.ordersGroped.count() === 0" class="text-center">{{ 'No orders found' | translate }}</h1>
+    <div class="order-group">
+      <div *ngFor="let orderGrouped of ordersState.list.ordersGroped;trackBy:trackByTimeStamp">
+        <div *ngIf="orderGrouped['orders'].count() >0" class="date">
+          {{!!orderGrouped['today'] ? 'Today' : orderGrouped['timestamp']}}
+        </div>
+        <pos-default-sales-orders-list-item *ngFor="let order of orderGrouped['orders'];trackBy:trackById" [order]="order" [ordersState]="ordersState"></pos-default-sales-orders-list-item>
+      </div>
+
+    </div>
+  </div>
+</div>

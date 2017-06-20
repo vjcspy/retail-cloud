@@ -41,4 +41,38 @@ export class PosViewRouterEffects {
                                      return go(['/pos/default/outlet-register']);
                                    }
                                  });
+  
+  @Effect() whenGoOrders = this.actions$
+                               .ofType(routerActions.UPDATE_LOCATION)
+                               .filter((action: Action) => action.payload['path'] === '/pos/default/sales/orders')
+                               .withLatestFrom(this.store$.select('general'))
+                               .map((z) => {
+                                 const generalState: PosGeneralState = <any> z[1];
+    
+                                 if (!!generalState.register['id'] && !!generalState.outlet['id'] && !!generalState.store['id']) {
+                                   return {
+                                     type: PosPullActions.ACTION_PULL_ENTITIES, payload: {
+                                       entitiesCode: [
+                                         'settings',
+                                         'countries',
+                                         // 'taxClass',
+                                         // 'taxes',
+                                         'receipts',
+                                         'payment',
+                                         'orders',
+                                         // 'userOrderCount',
+                                         // 'warehouse',
+                                         // 'permission',
+                                         // 'customerGroup',
+                                         // 'customers',
+                                         // 'category',
+                                         // 'products'
+                                       ]
+                                     }
+                                   };
+                                 } else {
+                                   return go(['/pos/default/outlet-register']);
+                                 }
+                               });
+  
 }

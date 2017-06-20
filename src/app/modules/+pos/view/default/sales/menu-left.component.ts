@@ -1,15 +1,17 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {AuthenticateService} from "../../../../../services/authenticate";
 import {OfflineService} from "../../../../share/provider/offline";
 import {MenuState} from "../../R/sales/menu/menu.state";
 import {RetailTranslate} from "../../../../../services/retail-translate";
 import {MenuLeftActions} from "../../R/sales/menu/left/left.actions";
 import {TranslateService} from "@ngx-translate/core";
+import {RouterActions} from "../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-menu-left',
-             templateUrl: 'menu-left.component.html'
+             templateUrl: 'menu-left.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultMenuLeftComponent implements OnInit {
   @ViewChild('menuElem') menuElem: ElementRef;
@@ -19,7 +21,8 @@ export class PosDefaultMenuLeftComponent implements OnInit {
               public offline: OfflineService,
               public translate: TranslateService,
               public retailTranslate: RetailTranslate,
-              public menuLeftActions: MenuLeftActions) { }
+              public menuLeftActions: MenuLeftActions,
+              protected routerActions: RouterActions) { }
   
   ngOnInit() { }
   
@@ -33,7 +36,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   
   
   openCart() {
-  
+    this.routerActions.go('pos/default/sales/checkout');
   }
   
   openShift() {
@@ -48,8 +51,8 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   
   }
   
-  openOrderList() {
-  
+  openOrders() {
+    this.routerActions.go('pos/default/sales/orders');
   }
   
   flushCache() {
@@ -65,7 +68,9 @@ export class PosDefaultMenuLeftComponent implements OnInit {
     if (target.className.indexOf('menu-toggle') > -1 || target.className.indexOf('amenu') > -1)
       return;
     if (this.menuElem && !this.menuElem.nativeElement.contains(target)) {
-      this.menuLeftActions.changeOpenState(false);
+      if (this.menuState.leftMenu.isOpen === true) {
+        this.menuLeftActions.changeOpenState(false);
+      }
     }
   }
 }

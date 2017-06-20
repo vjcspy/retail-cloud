@@ -23,7 +23,7 @@ export class PosPullEffects {
                                 .filter(([action, pullState]) => {
                                   return pullState['isPullingChain'] === true || pullState['pullingChain'].count() > 0;
                                 })
-                                .flatMap(([action, pullState, entitiesState]) => {
+                                .switchMap(([action, pullState, entitiesState]) => {
                                   if (pullState['pullingChain'].count() === 0) {
                                     this.progressBar.done(true);
                                     return Observable.of({type: PosPullActions.ACTION_PULL_ENTITIES_FULL});

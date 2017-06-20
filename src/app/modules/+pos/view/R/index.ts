@@ -45,6 +45,10 @@ import {ReceiptService} from "./sales/receipts/receipt.service";
 import {MenuState} from "./sales/menu/menu.state";
 import {menuReducer} from "./sales/menu/menu.reducer";
 import {MenuLeftActions} from "./sales/menu/left/left.actions";
+import {ordersReducer} from "./sales/orders/order.reducer";
+import {ListActions} from "./sales/orders/list/list.actions";
+import {ListService} from "./sales/orders/list/list.service";
+import {ListEffects} from "./sales/orders/list/list.effects";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -55,6 +59,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosStepEffects),
   EffectsModule.run(TyroEffects),
   EffectsModule.run(ReceiptEffects),
+  EffectsModule.run(ListEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -103,7 +108,12 @@ export const R_POS_VIEW_PROVIDERS = [
   ReceiptService,
   
   // Menu
-  MenuLeftActions
+  MenuLeftActions,
+  
+  // Orders
+  ListActions,
+  ListService,
+  ListEffects,
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -128,5 +138,6 @@ export const salesReducer = createReducer({
                                             productOptions: productOptionsReducer,
                                             step: posStepReducer,
                                             receipt: receiptReducer,
-                                            menu: menuReducer
+                                            menu: menuReducer,
+                                            orders: ordersReducer
                                           });

@@ -17,8 +17,8 @@ export class PosComponent {
     this.store.replaceReducer(posReducer);
     this.offline.init();
     
-    // this.translate.setDefaultLang('en');
-    // this.translate.use('vi');
-    this.retailTranslate.resolveLanguages();
+    this.translate.setDefaultLang('en');
+    this.translate.use('vi');
+    // this.retailTranslate.resolveLanguages();
   }
 }
