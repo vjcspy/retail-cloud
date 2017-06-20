@@ -33,6 +33,8 @@ import {PosDefaultSalesOrdersComponent} from "./sales/orders.component";
 import {PosDefaultSalesOrdersListComponent} from "./sales/orders/list.component";
 import {PosDefaultSalesShiftsComponent} from "./sales/shifts.component";
 import {PosDefaultSalesOrdersListItemComponent} from "./sales/orders/list/item.component";
+import {PosDefaultSalesOrdersDetailComponent} from "./sales/orders/detail.component";
+import {PosDefaultSalesOrdersDetailItemsComponent} from "./sales/orders/detail/items.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -77,6 +79,8 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesOrdersComponent,
   PosDefaultSalesOrdersListComponent,
   PosDefaultSalesOrdersListItemComponent,
+  PosDefaultSalesOrdersDetailComponent,
+  PosDefaultSalesOrdersDetailItemsComponent,
   
   PosDefaultSalesShiftsComponent,
 ];

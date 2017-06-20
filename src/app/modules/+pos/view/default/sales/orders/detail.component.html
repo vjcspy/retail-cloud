@@ -1,10 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="order-list-detail" *ngIf="getOrder()['id']">
+  <div class="top-bar">
+    <div class="grand-total">{{getOrder()['totals']['grand_total'] | priceFormat}}</div>
+  </div>
+  <div class="order-list-inner" perfectScroll>
+    <div class="notification"
+         [ngClass]="{'has-noted': !!getOrder()['retail_note'] && !getOrder()['add_note'],'add-noted':getOrder()['add_note']}">
+            <span class="click">
+                <span class="icon-noted"></span>
+            </span>
+      <p class="noted">
+        {{getOrder()['retail_note']}}
+      </p>
+      <textarea [(ngModel)]="getOrder()['retail_note']"></textarea>
+    </div>
 
-</body>
-</html>
+    <div class="customer-info" [ngClass]="{active: getOrder()['is_active_customer']}">
+      <div class="info-group">
+        <div class="items" (click)="getOrder()['is_active_customer'] = !getOrder()['is_active_customer']">
+          <p class="f-left">
+            <span class="txt">{{ 'Client Order' | translate }}</span>
+            <span class="value">#{{getOrder()['retail_id']}}</span>
+          </p>
+          <p class="f-left">
+            <span class="txt">{{getOrder()['customer']['name']}}</span>
+            <span class="value">{{getOrder()['customer']['email']}}</span>
+          </p>
+        </div>
+        <div class="i-content">
+          <div class="items">
+            <p class="f-left">
+              <span class="txt">{{ 'Magento Order' | translate }}</span>
+              <span class="value">#{{getOrder()['increment_id']}}</span>
+
+              <span class="txt">{{ 'Status' | translate }}</span>
+              <span class="value">{{orderService.getClientStatus(getOrder()['retail_status'])}}</span>
+
+              <span class="txt">{{ 'Date &amp; Time' | translate }}</span>
+              <span class="value">{{getOrder()['created_at'] | datetimeFormat:'detail'}}</span>
+            </p>
+            <p class="f-left" *ngIf="!getOrder()['is_order_virtual']">
+              <span class="txt">{{ 'Telephone' | translate }}</span>
+              <span class="value">{{getOrder()['shipping_address']['telephone'] || "Unknown Telephone"}}</span>
+
+              <span class="txt">{{ 'Address' | translate }}</span>
+              <span class="value" *ngIf="getOrder()['shipping_address']['region'] != '-'">{{getOrder()['shipping_address']['street'] + ", "+
+                                getOrder()['shipping_address']['city'] + ", "+
+                                (getOrder()['shipping_address']['region']|| "") + (getOrder()['shipping_address']['region'] ? ", " : "")+getOrder()['shipping_address']['postcode'] + ", "+
+                                getCountryNameFromId(getOrder()['shipping_address']['country_id'])}}</span>
+              <span class="value" *ngIf="getOrder()['shipping_address']['region'] == '-'">{{getOrder()['shipping_address']['street'] + ", "+
+                                getOrder()['shipping_address']['city'] + ", "+
+                                (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'], getOrder()['shipping_address']['region_id']) || "")
+                                + (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'], getOrder()['shipping_address']['region_id']) ? ", " : "") +
+                                getOrder()['shipping_address']['postcode'] + ", "+
+                                getCountryNameFromId(getOrder()['shipping_address']['country_id'])}}</span>
+            </p>
+          </div>
+        </div>
+      </div><!--end info-group-->
+    </div><!--end customer-info-->
+
+    <div class="order-info">
+      <pos-default-sales-orders-detail-items *ngFor="let item of getOrder()['items']" [item]="item" [configState]="configState"></pos-default-sales-orders-detail-items>
+    </div>
+
+    <div class="payment-info">
+      <div class="info">
+        <h3 class="title">{{ 'payment information' | translate }}</h3>
+        <div *ngFor="let payment of getPayment()">
+          <div class="i-items" *ngIf="payment['amount'] != 0"><!--fix xrt-508 VietLQ-->
+            <span
+              [ngClass]="{'icon-wallet': payment['type'] == 'cash','icon-card': payment['type'] =='credit_card' ||  payment['type'] =='tyro'}">
+
+                        </span>
+            <h4>{{getPaymentTitle(payment)}}</h4>
+            <div *ngIf="payment['type'] == 'tyro'" style="margin-left: 15px;font-style: italic">
+              <p>{{ 'Authorisation Code' | translate }}: {{payment['data']['authorisationCode']}}</p>
+              <p>{{ 'Card Type' | translate }}: {{payment['data']['authorisationCode']}}</p>
+              <p>{{ 'Issuer Action Code' | translate }}: {{payment['data']['issuerActionCode']}}</p>
+              <p>{{ 'Transaction Reference' | translate }}: {{payment['data']['transactionReference']}}</p>
+            </div>
+            <p>{{payment['created_at'] |datetimeFormat:'detail'}}</p>
+            <p>{{payment['amount']|priceFormat}}</p>
+          </div>
+        </div>
+      </div><!--end info-->
+      <div class="total-blk">
+        <div class="total-row">
+          <p class="t-txt">{{configState.setting.tax.displaySalesSubtotalExclTax()? ("Subtotal"|translate) : ("Subtotal Incl.tax"|translate)}}</p>
+          <p class="t-value">
+            {{(configState.setting.tax.displaySalesSubtotalExclTax()? getOrder()['totals']['subtotal'] :
+            getOrder()['totals']['subtotal_incl_tax']) | priceFormat}}
+          </p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{configState.setting.tax.displaySalesShippingExclTax()? ("Shipping"|translate) : ("Shipping Incl.tax"|translate)}}</p>
+          <p class="t-value">
+            {{(configState.setting.tax.displaySalesShippingExclTax()? getOrder()['totals']['shipping'] :
+            getOrder()['totals']['shipping_incl_tax']) | priceFormat}}
+          </p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Tax' | translate }}</p>
+          <p class="t-value">{{getOrder()['totals']['tax'] | priceFormat}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Discount' | translate }}</p>
+          <p class="t-value">{{(getOrder()['totals']['discount'] + getOrder()['totals']['retail_discount_pert_item']) | priceFormat}}</p>
+        </div>
+        <div class="total-row" *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">
+          <p class="t-txt">{{ 'Reward Point' | translate }}</p>
+          <p class="t-value">{{getOrder()['totals']['reward_point_discount_amount'] | priceFormat}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Grand total' | translate }}</p>
+          <p class="t-value">{{getOrder()['totals']['grand_total'] | priceFormat}}</p>
+        </div>
+        <div class="total-row grand">
+          <p class="t-txt">{{ 'Total paid' | translate }}</p>
+          <p class="t-value">{{getTotalPaidBaseOnPayment() | priceFormat}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Remain' | translate }}</p>
+          <p class="t-value">{{(getOrder()['totals']['grand_total'] - getTotalPaidBaseOnPayment()) | priceFormat}}</p>
+        </div>
+        <div class="total-row refunded" *ngIf="getOrder()['totals']['total_refunded']">
+          <p class="t-txt">{{ 'Total Refunded' | translate }}</p>
+          <p class="t-value">{{getOrder()['totals']['total_refunded'] | priceFormat}}</p>
+        </div>
+      </div><!--end total-blk-->
+    </div><!--end payment-info-->
+  </div><!--end order-list-inner-->
+  <div class="bottom-bar">
+    <button>{{ 'Duplicate' | translate }}</button>
+    <button *ngIf="getOrder()['can_creditmemo']">{{ 'Refund' | translate }}</button>
+    <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
+    <button *ngIf="getOrder()['can_invoice'] && !!getOrder()['retail_id']">{{ 'Add Payment' | translate }}</button>
+    <div class="button-group" [ngClass]="{active:getOrder()['is_active_receipt']}">
+      <button>{{ 'Receipt' | translate }}</button>
+      <div class="inner">
+        <button>{{ 'Receipt' | translate }}</button>
+        <button>{{ 'Gift Receipt' | translate }}</button>
+        <button>{{ 'Email Receipt' | translate }}</button>
+      </div>
+    </div>
+  </div><!--end bottom-bar-->
+
+  <!--EMAIL RECEIPT-->
+  <!--div class="email-receipt">
+      <h3>email receipt</h3>
+      <form>
+          <input type="text" placeholder="Enter your email" />
+          <div class="button-bar">
+              <button class="outline">Close</button>
+              <button class="outline">Send</button>
+          </div>
+      </form>
+  </div--><!--end EMAIL RECEIPT-->
+
+  <!--REFUND RECEIPT-->
+  <!--div class="refund-receipt">
+      <h3>Refund receipt</h3>
+      <form>
+          <div class="refund-list">
+              <span class="click">Credit memo #10001</span>
+              <span class="click">Credit memo #10002</span>
+              <span class="click">Credit memo #10003</span>
+              <span class="click">Credit memo #10004</span>
+          </div>
+          <div class="button-bar">
+              <button class="outline">Close</button>
+          </div>
+      </form>
+  </div--><!--end REFUND RECEIPT-->
+
+</div>

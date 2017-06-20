@@ -892,7 +892,7 @@ textarea[readonly="readonly"] {
       background: $white; padding-top: 0;
     @include box-shadow(5px 0px 10px 0px rgba(135,149,162,0.28));
     .left-menu-link {
-      margin: -43px 83px 0;
+      margin: -43px 43px 0;
       padding-top: .01em;
     }
   }
@@ -928,7 +928,7 @@ textarea[readonly="readonly"] {
       font-family: $mainFont;
       color: #7C8089; text-transform: none;
       margin: 8px 0;
-      padding: 3px 12px 5px 23px;
+      padding: 3px 12px 5px 0;
       .click {
         &:hover {color: $white;}
       }
@@ -948,7 +948,7 @@ textarea[readonly="readonly"] {
   }
   .sub-menu {
     max-height: 0; overflow: hidden;
-    margin: 10px 0 -24px 7px;
+    margin: 10px 0 -24px 0px;
     @include single-transition(all,0.3s);
     .active {
       /*background: $cblue;
@@ -1083,7 +1083,7 @@ textarea[readonly="readonly"] {
 }
 .grid-mode, .category-mode {
   padding-top: 3px;
-  margin: 0;
+  margin: 0 -5px;
   @include clearfix;
   .item {
     float: left; width: 200px;
@@ -1216,7 +1216,7 @@ textarea[readonly="readonly"] {
       }
     }
     .prd-name {
-      &, p {width: 395px;}
+      &, p {width: 395px; cursor: pointer}
     }
     .prd-sku {
       &, p {width: 175px;}
@@ -1913,7 +1913,7 @@ textarea[readonly="readonly"] {
     .inner {
       position: relative;
       overflow: hidden;
-      padding-right: 13px;
+      padding-right: 13px;  
     }
     .fr-control {
       margin-top: 31px;
@@ -2716,6 +2716,8 @@ h2.p-head {padding: 18px 20px;}
   }
   .wl-table {
     margin: 10px 33px 20px;
+    overflow: auto;
+    max-height: 230px;
     tr, td {
       border: 1px solid $border;
       border-collapse: collapse;
@@ -2960,12 +2962,19 @@ h2.p-head {padding: 18px 20px;}
   }
   .grid-item {
     padding: 10px 27px 0;
+    display: flex;    
+    flex-wrap: wrap;
     li {
       position: relative;
-      float: left; width: calc(25% - 12px);
+      float: left; 
+      width: calc(25% - 12px);
       margin: 6px;
       color: $disTxt; background: $cbkg;
       min-height: 165px; padding: 17px 27px 48px;
+      @include tablet{
+        width: calc(33.333% - 12px);
+      }      
+
       &:nth-of-type(4n+1) {clear: left}
       &, .click {@include single-transition(all,0.3s);}
       h3, p {margin: 0;}
@@ -3369,8 +3378,10 @@ h2.p-head {padding: 18px 20px;}
         &.color {
           min-height: 26px;
           h3 {
-            position: absolute; left: auto;
+            position: absolute; left: 22px;
+            width: calc(100% - 110px);            
             @include ver-pos;
+
           }
         }
       }
@@ -3629,19 +3640,26 @@ h2.p-head {padding: 18px 20px;}
     text-align: center;
   }
   .top-br {
-    img {max-width: 100%; height: auto;}
-    /*padding: 46px 0 41px;
-    background: #15AF53;
-    background: -moz-linear-gradient(-23deg, #15AF53 0%, #5BDC82 100%);
-    background: -webkit-linear-gradient(-23deg, #15AF53 0%, #5BDC82 100%);
-    background: linear-gradient(157deg, #15AF53 0%, #5BDC82 100%);*/
+    text-align: center;
+    img {max-width: 100%; height: auto}
+    // padding: 46px 0 41px;
+    // background: #15AF53;    
+    // background-image: -moz-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
+    // background-image: -o-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
+    // background-image: -webkit-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
+    // background-image: linear-gradient(113deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
+
   }
   .bottom-br {
-    font-size: 16px; padding: 22px 23px 16px;
+    font-size: 16px; padding: 22px 0 16px;
     p {margin: 0 0 22px;}
     .footer-img {
       // margin: 22px -23px 18px; padding: 35px 0 28px;
+<<<<<<< HEAD
       background: #88E3A4;
+=======
+      // background: #88E3A4;
+>>>>>>> f44f536e1c696e9b9367b46dfe9faf6498dae5d6
       margin: 10px 0 15px;
       text-align: center;
       img {max-width: 100%; height: auto}
@@ -3766,7 +3784,16 @@ h2.p-head {padding: 18px 20px;}
     bottom: 5px; left: 3px; right: 3px;
     background: $cbkg;
     @include clearfix;
+<<<<<<< HEAD
     button {float: right; width: 308px; margin-top: 13px; padding: 0 15px; background: $cgreen}
+=======
+    button {
+      float: right; width: 308px; margin-top: 13px;
+      @include tablet{
+        width: 48%;
+      }
+    }
+>>>>>>> f44f536e1c696e9b9367b46dfe9faf6498dae5d6
   }
   .checkout-table {
     position: relative;
@@ -3783,6 +3810,7 @@ h2.p-head {padding: 18px 20px;}
           color: $mainTxt;
           background: $cbkg; border: #D0D0D0 solid 1px;
         }
+
         .c-name {
           position: absolute;
           left: auto;
@@ -3825,6 +3853,14 @@ h2.p-head {padding: 18px 20px;}
             cursor: pointer;
             &:hover, &.cur {color: $cgreen2;}
             &.cur {font-family: $mediumFont;}
+          }
+        }
+        @include tablet{
+          padding-left: 10px;
+          padding-right: 10px;
+          .c-price{
+            margin-right: 0;
+            width: 150px;
           }
         }
       }
@@ -3879,6 +3915,9 @@ h2.p-head {padding: 18px 20px;}
   .info-checkout {
     float: left; width: 308px;
     font-family: $mediumFont; font-size: $size;
+    @include tablet{
+      width: 48%;
+    }
     &, .info-row {@include clearfix;}
     .info-row {
       padding: 15px 0;
@@ -3898,7 +3937,9 @@ h2.p-head {padding: 18px 20px;}
 
   .checkout-completed {
     position: absolute;
-    width: 61.3184%; padding: 60px 0;
+    // width: 61.3184%; 
+    width: 515px;
+    padding: 60px 0;
     @include center-pos;
     button {font-size: 13px; @include border-radius(6px);}
     .control-bar {
@@ -4569,6 +4610,11 @@ ul.has-list {
       }
       .i-content {max-height: 1000px;}
     }
+    @include tablet{
+      .info-group .f-left{
+        @include float-reset;
+      }
+    }
   }
   .info-group {
     .items {
@@ -4585,6 +4631,14 @@ ul.has-list {
         font-size: 16px; color: $mainTxt;
         @include rotate(-90deg);
       }
+      @include tablet{
+        .f-left:not(:first-child){
+          .txt,.value{
+            margin-top: 14px;
+          }        
+        }
+      }
+      
     }
     .txt, .value {float: left; @include ellipsis; line-height: 22px;}
     .txt {
@@ -4605,6 +4659,7 @@ ul.has-list {
       .txt, .value {white-space: normal; margin-top: 14px; min-height: 22px;}
     }
   }
+
   .notification {/*float: right; margin: 14px 0 13px;*/}
   .order-info {
     margin: 22px 0 17px;
@@ -4842,6 +4897,10 @@ ul.has-list {
       text-transform: uppercase; min-height: 42px;
       padding-left: 9px; margin-left: 47.9069%;
       @include clearfix;
+      @include tablet{
+        width: 67%;
+        margin-left: 33%;
+      }
       &:before {
         content: "";
         position: absolute;

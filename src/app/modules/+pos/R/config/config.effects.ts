@@ -16,6 +16,8 @@ import {Observable} from "rxjs";
 import {PosConfigService} from "./config.service";
 import {ReceiptDB} from "../../database/xretail/db/receipt";
 import {PosEntitiesState} from "../entities/entities.state";
+import {CountryDB} from "../../database/xretail/db/country";
+import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
 
 @Injectable()
 export class PosConfigEffects {
@@ -41,7 +43,7 @@ export class PosConfigEffects {
                                     let customerConfig: SettingDB   = settings.find((s) => s['key'] === 'customer');
     
                                     if (!taxConfig || !productConfig || !shippingConfig || !customerConfig) {
-                                      return this.rootActions.error("Can't get setting in initPosSettings",null, false);
+                                      return this.rootActions.error("Can't get setting in initPosSettings", null, false);
                                     } else {
                                       TaxConfig.taxConfig    = taxConfig['value'];
                                       CustomerSetting.config = customerConfig['value'];
@@ -67,7 +69,7 @@ export class PosConfigEffects {
                                                           .map((orderCount) => {
                                                             return this.configActions.retrieveOrderCount(orderCount, false);
                                                           })
-                                                          .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count",null, false)));
+                                                          .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count", null, false)));
                                        }
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });
@@ -85,5 +87,13 @@ export class PosConfigEffects {
                                     }
     
                                     return this.configActions.saveReceiptSetting(receipt);
-                                  })
+                                  });
+  
+  @Effect() saveCountryData = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                  .filter((action: Action) => action.payload['entityCode'] === ReceiptDB.getCode())
+                                  .withLatestFrom(this.store$.select('entities'))
+                                  .map((z) => {
+                                    CountryHelper.countries = (z[1] as PosEntitiesState).countries.items.toJS();
+                                    return this.rootActions.nothing("Save country to core");
+                                  });
 }

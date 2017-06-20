@@ -135,6 +135,11 @@
     line-height: 0;
   }
 }
+@mixin float-reset{
+  width: 100%;
+  float: none;
+  clear: both;
+}
 
 $w-tablet: 1366px;
 @mixin tablet {
