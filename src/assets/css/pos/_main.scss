@@ -1263,14 +1263,14 @@ textarea[readonly="readonly"] {
   text-transform: uppercase;
   cursor: pointer;
   background: $cgreen;
-  padding: 9px 48px 10px 16px;
+  padding: 9px 16px 10px 16px;
   @include border-radius(6px);
   @include single-transition(all,.3s);
   @include clearfix;
   &:hover {background: $cblueDark;}
   .value {
     float: left;
-    width: 30%;
+    width: 150px;
     opacity: .5;
     margin-top: 6px;
     text-align: left;
@@ -3653,14 +3653,12 @@ h2.p-head {padding: 18px 20px;}
   .bottom-br {
     font-size: 16px; padding: 22px 0 16px;
     p {margin: 0 0 22px;}
-    .footer-img {
-      // margin: 22px -23px 18px; padding: 35px 0 28px;
-      // background: #88E3A4;
+    .footer-img {      
       margin: 10px 0 15px;
       text-align: center;
-      img {max-width: 100%; height: auto}
+      img {max-width: 100%; height: auto;}
     }
-    .copy-right {font-size: $sizeS; color: $disTxt; margin: 0;}
+    .copy-right {font-size: $sizeS; color: $disTxt; margin: 0}
   }
   .inner {
     padding: 0 23px;
@@ -3681,6 +3679,7 @@ h2.p-head {padding: 18px 20px;}
         span {display: block; white-space: nowrap;}
       }
     }
+
   }
 }
 
@@ -3780,11 +3779,12 @@ h2.p-head {padding: 18px 20px;}
     background: $cbkg;
     @include clearfix;
     button {
-      float: right; width: 308px; margin-top: 13px;
+      float: right; width: 308px; margin-top: 13px; padding: 0 15px; background: $cgreen;
       @include tablet{
         width: 48%;
       }
     }
+
   }
   .checkout-table {
     position: relative;
@@ -3851,7 +3851,10 @@ h2.p-head {padding: 18px 20px;}
           padding-right: 10px;
           .c-price{
             margin-right: 0;
-            width: 150px;
+            width: 175px;
+          }
+          .c-other{
+            max-width: 300px !important;
           }
         }
       }
@@ -3939,15 +3942,17 @@ h2.p-head {padding: 18px 20px;}
       padding: 0; margin-bottom: 4.9% !important;
       @include user-select(none);
       > button {
-        width: calc(33.3333% - 20px); margin: 0 10px;
+        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;      
         height: 45px; line-height: 43px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
         &.active, &:hover {background: $cgreen; border-color: $cgreen; color: $white;}
       }
       .s-blk {
-        position: absolute; bottom: 0; right: 0;
+        margin-top: 30px;
         opacity: 0; z-index: -1;
+        width: 370px;
+        padding-right: 0;
       }
     }
     .control-bar, .s-blk {
@@ -3957,10 +3962,17 @@ h2.p-head {padding: 18px 20px;}
     .s-blk {
       padding-right: 20px;
       @include clearfix;
-      @include single-transition(all,0.3s);
-      input[type="text"], button {float: right;}
-      input[type="text"] {width: 54.3434%;}
-      button {width: 91px; margin: 0 0 0 21px;}
+      @include single-transition(all,0.3s);  
+      input, button{
+        float: left;
+      }    
+      input[type="text"] {width: 250px;}
+      button {
+        width: 110px; margin: 0 0 0 10px;padding: 0;
+        .ladda-spinner{
+          right: -13px;
+        }
+      }
       &.d-show {opacity: 1; z-index: 1;}
     }
     .sign-icon {

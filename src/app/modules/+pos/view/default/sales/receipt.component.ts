@@ -55,10 +55,10 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       myWindow.document.write(this.getHtml());
       myWindow.document.close();
       myWindow.focus();
-      // setTimeout(() => {
-      //   myWindow.print();
-      //   myWindow.close();
-      // }, 200);
+      setTimeout(() => {
+        myWindow.print();
+        myWindow.close();
+      }, 200);
     } else {
       this.notify.info("Please allow open new page to print receipt");
     }
@@ -269,6 +269,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             h1, h2, h3, h4 {font-weight: 700;}
             .c-left {text-align: left!important;}
             .c-right {text-align: right!important;}
+            .c-center {text-align: center!important;}
             .invoice {
                 width: 100%;
                 max-width: 420px; margin: 0 auto;
@@ -281,8 +282,15 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 			}
             .bottom-br {font-size: 16px; padding: 22px 10px 16px;}
             .bottom-br p {margin: 0 0 12px; font-size: 11px;}
-            .bottom-br .footer-img {margin: 22px -10px 18px; padding: 35px 0 28px; background: #88E3A4;}
-            .bottom-br .footer-img img {width: 55%; height: auto;}
+            .bottom-br .footer-img {
+              background: #88E3A4;
+              margin: 10px 0 15px;
+              text-align: center;
+            }
+            .bottom-br .footer-img img {
+              max-width: 100%; height: auto
+            }
+
             .bottom-br .copy-right {font-size: 11px; color: #818181; margin: 0;}
 			.bottom-br .bar-code {width: 54.75%; height: auto;}
             .inner {padding: 0 10px;}
@@ -326,17 +334,33 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .invoice-table tfoot.grand-total tr:last-child td:first-child {border-bottom-color: transparent;}
             .invoice-table tfoot tr:first-child td {padding-top: 10px;}
             .invoice-table tfoot tr:last-child td {padding-bottom: 10px;}
+
+            .invoice-merchant{
+              display: block;
+              text-align: center;  
+              margin: 30px 0;            
+
+            }
+            .invoice-merchant pre{
+              font-family: 'Open Sans', sans-serif;
+              display: inline-block;
+              font-size: 11px;
+              text-algin: left;
+            }
+              
       </style>
+            
+            
 </head>
   
   <body>
   ${jQuery(this.receiptElem.nativeElement).html()}
   
-  <div class="invoice">
+  <div class="invoice-merchant">
   <pre>${this.receiptState.salesReceipt.merchantReceipt ? this.receiptState.salesReceipt.merchantReceipt : ''}</pre>
   </div>
   
-  <div class="invoice">
+  <div class="invoice-merchant">
   <pre>${this.receiptState.salesReceipt.merchantReceipt ? this.receiptState.salesReceipt.merchantReceipt : ''}</pre>
   </div>
   
