@@ -3653,18 +3653,12 @@ h2.p-head {padding: 18px 20px;}
   .bottom-br {
     font-size: 16px; padding: 22px 0 16px;
     p {margin: 0 0 22px;}
-    .footer-img {
-      // margin: 22px -23px 18px; padding: 35px 0 28px;
-<<<<<<< HEAD
-      background: #88E3A4;
-=======
-      // background: #88E3A4;
->>>>>>> f44f536e1c696e9b9367b46dfe9faf6498dae5d6
+    .footer-img {      
       margin: 10px 0 15px;
       text-align: center;
-      img {max-width: 100%; height: auto}
+      img {max-width: 100%; height: auto;}
     }
-    .copy-right {font-size: $sizeS; color: $disTxt; margin: 0;}
+    .copy-right {font-size: $sizeS; color: $disTxt; margin: 0}
   }
   .inner {
     padding: 0 23px;
@@ -3784,16 +3778,13 @@ h2.p-head {padding: 18px 20px;}
     bottom: 5px; left: 3px; right: 3px;
     background: $cbkg;
     @include clearfix;
-<<<<<<< HEAD
-    button {float: right; width: 308px; margin-top: 13px; padding: 0 15px; background: $cgreen}
-=======
     button {
-      float: right; width: 308px; margin-top: 13px;
+      float: right; width: 308px; margin-top: 13px; padding: 0 15px; background: $cgreen;
       @include tablet{
         width: 48%;
       }
     }
->>>>>>> f44f536e1c696e9b9367b46dfe9faf6498dae5d6
+
   }
   .checkout-table {
     position: relative;
