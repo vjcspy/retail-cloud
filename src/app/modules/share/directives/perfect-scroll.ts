@@ -11,4 +11,8 @@ export class PerfectScrollDirective implements AfterViewInit {
       jQuery(this.el.nativeElement)['perfectScrollbar']();
     }
   }
+  
+  update(){
+    jQuery(this.el.nativeElement)['perfectScrollbar']('update');
+  }
 }
