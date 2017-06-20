@@ -20,7 +20,11 @@ import {PosEntitiesState} from "../entities/entities.state";
 @Injectable()
 export class PosConfigEffects {
   
-  constructor(private store$: Store<any>, private actions: Actions, private configService: PosConfigService, private configActions: PosConfigActions) { }
+  constructor(private store$: Store<any>,
+              private actions: Actions,
+              private configService: PosConfigService,
+              private configActions: PosConfigActions,
+              private rootActions: RootActions) { }
   
   @Effect() initPosSettings = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                   .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
@@ -37,7 +41,7 @@ export class PosConfigEffects {
                                     let customerConfig: SettingDB   = settings.find((s) => s['key'] === 'customer');
     
                                     if (!taxConfig || !productConfig || !shippingConfig || !customerConfig) {
-                                      return {type: RootActions.ACTION_ERROR, payload: {mess: "Can't get setting in initPosSettings"}};
+                                      return this.rootActions.error("Can't get setting in initPosSettings",null, false);
                                     } else {
                                       TaxConfig.taxConfig    = taxConfig['value'];
                                       CustomerSetting.config = customerConfig['value'];
@@ -63,10 +67,7 @@ export class PosConfigEffects {
                                                           .map((orderCount) => {
                                                             return this.configActions.retrieveOrderCount(orderCount, false);
                                                           })
-                                                          .catch(() => Observable.of(<any>{
-                                                            type: RootActions.ACTION_ERROR,
-                                                            payload: {mess: "Can't not create order offline count"}
-                                                          }));
+                                                          .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count",null, false)));
                                        }
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });

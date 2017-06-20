@@ -16,7 +16,10 @@ import {RetailConfigDB} from "../../database/xretail/db/retail-config";
 @Injectable()
 export class PosGeneralEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private generalService: PosGeneralService) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private generalService: PosGeneralService,
+              private rootActions: RootActions) { }
   
   @Effect() saveOutletAndRegister = this.actions$
                                         .ofType(PosGeneralActions.ACTION_SELECT_OUTLET_REGISTER)
@@ -55,10 +58,7 @@ export class PosGeneralEffects {
                                                                                 type: PosGeneralActions.ACTION_SAVE_STATE,
                                                                                 payload: generalData
                                                                               }))
-                                                                              .catch((e) => Observable.of({
-                                                                                                            type: RootActions.ACTION_ERROR,
-                                                                                                            payload: {e}
-                                                                                                          })));
+                                                                              .catch((e) => Observable.of(this.rootActions.error("", e,false))));
   
   @Effect() retrieveOutletRegisterFromDB = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                                .filter((action: Action) => action.payload['entityCode'] === RetailConfigDB.getCode())

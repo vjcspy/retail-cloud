@@ -10,11 +10,19 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {ListActions} from "./list.actions";
+import {ListService} from "./list.service";
+import {PosGeneralState} from "../../../../../R/general/general.state";
+import {RootActions} from "../../../../../../../R/root.actions";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ListEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private listActions: ListActions) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private listActions: ListActions,
+              private listService: ListService,
+              private rootActions: RootActions) { }
   
   @Effect() resolveOrders = this.actions$
                                 .ofType(
@@ -25,6 +33,7 @@ export class ListEffects {
                                 .withLatestFrom(this.store$.select('entities'))
                                 .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])
                                 .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
+                                .filter((z) => !(z[2] as OrdersState).list.isSearchOnline)
                                 .map((z) => {
                                   const ordersState: OrdersState    = z[2];
                                   const configState: PosConfigState = z[3];
@@ -106,5 +115,47 @@ export class ListEffects {
     
                                   return this.listActions.reslvedOrders(ordersGroped, false);
                                 });
+  
+  @Effect() resolveOrdersOnline = this.actions$
+                                      .ofType(
+                                        ListActions.ACTION_CHANGE_SEARCH_DATA,
+                                      )
+                                      .withLatestFrom(this.store$.select('orders'))
+                                      .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
+                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline)
+                                      .switchMap((z) => {
+                                        const ordersState: OrdersState      = z[1];
+                                        const generalState: PosGeneralState = z[2];
+                                        return this.listService
+                                                   .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), generalState)
+                                                   .map((data) => {
+                                                     if (data.hasOwnProperty('items')) {
+                                                       let orders = List.of();
+                                                       _.forEach(data['items'], (order) => {
+                                                         order['id'] = order['order_id'];
+                                                         orders      = orders.push(order);
+                                                       });
+                                                       //noinspection TypeScriptUnresolvedFunction search order online
+                                                       let ordersSorted = orders.sortBy((o) => {
+                                                         return o['created_at'];
+                                                       });
+        
+                                                       let group = ordersSorted.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));
+        
+                                                       let ordersGroped = group.reduce((results, orders, timestamp) => {
+                                                         results = results.push({
+                                                                                  timestamp: timestamp,
+                                                                                  orders: orders,
+                                                                                  today: moment().format('dddd, MMMM Do YYYY') === timestamp
+                                                                                });
+                                                         return results;
+                                                       }, List.of());
+        
+                                                       return this.listActions.reslvedOrders(ordersGroped, false);
+                                                     }
+                                                   })
+                                                   .catch((e) => Observable.of(this.listActions.searchOnlineFailed(e, false)));
+    
+                                      });
   
 }
