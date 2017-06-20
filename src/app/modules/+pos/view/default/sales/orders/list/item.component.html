@@ -1,4 +1,4 @@
-<div class="items" [ngClass]="{active: isActive()}">
+<div class="items" [ngClass]="{active: isActive()}" (click)="listActions.selectOrderDetail(order)">
   <div class="value">
     <h3 class="status" *ngIf="order['retail_status']">{{orderService.getClientStatus(order['retail_status'])|translate}}</h3>
     <h3 class="status" *ngIf="!order['retail_status']">{{order['status']}}</h3>

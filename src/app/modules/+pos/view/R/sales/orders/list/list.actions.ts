@@ -47,10 +47,40 @@ export class ListActions {
     return action;
   }
   
+  /**
+   ** @REDUCER:
+   *
+   * Change state
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
   static ACTION_SEARCH_ONLINE_FAILED = 'ACTION_SEARCH_ONLINE_FAILED';
   
   searchOnlineFailed(e, dispatch: boolean = true): Action {
     const action = {type: ListActions.ACTION_SEARCH_ONLINE_FAILED, payload: {e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  /**
+   ** @REDUCER:
+   *
+   * Save order detail
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static ACTION_SELECT_ORDER_DETAIL = 'ACTION_SELECT_ORDER_DETAIL';
+  
+  selectOrderDetail(order, dispatch: boolean = true): Action {
+    const action = {type: ListActions.ACTION_SELECT_ORDER_DETAIL, payload: {order}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

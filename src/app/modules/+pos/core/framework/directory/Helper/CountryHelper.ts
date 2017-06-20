@@ -1,15 +1,19 @@
 import {db} from "../../../../database/xretail/db/retail-db";
 import * as _ from 'lodash';
+import {GeneralException} from "../../General/Exception/GeneralException";
 
 export class CountryHelper {
-  
   private static _selectElement = {};
   private static _countries;
   private static _data          = {};
   
+  static set countries(value) {
+    this._countries = value;
+  }
+  
   getCountries() {
     if (typeof CountryHelper._countries == "undefined") {
-      CountryHelper._countries = db.countries.toArray();
+      throw new GeneralException("please set country data");
     }
     return CountryHelper._countries;
   }
@@ -29,6 +33,13 @@ export class CountryHelper {
       });
     }
     return CountryHelper._selectElement['country'];
+  }
+  
+  getCountryNameFromId(country_id: string) {
+    let arr = _.find(this.getCountrySelect()['data'], (value) => {
+      return parseInt(value['value'] + '') === parseInt(country_id + '');
+    });
+    return !!arr ? arr['label'] : country_id;
   }
   
   getRegionSelect(countryId) {
