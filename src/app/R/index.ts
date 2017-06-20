@@ -31,8 +31,8 @@ STORE_DEV_TOOLS_IMPORTS.push(...[
 
 export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
-  STORE_DEV_TOOLS_IMPORTS,
-  StoreDevtoolsModule,
+ // STORE_DEV_TOOLS_IMPORTS,
+  //StoreDevtoolsModule,
   RouterStoreModule.connectRouter(),
   EffectsModule.run(RootEffects)
 ];

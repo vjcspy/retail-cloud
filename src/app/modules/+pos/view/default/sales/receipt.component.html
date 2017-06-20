@@ -1,7 +1,7 @@
 <div #receiptElem xmlns="http://www.w3.org/1999/html">
   <div *ngIf="getOrder()" class="invoice">
     <div class="top-br">
-      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']" src="assets/img/logo-customer.png" alt="SmartOSC"/>
+      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']" src="assets/img/img-header-default.png" alt="SmartOSC"/>      
       <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && getReceiptSetting()['logo_url']" [src]="getReceiptSetting()['logo_url']"/>
     </div>
     <div class="inner" *ngIf="getOrder() && getOrder()['customer']">
@@ -167,12 +167,13 @@
       <div [innerHtml]="getReceiptSetting()['footer']"></div>
       <img [hidden]="!getReceiptSetting()['enable_barcode'] || !getOrder() || !getOrder()['retail_id']" id="barcode1"/>
       <div class="footer-img">
-        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']" src="assets/img/logo-customer.png"
+        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']" src="assets/img/img-footer-default.png"
              alt="SmartOSC"/>
         <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && getReceiptSetting()['footer_url']"
              [src]="getReceiptSetting()['footer_url']"/>
       </div>
       <p *ngIf="!!getReceiptSetting()['enable_power_text']" class="copy-right">{{ 'Powered by' | translate }} SmartOSC &copy; 2017</p>
     </div>
+
   </div><!--end invoice-->
 </div>
