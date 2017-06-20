@@ -101,8 +101,9 @@ export class ListEffects {
                                     return true;
                                   });
     
-                                  //noinspection TypeScriptUnresolvedFunction
-                                  orderFiltered    = orderFiltered.sortBy((o) => o['created_at']);
+                                  let ordersSorted = orders.sortBy((o, o1) => {
+                                    return o['created_at'].localeCompare(o1['created_at']);
+                                  });
                                   let grouped      = orderFiltered.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));
                                   let ordersGroped = grouped.reduce((results, orders, timestamp) => {
                                     results = results.push({
@@ -122,7 +123,9 @@ export class ListEffects {
                                       )
                                       .withLatestFrom(this.store$.select('orders'))
                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
-                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline && !!(z[1] as OrdersState).list.searchString)
+                                      // .filter((z) => {
+                                      //   return !!(z[1] as OrdersState).list.searchString;
+                                      // })
                                       .switchMap((z) => {
                                         const ordersState: OrdersState      = z[1];
                                         const generalState: PosGeneralState = z[2];
@@ -135,9 +138,8 @@ export class ListEffects {
                                                          order['id'] = order['order_id'];
                                                          orders      = orders.push(order);
                                                        });
-                                                       //noinspection TypeScriptUnresolvedFunction search order online
-                                                       let ordersSorted = orders.sortBy((o) => {
-                                                         return o['created_at'];
+                                                       let ordersSorted = orders.sortBy((o, o1) => {
+                                                         return o['created_at'].localeCompare(o1['created_at']);
                                                        });
         
                                                        let group = ordersSorted.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));
