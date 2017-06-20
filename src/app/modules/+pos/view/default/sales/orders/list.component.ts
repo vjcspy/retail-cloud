@@ -1,10 +1,11 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import {ListActions} from "../../../R/sales/orders/list/list.actions";
 import {ListService} from "../../../R/sales/orders/list/list.service";
 import {OfflineService} from "../../../../../share/provider/offline";
 import {OrderService} from "../../../R/sales/orders/order.service";
+import {PerfectScrollDirective} from "../../../../../share/directives/perfect-scroll";
 
 @Component({
              // moduleId: module.id,
@@ -12,17 +13,24 @@ import {OrderService} from "../../../R/sales/orders/order.service";
              templateUrl: 'list.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit {
+export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() ordersState: OrdersState;
   
   @ViewChild('dateSelectFrom') dateSelectFrom: ElementRef;
   @ViewChild('dateSelectTo') dateSelectTo: ElementRef;
+  @ViewChild(PerfectScrollDirective) perfectScroll: PerfectScrollDirective;
   
   constructor(public menuLeftActions: MenuLeftActions,
               public listActions: ListActions,
               public listService: ListService,
               public offline: OfflineService,
               public orderService: OrderService) { }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.hasOwnProperty('ordersState')) {
+      this.perfectScroll.update();
+    }
+  }
   
   ngOnInit() { }
   
