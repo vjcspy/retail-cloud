@@ -3907,15 +3907,17 @@ h2.p-head {padding: 18px 20px;}
       padding: 0; margin-bottom: 4.9% !important;
       @include user-select(none);
       > button {
-        width: calc(33.3333% - 20px); margin: 0 10px;
+        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;      
         height: 45px; line-height: 43px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
         &.active, &:hover {background: $cgreen; border-color: $cgreen; color: $white;}
       }
       .s-blk {
-        position: absolute; bottom: 0; right: 0;
+        margin-top: 30px;
         opacity: 0; z-index: -1;
+        width: 370px;
+        padding-right: 0;
       }
     }
     .control-bar, .s-blk {
@@ -3925,10 +3927,17 @@ h2.p-head {padding: 18px 20px;}
     .s-blk {
       padding-right: 20px;
       @include clearfix;
-      @include single-transition(all,0.3s);
-      input[type="text"], button {float: right;}
-      input[type="text"] {width: 54.3434%;}
-      button {width: 91px; margin: 0 0 0 21px;padding: 0}
+      @include single-transition(all,0.3s);  
+      input, button{
+        float: left;
+      }    
+      input[type="text"] {width: 250px;}
+      button {
+        width: 110px; margin: 0 0 0 10px;padding: 0;
+        .ladda-spinner{
+          right: -13px;
+        }
+      }
       &.d-show {opacity: 1; z-index: 1;}
     }
     .sign-icon {
