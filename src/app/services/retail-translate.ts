@@ -1,31 +1,30 @@
 import {Injectable} from '@angular/core';
 import * as _ from "lodash";
-import {DatabaseManager} from "./database-manager";
 import {GeneralException} from "../modules/+pos/core/framework/General/Exception/GeneralException";
 import {GeneralMessage} from "../modules/+pos/services/general/message";
 import {TranslateService} from "@ngx-translate/core";
+import {AppStorage} from "./storage";
 
 @Injectable()
 export class RetailTranslate {
   
   protected languageElementData: any;
   
-  constructor(protected translate: TranslateService, protected db: DatabaseManager) {
+  constructor(protected translate: TranslateService, protected storage: AppStorage) {
   }
   
   resolveLanguages() {
     if (_.size(this.translate.getLangs()) === 0) {
       this.translate.addLangs(this.getLanguagesCodeSupported());
       this.translate.setDefaultLang('en');
-      this.translate.use('vi');
       
-      this.db.getDbInstance().retailConfig.where('key').equals('currentLanguage')
-          .first()
-          .then((data: any) => {
-            if (!!data['value']) {
-              this.translate.use(data['value']);
-            }
-          });
+      
+      let usedLang = this.storage.localRetrieve('currentLanguage');
+      if (usedLang) {
+        this.translate.use(usedLang);
+      } else {
+        this.translate.use('vi');
+      }
     }
   }
   
@@ -74,14 +73,9 @@ export class RetailTranslate {
     return this.languageElementData;
   }
   
-  updateLanguage(lang: string): Promise<GeneralMessage> {
+  updateLanguage(lang: string) {
     this.translate.use(lang);
-    return new Promise((resolve, reject) => {
-      this.db.getDbInstance().retailConfig
-          .put(<any>{key: 'currentLanguage', value: lang})
-          .then(() => resolve())
-          .catch((e) => reject({isError: true, e}));
-    });
+    this.storage.localStorage('currentLanguage', lang);
   }
   
 }

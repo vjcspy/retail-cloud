@@ -24,6 +24,8 @@ import {CustomToastOptions} from "./services/toast-options";
 import {APP_PROVIDERS} from "./services/index";
 import {METEOR_COLLECTION} from "./services/meteor-collections/index";
 import {SelectivePreloadingStrategy} from "./services/preloading-router";
+import {Ng2Webstorage} from "ngx-webstorage";
+import {AppStorage} from "./services/storage";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -39,6 +41,7 @@ import {SelectivePreloadingStrategy} from "./services/preloading-router";
              */
             imports: [
               ShareModule,
+              Ng2Webstorage,
               ToastModule.forRoot(),
               R_IMPORTS,
               BrowserModule,
@@ -51,6 +54,7 @@ import {SelectivePreloadingStrategy} from "./services/preloading-router";
              */
             providers: [
               SelectivePreloadingStrategy,
+              AppStorage,
               {provide: ToastOptions, useClass: CustomToastOptions},
               ...APP_PROVIDERS,
               ...METEOR_COLLECTION,
