@@ -275,7 +275,7 @@ export class PosSyncService {
       "row_total_incl_tax": item.getData('row_total_incl_tax'),
       "product_options": item.getData('product_options'),
       "buy_request": item.getData('buy_request'),
-      "origin_image": item.getProduct().getData('origin_image'),//init new field for offline order
+      "origin_image": item.getProduct().getData('origin_image'),
       "children": []
     };
   }
