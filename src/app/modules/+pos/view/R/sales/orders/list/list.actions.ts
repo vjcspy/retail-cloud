@@ -8,27 +8,6 @@ export class ListActions {
   /**
    ** @REDUCER:
    *
-   * change state
-   *-----------------------------------------------------------------
-   ** @EFFECTS-ACTION:
-   *
-   *
-   */
-  static ACTION_CHANGE_STATE_SEARCH_ONLINE = 'CHANGE_STATE_SEARCH_ONLINE';
-  
-  changeStateSearchOnline(isSearchOnline, dispatch: boolean = true): Action {
-    const action = {type: ListActions.ACTION_CHANGE_STATE_SEARCH_ONLINE, payload: {isSearchOnline}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
-  
-  /**
-   ** @REDUCER:
-   *
    * Save order filtered and grouped
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:
@@ -60,6 +39,18 @@ export class ListActions {
   
   changeSearchData(searchData, dispatch: boolean = true): Action {
     const action = {type: ListActions.ACTION_CHANGE_SEARCH_DATA, payload: {searchData}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SEARCH_ONLINE_FAILED = 'ACTION_SEARCH_ONLINE_FAILED';
+  
+  searchOnlineFailed(e, dispatch: boolean = true): Action {
+    const action = {type: ListActions.ACTION_SEARCH_ONLINE_FAILED, payload: {e}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

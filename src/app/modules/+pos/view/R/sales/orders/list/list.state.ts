@@ -3,6 +3,7 @@ import {List} from "immutable";
 import * as moment from 'moment';
 
 export interface OrderList {
+  isResolving: boolean;
   isSearchOnline: boolean;
   searchString: string;
   searchOrderStatus: string;
@@ -16,6 +17,7 @@ export interface OrderListRecord extends TypedRecord<any>, OrderList {}
 
 export const orderListFactory = makeTypedFactory<OrderList, OrderListRecord>(
   {
+    isResolving: false,
     isSearchOnline: false,
     searchString: '',
     searchOrderStatus: null,

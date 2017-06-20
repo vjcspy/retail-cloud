@@ -3,6 +3,8 @@ import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import {ListActions} from "../../../R/sales/orders/list/list.actions";
 import {ListService} from "../../../R/sales/orders/list/list.service";
+import {OfflineService} from "../../../../../share/provider/offline";
+import {OrderService} from "../../../R/sales/orders/order.service";
 
 @Component({
              // moduleId: module.id,
@@ -18,7 +20,9 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
   
   constructor(public menuLeftActions: MenuLeftActions,
               public listActions: ListActions,
-              public listService: ListService) { }
+              public listService: ListService,
+              public offline: OfflineService,
+              public orderService: OrderService) { }
   
   ngOnInit() { }
   
@@ -38,6 +42,16 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
     if (value !== this.ordersState.list.searchString) {
       this.listActions.changeSearchData({searchString: value});
     }
+  }
+  
+  searchOrderStatus(value) {
+    if (value !== this.ordersState.list.searchOrderStatus) {
+      this.listActions.changeSearchData({searchOrderStatus: value});
+    }
+  }
+  
+  toggleSearchOnline($event) {
+    this.listActions.changeSearchData({isSearchOnline: $event.target.checked})
   }
   
   protected initDateRangePicker() {

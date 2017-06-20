@@ -27,7 +27,10 @@ import {QuoteItemActions} from "./item/item.actions";
 
 @Injectable()
 export class PosQuoteEffects {
-  constructor(private store$: Store<any>, private actions$: Actions, private quoteService: PosQuoteService) {}
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private quoteService: PosQuoteService,
+              private rootActions: RootActions) {}
   
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
@@ -166,7 +169,7 @@ export class PosQuoteEffects {
                                                      };
                                                    });
                                       }
-                                    }).catch((e) => Observable.of({type: RootActions.ACTION_ERROR, payload: {e}}));
+                                    }).catch((e) => Observable.of(this.rootActions.error("", e,false)));
   
   @Effect() resolveQuote = this.actions$
                                .ofType(

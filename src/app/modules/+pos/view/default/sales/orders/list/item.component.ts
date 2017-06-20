@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {ListService} from "../../../../R/sales/orders/list/list.service";
 import {OrdersState} from "../../../../R/sales/orders/order.state";
+import {OrderService} from "../../../../R/sales/orders/order.service";
 
 @Component({
              // moduleId: module.id,
@@ -12,7 +12,7 @@ export class PosDefaultSalesOrdersListItemComponent implements OnInit {
   @Input() order: Object;
   @Input() ordersState: OrdersState;
   
-  constructor(public listService: ListService) { }
+  constructor(public orderService: OrderService) { }
   
   ngOnInit() { }
   
