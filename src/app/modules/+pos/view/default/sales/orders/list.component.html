@@ -3,7 +3,7 @@
         <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span
           class="text">X-Retail</span></span>
     <div class="check-box">
-      <input [value]="ordersState.list.isSearchOnline" (change)="listActions.changeSearchData({isSearchOnline:$event})"
+      <input [checked]="ordersState.list.isSearchOnline" (change)="toggleSearchOnline($event)"
              type="checkbox" [disabled]="!offline.online">
       <span></span>{{ 'Search Online' | translate }}
     </div>

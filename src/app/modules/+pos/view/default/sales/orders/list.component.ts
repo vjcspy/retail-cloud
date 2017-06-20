@@ -48,6 +48,10 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
     }
   }
   
+  toggleSearchOnline($event) {
+    this.listActions.changeSearchData({isSearchOnline: $event.target.checked})
+  }
+  
   protected initDateRangePicker() {
     if (this.dateSelectFrom)
       jQuery(this.dateSelectFrom.nativeElement)['daterangepicker']({

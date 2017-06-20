@@ -122,7 +122,7 @@ export class ListEffects {
                                       )
                                       .withLatestFrom(this.store$.select('orders'))
                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
-                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline)
+                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline && !!(z[1] as OrdersState).list.searchString)
                                       .switchMap((z) => {
                                         const ordersState: OrdersState      = z[1];
                                         const generalState: PosGeneralState = z[2];
