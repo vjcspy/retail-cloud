@@ -39,10 +39,10 @@
               <span class="value">{{getOrder()['created_at'] | datetimeFormat:'detail'}}</span>
             </p>
             <p class="f-left" *ngIf="!getOrder()['is_order_virtual']">
-              <span class="txt">&nbsp;</span>
+              <span class="txt">{{ 'Telephone' | translate }}</span>
               <span class="value">{{getOrder()['shipping_address']['telephone'] || "Unknown Telephone"}}</span>
 
-              <span class="txt">&nbsp;</span>
+              <span class="txt">{{ 'Address' | translate }}</span>
               <span class="value" *ngIf="getOrder()['shipping_address']['region'] != '-'">{{getOrder()['shipping_address']['street'] + ", "+
                                 getOrder()['shipping_address']['city'] + ", "+
                                 (getOrder()['shipping_address']['region']|| "") + (getOrder()['shipping_address']['region'] ? ", " : "")+getOrder()['shipping_address']['postcode'] + ", "+
