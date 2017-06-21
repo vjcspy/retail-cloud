@@ -34,6 +34,7 @@ import {IntegrateRpActions} from "./integrate/rp/integrate-rp.actions";
 import {PosConfigService} from "./config/config.service";
 import {QuoteItemEffects} from "./quote/item/item.effects";
 import {QuoteItemActions} from "./quote/item/item.actions";
+import {QuoteCustomerService} from "./quote/customer/customer.service";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -63,6 +64,7 @@ export const R_POS_PROVIDERS = [
   PosQuoteActions,
   QuoteItemEffects,
   QuoteItemActions,
+  QuoteCustomerService,
   
   PosPullActions,
   PosPullEffects,

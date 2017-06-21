@@ -4,6 +4,8 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import * as _ from 'lodash';
 import {CountryHelper} from "../../../../core/framework/directory/Helper/CountryHelper";
+import {PosQuoteService} from "../../../../R/quote/quote.service";
+import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 
 @Component({
              // moduleId: module.id,
@@ -22,7 +24,7 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   
-  constructor(public orderService: OrderService) { }
+  constructor(public orderService: OrderService, protected quoteActions: PosQuoteActions) { }
   
   ngOnInit() { }
   
@@ -64,5 +66,9 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   
   getRegionSelectedByCountryId(countryId, regionId) {
     return this.countryHelper.getRegionSelected(countryId, regionId);
+  }
+  
+  reorder() {
+    this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
   }
 }

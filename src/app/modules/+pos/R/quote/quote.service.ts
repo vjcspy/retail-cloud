@@ -10,11 +10,13 @@ import * as _ from 'lodash';
 import {Address} from "../../core/framework/quote/Model/Quote/Address";
 import {Outlet} from "../../core/framework/outlet/Model/Outlet";
 import {GeneralMessage} from "../../services/general/message";
+import {PosQuoteActions} from "./quote.actions";
+import {RouterActions} from "../../../../R/router/router.actions";
 
 @Injectable()
 export class PosQuoteService {
   
-  constructor(private request: RequestService, private apiManger: ApiManager) {}
+  constructor(private request: RequestService, private apiManger: ApiManager, private quoteActions: PosQuoteActions, private routerActions: RouterActions) {}
   
   setCustomerToQuote(customer: Customer): Quote {
     const quote = PosQuote.getQuote();
