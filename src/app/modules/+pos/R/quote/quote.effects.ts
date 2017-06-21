@@ -30,7 +30,8 @@ export class PosQuoteEffects {
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private quoteService: PosQuoteService,
-              private rootActions: RootActions) {}
+              private rootActions: RootActions,
+              private quoteActions: PosQuoteActions) {}
   
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
@@ -156,20 +157,14 @@ export class PosQuoteEffects {
                                       const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
                                       const shiftOpening      = shifts.filter((s: ShiftDB) => parseInt(s.is_open) === 1);
                                       if (z[0].type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS || !!shiftOpening) {
-                                        return Observable.of({
-                                                               type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO,
-                                                               payload: {isShiftOpening: !!shiftOpening}
-                                                             });
+                                        return Observable.of(this.quoteActions.updateQuoteInfo({isShiftOpening: !!shiftOpening},false));
                                       } else {
                                         return this.quoteService.checkShiftOpenInSV(z[1])
                                                    .map((data) => {
-                                                     return {
-                                                       type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO,
-                                                       payload: {isShiftOpening: !!data['is_open']}
-                                                     };
+                                                     return this.quoteActions.updateQuoteInfo({isShiftOpening: !!data['is_open']}, false);
                                                    });
                                       }
-                                    }).catch((e) => Observable.of(this.rootActions.error("", e,false)));
+                                    }).catch((e) => Observable.of(this.rootActions.error("", e, false)));
   
   @Effect() resolveQuote = this.actions$
                                .ofType(

@@ -45,7 +45,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state.set('grandTotal', gt - refundAmount);
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
-      return state.update('info', (info: Object) => Object.assign({}, {...info}, action.payload));
+      return state.update('info', (info: Object) => Object.assign({}, {...info}, {...action.payload['info']}));
     
     case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:

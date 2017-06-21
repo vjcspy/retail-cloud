@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Customer} from "../../core/framework/customer/Model/Customer";
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {Product} from "../../core/framework/catalog/Model/Product";
 import {ProductDB} from "../../database/xretail/db/product";
@@ -25,8 +25,6 @@ export class PosQuoteActions {
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
   static ACTION_CLEAR_QUOTE        = 'ACTION_CLEAR_QUOTE';
-  
-  static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO'; // quote state information
   
   constructor(private store$: Store<any>) {}
   
@@ -56,9 +54,24 @@ export class PosQuoteActions {
     this.store$.dispatch({type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest, currentProcessing: 'EDIT'}})
   }
   
-  updateQuoteInfoState(key: string, state: any) {
-    let newState  = {};
-    newState[key] = state;
-    this.store$.dispatch({type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO, payload: newState})
+  /**
+   ** @REDUCER:
+   *
+   * Update quote info (shift, refund...)
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static ACTION_UPDATE_QUOTE_INFO = 'ACTION_UPDATE_QUOTE_INFO';
+  
+  updateQuoteInfo(info, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_UPDATE_QUOTE_INFO, payload: {info}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }
