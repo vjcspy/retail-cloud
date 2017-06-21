@@ -54,12 +54,14 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     let myWindow = window.open('', '', 'width=600,height=800');
     if (myWindow) {
       myWindow.document.write(this.getHtml());
-      myWindow.document.close();
-      myWindow.focus();
       setTimeout(() => {
-        myWindow.print();
-        myWindow.close();
-      });
+        myWindow.document.close();
+        myWindow.focus();
+        setTimeout(() => {
+          myWindow.print();
+          myWindow.close();
+        });
+      }, 1000);
     } else {
       this.notify.info("Please allow open new page to print receipt");
     }
