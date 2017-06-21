@@ -3952,7 +3952,7 @@ h2.p-head {padding: 18px 20px;}
         margin-top: 30px;
         opacity: 0; z-index: -1;
         width: 370px;
-        padding-right: 0;
+        padding-right: 0;        
       }
     }
     .control-bar, .s-blk {
@@ -3969,6 +3969,7 @@ h2.p-head {padding: 18px 20px;}
       input[type="text"] {width: 250px;}
       button {
         width: 110px; margin: 0 0 0 10px;padding: 0;
+        background: $cgreen;
         .ladda-spinner{
           right: -13px;
         }
