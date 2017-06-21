@@ -38,9 +38,10 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   ngOnInit() {
     this.subscribeObservable('print_receipt', () => {
       return this.receiptService.getReceiptObservable()
+      .debounceTime(300)
                  .subscribe(() => {
                    this.initBarcode();
-                   if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > 0) {
+                   if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > -1) {
                      this.print();
                    } else if (this.receiptState.salesReceipt.typePrint === 'email') {
                      this.receiptActions.resolvedEmailReceipt(this.getHtml());
@@ -58,7 +59,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       setTimeout(() => {
         myWindow.print();
         myWindow.close();
-      }, 200);
+      }, 1000);
     } else {
       this.notify.info("Please allow open new page to print receipt");
     }
