@@ -38,7 +38,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   ngOnInit() {
     this.subscribeObservable('print_receipt', () => {
       return this.receiptService.getReceiptObservable()
-                 .debounceTime(300)
+      .debounceTime(300)
                  .subscribe(() => {
                    this.initBarcode();
                    if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > -1) {
@@ -54,13 +54,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     let myWindow = window.open('', '', 'width=600,height=800');
     if (myWindow) {
       myWindow.document.write(this.getHtml());
+      myWindow.document.close();
+      myWindow.focus();
       setTimeout(() => {
-        myWindow.document.close();
-        myWindow.focus();
-        setTimeout(() => {
-          myWindow.print();
-          myWindow.close();
-        });
+        myWindow.print();
+        myWindow.close();
       }, 1000);
     } else {
       this.notify.info("Please allow open new page to print receipt");
@@ -283,7 +281,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .top-br img {
 				max-width: 100%; height: auto;
 			}
-            .bottom-br {font-size: 16px; padding: 22px 10px 16px;}
+            .bottom-br {font-size: 14px; padding: 22px 10px 16px;}
             .bottom-br p {margin: 0 0 12px; font-size: 11px;}
             .bottom-br .footer-img {
               background: #88E3A4;
@@ -298,11 +296,12 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 			.bottom-br .bar-code {width: 54.75%; height: auto;}
             .inner {padding: 0 10px;}
             .inner h2, .inner h3 {margin: 0;}
-            .inner h2 {font-weight: 800; font-size: 18px; text-align: center; margin-top: 20px;}
+            .inner h2 {font-weight: 800; font-size: 18px; text-align: center; margin-top: 0;}
             .client-info {
                 position: relative;
-                font-size: 9px; line-height: normal;
+                font-size: 10px; line-height: normal;
                 margin: 23px 0 20px;
+
             }
             .client-info h3 {font-size: 10px;}
             .client-info p {margin: 0;}
@@ -314,12 +313,14 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                 position: absolute;
                 top: 0; right: 0;
                 text-align: right;
+                font-size: 9px;
             }
             .timer span {display: block; white-space: nowrap;}
 
             .invoice-table {border: #4F4F4F solid 3px; border-width: 3px 0;}
             .invoice-table th, .invoice-table h4 {font-size: 12px;}
             .invoice-table td {font-size: 11px;}
+            .invoice-table td.c-left {font-size: 10px;}
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
                 padding: 0; text-align: center;
@@ -340,20 +341,23 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
             .invoice-merchant{
               display: block;
-              text-align: center;
-              margin: 30px 0;
+              text-align: center;  
+              max-width: 420px;
+              margin: 10px auto;
+              padding-top: 20px;
+              border-top: #4F4F4F dotted 3px;           
 
             }
             .invoice-merchant pre{
               font-family: 'Open Sans', sans-serif;
               display: inline-block;
-              font-size: 11px;
-              text-algin: left;
+              font-size: 12px;
+              text-align: left;
             }
-            
+              
       </style>
-      
-      
+            
+            
 </head>
   
   <body>
