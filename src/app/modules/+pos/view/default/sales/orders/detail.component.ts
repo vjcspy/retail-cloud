@@ -19,7 +19,6 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  protected isActiveReceiptInner = false;
   protected countryHelper        = new CountryHelper();
   
   @Input() configState: PosConfigState;
