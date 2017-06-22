@@ -135,42 +135,42 @@
     <button *ngIf="getOrder()['can_creditmemo']">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
     <button *ngIf="getOrder()['can_invoice'] && !!getOrder()['retail_id']">{{ 'Add Payment' | translate }}</button>
-    <div class="button-group" [ngClass]="{active:getOrder()['is_active_receipt']}">
-      <button>{{ 'Receipt' | translate }}</button>
+    <div class="button-group" [ngClass]="{active:isActiveReceiptInner}">
+      <button (click)="isActiveReceiptInner = !isActiveReceiptInner">{{ 'Receipt' | translate }}</button>
       <div class="inner">
-        <button>{{ 'Receipt' | translate }}</button>
-        <button>{{ 'Gift Receipt' | translate }}</button>
+        <button (click)="printReceipt()">{{ 'Receipt' | translate }}</button>
+        <button (click)="printReceipt('gift')">{{ 'Gift Receipt' | translate }}</button>
         <button>{{ 'Email Receipt' | translate }}</button>
       </div>
     </div>
   </div><!--end bottom-bar-->
 
-  <!--EMAIL RECEIPT-->
-  <!--div class="email-receipt">
-      <h3>email receipt</h3>
-      <form>
-          <input type="text" placeholder="Enter your email" />
-          <div class="button-bar">
-              <button class="outline">Close</button>
-              <button class="outline">Send</button>
-          </div>
-      </form>
-  </div--><!--end EMAIL RECEIPT-->
 
-  <!--REFUND RECEIPT-->
-  <!--div class="refund-receipt">
-      <h3>Refund receipt</h3>
-      <form>
-          <div class="refund-list">
-              <span class="click">Credit memo #10001</span>
-              <span class="click">Credit memo #10002</span>
-              <span class="click">Credit memo #10003</span>
-              <span class="click">Credit memo #10004</span>
-          </div>
-          <div class="button-bar">
-              <button class="outline">Close</button>
-          </div>
-      </form>
-  </div--><!--end REFUND RECEIPT-->
+  <!--<div class="email-receipt">-->
+  <!--<h3>email receipt</h3>-->
+  <!--<form>-->
+  <!--<input type="text" placeholder="Enter your email"/>-->
+  <!--<div class="button-bar">-->
+  <!--<button class="outline">Close</button>-->
+  <!--<button class="outline">Send</button>-->
+  <!--</div>-->
+  <!--</form>-->
+  <!--</div>-->
+
+
+  <!--<div class="refund-receipt">-->
+  <!--<h3>Refund receipt</h3>-->
+  <!--<form>-->
+  <!--<div class="refund-list">-->
+  <!--<span class="click">Credit memo #10001</span>-->
+  <!--<span class="click">Credit memo #10002</span>-->
+  <!--<span class="click">Credit memo #10003</span>-->
+  <!--<span class="click">Credit memo #10004</span>-->
+  <!--</div>-->
+  <!--<div class="button-bar">-->
+  <!--<button class="outline">Close</button>-->
+  <!--</div>-->
+  <!--</form>-->
+  <!--</div>-->
 
 </div>

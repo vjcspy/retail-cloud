@@ -6,6 +6,8 @@ import {Bootstrap} from "../../core/framework/bootstrap";
 import {Observable} from "rxjs";
 import {MenuState} from "../R/sales/menu/menu.state";
 import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscriptionComponent";
+import {PosConfigState} from "../../R/config/config.state";
+import {ReceiptState} from "../R/sales/receipts/receipt.state";
 
 @Component({
              // moduleId: module.id,
@@ -14,21 +16,19 @@ import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscripti
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesPage extends AbstractSubscriptionComponent implements OnInit {
-  posStepState: PosStepState;
-  menuState: MenuState;
+  posStepState$: Observable<PosStepState>;
+  menuState$: Observable<MenuState>;
+  configState$: Observable<PosConfigState>;
+  receiptState$: Observable<ReceiptState>;
   
-  constructor(protected store: Store<SalesState>) {
+  
+  constructor(protected store$: Store<SalesState>) {
     super();
-    this.store.replaceReducer(salesReducer);
-    this.subscribeObservable('step', () => this.store.select('step')
-                                               .subscribe((posStepState: PosStepState) => {
-                                                 this.posStepState = posStepState;
-                                               }));
-    
-    this.subscribeObservable('menu', () => this.store.select('menu')
-                                               .subscribe((menuState: MenuState) => {
-                                                 this.menuState = menuState;
-                                               }));
+    this.store$.replaceReducer(salesReducer);
+    this.posStepState$ = this.store$.select('step');
+    this.menuState$    = this.store$.select('menu');
+    this.configState$  = this.store$.select('config');
+    this.receiptState$ = this.store$.select('receipt');
   }
   
   ngOnInit(): void {

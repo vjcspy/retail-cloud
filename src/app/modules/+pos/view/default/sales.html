@@ -1,4 +1,5 @@
-<div class="wrapper selectDisable" [ngClass]="{active: posStepState.checkoutStep, open: menuState.leftMenu.isOpen}">
-  <pos-default-menu-left [menuState]="menuState"></pos-default-menu-left>
+<div class="wrapper selectDisable" [ngClass]="{active: (posStepState$ | async)?.checkoutStep, open: (menuState$ | async)?.leftMenu.isOpen}">
+  <pos-default-menu-left [menuState]="menuState$ | async"></pos-default-menu-left>
   <router-outlet></router-outlet>
+  <pos-default-sales-receipt [hidden]="true" [posConfigState]="configState$ | async" [receiptState]="receiptState$ | async"></pos-default-sales-receipt>
 </div>

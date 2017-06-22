@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import {CountryHelper} from "../../../../core/framework/directory/Helper/CountryHelper";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {RouterActions} from "../../../../../../R/router/router.actions";
+import {ReceiptActions} from "../../../R/sales/receipts/receipt.actions";
 
 @Component({
              // moduleId: module.id,
@@ -14,17 +15,20 @@ import {RouterActions} from "../../../../../../R/router/router.actions";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOrdersDetailComponent implements OnInit {
-  protected _data = {
+  protected _data                = {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  
-  protected countryHelper = new CountryHelper();
+  protected isActiveReceiptInner = false;
+  protected countryHelper        = new CountryHelper();
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   
-  constructor(public orderService: OrderService, protected quoteActions: PosQuoteActions, protected routerActions: RouterActions) { }
+  constructor(public orderService: OrderService,
+              protected quoteActions: PosQuoteActions,
+              protected routerActions: RouterActions,
+              protected receiptActions: ReceiptActions) { }
   
   ngOnInit() { }
   
@@ -73,5 +77,9 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
     setTimeout(() => {
       this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
     }, 250);
+  }
+  
+  printReceipt(type: string = 'receipt') {
+    this.receiptActions.printSalesReceipt(this.getOrder(), type);
   }
 }
