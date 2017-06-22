@@ -101,10 +101,10 @@ export class ListEffects {
                                     return true;
                                   });
     
-                                  let ordersSorted = orders.sortBy((o, o1) => {
-                                    return o['created_at'].localeCompare(o1['created_at']);
+                                  let ordersSorted = orderFiltered.sortBy((o) => {
+                                    return -parseInt(o['id']);
                                   });
-                                  let grouped      = orderFiltered.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));
+                                  let grouped      = ordersSorted.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));
                                   let ordersGroped = grouped.reduce((results, orders, timestamp) => {
                                     results = results.push({
                                                              timestamp: timestamp,
@@ -138,8 +138,8 @@ export class ListEffects {
                                                          order['id'] = order['order_id'];
                                                          orders      = orders.push(order);
                                                        });
-                                                       let ordersSorted = orders.sortBy((o, o1) => {
-                                                         return o['created_at'].localeCompare(o1['created_at']);
+                                                       let ordersSorted = orders.sortBy((o) => {
+                                                         return o['id'];
                                                        });
         
                                                        let group = ordersSorted.groupBy((o) => moment(o['created_at']).format("dddd, MMMM Do YYYY"));

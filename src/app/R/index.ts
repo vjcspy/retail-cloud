@@ -25,22 +25,17 @@ export function createReducer(asyncReducers = {}): ActionReducer<any> {
   return combineReducers(Object.assign(appReducers, asyncReducers));
 }
 
-const STORE_DEV_TOOLS_IMPORTS = [];
-STORE_DEV_TOOLS_IMPORTS.push(...[
-  StoreDevtoolsModule.instrumentOnlyWithExtension({maxAge: 10})
-]);
-
 export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
- // STORE_DEV_TOOLS_IMPORTS,
-  //StoreDevtoolsModule,
   RouterStoreModule.connectRouter(),
-  EffectsModule.run(RootEffects)
+  EffectsModule.run(RootEffects),
 ];
 
-// if ('production' !== ENV) {
-//   R_IMPORTS.push(...STORE_DEV_TOOLS_IMPORTS);
-// }
+if ('production' !== ENV) {
+  R_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
+                                                                   maxAge: 5
+                                                                 }));
+}
 /*
  * Có thể bao gồm service, actions và effects.
  *  - service: Không được phụ thuộc vào action hoặc effects và cũng không được phụ thuộc vào service nằm trong R

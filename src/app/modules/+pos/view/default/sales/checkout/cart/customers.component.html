@@ -4,7 +4,7 @@
            [formControl]="cartCustomerSearchString"
            [value]="cartCustomerState.cartCustomerSearchString">
   </div>
-  <div class="customer-row animated fadeIn" *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer)">
+  <div class="customer-row animated fadeIn" *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer,true)">
     <div class="customer-head">
       <span class="icon-user click"></span>
       <div class="c-name">

@@ -38,7 +38,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   ngOnInit() {
     this.subscribeObservable('print_receipt', () => {
       return this.receiptService.getReceiptObservable()
-      .debounceTime(300)
+                 .debounceTime(300)
                  .subscribe(() => {
                    this.initBarcode();
                    if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > -1) {
@@ -341,11 +341,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
             .invoice-merchant{
               display: block;
-              text-align: center;  
+              text-align: center;
               max-width: 420px;
               margin: 10px auto;
               padding-top: 20px;
-              border-top: #4F4F4F dotted 3px;           
+              border-top: #4F4F4F dotted 3px;
 
             }
             .invoice-merchant pre{
@@ -354,23 +354,18 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
               font-size: 12px;
               text-align: left;
             }
-              
+            
       </style>
-            
-            
+      
+      
 </head>
   
   <body>
   ${jQuery(this.receiptElem.nativeElement).html()}
-  
-  <div class="invoice-merchant">
-  <pre>${this.receiptState.salesReceipt.merchantReceipt ? this.receiptState.salesReceipt.merchantReceipt : ''}</pre>
-  </div>
-  
-  <div class="invoice-merchant">
-  <pre>${this.receiptState.salesReceipt.merchantReceipt ? this.receiptState.salesReceipt.merchantReceipt : ''}</pre>
-  </div>
-  
+  ${this.receiptState.salesReceipt.merchantReceipt ?
+      `<div class="invoice-merchant"><pre>` + this.receiptState.salesReceipt.merchantReceipt + `</pre></div>` : ``}
+  ${this.receiptState.salesReceipt.customerReceipt ?
+      `<div class="invoice-merchant"><pre>` + this.receiptState.salesReceipt.customerReceipt + `</pre></div>` : ``}
   </body>
 </html>`;
   }

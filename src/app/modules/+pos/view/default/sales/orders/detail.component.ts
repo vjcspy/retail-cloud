@@ -4,6 +4,9 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import * as _ from 'lodash';
 import {CountryHelper} from "../../../../core/framework/directory/Helper/CountryHelper";
+import {PosQuoteActions} from "../../../../R/quote/quote.actions";
+import {RouterActions} from "../../../../../../R/router/router.actions";
+import {ReceiptActions} from "../../../R/sales/receipts/receipt.actions";
 
 @Component({
              // moduleId: module.id,
@@ -12,17 +15,19 @@ import {CountryHelper} from "../../../../core/framework/directory/Helper/Country
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOrdersDetailComponent implements OnInit {
-  protected _data = {
+  protected _data                = {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  
-  protected countryHelper = new CountryHelper();
+  protected countryHelper        = new CountryHelper();
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   
-  constructor(public orderService: OrderService) { }
+  constructor(public orderService: OrderService,
+              protected quoteActions: PosQuoteActions,
+              protected routerActions: RouterActions,
+              protected receiptActions: ReceiptActions) { }
   
   ngOnInit() { }
   
@@ -64,5 +69,16 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   
   getRegionSelectedByCountryId(countryId, regionId) {
     return this.countryHelper.getRegionSelected(countryId, regionId);
+  }
+  
+  reorder() {
+    this.routerActions.go('pos/default/sales/checkout');
+    setTimeout(() => {
+      this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
+    }, 250);
+  }
+  
+  printReceipt(type: string = 'receipt') {
+    this.receiptActions.printSalesReceipt(this.getOrder(), type);
   }
 }

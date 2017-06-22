@@ -26,6 +26,7 @@ import {METEOR_COLLECTION} from "./services/meteor-collections/index";
 import {SelectivePreloadingStrategy} from "./services/preloading-router";
 import {Ng2Webstorage} from "ngx-webstorage";
 import {AppStorage} from "./services/storage";
+import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -54,6 +55,7 @@ import {AppStorage} from "./services/storage";
              */
             providers: [
               SelectivePreloadingStrategy,
+              LocalStorageService, SessionStorageService,
               AppStorage,
               {provide: ToastOptions, useClass: CustomToastOptions},
               ...APP_PROVIDERS,
