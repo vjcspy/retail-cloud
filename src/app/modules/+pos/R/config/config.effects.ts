@@ -18,6 +18,7 @@ import {ReceiptDB} from "../../database/xretail/db/receipt";
 import {PosEntitiesState} from "../entities/entities.state";
 import {CountryDB} from "../../database/xretail/db/country";
 import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
+import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 
 @Injectable()
 export class PosConfigEffects {
@@ -66,12 +67,33 @@ export class PosConfigEffects {
     
                                        if (!orderCount) {
                                          return Observable.fromPromise(this.configService.createNewOrderCount(generalState))
-                                                          .map((orderCount) => {
-                                                            return this.configActions.retrieveOrderCount(orderCount, false);
+                                                          .map((_count) => {
+                                                            return this.configActions.retrieveOrderCount(_count, false);
                                                           })
                                                           .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count", null, false)));
                                        }
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
+                                     });
+  
+  @Effect() increaseOrderCount = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
+                                     .withLatestFrom(this.store$.select('entities'))
+                                     .withLatestFrom(this.store$.select('general'),
+                                                     ([action, entitiesState], generalState) => [action, entitiesState, generalState])
+                                     .flatMap(([action, entitiesState, generalState]) => {
+                                       const orderCounts: List<UserOrderCountDB> = entitiesState[UserOrderCountDB.getCode()].items;
+    
+                                       const orderCount = orderCounts.find((o: UserOrderCountDB) => o.register_id === (generalState as PosGeneralState).register['id']);
+    
+                                       if (orderCount) {
+                                         let increaseOrderCount = Object.assign({}, {...orderCount}, {order_count: (parseInt(orderCount['order_count'] + '') + 1)});
+                                         return Observable.fromPromise(this.configService.createNewOrderCount(generalState, increaseOrderCount))
+                                                          .map((_count) => {
+                                                            return this.configActions.retrieveOrderCount(_count, false);
+                                                          })
+                                                          .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count", null, false)));
+                                       } else {
+                                         return Observable.of(this.rootActions.error("Can't_find_order_count"));
+                                       }
                                      });
   
   @Effect() retrieveReceipt = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)

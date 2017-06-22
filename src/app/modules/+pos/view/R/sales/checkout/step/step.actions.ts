@@ -220,6 +220,7 @@ export class PosStepActions {
    * Save orderOffline
    * Change state saving order
    * Move next step
+   * Increase order count
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:
    *
