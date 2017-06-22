@@ -30,6 +30,7 @@ import {AppState} from "./R/index";
                '../assets/css/ion.rangeSlider.css',
                '../assets/css/ion.rangeSlider.skinNice.css',
                '../../node_modules/select2/dist/css/select2.css',
+               '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css',
              ],
              template: `
                <router-outlet></router-outlet>
