@@ -1,4 +1,4 @@
-<div class="order-list-detail" *ngIf="getOrder()['id']">
+<div class="order-list-detail" *ngIf="getOrder()['retail_id']">
   <div class="top-bar">
     <div class="grand-total">{{getOrder()['totals']['grand_total'] | priceFormat}}</div>
   </div>
@@ -135,7 +135,7 @@
     <button *ngIf="getOrder()['can_creditmemo']">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
     <button *ngIf="getOrder()['can_invoice'] && !!getOrder()['retail_id']">{{ 'Add Payment' | translate }}</button>
-    <div class="button-group" [ngClass]="{active:getOrder()['isActiveReceiptInner']}">
+    <div class="button-group" [ngClass]="{active:isActiveReceiptInner}">
       <button (click)="getOrder()['isActiveReceiptInner'] = !getOrder()['isActiveReceiptInner']">{{ 'Receipt' | translate }}</button>
       <div class="inner">
         <button (click)="printReceipt()">{{ 'Receipt' | translate }}</button>
