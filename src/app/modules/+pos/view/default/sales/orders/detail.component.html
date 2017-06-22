@@ -131,7 +131,7 @@
     </div><!--end payment-info-->
   </div><!--end order-list-inner-->
   <div class="bottom-bar">
-    <button (click)="reorder()">{{ 'Duplicate' | translate }}</button>
+    <button [ladda]="ordersState.detail.isResolvingReorder" (click)="reorder()">{{ 'Duplicate' | translate }}</button>
     <button *ngIf="getOrder()['can_creditmemo']">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
     <button *ngIf="getOrder()['can_invoice'] && !!getOrder()['retail_id']">{{ 'Add Payment' | translate }}</button>

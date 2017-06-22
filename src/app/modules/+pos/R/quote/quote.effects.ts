@@ -30,6 +30,7 @@ import {PosConfigState} from "../config/config.state";
 import {QuoteCustomerService} from "./customer/customer.service";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
+import {ProductDB} from "../../database/xretail/db/product";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -38,7 +39,6 @@ export class PosQuoteEffects {
               private quoteService: PosQuoteService,
               private rootActions: RootActions,
               private quoteActions: PosQuoteActions,
-              private routerActions: RouterActions,
               private notify: NotifyManager,
               private quoteCustomer: QuoteCustomerService,
               private progress: ProgressBarService) {}
@@ -220,7 +220,7 @@ export class PosQuoteEffects {
                                    Object.assign(customer, configState.setting.customer.getDefaultCustomer());
                                    quote.setUseDefaultCustomer(true);
       
-                                   return Observable.of({type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}});
+                                   return Observable.of(this.quoteActions.setCustomerToQuote(customer, false));
                                  } else {
                                    return Observable.of({type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}});
                                  }
@@ -228,6 +228,7 @@ export class PosQuoteEffects {
   
   @Effect() reorder = this.actions$
                           .ofType(PosQuoteActions.ACTION_REORDER)
+                          .debounceTime(1000)
                           .withLatestFrom(this.store$.select('entities'))
                           .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
                           .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
@@ -235,7 +236,7 @@ export class PosQuoteEffects {
                             const action: Action              = z[0];
                             const configState: PosConfigState = z[2];
     
-                            this.routerActions.go('pos/default/sales/checkout');
+                            const allItems: List<ProductDB> = (z[1] as PosEntitiesState).products.items;
     
                             // resolve items
                             let items = List.of();
@@ -249,7 +250,16 @@ export class PosQuoteEffects {
                               if (_buyRequest.hasOwnProperty('custom_price')) {
                                 _buyRequest.setData("custom_price", null);
                               }
-                              items = items.push(_buyRequest);
+                              const product = allItems.find((i) => parseInt(i['id'] + '') === parseInt(_buyRequest.getData('product_id')));
+                              if (product) {
+                                let p = new Product();
+                                p.mapWithParent(product);
+                                _buyRequest.setData('product', p);
+                                items = items.push(_buyRequest);
+                              } else {
+                                this.notify.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id'));
+                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
+                              }
                             });
     
     
@@ -259,22 +269,27 @@ export class PosQuoteEffects {
                             if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
                               return <any>this.quoteCustomer.getCustomerOnline(customer, z[3])
-                                         .map((data) => {
-                                           this.progress.done(true);
-                                           if (_.size(data['items']) > 0) {
-                                             const customer = data['items'][0];
-                                             let c          = new Customer();
-                                             c.mapWithParent(customer);
+                                              .switchMap((data) => {
+                                                if (_.size(data['items']) > 0) {
+                                                  const customer = data['items'][0];
+                                                  let c          = new Customer();
+                                                  c.mapWithParent(customer);
           
-                                             return Observable.from([
-                                                                      this.quoteActions.setCustomerToQuote(customer, false),
-                                                                      this.quoteActions.updateQuoteItems(items, false)
-                                                                    ]);
-                                           } else {
-                                             this.notify.error("we_can't_not_find_customer");
-                                             return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
-                                           }
-                                         });
+                                                  return Observable.from([
+                                                                           this.quoteActions.setCustomerToQuote(c, false),
+                                                                           this.quoteActions.updateQuoteItems(items, false)
+                                                                         ]);
+                                                } else {
+                                                  this.notify.error("we_can't_not_find_customer");
+                                                  return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
+                                                }
+                                              })
+                                              .catch(() => {
+                                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"))
+                                              })
+                                              .finally(() => {
+                                                this.progress.done(true);
+                                              });
                             } else {
                               if (_.isNumber(customer)) {
                                 const customers: List<CustomerDB> = (z[1] as PosEntitiesState).customers.items;

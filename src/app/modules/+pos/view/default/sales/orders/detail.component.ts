@@ -4,8 +4,8 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import * as _ from 'lodash';
 import {CountryHelper} from "../../../../core/framework/directory/Helper/CountryHelper";
-import {PosQuoteService} from "../../../../R/quote/quote.service";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
+import {RouterActions} from "../../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -24,7 +24,7 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   
-  constructor(public orderService: OrderService, protected quoteActions: PosQuoteActions) { }
+  constructor(public orderService: OrderService, protected quoteActions: PosQuoteActions, protected routerActions: RouterActions) { }
   
   ngOnInit() { }
   
@@ -69,6 +69,9 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   }
   
   reorder() {
-    this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
+    this.routerActions.go('pos/default/sales/checkout');
+    setTimeout(() => {
+      this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
+    }, 250);
   }
 }
