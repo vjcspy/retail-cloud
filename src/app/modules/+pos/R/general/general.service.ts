@@ -4,10 +4,11 @@ import {DatabaseManager} from "../../../../services/database-manager";
 import {AsyncHelper} from "../../../../code/AsyncHelper";
 import {Entity} from "../entities/entities.model";
 import {List} from "immutable";
+import {AppStorage} from "../../../../services/storage";
 
 @Injectable()
 export class PosGeneralService {
-  constructor(private databaseManager: DatabaseManager) {}
+  constructor(private databaseManager: DatabaseManager, protected storage: AppStorage) {}
   
   async saveGeneralDataToDB(generalData: Object): Promise<GeneralMessage> {
     return new Promise(async (resolve, reject) => {
@@ -34,5 +35,19 @@ export class PosGeneralService {
     }
     else
       return null;
+  }
+  
+  resolveGeneralDataFromStorage() {
+    const outlet   = this.storage.localRetrieve('outlet');
+    const register = this.storage.localRetrieve('register');
+    const store    = this.storage.localRetrieve('store');
+    const baseUrl  = this.storage.localRetrieve('baseUrl');
+    
+    if (!!outlet && !!register && !!store) {
+      return {outlet, register, store, baseUrl};
+    }
+    else {
+      return null;
+    }
   }
 }

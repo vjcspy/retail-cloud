@@ -3,12 +3,12 @@
  */
 import {
   ChangeDetectionStrategy,
-  Component, ViewContainerRef,
+  Component, OnInit, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
-import {Store} from "@ngrx/store";
 import {ToastsManager} from "ng2-toastr";
-import {AppState} from "./R/index";
+import {AccountService} from "./R/account/account.service";
+import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 
 /**
  * App Component
@@ -37,10 +37,14 @@ import {AppState} from "./R/index";
              `,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class AppComponent {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {
+export class AppComponent extends AbstractSubscriptionComponent implements OnInit {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private accountService: AccountService) {
+    super();
+    
     this.toastr.setRootViewContainerRef(vcr);
-    this.store.subscribe((appState) => window['appState'] = appState);
   }
   
+  ngOnInit(): void {
+    this.subscribeObservable('license', () => this.accountService.subscribeLicense());
+  }
 }

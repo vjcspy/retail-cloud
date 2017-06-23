@@ -76,4 +76,16 @@ export class AccountActions {
     
     return action;
   }
+  
+  static SAVE_LICENSE_DATA = 'SAVE_LICENSE_DATA';
+  
+  saveLicenseData(license, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.SAVE_LICENSE_DATA, payload: {license}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

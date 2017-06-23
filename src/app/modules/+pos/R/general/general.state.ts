@@ -7,6 +7,7 @@ export interface PosGeneralState {
   warehouse: Object;
   outlet: Object;
   user: Object;
+  redirect: string;
 }
 
 export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord>, PosGeneralState {}
@@ -18,5 +19,6 @@ export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGener
                                                                                                  register: {},
                                                                                                  warehouse: {},
                                                                                                  outlet: {},
-                                                                                                 user: {id: 1}
+                                                                                                 user: {id: 1},
+                                                                                                 redirect: 'pos/default/sales/checkout'
                                                                                                });

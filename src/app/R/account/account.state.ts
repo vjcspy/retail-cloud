@@ -7,6 +7,9 @@ export interface AccountState {
     username: string;
     emails: List<any>;
   },
+  license: {
+    licenseHasPos: any;
+  };
   isLogging: boolean;
   redirect: string;
 }
@@ -19,6 +22,9 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
       id: null,
       username: null,
       emails: List.of()
+    },
+    license: {
+      licenseHasPos: null,
     },
     isLogging: false,
     redirect: 'pos/default/sales/checkout'
