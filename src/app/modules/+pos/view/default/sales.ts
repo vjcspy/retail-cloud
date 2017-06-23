@@ -8,6 +8,7 @@ import {MenuState} from "../R/sales/menu/menu.state";
 import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscriptionComponent";
 import {PosConfigState} from "../../R/config/config.state";
 import {ReceiptState} from "../R/sales/receipts/receipt.state";
+import {AccountState} from "../../../../R/account/account.state";
 
 @Component({
              // moduleId: module.id,
@@ -20,6 +21,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
   menuState$: Observable<MenuState>;
   configState$: Observable<PosConfigState>;
   receiptState$: Observable<ReceiptState>;
+  accountState$: Observable<AccountState>;
   
   
   constructor(protected store$: Store<SalesState>) {
@@ -29,6 +31,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
     this.menuState$    = this.store$.select('menu');
     this.configState$  = this.store$.select('config');
     this.receiptState$ = this.store$.select('receipt');
+    this.accountState$ = this.store$.select('account');
   }
   
   ngOnInit(): void {

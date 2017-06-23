@@ -2,22 +2,24 @@ import {Injectable} from '@angular/core';
 import {AppStorage} from "./storage";
 import {MeteorObservable} from "meteor-rxjs";
 import {NotifyManager} from "./notify-manager";
+import {AccountActions} from "../R/account/account.actions";
 
 @Injectable()
 export class AuthenticateService {
   private _user;
   protected trackingWhenUserChange;
   
-  // redirect URL after login
-  public redirectUrl;
-  
-  constructor(protected storage: AppStorage, protected notify: NotifyManager) { }
+  constructor(protected storage: AppStorage, protected notify: NotifyManager, protected accountActions: AccountActions) { }
   
   get user() {
     if (typeof this.trackingWhenUserChange === 'undefined') {
       this.trackingWhenUserChange = MeteorObservable.autorun().subscribe(() => {
-        this._user = Meteor.user();
-        console.log(this._user);
+        const user = Meteor.user();
+        if (user) {
+          this._user = user;
+        } else {
+          this.accountActions.goLoginPage(null);
+        }
       });
     }
     

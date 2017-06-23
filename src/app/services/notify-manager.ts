@@ -10,6 +10,10 @@ export class NotifyManager {
               protected translate: TranslateService) { }
   
   public success(mess: string, title: string = null, options: Object = null): void {
+    if (!_.isString(mess) && !!mess) {
+      return;
+    }
+    
     this.translate.get(mess).subscribe((_mess) => {
       if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
@@ -30,6 +34,10 @@ export class NotifyManager {
   }
   
   public warning(mess: string, title: string = null, options: Object = null): void {
+    if (!_.isString(mess) && !!mess) {
+      return;
+    }
+    
     this.translate.get(mess).subscribe((_mess) => {
       if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
@@ -50,6 +58,10 @@ export class NotifyManager {
   }
   
   public info(mess: string, title: string = null, options: Object = null): void {
+    if (!_.isString(mess) && !!mess) {
+      return;
+    }
+    
     this.translate.get(mess).subscribe((_mess) => {
       if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
@@ -70,6 +82,10 @@ export class NotifyManager {
   }
   
   public error(mess: string, title: string = null, options: Object = null): void {
+    if (!_.isString(mess) && !!mess) {
+      return;
+    }
+    
     this.translate.get(mess).subscribe((_mess) => {
       if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {

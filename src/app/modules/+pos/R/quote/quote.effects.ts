@@ -156,9 +156,7 @@ export class PosQuoteEffects {
                                     .filter((action: Action) => {
                                       if (action.type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
                                         return action.payload['entityCode'] === ShiftDB.getCode();
-                                      } else {
-                                        return true;
-                                      }
+                                      } else {return action.payload['path'] === '/pos/default/sales/checkout';}
                                     })
                                     .withLatestFrom(this.store$.select('general'))
                                     .withLatestFrom(this.store$.select('entities'),
@@ -174,7 +172,7 @@ export class PosQuoteEffects {
                                                      return this.quoteActions.updateQuoteInfo({isShiftOpening: !!data['is_open']}, false);
                                                    });
                                       }
-                                    }).catch((e) => Observable.of(this.rootActions.error("", e, false)));
+                                    }).catch((e) => Observable.of(this.rootActions.error("Check shift failed", e, false)));
   
   @Effect() resolveQuote = this.actions$
                                .ofType(

@@ -6,6 +6,8 @@ import {RetailTranslate} from "../../../../../services/retail-translate";
 import {MenuLeftActions} from "../../R/sales/menu/left/left.actions";
 import {TranslateService} from "@ngx-translate/core";
 import {RouterActions} from "../../../../../R/router/router.actions";
+import {AccountActions} from "../../../../../R/account/account.actions";
+import {AccountState} from "../../../../../R/account/account.state";
 
 @Component({
              // moduleId: module.id,
@@ -16,13 +18,15 @@ import {RouterActions} from "../../../../../R/router/router.actions";
 export class PosDefaultMenuLeftComponent implements OnInit {
   @ViewChild('menuElem') menuElem: ElementRef;
   @Input() menuState: MenuState;
+  @Input() accountState: AccountState;
   
   constructor(public authenticateService: AuthenticateService,
               public offline: OfflineService,
               public translate: TranslateService,
               public retailTranslate: RetailTranslate,
               public menuLeftActions: MenuLeftActions,
-              protected routerActions: RouterActions) { }
+              protected routerActions: RouterActions,
+              public accountActions: AccountActions) { }
   
   ngOnInit() { }
   

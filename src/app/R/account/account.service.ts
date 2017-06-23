@@ -10,4 +10,7 @@ export class AccountService {
     this.storage.localStorage('user', user);
   }
   
+  removeUserFromStorage() {
+    this.storage.localClear('user');
+  }
 }

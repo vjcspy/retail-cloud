@@ -2,10 +2,11 @@ import {Injectable}     from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot}    from '@angular/router';
 import {RouterActions} from "../../R/router/router.actions";
 import {AuthenticateService} from "../authenticate";
+import {AccountActions} from "../../R/account/account.actions";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthenticateService, private routerActions: RouterActions) {}
+  constructor(private authService: AuthenticateService, protected accountActions: AccountActions) {}
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
@@ -16,11 +17,7 @@ export class AuthGuard implements CanActivate {
   checkLogin(url: string): boolean {
     if (this.authService.user) { return true; }
     
-    // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
-    
-    // Navigate to the login page with extras
-    this.routerActions.go('account/login');
+    this.accountActions.goLoginPage(url);
     return false;
   }
 }

@@ -40,4 +40,40 @@ export class AccountActions {
     
     return action;
   }
+  
+  static ACTION_LOGOUT = 'ACTION_LOGOUT';
+  
+  logout(dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_LOGOUT, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_LOGOUT_FAILED = 'ACTION_LOGOUT_FAILED';
+  
+  logoutFailed(dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_LOGIN_FAILED, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_GO_LOGIN_PAGE = 'ACTION_GO_LOGIN_PAGE';
+  
+  goLoginPage(redirect, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_GO_LOGIN_PAGE, payload: {redirect}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

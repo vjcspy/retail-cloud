@@ -7,7 +7,8 @@ export interface AccountState {
     username: string;
     emails: List<any>;
   },
-  isLogging: boolean
+  isLogging: boolean;
+  redirect: string;
 }
 
 export interface AccountStateRecord extends TypedRecord<any>, AccountState {}
@@ -19,6 +20,7 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
       username: null,
       emails: List.of()
     },
-    isLogging: false
+    isLogging: false,
+    redirect: 'pos/default/sales/checkout'
   }
 );

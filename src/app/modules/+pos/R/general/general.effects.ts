@@ -58,7 +58,7 @@ export class PosGeneralEffects {
                                                                                 type: PosGeneralActions.ACTION_SAVE_STATE,
                                                                                 payload: generalData
                                                                               }))
-                                                                              .catch((e) => Observable.of(this.rootActions.error("", e,false))));
+                                                                              .catch((e) => Observable.of(this.rootActions.error("Can't save general data", e, false))));
   
   @Effect() retrieveOutletRegisterFromDB = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                                .filter((action: Action) => action.payload['entityCode'] === RetailConfigDB.getCode())
