@@ -25,7 +25,7 @@
             </div>
           </li>
           <li class="button-group col-xs-12">
-            <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="isLoading">Login</button>
+            <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isLogging">Login</button>
           </li>
           <li class="btn-links col-xs-12">
             <a (click)="router.navigate(['/signup'])" class="click">Register</a>

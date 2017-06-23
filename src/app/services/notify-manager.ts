@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
 import {TranslateService} from "@ngx-translate/core";
+import * as _ from 'lodash';
 
 @Injectable()
 export class NotifyManager {
@@ -10,7 +11,7 @@ export class NotifyManager {
   
   public success(mess: string, title: string = null, options: Object = null): void {
     this.translate.get(mess).subscribe((_mess) => {
-      if (!!title) {
+      if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
           if (!!options) {
             this.toast.success(_mess, _title, options);
@@ -30,7 +31,7 @@ export class NotifyManager {
   
   public warning(mess: string, title: string = null, options: Object = null): void {
     this.translate.get(mess).subscribe((_mess) => {
-      if (!!title) {
+      if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
           if (!!options) {
             this.toast.warning(_mess, _title, options);
@@ -50,7 +51,7 @@ export class NotifyManager {
   
   public info(mess: string, title: string = null, options: Object = null): void {
     this.translate.get(mess).subscribe((_mess) => {
-      if (!!title) {
+      if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
           if (!!options) {
             this.toast.info(_mess, _title, options);
@@ -70,7 +71,7 @@ export class NotifyManager {
   
   public error(mess: string, title: string = null, options: Object = null): void {
     this.translate.get(mess).subscribe((_mess) => {
-      if (!!title) {
+      if (_.isString(title)) {
         this.translate.get(title).subscribe((_title) => {
           if (!!options) {
             this.toast.error(_mess, _title, Object.assign({

@@ -8,6 +8,10 @@ import {EffectsModule} from "@ngrx/effects";
 import {RootEffects} from "./root.effects";
 import * as _ from 'lodash';
 import {RouterActions} from "./router/router.actions";
+import {accountReducer} from "./account/account.reducer";
+import {AccountActions} from "./account/account.actions";
+import {AccountEffects} from "./account/account.effects";
+import {AccountService} from "./account/account.service";
 
 export interface AppState {
   rootState: RootState;
@@ -18,7 +22,8 @@ export interface AppState {
 
 const appReducers = {
   rootState: rootReducer,
-  router: routerReducer
+  router: routerReducer,
+  account: accountReducer
 };
 
 export function createReducer(asyncReducers = {}): ActionReducer<any> {
@@ -29,6 +34,7 @@ export const R_IMPORTS = [
   StoreModule.provideStore(createReducer()),
   RouterStoreModule.connectRouter(),
   EffectsModule.run(RootEffects),
+  EffectsModule.run(AccountEffects),
 ];
 
 if ('production' !== ENV) {
@@ -45,7 +51,11 @@ if ('production' !== ENV) {
 export const R_PROVIDERS = [
   RootActions,
   RootEffects,
-  RouterActions
+  RouterActions,
+  
+  AccountActions,
+  AccountService,
+  AccountEffects
 ];
 
 

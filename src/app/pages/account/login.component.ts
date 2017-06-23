@@ -4,9 +4,12 @@ import {
   OnInit
 } from '@angular/core';
 import * as jQuery from "jquery";
-import {AuthenticateService} from "../../services/authenticate";
 import {RouterActions} from "../../R/router/router.actions";
 import {LocalStorage} from "ngx-webstorage";
+import {AccountActions} from "../../R/account/account.actions";
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs";
+import {AccountState} from "../../R/account/account.state";
 
 @Component({
              selector: 'sign-in',
@@ -17,17 +20,15 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
-  public isLoading: boolean = false;
   
-  constructor(protected authService: AuthenticateService, protected routerActions: RouterActions) { }
+  accountState$: Observable<AccountState>;
+  
+  constructor(protected accountActions: AccountActions, protected routerActions: RouterActions, protected store$: Store<any>) {
+    this.accountState$ = this.store$.select('account');
+  }
   
   ngOnInit() {
-    if (this.authService.isLoggedIn()) {
-      this.routerActions.go('');
-    }
-    else {
-      this.initPageJs();
-    }
+    this.initPageJs();
   }
   
   ngAfterViewInit(): void {
@@ -82,23 +83,10 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   
   login() {
     if (this.jForm.valid()) {
-      this.isLoading = true;
-      setTimeout(() => {
-        this.authService
-            .signIn({
-                      username: this.email,
-                      password: this.password
-                    })
-            .then(() => {
-              if (this.authService.redirectUrl) {
-                this.routerActions.go(this.authService.redirectUrl);
-              } else {
-                this.routerActions.go('pos/default/sales/checkout');
-              }
-            }, err => {
-            });
-        this.isLoading = false;
-      }, 1000);
+      this.accountActions.login({
+                                  username: this.email,
+                                  password: this.password
+                                });
     }
   }
   

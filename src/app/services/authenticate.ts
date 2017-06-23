@@ -17,6 +17,7 @@ export class AuthenticateService {
     if (typeof this.trackingWhenUserChange === 'undefined') {
       this.trackingWhenUserChange = MeteorObservable.autorun().subscribe(() => {
         this._user = Meteor.user();
+        console.log(this._user);
       });
     }
     
@@ -67,9 +68,5 @@ export class AuthenticateService {
         resolve();
       });
     });
-  }
-  
-  isLoggedIn() {
-    return !!this.user && !!this.user['_id'];
   }
 }
