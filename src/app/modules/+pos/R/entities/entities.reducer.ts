@@ -3,8 +3,11 @@ import {posEntitiesStateFactory, PosEntitiesStateRecord} from "./entities.state"
 import {PosEntitiesActions} from "./entities.actions";
 import * as _ from 'lodash';
 import {ProductDB} from "../../database/xretail/db/product";
+import {mergeSliceReducers} from "../../../../R/index";
+import {entityOrderReducer} from "./entity/order.reducer";
+import {orderCountReducer} from "./entity/order-count.reducer";
 
-export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesStateFactory(), action: Action) => {
+const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
     
     case  PosEntitiesActions.ACTION_GET_ENTITY_DATA_FROM_DB:
@@ -33,9 +36,11 @@ export const entitiesReducer = (state: PosEntitiesStateRecord = posEntitiesState
       return state.setIn([ProductDB.getCode(), 'itemFiltered'], action.payload['productsFiltered']);
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
-  return state.setIn([action.payload['entityCode'], 'query'], action.payload['query']);
+      return state.setIn([action.payload['entityCode'], 'query'], action.payload['query']);
     
     default:
       return state;
   }
 };
+
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer);

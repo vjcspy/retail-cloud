@@ -15,17 +15,6 @@ export class PosConfigActions {
    */
   static ACTION_INIT_POS_SETTINGS = 'ACTION_INIT_POS_SETTINGS';
   
-  /**
-   ** @REDUCER:
-   *
-   * Save order count information
-   *-----------------------------------------------------------------
-   ** @EFFECTS:
-   *
-   *
-   */
-  static ACTION_RETRIEVE_ORDER_COUNT = 'ACTION_RETRIEVE_ORDER_COUNT';
-  
   constructor(private store$: Store<any>) { }
   
   /**
@@ -40,10 +29,17 @@ export class PosConfigActions {
   }
   
   /**
-   ** @ACTION:
+   ** @REDUCER:
    *
-   * After pull order count entities
+   * Save order count information
+   * Update to entities state
+   *-----------------------------------------------------------------
+   ** @EFFECTS:
+   *
+   *
    */
+  static ACTION_RETRIEVE_ORDER_COUNT = 'ACTION_RETRIEVE_ORDER_COUNT';
+  
   retrieveOrderCount(orderCount, dispatch: boolean = true): Action | void {
     const action = {type: PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT, payload: {orderCount}};
     

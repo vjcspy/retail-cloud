@@ -9,7 +9,7 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
                   .set('isResolveSetting', true);
     
     case PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT:
-      return state.set('orderCount', action.payload['orderCount']);
+      return state.update('orderCount', (o) => Object.assign({}, {...action.payload['orderCount']}));
     
     case PosConfigActions.ACTION_SAVE_RECEIPT_SETTING:
       return state.set('receipt', action.payload['receipt']);
