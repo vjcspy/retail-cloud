@@ -33,6 +33,7 @@ export class PosEntitiesEffects {
                                              .withLatestFrom(this.store.select('general'))
                                              .withLatestFrom(this.store.select('entities'),
                                                              ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                             .filter((z) => {return (z[2] as PosEntitiesState)[z[0].payload['entityCode']]['isLoadedFromDB'] !== true})
                                              .flatMap(([action, generalState, entitiesState]) => {
                                                const entityCode = (entitiesState[action.payload['entityCode']] as Entity).entityCode;
                                                return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))

@@ -6,6 +6,7 @@ import {ProductDB} from "../../database/xretail/db/product";
 import {mergeSliceReducers} from "../../../../R/index";
 import {entityOrderReducer} from "./entity/order.reducer";
 import {orderCountReducer} from "./entity/order-count.reducer";
+import {List} from "immutable";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -23,7 +24,12 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       if (!!data['isFinished']) {
         mergeData['isFinished'] = data['isFinished'];
       }
-      return state.updateIn([entityCode, 'items'], (list) => list.push(...data['items']))
+      let listItems = List.of();
+      listItems     = listItems.push(...data['items']);
+      return state.setIn([entityCode, 'items'],
+                         // Have one case, Order has been place and pushed to entities and DB, then user go to order list-> pull from DB ->
+                         // duplicate because include order has been pushed before
+                         listItems)
                   .setIn([entityCode, 'isLoadedFromDB'], true)
                   .mergeIn([entityCode], mergeData);
     
