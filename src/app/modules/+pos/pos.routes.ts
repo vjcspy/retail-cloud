@@ -17,6 +17,7 @@ export const POS_ROUTES: Routes = [
       {
         path: 'default',
         component: PosDefaultTheme,
+        canActivateChild: [AuthGuard],
         children: [
           {
             path: 'sales',
