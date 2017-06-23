@@ -19,6 +19,7 @@ import {PosEntitiesState} from "../entities/entities.state";
 import {CountryDB} from "../../database/xretail/db/country";
 import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
+import {PosConfigState} from "./config.state";
 
 @Injectable()
 export class PosConfigEffects {
@@ -76,13 +77,12 @@ export class PosConfigEffects {
                                      });
   
   @Effect() increaseOrderCount = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
-                                     .withLatestFrom(this.store$.select('entities'))
+                                     .withLatestFrom(this.store$.select('config'))
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
-                                     .flatMap(([action, entitiesState, generalState]) => {
-                                       const orderCounts: List<UserOrderCountDB> = entitiesState[UserOrderCountDB.getCode()].items;
+                                     .flatMap(([action, configState, generalState]) => {
     
-                                       const orderCount = orderCounts.find((o: UserOrderCountDB) => o.register_id === (generalState as PosGeneralState).register['id']);
+                                       const orderCount = (configState as PosConfigState).orderCount;
     
                                        if (orderCount) {
                                          let increaseOrderCount = Object.assign({}, {...orderCount}, {order_count: (parseInt(orderCount['order_count'] + '') + 1)});
