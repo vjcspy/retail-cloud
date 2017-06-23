@@ -15,7 +15,6 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @ViewChild('gridProductInner') gridProductInner: ElementRef;
   
   @Input() checkoutProductState: CheckoutProductState;
-  @Input() entitiesState: PosEntitiesState;
   
   constructor(protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
   
