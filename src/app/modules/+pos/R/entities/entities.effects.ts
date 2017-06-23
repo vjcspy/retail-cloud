@@ -29,8 +29,6 @@ export class PosEntitiesEffects {
   @Effect() initEntityBeforeGetFromSV$ = this.action$
                                              .ofType(
                                                PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
-                                               // Cứ mỗi khi realtime thì lại init lại
-                                               PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB
                                              )
                                              .withLatestFrom(this.store.select('general'))
                                              .withLatestFrom(this.store.select('entities'),
