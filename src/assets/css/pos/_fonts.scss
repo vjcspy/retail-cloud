@@ -71,7 +71,9 @@ $icons-custom-path: "assets/fonts/icon-custom" !default;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.icon-edit-sale:before {
+  content: "\e92d";
+}
 .icon-order:before {
   content: "\e92c";
 }

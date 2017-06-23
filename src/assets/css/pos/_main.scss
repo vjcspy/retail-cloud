@@ -1016,6 +1016,15 @@ textarea[readonly="readonly"] {
     position: relative;
     height: 58px; line-height: 58px;
     text-align: center;
+    color: $text-gray;
+    .icon-truck{
+      font-size: 44px;
+    }
+    .icon-edit-sale{
+      font-size: 41px;
+      margin-top: 5px;
+      display: inline-block;
+    }
     &.open {
       .popover-wrapper {opacity: 1; z-index: 999;}
     }

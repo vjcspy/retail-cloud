@@ -1,3 +1,30 @@
+<div class="categories-list">
+  <a class="back-btn"></a>
+  <ul>
+    <li>
+      <img src="../img/categories-img/clothings.png" alt="clothings">
+      <span>clothings</span>
+    </li>
+    <li>
+      <img src="../img/categories-img/accessories-shoes.png" alt="accessories-shoes">
+      <span>clothings</span>
+    </li>
+    <li>
+      <img src="../img/categories-img/watch.png" alt="watch">
+      <span>clothings</span>
+    </li>
+    <li>
+      <img src="../img/categories-img/leather-belts.png" alt="leather-belts">
+      <span>clothings</span>
+    </li>
+    <li>
+      <img src="../img/categories-img/clothings.png" alt="clothings">
+      <span>clothings</span>
+    </li>
+  </ul>
+</div>
+  
+</div>
 <div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner>
   <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
