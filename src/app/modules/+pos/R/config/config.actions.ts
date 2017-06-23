@@ -32,6 +32,7 @@ export class PosConfigActions {
    ** @REDUCER:
    *
    * Save order count information
+   * Update to entities state
    *-----------------------------------------------------------------
    ** @EFFECTS:
    *

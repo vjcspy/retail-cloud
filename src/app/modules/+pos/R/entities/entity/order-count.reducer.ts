@@ -10,7 +10,7 @@ export const orderCountReducer: ActionReducer<EntityRecord> = (state, action) =>
       return state.updateIn(['userOrderCount', 'items'], (orderCounts: List<UserOrderCountDB>) => {
         const index = orderCounts.findIndex((orderCount) => orderCount['register_id'] === action.payload['orderCount']['register_id']);
         
-        if (index > 0) {
+        if (index > -1) {
           orderCounts = orderCounts.update(index, (o) => Object.assign({}, {...action.payload['orderCount']}));
         } else {
           orderCounts = orderCounts.push(action.payload['orderCount']);
