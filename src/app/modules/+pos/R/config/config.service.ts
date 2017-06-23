@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PosGeneralState} from "../general/general.state";
 import {DatabaseManager} from "../../../../services/database-manager";
+import {GeneralMessage} from "../../services/general/message";
 
 @Injectable()
 export class PosConfigService {
@@ -11,7 +12,7 @@ export class PosConfigService {
     return new Promise((resolve, reject) => {
       if (count === null) {
         count = {
-          id: generalState.user['id'] + "|" + generalState.outlet['id'] + "|" + generalState.register['id'],
+          id: generalState.outlet['id'] + "|" + generalState.register['id'],
           user_id: generalState.user['id'],
           outlet_id: generalState.outlet['id'],
           register_id: generalState.register['id'],
@@ -24,5 +25,4 @@ export class PosConfigService {
       db.userOrderCount.put(<any>count).then(() => {resolve(count)}).catch(() => reject())
     });
   }
-  
 }

@@ -80,19 +80,14 @@ export class PosConfigEffects {
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
                                      .flatMap(([action, configState, generalState]) => {
+                                       const orderCount  = (configState as PosConfigState).orderCount;
+                                       let newOrderCount = Object.assign({}, {...orderCount}, {order_count: parseInt(orderCount['order_count']) + 1});
     
-                                       const orderCount = (configState as PosConfigState).orderCount;
-    
-                                       if (orderCount) {
-                                         let increaseOrderCount = Object.assign({}, {...orderCount}, {order_count: (parseInt(orderCount['order_count'] + '') + 1)});
-                                         return Observable.fromPromise(this.configService.createNewOrderCount(generalState, increaseOrderCount))
-                                                          .map((_count) => {
-                                                            return this.configActions.retrieveOrderCount(_count, false);
-                                                          })
-                                                          .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count", null, false)));
-                                       } else {
-                                         return Observable.of(this.rootActions.error("Can't_find_order_count"));
-                                       }
+                                       return Observable.fromPromise(this.configService.createNewOrderCount(generalState, newOrderCount))
+                                                        .map((_count) => {
+                                                          return this.configActions.retrieveOrderCount(_count, false);
+                                                        })
+                                                        .catch(() => Observable.of(this.rootActions.error("Can't not create order offline count", null, false)));
                                      });
   
   @Effect() retrieveReceipt = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
