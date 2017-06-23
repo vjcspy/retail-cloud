@@ -5,6 +5,7 @@ import {DatabaseManager} from "./database-manager";
 import {NotifyManager} from "./notify-manager";
 import {RetailTranslate} from "./retail-translate";
 import {AuthenticateService} from "./authenticate";
+import {routerGuardService} from "./router-guard/index";
 
 export const APP_PROVIDERS = [
   DatabaseManager,
@@ -13,5 +14,7 @@ export const APP_PROVIDERS = [
   CustomToastOptions,
   NotifyManager,
   RetailTranslate,
-  AuthenticateService
+  AuthenticateService,
+  
+  ...routerGuardService
 ];

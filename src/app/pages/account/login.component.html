@@ -1,0 +1,42 @@
+<div class="auth-page">
+  <div class="log-img"></div>
+  <div class="log-content">
+    <div class="inner">
+      <h1 class="logo"><img src="assets/img/account/new_logo.png"/></h1>
+      <!-- Login -->
+
+      <form class="js-validation-login form-horizontal push-30-t form-login">
+        <div class="page-title"><h1>Login</h1></div>
+        <ul class="fr-control">
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="text" inputSelectText id="login-username" name="login-username" [(ngModel)]="email"
+                       placeholder="Username"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="password" inputSelectText id="login-password" name="login-password" [(ngModel)]="password"
+                       placeholder="Password"/>
+              </div>
+            </div>
+          </li>
+          <li class="button-group col-xs-12">
+            <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="isLoading">Login</button>
+          </li>
+          <li class="btn-links col-xs-12">
+            <a (click)="router.navigate(['/signup'])" class="click">Register</a>
+            <span class="sep">|</span>
+            <a (click)="router.navigate(['reset_password'])" class="click">Forgot password?</a>
+          </li>
+        </ul>
+      </form>
+
+
+    </div>
+    <a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>Contact Us</a>
+  </div>
+</div>

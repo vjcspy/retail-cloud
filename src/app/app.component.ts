@@ -23,7 +23,7 @@ import {AppState} from "./R/index";
                '../../node_modules/ladda/dist/ladda.min.css',
                "../../node_modules/nprogress/nprogress.css",
                "../../node_modules/ng2-toastr/ng2-toastr.css",
-               "../../node_modules/font-awesome/scss/font-awesome.scss",
+               '../assets/css/font-awesome.scss',
                '../assets/css/daterangepicker.scss',
                '../assets/css/animate.css',
                '../assets/css/bootstrap-datetimepicker-standalone.css',

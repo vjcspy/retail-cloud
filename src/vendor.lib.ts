@@ -5,3 +5,5 @@ import "bootstrap";
 import "hammerjs";
 
 import "offline-js/offline.min.js";
+
+import 'jquery-validation/dist/jquery.validate.min.js';

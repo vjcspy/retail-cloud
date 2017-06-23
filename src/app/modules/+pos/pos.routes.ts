@@ -6,11 +6,13 @@ import {PosDefaultSalesCheckoutComponent} from "./view/default/sales/checkout.co
 import {PosDefaultSalesOutletRegisterComponent} from "./view/default/outlet-register.component";
 import {PosDefaultSalesOrdersComponent} from "./view/default/sales/orders.component";
 import {PosDefaultSalesShiftsComponent} from "./view/default/sales/shifts.component";
+import {AuthGuard} from "../../services/router-guard/auth-guard";
 
 export const POS_ROUTES: Routes = [
   {
     path: '',
     component: PosComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'default',
