@@ -16,7 +16,6 @@ import {Observable} from "rxjs";
 import {PosConfigService} from "./config.service";
 import {ReceiptDB} from "../../database/xretail/db/receipt";
 import {PosEntitiesState} from "../entities/entities.state";
-import {CountryDB} from "../../database/xretail/db/country";
 import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosConfigState} from "./config.state";
