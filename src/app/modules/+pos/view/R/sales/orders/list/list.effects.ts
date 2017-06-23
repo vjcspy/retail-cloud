@@ -102,7 +102,7 @@ export class ListEffects {
                                   });
     
                                   let ordersSorted = orderFiltered.sortBy((o) => {
-                                    return -parseInt(o['id']);
+                                    return -parseInt(o['retail_id']);
                                   });
                                   let grouped      = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));
                                   let ordersGroped = grouped.reduce((results, orders, timestamp) => {
@@ -123,9 +123,9 @@ export class ListEffects {
                                       )
                                       .withLatestFrom(this.store$.select('orders'))
                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
-                                      // .filter((z) => {
-                                      //   return !!(z[1] as OrdersState).list.searchString;
-                                      // })
+                                      .filter((z) => {
+                                        return !!(z[1] as OrdersState).list.searchString;
+                                      })
                                       .switchMap((z) => {
                                         const ordersState: OrdersState      = z[1];
                                         const generalState: PosGeneralState = z[2];
@@ -139,7 +139,7 @@ export class ListEffects {
                                                          orders      = orders.push(order);
                                                        });
                                                        let ordersSorted = orders.sortBy((o) => {
-                                                         return o['id'];
+                                                         return o['retail_id'];
                                                        });
         
                                                        let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));

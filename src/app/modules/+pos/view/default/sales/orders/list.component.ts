@@ -35,7 +35,7 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
   ngOnInit() { }
   
   trackById(index, order) {
-    return order['id'];
+    return order['retail_id'];
   }
   
   trackByTimeStamp(index, group) {
