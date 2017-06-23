@@ -17,8 +17,6 @@ export class AuthenticateService {
         const user = Meteor.user();
         if (user) {
           this._user = user;
-        } else {
-          this.accountActions.goLoginPage(null);
         }
       });
     }
