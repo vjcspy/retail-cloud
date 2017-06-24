@@ -6,6 +6,7 @@ import {LocalStorage} from "ngx-webstorage";
 import {PosGeneralState} from "../../R/general/general.state";
 import * as _ from 'lodash';
 import {PosEntitiesState} from "../../R/entities/entities.state";
+import {AccountActions} from "../../../../R/account/account.actions";
 
 @Component({
              // moduleId: module.id,
@@ -20,7 +21,7 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   @LocalStorage()
   public baseUrl: string;
   
-  constructor(private generalActions: PosGeneralActions, private store$: Store<any>, private ref: ChangeDetectorRef) {
+  constructor(private generalActions: PosGeneralActions, private store$: Store<any>, private ref: ChangeDetectorRef, public accountActions: AccountActions) {
     super();
   }
   
