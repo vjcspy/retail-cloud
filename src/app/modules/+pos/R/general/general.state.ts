@@ -1,7 +1,9 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
+import {List} from "immutable";
 
 export interface PosGeneralState {
   baseUrl: string;
+  urls: List<any>;
   store: Object;
   register: Object;
   warehouse: Object;
@@ -13,8 +15,8 @@ export interface PosGeneralState {
 export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord>, PosGeneralState {}
 
 export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGeneralStateRecord>({
-                                                                                                 // baseUrl: "https://magento2demo.connectpos.com",
-                                                                                                 baseUrl: "http://mage2.dev",
+                                                                                                 baseUrl: null,
+                                                                                                 urls: List.of(),
                                                                                                  store: {},
                                                                                                  register: {},
                                                                                                  warehouse: {},

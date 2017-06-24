@@ -1,16 +1,16 @@
 <div class="outlet-page">
   <div class="page-inner">
-    <div class="page-title"><h1>Select register</h1></div>
+    <!--<div class="page-title"><h1>Select register</h1></div>-->
     <div class="container">
       <div class="outlet-wrap">
         <div class="domain-list">
           <div class="clearfix outlet-top">
             <div class="pull-left domain-select">
               <div class="form-group">
-                <label for="baseUrl">Base URL</label>
-                <select id="baseUrl" name="baseUrl" class="form-control">
-                  <option>http://wp.connectpos.com</option>
-                  <option>Http://enter.connectpos.com</option>
+                <label for="baseUrl">Website</label>
+                <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
+                  <option value="null">Please select website</option>
+                  <option *ngFor="let item of generalState.urls" [value]="item['url']">{{item['url']}}</option>
                 </select>
               </div>
             </div>
@@ -19,225 +19,22 @@
             </div>
           </div>
 
-          <div class="outlet-list">
-            <div class="oulet-index">
-              <i class="icons-cus ico-outlet"></i>
-              <span class="outlet-title">Outlet MA</span>
+          <div class="outlets" *ngIf="baseUrl && entitiesState">
+            <div class="outlet-list" *ngFor="let outlet of entitiesState.outlet.items">
+              <div class="oulet-index">
+                <i class="icons-cus ico-outlet"></i>
+                <span class="outlet-title">{{outlet['name']}}</span>
+              </div>
+              <ul>
+                <li class="item" *ngFor="let register of outlet['registers']">
+                  <div class="click" (click)="selectOutletAndRegister(outlet['id'],register['id'])">
+									<span class="icon-reg-bg">
+									<i class="icons-cus ico-reg"></i>
+									</span><span class="title">{{register['name']}}</span>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <ul>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register MA-001
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register MA-002
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register MA-003
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register MA-004
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register MA-005
-									</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="outlet-list">
-            <div class="oulet-index">
-              <i class="icons-cus ico-outlet"></i>
-              <span class="outlet-title">
-									Outlet CX
-								</span>
-            </div>
-            <ul>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-001
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-002
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-003
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-004
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-005
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-006
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-007
-									</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="outlet-list">
-            <div class="oulet-index">
-              <i class="icons-cus ico-outlet"></i>
-              <span class="outlet-title">
-									Outlet CX
-								</span>
-            </div>
-            <ul>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-001
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-002
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-003
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-004
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-005
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-006
-									</span>
-                </a>
-              </li>
-              <li class="item">
-                <a href="#">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span>
-                  <span class="title">
-									Register CX-007
-									</span>
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>

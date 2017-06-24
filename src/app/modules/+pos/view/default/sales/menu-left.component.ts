@@ -52,7 +52,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   changeOutlet() {
-  
+    this.routerActions.go('pos/default/outlet-register');
   }
   
   openOrders() {

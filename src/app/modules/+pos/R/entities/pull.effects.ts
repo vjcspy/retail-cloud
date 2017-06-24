@@ -6,6 +6,7 @@ import {PosEntitiesActions} from "./entities.actions";
 import {List} from "immutable";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
 import {Observable} from "rxjs";
+import {RetailConfigDB} from "../../database/xretail/db/retail-config";
 
 @Injectable()
 export class PosPullEffects {
@@ -40,14 +41,25 @@ export class PosPullEffects {
                                     }, 0);
                                     this.progressBar.set(totalProportionSuccess * 100 / (totalProportionSuccess + totalProportionEntityPulling));
       
-                                    let pullObservable = [];
+                                    let pullObservable         = [];
+                                    let hasResolveRetailConfig = false;
                                     pullingChain.forEach((entity) => {
                                       if (pullingChainStarted.indexOf(entity) === -1) {
-                                        pullObservable.push(this.entitiesActions.pullEntityDataFromServer(entity, false));
+                                        if (entity === RetailConfigDB.getCode()) {
+                                          hasResolveRetailConfig = true;
+            
+                                          return false;
+                                        } else {
+                                          pullObservable.push(this.entitiesActions.pullEntityDataFromServer(entity, false));
+                                        }
                                       }
                                     });
       
-                                    return Observable.from(pullObservable);
+                                    if (!hasResolveRetailConfig) {
+                                      return Observable.from(pullObservable);
+                                    } else {
+                                      return Observable.of(this.entitiesActions.pullEntityDataFromServer(RetailConfigDB.getCode(), false));
+                                    }
                                   }
                                 });
 }

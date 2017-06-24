@@ -2,12 +2,14 @@ import {Injectable}     from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot}    from '@angular/router';
 import {PosGeneralService} from "../../R/general/general.service";
 import {PosGeneralActions} from "../../R/general/general.actions";
-import {AuthenticateService} from "../../../../services/authenticate";
-import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
+import {Store} from "@ngrx/store";
+import {posReducer} from "../../R/index";
 
 @Injectable()
 export class GeneralGuard implements CanActivate, CanActivateChild {
-  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected authService: AuthenticateService) {}
+  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected store$: Store<any>) {
+    this.store$.replaceReducer(posReducer);
+  }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
@@ -18,16 +20,7 @@ export class GeneralGuard implements CanActivate, CanActivateChild {
   checkGeneralDataExisted(url: string) {
     const generalData = this.generalService.resolveGeneralDataFromStorage();
     if (generalData) {
-      const user = this.authService.user;
-      if (!user) {
-        throw new GeneralException("Can't find user");
-      }
-      generalData['user'] = {
-        id: user['_id'],
-        name: ''
-      };
-      
-      this.generalActions.saveGeneralData(generalData);
+      this.generalActions.saveGeneralData(generalData, false);
       
       return true;
     }

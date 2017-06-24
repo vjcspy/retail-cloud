@@ -7,6 +7,7 @@ import {PosDefaultSalesOutletRegisterComponent} from "./view/default/outlet-regi
 import {PosDefaultSalesOrdersComponent} from "./view/default/sales/orders.component";
 import {PosDefaultSalesShiftsComponent} from "./view/default/sales/shifts.component";
 import {AuthGuard} from "../../services/router-guard/auth-guard";
+import {GeneralGuard} from "./services/router-guards/general-guard";
 
 export const POS_ROUTES: Routes = [
   {
@@ -22,6 +23,7 @@ export const POS_ROUTES: Routes = [
           {
             path: 'sales',
             component: PosDefaultSalesPage,
+            canActivate: [GeneralGuard],
             children: [
               {path: 'checkout', component: PosDefaultSalesCheckoutComponent},
               {path: 'orders', component: PosDefaultSalesOrdersComponent},
