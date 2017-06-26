@@ -48,7 +48,7 @@ export class AccountEffects {
                            return Observable.fromPromise(this.authService.signOut())
                                             .map(() => {
                                               this.accountService.removeUserFromStorage();
-                                              return this.accountActions.goLoginPage(false);
+                                              return this.accountActions.goLoginPage(false,false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)))
                          });
