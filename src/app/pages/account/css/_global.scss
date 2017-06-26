@@ -1,0 +1,202 @@
+// mixin
+//position
+@mixin ver-pos {
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+@mixin hoz-pos {
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+@mixin center-pos {
+  top: 50%; left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+@mixin no-pos {
+  top: auto; left: auto;
+  -ms-transform: translate(0,0);
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+}
+@mixin pos($x,$y) {
+  top: $y; left: $x;
+  -ms-transform: translate(-$x,-$y);
+  -webkit-transform: translate(-$x,-$y);
+  transform: translate(-$x,-$y);
+}
+//transition
+@mixin single-transition($property,$duration){
+  -webkit-transition: $property $duration ease-in-out;
+  -moz-transition: $property $duration ease-in-out;
+  -o-transition: $property $duration ease-in-out;
+  transition: $property $duration ease-in-out;
+}
+
+//box shadow
+@mixin box-shadow($box-value) {
+  -webkit-box-shadow: $box-value;
+  -moz-box-shadow: $box-value;
+  box-shadow: $box-value;
+}
+
+//box-sizing
+@mixin box-sizing($box-model) {
+  -webkit-box-sizing: $box-model;
+  -moz-box-sizing: $box-model;
+  box-sizing: $box-model;
+}
+
+//border-radius
+@mixin border-radius($b-deg) {
+  -webkit-border-radius: $b-deg;
+  -moz-border-radius: $b-deg;
+  border-radius: $b-deg;
+}
+
+//user selected
+@mixin user-select ($user-select) {
+  -moz-user-select: $user-select;
+  -webkit-user-select: $user-select;
+  -ms-user-select: $user-select;
+  user-select: $user-select;
+}
+
+// float-reset
+@mixin float-reset{
+  width: 100%;
+  float: none;
+  clear: both;
+  display: inline-block;
+
+}
+//clearfix
+@mixin clearfix {
+  zoom: 1;
+  &:after {
+    content: '.';
+    display: block;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+  }
+}
+
+//  Global style  =====================================
+
+
+// variable
+$color-text:      #4f4f4f;
+$white:         #fff;
+$navy:          #232e42;
+$dark-gray:       #808792;
+$light-gray:      #f5f5f5;
+$gray:          #818181;
+$dark-blue:       #0a162c;
+$light-blue:      #ecf0f3;
+$aqua:          #11b4a8;
+$aqua-light:      #3cbfae;
+$orange:        #f4a522;
+$yellow:        #ffecb3;
+
+$size : 14px;
+
+input:not([type]),
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+textarea {
+  background: $white;
+  border: none;
+  outline: none;
+  height: 40px;
+  width: 100%;
+  color: $color-text; font-size: $size;
+  margin: 0; padding: 0 12px;
+  @include single-transition(all,0.3s);
+  @include border-radius(5px);
+  @include box-sizing(border-box);
+  @include user-select(none);
+}
+
+input:focus:not([type]):not([readonly]),
+input[type="text"]:focus:not([readonly]),
+input[type="password"]:focus:not([readonly]),
+input[type="email"]:focus:not([readonly]),
+input[type="url"]:focus:not([readonly]),
+input[type="time"]:focus:not([readonly]),
+input[type="date"]:focus:not([readonly]),
+input[type="datetime"]:focus:not([readonly]),
+input[type="datetime-local"]:focus:not([readonly]),
+input[type="tel"]:focus:not([readonly]),
+input[type="number"]:focus:not([readonly]),
+input[type="search"]:focus:not([readonly]),
+textarea:focus:not([readonly]) {
+  border: none;
+  @include box-shadow(inset 0px 1px 3px 0px #65B3B6);
+}
+
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none; cursor: pointer;
+  font-size: 14px;
+  color: $white; text-transform: uppercase;
+  text-align: center; vertical-align: middle; white-space: nowrap;
+  padding: 0 15px; margin: 0;
+  height: 39px; line-height: 39px;
+  background: $aqua;
+  font-weight: bold;
+  @include user-select(none);
+  @include border-radius(4px);
+  @include single-transition(all,0.3s);
+  &:hover {background: $aqua-light;}
+  &.gray {
+    background: $gray;
+    &:hover {background: $dark-gray;}
+  }
+  &.active.focus, &.active:focus,
+  &.focus, &.focus:active, &:active:focus, &:focus {
+    outline: none;
+    outline-offset: 0px;
+    border: none;
+  }
+  &.secondary {    
+    text-transform: none;
+    height: 31px; line-height: 29px;
+    border: $aqua solid 1px;
+    &:hover {border-color: $dark-gray;}
+    &.white {
+      color: $color-text;
+      border-color: #CBCBCB;
+      &:hover {background: $gray!important; border-color: $gray; color: $white;}
+    }
+  }
+}
+
+ul{
+  margin: 0;
+  padding: 0;
+  li{
+    list-style: none;    
+  }
+
+}

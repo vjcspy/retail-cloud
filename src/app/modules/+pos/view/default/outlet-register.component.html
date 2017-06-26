@@ -1,5 +1,17 @@
-<div class="row" style="margin-top: 100px">
-  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-lg-offset-2" *ngIf="(entitiesState$ | async)?.outlet.items.count() >0">
-    <button type="button" class="btn btn-default form-control" (click)="selectOutletAndRegister(1,1)">Select outlet and register</button>
+<div class="outlet-page">
+  <div class="page-inner">
+    <!--<div class="page-title"><h1>Select register</h1></div>-->
+    <div class="container">
+      <div class="outlet-wrap">
+        <div class="domain-list">
+
+          <pos-default-outlet-register-website [generalState]="generalState$ | async"></pos-default-outlet-register-website>
+
+          <pos-default-outlet-register-outlets [entitiesState]="entitiesState$ | async" [pullState]="pullState$ | async"></pos-default-outlet-register-outlets>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

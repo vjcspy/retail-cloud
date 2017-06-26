@@ -2,24 +2,62 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {PosGeneralActions} from "./general.actions";
+import {RootActions} from "../../../../R/root.actions";
+import {PosGeneralService} from "./general.service";
+import {PosPullActions} from "../entities/pull.actions";
+import {AccountActions} from "../../../../R/account/account.actions";
+import {AccountState} from "../../../../R/account/account.state";
+import * as _ from 'lodash';
+import {List} from "immutable";
 import {PosEntitiesState} from "../entities/entities.state";
 import {OutletDB} from "../../database/xretail/db/outlet";
-import {List} from "immutable";
 import {Observable} from "rxjs";
-import {RootActions} from "../../../../R/root.actions";
 import {StoreDB} from "../../database/xretail/db/store";
-import * as _ from 'lodash';
-import {PosGeneralService} from "./general.service";
-import {PosEntitiesActions} from "../entities/entities.actions";
-import {RetailConfigDB} from "../../database/xretail/db/retail-config";
+import {RouterActions} from "../../../../R/router/router.actions";
+import {PosGeneralState} from "./general.state";
 
 @Injectable()
 export class PosGeneralEffects {
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
+              private generalActions: PosGeneralActions,
               private generalService: PosGeneralService,
+              private pullActions: PosPullActions,
+              private routerActions: RouterActions,
               private rootActions: RootActions) { }
+  
+  @Effect() pullGeneralDataFromSever = this.actions$
+                                           .ofType(PosGeneralActions.ACTION_SELECT_WEBSITE)
+                                           .filter((action) => _.isString(action.payload['baseUrl']) && action.payload['baseUrl'] !== '')
+                                           .map(() => {
+                                             return this.pullActions.pullEntities(['stores', 'outlet', 'retailConfig'], false);
+                                           });
+  
+  @Effect() resolveUrls = this.actions$
+                              .ofType(
+                                AccountActions.SAVE_LICENSE_DATA
+                              )
+                              .withLatestFrom(this.store$.select('account'))
+                              .filter((z) => {
+                                const accountState: AccountState = <any>z[1];
+                                return !!accountState.license && !!accountState.license.licenseHasPos && _.isArray(accountState.license.licenseHasPos['base_url']);
+                              })
+                              .map((z) => {
+                                const accountState: AccountState = <any>z[1];
+                                let listUrl                      = List.of();
+                                const urls                       = accountState.license.licenseHasPos['base_url'];
+                                _.forEach(urls, (url) => {
+                                  if (url['status'] == 1) {
+                                    listUrl = listUrl.push({
+                                                             url: url['url'],
+                                                             is_default: false,
+                                                             isMage1: false
+                                                           });
+                                  }
+                                });
+                                return this.generalActions.resolvedUrls(listUrl, false);
+                              });
   
   @Effect() saveOutletAndRegister = this.actions$
                                         .ofType(PosGeneralActions.ACTION_SELECT_OUTLET_REGISTER)
@@ -51,23 +89,35 @@ export class PosGeneralEffects {
                                             Observable.throw(new Error("Can't find register when saveOutletAndRegister"));
                                           }
     
-                                          return {outlet, store, register};
-                                        })
-                                        .switchMap((generalData) => Observable.fromPromise(this.generalService.saveGeneralDataToDB(generalData))
-                                                                              .map(() => ({
-                                                                                type: PosGeneralActions.ACTION_SAVE_STATE,
-                                                                                payload: generalData
-                                                                              }))
-                                                                              .catch((e) => Observable.of(this.rootActions.error("", e,false))));
+                                          this.generalService.saveGeneralDataToDB({outlet, store, register});
+    
+                                          return this.generalActions.saveGeneralData({outlet, store, register}, true, false);
+                                        });
   
-  @Effect() retrieveOutletRegisterFromDB = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
-                                               .filter((action: Action) => action.payload['entityCode'] === RetailConfigDB.getCode())
-                                               .withLatestFrom(this.store$.select('entities'))
+  @Effect() redirectAfterSaveGeneralData = this.actions$
+                                               .ofType(PosGeneralActions.ACTION_SAVE_STATE)
+                                               .withLatestFrom(this.store$.select('general'))
                                                .map((z) => {
-                                                 const orData = this.generalService.retrieveOutletRegister((z[1] as PosEntitiesState).retailConfig);
-                                                 if (orData) {
-                                                   return {type: PosGeneralActions.ACTION_SAVE_STATE, payload: orData};
-                                                 } else
-                                                   return {type: RootActions.ACTION_NOTHING, payload: {mess: "No data outlet register in DB"}};
+                                                 const generalState: PosGeneralState = <any>z[1];
+    
+                                                 if ((z[0] as Action).payload['needRedirect'] === true) {
+                                                   this.routerActions.go(generalState.redirect);
+                                                 }
+    
+                                                 return this.rootActions.nothing("Redirect after save state: " + (z[0] as Action).payload['needRedirect']);
                                                });
+  
+  @Effect() goOutletRegister = this.actions$
+                                   .ofType(PosGeneralActions.ACTION_GO_OUTLET_REGISTER_PAGE)
+                                   .map(() => {
+                                     this.routerActions.go('pos/default/outlet-register');
+                                     return this.rootActions.nothing("Go to outlet and register page");
+                                   });
+  
+  @Effect() clearGeneralDataWhenLogout = this.actions$
+                                             .ofType(AccountActions.ACTION_LOGOUT)
+                                             .map(() => {
+                                               this.generalService.removeGeneralDataInStorage();
+                                               return this.rootActions.nothing("Cleared general data in storage");
+                                             })
 }

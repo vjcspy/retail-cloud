@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 
 @Injectable()
 export class PosPullActions {
@@ -9,9 +9,15 @@ export class PosPullActions {
   // Hoàn thành toàn bộ việc pull các entity
   static ACTION_PULL_ENTITIES_FULL = 'ACTION_PULL_ENTITIES_FULL';
   
-  constructor(private store: Store<any>) {}
+  constructor(private store$: Store<any>) {}
   
-  pullEntities(entitiesCode: string[]): void {
-    this.store.dispatch({type: PosPullActions.ACTION_PULL_ENTITIES, payload: {entitiesCode}});
+  pullEntities(entitiesCode: string[], dispatch: boolean = true): Action {
+    const action = {type: PosPullActions.ACTION_PULL_ENTITIES, payload: {entitiesCode}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }

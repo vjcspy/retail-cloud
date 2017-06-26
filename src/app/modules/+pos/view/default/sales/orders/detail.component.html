@@ -5,7 +5,7 @@
   <div class="order-list-inner" perfectScroll>
     <div class="notification"
          [ngClass]="{'has-noted': !!getOrder()['retail_note'] && !getOrder()['add_note'],'add-noted':getOrder()['add_note']}">
-            <span class="click">
+            <span class="click" (click)="getOrder()['add_note'] = !getOrder()['add_note']">
                 <span class="icon-noted"></span>
             </span>
       <p class="noted">
@@ -134,7 +134,7 @@
     <button [ladda]="ordersState.detail.isResolvingReorder" (click)="reorder()">{{ 'Duplicate' | translate }}</button>
     <button *ngIf="getOrder()['can_creditmemo']">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
-    <button *ngIf="getOrder()['can_invoice'] && !!getOrder()['retail_id']">{{ 'Add Payment' | translate }}</button>
+    <button *ngIf="getOrder()['can_invoice']">{{ 'Add Payment' | translate }}</button>
     <div class="button-group" [ngClass]="{active:isActiveReceiptInner}">
       <button (click)="getOrder()['isActiveReceiptInner'] = !getOrder()['isActiveReceiptInner']">{{ 'Receipt' | translate }}</button>
       <div class="inner">

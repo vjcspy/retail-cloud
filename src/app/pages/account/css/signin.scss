@@ -1,0 +1,157 @@
+@import 'global';
+.has-error .help-block{
+       text-align: left !important;
+       background-color: red;
+      }
+
+// STYLE
+.auth-page {
+  position: relative;
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+
+  [class^="log-"] {
+    position: absolute; padding: 10px 0;
+    height: 100%; overflow: hidden;
+    @include single-transition(all,0.3s);
+  }
+  .log-img {
+    left: 0;
+    width: 63.9092%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image:url('assets/img/login-img.jpg');
+    &.forgot {
+      opacity: 0; z-index: -1;
+    }
+  }
+  .log-content {
+    right: 0;
+    width: 36.0907%;
+    background: $white;
+    .inner {
+      position: absolute;
+      @include hoz-pos; top: 13.73%;
+      width: 56.7951%;
+    }
+    @media (max-width: 1199px){
+      width: 40%;
+      .inner{
+        width: 80%;
+      }
+    }
+    &.forgot {
+      right: -36.0907%;
+      .inner {top: 32.5%;}
+    }
+    h1, h3 {margin: 0; text-align: center;}
+    h1.logo {
+      margin-bottom: 30%;
+      img {width: 190px; height: auto;}
+    }
+    .page-title{
+      margin-bottom: 20px;
+      h1{
+        text-transform: none;
+        font-size: 25px;
+        color: $aqua;
+      }
+    }
+    h3 {
+      color: $color-text;
+      font-size: 22px;
+      margin: 0 0 37px;
+    }
+  }
+  &.active {
+    .log-img {
+      opacity: 0; z-index: -1;
+      &.forgot {opacity: 1; z-index: 1;}
+    }
+    .log-content {
+      &.forgot {right: 0;}
+    }
+  }
+
+  .fr-control {
+    li {
+    	padding-left: 0; text-align: center;margin-bottom: 20px;
+
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      background: $white;
+      border: #C7C7C7 solid 1px;
+      text-align: left;
+      &::-webkit-input-placeholder {color: #A0A0A0;}
+      &:-moz-placeholder {color: #A0A0A0;}
+      &::-moz-placeholder {color: #A0A0A0;}
+      &:-ms-input-placeholder {color: #A0A0A0;}
+    }
+    .button-group{
+    	@include clearfix;
+    	button {min-width: 114px; }
+	    .click {
+	      float: left; margin-top: 11px;
+	      color: $aqua;
+	  	}
+	  	@media (max-width:1200px ){
+	  		text-center: center;
+	  		button,
+	  		.click{
+	  			@include float-reset;
+	  			margin-bottom: 10px;
+
+	  		}
+
+	  	}
+
+    }
+
+	}
+
+
+
+  .back-btn {
+    position: absolute;
+    top: 19px; left: 24px;
+  }
+  .term-link{
+    color: $color-text;
+    &:hover, &:focus{
+      color: $aqua;
+      text-decoration: underline;
+    }
+  }
+
+.form-login{
+  .button-group {
+    margin-top:30px;
+  }
+  .btn-links{
+    text-align: center;
+    .sep{
+      width: 20px;
+    }
+  }
+}
+.form-reset{
+  .button-group {
+    margin-top:30px;
+  }
+}
+
+  .contact-btn {
+    position: absolute;
+    @include hoz-pos; bottom: 38px;
+    color: $color-text;
+    i {
+      position: relative;
+      top: 3px;
+      font-size: 25px;
+      margin-right: 8px;
+      color: $gray;
+    }
+  }
+}

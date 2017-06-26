@@ -6,6 +6,10 @@ import {ProductDB} from "../../database/xretail/db/product";
 import {mergeSliceReducers} from "../../../../R/index";
 import {entityOrderReducer} from "./entity/order.reducer";
 import {orderCountReducer} from "./entity/order-count.reducer";
+import {List} from "immutable";
+import {generalEntityReducer} from "./entity/outlet-store-retailconfig.reducer";
+import {AccountActions} from "../../../../R/account/account.actions";
+import {EntityRecord} from "./entities.model";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -23,7 +27,12 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       if (!!data['isFinished']) {
         mergeData['isFinished'] = data['isFinished'];
       }
-      return state.updateIn([entityCode, 'items'], (list) => list.push(...data['items']))
+      let listItems = List.of();
+      listItems     = listItems.push(...data['items']);
+      return state.setIn([entityCode, 'items'],
+                         // Have one case, Order has been place and pushed to entities and DB, then user go to order list-> pull from DB ->
+                         // duplicate because include order has been pushed before
+                         listItems)
                   .setIn([entityCode, 'isLoadedFromDB'], true)
                   .mergeIn([entityCode], mergeData);
     
@@ -37,6 +46,18 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
       return state.setIn([action.payload['entityCode'], 'query'], action.payload['query']);
+    
+    case PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID:
+      return state.update(action.payload['entityCode'], (entity: EntityRecord) => {
+        return entity.set('items', List.of())
+                     .set('currentPage', 0)
+                     .set('isLoadedFromDB', false)
+                     .set('isFinished', false);
+      });
+  
+    case AccountActions.ACTION_LOGOUT:
+      // Not need beacause we are support pull again when data not valid, thought this code improve ux
+      return posEntitiesStateFactory();
     
     default:
       return state;

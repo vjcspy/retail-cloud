@@ -9,5 +9,5 @@
     <p class="id">#{{order['retail_id']}}</p>
   </div>
   <span class="offline" *ngIf="!!order['is_offline'] && !order['pushed']">&nbsp;</span>
-  <span class="unsync" *ngIf="!!order['pushed']">&nbsp;</span>
+  <span class="unsync" *ngIf="order['pushed'] === 3">&nbsp;</span>
 </div>

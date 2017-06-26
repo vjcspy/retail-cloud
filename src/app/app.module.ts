@@ -42,7 +42,7 @@ import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
              */
             imports: [
               ShareModule,
-              Ng2Webstorage,
+              Ng2Webstorage.forRoot({prefix: 'mr.vjcspy@gmail.com', separator: '|', caseSensitive: true}),
               ToastModule.forRoot(),
               R_IMPORTS,
               BrowserModule,

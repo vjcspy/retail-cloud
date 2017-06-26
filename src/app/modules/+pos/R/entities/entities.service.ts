@@ -59,6 +59,8 @@ export class PosEntitiesService {
       entityDataInfo.storeId     = entity.isDependStore === true ? generalState.store['id'] : null;
       entityDataInfo.base_url    = generalState.baseUrl;
       await entityDataInfo.save(true);
+  
+      return {data: {notValidDB: true}};
     }
     
     return entityDataInfo.hasOwnProperty('id')

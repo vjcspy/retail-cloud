@@ -31,8 +31,8 @@ export class CheckoutProductEffects {
                                                        ([action, checkoutProductState], entitiesState) => [action, checkoutProductState, entitiesState])
                                        .withLatestFrom(this.store$.select('config'), (([action, checkoutProductState, entitiesState], configState) =>
                                          [action, checkoutProductState, entitiesState, configState]))
-                                       .filter(([action, checkoutProductState, entitiesState, configState]) => {
-                                         return checkoutProductState.productGridNumOfProductPerPage > 0 && entitiesState.products.itemFiltered.count() > 0;
+                                       .filter(([action, checkoutProductState]) => {
+                                         return checkoutProductState.productGridNumOfProductPerPage > 0;
                                        })
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(checkoutProductState, entitiesState.products.itemFiltered, configState))

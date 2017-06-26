@@ -3,12 +3,11 @@
  */
 import {
   ChangeDetectionStrategy,
-  Component, ViewContainerRef,
+  Component, OnInit, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
-import {Store} from "@ngrx/store";
 import {ToastsManager} from "ng2-toastr";
-import {AppState} from "./R/index";
+import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 
 /**
  * App Component
@@ -23,7 +22,7 @@ import {AppState} from "./R/index";
                '../../node_modules/ladda/dist/ladda.min.css',
                "../../node_modules/nprogress/nprogress.css",
                "../../node_modules/ng2-toastr/ng2-toastr.css",
-               "../../node_modules/font-awesome/scss/font-awesome.scss",
+               '../assets/css/font-awesome.scss',
                '../assets/css/daterangepicker.scss',
                '../assets/css/animate.css',
                '../assets/css/bootstrap-datetimepicker-standalone.css',
@@ -37,10 +36,13 @@ import {AppState} from "./R/index";
              `,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class AppComponent {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private store: Store<AppState>) {
+export class AppComponent extends AbstractSubscriptionComponent implements OnInit {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef) {
+    super();
+    
     this.toastr.setRootViewContainerRef(vcr);
-    this.store.subscribe((appState) => window['appState'] = appState);
   }
   
+  ngOnInit(): void {
+  }
 }

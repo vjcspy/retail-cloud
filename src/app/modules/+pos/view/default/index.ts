@@ -35,12 +35,17 @@ import {PosDefaultSalesShiftsComponent} from "./sales/shifts.component";
 import {PosDefaultSalesOrdersListItemComponent} from "./sales/orders/list/item.component";
 import {PosDefaultSalesOrdersDetailComponent} from "./sales/orders/detail.component";
 import {PosDefaultSalesOrdersDetailItemsComponent} from "./sales/orders/detail/items.component";
+import {PosDefaultOutletRegisterWebsiteComponent} from "./outlet-register/website.component";
+import {PosDefaultOutletRegisterOutletsComponent} from "./outlet-register/outlets.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
   
   PosDefaultSalesPage,
+  
   PosDefaultSalesOutletRegisterComponent,
+  PosDefaultOutletRegisterWebsiteComponent,
+  PosDefaultOutletRegisterOutletsComponent,
   
   PosDefaultMenuLeftComponent,
   PosDefaultSalesReceiptComponent,

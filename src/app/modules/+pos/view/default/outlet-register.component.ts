@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PosPullActions} from "../../R/entities/pull.actions";
-import {PosGeneralActions} from "../../R/general/general.actions";
 import {Store} from "@ngrx/store";
-import {Router} from "@angular/router";
 import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscriptionComponent";
 import {PosGeneralState} from "../../R/general/general.state";
 import {PosEntitiesState} from "../../R/entities/entities.state";
+import {Observable} from "rxjs";
+import {AccountService} from "../../../../R/account/account.service";
+import {PosPullState} from "../../R/entities/pull.state";
 
 @Component({
              // moduleId: module.id,
@@ -14,32 +14,19 @@ import {PosEntitiesState} from "../../R/entities/entities.state";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscriptionComponent implements OnInit {
-  protected entitiesState$: PosEntitiesState;
+  protected generalState$: Observable<PosGeneralState>;
+  protected entitiesState$: Observable<PosEntitiesState>;
+  protected pullState$: Observable<PosPullState>;
   
-  constructor(private pullActions: PosPullActions, private generalActions: PosGeneralActions, private store$: Store<any>, private router: Router) {
+  
+  constructor(private store$: Store<any>, private accountService: AccountService) {
     super();
+    this.generalState$  = this.store$.select('general');
     this.entitiesState$ = this.store$.select('entities');
+    this.pullState$     = this.store$.select('pull');
   }
   
   ngOnInit() {
-    
-    this.subscribeObservable("check_outlet_register", () => this.store$
-                                                                .select('general')
-                                                                .subscribe((generalState: PosGeneralState) => {
-                                                                  if (!!generalState.register['id'] && !!generalState.outlet['id'] && !!generalState.store['id']) {
-                                                                    this.router.navigate(['pos/default/sales/checkout']);
-                                                                  } else {
-                                                                    this.pullActions
-                                                                        .pullEntities([
-                                                                                        'stores',
-                                                                                        'outlet',
-                                                                                        'retailConfig'
-                                                                                      ]);
-                                                                  }
-                                                                }));
-  }
-  
-  protected selectOutletAndRegister(outletId: number, registerId: number): void {
-    this.generalActions.selectOutletRegister(outletId, registerId);
+    this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
   }
 }

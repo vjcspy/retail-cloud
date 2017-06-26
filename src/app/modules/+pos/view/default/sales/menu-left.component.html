@@ -43,7 +43,7 @@
     </li>
   </ul>
   <div class="bot-bar">
-    <button class="red" (click)="authenticateService.signOut()">{{'Logout' | translate}}</button>
+    <button class="red" (click)="accountActions.logout()" [ladda]="accountState.isLogging">{{'Logout' | translate}}</button>
     <div style="margin-top: 15px;width: 100%;margin-bottom: -40px;margin-left: -10px;">
       <ul class="fr-control">
         <li>
