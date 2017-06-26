@@ -1303,14 +1303,6 @@ textarea[readonly="readonly"] {
   width: 36.0176%;*/
   padding-bottom: 75px;
   .top-bar {
-    .icon-link {
-      width: 58px;
-      border-left: $border solid 1px;
-      &:hover, &.active {
-        background: $cgreen;
-        [class^="icon-"], [class*=" icon-"] {color: $white;}
-      }
-    }
     .cart-info {
       overflow: hidden;
       font-family: $mediumFont;
@@ -5300,3 +5292,4 @@ ul.has-list {
 .regular-pr:hover .tooltiptext-left {
   visibility: visible;
 }
+

@@ -1,30 +1,81 @@
+<!-- class is "cate-collapse" when close cateogry -->
 <div class="categories-list">
-  <a class="back-btn"></a>
-  <ul>
-    <li>
-      <img src="../img/categories-img/clothings.png" alt="clothings">
-      <span>clothings</span>
-    </li>
-    <li>
-      <img src="../img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-      <span>clothings</span>
-    </li>
-    <li>
-      <img src="../img/categories-img/watch.png" alt="watch">
-      <span>clothings</span>
-    </li>
-    <li>
-      <img src="../img/categories-img/leather-belts.png" alt="leather-belts">
-      <span>clothings</span>
-    </li>
-    <li>
-      <img src="../img/categories-img/clothings.png" alt="clothings">
-      <span>clothings</span>
-    </li>
-  </ul>
+  <div class="cateogries-inner">
+    <a class="back-btn icon-back-btn">
+    back-btn
+    <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
+    </a>
+    <!-- when category lastest -->
+    <a class="btn-back-last">
+      <i class="icon-back-btn"></i>
+      Back
+    </a>
+    <ul>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
+          <span class="cat-name">clothings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
+          <span class="cat-name">Accessories<br />Shoes</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/watch.png" alt="watchs">
+          <span class="cat-name">Watchs</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/leather-belts.png" alt="leather-belts">
+          <span class="cat-name">leather belts</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
+          <span class="cat-name">clothings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
+          <span class="cat-name">Accessories<br />Shoes</span>
+        </a>
+      </li>
+      
+
+    </ul>
+    <div class="navigation">
+      <a class="icon-left-thin preview">Preview</a>
+      <a class="icon-left-thin next">Next</a>
+    </div>
+  </div>
+  <span class="cate-close">
+    
+  </span>
 </div>
-  
+<div class="grid-product-top">
+    <ul class="breadcumb">
+      <li>
+          <a>All Fashion</a>      
+      </li>
+      <li class="current">
+        <span>Women</span>
+      </li>
+    </ul>
+    <div class="view-mode">
+        <label>View as:</label>
+        <a class="icon-grid current"></a>
+        <a class="icon-list"></a>
+    </div>
 </div>
+
+
 <div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner>
   <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"

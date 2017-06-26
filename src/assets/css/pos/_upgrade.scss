@@ -1,0 +1,318 @@
+// Upgrade UI/UX
+.categories-list{
+  position: relative;
+  min-height: 3px;
+  margin-bottom: 20px;
+  border-bottom: $border solid 1px;
+  background: $white;
+  .cateogries-inner{  
+    @include clearfix;
+    padding: 13px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    ul{
+      margin: 0;
+      padding: 0;
+      li{
+        list-style: none;
+        padding: 0;
+        margin-left: 10px;
+        position: relative;
+        float: left;
+        width: 160px;
+        text-align: center;
+        .cat-name{
+          color: $white;
+          text-transform: uppercase;
+          font-size: 14px;
+          line-height: 18px;
+          font-family: $boldFont;
+          position: absolute;
+          @include center-pos;
+
+        }
+      }
+    }
+    [class*="icon-"]{
+      font-size: 0;
+     &:hover{    
+      @include single-transition(all,.3s);
+      cursor: pointer;
+     }
+      &:before{
+        font-size: 20px;
+      }  
+    }
+    .back-btn{
+      background: $gray1;
+      width: 44px;
+      height: 44px;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;  
+      position: relative;
+      cursor: pointer;
+      &:before{
+        color: $cgreen;
+        font-size: 12px;
+      }
+      &:hover{
+        background:$bg-hover;
+      }
+     
+    }
+    .btn-back-last{
+      background: $gray1;
+      border-radius: 34px;
+      height: 34px;
+      font-size: 13px;
+      font-family: $mediumFont;
+      text-transform: uppercase;
+      color: $cgreen;
+      width: auto;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      i:before{
+        font-size: 8px;
+        margin-right: 8px;
+      }
+    }
+    .navigation{
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: rgba(243,243,243,.7);
+      width: 42px;
+      height: 100%;
+      .icon-left-thin{
+        display: inline-block;
+        padding: 12px 13px;  
+        cursor: pointer;
+        &:before{
+          color: $cgreen;
+        }
+        &:hover{
+        background: rgba(206,206,206,.7);
+      }
+      
+      }
+      
+    }  
+  }
+  .cate-close {
+    width: 52px;
+    height: 20px;
+    border: $border solid 1px;
+    border-top: none;
+    display: inline-block;
+    position: absolute;
+    bottom: -20px;  
+    background: $white;  
+    border-radius: 0 0 4px 4px;
+    text-align: center;
+    cursor: pointer;
+    @include hoz-pos;
+    &:before{
+      content: "\e91f";
+      @include rotate(90deg);
+      color: $gray;
+      font-size: 15px;
+      font-family: 'icomoon' ;
+      display: inline-block;
+      margin-top: 0px;
+
+    }
+  }
+  &.cate-collapse{
+    background: #e6e6e6;
+    .cateogries-inner{
+      display: none;
+    }
+    .cate-close{
+      background: #e6e6e6;
+      bottom: -19px;
+      &:before {
+        @include rotate(270deg);
+      }
+    }
+
+  }
+}
+.breadcumb{
+  @include clearfix; 
+  li{
+    float: left;
+    font-size: 13px;
+    padding-right: 10px;
+    a{
+      color: $grayDark;      
+    }
+    &:after{
+      content: "/";
+      padding-left:  10px;
+    }
+    &.current span{
+      color: $cgreen;
+    }
+    &:last-of-type{
+      padding-right: 10px;
+      &:after{
+        display: none;
+      }
+    }
+  }
+}
+.view-mode{
+    display: flex;      
+    align-items: center;  
+    [class*="icon-"]{
+      cursor: pointer;
+      font-size: 25px;
+      margin-left: 15px;
+      &:hover,&:focus,&:active,&.current{
+        color: #189188;
+      }
+    }
+    label{
+      font-size: 13px;
+      color: $text-gray;
+      font-weight: normal;
+    }
+
+
+}
+.grid-product-top{
+  @include clearfix;
+  padding: 0 20px;
+  .breadcumb{
+    float: left;
+  }
+  .view-mode{
+    float: right;
+  }
+}
+
+
+// TOP BAR EDIT
+.cart-product{
+  .top-bar{
+      .icon-link{
+        float: none;
+      }
+      .btn-delete{
+        float: left;
+        width:58px;
+        background: none;
+        padding-top: 3px;
+        @include single-transition(all,.3s);
+        i{
+          font-size: 20px;  
+          color: $text-gray;  
+          @include single-transition(all,.3s);      
+        }
+        &:hover{
+          background: $corange;
+
+          i{
+            color: $white;
+          }
+        }
+      }
+      .cart-info{
+        width: calc(100% - 180px);
+        margin: 0 auto;
+        padding: 0;
+        font-size: 21px;
+        font-family: $boldFont;
+        text-align: center;
+        display: inline-block;
+        .cart-num{
+          font-family: $blackFont;
+          font-size: 21px;
+        }
+      }
+      .nav-customer{
+        float: right;
+        position: relative;
+        .btn-more{
+          width: 58px;
+          height: 58px;
+          background: $gray1;
+          font-size: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          @include single-transition(all,.3s);
+          &:focus, &:hover{            
+            color: $cgreen2;
+          }
+
+        }
+        .submenu{
+          position: fixed;
+          width: 300px;
+          padding:5px 0;
+          right: 4px;
+          top: 70px;
+          background: $white;
+          right: 4px;
+          top: 70px;
+          z-index: 1;
+          border-radius: 5px;
+          &:before{
+              content: "\e909";
+              color: $white;
+              font-family: 'icomoon';
+              font-size: 30px;
+              right: 12px;
+              top: -20px;
+              position: absolute;
+          }
+          li{
+            padding: 0 20px;
+            a{
+              font-size: 14px; 
+              font-family: $mediumFont;
+              border-bottom: 1px solid $gray1;
+              padding: 12px 0;              
+              display: block;
+              color: $text-gray;
+              display: flex;
+              align-items: center;
+              min-height: 52px;
+
+              i{
+                font-size: 20px;
+                margin-right: 20px;
+                &.icon-edit{
+                  font-size: 30px;
+                  line-height: .7;
+                }
+                &.icon-save-cart{
+                  font-size: 22px;
+                }
+              }
+              &:hover{
+                color: $cgreen;
+              }
+            }
+            &:hover{
+              background: $gray1;
+            }
+            &:last-of-type{
+              a{
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
+  }
+}
+
