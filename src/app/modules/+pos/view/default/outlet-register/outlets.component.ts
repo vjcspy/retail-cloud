@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PosEntitiesState} from "../../../R/entities/entities.state";
 import {PosGeneralActions} from "../../../R/general/general.actions";
+import {PosPullState} from "../../../R/entities/pull.state";
+import {NotifyManager} from "../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -9,12 +11,17 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
            })
 export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
+  @Input() pullState: PosPullState;
   
-  constructor(protected generalActions: PosGeneralActions) { }
+  constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager) { }
   
   ngOnInit() { }
   
   selectOutletAndRegister(outletId: number, registerId: number): void {
-    this.generalActions.selectOutletRegister(outletId, registerId);
+    if (this.pullState.isPullingChain) {
+      this.notify.info('wait_until_data_pull_successfully')
+    } else {
+      this.generalActions.selectOutletRegister(outletId, registerId);
+    }
   }
 }

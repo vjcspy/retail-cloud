@@ -5,6 +5,7 @@ import {PosGeneralState} from "../../R/general/general.state";
 import {PosEntitiesState} from "../../R/entities/entities.state";
 import {Observable} from "rxjs";
 import {AccountService} from "../../../../R/account/account.service";
+import {PosPullState} from "../../R/entities/pull.state";
 
 @Component({
              // moduleId: module.id,
@@ -15,12 +16,14 @@ import {AccountService} from "../../../../R/account/account.service";
 export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscriptionComponent implements OnInit {
   protected generalState$: Observable<PosGeneralState>;
   protected entitiesState$: Observable<PosEntitiesState>;
+  protected pullState$: Observable<PosPullState>;
   
   
   constructor(private store$: Store<any>, private accountService: AccountService) {
     super();
     this.generalState$  = this.store$.select('general');
     this.entitiesState$ = this.store$.select('entities');
+    this.pullState$     = this.store$.select('pull');
   }
   
   ngOnInit() {
