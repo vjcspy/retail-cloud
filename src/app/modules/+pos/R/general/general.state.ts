@@ -17,10 +17,10 @@ export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord
 export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGeneralStateRecord>({
                                                                                                  baseUrl: null,
                                                                                                  urls: List.of(),
-                                                                                                 store: {},
-                                                                                                 register: {},
-                                                                                                 warehouse: {},
-                                                                                                 outlet: {},
-                                                                                                 user: {id: 1},
+                                                                                                 store: null,
+                                                                                                 register: null,
+                                                                                                 warehouse: null,
+                                                                                                 outlet: null,
+                                                                                                 user: null,
                                                                                                  redirect: 'pos/default/sales/checkout'
                                                                                                });

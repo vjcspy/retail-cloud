@@ -13,7 +13,7 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
 export class PosDefaultOutletRegisterWebsiteComponent implements OnInit, OnChanges {
   @Input() generalState: PosGeneralState;
   
-  @LocalStorage()
+  @LocalStorage('baseUrl')
   public baseUrl: string;
   
   constructor(public accountActions: AccountActions, public generalActions: PosGeneralActions) { }
@@ -38,12 +38,12 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnInit, OnChang
   
   ngAfterViewInit(): void {
     if (_.isString(this.baseUrl) && this.baseUrl !== "") {
-      this.selectWebsite(this.baseUrl);
+      this.generalActions.selectWebsite(this.baseUrl);
     }
   }
   
   selectWebsite($event) {
-    if (_.isString($event)) {
+    if (_.isString($event) && $event !== 'null' && this.baseUrl !== $event) {
       this.baseUrl = $event;
       this.generalActions.selectWebsite(this.baseUrl);
     }

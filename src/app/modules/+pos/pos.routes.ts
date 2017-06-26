@@ -13,7 +13,6 @@ export const POS_ROUTES: Routes = [
   {
     path: '',
     component: PosComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: 'default',

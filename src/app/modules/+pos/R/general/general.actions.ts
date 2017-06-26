@@ -66,18 +66,6 @@ export class PosGeneralActions {
     return action;
   }
   
-  static ACTION_NEED_RESOLVE_URL = 'ACTION_NEED_RESOLVE_URL';
-  
-  needResolveUrls(dispatch: boolean = true): Action {
-    const action = {type: PosGeneralActions.ACTION_NEED_RESOLVE_URL, payload: {}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
-  
   static ACTION_RESOLVED_URLS = 'ACTION_RESOLVED_URLS';
   
   resolvedUrls(urls, dispatch: boolean = true): Action {

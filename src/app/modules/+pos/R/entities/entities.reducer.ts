@@ -7,6 +7,7 @@ import {mergeSliceReducers} from "../../../../R/index";
 import {entityOrderReducer} from "./entity/order.reducer";
 import {orderCountReducer} from "./entity/order-count.reducer";
 import {List} from "immutable";
+import {generalEntityReducer} from "./entity/outlet-store-retailconfig.reducer";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -49,4 +50,4 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   }
 };
 
-export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer);
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, generalEntityReducer);

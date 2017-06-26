@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PosGeneralActions} from "../../R/general/general.actions";
 import {Store} from "@ngrx/store";
 import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscriptionComponent";
 import {PosGeneralState} from "../../R/general/general.state";
 import {PosEntitiesState} from "../../R/entities/entities.state";
 import {Observable} from "rxjs";
+import {AccountService} from "../../../../R/account/account.service";
 
 @Component({
              // moduleId: module.id,
@@ -17,13 +17,13 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   protected entitiesState$: Observable<PosEntitiesState>;
   
   
-  constructor(private generalActions: PosGeneralActions, private store$: Store<any>) {
+  constructor(private store$: Store<any>, private accountService: AccountService) {
     super();
     this.generalState$  = this.store$.select('general');
     this.entitiesState$ = this.store$.select('entities');
   }
   
   ngOnInit() {
-    this.generalActions.needResolveUrls();
+    this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
   }
 }

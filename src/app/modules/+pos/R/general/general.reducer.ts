@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import {StoreManager} from "../../core/framework/store/Model/StoreManager";
 import {Store} from "../../core/framework/store/Model/Store";
 import {List} from "immutable";
+import {AccountActions} from "../../../../R/account/account.actions";
 
 export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosGeneralStateRecord = posGeneralStateFactory(), action: Action) => {
   switch (action.type) {
@@ -22,6 +23,9 @@ export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosG
     
     case PosGeneralActions.ACTION_RESOLVED_URLS:
       return state.set('urls', action.payload['urls']);
+    
+    case AccountActions.ACTION_LOGOUT:
+      return posGeneralStateFactory();
     
     default:
       return state;

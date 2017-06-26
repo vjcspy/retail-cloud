@@ -1,16 +1,13 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
-import {Entity, entityFactory, EntityRecord} from "./entities.model";
+import {entityFactory, EntityRecord, outletEntityFactory, retailConfigEntityFactory, storeEntityFactory} from "./entities.model";
 import {ProductDB} from "../../database/xretail/db/product";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {List} from "immutable";
-import {OutletDB} from "../../database/xretail/db/outlet";
 import {PaymentDB} from "../../database/xretail/db/payment";
 import {ReceiptDB} from "../../database/xretail/db/receipt";
 import {SettingDB} from "../../database/xretail/db/setting";
 import {TaxDB} from "../../database/xretail/db/tax";
 import {CountryDB} from "../../database/xretail/db/country";
-import {StoreDB} from "../../database/xretail/db/store";
-import {RetailConfigDB} from "../../database/xretail/db/retail-config";
 import {CustomerGroupDB} from "../../database/xretail/db/customer-group";
 import {TaxClassDB} from "../../database/xretail/db/tax-class";
 import {ShiftDB} from "../../database/xretail/db/shift";
@@ -85,17 +82,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                            propertyFilter: {},
                            needRealTime: true
                          }),
-    outlet: entityFactory({
-                            entityCode: OutletDB.getCode(),
-                            currentPage: 0,
-                            pageSize: 100,
-                            items: List.of(),
-                            apiUrlCode: OutletDB.getCode(),
-                            isFinished: false,
-                            isDependStore: false,
-                            query: "",
-                            propertyFilter: {}
-                          }),
+    outlet: outletEntityFactory(),
     payment: entityFactory({
                              entityCode: PaymentDB.getCode(),
                              currentPage: 0,
@@ -140,30 +127,8 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                query: "",
                                propertyFilter: {}
                              }),
-    stores: entityFactory({
-                            entityCode: StoreDB.getCode(),
-                            currentPage: 0,
-                            pageSize: 100,
-                            items: List.of(),
-                            apiUrlCode: StoreDB.getCode(),
-                            isFinished: false,
-                            isDependStore: false,
-                            query: "",
-                            propertyFilter: {}
-                          }),
-    retailConfig: entityFactory({
-                                  entityCode: RetailConfigDB.getCode(),
-                                  currentPage: 0,
-                                  pageSize: 100,
-                                  items: List.of(),
-                                  apiUrlCode: RetailConfigDB.getCode(),
-                                  isFinished: false,
-                                  isDependStore: false,
-                                  query: "",
-                                  propertyFilter: {
-                                    group: "pos,warehouse"
-                                  }
-                                }),
+    stores: storeEntityFactory(),
+    retailConfig: retailConfigEntityFactory(),
     customerGroup: entityFactory({
                                    entityCode: CustomerGroupDB.getCode(),
                                    currentPage: 0,

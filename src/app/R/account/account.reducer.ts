@@ -1,12 +1,21 @@
 import {ActionReducer} from "@ngrx/store";
 import {accountStateFactory, AccountStateRecord} from "./account.state";
 import {AccountActions} from "./account.actions";
+import {List} from "immutable";
 
 export const accountReducer: ActionReducer<AccountStateRecord> = (state = accountStateFactory(), action) => {
   switch (action.type) {
     case AccountActions.ACTION_LOGIN:
     case AccountActions.ACTION_LOGOUT:
-      return state.set('isLogging', true);
+      return state.set('isLogging', true)
+                  .set('license', {
+                    licenseHasPos: null,
+                  })
+                  .set('user', {
+                    id: null,
+                    username: null,
+                    emails: List.of()
+                  });
     
     case AccountActions.ACTION_LOGIN_SUCCESS:
     case AccountActions.ACTION_LOGIN_FAILED:

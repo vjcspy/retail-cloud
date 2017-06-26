@@ -35,11 +35,17 @@ import {PosConfigService} from "./config/config.service";
 import {QuoteItemEffects} from "./quote/item/item.effects";
 import {QuoteItemActions} from "./quote/item/item.actions";
 import {QuoteCustomerService} from "./quote/customer/customer.service";
+import {GeneralEntityEffects} from "./entities/entity/outlet-store-retailconfig.effects";
+import {GeneralEntityService} from "./entities/entity/outlet-store-retailconfig.service";
+import {GeneralEntityActions} from "./entities/entity/outlet-store-retailconfig.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
   EffectsModule.run(PosGeneralEffects),
+  
   EffectsModule.run(PosEntitiesEffects),
+  EffectsModule.run(GeneralEntityEffects),
+  
   EffectsModule.run(PosPullEffects),
   EffectsModule.run(PosQuoteEffects),
   EffectsModule.run(QuoteItemEffects),
@@ -58,6 +64,9 @@ export const R_POS_PROVIDERS = [
   PosEntitiesService,
   PosEntitiesActions,
   PosEntitiesEffects,
+  GeneralEntityEffects,
+  GeneralEntityService,
+  GeneralEntityActions,
   
   PosQuoteService,
   PosQuoteEffects,

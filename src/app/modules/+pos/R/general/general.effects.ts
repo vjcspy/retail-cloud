@@ -36,8 +36,7 @@ export class PosGeneralEffects {
   
   @Effect() resolveUrls = this.actions$
                               .ofType(
-                                AccountActions.SAVE_LICENSE_DATA,
-                                PosGeneralActions.ACTION_NEED_RESOLVE_URL
+                                AccountActions.SAVE_LICENSE_DATA
                               )
                               .withLatestFrom(this.store$.select('account'))
                               .filter((z) => {
@@ -57,7 +56,6 @@ export class PosGeneralEffects {
                                                            });
                                   }
                                 });
-    
                                 return this.generalActions.resolvedUrls(listUrl, false);
                               });
   
@@ -106,26 +104,20 @@ export class PosGeneralEffects {
                                                    this.routerActions.go(generalState.redirect);
                                                  }
     
-                                                 return this.rootActions.nothing("Redirect after save state");
+                                                 return this.rootActions.nothing("Redirect after save state: " + (z[0] as Action).payload['needRedirect']);
                                                });
   
   @Effect() goOutletRegister = this.actions$
                                    .ofType(PosGeneralActions.ACTION_GO_OUTLET_REGISTER_PAGE)
                                    .map(() => {
                                      this.routerActions.go('pos/default/outlet-register');
-                                     return this.rootActions.nothing("GO to outlet and register page");
+                                     return this.rootActions.nothing("Go to outlet and register page");
                                    });
   
   @Effect() clearGeneralDataWhenLogout = this.actions$
                                              .ofType(AccountActions.ACTION_LOGOUT)
                                              .map(() => {
                                                this.generalService.removeGeneralDataInStorage();
-                                               return this.generalActions.saveGeneralData({
-                                                                                            outlet: {},
-                                                                                            store: {},
-                                                                                            register: {},
-                                                                                            baseUrl: null,
-                                                                                            urls: List.of()
-                                                                                          }, false, false);
+                                               return this.rootActions.nothing("Cleared general data in storage");
                                              })
 }

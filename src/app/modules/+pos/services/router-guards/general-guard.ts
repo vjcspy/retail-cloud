@@ -8,7 +8,7 @@ import {posReducer} from "../../R/index";
 @Injectable()
 export class GeneralGuard implements CanActivate, CanActivateChild {
   constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected store$: Store<any>) {
-    this.store$.replaceReducer(posReducer);
+    // this.store$.replaceReducer(posReducer);
   }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

@@ -7,7 +7,6 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
-import {AccountService} from "./R/account/account.service";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 
 /**
@@ -38,13 +37,12 @@ import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponen
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class AppComponent extends AbstractSubscriptionComponent implements OnInit {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private accountService: AccountService) {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef) {
     super();
     
     this.toastr.setRootViewContainerRef(vcr);
   }
   
   ngOnInit(): void {
-    this.subscribeObservable('license', () => this.accountService.subscribeLicense());
   }
 }

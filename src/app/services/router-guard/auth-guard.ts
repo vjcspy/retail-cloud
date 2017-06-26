@@ -1,6 +1,5 @@
 import {Injectable}     from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot}    from '@angular/router';
-import {RouterActions} from "../../R/router/router.actions";
 import {AuthenticateService} from "../authenticate";
 import {AccountActions} from "../../R/account/account.actions";
 
