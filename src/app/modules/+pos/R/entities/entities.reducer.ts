@@ -9,6 +9,7 @@ import {orderCountReducer} from "./entity/order-count.reducer";
 import {List} from "immutable";
 import {generalEntityReducer} from "./entity/outlet-store-retailconfig.reducer";
 import {AccountActions} from "../../../../R/account/account.actions";
+import {EntityRecord} from "./entities.model";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -46,8 +47,16 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
     case PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE:
       return state.setIn([action.payload['entityCode'], 'query'], action.payload['query']);
     
-    case AccountActions.ACTION_LOGOUT:
-      return posEntitiesStateFactory();
+    case PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID:
+      return state.update(action.payload['entityCode'], (entity: EntityRecord) => {
+        return entity.set('items', List.of())
+                     .set('currentPage', 0)
+                     .set('isLoadedFromDB', false)
+                     .set('isFinished', false);
+      });
+  
+    // case AccountActions.ACTION_LOGOUT:
+    //   return posEntitiesStateFactory();
     
     default:
       return state;

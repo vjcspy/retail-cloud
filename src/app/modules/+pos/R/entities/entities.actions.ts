@@ -30,6 +30,27 @@ export class PosEntitiesActions {
   /**
    ** @REDUCER:
    *
+   * Remove entity in state
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   * Init entity from db
+   */
+  static ACTION_ENTITY_IN_DB_NOT_VALID = 'ACTION_ENTITY_IN_DB_NOT_VALID';
+  
+  entityInDBNotValid(entityCode, dispatch: boolean = true): Action {
+    const action = {type: PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID, payload: {entityCode}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  /**
+   ** @REDUCER:
+   *
    * Save entity data to state
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:

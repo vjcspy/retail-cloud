@@ -29,6 +29,7 @@ export class PosEntitiesEffects {
   @Effect() initEntityBeforeGetFromSV$ = this.action$
                                              .ofType(
                                                PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
+                                               PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID,
                                              )
                                              .withLatestFrom(this.store.select('general'))
                                              .withLatestFrom(this.store.select('entities'),
@@ -69,9 +70,13 @@ export class PosEntitiesEffects {
                                               } else {
                                                 return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
                                                                  .map((entityState: GeneralMessage) => {
-                                                                   return entityState.data['isFinished'] === true ?
-                                                                     this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
-                                                                     this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, generalState), false);
+                                                                   if (entityState.data['notValidDB'] === true) {
+                                                                     return this.entitiesActions.entityInDBNotValid(action.payload['entityCode'], false);
+                                                                   } else {
+                                                                     return entityState.data['isFinished'] === true ?
+                                                                       this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
+                                                                       this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, generalState), false);
+                                                                   }
                                                                  });
                                               }
                                             });
@@ -119,15 +124,15 @@ export class PosEntitiesEffects {
   //                                  return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
   //                                                   .filter((entityCode: string) => entitiesState[entityCode]['needRealTime'] === true)
   //                                                   .flatMap((entityCode: string) => {
-  //                                                     return Observable.fromPromise(this.posEntityService.subscribeRealtimeAndSaveToDB(entitiesState[entityCode], generalState))
-  //                                                                      .map(() => this.entitiesActions.realtimePulledAndSavedDB(entityCode, false))
-  //                                                                      .catch(() => Observable.of(this.entitiesActions.realtimeEntityError(action.payload.entityCode, false)));
-  //                                                   });
-  //                                });
+  //                                                     return
+  // Observable.fromPromise(this.posEntityService.subscribeRealtimeAndSaveToDB(entitiesState[entityCode], generalState)) .map(() =>
+  // this.entitiesActions.realtimePulledAndSavedDB(entityCode, false)) .catch(() =>
+  // Observable.of(this.entitiesActions.realtimeEntityError(action.payload.entityCode, false))); }); });
   
   @Effect() resolveProductFilteredBySetting = this.action$
                                                   .ofType(
                                                     PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                                    PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID,
                                                     PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
                                                   .filter((action: Action) => action.payload['entityCode'] === ProductDB.getCode())
                                                   .debounceTime(500)
