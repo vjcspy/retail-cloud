@@ -4,6 +4,7 @@ import {posGeneralStateFactory, PosGeneralStateRecord} from "./general.state";
 import * as _ from 'lodash';
 import {StoreManager} from "../../core/framework/store/Model/StoreManager";
 import {Store} from "../../core/framework/store/Model/Store";
+import {List} from "immutable";
 
 export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosGeneralStateRecord = posGeneralStateFactory(), action: Action) => {
   switch (action.type) {

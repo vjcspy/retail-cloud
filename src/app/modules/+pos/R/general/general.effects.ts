@@ -27,14 +27,17 @@ export class PosGeneralEffects {
               private routerActions: RouterActions,
               private rootActions: RootActions) { }
   
-  @Effect() pullGeneralDataFromSever = this.actions$.ofType(PosGeneralActions.ACTION_SELECT_WEBSITE)
+  @Effect() pullGeneralDataFromSever = this.actions$
+                                           .ofType(PosGeneralActions.ACTION_SELECT_WEBSITE)
+                                           .filter((action) => _.isString(action.payload['baseUrl']) && action.payload['baseUrl'] !== '')
                                            .map(() => {
                                              return this.pullActions.pullEntities(['stores', 'outlet', 'retailConfig'], false);
                                            });
   
   @Effect() resolveUrls = this.actions$
                               .ofType(
-                                AccountActions.SAVE_LICENSE_DATA
+                                AccountActions.SAVE_LICENSE_DATA,
+                                PosGeneralActions.ACTION_NEED_RESOLVE_URL
                               )
                               .withLatestFrom(this.store$.select('account'))
                               .filter((z) => {
@@ -55,7 +58,7 @@ export class PosGeneralEffects {
                                   }
                                 });
     
-                                return this.generalActions.resolvedUrls(urls, false);
+                                return this.generalActions.resolvedUrls(listUrl, false);
                               });
   
   @Effect() saveOutletAndRegister = this.actions$

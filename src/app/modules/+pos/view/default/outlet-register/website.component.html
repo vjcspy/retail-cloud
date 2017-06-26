@@ -1,0 +1,15 @@
+<div class="clearfix outlet-top" *ngIf="hasWebsite()">
+  <div class="pull-left domain-select">
+    <div class="form-group">
+      <label for="baseUrl">Website</label>
+      <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
+        <option value="null">Please select website</option>
+        <option *ngFor="let item of generalState.urls" [value]="item['url']">{{item['url']}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="pull-right domain-select">
+    <button type="button" class="btn btn-info">SETTING</button>
+    <button type="button" class="btn btn-danger" (click)="accountActions.logout()">LOGOUT</button>
+  </div>
+</div>

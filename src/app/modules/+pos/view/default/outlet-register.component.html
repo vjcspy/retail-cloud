@@ -4,39 +4,11 @@
     <div class="container">
       <div class="outlet-wrap">
         <div class="domain-list">
-          <div class="clearfix outlet-top">
-            <div class="pull-left domain-select">
-              <div class="form-group">
-                <label for="baseUrl">Website</label>
-                <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
-                  <option value="null">Please select website</option>
-                  <option *ngFor="let item of generalState.urls" [value]="item['url']">{{item['url']}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="pull-right domain-select">
-              <button type="button" class="btn btn-info">SETTING</button>
-              <button type="button" class="btn btn-danger" (click)="accountActions.logout()">LOGOUT</button>
-            </div>
-          </div>
 
-          <div class="outlets" *ngIf="baseUrl && entitiesState">
-            <div class="outlet-list" *ngFor="let outlet of entitiesState.outlet.items">
-              <div class="oulet-index">
-                <i class="icons-cus ico-outlet"></i>
-                <span class="outlet-title">{{outlet['name']}}</span>
-              </div>
-              <ul>
-                <li class="item" *ngFor="let register of outlet['registers']">
-                  <div class="click" (click)="selectOutletAndRegister(outlet['id'],register['id'])">
-									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span><span class="title">{{register['name']}}</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <pos-default-outlet-register-website [generalState]="generalState$ | async"></pos-default-outlet-register-website>
+
+          <pos-default-outlet-register-outlets [entitiesState]="entitiesState$ | async"></pos-default-outlet-register-outlets>
+
         </div>
       </div>
     </div>
