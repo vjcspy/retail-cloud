@@ -55,8 +55,9 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
                      .set('isFinished', false);
       });
   
-    // case AccountActions.ACTION_LOGOUT:
-    //   return posEntitiesStateFactory();
+    case AccountActions.ACTION_LOGOUT:
+      // Not need beacause we are support pull again when data not valid, thought this code improve ux
+      return posEntitiesStateFactory();
     
     default:
       return state;
