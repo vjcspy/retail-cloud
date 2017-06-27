@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {DatabaseManager} from "../../../../services/database-manager";
 import {RetailDB} from "../../database/xretail/db/retail-db";
-import Dexie from 'dexie';
 import {RequestService} from "../../../../services/request";
 import {PosGeneralState} from "../general/general.state";
 import {Entity} from "./entities.model";
@@ -10,7 +9,6 @@ import {EntityInformation} from "../../database/xretail/db/entity-information";
 import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
-import {RealtimeStorage} from "../../../../services/meteor-collections/reailtime-storage";
 import {ProductDB} from "../../database/xretail/db/product";
 import {ShiftDB} from "../../database/xretail/db/shift";
 
@@ -19,13 +17,21 @@ export class PosEntitiesService {
   
   constructor(private databaseManager: DatabaseManager,
               private requestService: RequestService,
-              private apiManager: ApiManager,
-              protected realtimeStorage: RealtimeStorage) { }
+              private apiManager: ApiManager) { }
   
-  async getEntityDataInformation(entity: string): Dexie.Promise<EntityInformation> {
-    let db = this.databaseManager.getDbInstance();
+  getEntityDataInformation(entity: string): Promise<EntityInformation> {
+    return new Promise(async (resolve, reject) => {
+      let db = this.databaseManager.getDbInstance();
+      try {
+        let entityInfo = await db['entityInformation'].where('id').equals(entity).first();
+        
+        return resolve(entityInfo);
+      }
+      catch (e) {
+        reject(e);
+      }
+    });
     
-    return db['entityInformation'].where('id').equals(entity).first();
   }
   
   async getStateCurrentEntityDb(generalState: PosGeneralState, entity: Entity): Promise<GeneralMessage> {
@@ -59,7 +65,7 @@ export class PosEntitiesService {
       entityDataInfo.storeId     = entity.isDependStore === true ? generalState.store['id'] : null;
       entityDataInfo.base_url    = generalState.baseUrl;
       await entityDataInfo.save(true);
-  
+      
       return {data: {notValidDB: true}};
     }
     
@@ -141,82 +147,6 @@ export class PosEntitiesService {
       
       return resolve({data});
     });
-  }
-  
-  subscribeRealtimeAndSaveToDB(entity: Entity, generalState: PosGeneralState): Promise<GeneralMessage> {
-    return new Promise((resolve, reject) => {
-                         this.realtimeStorage
-                             .getCollectionObservable()
-                             .debounceTime(1500)
-                             .filter(() => !!entity.entityCode)
-                             .subscribe(async (collection) => {
-                               const entityInfo = await this.getEntityDataInformation(entity.entityCode);
-                               const changes    = collection.collection.find({
-                                                                               cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
-                                                                               "data.entity": entity.entityCode,
-                                                                               base_url: {'$regex': generalState.baseUrl}
-                                                                             }).fetch();
-                               if (_.size(changes) === 0) {
-                                 return;
-                               }
-                               let db: RetailDB = this.databaseManager.getDbInstance();
-                               let _needRemove  = [];
-                               let _needUpdate  = [];
-        
-                               _.forEach(changes, (change) => {
-                                 if (_.indexOf(['remove', 'removed', 'delete'], change['data']['type_change']) > -1) {
-                                   _needRemove.push(change['data']['entity_id']);
-                                 } else {
-                                   _needUpdate.push(change['data']['entity_id']);
-                                 }
-                               });
-        
-                               if (_.size(_needRemove) > 0) {
-                                 try {
-                                   await db[entity.entityCode].bulkDelete(_needRemove);
-                                 } catch (e) {
-                                   return reject({isError: true, e});
-                                 }
-                               }
-        
-                               if (_.size(_needUpdate) > 0) {
-                                 let url = this.apiManager.get(entity.entityCode, generalState.baseUrl);
-                                 url += url.indexOf("?") > -1 ? "&" : "?" + entity.query
-                                                                      + "&searchCriteria[entity_id]=" + _.union(_needUpdate).join(",")
-                                                                      + "&searchCriteria[currentPage]=1"
-                                                                      + "&searchCriteria[pageSize]=500"
-                                                                      + "&searchCriteria[realTime]=1";
-                                 this.requestService
-                                     .makeGet(url)
-                                     .subscribe(async (data) => {
-                                                  await db[entity.entityCode].where(entity.entityPrimaryKey)
-                                                                             .anyOf(_.split(_.union(_needUpdate).join(","), ","))
-                                                                             .delete();
-                                                  try {
-                                                    if (data.hasOwnProperty("items")) {
-                                                      await db[entity.entityCode].bulkPut(data['items']);
-                                                    }
-                                                  } catch (e) {
-                                                    reject({isError: true, e});
-                                                  }
-            
-                                                  const lastChange      = _.last(changes);
-                                                  entityInfo.cache_time = lastChange['cache_time'];
-                                                  await entityInfo.save();
-            
-                                                  return resolve({data: {isDonePullRealtime: true}});
-                                                },
-                                                (e) => reject({isError: true, e}));
-                               } else if (_.size(_needRemove) > 0) {
-                                 const lastChange      = _.last(changes);
-                                 entityInfo.cache_time = lastChange['cache_time'];
-                                 await entityInfo.save();
-          
-                                 return resolve({data: {isDonePullRealtime: true}});
-                               }
-                             });
-                       }
-    );
   }
   
   async getProductFilteredBySetting(productsEntity: Entity, retailConfigEntity: Entity, settingEntity: Entity): Promise<GeneralMessage> {

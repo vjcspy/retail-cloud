@@ -10,6 +10,7 @@ import {List} from "immutable";
 import {generalEntityReducer} from "./entity/outlet-store-retailconfig.reducer";
 import {AccountActions} from "../../../../R/account/account.actions";
 import {EntityRecord} from "./entities.model";
+import {realtimeReducer} from "./realtime/realtime.reducer";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -54,7 +55,7 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
                      .set('isLoadedFromDB', false)
                      .set('isFinished', false);
       });
-  
+    
     case AccountActions.ACTION_LOGOUT:
       // Not need beacause we are support pull again when data not valid, thought this code improve ux
       return posEntitiesStateFactory();
@@ -64,4 +65,4 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   }
 };
 
-export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer);
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer);

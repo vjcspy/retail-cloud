@@ -7,7 +7,6 @@ import {Observable} from "rxjs";
 import {PosEntitiesService} from "./entities.service";
 import {RootActions} from "../../../../R/root.actions";
 import {GeneralMessage} from "../../services/general/message";
-import {List} from "immutable";
 import {Entity} from "./entities.model";
 import {PosPullState} from "./pull.state";
 import {ProductDB} from "../../database/xretail/db/product";
@@ -112,22 +111,6 @@ export class PosEntitiesEffects {
                                                  }
                                                }
                                       );
-  
-  // @Effect() realTimeEntity = this.action$
-  //                                .ofType(
-  //                                  PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB
-  //                                )
-  //                                .withLatestFrom(this.store.select('general'))
-  //                                .withLatestFrom(this.store.select('entities'),
-  //                                                ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-  //                                .switchMap(([action, generalState, entitiesState]) => {
-  //                                  return Observable.from(Array.from(<any> (entitiesState as List<any>).keys()))
-  //                                                   .filter((entityCode: string) => entitiesState[entityCode]['needRealTime'] === true)
-  //                                                   .flatMap((entityCode: string) => {
-  //                                                     return
-  // Observable.fromPromise(this.posEntityService.subscribeRealtimeAndSaveToDB(entitiesState[entityCode], generalState)) .map(() =>
-  // this.entitiesActions.realtimePulledAndSavedDB(entityCode, false)) .catch(() =>
-  // Observable.of(this.entitiesActions.realtimeEntityError(action.payload.entityCode, false))); }); });
   
   @Effect() resolveProductFilteredBySetting = this.action$
                                                   .ofType(
