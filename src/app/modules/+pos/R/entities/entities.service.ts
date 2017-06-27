@@ -150,11 +150,14 @@ export class PosEntitiesService {
   }
   
   async getProductFilteredBySetting(productsEntity: Entity, retailConfigEntity: Entity, settingEntity: Entity): Promise<GeneralMessage> {
-    return new Promise((resolve, reject) => {
-      const products       = productsEntity.items;
+    return new Promise((resolve) => {
+      const products     = productsEntity.items;
       let productsFiltered: any;
-      const retailConfig   = retailConfigEntity.items.find((v) => v['key'] === 'pos');
-      const productSetting = settingEntity.items.find((v) => v['key'] === 'product');
+      let retailConfig   = retailConfigEntity.items.find((v) => v['key'] === 'pos');
+      let productSetting = settingEntity.items.find((v) => v['key'] === 'product');
+      
+      retailConfig   = retailConfig ? retailConfig['value'] : {};
+      productSetting = productSetting ? productSetting['value'] : {};
       
       let visibility: any     = true;
       let type: any           = true;
@@ -212,7 +215,7 @@ export class PosEntitiesService {
         return true;
       });
       
-      if (sort !== true && isSortAsc !== true) {
+      if (sort !== true) {
         productsFiltered = productsFiltered.sortBy((product) => {
           if (sort === 'price' || sort === 'id') {
             return parseFloat(product.getData(sort));

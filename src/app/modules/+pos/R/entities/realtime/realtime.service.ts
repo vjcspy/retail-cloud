@@ -11,6 +11,7 @@ import {RetailDB} from "../../../database/xretail/db/retail-db";
 import {DatabaseManager} from "../../../../../services/database-manager";
 import {ApiManager} from "../../../../../services/api-manager";
 import {RequestService} from "../../../../../services/request";
+import {EntityInformation} from "../../../database/xretail/db/entity-information";
 
 @Injectable()
 export class RealtimeService {
@@ -28,12 +29,11 @@ export class RealtimeService {
                .flatMap((collection) => {
                  return Observable.fromPromise(this.entitiesService.getEntityDataInformation(entityCode))
                                   .map((entityInfo) => {
-                                    const changes = collection.collection.find({
-                                                                                 cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
-                                                                                 "data.entity": entityCode,
-                                                                                 base_url: {'$regex': generalState.baseUrl}
-                                                                               }).fetch();
-        
+                                    const changes  = collection.collection.find({
+                                                                                  cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
+                                                                                  "data.entity": entityCode,
+                                                                                  base_url: {'$regex': generalState.baseUrl}
+                                                                                }).fetch();
                                     let needRemove = List.of();
                                     let needUpdate = List.of();
         
@@ -45,7 +45,13 @@ export class RealtimeService {
                                       }
                                     });
         
-                                    return {needRemove, needUpdate, cacheTime: entityInfo['cache_time']};
+                                    const lastChange = _.last(changes);
+                                    let newCacheTime;
+                                    if (lastChange) {
+                                      newCacheTime = lastChange['cache_time'];
+                                    }
+        
+                                    return {needRemove, needUpdate, entityInfo, newCacheTime};
                                   })
                });
   }
@@ -67,21 +73,24 @@ export class RealtimeService {
     });
   }
   
-  handleDBUpdateEntity(entity: Entity, needUpdate: List<string>, data: any) {
+  handleDBUpdateEntity(entity: Entity, needUpdate: List<string>, data: any): Promise<GeneralMessage> {
     let db: RetailDB = this.databaseManager.getDbInstance();
+    
     return new Promise(async (resolve, reject) => {
+      if (!data.hasOwnProperty("items")) {
+        return resolve();
+      }
       try {
         await db[entity.entityCode].where(entity.entityPrimaryKey)
                                    .anyOf(_.split(_.union(needUpdate.toArray()).join(","), ","))
                                    .delete();
         
-        if (data.hasOwnProperty("items")) {
-          await db[entity.entityCode].bulkPut(data['items']);
-          
-          return resolve();
-        }
+        
+        await db[entity.entityCode].bulkPut(data['items']);
+        
+        return resolve();
       } catch (e) {
-        reject({isError: true, e});
+        return reject({isError: true, e});
       }
     });
   }
@@ -91,10 +100,26 @@ export class RealtimeService {
     url += url.indexOf("?") > -1 ? "&" : "?" + entity.query
                                          + "&searchCriteria[entity_id]=" + _.union(needUpdate.toArray()).join(",")
                                          + "&searchCriteria[currentPage]=1"
+                                         + "&searchCriteria[storeId]=" + generalState.store['id']
                                          + "&searchCriteria[pageSize]=500"
                                          + "&searchCriteria[realTime]=1";
     
     return this.requestService
                .makeGet(url);
+  }
+  
+  updateEntityInfo(entityInfo: EntityInformation, newCacheTime: number) {
+    return new Promise(async (resolve, reject) => {
+      if (isNaN(newCacheTime)) {
+        return resolve();
+      }
+      try {
+        entityInfo.cache_time = newCacheTime;
+        await entityInfo.save();
+        resolve();
+      } catch (e) {
+        reject();
+      }
+    });
   }
 }

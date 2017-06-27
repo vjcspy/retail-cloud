@@ -17,6 +17,7 @@ import {SettingDB} from "../../database/xretail/db/setting";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import * as _ from 'lodash';
 import {OrderDB} from "../../database/xretail/db/order";
+import {RealtimeActions} from "./realtime/realtime.actions";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -116,7 +117,9 @@ export class PosEntitiesEffects {
                                                   .ofType(
                                                     PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                                     PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID,
-                                                    PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS)
+                                                    PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS,
+                                                    RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
+                                                    RealtimeActions.ACTION_REALTIME_REMOVED_ENTITY_DB)
                                                   .filter((action: Action) => action.payload['entityCode'] === ProductDB.getCode())
                                                   .debounceTime(500)
                                                   .withLatestFrom(this.store.select('entities'))
