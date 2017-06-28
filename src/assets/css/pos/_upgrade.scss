@@ -45,7 +45,7 @@
         font-size: 20px;
       }  
     }
-    .back-btn{
+    .back-cate{
       background: $gray1;
       width: 44px;
       height: 44px;
@@ -56,33 +56,35 @@
       padding: 0;  
       position: relative;
       cursor: pointer;
-      &:before{
+      font-size: 0;
+      i:before{
         color: $cgreen;
         font-size: 12px;
       }
       &:hover{
         background:$bg-hover;
       }
+      &.last-cate{
+        background: $gray1;
+        border-radius: 34px;
+        height: 34px;
+        font-size: 13px;
+        font-family: $mediumFont;
+        text-transform: uppercase;
+        color: $cgreen;
+        width: auto;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        i:before{
+          font-size: 8px;
+          margin-right: 8px;
+        }
+      }
      
     }
-    .btn-back-last{
-      background: $gray1;
-      border-radius: 34px;
-      height: 34px;
-      font-size: 13px;
-      font-family: $mediumFont;
-      text-transform: uppercase;
-      color: $cgreen;
-      width: auto;
-      padding: 0 12px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      i:before{
-        font-size: 8px;
-        margin-right: 8px;
-      }
-    }
+
     .navigation{
       position: absolute;
       right: 0;
@@ -168,28 +170,39 @@
     }
   }
 }
+.grid-product-inner{
+  height: calc(100% - 158px);
+  overflow: hidden;
+  position: relative;
+}
 .view-mode{
     display: flex;      
     align-items: center;  
     [class*="icon-"]{
       cursor: pointer;
-      font-size: 25px;
+      font-size: 27px;
       margin-left: 15px;
+
       &:hover,&:focus,&:active,&.current{
         color: #189188;
       }
+      
+    }
+    .icon-list{
+      font-size: 20px;
+      margin-top: -2px;
     }
     label{
       font-size: 13px;
       color: $text-gray;
-      font-weight: normal;
+      font-family: $mainFont;
     }
 
 
 }
 .grid-product-top{
   @include clearfix;
-  padding: 0 20px;
+  padding: 0 20px 5px;
   .breadcumb{
     float: left;
   }
@@ -197,7 +210,13 @@
     float: right;
   }
 }
-
+.loading-img{
+  text-align: center;
+  padding: 50px 20px;
+  img{
+    width: 33px;    
+  }
+}
 
 // TOP BAR EDIT
 .cart-product{
@@ -208,11 +227,10 @@
       .btn-delete{
         float: left;
         width:58px;
-        background: none;
-        padding-top: 3px;
+        background: none;        
         @include single-transition(all,.3s);
         i{
-          font-size: 20px;  
+          font-size: 25px;  
           color: $text-gray;  
           @include single-transition(all,.3s);      
         }
@@ -248,6 +266,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          cursor: pointer;
           @include single-transition(all,.3s);
           &:focus, &:hover{            
             color: $cgreen2;
@@ -263,8 +282,9 @@
           background: $white;
           right: 4px;
           top: 70px;
-          z-index: 1;
+          z-index: 9997;
           border-radius: 5px;
+
           &:before{
               content: "\e909";
               color: $white;
@@ -294,7 +314,7 @@
                   font-size: 30px;
                   line-height: .7;
                 }
-                &.icon-save-cart{
+                &.icon-retrive-order{
                   font-size: 22px;
                 }
               }
@@ -316,3 +336,42 @@
   }
 }
 
+.grid-mode .item{
+  .show-label{
+    background: #6acac3;   
+    &:hover{
+      background: #1fa79d;
+      ~ .inner{
+        .product-img,
+        .icon-addcart{
+          opacity: .45;
+        }
+
+      }
+
+    }
+  }
+  .icon-addcart{
+    font-size: 35px;
+    color: $cgreen2;
+    position: absolute;
+    @include center-pos;
+    opacity: 0;
+  }
+  .inner:hover{
+    .icon-addcart{
+      opacity: 1;
+    }
+  }
+  &:hover{
+    .product-img:hover{
+
+    }
+    .show-label{
+
+    }
+    .icon-addcart{
+      opacity: 1;
+    }
+  }
+}

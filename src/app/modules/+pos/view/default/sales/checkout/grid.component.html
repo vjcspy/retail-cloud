@@ -1,15 +1,12 @@
 <!-- class is "cate-collapse" when close cateogry -->
 <div class="categories-list">
   <div class="cateogries-inner">
-    <a class="back-btn icon-back-btn">
-    back-btn
-    <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
+    <a class="back-cate"><!-- "last-cate" class when lastest categories -->    
+      <i class="icon-back-btn"></i>Back      
+      <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
     </a>
-    <!-- when category lastest -->
-    <a class="btn-back-last">
-      <i class="icon-back-btn"></i>
-      Back
-    </a>
+    
+   
     <ul>
       <li>
         <a href="#">
@@ -76,18 +73,23 @@
 </div>
 
 
-<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner>
-  <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
+<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll>
+  <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode"  >
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">
       <span class="tags sale" *ngIf="isSales(product)"><img src="assets/icon/sale-icon148x84.png" alt=""/></span>
       <span class="tags info" *ngIf="isOutOfStock(product)"><img src="assets/icon/info-icon80x80.png" alt=""/></span>
       <span class="show-label" (click)="viewDetail(product)"><span>{{ 'View Details' | translate }}</span></span>
+
       <div class="inner" (click)="quoteActions.selectProductToAdd(product)">
         <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
         <h3 class="product-name"><span>{{product['name']}}</span></h3>
+        <span class="icon-addcart"></span>
       </div>
     </div>
+  </div>
+  <div class="loading-img">
+    <img src="assets/img/loading.gif" alt="loading image">
   </div>
   <div class="search-no-result"
        *ngIf="checkoutProductState.productGridProducts.count() == 0 && !checkoutProductState.isCategoryMode">

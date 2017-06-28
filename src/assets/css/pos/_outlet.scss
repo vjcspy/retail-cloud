@@ -1,4 +1,6 @@
 .outlet-page{
+	position: relative;
+	 height: 100vh;
 	color: $mainTxt;
 	.page-inner{
 		max-width: 1070px;
@@ -30,10 +32,42 @@
 			}
 
 			.domain-select{
-				width: 250px;
+				width: 300px;
+				.form-group{
+					display: flex;
+					align-items: center;
+					margin-bottom: 7px;
+					label{
+						margin-right: 10px;
+					}
+				}
+			}
+			.button-group{
+				display: flex;
+				align-items: center;
+				button{
+					display: flex;
+					align-items: center;
+					margin-left: 10px;
+					i{
+						margin-left: 10px;
+						font-size: 20px;
+					}
+				}
+				.btn-logout{
+					background: $corange;
+					&:hover,&:focus{
+						background: $corange2;
+					}
+				}
+				.btn-setting{
+					background: $cgreen2;
+					&:hover,&:focus{
+						background: $cgreen;
+					}
+				}
 			}
 		}
-		
 		.outlet-list{
 			display: flex;
 			border-top: 1px solid $cbkg2;
@@ -70,6 +104,12 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					.click{
+						display: flex;
+						flex-direction: column;												
+						align-items: center;
+
+					}
 					> a{
 						display: flex;
 					    flex-direction: column;
@@ -85,15 +125,22 @@
 					    display: flex;
 					    align-items: center;
 					    justify-content: center;
+					    @include single-transition(all,0.3s);
 						.icon-reg{
 							color: $aqua;
 							font-size: 49px;
+							@include single-transition(all,0.3s);
 						}
 					}
 					.title{
 						font-size: 15px;
 						font-family: $mediumFont;
 						color: $mainTxt;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						max-width: 230px;
+
 					
 					}
 					&:hover{
@@ -102,7 +149,7 @@
 						.icon-reg-bg{
 							background-color: $aqua;
 							@include single-transition(all,0.3s);
-							.ico-reg{
+							.icon-reg{
 								color: $white;
 								@include single-transition(all,0.3s);
 							}

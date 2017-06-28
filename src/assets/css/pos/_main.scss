@@ -41,6 +41,7 @@ a {
   &, &:hover, &:focus {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
   }
 }
 
@@ -1067,7 +1068,7 @@ textarea[readonly="readonly"] {
   float: left;
   width: $w-precent;
   border-right: $border solid 1px;
-  padding-bottom: 75px;
+  
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -1096,7 +1097,7 @@ textarea[readonly="readonly"] {
   @include clearfix;
   .item {
     float: left; width: 200px;
-    margin: 10px 5px 0; background: $white;
+    margin: 0 5px 10px; background: $white;
     cursor: pointer; overflow: hidden;
     @include img-size(100%);
     .inner {
