@@ -339,13 +339,16 @@
 
 .grid-mode .item{
   .show-label{
-    background: #6acac3;   
+    background: #76d2cb;   
     &:hover{
       background: #1fa79d;
-      ~ .inner{
-        .product-img,
+      ~.inner{
+        .product-img
+        {
+          opacity: .3;
+        }
         .icon-addcart{
-          opacity: .45;
+          opacity: .5;
         }
 
       }
@@ -353,24 +356,21 @@
     }
   }
   .icon-addcart{
-    font-size: 35px;
-    color: $cgreen2;
+    font-size: 32px;
+    color: #089a90;
     position: absolute;
     @include center-pos;
     opacity: 0;
+    top: 40%;
+    pointer-events: none;
   }
   .inner:hover{
     .icon-addcart{
       opacity: 1;
     }
   }
-  &:hover{
-    .product-img:hover{
 
-    }
-    .show-label{
-
-    }
+  &:hover{    
     .icon-addcart{
       opacity: 1;
     }

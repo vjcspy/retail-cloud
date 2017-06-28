@@ -82,7 +82,7 @@
       <span class="show-label" (click)="viewDetail(product)"><span>{{ 'View Details' | translate }}</span></span>
 
       <div class="inner" (click)="quoteActions.selectProductToAdd(product)">
-        <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
+        <pos-default-sales-checkout-grid-product-image class="product-img-wrap" [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
         <h3 class="product-name"><span>{{product['name']}}</span></h3>
         <span class="icon-addcart"></span>
       </div>
