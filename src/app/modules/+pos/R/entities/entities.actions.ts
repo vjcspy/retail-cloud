@@ -185,48 +185,6 @@ export class PosEntitiesActions {
   /**
    ** @REDUCER:
    *
-   *
-   *-----------------------------------------------------------------
-   ** @EFFECTS-ACTION:
-   *
-   * Realtime error
-   */
-  static ACTION_REALTIME_ENTITY_ERROR = 'ACTION_REALTIME_ENTITY_ERROR';
-  
-  realtimeEntityError(entityCode, dispatch: boolean = true): Action {
-    const action = {type: PosEntitiesActions.ACTION_REALTIME_ENTITY_ERROR, payload: {entityCode}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
-  
-  /**
-   ** @REDUCER:
-   *
-   *
-   *-----------------------------------------------------------------
-   ** @EFFECTS-ACTION:
-   *
-   * Run async function to get data from indexed DB
-   */
-  static ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB = 'ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB';
-  
-  realtimePulledAndSavedDB(entityCode, dispatch: boolean = true): Action {
-    const action = {type: PosEntitiesActions.ACTION_REALTIME_ENTITY_PULLED_AND_SAVED_DB, payload: {entityCode}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
-  
-  /**
-   ** @REDUCER:
-   *
    * Save data product filtered by setting
    *-----------------------------------------------------------------
    ** @EFFECTS-ACTION:
