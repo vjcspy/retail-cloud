@@ -119,6 +119,7 @@ export class PosEntitiesService {
             
                 // save data pull success
                 entityInfo.currentPage = nextPagePull;
+                entityInfo.cache_time  = data['cache_time'];
                 await entityInfo.save();
             
                 return resolve({error: false, data: {isFinished: false, currentPage: nextPagePull, items}});

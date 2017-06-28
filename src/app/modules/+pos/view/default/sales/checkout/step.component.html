@@ -1,4 +1,4 @@
-<div class="checkout-blk" [ngClass]="{'order-list-checkout': isOrderListPage()}">
+<div class="checkout-blk" [ngClass]="{'order-list-checkout': isOrderListPage() && isStepPayment()}">
   <div class="inner">
     <pos-default-sales-checkout-step-payments *ngIf="isStepPayment()" [posQuoteState]="posQuoteState" [posStepState]="posStepState" [posConfigState]="posConfigState" [posSyncState]="posSyncState">
     </pos-default-sales-checkout-step-payments>

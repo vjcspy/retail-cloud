@@ -4,6 +4,7 @@ import {PosStepActions} from "./step.actions";
 import {List} from "immutable";
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {tyroReducer} from "./payment/tyro.reducer";
+import {orderListAddPaymentReducer} from "./order-list-add-payment/add-payment.reducer";
 
 const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state, action: Action) => {
   switch (action.type) {
@@ -86,4 +87,4 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state, action: Ac
   }
 };
 
-export const posStepReducer: ActionReducer<PosStepStateRecord> = mergeSliceReducers(posStepStateFactory(), posStepMainReducer, tyroReducer);
+export const posStepReducer: ActionReducer<PosStepStateRecord> = mergeSliceReducers(posStepStateFactory(), posStepMainReducer, tyroReducer, orderListAddPaymentReducer);

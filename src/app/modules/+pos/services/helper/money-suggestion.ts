@@ -1,4 +1,4 @@
-export class MoneySuggestionService {
+export class MoneySuggestion {
   config = {
     needNumberOfSuggestion: 3,
     multiple: 1

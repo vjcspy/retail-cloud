@@ -50,6 +50,9 @@ import {ListActions} from "./sales/orders/list/list.actions";
 import {ListService} from "./sales/orders/list/list.service";
 import {ListEffects} from "./sales/orders/list/list.effects";
 import {OrderService} from "./sales/orders/order.service";
+import {OrderListAddPaymentActions} from "./sales/checkout/step/order-list-add-payment/add-payment.actions";
+import {OrderListAddPaymentService} from "./sales/checkout/step/order-list-add-payment/add-payment.service";
+import {OrderListAddPaymentEffects} from "./sales/checkout/step/order-list-add-payment/add-payment.effects";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -58,6 +61,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CartItemEffects),
   EffectsModule.run(ProductOptionsEffects),
   EffectsModule.run(PosStepEffects),
+  EffectsModule.run(OrderListAddPaymentEffects),
   EffectsModule.run(TyroEffects),
   EffectsModule.run(ReceiptEffects),
   EffectsModule.run(ListEffects),
@@ -97,6 +101,9 @@ export const R_POS_VIEW_PROVIDERS = [
   PosStepActions,
   PosStepEffects,
   PosStepService,
+  OrderListAddPaymentActions,
+  OrderListAddPaymentService,
+  OrderListAddPaymentEffects,
   
   // 3RD payment
   TyroActions,

@@ -11,18 +11,17 @@ import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {RootActions} from "../../../../../../../R/root.actions";
 import {PaymentMethod, PosStepState} from "./step.state";
-import {PosConfigState} from "../../../../../R/config/config.state";
-import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
-import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 import {Observable} from "rxjs";
 import {PosQuoteService} from "../../../../../R/quote/quote.service";
 import {PosSyncService} from "../../../../../R/sync/sync.service";
+import {PosStepService} from "./step.service";
+import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
 
 @Injectable()
 export class PosStepEffects {
   
-  private moneySuggestion = new MoneySuggestionService();
+  private moneySuggestion = new MoneySuggestion();
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
@@ -30,7 +29,8 @@ export class PosStepEffects {
               private offlineService: OfflineService,
               private posQuoteService: PosQuoteService,
               private syncService: PosSyncService,
-              private stepActions: PosStepActions) { }
+              private stepActions: PosStepActions,
+              private stepService: PosStepService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -63,7 +63,7 @@ export class PosStepEffects {
                                          }
     
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
-                                           let totals            = this.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
+                                           let totals            = this.stepService.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
                                            const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
                                            return {
                                              type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
@@ -86,7 +86,7 @@ export class PosStepEffects {
                                             .map((z) => {
                                               const paymentToAdd: PaymentMethod = z[0].payload['payment'];
                                               const quoteState: PosQuoteState   = <any>z[1];
-                                              let amount                        = this.canAddMorePaymentMethod(paymentToAdd, z[3], z[2], quoteState);
+                                              let amount                        = this.stepService.canAddMorePaymentMethod(paymentToAdd, z[3], z[2], quoteState);
                                               if (amount !== false) {
                                                 let payment = {
                                                   id: paymentToAdd['id'],
@@ -118,7 +118,7 @@ export class PosStepEffects {
                                     .map((z) => {
                                       const stepState: PosStepState = <any>z[1];
                                       const action: Action          = z[0];
-                                      let totals                    = this.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
+                                      let totals                    = this.stepService.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
                                       let moneySuggestion           = stepState.moneySuggestion;
     
                                       // Retrieve amount before payment added
@@ -216,44 +216,4 @@ export class PosStepEffects {
                                 }
                               }
                             });
-  
-  
-  protected calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
-    let totalPaid = 0;
-    paymentInUse.forEach((p) => {
-      totalPaid += this.getvalidatedAmountPayment(p.amount);
-    });
-    let remain = grandTotal - totalPaid;
-    return {totalPaid, remain, grandTotal};
-  }
-  
-  protected canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number
-    | boolean {
-    // check split payment
-    if (stepState.paymentMethodUsed.count() >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
-      return false;
-    
-    // check payment gateway
-    if (['tyro'].indexOf(method['type']) >= 0 && stepState.listPayment3rdData.count() > 0) {
-      this.notify.warning("can't_add_more_3rd_payment");
-      
-      return false;
-    }
-    
-    // check amount
-    let gt             = stepState.totals.grandTotal;
-    let _currentAmount = 0;
-    stepState.paymentMethodUsed.forEach((method: PaymentMethod) => {
-      _currentAmount += this.getvalidatedAmountPayment(method.amount);
-    });
-    if (_currentAmount >= gt && !quoteState.info.isRefunding)
-      return false;
-    
-    return NumberHelper.round((gt - _currentAmount), 2);
-  }
-  
-  protected getvalidatedAmountPayment(methodAmount: any): number {
-    return (isNaN(methodAmount) || !methodAmount) ? 0 : parseFloat(methodAmount + '');
-  }
-  
 }

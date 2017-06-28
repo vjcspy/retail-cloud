@@ -9,6 +9,7 @@ import {AbstractSubscriptionComponent} from "../../../../code/AbstractSubscripti
 import {PosConfigState} from "../../R/config/config.state";
 import {ReceiptState} from "../R/sales/receipts/receipt.state";
 import {AccountState} from "../../../../R/account/account.state";
+import {OrderService} from "../R/sales/orders/order.service";
 
 @Component({
              // moduleId: module.id,
@@ -24,7 +25,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
   accountState$: Observable<AccountState>;
   
   
-  constructor(protected store$: Store<SalesState>) {
+  constructor(protected store$: Store<SalesState>, public orderListViewService: OrderService) {
     super();
     this.store$.replaceReducer(salesReducer);
     this.posStepState$ = this.store$.select('step');

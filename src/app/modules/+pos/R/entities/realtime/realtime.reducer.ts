@@ -4,6 +4,7 @@ import {RealtimeActions} from "./realtime.actions";
 import {Entity} from "../entities.model";
 import {List} from "immutable";
 import * as _ from 'lodash';
+import {OrderDB} from "../../../database/xretail/db/order";
 
 export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: PosEntitiesStateRecord, action: Action) => {
   const type = action.type;
@@ -25,17 +26,36 @@ export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: Po
     
     if (itemsData.hasOwnProperty('items') && _.isArray(itemsData['items'])) {
       return state.updateIn([entity.entityCode, 'items'], (items: List<any>) => {
-        items = <any>items.filter((item) => {
-          return needUpdate.indexOf(item[entity.entityPrimaryKey]) === -1;
-        });
-        
-        _.forEach(itemsData['items'], (item: string) => {
-          let cloneFist = _.clone(items.first());
+        if (entity.entityCode === OrderDB.getCode()) {
+          // Vì order không dùng id của magento để sync mà có thể tự tạo được ở client.
+          _.forEach(itemsData['items'], (item: string) => {
+            const orderIndex = items.findIndex((order: OrderDB) => {
+              return order.retail_id == item['retail_id'] && (!order.order_id || order.order_id == item['order_id']);
+            });
+            if (orderIndex > -1) {
+              items = items.update(orderIndex, (o: OrderDB) => {
+                let newOrder = new OrderDB();
+                return newOrder.addData(item);
+              });
+            } else {
+              let newOrder = new OrderDB();
+              newOrder.addData(item);
+              items = items.push(newOrder);
+            }
+          });
+        } else {
+          items = <any>items.filter((item) => {
+            return needUpdate.indexOf(item[entity.entityPrimaryKey]) === -1;
+          });
           
-          if (cloneFist) {
-            items = items.push(cloneFist.addData(item));
-          }
-        });
+          _.forEach(itemsData['items'], (item: string) => {
+            let cloneFist = _.clone(items.first());
+            
+            if (cloneFist) {
+              items = items.push(cloneFist.addData(item));
+            }
+          });
+        }
         
         return items;
       });

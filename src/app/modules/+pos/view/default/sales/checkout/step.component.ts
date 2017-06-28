@@ -6,6 +6,7 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {PosSyncState} from "../../../../R/sync/sync.state";
 import {PosGeneralState} from "../../../../R/general/general.state";
 import {ReceiptState} from "../../../R/sales/receipts/receipt.state";
+import {OrderService} from "../../../R/sales/orders/order.service";
 
 @Component({
              // moduleId: module.id,
@@ -21,12 +22,12 @@ export class PosDefaultSalesCheckoutStepComponent implements OnInit {
   @Input() posGeneralState: PosGeneralState;
   @Input() receiptState: ReceiptState;
   
-  constructor(protected router: Router) { }
+  constructor(protected router: Router, protected orderViewService: OrderService) { }
   
   ngOnInit() { }
   
   isOrderListPage() {
-    return this.router.isActive("order-list", false);
+    return this.orderViewService.isActiveOrdersPage();
   }
   
   isStepPayment() {

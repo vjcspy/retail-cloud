@@ -171,6 +171,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                             apiUrlCode: OrderDB.getCode(),
                             isFinished: false,
                             isDependStore: false,
+                            needRealTime: true,
                             query: "",
                             propertyFilter: {},
                             limitPage: 1
