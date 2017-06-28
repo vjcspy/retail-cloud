@@ -891,9 +891,24 @@ textarea[readonly="readonly"] {
   &.mn-xpos {
     width: 313px; left: -313px;
       background: $white; padding-top: 0;
+      // position: relative;
+      .mn-close{
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 58px;
+        height: 58px;
+        background: $cgreen;
+        color: $white;
+        display: inline-block;
+        &:before {
+         @include center-pos;
+        }
+        
+
+      }
     @include box-shadow(5px 0px 10px 0px rgba(135,149,162,0.28));
-    .left-menu-link {
-      margin: -43px 43px 0;
+    .left-menu-link {      
       padding-top: .01em;
     }
   }
@@ -962,42 +977,61 @@ textarea[readonly="readonly"] {
 }
 
 .left-menu-link {
+    padding:0;
+    margin-top: 20px;
     li {
-        font-family: $mediumFont;
-        font-size: 15px; color: $mainTxt;
-        text-transform: uppercase; margin: 60px 0;
+        font-family: $boldFont;
+        font-size: 15px; color: #666;
+        text-transform: uppercase;         
+        padding: 18px 35px;
+        position: relative;
+         @include single-transition(all,0.3s);
         &, .click {
             @include single-transition(all,0.3s);
         }
         .click {
-            position: relative;
-            display: block;
-            padding-left: 40px;
-            &:hover {color: $cgreen;}
+          position: relative;          
+          display: flex;
+          align-items: center;                  
+            &:hover,
+            &.active {color: $cgreen;}
         }
         [class^="icon-"] {
-            position: absolute;
-            top: -4px; left: 0;
-            font-size: 30px;
+            font-size: 22px;
+            padding-right: 18px;
         }
-        .icon-noted {top: -6px;}
+        &:after{
+          content:"";
+          position: absolute;
+          bottom: 0;left: 30px;
+          border-bottom: 1px solid $cbkg;
+          width: calc(100% - 60px);
+        }
+        &:hover{
+          background: $cbkg;    
+          &:after{display: none;}      
+        }
     }
 }
 
 .account-side {
     position: relative;
     border-bottom: #E5E5E5 solid 1px;
-    margin: 50px 42px 27px; padding: 0 0 29px 42px;
+    padding: 20px 35px;
+    background: #ebebeb;
+    display: flex;
+    align-items: center;
     p {margin: 0;}
-    .name {color: $mainTxt;}
+    .name {color: $grayDark;
+      font-family: $boldFont; }
     .txt {
-        font-family: $italicFont; color: #9F9E9E;
+        color: $grayDark;
         font-size: $sizeS;
+        font-family: $mainFont;
     }
-    [class^="icon-"] {
-        position: absolute;
-        top: 0; left: 0;
-        font-size: 41px; color: #C1C6CD;
+    .icon-user-bold{        
+        font-size: 50px; color: #b3b6bd;
+        margin-right: 10px;
     }
 }
 

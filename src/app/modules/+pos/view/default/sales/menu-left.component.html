@@ -1,44 +1,47 @@
 <div class="left-menu-side mn-xpos" #menuElem>
+  <!-- <span class="icon-close-thin mn-close"></span> -->
   <div class="account-side">
     <span class="icon-user-bold"></span>
-    <p class="name">{{getUserName()}}</p>
-    <p class="txt">{{getOutletRegisterData()}}</p>
+    <div class="user-name">
+      <p class="name">{{getUserName()}}</p>
+      <p class="txt">{{getOutletRegisterData()}}</p>
+    </div>
   </div>
   <ul class="left-menu-link">
-    <li>
-            <span class="click" (click)="openCart()">
-                <span class="icon-more"></span>
-                {{ 'pos' | translate}}
-            </span>
+  <li>
+      <span class="click" (click)="openCart()">
+          <span class="icon-nav-sellscreen"></span>
+          <span>{{ 'Sell screen' | translate}}</span>
+      </span>
     </li>
     <li>
-            <span class="click" [ngClass]="{disabled: !offline.online}" (click)="openShift()">
-                <span class="icon-noted"></span>
-                {{'shift' | translate}}
-            </span>
+      <span class="click" [ngClass]="{disabled: !offline.online}" (click)="openShift()">
+          <span class="icon-nav-shift"></span>
+          <span>{{'shift' | translate}}</span>
+      </span>
     </li>
     <li *ngIf="authenticateService.userCan('view_order_list')">
             <span class="click" (click)="openOrders()">
-                <span class="icon-news"></span>
-              {{'order list' | translate}}
+                <span class="icon-nav-orderlist"></span>
+              <span>{{'order list' | translate}}</span>
             </span>
     </li>
     <li>
             <span class="click" [ngClass]="{disabled: !offline.online}" (click)="goPosSetting()">
-                <span class="icon-info"></span>
-               {{'setting' | translate}}
+                <span class="icon-nav-setting"></span>
+               <span>{{'setting' | translate}}</span>
             </span>
     </li>
     <li>
             <span class="click" [ngClass]="{disabled: !offline.online}" (click)="changeOutlet()">
-            <span class="icon-list"></span>
-            {{'Change outlet' | translate}}
+              <span class="icon-nav-outlet"></span>
+              <span>{{'Change outlet' | translate}}</span>
             </span>
     </li>
     <li>
             <span class="click" (click)="flushCache()">
-            <span class="icon-trash"></span>
-            {{'Flush cache' | translate}}
+              <span class="icon-trash"></span>
+              <span>{{'Flush cache' | translate}}</span>
             </span>
     </li>
   </ul>
