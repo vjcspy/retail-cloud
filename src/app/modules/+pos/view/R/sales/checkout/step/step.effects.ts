@@ -12,16 +12,16 @@ import {OfflineService} from "../../../../../../share/provider/offline";
 import {RootActions} from "../../../../../../../R/root.actions";
 import {PaymentMethod, PosStepState} from "./step.state";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
-import {MoneySuggestionService} from "../../../../../services/helper/money-suggestion";
 import {Observable} from "rxjs";
 import {PosQuoteService} from "../../../../../R/quote/quote.service";
 import {PosSyncService} from "../../../../../R/sync/sync.service";
 import {PosStepService} from "./step.service";
+import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
 
 @Injectable()
 export class PosStepEffects {
   
-  private moneySuggestion = new MoneySuggestionService();
+  private moneySuggestion = new MoneySuggestion();
   
   constructor(private store$: Store<any>,
               private actions$: Actions,

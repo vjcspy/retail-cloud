@@ -7,6 +7,7 @@ import {CountryHelper} from "../../../../core/framework/directory/Helper/Country
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {RouterActions} from "../../../../../../R/router/router.actions";
 import {ReceiptActions} from "../../../R/sales/receipts/receipt.actions";
+import {OrderListAddPaymentActions} from "../../../R/sales/checkout/step/order-list-add-payment/add-payment.actions";
 
 @Component({
              // moduleId: module.id,
@@ -15,11 +16,11 @@ import {ReceiptActions} from "../../../R/sales/receipts/receipt.actions";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOrdersDetailComponent implements OnInit {
-  protected _data                = {
+  protected _data         = {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  protected countryHelper        = new CountryHelper();
+  protected countryHelper = new CountryHelper();
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
@@ -27,7 +28,8 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   constructor(public orderService: OrderService,
               protected quoteActions: PosQuoteActions,
               protected routerActions: RouterActions,
-              protected receiptActions: ReceiptActions) { }
+              protected receiptActions: ReceiptActions,
+              protected addPaymentActions: OrderListAddPaymentActions) { }
   
   ngOnInit() { }
   
@@ -80,5 +82,9 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   
   printReceipt(type: string = 'receipt') {
     this.receiptActions.printSalesReceipt(this.getOrder(), type);
+  }
+  
+  addPayments() {
+    this.addPaymentActions.needAddPayment(this.getOrder());
   }
 }

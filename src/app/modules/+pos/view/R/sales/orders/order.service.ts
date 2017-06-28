@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class OrderService {
@@ -24,7 +25,7 @@ export class OrderService {
     "13": "Complete",
   };
   
-  constructor() { }
+  constructor(private router:Router) { }
   
   getStatusElementData() {
     if (!this._data.hasOwnProperty('element_status')) {
@@ -47,5 +48,9 @@ export class OrderService {
   
   getClientStatus(status) {
     return this.clientStatus[status];
+  }
+  
+  isActiveOrdersPage(){
+    return this.router.isActive('pos/default/sales/orders', false);
   }
 }
