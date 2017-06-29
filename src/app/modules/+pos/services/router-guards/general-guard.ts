@@ -19,9 +19,7 @@ export class GeneralGuard implements CanActivate, CanActivateChild {
   
   checkGeneralDataExisted(url: string) {
     const generalData = this.generalService.resolveGeneralDataFromStorage();
-    console.log('1');
     if (generalData) {
-      console.log('2');
       this.generalActions.saveGeneralData(generalData, false);
       
       return true;
