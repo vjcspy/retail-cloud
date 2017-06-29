@@ -15,6 +15,7 @@ import {PosGeneralState} from "../../../../../R/general/general.state";
 import {RootActions} from "../../../../../../../R/root.actions";
 import {Observable} from "rxjs";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
+import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 
 @Injectable()
 export class ListEffects {
@@ -29,7 +30,8 @@ export class ListEffects {
                                 .ofType(
                                   PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                   ListActions.ACTION_CHANGE_SEARCH_DATA,
-                                  RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
+                                  RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
+                                  EntityOrderActions.ACTION_PUT_ORDER_ENTITY
                                 )
                                 .filter((action) => !!action.payload['entityCode'] ? action.payload['entityCode'] === OrderDB.getCode() : true)
                                 .withLatestFrom(this.store$.select('entities'))

@@ -6,19 +6,12 @@ import {mergeSliceReducers} from "../../../../../../../R/index";
 import {tyroReducer} from "./payment/tyro.reducer";
 import {orderListAddPaymentReducer} from "./order-list-add-payment/add-payment.reducer";
 
-const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state, action: Action) => {
+const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord, action: Action) => {
   switch (action.type) {
     
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
     case PosStepActions.ACTION_STEP_NEW_ORDER:
-      return state.delete('checkoutStep')
-                  .delete('totals')
-                  .delete('paymentMethodUsed')
-                  .delete('moneySuggestion')
-                  .delete('isSavingOrder')
-                  .delete('orderOffline')
-                  .delete('listPayment3rdData')
-                  .delete('isChecking3rd');
+      return removeDataStep(state);
     
     case PosStepActions.ACTION_GET_PAYMENT_METHOD_CAN_USE:
       return state.set('paymentMethodCanUse', action.payload['paymentMethodCanUse'])
@@ -88,3 +81,14 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state, action: Ac
 };
 
 export const posStepReducer: ActionReducer<PosStepStateRecord> = mergeSliceReducers(posStepStateFactory(), posStepMainReducer, tyroReducer, orderListAddPaymentReducer);
+
+export function removeDataStep(state: PosStepStateRecord) {
+  return state.delete('checkoutStep')
+              .delete('totals')
+              .delete('paymentMethodUsed')
+              .delete('moneySuggestion')
+              .delete('isSavingOrder')
+              .delete('orderOffline')
+              .delete('listPayment3rdData')
+              .delete('isChecking3rd');
+}
