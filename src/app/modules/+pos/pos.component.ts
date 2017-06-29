@@ -14,7 +14,6 @@ import {TranslateService} from "@ngx-translate/core";
            })
 export class PosComponent {
   constructor(private store: Store<PosState>, private offline: OfflineService, private retailTranslate: RetailTranslate, private translate: TranslateService) {
-    this.store.replaceReducer(posReducer);
     this.offline.init();
     
     this.translate.setDefaultLang('en');

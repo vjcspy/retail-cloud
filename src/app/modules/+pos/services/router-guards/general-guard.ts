@@ -8,7 +8,7 @@ import {posReducer} from "../../R/index";
 @Injectable()
 export class GeneralGuard implements CanActivate, CanActivateChild {
   constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected store$: Store<any>) {
-    // this.store$.replaceReducer(posReducer);
+    this.store$.replaceReducer(posReducer);
   }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -19,7 +19,9 @@ export class GeneralGuard implements CanActivate, CanActivateChild {
   
   checkGeneralDataExisted(url: string) {
     const generalData = this.generalService.resolveGeneralDataFromStorage();
+    console.log('1');
     if (generalData) {
+      console.log('2');
       this.generalActions.saveGeneralData(generalData, false);
       
       return true;
