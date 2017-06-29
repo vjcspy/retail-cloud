@@ -73,7 +73,7 @@
 </div>
 
 
-<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll (scrollEnd)="checkoutProductActions.loadMorePage()">
+<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
   <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">

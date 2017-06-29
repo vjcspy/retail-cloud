@@ -43,11 +43,17 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
     }
   }
   
-  isSales(product){
+  isSales(product) {
     return ProductHelper.isSales(product);
   }
   
-  isOutOfStock(product){
+  isOutOfStock(product) {
     return ProductHelper.isOutOfStock(product);
+  }
+  
+  loadMorePage() {
+    setTimeout(() => {
+      this.checkoutProductActions.loadMorePage();
+    }, 250);
   }
 }

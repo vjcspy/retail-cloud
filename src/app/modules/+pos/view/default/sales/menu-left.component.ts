@@ -8,6 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {AccountActions} from "../../../../../R/account/account.actions";
 import {AccountState} from "../../../../../R/account/account.state";
+import {DatabaseManager} from "../../../../../services/database-manager";
 
 @Component({
              // moduleId: module.id,
@@ -26,7 +27,8 @@ export class PosDefaultMenuLeftComponent implements OnInit {
               public retailTranslate: RetailTranslate,
               public menuLeftActions: MenuLeftActions,
               protected routerActions: RouterActions,
-              public accountActions: AccountActions) { }
+              public accountActions: AccountActions,
+              protected databaseManager: DatabaseManager) { }
   
   ngOnInit() { }
   
@@ -60,7 +62,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   flushCache() {
-  
+    this.databaseManager.deleteDb().then(() => {location.reload(true);})
   }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
