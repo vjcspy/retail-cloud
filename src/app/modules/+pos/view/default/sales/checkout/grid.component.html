@@ -1,12 +1,12 @@
 <!-- class is "cate-collapse" when close cateogry -->
 <div class="categories-list">
   <div class="cateogries-inner">
-    <a class="back-cate"><!-- "last-cate" class when lastest categories -->    
-      <i class="icon-back-btn"></i>Back      
+    <a class="back-cate"><!-- "last-cate" class when lastest categories -->
+      <i class="icon-back-btn"></i>Back
       <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
     </a>
-    
-   
+
+
     <ul>
       <li>
         <a href="#">
@@ -17,7 +17,7 @@
       <li>
         <a href="#">
           <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-          <span class="cat-name">Accessories<br />Shoes</span>
+          <span class="cat-name">Accessories<br/>Shoes</span>
         </a>
       </li>
       <li>
@@ -41,10 +41,10 @@
       <li>
         <a href="#">
           <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-          <span class="cat-name">Accessories<br />Shoes</span>
+          <span class="cat-name">Accessories<br/>Shoes</span>
         </a>
       </li>
-      
+
 
     </ul>
     <div class="navigation">
@@ -53,28 +53,28 @@
     </div>
   </div>
   <span class="cate-close">
-    
+
   </span>
 </div>
 <div class="grid-product-top">
-    <ul class="breadcumb">
-      <li>
-          <a>All Fashion</a>      
-      </li>
-      <li class="current">
-        <span>Women</span>
-      </li>
-    </ul>
-    <div class="view-mode">
-        <label>View as:</label>
-        <a class="icon-grid current"></a>
-        <a class="icon-list"></a>
-    </div>
+  <ul class="breadcumb">
+    <li>
+      <a>All Fashion</a>
+    </li>
+    <li class="current">
+      <span>Women</span>
+    </li>
+  </ul>
+  <div class="view-mode">
+    <label>View as:</label>
+    <a class="icon-grid current"></a>
+    <a class="icon-list"></a>
+  </div>
 </div>
 
 
-<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll>
-  <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode"  >
+<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll (scrollEnd)="checkoutProductActions.loadMorePage()">
+  <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">
       <span class="tags sale" *ngIf="isSales(product)"><img src="assets/icon/sale-icon148x84.png" alt=""/></span>
@@ -88,7 +88,7 @@
       </div>
     </div>
   </div>
-  <div class="loading-img">
+  <div class="loading-img" *ngIf="(checkoutProductState.productGridCurrentPage + checkoutProductState.bufferPageView) < checkoutProductState.productGridTotalsPage">
     <img src="assets/img/loading.gif" alt="loading image">
   </div>
   <div class="search-no-result"

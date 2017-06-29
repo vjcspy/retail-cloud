@@ -78,17 +78,22 @@ export class CheckoutProductService {
         });
       } else {
         currentPage = checkoutProductsState.productGridCurrentPage;
-        let _offset = (currentPage - 1) * checkoutProductsState.productGridNumOfProductPerPage;
-        if (checkoutProductsState.isGridMode) {
-          let _totals         = products.count();
-          totalsPage          = Math.ceil(_totals / checkoutProductsState.productGridNumOfProductPerPage);
-          //noinspection TypeScriptUnresolvedFunction
-          productGridProducts = <any> (products.slice(_offset, _offset + checkoutProductsState.productGridNumOfProductPerPage));
-        } else {
-          totalsPage          = 0;
-          currentPage         = 1;
-          productGridProducts = <any> (products.take(checkoutProductsState.productGridNumOfProductPerPage));
-        }
+        // OLD UI
+        // let _offset = (currentPage - 1) * checkoutProductsState.productGridNumOfProductPerPage;
+        // if (checkoutProductsState.isGridMode) {
+        //   let _totals         = products.count();
+        //   totalsPage          = Math.ceil(_totals / checkoutProductsState.productGridNumOfProductPerPage);
+        //   //noinspection TypeScriptUnresolvedFunction
+        //   productGridProducts = <any> (products.slice(_offset, _offset + checkoutProductsState.productGridNumOfProductPerPage));
+        // } else {
+        //   totalsPage          = 0;
+        //   currentPage         = 1;
+        //   productGridProducts = <any> (products.take(checkoutProductsState.productGridNumOfProductPerPage));
+        // }
+        
+        // NEW UI
+        totalsPage          = Math.ceil(products.count() / checkoutProductsState.productGridNumOfProductPerPage);
+        productGridProducts = <any> (products.take((currentPage + checkoutProductsState.bufferPageView) * checkoutProductsState.productGridNumOfProductPerPage));
       }
       
       return resolve({data: {totalsPage, currentPage, productGridProducts}});

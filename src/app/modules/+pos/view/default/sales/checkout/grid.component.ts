@@ -16,7 +16,8 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   
   @Input() checkoutProductState: CheckoutProductState;
   
-  constructor(protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
+  constructor(protected checkoutProductActions: CheckoutProductActions,
+              protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
     this.onResize();

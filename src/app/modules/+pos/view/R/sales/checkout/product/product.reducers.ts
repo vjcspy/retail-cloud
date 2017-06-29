@@ -3,6 +3,7 @@ import {checkoutProductStateFactory, CheckoutProductStateRecord} from "./product
 import {CheckoutProductActions} from "./product.actions";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from 'lodash';
+import {stat} from "fs";
 
 export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord = checkoutProductStateFactory(), action: Action) => {
   switch (action.type) {
@@ -64,52 +65,57 @@ export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> =
                   .set('productGridNumOfProductPerPage', numOfCol * numOfRow);
     
     case CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT:
-      const totalPage   = action.payload['totalsPage'];
-      const currentPage = action.payload['currentPage'];
+      /*
+       * Vẫn giữ lại phần paging tuy nhiên sẽ dùng hơi khác đi.
+       * Thứ nhất vẫn có total page để check xem người dùng có thể scroll xuống tiếp hay không
+       * Thứ hai vẫn giữ lại current page nhưng số lượng sản phẩm lấy ra sẽ bằng current page * number product per page
+       * */
+      // const totalPage   = action.payload['totalsPage'];
+      // const currentPage = action.payload['currentPage'];
       
-      let pagesView: any[] = [];
-      if (_.isNumber(totalPage) && totalPage > 0) {
-        if (totalPage <= 6) {
-          for (let i = 1; i <= totalPage; i++) {
-            pagesView.push(i);
-          }
-        } else {
-          pagesView.push(1);
-          // Before
-          if ((currentPage - 1) > 3) {
-            pagesView.push("...");
-            for (let i = (currentPage - 2); i < currentPage; i++) {
-              pagesView.push(i);
-            }
-          } else if (currentPage > 1) {
-            for (let i = 2; i < currentPage; i++) {
-              pagesView.push(i);
-            }
-          }
-          // current
-          if (currentPage !== 1) {
-            pagesView.push(currentPage);
-          }
-          // After
-          if ((totalPage - currentPage) > 3) {
-            for (let i = (currentPage + 1); i < (currentPage + 3); i++) {
-              pagesView.push(i);
-            }
-            pagesView.push("...");
-          } else if (currentPage < totalPage) {
-            for (let i = (currentPage + 1); i < totalPage; i++) {
-              pagesView.push(i);
-            }
-          }
-          // End
-          if (currentPage !== totalPage) {
-            pagesView.push(totalPage);
-          }
-        }
-      }
+      // let pagesView: any[] = [];
+      // if (_.isNumber(totalPage) && totalPage > 0) {
+      //   if (totalPage <= 6) {
+      //     for (let i = 1; i <= totalPage; i++) {
+      //       pagesView.push(i);
+      //     }
+      //   } else {
+      //     pagesView.push(1);
+      //     // Before
+      //     if ((currentPage - 1) > 3) {
+      //       pagesView.push("...");
+      //       for (let i = (currentPage - 2); i < currentPage; i++) {
+      //         pagesView.push(i);
+      //       }
+      //     } else if (currentPage > 1) {
+      //       for (let i = 2; i < currentPage; i++) {
+      //         pagesView.push(i);
+      //       }
+      //     }
+      //     // current
+      //     if (currentPage !== 1) {
+      //       pagesView.push(currentPage);
+      //     }
+      //     // After
+      //     if ((totalPage - currentPage) > 3) {
+      //       for (let i = (currentPage + 1); i < (currentPage + 3); i++) {
+      //         pagesView.push(i);
+      //       }
+      //       pagesView.push("...");
+      //     } else if (currentPage < totalPage) {
+      //       for (let i = (currentPage + 1); i < totalPage; i++) {
+      //         pagesView.push(i);
+      //       }
+      //     }
+      //     // End
+      //     if (currentPage !== totalPage) {
+      //       pagesView.push(totalPage);
+      //     }
+      //   }
+      // }
       
       return state.set('productGridProducts', action.payload['productGridProducts'])
-                  .set('productGridPagingData', pagesView)
+                  // .set('productGridPagingData', pagesView)
                   .set('productGridCurrentPage', action.payload['currentPage'])
                   .set('productGridTotalsPage', action.payload['totalsPage']);
     
@@ -125,6 +131,14 @@ export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> =
         }
       });
       return newState;
+    
+    case CheckoutProductActions.ACTION_LOAD_MORE_PAGE:
+      if ((state.productGridCurrentPage + state.bufferPageView) < state.productGridTotalsPage) {
+        return state.update('productGridCurrentPage', (productGridCurrentPage) => productGridCurrentPage + 1);
+      } else {
+        return state;
+      }
+    
     default:
       return state;
   }
