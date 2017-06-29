@@ -1,5 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, ViewChild} from '@angular/core';
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
@@ -20,11 +19,11 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
               protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
-    this.onResize();
+    this._onResize();
   }
   
-  protected onResize() {
-    this.checkoutProductActions.saveGridWidthHeight(this.gridProductInner.nativeElement.offsetWidth, this.gridProductInner.nativeElement.offsetHeight);
+  protected _onResize() {
+    this.checkoutProductActions.saveGridWidthHeight(this.gridProductInner.nativeElement.offsetWidth + 10, this.gridProductInner.nativeElement.offsetHeight);
   }
   
   protected trackByItemFn(index, product) {
@@ -54,6 +53,12 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   loadMorePage() {
     setTimeout(() => {
       this.checkoutProductActions.loadMorePage();
-    }, 250);
+    }, 100);
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize($event) {
+    console.log('here');
+    this._onResize();
   }
 }

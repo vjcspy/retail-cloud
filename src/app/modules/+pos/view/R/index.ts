@@ -53,6 +53,7 @@ import {OrderService} from "./sales/orders/order.service";
 import {OrderListAddPaymentActions} from "./sales/checkout/step/order-list-add-payment/add-payment.actions";
 import {OrderListAddPaymentService} from "./sales/checkout/step/order-list-add-payment/add-payment.service";
 import {OrderListAddPaymentEffects} from "./sales/checkout/step/order-list-add-payment/add-payment.effects";
+import {CheckoutProductCategoryActions} from "./sales/checkout/product/category/category.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -70,6 +71,8 @@ export const R_POS_VIEW_IMPORTS = [
 export const R_POS_VIEW_PROVIDERS = [
   PosViewRouterEffects,
   
+  /*Product*/
+  CheckoutProductCategoryActions,
   CheckoutProductActions,
   CheckoutProductEffects,
   CheckoutProductService,
