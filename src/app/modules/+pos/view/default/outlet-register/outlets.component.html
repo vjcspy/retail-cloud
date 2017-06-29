@@ -1,15 +1,16 @@
-<div class="outlets" *ngIf="entitiesState.outlet.items.count()>0">
+<div class="outlets"  *ngIf="entitiesState.outlet.items.count()>0">
   <div class="outlet-list" *ngFor="let outlet of entitiesState.outlet.items">
     <div class="oulet-index">
-      <i class="icons-cus ico-outlet"></i>
+      <i class="icon-outlet"></i>
       <span class="outlet-title">{{outlet['name']}}</span>
     </div>
     <ul>
       <li class="item" *ngFor="let register of outlet['registers']">
         <div class="click" (click)="selectOutletAndRegister(outlet['id'],register['id'])">
 									<span class="icon-reg-bg">
-									<i class="icons-cus ico-reg"></i>
-									</span><span class="title">{{register['name']}}</span>
+									<i class="icon-reg"></i>
+									</span>
+                  <span class="title">{{register['name']}}</span>
         </div>
       </li>
     </ul>

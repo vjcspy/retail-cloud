@@ -1,34 +1,41 @@
-<div class="top-bar" *ngIf="quoteState.info.isShiftOpening">
-  <div class="icon-navigation">
-        <span class="icon-link" (click)="posQuoteActions.clearQuote()">
-            <span class="icon-trash"></span>
-            <span class="tooltiptext-bottom">{{"Clear Cart" | translate}}</span>
-        </span>
-    <pos-default-sales-checkout-actions-bar-note [cartActionBarState]="cartActionBarState" [quoteState]="quoteState"></pos-default-sales-checkout-actions-bar-note>
-    <span class="icon-link">
-            <span class="icon-upload"></span>
-            <span class="tooltiptext-bottom">{{"Send order to customer's wishlist" | translate}}</span>
-        </span>
-    <span class="icon-link">
-            <span class="icon-note"></span>
-            <span class="tooltiptext-bottom">{{"Save order" | translate}}</span>
-        </span>
-    <span class="icon-link">
-            <span class="icon-timer"></span>
-            <span class="tooltiptext-bottom">{{"Onhold Orders" | translate}}</span>
-        </span>
-    <span class="icon-link" [ngClass]="{active: cartCustomerState.inSearchCustomers}" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',!cartCustomerState.inSearchCustomers)">
-            <span class="icon-follow"></span>
-            <span class="tooltiptext-bottom">{{"Select customer for order" | translate}}</span>
-        </span>
-  </div>
-  <div class="cart-info">
-    {{ 'Cart' | translate }}
-    <span class="cart-num" style="font-size: 20px;margin-left: 5px;">
-    {{(quoteState.quote.getShippingAddress().getData('total_qty') || 0) | number : "1.2-2"}}
-    </span>
-    <!--<span class="cart-num" style="font-size: 20px;margin-left: 5px;">-->
-    <!--{{(posQuote.getQuote().getShippingAddress().getData('total_qty') || 0)}}-->
-    <!--</span>-->
-  </div>
+<div class="top-bar" *ngIf="quoteState.info.isShiftOpening">    
+    <div class="icon-link btn-delete" (click)="posQuoteActions.clearQuote()">
+        <i class="icon-trash"></i>
+        <span class="tooltiptext-bottom">{{"Clear Cart" | translate}}</span>
+    </div>    
+    <div class="cart-info">
+        Cart
+        (<span class="cart-num">5</span>)
+    </div>
+    <div class="nav-customer">
+        <a class="btn-more icon-more2"></a>
+
+        <ul class="submenu" style="display: none">
+            <li>
+                <a href="#">
+                    <i class="icon-edit"></i>
+                    <span>Add Note</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-add-wishlist"></i>
+                    <span>Send To Customer’s Wish List</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-save-cart"></i>
+                    <span>Save Current Cart</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="icon-retrive-order"></i>
+                    <span>Retrieve On-hold Orders</span>
+                </a>
+            </li>
+        </ul>
+        <div class="popup-overlay"></div>        
+    </div>
 </div>

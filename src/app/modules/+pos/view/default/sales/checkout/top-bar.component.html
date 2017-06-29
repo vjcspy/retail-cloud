@@ -1,16 +1,16 @@
 <div class="top-bar">
   <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span class="text">X-Retail</span></span>
   <span class="icon-link">
-        <span class="icon-categories">
-            <span class="tooltiptext-bottom">{{ 'Category View' | translate }}</span>
+        <span class="icon-truck">
+            <span class="tooltiptext-bottom">{{ 'Shipment' | translate }}</span>
         </span>
     <!--<span class="icon-equalizer">-->
     <!--<span class="tooltiptext-bottom">{{ 'Product View' | translate }}</span>-->
     <!--</span>-->
     </span>
   <span class="icon-link">
-                <span class="icon-grid">
-                    <span class="tooltiptext-bottom">{{'Grid View' | translate}}</span>
+                <span class="icon-edit-sale">
+                    <span class="tooltiptext-bottom">{{'Custom Sale' | translate}}</span>
                 </span>
     <!--<span class="icon-list" *ngIf="getViewState()['isGridMode']" [ngClass]="{disabled: getViewState()['isCategoryMode'] == true}">-->
     <!--<span class="tooltiptext-bottom">{{'List View' | translate}}</span>-->
