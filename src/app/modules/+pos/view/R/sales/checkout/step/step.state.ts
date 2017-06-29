@@ -4,7 +4,8 @@ import {List} from "immutable";
 export enum CheckoutStep{
   NONE = 0,
   PAYMENT,
-  COMPLETE
+  COMPLETE,
+  TAKE_PAYMENT,
 }
 
 export interface Payment3rd {

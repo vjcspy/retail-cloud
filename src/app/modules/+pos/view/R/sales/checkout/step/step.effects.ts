@@ -10,13 +10,14 @@ import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {RootActions} from "../../../../../../../R/root.actions";
-import {PaymentMethod, PosStepState} from "./step.state";
+import {CheckoutStep, PaymentMethod, PosStepState} from "./step.state";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {Observable} from "rxjs";
 import {PosQuoteService} from "../../../../../R/quote/quote.service";
 import {PosSyncService} from "../../../../../R/sync/sync.service";
 import {PosStepService} from "./step.service";
 import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
+import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 
 @Injectable()
 export class PosStepEffects {
@@ -30,7 +31,8 @@ export class PosStepEffects {
               private posQuoteService: PosQuoteService,
               private syncService: PosSyncService,
               private stepActions: PosStepActions,
-              private stepService: PosStepService) { }
+              private stepService: PosStepService,
+              private entityOrderActions: EntityOrderActions) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -174,6 +176,7 @@ export class PosStepEffects {
                             .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
                             .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                             .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
+                            .filter((z) => (z[1] as PosStepState).checkoutStep === CheckoutStep.PAYMENT)
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
                               const posStepState: PosStepState      = <any>z[1];
@@ -203,14 +206,20 @@ export class PosStepEffects {
                               } else {
                                 if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(z[2], z[3], z[4]))
-                                                   .map((orderOffline) => {
-                                                     return this.stepActions.savedOrder(orderOffline, true, false)
+                                                   .flatMap((orderOffline) => {
+                                                     return Observable.from([
+                                                                              this.stepActions.savedOrder(orderOffline, true, false),
+                                                                              this.entityOrderActions.putOrderEntity(orderOffline, null, false)
+                                                                            ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4]))
-                                                   .map((orderOffline) => {
-                                                     return this.stepActions.savedOrder(orderOffline, false, false)
+                                                   .flatMap((orderOffline) => {
+                                                     return Observable.from([
+                                                                              this.stepActions.savedOrder(orderOffline, false, false),
+                                                                              this.entityOrderActions.putOrderEntity(orderOffline, null, false)
+                                                                            ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 }

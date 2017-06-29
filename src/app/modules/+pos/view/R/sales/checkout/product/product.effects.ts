@@ -24,11 +24,14 @@ export class CheckoutProductEffects {
                                        .ofType(
                                          CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE,
                                          PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
-                                         CheckoutProductActions.ACTION_UPDATE_GRID_STATE
+                                         CheckoutProductActions.ACTION_UPDATE_GRID_STATE,
+                                         CheckoutProductActions.ACTION_LOAD_MORE_PAGE
                                        )
                                        .withLatestFrom(this.store$.select('checkoutProduct'))
                                        .withLatestFrom(this.store$.select('entities'),
-                                                       ([action, checkoutProductState], entitiesState) => [action, checkoutProductState, entitiesState])
+                                                       ([action, checkoutProductState], entitiesState) => [action,
+                                                                                                           checkoutProductState,
+                                                                                                           entitiesState])
                                        .withLatestFrom(this.store$.select('config'), (([action, checkoutProductState, entitiesState], configState) =>
                                          [action, checkoutProductState, entitiesState, configState]))
                                        .filter(([action, checkoutProductState]) => {

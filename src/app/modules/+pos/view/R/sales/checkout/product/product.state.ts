@@ -17,6 +17,8 @@ export interface CheckoutProductState {
   productGridNumOfProductPerPage: number;
   productGridStyleValue: Object;
   productGridPagingData: any[];
+  
+  bufferPageView: number;
 }
 
 export interface CheckoutProductStateRecord extends TypedRecord<any>, CheckoutProductState {}
@@ -34,7 +36,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     productGridHeight: null,
     productGridWidth: null,
     productGridCurrentPage: 1,
-    productGridNumOfProductPerPage: 0,
+    productGridNumOfProductPerPage: 50,
     productGridStyleValue: {
       marginProductLeftRight: 10, // totals margin left and right each product image
       marginProductTop: 10, // margin top each product image
@@ -46,4 +48,6 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     productGridTotalsPage: 0,
     productGridProducts: List.of(),
     productGridPagingData: [],
+    
+    bufferPageView: 1, // new UI, số lượng page hiển thị ra được buffer thêm bao nhiêu
   });

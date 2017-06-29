@@ -31,7 +31,7 @@ export class PosDefaultSalesCheckoutStepComponent implements OnInit {
   }
   
   isStepPayment() {
-    return this.posStepState.checkoutStep === CheckoutStep.PAYMENT;
+    return this.posStepState.checkoutStep === CheckoutStep.PAYMENT || this.posStepState.checkoutStep === CheckoutStep.TAKE_PAYMENT;
   }
   
   isStepComplete() {

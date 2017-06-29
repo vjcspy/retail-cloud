@@ -16,7 +16,8 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   
   @Input() checkoutProductState: CheckoutProductState;
   
-  constructor(protected checkoutProductActions: CheckoutProductActions, protected quoteActions: PosQuoteActions) {}
+  constructor(protected checkoutProductActions: CheckoutProductActions,
+              protected quoteActions: PosQuoteActions) {}
   
   ngAfterViewInit(): void {
     this.onResize();
@@ -42,11 +43,17 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
     }
   }
   
-  isSales(product){
+  isSales(product) {
     return ProductHelper.isSales(product);
   }
   
-  isOutOfStock(product){
+  isOutOfStock(product) {
     return ProductHelper.isOutOfStock(product);
+  }
+  
+  loadMorePage() {
+    setTimeout(() => {
+      this.checkoutProductActions.loadMorePage();
+    }, 250);
   }
 }

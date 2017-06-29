@@ -38,6 +38,7 @@ import {QuoteCustomerService} from "./quote/customer/customer.service";
 import {RealtimeActions} from "./entities/realtime/realtime.actions";
 import {RealtimeEffects} from "./entities/realtime/realtime.effects";
 import {RealtimeService} from "./entities/realtime/realtime.service";
+import {EntityOrderActions} from "./entities/entity/order.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -71,6 +72,7 @@ export const R_POS_PROVIDERS = [
   RealtimeActions,
   RealtimeEffects,
   RealtimeService,
+  EntityOrderActions,
   
   PosQuoteService,
   PosQuoteEffects,
