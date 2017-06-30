@@ -16,6 +16,14 @@ export const checkoutProductCategoryReducer: ActionReducer<CheckoutProductStateR
     return state.set('productsStyles', calculateProductStyles(state));
   }
   
+  if (type === CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY) {
+    return state.set('currentCategory', action.payload['currentCategory']);
+  }
+  
+  if (type === CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST) {
+    return state.set('categoryList', action.payload['categoryList']);
+  }
+  
   return state;
 };
 

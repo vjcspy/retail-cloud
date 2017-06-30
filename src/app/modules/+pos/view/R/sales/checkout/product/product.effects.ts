@@ -6,6 +6,7 @@ import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
 import {GeneralMessage} from "../../../../../services/general/message";
 import {CheckoutProductService} from "./product.service";
 import {CheckoutProductActions} from "./product.actions";
+import {CheckoutProductCategoryActions} from "./category/category.actions";
 
 @Injectable()
 export class CheckoutProductEffects {
@@ -26,6 +27,7 @@ export class CheckoutProductEffects {
                                          CheckoutProductActions.ACTION_UPDATE_GRID_STATE,
                                          CheckoutProductActions.ACTION_LOAD_MORE_PAGE,
                                          CheckoutProductActions.ACTION_CHANGE_VIEW_MODE,
+                                         CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY
                                        )
                                        .debounceTime(150)
                                        .withLatestFrom(this.store$.select('checkoutProduct'))

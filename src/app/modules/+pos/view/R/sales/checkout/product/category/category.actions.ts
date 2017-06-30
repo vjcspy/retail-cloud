@@ -29,4 +29,28 @@ export class CheckoutProductCategoryActions {
     
     return action;
   }
+  
+  static ACTION_SELECT_CATEGORY = 'ACTION_SELECT_CATEGORY';
+  
+  selectCategory(currentCategory, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY, payload: {currentCategory}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_RESOLVED_CATEGORY_LIST = 'ACTION_RESOLVE_CATEGORY_LIST';
+  
+  resolvedCategoryList(categoryList, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST, payload: {categoryList}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

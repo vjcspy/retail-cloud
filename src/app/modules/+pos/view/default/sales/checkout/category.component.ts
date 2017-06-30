@@ -24,6 +24,37 @@ export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterVi
                                                              totalCategoryHeight: 143,
                                                              breadcrumbHeight: 35,
                                                            });
+    // setTimeout(() => {
+    //   jQuery(".slider")['slick']({
+    //
+    //                                // normal options...
+    //                                infinite: false,
+    //
+    //                                // the magic
+    //                                responsive: [{
+    //
+    //                                  breakpoint: 1024,
+    //                                  settings: {
+    //                                    slidesToShow: 3,
+    //                                    infinite: true
+    //                                  }
+    //
+    //                                }, {
+    //
+    //                                  breakpoint: 600,
+    //                                  settings: {
+    //                                    slidesToShow: 2,
+    //                                    dots: true
+    //                                  }
+    //
+    //                                }, {
+    //
+    //                                  breakpoint: 300,
+    //                                  settings: "unslick" // destroys slick
+    //
+    //                                }]
+    //                              });
+    // }, 1000);
   }
   
   private updateCategoryMode(isCategoryMode: boolean = true) {

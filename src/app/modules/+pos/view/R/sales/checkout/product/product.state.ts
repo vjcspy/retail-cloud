@@ -8,6 +8,7 @@ export interface CheckoutProductState {
   
   isGridMode: boolean;
   currentCategory: Object;
+  categoryList: List<any>;
   searchString: string;
   searchStringPattern: string;
   
@@ -37,6 +38,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     
     isGridMode: true,
     currentCategory: null,
+    categoryList: List.of(),
     searchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
     

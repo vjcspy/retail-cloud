@@ -8,44 +8,13 @@
       </a>
 
 
-      <ul>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
-            <span class="cat-name">clothings</span>
+      <ul class="slider">
+        <li *ngFor="let category of checkoutProductState.categoryList">
+          <a (click)="checkoutProductCategoryActions.selectCategory(category)">
+            <img src="{{category['image_url']? category['image_url'] :'assets/img/no-image1.png'}}">
+            <span class="cat-name">{{category['name']}}</span>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-            <span class="cat-name">Accessories<br/>Shoes</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/watch.png" alt="watchs">
-            <span class="cat-name">Watchs</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/leather-belts.png" alt="leather-belts">
-            <span class="cat-name">leather belts</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
-            <span class="cat-name">clothings</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-            <span class="cat-name">Accessories<br/>Shoes</span>
-          </a>
-        </li>
-
 
       </ul>
       <div class="navigation">
@@ -59,12 +28,9 @@
   </div>
 
   <div class="grid-product-top" #productBreadcrumb>
-    <ul class="breadcumb">
-      <li>
-        <a>All Fashion</a>
-      </li>
+    <ul class="breadcumb" *ngIf="!!checkoutProductState.currentCategory">
       <li class="current">
-        <span>Women</span>
+        <span>{{checkoutProductState.currentCategory['name']}}</span>
       </li>
     </ul>
     <div class="view-mode">
