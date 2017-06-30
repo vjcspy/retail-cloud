@@ -13,7 +13,7 @@ export class CheckoutProductCategoryEffects {
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
-              private checkoutProductCateogryActions: CheckoutProductCategoryActions) { }
+              private checkoutProductCategoryActions: CheckoutProductCategoryActions) { }
   
   @Effect() resolveCategory = this.actions$
                                   .ofType(
@@ -36,6 +36,18 @@ export class CheckoutProductCategoryEffects {
                                       categoryList = <any>categories.filter((c) => (parseInt(c['level']) === (parseInt(categories['level']) + 1)) && c['parent_id'] === categories['id']);
                                     }
     
-                                    return this.checkoutProductCateogryActions.resolvedCategoryList(categoryList, false);
+                                    return this.checkoutProductCategoryActions.resolvedCategoryList(categoryList, false);
                                   });
+  
+  @Effect() reCalculateHeightCategory = this.actions$
+                                            .ofType(
+                                              CheckoutProductCategoryActions.ACTION_TOGGLE_CATEGORY,
+                                              CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST,
+                                            )
+                                            .debounceTime(200)
+                                            .map(() => {
+                                              const totalCategoryHeight = jQuery('#product-category').height();
+    
+                                              return this.checkoutProductCategoryActions.saveCategoryHeight({totalCategoryHeight: totalCategoryHeight}, false);
+                                            });
 }

@@ -20,10 +20,6 @@ export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterVi
   ngOnInit() { }
   
   ngAfterViewInit(): void {
-    this.checkoutProductCategoryActions.saveCategoryHeight({
-                                                             totalCategoryHeight: 143,
-                                                             breadcrumbHeight: 35,
-                                                           });
     // setTimeout(() => {
     //   jQuery(".slider")['slick']({
     //

@@ -42,7 +42,7 @@ export class CheckoutProductCategoryActions {
     return action;
   }
   
-  static ACTION_RESOLVED_CATEGORY_LIST = 'ACTION_RESOLVE_CATEGORY_LIST';
+  static ACTION_RESOLVED_CATEGORY_LIST = 'ACTION_RESOLVED_CATEGORY_LIST';
   
   resolvedCategoryList(categoryList, dispatch: boolean = true): Action {
     const action = {type: CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST, payload: {categoryList}};

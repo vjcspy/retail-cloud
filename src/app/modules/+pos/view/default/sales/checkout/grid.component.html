@@ -16,8 +16,8 @@
   <div class="loading-img" *ngIf="(checkoutProductState.productGridCurrentPage + checkoutProductState.bufferPageView) < checkoutProductState.productGridTotalsPage">
     <img src="assets/img/loading.gif" alt="loading image">
   </div>
-  <div class="search-no-result"
-       *ngIf="checkoutProductState.productGridProducts.count() == 0">
+
+  <div class="search-no-result" *ngIf="checkoutProductState.productGridProducts.count() == 0">
     <h3>{{ 'THERE IS NO RESULTS FOR' | translate }}
       <span *ngIf="!!checkoutProductState.searchString || !!checkoutProductState.currentCategory">
         "{{checkoutProductState.searchString}}"

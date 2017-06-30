@@ -1,4 +1,5 @@
 <div class="list-product-inner" [ngStyle]="checkoutProductState.productsStyles" perfectScroll (scrollEnd)="loadMorePage()">
+
   <div class="list-mode">
     <div class="list-item">
       <ul class="items">
@@ -49,4 +50,18 @@
   <div class="loading-img" *ngIf="(checkoutProductState.productGridCurrentPage + checkoutProductState.bufferPageView) < checkoutProductState.productGridTotalsPage">
     <img src="assets/img/loading.gif" alt="loading image">
   </div>
+
+  <div class="search-no-result" *ngIf="checkoutProductState.productGridProducts.count() == 0">
+    <h3>{{ 'THERE IS NO RESULTS FOR' | translate }}
+      <span *ngIf="!!checkoutProductState.searchString || !!checkoutProductState.currentCategory">
+        "{{checkoutProductState.searchString}}"
+      </span>
+    </h3>
+    <p>
+      Please try a different
+      <span style="color: darkcyan;" class="click">search </span> or
+      <span style="color: darkcyan;" class="click">{{ 'category' | translate }}</span>
+    </p>
+  </div>
+
 </div>
