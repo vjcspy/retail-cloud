@@ -15,9 +15,9 @@
           Price
         </li>
       </ul>
-      <ul class="items" *ngFor="let product of checkoutProductState.productGridProducts">
+      <ul class="items" *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;">
         <div class="list-addcart" (click)="addToCart(product,$event)">
-          <a class="btn-detail" (click)="viewDetail()">
+          <a class="btn-detail" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)">
             View detail
           </a>
           <div class="btn-addcart">

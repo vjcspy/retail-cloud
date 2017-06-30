@@ -30,17 +30,13 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
     return product['id'];
   }
   
-  viewDetail() {
-    console.log("not implement");
-  }
-  
-  protected swipe(event: string) {
-    if (event === 'swipeleft') {
-      this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage + 1});
-    } else if (event === 'swiperight') {
-      this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage - 1});
-    }
-  }
+  // protected swipe(event: string) {
+  //   if (event === 'swipeleft') {
+  //     this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage + 1});
+  //   } else if (event === 'swiperight') {
+  //     this.checkoutProductActions.updateGridState({productGridCurrentPage: this.checkoutProductState.productGridCurrentPage - 1});
+  //   }
+  // }
   
   isSales(product) {
     return ProductHelper.isSales(product);

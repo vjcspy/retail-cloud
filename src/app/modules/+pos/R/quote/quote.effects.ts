@@ -85,7 +85,7 @@ export class PosQuoteEffects {
                                       case 'simple':
                                         if (!forceProductCustomOption) {
                                           // custom option
-                                          if (!_.isEmpty(product.customizable_options)) {
+                                          if (action.payload['showDetail'] === true || !_.isEmpty(product.customizable_options)) {
                                             return {
                                               type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                               payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}

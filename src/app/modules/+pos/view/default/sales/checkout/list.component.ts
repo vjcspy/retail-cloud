@@ -21,10 +21,6 @@ export class PosDefaultSalesCheckoutListComponent implements OnInit {
     return product['id'];
   }
   
-  viewDetail() {
-    console.log("not implement");
-  }
-  
   addToCart(product, $event) {
     const className = $event.target.className;
     if (!!className && className.indexOf('btn-detail') === -1) {
