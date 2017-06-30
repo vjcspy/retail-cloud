@@ -5,6 +5,7 @@ import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 import {CartCustomerActions} from "../../../R/sales/checkout/cart/customer.actions";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {CartActionBarActions} from "../../../R/sales/checkout/cart/action-bar.actions";
+import {PosSyncWishlistActions} from "../../../../R/sync/actions/wishlist.actions";
 
 @Component({
              // moduleId: module.id,
@@ -20,12 +21,13 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   
   constructor(protected cartCustomerActions: CartCustomerActions,
               public posQuoteActions: PosQuoteActions,
-              public cartActionBarActions: CartActionBarActions) {}
+              public cartActionBarActions: CartActionBarActions,
+              public posSyncWishlistActions: PosSyncWishlistActions) {}
   
   ngOnInit() { }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
-    if (target.className.indexOf('icon-more2') > -1 )
+    if (target.className.indexOf('icon-more2') > -1)
       return;
     
     if (this.actionsContainer && !this.actionsContainer.nativeElement.contains(target)) {

@@ -1,6 +1,7 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {cartActionBarFactory, CartActionBarRecord} from "./action-bar.state";
 import {CartActionBarActions} from "./action-bar.actions";
+import {PosSyncWishlistActions} from "../../../../../R/sync/actions/wishlist.actions";
 
 export const cartActionBarReducer: ActionReducer<CartActionBarRecord> = (state = cartActionBarFactory(), action: Action) => {
   switch (action.type) {
@@ -9,6 +10,9 @@ export const cartActionBarReducer: ActionReducer<CartActionBarRecord> = (state =
     
     case CartActionBarActions.ACTION_CHANGE_MODE_ACTIONS_POPUP:
       return state.set('isOpenActions', action.payload['isOpenActions']);
+    
+    case PosSyncWishlistActions.ACTION_PUSH_WISHLIST:
+      return state.set('isOpenActions', false);
     
     default:
       return state;

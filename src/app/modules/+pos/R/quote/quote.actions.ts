@@ -69,7 +69,7 @@ export class PosQuoteActions {
   
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
-  static ACTION_CLEAR_QUOTE        = 'ACTION_CLEAR_QUOTE';
+  
   
   constructor(private store$: Store<any>) {}
   
@@ -85,8 +85,16 @@ export class PosQuoteActions {
                          });
   }
   
-  clearQuote() {
-    this.store$.dispatch({type: PosQuoteActions.ACTION_CLEAR_QUOTE});
+  static ACTION_CLEAR_QUOTE = 'ACTION_CLEAR_QUOTE';
+  
+  clearQuote(dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_CLEAR_QUOTE, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
   
   editProductOptionBuyRequest(product: Product, buyRequest: DataObject) {
