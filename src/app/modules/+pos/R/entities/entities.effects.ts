@@ -139,17 +139,10 @@ export class PosEntitiesEffects {
     });
     _query += `&searchCriteria[pageSize]=${entity.pageSize}&searchCriteria[currentPage]=${entity.currentPage + 1}`;
     
-    switch (entity.entityCode) {
-      case ProductDB.getCode():
-      case CustomerDB.getCode():
-      case SettingDB.getCode():
-      case ShiftDB.getCode():
-      case OrderDB.getCode():
-        _query += "&searchCriteria[storeId]=" + generalState.store['id']
-                  + "&searchCriteria[outletId]=" + generalState.outlet['id']
-                  + "&searchCriteria[registerId]=" + generalState.register['id'];
-        break;
-      default:
+    if (!!generalState.store['id']) {
+      _query += "&searchCriteria[storeId]=" + generalState.store['id']
+                + "&searchCriteria[outletId]=" + generalState.outlet['id']
+                + "&searchCriteria[registerId]=" + generalState.register['id'];
     }
     return _query;
   }
