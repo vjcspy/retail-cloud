@@ -141,6 +141,39 @@
   clear: both;
 }
 
+@mixin close-arr($bg: #fff,$rotate:90deg ) {
+    width: 52px;
+    height: 20px;
+    border: $border solid 1px;    
+    display: inline-block;
+    position: absolute;
+    background: $bg;      
+    text-align: center;    
+    cursor: pointer;
+    @include hoz-pos;
+    &:before{
+      content: "\e91f";
+      @include rotate($rotate);
+      color: $gray;
+      font-size: 15px;
+      font-family: 'icomoon' ;
+      display: inline-block;
+      margin-top: 0px;
+    }     
+
+}  
+
+// gradient transparent, default: white
+@mixin gradient-trans($bkg-from: rgba(255,255,255,0), $bkg-to: rgba(255,255,255,1)){
+  background: -moz-linear-gradient(top, $bkg-from 0%, $bkg-to 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, $bkg-from), color-stop(100%, $bkg-to));
+  background: -webkit-linear-gradient(top, $bkg-from 0%, $bkg-to 100%);
+  background: -o-linear-gradient(top, $bkg-from 0%, $bkg-to 100%);
+  background: -ms-linear-gradient(top, $bkg-from 0%, $bkg-to 100%);
+  background: linear-gradient(to bottom, $bkg-from 0%, $bkg-to 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );
+}
+
 $w-tablet: 1366px;
 @mixin tablet {
   //@media only screen and (max-width: $w-tablet - 1) {@content;}

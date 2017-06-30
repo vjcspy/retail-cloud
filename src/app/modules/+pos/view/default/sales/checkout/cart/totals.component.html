@@ -1,4 +1,7 @@
 <div class="total-blk animated fadeIn" #totalsElement>
+<div class="btn-collapse">
+    <span class="close-arr"></span>
+</div>
   <div class="total-row has-popover hover">
     <div class="t-txt">
       <span class="click">{{ 'Subtotal' | translate }}</span>
@@ -28,7 +31,7 @@
     </div>
   </div>
   <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" [clickOutSide]="cartTotalsState.isOpeningPopupDiscount" (outside)="cartTotalsActions.changeDiscountPopupState($event)">
-    <div class="t-txt">
+    <div class="t-txt discount-txt">
       <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
         {{ 'Discount' | translate }}
       </span>
