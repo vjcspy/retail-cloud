@@ -1,6 +1,7 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface CartActionBarState {
+  isOpenActions: boolean;
   isOpeningNote: boolean;
 }
 
@@ -8,5 +9,6 @@ export interface CartActionBarRecord extends TypedRecord<any>, CartActionBarStat
 
 export const cartActionBarFactory = makeTypedFactory<CartActionBarState, CartActionBarRecord>(
   {
-    isOpeningNote: false
+    isOpenActions: false,
+    isOpeningNote: false,
   });

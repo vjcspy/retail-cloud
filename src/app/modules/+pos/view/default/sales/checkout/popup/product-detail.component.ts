@@ -44,4 +44,15 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
     }
     return this._attributes;
   }
+  
+  changeQty(isIncrease: boolean = true) {
+    const currentQty = this.productOptionsState.buyRequest.getData('qty');
+    if (isIncrease) {
+      this.productOptionsState.buyRequest.setData('qty', parseFloat(currentQty) + 1);
+    } else {
+      if (currentQty > 1) {
+        this.productOptionsState.buyRequest.setData('qty', parseFloat(currentQty) - 1);
+      }
+    }
+  }
 }

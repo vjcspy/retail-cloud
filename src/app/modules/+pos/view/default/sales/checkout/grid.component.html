@@ -1,85 +1,10 @@
-<!-- class is "cate-collapse" when close cateogry -->
-<div class="categories-list">
-  <div class="cateogries-inner">
-    <a class="back-cate"><!-- "last-cate" class when lastest categories -->
-      <i class="icon-back-btn"></i>Back
-      <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
-    </a>
-
-
-    <ul>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
-          <span class="cat-name">clothings</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-          <span class="cat-name">Accessories<br/>Shoes</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/watch.png" alt="watchs">
-          <span class="cat-name">Watchs</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/leather-belts.png" alt="leather-belts">
-          <span class="cat-name">leather belts</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/clothings.png" alt="clothings">
-          <span class="cat-name">clothings</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <img src="../../assets/img/categories-img/accessories-shoes.png" alt="accessories-shoes">
-          <span class="cat-name">Accessories<br/>Shoes</span>
-        </a>
-      </li>
-
-
-    </ul>
-    <div class="navigation">
-      <a class="icon-left-thin preview">Preview</a>
-      <a class="icon-left-thin next">Next</a>
-    </div>
-  </div>
-  <span class="cate-close">
-
-  </span>
-</div>
-<div class="grid-product-top">
-  <ul class="breadcumb">
-    <li>
-      <a>All Fashion</a>
-    </li>
-    <li class="current">
-      <span>Women</span>
-    </li>
-  </ul>
-  <div class="view-mode">
-    <label>View as:</label>
-    <a class="icon-grid current"></a>
-    <a class="icon-list"></a>
-  </div>
-</div>
-
-
-<div class="grid-product-inner" (window:resize)="onResize()" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
-  <div class="grid-mode" *ngIf="!checkoutProductState.isCategoryMode">
+<div class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
+  <div class="grid-mode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">
       <span class="tags sale" *ngIf="isSales(product)"><img src="assets/icon/sale-icon148x84.png" alt=""/></span>
       <span class="tags info" *ngIf="isOutOfStock(product)"><img src="assets/icon/info-icon80x80.png" alt=""/></span>
-      <span class="show-label" (click)="viewDetail(product)"><span>{{ 'View Details' | translate }}</span></span>
+      <span class="show-label" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)"><span>{{ 'View Details' | translate }}</span></span>
 
       <div class="inner" (click)="quoteActions.selectProductToAdd(product)">
         <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
@@ -91,8 +16,8 @@
   <div class="loading-img" *ngIf="(checkoutProductState.productGridCurrentPage + checkoutProductState.bufferPageView) < checkoutProductState.productGridTotalsPage">
     <img src="assets/img/loading.gif" alt="loading image">
   </div>
-  <div class="search-no-result"
-       *ngIf="checkoutProductState.productGridProducts.count() == 0 && !checkoutProductState.isCategoryMode">
+
+  <div class="search-no-result" *ngIf="checkoutProductState.productGridProducts.count() == 0">
     <h3>{{ 'THERE IS NO RESULTS FOR' | translate }}
       <span *ngIf="!!checkoutProductState.searchString || !!checkoutProductState.currentCategory">
         "{{checkoutProductState.searchString}}"

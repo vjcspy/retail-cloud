@@ -26,7 +26,7 @@ export class PosViewRouterEffects {
                                                                           // 'permission',
                                                                           'customerGroup',
                                                                           'customers',
-                                                                          // 'category',
+                                                                          'category',
                                                                           'products'
                                                                         ], false);
                                  });

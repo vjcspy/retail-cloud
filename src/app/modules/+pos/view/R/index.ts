@@ -53,10 +53,13 @@ import {OrderService} from "./sales/orders/order.service";
 import {OrderListAddPaymentActions} from "./sales/checkout/step/order-list-add-payment/add-payment.actions";
 import {OrderListAddPaymentService} from "./sales/checkout/step/order-list-add-payment/add-payment.service";
 import {OrderListAddPaymentEffects} from "./sales/checkout/step/order-list-add-payment/add-payment.effects";
+import {CheckoutProductCategoryActions} from "./sales/checkout/product/category/category.actions";
+import {CheckoutProductCategoryEffects} from "./sales/checkout/product/category/category.effects";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
   EffectsModule.run(CheckoutProductEffects),
+  EffectsModule.run(CheckoutProductCategoryEffects),
   EffectsModule.run(CartCustomEffects),
   EffectsModule.run(CartItemEffects),
   EffectsModule.run(ProductOptionsEffects),
@@ -70,6 +73,9 @@ export const R_POS_VIEW_IMPORTS = [
 export const R_POS_VIEW_PROVIDERS = [
   PosViewRouterEffects,
   
+  /*Product*/
+  CheckoutProductCategoryActions,
+  CheckoutProductCategoryEffects,
   CheckoutProductActions,
   CheckoutProductEffects,
   CheckoutProductService,

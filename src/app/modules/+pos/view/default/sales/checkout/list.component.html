@@ -1,7 +1,8 @@
-<div class="list-product-inner" perfectScroll >
+<div class="list-product-inner" [ngStyle]="checkoutProductState.productsStyles" perfectScroll (scrollEnd)="loadMorePage()">
+
   <div class="list-mode">
     <div class="list-item">
-      <ul class="items">        
+      <ul class="items">
         <li class="product-item">
           Product
         </li>
@@ -15,277 +16,52 @@
           Price
         </li>
       </ul>
-      <ul class="items">
-        <div class="list-addcart">
-          <a class="btn-detail">
-            View detail
-          </a>
-          <div class="btn-addcart">
-            <i class="icon-addcart"></i>
-            <span>Add to cart</span>
-          </div>          
-        </div>
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-      <div class="list-addcart">
-          <a class="btn-detail">
+      <ul class="items" *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;">
+        <div class="list-addcart" (click)="addToCart(product,$event)">
+          <a class="btn-detail" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)">
             View detail
           </a>
           <div class="btn-addcart">
             <i class="icon-addcart"></i>
             <span>Add to cart</span>
           </div>
-          
         </div>
         <li class="product-item">
           <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
+            <img src="{{product['origin_image']}}" alt="">
+          </div>
           <div class="product-name">
-              Wayfarer Messenger Bag
+            {{product['name']}}
           </div>
         </li>
         <li class="sku-item">
-         24-MB05
+          {{product['sku']}}
         </li>
         <li class="qty-item">
-          67.00
+          {{product['stock_items']['qty'] | number:'1.2-2'}}
         </li>
         <li class="price-item">
-          <span class="price">$150.00</span>
+          <span class="price">{{product['price'] | priceFormat:true}}</span>
         </li>
       </ul>
-      <ul class="items">
-      <div class="list-addcart">
-          <a class="btn-detail">
-            View detail
-          </a>
-          <div class="btn-addcart">
-            <i class="icon-addcart"></i>
-            <span>Add to cart</span>
-          </div>
-          
-        </div>
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <div class="list-addcart">
-          <a class="btn-detail">
-            View detail
-          </a>
-          <div class="btn-addcart">
-            <i class="icon-addcart"></i>
-            <span>Add to cart</span>
-          </div>
-          
-        </div>
-
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          <span class="zero">00.00</span>
-        </li>
-        <li class="price-item">
-          <span class="spec-price">$30.00</span>
-          <span class="old-price">$150.00</span>
-        </li>
-      </ul>
-      <ul class="items">
-        <li class="product-item">
-          <div class="product-img">
-              <img src="http://mage2.dev/pub/media/catalog/product/w/b/wb02-green-0.jpg" alt="" >
-          </div>        
-          <div class="product-name">
-              Wayfarer Messenger Bag
-          </div>
-        </li>
-        <li class="sku-item">
-         24-MB05
-        </li>
-        <li class="qty-item">
-          67.00
-        </li>
-        <li class="price-item">
-          <span class="price">$150.00</span>
-        </li>
-      </ul>
-
     </div>
-      
   </div>
+
+  <div class="loading-img" *ngIf="(checkoutProductState.productGridCurrentPage + checkoutProductState.bufferPageView) < checkoutProductState.productGridTotalsPage">
+    <img src="assets/img/loading.gif" alt="loading image">
+  </div>
+
+  <div class="search-no-result" *ngIf="checkoutProductState.productGridProducts.count() == 0">
+    <h3>{{ 'THERE IS NO RESULTS FOR' | translate }}
+      <span *ngIf="!!checkoutProductState.searchString || !!checkoutProductState.currentCategory">
+        "{{checkoutProductState.searchString}}"
+      </span>
+    </h3>
+    <p>
+      Please try a different
+      <span style="color: darkcyan;" class="click">search </span> or
+      <span style="color: darkcyan;" class="click">{{ 'category' | translate }}</span>
+    </p>
+  </div>
+
 </div>

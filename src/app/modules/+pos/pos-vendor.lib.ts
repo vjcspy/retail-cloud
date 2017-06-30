@@ -29,3 +29,6 @@ import "select2/dist/js/select2.full.js";
 
 // full screen
 import "screenfull/dist/screenfull.js";
+
+// slick
+import "slick-carousel/slick/slick.min.js";

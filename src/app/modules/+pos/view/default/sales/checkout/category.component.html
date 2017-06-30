@@ -1,0 +1,42 @@
+<div class="product-category" id="product-category" #productCategory>
+  <div class="categories-list" [ngClass]="{'cate-collapse': !checkoutProductState.isCategoryMode}">
+
+    <div class="cateogries-inner">
+      <a class="back-cate"><!-- "last-cate" class when lastest categories -->
+        <i class="icon-back-btn"></i>Back
+        <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
+      </a>
+
+
+      <ul class="slider">
+        <li *ngFor="let category of checkoutProductState.categoryList">
+          <a (click)="checkoutProductCategoryActions.selectCategory(category)">
+            <img src="{{category['image_url']? category['image_url'] :'assets/img/no-image1.png'}}">
+            <span class="cat-name">{{category['name']}}</span>
+          </a>
+        </li>
+
+      </ul>
+      <div class="navigation">
+        <a class="icon-left-thin preview">Preview</a>
+        <a class="icon-left-thin next">Next</a>
+      </div>
+    </div>
+
+    <span class="cate-close" (click)="toggleCategoryMode()"></span>
+
+  </div>
+
+  <div class="grid-product-top" #productBreadcrumb>
+    <ul class="breadcumb" *ngIf="!!checkoutProductState.currentCategory">
+      <li class="current">
+        <span>{{checkoutProductState.currentCategory['name']}}</span>
+      </li>
+    </ul>
+    <div class="view-mode">
+      <label>View as:</label>
+      <a class="icon-grid" [ngClass]="{current: checkoutProductState.isGridMode}" (click)="changeViewMode()"></a>
+      <a class="icon-list" [ngClass]="{current: !checkoutProductState.isGridMode}" (click)="changeViewMode(false)"></a>
+    </div>
+  </div>
+</div>

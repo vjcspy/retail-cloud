@@ -9,8 +9,6 @@ import {DataObject} from "../../core/framework/General/DataObject";
 @Injectable()
 export class PosQuoteActions {
   
-  // when user select product to add
-  static ACTION_SELECT_PRODUCT_TO_ADD         = 'ACTION_SELECT_PRODUCT_TO_ADD';
   // push item buy request
   static ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE = 'ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE';
   // when product has options, we will wait options has been selected
@@ -50,7 +48,8 @@ export class PosQuoteActions {
   
   setCustomerToQuote(customerEntity: Customer | CustomerDB, dispatch: boolean = false): Action {
     let customer = new Customer();
-    if (customerEntity instanceof CustomerDB) {1
+    if (customerEntity instanceof CustomerDB) {
+      1
       Object.assign(customer, customerEntity);
       customer.mapWithParent();
     } else {
@@ -70,20 +69,32 @@ export class PosQuoteActions {
   
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
-  static ACTION_CLEAR_QUOTE        = 'ACTION_CLEAR_QUOTE';
+  
   
   constructor(private store$: Store<any>) {}
   
+  static ACTION_SELECT_PRODUCT_TO_ADD = 'ACTION_SELECT_PRODUCT_TO_ADD';
   
-  selectProductToAdd(productEntity: Product | ProductDB, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null) {
+  selectProductToAdd(productEntity: Product, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null, showDetail: boolean = false) {
     let product = new Product();
     product.mapWithParent(productEntity);
     
-    this.store$.dispatch({type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD, payload: {product, qty, forceProductCustomOptions, config}});
+    this.store$.dispatch({
+                           type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD,
+                           payload: {product, qty, forceProductCustomOptions, config, showDetail}
+                         });
   }
   
-  clearQuote() {
-    this.store$.dispatch({type: PosQuoteActions.ACTION_CLEAR_QUOTE});
+  static ACTION_CLEAR_QUOTE = 'ACTION_CLEAR_QUOTE';
+  
+  clearQuote(dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_CLEAR_QUOTE, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
   
   editProductOptionBuyRequest(product: Product, buyRequest: DataObject) {

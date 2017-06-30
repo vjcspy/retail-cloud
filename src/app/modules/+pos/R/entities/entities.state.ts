@@ -13,10 +13,11 @@ import {TaxClassDB} from "../../database/xretail/db/tax-class";
 import {ShiftDB} from "../../database/xretail/db/shift";
 import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
 import {OrderDB} from "../../database/xretail/db/order";
+import {CategoryDB} from "../../database/xretail/db/category";
 
 export interface PosEntitiesState {
   products?: EntityRecord;
-  categories?: EntityRecord;
+  category?: EntityRecord;
   customers?: EntityRecord;
   taxes?: EntityRecord;
   orders?: EntityRecord;
@@ -82,6 +83,18 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                            propertyFilter: {},
                            needRealTime: true
                          }),
+    category: entityFactory({
+                              entityCode: CategoryDB.getCode(),
+                              currentPage: 0,
+                              pageSize: 100,
+                              items: List.of(),
+                              apiUrlCode: CategoryDB.getCode(),
+                              isFinished: false,
+                              isDependStore: true,
+                              query: "",
+                              propertyFilter: {},
+                              needRealTime: false
+                            }),
     outlet: outletEntityFactory(),
     payment: entityFactory({
                              entityCode: PaymentDB.getCode(),

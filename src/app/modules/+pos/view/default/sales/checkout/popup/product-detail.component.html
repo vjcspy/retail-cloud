@@ -47,8 +47,8 @@
                   <li *ngIf="productOptionsState.product.getTypeId()!='grouped'">
                     <label>{{ 'Quantity' | translate }}</label>
                     <div class="quantity-blk">
-                      <span class="icon-minus" [ngClass]="{disable: productOptionsState.buyRequest.getData('qty') <= 1}"></span>
-                      <span class="icon-plus"></span>
+                      <span class="icon-minus" [ngClass]="{disable: productOptionsState.buyRequest.getData('qty') <= 1}" (click)="changeQty(false)"></span>
+                      <span class="icon-plus" (click)="changeQty()"></span>
                       <input [value]="productOptionsState.buyRequest.getData('qty')" type="text" name="qty">
                     </div>
                   </li>

@@ -3,8 +3,12 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface CheckoutProductState {
   isCategoryMode: boolean;
+  categoryHeight: Object;
+  productsStyles: Object;
+  
   isGridMode: boolean;
   currentCategory: Object;
+  categoryList: List<any>;
   searchString: string;
   searchStringPattern: string;
   
@@ -25,9 +29,16 @@ export interface CheckoutProductStateRecord extends TypedRecord<any>, CheckoutPr
 
 export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState, CheckoutProductStateRecord>(
   {
-    isCategoryMode: false,
+    isCategoryMode: true,
+    categoryHeight: {
+      totalCategoryHeight: 0,
+      breadcrumbHeight: 0
+    },
+    productsStyles: {},
+    
     isGridMode: true,
     currentCategory: null,
+    categoryList: List.of(),
     searchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
     
@@ -36,7 +47,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     productGridHeight: null,
     productGridWidth: null,
     productGridCurrentPage: 1,
-    productGridNumOfProductPerPage: 50,
+    productGridNumOfProductPerPage: 20,
     productGridStyleValue: {
       marginProductLeftRight: 10, // totals margin left and right each product image
       marginProductTop: 10, // margin top each product image
