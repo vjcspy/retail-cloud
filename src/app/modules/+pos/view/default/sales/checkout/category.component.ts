@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {CheckoutProductCategoryActions} from "../../../R/sales/checkout/product/category/category.actions";
+import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 
 @Component({
              // moduleId: module.id,
@@ -14,7 +15,7 @@ export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterVi
   
   @Input() checkoutProductState: CheckoutProductState;
   
-  constructor(protected checkoutProductCategoryActions: CheckoutProductCategoryActions) { }
+  constructor(protected checkoutProductCategoryActions: CheckoutProductCategoryActions, protected checkoutProductActions: CheckoutProductActions) { }
   
   ngOnInit() { }
   
@@ -46,5 +47,11 @@ export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterVi
   @HostListener('window:resize', ['$event'])
   onResize($event) {
     this.saveCategoryHeight();
+  }
+  
+  changeViewMode(isGridMode: boolean = true) {
+    if (isGridMode !== this.checkoutProductState.isGridMode) {
+      this.checkoutProductActions.changeViewMode(isGridMode);
+    }
   }
 }

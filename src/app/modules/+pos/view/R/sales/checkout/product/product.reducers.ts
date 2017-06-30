@@ -3,7 +3,6 @@ import {checkoutProductStateFactory, CheckoutProductStateRecord} from "./product
 import {CheckoutProductActions} from "./product.actions";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from 'lodash';
-import {stat} from "fs";
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {checkoutProductCategoryReducer} from "./category/category.reducer";
 
@@ -140,6 +139,10 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
       } else {
         return state;
       }
+    
+    case CheckoutProductActions.ACTION_CHANGE_VIEW_MODE:
+      return state.set('isGridMode', action.payload['isGridMode'])
+                  .set('productGridCurrentPage', 1);
     
     default:
       return state;

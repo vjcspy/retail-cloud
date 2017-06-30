@@ -1,4 +1,4 @@
-<div class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
+<div class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
   <div class="grid-mode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">

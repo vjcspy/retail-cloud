@@ -50,4 +50,16 @@ export class CheckoutProductActions {
     
     return action;
   }
+  
+  static ACTION_CHANGE_VIEW_MODE = 'ACTION_CHANGE_VIEW_MODE';
+  
+  changeViewMode(isGridMode: boolean, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductActions.ACTION_CHANGE_VIEW_MODE, payload: {isGridMode}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

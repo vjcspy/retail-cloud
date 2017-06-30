@@ -69,8 +69,8 @@
     </ul>
     <div class="view-mode">
       <label>View as:</label>
-      <a class="icon-grid current"></a>
-      <a class="icon-list"></a>
+      <a class="icon-grid" [ngClass]="{current: checkoutProductState.isGridMode}" (click)="changeViewMode()"></a>
+      <a class="icon-list" [ngClass]="{current: !checkoutProductState.isGridMode}" (click)="changeViewMode(false)"></a>
     </div>
   </div>
 </div>

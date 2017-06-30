@@ -30,7 +30,7 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
     return product['id'];
   }
   
-  protected viewDetail() {
+  viewDetail() {
     console.log("not implement");
   }
   
@@ -53,7 +53,7 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   loadMorePage() {
     setTimeout(() => {
       this.checkoutProductActions.loadMorePage();
-    }, 100);
+    }, 50);
   }
   
   @HostListener('window:resize', ['$event'])
