@@ -1,11 +1,11 @@
 <div class="grid-product">
   <pos-default-sales-checkout-top-bar [checkoutProductState]="checkoutProductState$ | async" [configState]="configState$ | async"></pos-default-sales-checkout-top-bar>
 
+  <pos-default-sales-checkout-category [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-category>
+
   <pos-default-sales-checkout-grid [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-grid>
 
   <pos-default-sales-checkout-list></pos-default-sales-checkout-list>
-
-
 
 </div>
 <div class="cart-product">

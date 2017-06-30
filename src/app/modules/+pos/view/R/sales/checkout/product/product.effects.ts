@@ -14,7 +14,6 @@ export class CheckoutProductEffects {
   
   @Effect() triggerCalculateGridStyle = this.actions$
                                             .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
-                                            .debounceTime(100)
                                             .switchMap(() => {
                                               return Observable.of({type: CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE})
                                                                .debounceTime(750);
@@ -27,6 +26,7 @@ export class CheckoutProductEffects {
                                          CheckoutProductActions.ACTION_UPDATE_GRID_STATE,
                                          CheckoutProductActions.ACTION_LOAD_MORE_PAGE
                                        )
+                                       .debounceTime(150)
                                        .withLatestFrom(this.store$.select('checkoutProduct'))
                                        .withLatestFrom(this.store$.select('entities'),
                                                        ([action, checkoutProductState], entitiesState) => [action,

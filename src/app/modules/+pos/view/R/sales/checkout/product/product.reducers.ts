@@ -4,8 +4,10 @@ import {CheckoutProductActions} from "./product.actions";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from 'lodash';
 import {stat} from "fs";
+import {mergeSliceReducers} from "../../../../../../../R/index";
+import {checkoutProductCategoryReducer} from "./category/category.reducer";
 
-export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord = checkoutProductStateFactory(), action: Action) => {
+const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
     case CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
       let baseWidthProductGrid: number;
@@ -143,3 +145,5 @@ export const checkoutProductReducer: ActionReducer<CheckoutProductStateRecord> =
       return state;
   }
 };
+
+export const checkoutProductReducer = mergeSliceReducers(checkoutProductStateFactory(), checkoutProductMainReducer, checkoutProductCategoryReducer);
