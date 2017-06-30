@@ -7,6 +7,9 @@ export const cartActionBarReducer: ActionReducer<CartActionBarRecord> = (state =
     case CartActionBarActions.CHANGE_STATE_NOTE_POPUP:
       return state.set('isOpeningNote', action.payload['state']);
     
+    case CartActionBarActions.ACTION_CHANGE_MODE_ACTIONS_POPUP:
+      return state.set('isOpenActions', action.payload['isOpenActions']);
+    
     default:
       return state;
   }
