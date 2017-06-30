@@ -992,7 +992,7 @@ textarea[readonly="readonly"] {
     margin-top: 20px;
     li {
         font-family: $boldFont;
-        font-size: 15px; color: #666;
+        font-size: 15px; color: $gray40;
         text-transform: uppercase;         
         padding: 18px 35px;
         position: relative;
@@ -1268,11 +1268,11 @@ textarea[readonly="readonly"] {
   @include border-radius(6px);
   @include single-transition(all,.3s);
   @include clearfix;
-  &:hover {background: $cblueDark;}
+  &:hover {background: $cgreen2;}
   .value {
     float: left;
     width: 150px;
-    opacity: .5;
+    opacity: .8;
     margin-top: 6px;
     text-align: left;
   }
@@ -1370,43 +1370,79 @@ textarea[readonly="readonly"] {
       cursor: pointer;
       @include clearfix;
       @include single-transition(all,.3s);
-      .c-num {
-        @extend .count-num; color: $disTxt;
-      }
-      .c-num, .click[class^="icon-"] {
+      
+      .click[class^="icon-"] {
         float: left; margin: 2px 16px 0 0;
         width: 41px; height: 41px; line-height: 39px;
         background: transparent;
       }
-      .c-num, .c-price .regular-pr, .refund-pr, .c-name .product-name {
+      .c-price .regular-pr,.c-price .spec-pr, .refund-pr, .c-name .product-name{
         font-family: $boldFont; font-size: 15px;
       }
+      .c-img{
+        width: 44px;
+        height: 44px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $white;
+        border-radius: 5px;
+        border: 1px solid $border;
+        padding: 1px; 
+        float: left;
+        margin-right: 15px;       
+      }
+      .c-num {
+        background: $corange;
+        border-radius: 20px;
+        color: $white;
+        font-size: 12px;
+        font-family: $mainFont;
+        position: absolute;
+        left: 56px;
+        top: 3px;
+        padding: 1px 6px;
+
+      }
+
       .c-price {
         float: right; text-align: right; margin-left: 10px;
         span {display: block; margin-bottom: 4px;}
-        .regular-pr {color: $cgreen;}
+        .regular-pr, .spec-pr {color: $cgreen;}
+        .old-pr {color: #999;}
         .refund-pr {color: $cred2;}
         .old-pr {text-decoration: line-through;}
       }
       .c-name {
         overflow: hidden;
-        font-size: 14px;
+        font-size: 15px;
+        padding-top: 5px;              
         .product-name, p {margin: 0}
         .product-name {
-          color: $mainTxt; text-transform: uppercase;
-          margin-bottom: 4px;
+          color: $gray40;
+          white-space: nowrap;
+          text-overflow: ellipsis;  
+          overflow: hidden;
+          
+        }
+        .p-product-name{
+          font-size: 13px;
         }
       }
+
       .delete-btn {
         position: absolute; opacity: 0;
         @include ver-pos; right: 13px;
         z-index: -1;
-        background: #FEE3E3;
-        width: 34px; height: 34px;
-        text-align: center; line-height: 34px;
+        background: #dcdcdc;
+        width: 26px; height: 26px;
+        text-align: center; line-height: 26px;
         @include border-radius(4px);
         [class^="icon-"] {
-          position: relative; top: 2px;
+          position: relative; top:0;
+          font-size: 14px;
+          color: #fc636b;
         }
         &.disabled {background: $grayLight;}
       }
@@ -1457,24 +1493,62 @@ textarea[readonly="readonly"] {
         margin: 0;
         text-align: center;
         padding: 7px 0 9px;
-        border-top: #CCC solid 1px;
+        border-top: #ddd solid 1px;
         .click {
           font-size: 13px;
-          color: $cblueLight;
+          color: #fc636b;
+          font-family: $mediumFont;
+          text-transform: uppercase;
         }
       }
       .fr-control {
         margin-bottom: -32px;
         li {
-          margin-bottom: 32px; padding-left: 76px;
-          &:nth-of-type(odd) {float: left; width: 37.0614%;}
-          &:nth-of-type(even) {float: right; width: 52.6315%; clear: right;}
+          margin-bottom:15px; padding-left: 76px;
+          &:nth-of-type(odd) {float: left; width: 42%;}
+          &:nth-of-type(even) {float: right; width: 52%; clear: right;}
+          &.discount-field{
+            display: flex;
+            align-items: center;
+            input[type="text"]{
+              width:calc(100% - 85px);
+              margin-right: 5px;
+
+            }
+            .dis-type{
+              display: flex;
+              align-items: center;
+              span.click{
+                background: #ccc;
+                width: 40px;
+                height: 38px;
+                font-size: 19px;
+                font-family: $boldFont;
+                color: $white;
+                display: inline-block;
+                line-height: 38px;
+                text-align: center;
+                &:first-of-type{
+                  border-radius: 4px 0 0 4px;
+                }
+                &:last-of-type{
+                  border-radius: 0 4px 4px 0;
+                }
+                &.currency{
+                  background: $cgreen2;
+                }
+              }
+            }
+          }
         }
         label {
           width: 76px;
           font-size: 15px;
           max-height: 38px;
-          span {display: inline; font-family: $boldFont;}
+          font-family: $mainFont;
+          font-weight: normal;
+          color: $gray40;
+          span {display: inline; }
         }
         input:not([type]),
         input[type="text"],
@@ -1508,12 +1582,16 @@ textarea[readonly="readonly"] {
       }
     }
     &.active {
-      .cart-head, .cart-content {background: #ECEBEB;}
-      .cart-head {border-bottom-color: #CCC;}
+      .cart-head{
+        background: #ecebeb;
+        border-bottom-color: #dddddd;
+      }
+      .cart-content {
+        background: #e6e6e6;
+      }      
       .cart-content {max-height: 7000px;}
     }
   }
-  .currency {color: $cgreen!important;}
   .c-search {
     padding: 24px $hozSpace 18px;
     input[type="text"],
@@ -1534,13 +1612,17 @@ textarea[readonly="readonly"] {
     }
   }
 }
+
 .cart-table {
+  height: calc(100% - 116px);
+  position: relative;
+  background: $white;  
   .cart-row {
     .cart-head {
-      padding-right: 175px;
+      padding-right: 145px;
       .c-price {
         position: absolute;
-        @include ver-pos; right: 58px;
+        @include ver-pos; right: 50px;
         margin: 2px 0 0;
       }
     }
@@ -1554,18 +1636,45 @@ textarea[readonly="readonly"] {
     }
   }
 }
+.cart-items-comp
+{
+  position: relative; 
+  z-index: 1;
+}
 
 .total-blk {
-  padding: 40px $hozlSpace 15px $hozmSpace;
+  padding: 20px $hozlSpace 0 20px;
+  color: $gray40;
+  .btn-collapse{     
+    height: 20px;
+    position: absolute;
+    width: 100%;
+    top: -20px;
+    left: 0;  
+    border-bottom: $border solid 1px;  
+    @include gradient-trans();
+
+    .close-arr{
+      @include close-arr(#F5F5F5,270deg);
+      border-radius: 4px 4px 0 0;
+      border-bottom: none;
+      padding-top: 2px;      
+    }
+  }
+  
   .total-row {
     position: relative;
-    font-family: $mediumFont;
-    font-size: 16px;
-    padding-bottom: 20px;
+    font-family:$boldFont;
+    font-size: 15px;
+    padding-bottom: 13px;
     @include clearfix;
     p {margin: 0;}
     .t-value, .t-txt {
       float: left; margin: 0; width: 50%;
+    }
+    .discount-txt{
+      color:$gray60;
+      text-decoration: underline; 
     }
     .t-value {text-align: right;}
     &.has-popover {
@@ -1658,6 +1767,18 @@ textarea[readonly="readonly"] {
       padding-bottom: 16px;
       &:last-child {padding-bottom: 21px;}
     }
+  }
+}
+
+.cart-totals-comp{
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  background: $cbkg;
+  bottom: 0;
+  &.cart-totals-collapse{
+    background: #e6e6e6;
+    
   }
 }
 
@@ -4177,7 +4298,8 @@ h2.p-head {padding: 18px 20px;}
     }
   }
   .total-blk {
-    padding-right: $hozmSpace;
+    padding-right:50px;
+    position: relative;
     .total-head, .total-content {padding-right: $hozmSpace;}
   }
 }

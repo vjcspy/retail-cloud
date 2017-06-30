@@ -1,8 +1,8 @@
-<div class="cart-table" style="min-height: 600px" [ngStyle]="cartItemState.cartItemsStyle" *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
+<div class="cart-table" perfectScroll [ngStyle]="cartItemState.cartItemsStyle" *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
   <div class="customer-row" *ngIf="!!quoteState.customer && !!quoteState.customer['id']">
-    <div class="customer-head">
+    <div class="customer-head">      
       <span class="icon-user click"></span>
-      <span class="delete-btn"><span class="icon-close"></span></span>
+      <span class="delete-btn"><span class="icon-close-thin2"></span></span>
       <div class="c-name">
         <span class="c-user">{{quoteState.customer['first_name'] +" "+ quoteState.customer['last_name']}}</span>
         <span class="c-mail">{{quoteState.customer['email']}}</span>
@@ -16,6 +16,9 @@
 
   <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
     <div class="cart-head">
+      <div class="c-img">
+        <img src="/assets/img/no-image.jpg" alt="no-image" />
+      </div>
       <div class="c-num"
            *ngIf="item.getProduct()['stock_items'] && item.getProduct()['stock_items']['is_qty_decimal'] == '1' && !numberHelper.isInteger(item.getQty())">
         {{item.getQty() | number : '1.2-2'}}
@@ -36,7 +39,7 @@
                         {{(item.getOriginalPrice() * item.getQty()) | priceFormat}}
                     </span>
       </div>
-      <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close"></span></span>
+      <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close-thin2"></span></span>
       <div class="c-name" *ngIf="!item.getData('buy_request')['custom_sale']">
         <h3 class="product-name">{{item.getProduct().getData('name')}}</h3>
         <p class="p-product-name">{{getSKU(item)}}</p>
@@ -68,19 +71,21 @@
                    (blur)="updateItemBuyRequest($event,item,'add_split_item')"
                    type="text">
           </li>
-          <li>
+          <li class="discount-field"> 
             <label>
-              {{ 'Discount' | translate }}
-              <span class="click"
-                    [ngClass]="{currency: !item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item,false)">%</span>
-              |
-              <span class="click"
-                    [ngClass]="{currency: item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item)">$</span>
-            </label>
+              {{ 'Discount' | translate }}              
+            </label>           
             <input inputSelectText
                    value="{{(item.getData('buy_request').getData('is_discount_value')? (item.getData('buy_request').getData('discount_per_item') || 0) : (item.getData('buy_request').getData('retail_discount_per_items_percent')|| 0))  |  number : '1.2-2'}}"
                    (blur)="updateItemBuyRequest($event,item,'discount_per_item')"
                    type="text">
+             
+            <div class="dis-type">
+              <span class="click"
+                    [ngClass]="{currency: !item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item,false)">%</span>
+              <span class="click"
+                    [ngClass]="{currency: item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item)">$</span>
+            </div>
           </li>
         </ul>
       </div>

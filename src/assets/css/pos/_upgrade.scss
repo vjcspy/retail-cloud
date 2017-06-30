@@ -5,7 +5,7 @@
   margin-bottom: 15px;
   border-bottom: $border solid 1px;
   background: $white;
-  .cateogries-inner{
+  .cateogries-inner{  
     @include clearfix;
     padding: 13px 20px;
     display: flex;
@@ -37,13 +37,13 @@
     }
     [class*="icon-"]{
       font-size: 0;
-     &:hover{
+     &:hover{    
       @include single-transition(all,.3s);
       cursor: pointer;
      }
       &:before{
         font-size: 20px;
-      }
+      }  
     }
     .back-cate{
       background: $gray1;
@@ -53,7 +53,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      padding: 0;  
       position: relative;
       cursor: pointer;
       font-size: 0;
@@ -82,7 +82,7 @@
           margin-right: 8px;
         }
       }
-
+     
     }
 
     .navigation{
@@ -94,7 +94,7 @@
       height: 100%;
       .icon-left-thin{
         display: inline-block;
-        padding: 12px 13px;
+        padding: 12px 13px;  
         cursor: pointer;
         &:before{
           color: $cgreen;
@@ -102,34 +102,16 @@
         &:hover{
         background: rgba(206,206,206,.7);
       }
-
+      
       }
-
-    }
+      
+    }  
   }
-  .cate-close {
-    width: 52px;
-    height: 20px;
-    border: $border solid 1px;
-    border-top: none;
-    display: inline-block;
-    position: absolute;
-    bottom: -20px;
-    background: $white;
+  .cate-close
+  {
+    @include close-arr();
     border-radius: 0 0 4px 4px;
-    text-align: center;
-    cursor: pointer;
-    @include hoz-pos;
-    &:before{
-      content: "\e91f";
-      @include rotate(90deg);
-      color: $gray;
-      font-size: 15px;
-      font-family: 'icomoon' ;
-      display: inline-block;
-      margin-top: 0px;
-
-    }
+    border-top: none;
   }
   &.cate-collapse{
     background: #e6e6e6;
@@ -145,15 +127,18 @@
     }
 
   }
+
 }
+  
+  
 .breadcumb{
-  @include clearfix;
+  @include clearfix; 
   li{
     float: left;
     font-size: 13px;
     padding-right: 10px;
     a{
-      color: $grayDark;
+      color: $grayDark;      
     }
     &:after{
       content: "/";
@@ -170,15 +155,18 @@
     }
   }
 }
-
+.grid-product-inner{
+   padding-right: 10px;
+}
 .grid-product-inner,
-.list-product-inner{
+.list-product-inner{  
   overflow: hidden;
   position: relative;
+ 
 }
 .view-mode{
-    display: flex;
-    align-items: center;
+    display: flex;      
+    align-items: center;  
     [class*="icon-"]{
       cursor: pointer;
       font-size: 27px;
@@ -187,7 +175,7 @@
       &:hover,&:focus,&:active,&.current{
         color: #189188;
       }
-
+      
     }
     .icon-list{
       font-size: 20px;
@@ -216,7 +204,7 @@
   text-align: center;
   padding: 50px 20px;
   img{
-    width: 33px;
+    width: 33px;    
   }
 }
 
@@ -306,7 +294,7 @@
       }
       // first items
       &:first-of-type li{
-        color:#666; 
+        color:$gray40; 
         font-family: $boldFont;
         font-size: 13px;
         text-transform: uppercase;
@@ -400,12 +388,12 @@
       .btn-delete{
         float: left;
         width:58px;
-        background: none;
+        background: none;        
         @include single-transition(all,.3s);
         i{
-          font-size: 25px;
-          color: $text-gray;
-          @include single-transition(all,.3s);
+          font-size: 25px;  
+          color: $text-gray;  
+          @include single-transition(all,.3s);      
         }
         &:hover{
           background: $corange;
@@ -441,7 +429,7 @@
           justify-content: center;
           cursor: pointer;
           @include single-transition(all,.3s);
-          &:focus, &:hover{
+          &:focus, &:hover{            
             color: $cgreen2;
           }
 
@@ -470,10 +458,10 @@
           li{
             padding: 0 20px;
             a{
-              font-size: 14px;
+              font-size: 14px; 
               font-family: $mediumFont;
               border-bottom: 1px solid $gray1;
-              padding: 12px 0;
+              padding: 12px 0;              
               display: block;
               color: $text-gray;
               display: flex;
