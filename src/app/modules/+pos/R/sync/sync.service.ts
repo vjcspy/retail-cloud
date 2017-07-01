@@ -124,7 +124,14 @@ export class PosSyncService {
     orderOffline['retail_status'] = this.getRetailStatus(quote);
     
     // init item data for order detail
-    _.forEach(quote.getShippingAddress().getItems(), (item: Item) => {
+    orderOffline ['items'] = this.prepareOrderItem(quote.getShippingAddress().getItems());
+    
+    return orderOffline;
+  }
+  
+  prepareOrderItem(quoteItems: Item[]) {
+    let items = [];
+    _.forEach(quoteItems, (item: Item) => {
       if (item.getParentItem()) {
         return true;
       }
@@ -135,10 +142,10 @@ export class PosSyncService {
           _item['children'].push(this.initItemData(child));
         });
       }
-      orderOffline ['items'].push(_item);
+      items.push(_item);
     });
     
-    return orderOffline;
+    return items;
   }
   
   syncOrderOnline(orderData: Object, generalState: PosGeneralState): Observable<any> {
