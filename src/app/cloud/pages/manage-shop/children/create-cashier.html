@@ -53,6 +53,24 @@
                 </div>
               </div>
             </div>
+              <div class="form-group" *ngIf="!id">
+                  <div class="col-sm-9">
+                      <div class="form-material">
+                          <input class="form-control" type="password" id="password" name="password" [(ngModel)]="_data['password']"
+                                 placeholder="Enter your password..">
+                          <label for="password">Password</label>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-group" *ngIf="!id">
+                  <div class="col-sm-9">
+                      <div class="form-material">
+                          <input class="form-control" type="password" id="confirm_password" name="confirm_password" [(ngModel)]="_data['confirm_password']"
+                                 placeholder="Confirm password..">
+                          <label for="confirm_password">Confirm Password</label>
+                      </div>
+                  </div>
+              </div>
             <div class="form-group">
               <div class="col-sm-9">
                 <div class="form-material">

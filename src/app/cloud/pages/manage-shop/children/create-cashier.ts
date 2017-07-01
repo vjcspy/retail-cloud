@@ -167,16 +167,41 @@ export class CreateCashierComponent extends AbstractRxComponent implements OnIni
                                                        required: true,
                                                        minlength: 1
                                                      },
+                                                     'password': {
+                                                       required: true,
+                                                       minlength: 8
+                                                     },
+                                                     'confirm_password': {
+                                                       required: true,
+                                                       equalTo: '#password'
+                                                     }
                                                    },
                                                    messages: {
                                                      'cashier_username': {
                                                        required: 'Please enter a username',
                                                        minlength: 'Your username must consist of at least 5 characters'
                                                      },
-                                                     'cashier_email': 'Please enter a valid email address',
-                                                     'cashier_lastname': 'Please select a value!',
-                                                     'cashier_firstname': 'Please select a value!',
-                                                     'cashier_products': 'Please select a value!',
+                                                     'cashier_email': {
+                                                       required: 'Please enter an email address',
+                                                       email:'Please enter a valid email address',
+                                                     },
+                                                     'cashier_lastname': {
+                                                       required: 'Please enter cashiers last name!',
+                                                     },
+                                                     'cashier_firstname': {
+                                                       required: 'Please enter cashiers first name!'
+                                                     },
+                                                     'cashier_products': {
+                                                       required: 'Please select product!'
+                                                     },
+                                                     'password': {
+                                                       required: 'Please enter password',
+                                                       minlength: 'Password must be at least 8 characters'
+                                                     },
+                                                     'confirm_password': {
+                                                       required: 'Please enter confirm password',
+                                                       equalTo: 'This field must be equal new password'
+                                                     }
                                                    },
                                                    submitHandler: () => {
                                                      let data = {

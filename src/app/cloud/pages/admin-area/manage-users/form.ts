@@ -130,15 +130,38 @@ export class UserFormComponent extends AbstractRxComponent implements OnInit {
                                                        required: true,
                                                        email: true
                                                      },
+                                                     'password': {
+                                                       required: true,
+                                                       minlength: 8
+                                                     },
+                                                     'confirm_password': {
+                                                       required: true,
+                                                       equalTo: '#password'
+                                                     }
                                                    },
                                                    messages: {
                                                      'username': {
                                                        required: 'Please enter a username',
                                                        minlength: 'Your username must consist of at least 5 characters'
                                                      },
-                                                     'email': 'Please enter a valid email address',
-                                                     'lastname': 'Please select a value!',
-                                                     'firstname': 'Please select a value!',
+                                                     'email': {
+                                                       required: 'Please enter an email address',
+                                                       email: 'Please enter a valid email address'
+                                                     },
+                                                     'lastname': {
+                                                       required: 'Please select a value!'
+                                                     },
+                                                     'firstname': {
+                                                       required: 'Please select a value!'
+                                                     },
+                                                     'password': {
+                                                       required: 'Please enter password',
+                                                       minlength: 'Password must be at least 8 characters'
+                                                     },
+                                                     'confirm_password': {
+                                                       required: 'Please enter confirm password',
+                                                       equalTo: 'This field must be equal new password'
+                                                     }
                                                    },
                                                    submitHandler: () => {
                                                      const data = vm._data;
