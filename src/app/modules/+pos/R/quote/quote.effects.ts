@@ -162,9 +162,9 @@ export class PosQuoteEffects {
                                     .withLatestFrom(this.store$.select('entities'),
                                                     ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                     .switchMap((z) => {
-                                      const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
-                                      const shiftOpening      = shifts.filter((s: ShiftDB) => parseInt(s.is_open) === 1);
-                                      if (z[0].type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS || !!shiftOpening) {
+                                      if (z[0].type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
+                                        const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
+                                        const shiftOpening      = shifts.filter((s: ShiftDB) => parseInt(s.is_open) === 1);
                                         return Observable.of(this.quoteActions.updateQuoteInfo({isShiftOpening: !!shiftOpening}, false));
                                       } else {
                                         return this.quoteService.checkShiftOpenInSV(z[1])

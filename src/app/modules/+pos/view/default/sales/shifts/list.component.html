@@ -1,0 +1,8 @@
+<div class="cashdrawer-leftside">
+  <div class="top-bar">
+    <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span class="text">X-Retail</span></span>
+  </div><!--end top-bar-->
+  <div class="cashdrawer-inner" perfectScroll>
+    <pos-default-sales-shifts-list-item-opening *ngIf="!shiftViewService.isOpening()"></pos-default-sales-shifts-list-item-opening>
+  </div>
+</div>

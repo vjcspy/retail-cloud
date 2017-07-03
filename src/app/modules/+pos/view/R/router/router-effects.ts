@@ -54,4 +54,27 @@ export class PosViewRouterEffects {
                                                                       ], false);
                                });
   
+  @Effect() whenGoShifts = this.actions$
+                               .ofType(routerActions.UPDATE_LOCATION)
+                               .filter((action: Action) => action.payload['path'] === '/pos/default/sales/shifts')
+                               .map(() => {
+                                 return this.pullActions.pullEntities([
+                                                                        // 'retailConfig',
+                                                                        'shifts'
+                                                                        // 'settings',
+                                                                        // 'countries',
+                                                                        // 'taxClass',
+                                                                        // 'taxes',
+                                                                        // 'receipts',
+                                                                        // 'payment',
+                                                                        // 'orders',
+                                                                        // 'userOrderCount',
+                                                                        // 'warehouse',
+                                                                        // 'permission',
+                                                                        // 'customerGroup',
+                                                                        // 'customers',
+                                                                        // 'category',
+                                                                        // 'products'
+                                                                      ], false);
+                               });
 }
