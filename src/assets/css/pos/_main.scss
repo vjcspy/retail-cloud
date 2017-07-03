@@ -1456,13 +1456,15 @@ textarea[readonly="readonly"] {
       .c-user {
         //left: 77px;
         font-family: $boldFont;
-        font-size: 15px; color: $mainTxt;
+        font-size: 17px; color:$cgreen2;
         line-height: 19px;
+        text-transform: uppercase;
         //@include ellipsis;
       }
       .c-mail {
         //right: 20px; text-align: right;
         font-size: $size; color: $disTxt;
+        display: none;
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -1590,6 +1592,33 @@ textarea[readonly="readonly"] {
         background: #e6e6e6;
       }      
       .cart-content {max-height: 7000px;}
+    }
+  }
+
+  .customer-row .customer-head{
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    .c-name{
+      padding-top: 0;
+      flex: 1;
+    }
+    .icon-user.click[class^="icon-"]{
+      font-size: 47px;
+      margin-right: 10px;
+    }
+    .icon-plus,.icon-minus{
+      background: $gray1;
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
+      @include  border-radius(50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;      
+    }
+    .icon-change{
+      font-size: 19px;
     }
   }
   .c-search {

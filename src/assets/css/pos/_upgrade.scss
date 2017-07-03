@@ -27,6 +27,14 @@
         text-align: center; 
         position: relative;
         text-align: center;
+        overflow: hidden;
+        max-height: 62px;   
+        display: flex;
+        flex: inherit;
+        align-items: center;  
+
+        @include border-radius(5px);        
+
         &::before {
           content: "";
           position: absolute;   
@@ -38,12 +46,7 @@
           @include border-radius(5px);
         }
         img{
-          height: 62px;
-          max-width: inherit;
-          display: inline-block;
-          @include tablet{
-            height: 50px;
-          }
+          display: inline-block;          
         }
         
         a{
@@ -53,11 +56,17 @@
           color: $white;
           text-transform: uppercase;
           font-size: 14px;
-          line-height: 18px;
+          line-height: 1.2;          
           font-family: $boldFont;
           position: absolute;
           @include center-pos;
 
+        }
+        @include tablet{
+          max-height: 50px;
+          .cat-name{
+            font-size: 12px;
+          }
         }
       }
     }
