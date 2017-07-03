@@ -1,0 +1,45 @@
+<div id="onholdOrder" class="popup-wrapper open" *ngIf=" cartActionBarState.isOpenOrderOnhold">
+  <div class="popup-content">
+    <div class="onhold-order">
+      <h2 class="p-head">{{ 'Onhold Orders' | translate }}</h2>
+      <div class="search-blk">
+        <span class="icon-search"></span><input placeholder="Search by customer name , email and order's note"
+                                                type="text"
+                                                (keyup)="cartActionBarActions.searchOrderOnhold($event.target.value)"
+                                                inputSelectText>
+      </div>
+      <div class="inner" perfectScroll>
+        <table>
+          <tr>
+            <th>{{ 'Customer' | translate }}</th>
+            <th>{{ 'Products' | translate }}</th>
+            <th>{{ 'Total' | translate }}</th>
+            <th>{{ 'Saved time' | translate }}</th>
+          </tr>
+          <tr *ngFor="let order of cartActionBarState.orderOnhold" class="animated fadeIn">
+            <td><p class="name">{{order['customer']['first_name'] + " " + order['customer']['last_name']}}</p></td>
+            <td>
+              <ul class="has-list">
+                <li *ngFor="let item of cartActionBarService.getOrderOnholdItems(order['items'])">
+                  <p *ngIf="item['name'] != 'Custom Sale'">{{item['name']}}</p>
+                  <p *ngIf="item['name'] == 'Custom Sale'">{{item['custom_sale']['name']}}</p></li>
+
+              </ul>
+              <span class="total-item">{{getTotalItem(order)}}</span>
+            </td>
+            <td><p class="price">{{order['grand_total'] | priceFormat}}</p></td>
+            <td>
+              <button class="bounder" (click)="cartActionBarActions.retrieveOrderOnhold(order)">{{ 'Retrieve' | translate }}</button>
+              <p class="time"><span>{{order['create_at'] | datetimeFormat:'date'}}</span>
+                <span>{{order['create_at'] | datetimeFormat:'time'}}</span></p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="desc-bottom">
+        <button class="gray" (click)="cartActionBarActions.changeModeOrderOnholdPopup(false)">{{ 'Close' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open" *ngIf=" cartActionBarState.isOpenOrderOnhold"></div>

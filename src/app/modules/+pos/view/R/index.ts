@@ -62,6 +62,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(CheckoutProductCategoryEffects),
   EffectsModule.run(CartCustomEffects),
   EffectsModule.run(CartItemEffects),
+  EffectsModule.run(CartActionBarEffects),
   EffectsModule.run(ProductOptionsEffects),
   EffectsModule.run(PosStepEffects),
   EffectsModule.run(OrderListAddPaymentEffects),

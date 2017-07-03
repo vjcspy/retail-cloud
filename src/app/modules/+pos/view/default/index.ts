@@ -38,6 +38,7 @@ import {PosDefaultSalesOrdersDetailItemsComponent} from "./sales/orders/detail/i
 import {PosDefaultOutletRegisterWebsiteComponent} from "./outlet-register/website.component";
 import {PosDefaultOutletRegisterOutletsComponent} from "./outlet-register/outlets.component";
 import {PosDefaultSalesCheckoutCategoryComponent} from "./sales/checkout/category.component";
+import {PosDefaultSalesCheckoutActionsBarOrderOnholdComponent} from "./sales/checkout/actions-bar/order-onhold.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -61,6 +62,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   
   PosDefaultSalesCheckoutActionBarComponent,
   PosDefaultSalesCheckoutActionsBarNoteComponent,
+  PosDefaultSalesCheckoutActionsBarOrderOnholdComponent,
   
   PosDefaultSalesCheckoutCartComponent,
   PosDefaultSalesCheckoutCartCustomersComponent,

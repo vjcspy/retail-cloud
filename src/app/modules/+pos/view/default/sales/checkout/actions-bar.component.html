@@ -24,13 +24,13 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a (click)="cartActionBarActions.saveOrderOnhold()">
           <i class="icon-save-cart"></i>
           <span>Save Current Cart</span>
         </a>
       </li>
       <li>
-        <a href="#">
+        <a (click)="cartActionBarActions.changeModeOrderOnholdPopup(true)">
           <i class="icon-retrive-order"></i>
           <span>Retrieve On-hold Orders</span>
         </a>
@@ -39,3 +39,4 @@
     <div class="popup-overlay" [ngClass]="{open: cartActionBarState.isOpenActions}"></div>
   </div>
 </div>
+<pos-default-sales-checkout-actions-bar-order-onhold [cartActionBarState]="cartActionBarState"></pos-default-sales-checkout-actions-bar-order-onhold>
