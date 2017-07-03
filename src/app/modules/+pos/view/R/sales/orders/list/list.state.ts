@@ -17,7 +17,7 @@ export interface OrderListRecord extends TypedRecord<any>, OrderList {}
 
 export const orderListFactory = makeTypedFactory<OrderList, OrderListRecord>(
   {
-    isResolving: false,
+    isResolving: true,
     isSearchOnline: false,
     searchString: '',
     searchOrderStatus: null,

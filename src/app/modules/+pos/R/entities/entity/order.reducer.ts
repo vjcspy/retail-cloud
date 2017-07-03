@@ -24,5 +24,15 @@ export const entityOrderReducer: ActionReducer<PosEntitiesStateRecord> = (state:
     }
   }
   
+  if (type === EntityOrderActions.ACTION_PULL_MORE_ORDER_ENTITY) {
+    console.log('+ limit page');
+    const lastPage  = state.orders.additionData.lastPageNumber;
+    const limitPage = state.orders.limitPage;
+    
+    if (limitPage < lastPage) {
+      return state.setIn(['orders', 'limitPage'], parseInt(limitPage + '') + 1);
+    }
+  }
+  
   return state;
 };

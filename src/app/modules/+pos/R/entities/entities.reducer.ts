@@ -28,9 +28,6 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       if (!!data['isFinished']) {
         mergeData['isFinished'] = data['isFinished'];
       }
-      if (data['additionData']) {
-        mergeData['additionData'] = data['additionData'];
-      }
       
       let listItems = List.of();
       listItems     = listItems.push(...data['items']);
@@ -39,6 +36,7 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
                          // duplicate because include order has been pushed before
                          listItems)
                   .setIn([entityCode, 'isLoadedFromDB'], true)
+                  .setIn([entityCode, 'additionData'], data['additionData'])
                   .mergeIn([entityCode], mergeData);
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS:

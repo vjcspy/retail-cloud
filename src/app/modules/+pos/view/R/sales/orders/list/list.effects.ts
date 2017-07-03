@@ -16,6 +16,7 @@ import {RootActions} from "../../../../../../../R/root.actions";
 import {Observable} from "rxjs";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
+import {PosPullState} from "../../../../../R/entities/pull.state";
 
 @Injectable()
 export class ListEffects {
@@ -24,7 +25,8 @@ export class ListEffects {
               private actions$: Actions,
               private listActions: ListActions,
               private listService: ListService,
-              private rootActions: RootActions) { }
+              private rootActions: RootActions,
+              private entityOrderActions: EntityOrderActions) { }
   
   @Effect() resolveOrders = this.actions$
                                 .ofType(
@@ -146,7 +148,8 @@ export class ListEffects {
                                                          return o['retail_id'];
                                                        });
         
-                                                       let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));
+                                                       let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at']))
+                                                         .format("dddd, MMMM Do YYYY"));
         
                                                        let ordersGroped = group.reduce((results, orders, timestamp) => {
                                                          results = results.push({
@@ -164,4 +167,15 @@ export class ListEffects {
     
                                       });
   
+  @Effect() needPullMoreOrder = this.actions$
+                                    .ofType(
+                                      ListActions.ACTION_NEED_PULL_MORE_ORDER
+                                    )
+                                    .withLatestFrom(this.store$.select('pull'))
+                                    .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])
+                                    .filter((z) => (z[1] as PosPullState).isPullingChain === false)
+                                    .filter((z) => (z[2] as OrdersState).list.isResolving === false)
+                                    .switchMap(() => {
+                                      return Observable.of(this.entityOrderActions.pullMoreOrderEntity(false));
+                                    });
 }
