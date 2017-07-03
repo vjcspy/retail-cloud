@@ -17,6 +17,7 @@ import {Observable} from "rxjs";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 import {PosPullState} from "../../../../../R/entities/pull.state";
+import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 
 @Injectable()
 export class ListEffects {
@@ -26,7 +27,8 @@ export class ListEffects {
               private listActions: ListActions,
               private listService: ListService,
               private rootActions: RootActions,
-              private entityOrderActions: EntityOrderActions) { }
+              private entityOrderActions: EntityOrderActions,
+              private progressBar: ProgressBarService) { }
   
   @Effect() resolveOrders = this.actions$
                                 .ofType(
@@ -129,12 +131,14 @@ export class ListEffects {
                                       )
                                       .withLatestFrom(this.store$.select('orders'))
                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
-                                      .filter((z) => {
-                                        return !!(z[1] as OrdersState).list.searchString;
-                                      })
+                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline)
+                                      // .filter((z) => {
+                                      //   return !!(z[1] as OrdersState).list.searchString;
+                                      // })
                                       .switchMap((z) => {
                                         const ordersState: OrdersState      = z[1];
                                         const generalState: PosGeneralState = z[2];
+                                        this.progressBar.start();
                                         return this.listService
                                                    .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), generalState)
                                                    .map((data) => {
@@ -145,7 +149,7 @@ export class ListEffects {
                                                          orders      = orders.push(order);
                                                        });
                                                        let ordersSorted = orders.sortBy((o) => {
-                                                         return o['retail_id'];
+                                                         return -parseInt(o['order_id']);
                                                        });
         
                                                        let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at']))
@@ -163,7 +167,8 @@ export class ListEffects {
                                                        return this.listActions.reslvedOrders(ordersGroped, false);
                                                      }
                                                    })
-                                                   .catch((e) => Observable.of(this.listActions.searchOnlineFailed(e, false)));
+                                                   .catch((e) => Observable.of(this.listActions.searchOnlineFailed(e, false)))
+                                                   .finally(() => this.progressBar.done(true));
     
                                       });
   
