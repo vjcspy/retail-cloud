@@ -7,22 +7,48 @@
   background: $white;
   .cateogries-inner{  
     @include clearfix;
-    padding: 13px 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
-    ul{
+    padding: 13px 10px 13px 20px;        
+    align-items: center;      
+    .cate-slider.slick-slider{
       margin: 0;
-      padding: 0;
-      li{
+      padding: 0; 
+      position: relative; 
+      &:hover{
+        .slick-arrow{
+          opacity: 1;
+        }
+      }       
+      .item{
         list-style: none;
         padding: 0;
-        margin-left: 10px;
+        margin-right: 10px;
         position: relative;
-        float: left;
-        width: 160px;
+        float: left;                
+        text-align: center; 
+        position: relative;
         text-align: center;
+        &::before {
+          content: "";
+          position: absolute;   
+          left: 0;top: 0;       
+          pointer-events: none;
+          background: rgba(183,109,112,0.8);
+          width: 100%;
+          height: 100%;
+          @include border-radius(5px);
+        }
+        img{
+          height: 62px;
+          max-width: inherit;
+          display: inline-block;
+          @include tablet{
+            height: 50px;
+          }
+        }
+        
+        a{
+          display: block;
+        }       
         .cat-name{
           color: $white;
           text-transform: uppercase;
@@ -35,6 +61,41 @@
         }
       }
     }
+    // arrow
+    .slick-arrow{
+      font-size: 0;
+      position: absolute;
+      right: -20px;
+      top: -13px;
+      width: 42px;
+      height: 44px;
+      background: rgba(243,243,243,.7);
+      z-index: 1;
+      padding: 0;
+      opacity: 0;
+      @include single-transition();
+      @include border-radius(0px);
+      &:before{
+        font-family:'icomoon'; 
+        font-size: 20px;
+        color: $cgreen;
+        content: "\e91f";
+      }      
+      &.slick-next{
+        top: 31px;
+        @include rotate(180deg);
+      }
+      &:hover{
+        background: rgba(31,167,157,.7);
+        &:before{
+          color: $white;
+        }
+      }
+      &.hidden{
+        display: none !important;
+      }
+    }
+    
     [class*="icon-"]{
       font-size: 0;
      &:hover{    
@@ -53,10 +114,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;  
-      position: relative;
+      padding: 0;        
       cursor: pointer;
       font-size: 0;
+      float: left;
+      margin-top: 10px;
+      margin-right: 10px;
+      @include tablet{
+        margin-top: 6px;
+      }
       i:before{
         color: $cgreen;
         font-size: 12px;
@@ -74,6 +140,7 @@
         color: $cgreen;
         width: auto;
         padding: 0 12px;
+        margin-top: 0;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -85,27 +152,7 @@
      
     }
 
-    .navigation{
-      position: absolute;
-      right: 0;
-      top: 0;
-      background: rgba(243,243,243,.7);
-      width: 42px;
-      height: 100%;
-      .icon-left-thin{
-        display: inline-block;
-        padding: 12px 13px;  
-        cursor: pointer;
-        &:before{
-          color: $cgreen;
-        }
-        &:hover{
-        background: rgba(206,206,206,.7);
-      }
-      
-      }
-      
-    }  
+   
   }
   .cate-close
   {
