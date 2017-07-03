@@ -122,7 +122,6 @@ export class PosEntitiesService {
                   totalCount: data['total_count'],
                   isLoadFromCache: data['is_load_from_cache']
                 };
-                console.log(additionData);
             
                 // save data pull success
                 entityInfo.currentPage  = nextPagePull;
