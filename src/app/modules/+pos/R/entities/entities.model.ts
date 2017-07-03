@@ -20,6 +20,11 @@ export interface Entity {
   proportion?: number;
   itemFiltered?: List<any>;
   limitPage?: number;
+  additionData?: {
+    lastPageNumber?: number;
+    totalCount?: number;
+    isLoadFromCache?: boolean;
+  };
 }
 export interface EntityRecord extends TypedRecord<EntityRecord>, Entity {}
 
@@ -38,7 +43,8 @@ export const entityFactory       = makeTypedFactory<Entity, EntityRecord>({
                                                                             isLoadedFromDB: false,
                                                                             proportion: 1,
                                                                             itemFiltered: List.of(),
-                                                                            limitPage: 0
+                                                                            limitPage: 0,
+                                                                            additionData: {}
                                                                           });
 export const outletEntityFactory = () => entityFactory({
                                                          entityCode: OutletDB.getCode(),

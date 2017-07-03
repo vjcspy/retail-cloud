@@ -54,7 +54,6 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   
   @HostListener('window:resize', ['$event'])
   onResize($event) {
-    console.log('here');
     this._onResize();
   }
 }

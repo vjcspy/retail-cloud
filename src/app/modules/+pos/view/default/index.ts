@@ -39,6 +39,9 @@ import {PosDefaultOutletRegisterWebsiteComponent} from "./outlet-register/websit
 import {PosDefaultOutletRegisterOutletsComponent} from "./outlet-register/outlets.component";
 import {PosDefaultSalesCheckoutCategoryComponent} from "./sales/checkout/category.component";
 import {PosDefaultSalesCheckoutActionsBarOrderOnholdComponent} from "./sales/checkout/actions-bar/order-onhold.component";
+import {PosDefaultSalesShiftsListComponent, PosDefaultShiftListComponent} from "./sales/shifts/list.component";
+import {PosDefaultSalesShiftsListItemComponent} from "./sales/shifts/list/item.component";
+import {PosDefaultSalesShiftsListItemOpeningComponent} from "./sales/shifts/list/item-opening.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -92,4 +95,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesOrdersDetailItemsComponent,
   
   PosDefaultSalesShiftsComponent,
+  PosDefaultSalesShiftsListComponent,
+  PosDefaultSalesShiftsListItemComponent,
+  PosDefaultSalesShiftsListItemOpeningComponent,
 ];

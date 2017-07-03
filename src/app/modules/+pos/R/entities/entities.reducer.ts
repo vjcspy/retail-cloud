@@ -28,6 +28,10 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       if (!!data['isFinished']) {
         mergeData['isFinished'] = data['isFinished'];
       }
+      if (data['additionData']) {
+        mergeData['additionData'] = data['additionData'];
+      }
+      
       let listItems = List.of();
       listItems     = listItems.push(...data['items']);
       return state.setIn([entityCode, 'items'],
@@ -39,6 +43,8 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
     
     case PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS:
       return state.updateIn([action.payload['entityCode'], 'currentPage'], (currentPage) => ++currentPage)
+                  .updateIn([action.payload['entityCode'], 'additionData'],
+                            (additionData) => Object.assign({}, {...additionData}, action.payload['additionData']))
                   .updateIn([action.payload['entityCode'], 'items'],
                             (list) => list.push(..._.map(action.payload.items, (p) => (new ProductDB()).addData(p))));
     

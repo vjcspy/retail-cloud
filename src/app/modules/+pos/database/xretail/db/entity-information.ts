@@ -8,11 +8,12 @@ export class EntityInformation {
   isFinished: boolean;
   cache_time: number;
   base_url: string;
+  additionData: Object;
   createdAt: string;
   updatedAt: string;
   
   static getFields(): string {
-    return "id,storeId,currentPage,pageSize,isFinished,base_url,createdAt,updatedAt";
+    return "id,storeId,currentPage,pageSize,isFinished,base_url,additionData,createdAt,updatedAt";
   }
   
   async save(createNew: boolean = false) {
