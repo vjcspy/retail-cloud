@@ -117,12 +117,28 @@ export class PosEntitiesService {
                   }
                 }
             
+                const additionData = {
+                  lastPageNumber: data['last_page_number'],
+                  totalCount: data['total_count'],
+                  isLoadFromCache: data['is_load_from_cache']
+                };
+                console.log(additionData);
+            
                 // save data pull success
-                entityInfo.currentPage = nextPagePull;
-                entityInfo.cache_time  = data['cache_time'];
+                entityInfo.currentPage  = nextPagePull;
+                entityInfo.cache_time   = data['cache_time'];
+                entityInfo.additionData = additionData;
                 await entityInfo.save();
             
-                return resolve({error: false, data: {isFinished: false, currentPage: nextPagePull, items}});
+                return resolve({
+                                 error: false,
+                                 data: {
+                                   isFinished: false,
+                                   currentPage: nextPagePull,
+                                   items,
+                                   additionData
+                                 }
+                               });
               }
             },
             (error) => {

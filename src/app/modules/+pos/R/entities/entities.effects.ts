@@ -12,11 +12,7 @@ import {PosPullState} from "./pull.state";
 import {ProductDB} from "../../database/xretail/db/product";
 import {PosEntitiesState} from "./entities.state";
 import {PosGeneralState} from "../general/general.state";
-import {CustomerDB} from "../../database/xretail/db/customer";
-import {SettingDB} from "../../database/xretail/db/setting";
-import {ShiftDB} from "../../database/xretail/db/shift";
 import * as _ from 'lodash';
-import {OrderDB} from "../../database/xretail/db/order";
 import {RealtimeActions} from "./realtime/realtime.actions";
 
 @Injectable()
@@ -104,7 +100,7 @@ export class PosEntitiesEffects {
                                                                       .map((pullData: GeneralMessage) => {
                                                                         return pullData.data['isFinished'] === true ?
                                                                           this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
-                                                                          this.entitiesActions.pullEntityPageSuccess(action.payload.entityCode, pullData.data['items'], false);
+                                                                          this.entitiesActions.pullEntityPageSuccess(action.payload.entityCode, pullData.data['items'], pullData.data['additionData'], false);
                                                                       })
                                                                       .catch(() => Observable.of(this.entitiesActions.pullEntityFailed(action.payload.entityCode, false))
                                                                       );
@@ -139,7 +135,7 @@ export class PosEntitiesEffects {
     });
     _query += `&searchCriteria[pageSize]=${entity.pageSize}&searchCriteria[currentPage]=${entity.currentPage + 1}`;
     
-    if (!!generalState.store['id']) {
+    if (!!generalState.store && !!generalState.store['id']) {
       _query += "&searchCriteria[storeId]=" + generalState.store['id']
                 + "&searchCriteria[outletId]=" + generalState.outlet['id']
                 + "&searchCriteria[registerId]=" + generalState.register['id'];

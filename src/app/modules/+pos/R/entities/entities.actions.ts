@@ -122,8 +122,8 @@ export class PosEntitiesActions {
    */
   static ACTION_PULL_ENTITY_PAGE_SUCCESS = 'ACTION_PULL_PAGE_SUCCESS';
   
-  pullEntityPageSuccess(entityCode, items, dispatch: boolean = true): Action {
-    const action = {type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {entityCode, items}};
+  pullEntityPageSuccess(entityCode, items, additionData, dispatch: boolean = true): Action {
+    const action = {type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {entityCode, items, additionData}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
