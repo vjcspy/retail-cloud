@@ -26,7 +26,7 @@
     </retail-select>
   </div><!--end top-field-->
 
-  <div class="order-list-inner" style="top: -20px" perfectScroll>
+  <div class="order-list-inner" perfectScroll (scrollEnd)="moreOrders()">
     <h1 *ngIf="ordersState.list.ordersGroped.count() === 0" class="text-center">{{ 'No orders found' | translate }}</h1>
     <div class="order-group">
       <div *ngFor="let orderGrouped of ordersState.list.ordersGroped;trackBy:trackByTimeStamp">
@@ -35,7 +35,9 @@
         </div>
         <pos-default-sales-orders-list-item *ngFor="let order of orderGrouped['orders'];trackBy:trackById" [order]="order" [ordersState]="ordersState"></pos-default-sales-orders-list-item>
       </div>
-
+      <div class="loading-img">
+        <img src="assets/img/loading.gif" alt="loading image">
+      </div>
     </div>
   </div>
 </div>
