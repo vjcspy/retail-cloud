@@ -1,16 +1,27 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from "@angular/http";
+import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
-import {ToastsManager} from "ng2-toastr";
+import {NotifyManager} from "./notify-manager";
 
 @Injectable()
 export class RequestService {
+  protected header;
   
   constructor(protected http: Http,
-              protected notify: ToastsManager) { }
+              protected notify: NotifyManager) {
+  }
+  
+  getRequestOptions() {
+    if (typeof this.header === 'undefined') {
+      this.header = new Headers();
+      this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
+    }
+    
+    return {headers: this.header};
+  }
   
   makeGet(url, option?: any) {
-    return this.http.get(url, option)
+    return this.http.get(url, Object.assign({}, this.getRequestOptions(), option))
                .map(
                  (res: Response) => {
                    return res.json();
@@ -18,8 +29,8 @@ export class RequestService {
                .catch(
                  (error: any) => {
                    let errMsg;
-                   if (error['status'] === 0) {
-                     // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                   if (error['status'] == 0) {
+                     this.notify.error('check_connection');
                    } else {
                      // In a real world app, we might use a remote logging infrastructure
                      // We'd also dig deeper into the error to get a better message
@@ -34,7 +45,7 @@ export class RequestService {
   
   makePost(url, data: any, showError: boolean = true) {
     return this.http
-               .post(url, data)
+               .post(url, data, this.getRequestOptions())
                .map(
                  (res: Response) => {
                    return res.json();
@@ -42,22 +53,22 @@ export class RequestService {
                .catch(
                  (error: any) => {
                    if (showError) {
-                     if (error['status'] === 0) {
-                       // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                     if (error['status'] == 0) {
+                       this.notify.error('check_connection');
                      } else {
-                       if (error.status === 400 && error.hasOwnProperty('_body')) {
+                       if (error.status == 400 && error.hasOwnProperty('_body')) {
                          let _mess = JSON.parse(error['_body']);
-                         if (_mess.error === true) {
+                         if (_mess.error == true) {
                            this.notify.warning(_mess['message'], null, {
                              newestOnTop: false,
                              showCloseButton: true,
                              enableHTML: true
                            });
                          } else {
-                           // this.translate.get("unknown_error").subscribe((res) => this.notify.warning(res));
+                           this.notify.error('unknown_error')
                          }
                        } else {
-                         // this.translate.get("server_not_responding").subscribe((res) => this.notify.error(res));
+                         this.notify.error('server_not_responding');
                        }
                      }
                    }
@@ -67,7 +78,7 @@ export class RequestService {
   
   makeDelete(url) {
     return this.http
-               .delete(url)
+               .delete(url, this.getRequestOptions())
                .map(
                  (res: Response) => {
                    return res.json();
@@ -80,15 +91,15 @@ export class RequestService {
   
   makePut(url, data: any) {
     return this.http
-               .put(url, data)
+               .put(url, data, this.getRequestOptions())
                .map(
                  (res: Response) => {
                    return res.json();
                  })
                .catch(
                  (error: any) => {
-                   if (error['status'] === 0) {
-                     // this.translate.get("check_internet").subscribe((res) => this.notify.error(res));
+                   if (error['status'] == 0) {
+                     this.notify.error('check_connection');
                    } else {
                      // In a real world app, we might use a remote logging infrastructure
                      // We'd also dig deeper into the error to get a better message
@@ -100,13 +111,13 @@ export class RequestService {
                  });
   }
   
-  ping(url: string, multiplier = 1) {
-    let request_image = (_url: string) => {
-      return new Promise((resolve, reject) => {
-        let img     = new Image();
-        img.onload  = () => { resolve(img); };
-        img.onerror = () => { reject(url); };
-        img.src     = _url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+  ping(url, multiplier = 1) {
+    let request_image = function (url) {
+      return new Promise(function (resolve, reject) {
+        var img     = new Image();
+        img.onload  = function () { resolve(img); };
+        img.onerror = function () { reject(url); };
+        img.src     = url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
       });
     };
     
@@ -116,17 +127,18 @@ export class RequestService {
      * @param  {Number} multiplier - optional, factor to adjust the ping by.  0.3 works well for HTTP servers.
      * @return {Promise} promise that resolves to a ping (ms, float).
      */
-    return new Promise((resolve, reject) => {
-      let start    = (new Date()).getTime();
-      let response = () => {
-        let delta = ((new Date()).getTime() - start);
+    return new Promise(function (resolve, reject) {
+      var start    = (new Date()).getTime();
+      var response = function () {
+        var delta = ((new Date()).getTime() - start);
         delta *= (multiplier || 1);
         resolve(delta);
       };
       request_image(url).then(response).catch(response);
       
       // Set a timeout for max-pings, 5s.
-      setTimeout(() => { reject(Error('Timeout')); }, 3000);
+      setTimeout(function () { reject(Error('Timeout')); }, 3000);
     });
+    
   }
 }
