@@ -93,7 +93,7 @@ export class PosEntitiesEffects {
                                                                         });
                                                  } else {
                                                    const entity: Entity = entitiesState[action.payload.entityCode];
-                                                   if (entity.limitPage > 0 && entity.currentPage === entity.limitPage) {
+                                                   if (entity.limitPage > 0 && entity.currentPage >= entity.limitPage) {
                                                      return Observable.of(this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false));
                                                    } else {
                                                      return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entity, generalState))

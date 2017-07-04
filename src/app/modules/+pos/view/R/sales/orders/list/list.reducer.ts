@@ -3,6 +3,7 @@ import {OrdersStateRecord} from "../order.state";
 import {ListActions} from "./list.actions";
 import * as _ from 'lodash';
 import {List} from "immutable";
+import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 
 export const listReducer: ActionReducer<OrdersStateRecord> = (state, action) => {
   switch (action.type) {
@@ -27,6 +28,12 @@ export const listReducer: ActionReducer<OrdersStateRecord> = (state, action) => 
       return state.update('list', (list) => {
         return list.set('ordersGroped', List.of())
                    .set('isResolving', false);
+      });
+    
+    
+    case EntityOrderActions.ACTION_PULL_MORE_ORDER_ENTITY:
+      return state.update('list', (list) => {
+        return list.set('isResolving', true);
       });
     
     default:

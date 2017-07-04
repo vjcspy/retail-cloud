@@ -29,4 +29,16 @@ export class EntityOrderActions {
     
     return action;
   }
+  
+  static ACTION_PULL_MORE_ORDER_ENTITY = 'ACTION_PULL_MORE_ORDER_ENTITY';
+  
+  pullMoreOrderEntity(dispatch: boolean = true): Action {
+    const action = {type: EntityOrderActions.ACTION_PULL_MORE_ORDER_ENTITY, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

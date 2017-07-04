@@ -55,6 +55,7 @@ import {OrderListAddPaymentService} from "./sales/checkout/step/order-list-add-p
 import {OrderListAddPaymentEffects} from "./sales/checkout/step/order-list-add-payment/add-payment.effects";
 import {CheckoutProductCategoryActions} from "./sales/checkout/product/category/category.actions";
 import {CheckoutProductCategoryEffects} from "./sales/checkout/product/category/category.effects";
+import {OrdersState} from "./sales/orders/order.state";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -143,6 +144,7 @@ export interface SalesState {
   step: PosStepState;
   receipt: ReceiptState;
   menu: MenuState;
+  orders: OrdersState;
 }
 
 export const salesReducer = createReducer({

@@ -16,6 +16,8 @@ import {RootActions} from "../../../../../../../R/root.actions";
 import {Observable} from "rxjs";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
+import {PosPullState} from "../../../../../R/entities/pull.state";
+import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 
 @Injectable()
 export class ListEffects {
@@ -24,7 +26,9 @@ export class ListEffects {
               private actions$: Actions,
               private listActions: ListActions,
               private listService: ListService,
-              private rootActions: RootActions) { }
+              private rootActions: RootActions,
+              private entityOrderActions: EntityOrderActions,
+              private progressBar: ProgressBarService) { }
   
   @Effect() resolveOrders = this.actions$
                                 .ofType(
@@ -127,12 +131,14 @@ export class ListEffects {
                                       )
                                       .withLatestFrom(this.store$.select('orders'))
                                       .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
-                                      .filter((z) => {
-                                        return !!(z[1] as OrdersState).list.searchString;
-                                      })
+                                      .filter((z) => (z[1] as OrdersState).list.isSearchOnline)
+                                      // .filter((z) => {
+                                      //   return !!(z[1] as OrdersState).list.searchString;
+                                      // })
                                       .switchMap((z) => {
                                         const ordersState: OrdersState      = z[1];
                                         const generalState: PosGeneralState = z[2];
+                                        this.progressBar.start();
                                         return this.listService
                                                    .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), generalState)
                                                    .map((data) => {
@@ -143,10 +149,11 @@ export class ListEffects {
                                                          orders      = orders.push(order);
                                                        });
                                                        let ordersSorted = orders.sortBy((o) => {
-                                                         return o['retail_id'];
+                                                         return -parseInt(o['order_id']);
                                                        });
         
-                                                       let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));
+                                                       let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at']))
+                                                         .format("dddd, MMMM Do YYYY"));
         
                                                        let ordersGroped = group.reduce((results, orders, timestamp) => {
                                                          results = results.push({
@@ -160,8 +167,20 @@ export class ListEffects {
                                                        return this.listActions.reslvedOrders(ordersGroped, false);
                                                      }
                                                    })
-                                                   .catch((e) => Observable.of(this.listActions.searchOnlineFailed(e, false)));
+                                                   .catch((e) => Observable.of(this.listActions.searchOnlineFailed(e, false)))
+                                                   .finally(() => this.progressBar.done(true));
     
                                       });
   
+  @Effect() needPullMoreOrder = this.actions$
+                                    .ofType(
+                                      ListActions.ACTION_NEED_PULL_MORE_ORDER
+                                    )
+                                    .withLatestFrom(this.store$.select('pull'))
+                                    .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])
+                                    .filter((z) => (z[1] as PosPullState).isPullingChain === false)
+                                    .filter((z) => (z[2] as OrdersState).list.isResolving === false)
+                                    .switchMap(() => {
+                                      return Observable.of(this.entityOrderActions.pullMoreOrderEntity(false));
+                                    });
 }
