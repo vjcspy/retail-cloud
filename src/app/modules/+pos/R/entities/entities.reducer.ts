@@ -7,7 +7,6 @@ import {mergeSliceReducers} from "../../../../R/index";
 import {entityOrderReducer} from "./entity/order.reducer";
 import {orderCountReducer} from "./entity/order-count.reducer";
 import {List} from "immutable";
-import {generalEntityReducer} from "./entity/outlet-store-retailconfig.reducer";
 import {AccountActions} from "../../../../R/account/account.actions";
 import {EntityRecord} from "./entities.model";
 import {realtimeReducer} from "./realtime/realtime.reducer";
