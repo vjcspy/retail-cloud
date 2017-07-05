@@ -64,4 +64,14 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     item.getBuyRequest().setData('is_discount_value', isDiscountValue);
     this.quoteItemActions.updateItemBuyRequest('discount_per_item', 0, item);
   }
+  
+  getItemImage(item) {
+    const originImage = item.getProduct().getData('origin_image');
+    if (_.isString(originImage)) {
+      return originImage;
+    }
+    else {
+      return '/assets/img/no-image.jpg';
+    }
+  }
 }
