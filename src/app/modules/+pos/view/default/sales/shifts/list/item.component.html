@@ -1,4 +1,4 @@
-<div *ngIf="shift['is_open'] === '1' || shift['is_open'] ===1">
+<div *ngIf="shift['is_open'] === '1' || shift['is_open'] ===1" (click)="shiftListActions.selectShiftDetail(shift)">
   <div class="items t-bar">
     <div class="price">
       <h3>{{ 'Opening' | translate }}</h3>
@@ -10,7 +10,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="shift['is_open'] === '0' || shift['is_open']===0">
+<div *ngIf="shift['is_open'] === '0' || shift['is_open']===0" (click)="shiftListActions.selectShiftDetail(shift)">
   <div class="items">
     <div class="price">
       <span>{{shift['total_net_amount'] | priceFormat}}</span>

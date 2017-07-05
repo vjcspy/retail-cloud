@@ -18,7 +18,7 @@ export class PosComponent {
     this.offline.init();
     
     this.translate.setDefaultLang('en');
-    this.translate.use('vi');
+    this.translate.use('en');
     // this.retailTranslate.resolveLanguages();
   }
 }

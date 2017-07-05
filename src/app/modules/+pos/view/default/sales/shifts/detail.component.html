@@ -1,0 +1,162 @@
+<div class="cashdrawer-detail" *ngIf="shiftState.detail.shift">
+  <div class="top-bar">
+    <div class="grand-total">{{(getTotalsSales() + getTotalsRefund()) | priceFormat}}</div>
+  </div><!--end top-bar-->
+  <div class="cashdrawer-inner" perfectScroll>
+    <div class="table-total">
+      <table>
+        <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>{{ 'Sale' | translate }}</th>
+          <th>{{ 'Refund' | translate }}</th>
+          <th>{{ 'Net' | translate }}</th>
+          <th *ngIf="!shiftIsOpening()">Counted</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let payment of entitiesState.payment.items">
+          <td>
+            <span [ngClass]="{'icon-wallet': payment['payment_type']=='cash','icon-card':payment['payment_type']=='credit_card'}"></span>
+            <h4>{{payment['title']}}</h4>
+          </td>
+          <td>{{getSaleTransaction(payment['id']) | priceFormat}}</td>
+          <td>{{getRefundTransaction(payment['id']) | priceFormat}}</td>
+          <td>{{getNetTransaction(payment['id']) | priceFormat}}</td>
+          <td *ngIf="!shiftIsOpening()">{{getCountedPayment(payment) | priceFormat}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td><h4>{{ 'Total' | translate }}</h4></td>
+          <td>{{getTotalsSales() | priceFormat}}</td>
+          <td>{{getTotalsRefund() | priceFormat}}</td>
+          <td>{{(getTotalsSales() + getTotalsRefund()) | priceFormat}}</td> <!--total refund is negative number-->
+          <td *ngIf="!shiftIsOpening()">{{getTotalsCountedAllPayment() | priceFormat}}</td>
+        </tr>
+        </tfoot>
+      </table><!--end table-->
+    </div><!--end table-total-->
+
+    <div class="progress-total">
+      <div class="total-blk progress-tree">
+        <div class="merge-row">
+          <div class="p-row open-shift">
+            <span class="timer">{{shiftState.detail.shift['open_at'] | datetimeFormat : 'short-time'}}</span>
+            <span class="value">{{ 'Open Shift' | translate }}</span>
+          </div>
+          <div class="total-row">
+            <p class="t-txt">
+              {{shiftState.detail.shift['user_open_name']}}
+              <em>"{{shiftState.detail.shift['open_note']}}"</em>
+            </p>
+            <p class="t-value">
+              <span>{{shiftState.detail.shift['start_amount'] | priceFormat}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="merge-row"
+             *ngFor="let inOut of shiftState.detail.shift['in_out'];let i = index;let last = last">
+          <div class="p-row" [ngClass]="{expect:inOut['is_in']==1,'un-expect':inOut['is_in']!=1}">
+            <span class="timer">{{inOut['created_at'] | datetimeFormat : 'short-time'}}</span>
+            <span class="value"> {{ inOut['is_in']==1?"Cash In" :"Cash Out"}}</span>
+          </div>
+          <div class="total-row">
+            <p class="t-txt">
+              {{inOut['user_name']}}
+              <em>"{{inOut['note']}}"</em>
+            </p>
+            <p class="t-value">
+              <span>{{inOut['amount']|priceFormat}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="merge-row" *ngIf="!shiftIsOpening()">
+          <div class="p-row close-shift">
+            <span class="timer">{{shiftState.detail.shift['close_at'] | datetimeFormat : 'short-time'}}</span>
+            <span class="value">{{ 'Close Shift' | translate }}</span>
+          </div>
+          <div class="total-row">
+            <p class="t-txt">
+              {{shiftState.detail.shift['user_close_name']}}
+              <em>"{{shiftState.detail.shift['close_note']}}"</em>
+            </p>
+            <p class="t-value">
+              <span class="expect">{{shiftState.detail.shift['total_counted_amount'] | priceFormat}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="merge-row" *ngIf="!shiftIsOpening()">
+          <div class="total-row">
+            <h3 class="t-txt">{{ 'Total Adjustment' | translate }}</h3>
+            <h3 class="t-value">{{getTotalInOut() | priceFormat}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reward-points">
+      <div class="total-blk">
+        <div class="total-row">
+          <h3 class="t-txt">{{ 'Reward Point' | translate }}</h3>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Points earned' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['point_earned']}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Points spent' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['point_spent']}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Differences' | translate }}</p>
+          <p class="t-value refund">
+            {{shiftState.detail.shift['point_earned'] - shiftState.detail.shift['point_spent']}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cashdrawer-total" *ngIf="shiftState.detail.shift['is_open']==0">
+      <div class="total-blk">
+        <div class="total-row">
+          <p class="t-txt">{{ 'Total Expected Cash In Drawer' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['total_expected_amount'] | priceFormat}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Total Counted Cash In Drawer' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['total_counted_amount'] | priceFormat}}</p>
+        </div>
+        <div class="total-row">
+          <p class="t-txt">{{ 'Differences' | translate }}</p>
+          <p class="t-value">
+            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['total_expected_amount']) |
+            priceFormat}}
+          </p>
+        </div>
+        <div class="total-row grand">
+          <p class="t-txt">{{ 'Take out' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['take_out_amount'] | priceFormat}}</p>
+        </div>
+        <div class="total-row grand">
+          <p class="t-txt">{{ 'Amount Left In' | translate }}</p>
+          <p class="t-value">
+            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) |
+            priceFormat}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="bottom-bar">
+    <button *ngIf="!shiftIsOpening()">{{ 'Print Report' | translate }}
+    </button>
+    <button *ngIf="shiftIsOpening()" (click)="adjustShift()">
+      {{ 'Adjust' | translate }}
+    </button>
+    <button *ngIf="shiftIsOpening()" (click)="closeShift()">
+      {{ 'Close Shift' | translate }}
+    </button>
+  </div>
+</div>

@@ -17,4 +17,16 @@ export class ShiftListActions {
     
     return action;
   }
+  
+  static ACTION_SELECT_SHIFT_DETAIL = 'ACTION_SELECT_SHIFT_DETAIL';
+  
+  selectShiftDetail(shift, dispatch: boolean = true): Action {
+    const action = {type: ShiftListActions.ACTION_SELECT_SHIFT_DETAIL, payload: {shift}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

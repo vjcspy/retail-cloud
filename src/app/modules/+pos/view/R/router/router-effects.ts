@@ -61,13 +61,13 @@ export class PosViewRouterEffects {
                                .map(() => {
                                  return this.pullActions.pullEntities([
                                                                         // 'retailConfig',
-                                                                        'shifts'
+                                                                        'shifts',
                                                                         // 'settings',
                                                                         // 'countries',
                                                                         // 'taxClass',
                                                                         // 'taxes',
                                                                         // 'receipts',
-                                                                        // 'payment',
+                                                                        'payment',
                                                                         // 'orders',
                                                                         // 'userOrderCount',
                                                                         // 'warehouse',

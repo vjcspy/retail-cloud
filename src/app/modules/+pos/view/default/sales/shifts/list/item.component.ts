@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ShiftListActions} from "../../../../R/sales/shifts/list/list.actions";
 
 @Component({
              // moduleId: module.id,
@@ -9,7 +10,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 export class PosDefaultSalesShiftsListItemComponent implements OnInit {
   @Input() shift;
   
-  constructor() { }
+  constructor(public shiftListActions: ShiftListActions) { }
   
   ngOnInit() { }
   
