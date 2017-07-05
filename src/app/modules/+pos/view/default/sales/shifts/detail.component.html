@@ -17,7 +17,11 @@
         <tbody>
         <tr *ngFor="let payment of entitiesState.payment.items">
           <td>
-            <span [ngClass]="{'icon-wallet': payment['payment_type']=='cash','icon-card':payment['payment_type']=='credit_card'}"></span>
+             <span style="top: 5px" [ngClass]="{'icon-card': payment['type'] == 'credit_card',
+                              'icon-wallet':payment['type'] == 'cash',
+                              'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',
+                              'icon-diamond':payment['type'] == 'reward_point'}">
+                        </span>
             <h4>{{payment['title']}}</h4>
           </td>
           <td>{{getSaleTransaction(payment['id']) | priceFormat}}</td>
