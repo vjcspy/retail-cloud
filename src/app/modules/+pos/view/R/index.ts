@@ -56,6 +56,12 @@ import {OrderListAddPaymentEffects} from "./sales/checkout/step/order-list-add-p
 import {CheckoutProductCategoryActions} from "./sales/checkout/product/category/category.actions";
 import {CheckoutProductCategoryEffects} from "./sales/checkout/product/category/category.effects";
 import {OrdersState} from "./sales/orders/order.state";
+import {ShiftState} from "./sales/shifts/shift.state";
+import {shiftReducer} from "./sales/shifts/shift.reducer";
+import {ShiftService} from "./sales/shifts/shift.service";
+import {ShiftListService} from "./sales/shifts/list/list.service";
+import {ShiftListEffects} from "./sales/shifts/list/list.effects";
+import {ShiftListActions} from "./sales/shifts/list/list.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -70,6 +76,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(TyroEffects),
   EffectsModule.run(ReceiptEffects),
   EffectsModule.run(ListEffects),
+  EffectsModule.run(ShiftListEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -131,6 +138,12 @@ export const R_POS_VIEW_PROVIDERS = [
   ListActions,
   ListService,
   ListEffects,
+  
+  // Shifts
+  ShiftService,
+  ShiftListActions,
+  ShiftListService,
+  ShiftListEffects
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -145,6 +158,7 @@ export interface SalesState {
   receipt: ReceiptState;
   menu: MenuState;
   orders: OrdersState;
+  shifts: ShiftState;
 }
 
 export const salesReducer = createReducer({
@@ -157,5 +171,6 @@ export const salesReducer = createReducer({
                                             step: posStepReducer,
                                             receipt: receiptReducer,
                                             menu: menuReducer,
-                                            orders: ordersReducer
+                                            orders: ordersReducer,
+                                            shifts: shiftReducer
                                           });

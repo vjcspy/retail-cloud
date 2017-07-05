@@ -46,7 +46,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openShift() {
-  
+    this.routerActions.go('pos/default/sales/shifts');
   }
   
   goPosSetting() {
