@@ -1314,7 +1314,11 @@ textarea[readonly="readonly"] {
     }
   }
   .bottom-bar {
-    padding: 0 10px;
+    padding: 10px;
+    bottom: 0;
+    &.totals-collapse{
+      background: #e6e6e6;
+    }
   }
 }
 
@@ -1616,6 +1620,7 @@ textarea[readonly="readonly"] {
         padding: 0;
         height: auto;
         line-height: 47px;
+        margin-right: 10px;
     }
     .icon-plus,.icon-minus{
       background: $gray1;
@@ -1654,8 +1659,7 @@ textarea[readonly="readonly"] {
 
 .cart-table {
   height: calc(100% - 116px);
-  position: relative;
-  background: $white;  
+  position: relative;    
   .cart-row {
     .cart-head {
       padding-right: 145px;
@@ -1681,25 +1685,7 @@ textarea[readonly="readonly"] {
   z-index: 1;
 }
 
-.total-blk {
-  padding: 20px $hozlSpace 0 20px;
-  color: $gray40;
-  .btn-collapse{     
-    height: 20px;
-    position: absolute;
-    width: 100%;
-    top: -20px;
-    left: 0;  
-    border-bottom: $border solid 1px;  
-    @include gradient-trans();
 
-    .close-arr{
-      @include close-arr(#F5F5F5,270deg);
-      border-radius: 4px 4px 0 0;
-      border-bottom: none;
-      padding-top: 2px;      
-    }
-  }
   
   .total-row {
     position: relative;
@@ -1807,6 +1793,27 @@ textarea[readonly="readonly"] {
       &:last-child {padding-bottom: 21px;}
     }
   }
+  
+  .total-blk {
+  padding: 20px $hozlSpace 0 20px;
+  color: $gray40;
+  .btn-collapse{     
+    height: 20px;
+    position: absolute;
+    width: 100%;
+    top: -20px;
+    left: 0;  
+    border-bottom: $border solid 1px;  
+    @include gradient-trans();
+
+    .close-arr{
+      @include close-arr($cbkg,270deg);
+      border-radius: 4px 4px 0 0;
+      border-bottom: none;
+      padding-top: 2px;      
+    }
+  }
+
 }
 
 .cart-totals-comp{
@@ -1815,8 +1822,25 @@ textarea[readonly="readonly"] {
   width: 100%;
   background: $cbkg;
   bottom: 0;
-  &.cart-totals-collapse{
+  &.totals-collapse{
     background: #e6e6e6;
+    .total-row-content {
+      display: none;
+      @include single-transition;
+    }
+    .total-blk{
+      padding-top: 0;
+      .btn-collapse{  
+        height: 30px;      
+        top: -30px;  
+        .close-arr{
+          @include close-arr(#e6e6e6,90deg);
+          padding-top: 6px;
+          border-bottom: none;
+          height: 30px;
+        }  
+      }
+    } 
     
   }
 }
