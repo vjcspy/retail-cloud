@@ -18,6 +18,7 @@ import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actio
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 import {PosPullState} from "../../../../../R/entities/pull.state";
 import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class ListEffects {
@@ -28,7 +29,8 @@ export class ListEffects {
               private listService: ListService,
               private rootActions: RootActions,
               private entityOrderActions: EntityOrderActions,
-              private progressBar: ProgressBarService) { }
+              private progressBar: ProgressBarService,
+              private router: Router) { }
   
   @Effect() resolveOrders = this.actions$
                                 .ofType(
@@ -37,6 +39,7 @@ export class ListEffects {
                                   RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
                                   EntityOrderActions.ACTION_PUT_ORDER_ENTITY
                                 )
+                                .filter(()=>this.router.isActive('/pos/default/sales/orders',false))
                                 .filter((action) => !!action.payload['entityCode'] ? action.payload['entityCode'] === OrderDB.getCode() : true)
                                 .withLatestFrom(this.store$.select('entities'))
                                 .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])

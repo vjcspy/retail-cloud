@@ -100,9 +100,12 @@ export class RealtimeService {
     url += url.indexOf("?") > -1 ? "&" : "?" + entity.query
                                          + "&searchCriteria[entity_id]=" + _.union(needUpdate.toArray()).join(",")
                                          + "&searchCriteria[currentPage]=1"
-                                         + "&searchCriteria[storeId]=" + generalState.store['id']
                                          + "&searchCriteria[pageSize]=500"
                                          + "&searchCriteria[realTime]=1";
+    
+    if (generalState.store && !!generalState.store['id']) {
+      url += "&searchCriteria[storeId]=" + generalState.store['id'];
+    }
     
     return this.requestService
                .makeGet(url);

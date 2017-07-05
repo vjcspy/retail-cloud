@@ -57,7 +57,6 @@ export class CartActionBarService {
   }
   
   getOrderOnholdItems(items: any[]) {
-    console.log(_.take(items, 2));
     return _.take(items, 2);
   }
   

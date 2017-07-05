@@ -49,7 +49,6 @@ export class PosQuoteActions {
   setCustomerToQuote(customerEntity: Customer | CustomerDB, dispatch: boolean = false): Action {
     let customer = new Customer();
     if (customerEntity instanceof CustomerDB) {
-      1
       Object.assign(customer, customerEntity);
       customer.mapWithParent();
     } else {

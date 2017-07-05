@@ -38,7 +38,7 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
                                                                                            shippingAmount: 0,
   
                                                                                            info: {
-                                                                                             isShiftOpening: false,
+                                                                                             isShiftOpening: true,
                                                                                              isRefunding: false,
                                                                                              note: ""
                                                                                            },

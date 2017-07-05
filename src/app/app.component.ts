@@ -30,7 +30,7 @@ import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponen
                '../assets/css/ion.rangeSlider.skinNice.css',
                '../../node_modules/select2/dist/css/select2.css',
                '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css',
-               '../../node_modules/slick-carousel/slick/slick.css'
+               // '../../node_modules/slick-carousel/slick/slick.css'
              ],
              template: `
                <router-outlet></router-outlet>

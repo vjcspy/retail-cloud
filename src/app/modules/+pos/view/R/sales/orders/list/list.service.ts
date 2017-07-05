@@ -20,6 +20,6 @@ export class ListService {
                         "&searchCriteria[dateTo]=" +
                         dateTo +
                         "&searchCriteria[pageSize]=100" +
-                        "&searchCriteria[outletId]=0");
+                        "&searchCriteria[outletId]="+ generalState.outlet['id']);
   }
 }

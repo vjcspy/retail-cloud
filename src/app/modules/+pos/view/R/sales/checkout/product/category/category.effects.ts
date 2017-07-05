@@ -47,7 +47,7 @@ export class CheckoutProductCategoryEffects {
                                             .debounceTime(200)
                                             .map(() => {
                                               const totalCategoryHeight = jQuery('#product-category').height();
-    
+                                              
                                               return this.checkoutProductCategoryActions.saveCategoryHeight({totalCategoryHeight: totalCategoryHeight}, false);
                                             });
 }

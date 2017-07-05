@@ -59,28 +59,33 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   }
   
   syncOrder() {
-    // validate discount whole order
-    const discountWholeOrder = this.quoteState.quote.getData('discount_whole_order');
-    const couponCode         = this.quoteState.quote.getData('coupon_code');
-    
-    if (isNaN(discountWholeOrder) || parseFloat(discountWholeOrder) < 0) {
-      this.notify.warning("check_discount_whole_order");
+    if (this.quoteState.items.count() > 0) {
       
-      return;
-    }
-    
-    if ((discountWholeOrder === '' || discountWholeOrder === null) && !couponCode) {
-      return;
-    }
-    
-    if (!this.cartTotalsState.isDiscountWholeOrderValue) {
-      if (discountWholeOrder > 100) {
-        this.quoteState
-            .quote
-            .setData('discount_whole_order', 100)
+      // validate discount whole order
+      const discountWholeOrder = this.quoteState.quote.getData('discount_whole_order');
+      const couponCode         = this.quoteState.quote.getData('coupon_code');
+      
+      if (isNaN(discountWholeOrder) || parseFloat(discountWholeOrder) < 0) {
+        this.notify.warning("check_discount_whole_order");
+        
+        return;
       }
+      
+      if ((discountWholeOrder === '' || discountWholeOrder === null) && !couponCode) {
+        return;
+      }
+      
+      if (!this.cartTotalsState.isDiscountWholeOrderValue) {
+        if (discountWholeOrder > 100) {
+          this.quoteState
+              .quote
+              .setData('discount_whole_order', 100)
+        }
+      }
+      
+      this.syncActions.syncCurrentOrder();
+    }else{
+      this.notify.warning("no_item_in_cart");
     }
-    
-    this.syncActions.syncCurrentOrder();
   }
 }

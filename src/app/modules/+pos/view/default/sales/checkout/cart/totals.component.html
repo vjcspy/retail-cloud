@@ -2,7 +2,6 @@
 <div class="btn-collapse">
     <span class="close-arr"></span>
 </div>
-<div class="total-row-content">
   <div class="total-row has-popover hover">
     <div class="t-txt">
       <span class="click">{{ 'Subtotal' | translate }}</span>
@@ -24,7 +23,26 @@
             </div>
           </div>
         </div>
-      </div>    
+      </div>
+    <div _ngcontent-umq-48="" class="popover-wrapper left bottom">
+          <div _ngcontent-umq-48="" class="p-outer">
+              <div _ngcontent-umq-48="" class="p-inner">
+                  <div _ngcontent-umq-48="" class="content-list">
+                      <h3 _ngcontent-umq-48="">Subtotal</h3>
+                      <ul _ngcontent-umq-48="">
+                          <li _ngcontent-umq-48="">
+                              <p _ngcontent-umq-48="" class="name">Including Tax</p>
+                              <p _ngcontent-umq-48="" class="value">$111.86</p>
+                          </li>
+                          <li _ngcontent-umq-48="">
+                              <p _ngcontent-umq-48="" class="name">Excluding Tax</p>
+                              <p _ngcontent-umq-48="" class="value">$95.33</p>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
     <div class="t-value">
       {{(configState.setting.tax.displayCartSubtotalExclTax() ? (quoteState.quote.getShippingAddress()['subtotal'] ||
@@ -111,5 +129,4 @@
       {{((quoteState.quote.getShippingAddress()['tax_only'] || 0)) | priceFormat}}
     </div>
   </div>
-</div>
 </div>

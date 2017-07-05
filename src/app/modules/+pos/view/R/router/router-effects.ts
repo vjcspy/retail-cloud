@@ -27,7 +27,8 @@ export class PosViewRouterEffects {
                                                                           'customerGroup',
                                                                           'customers',
                                                                           'category',
-                                                                          'products'
+                                                                          'products',
+                                                                          'orders',
                                                                         ], false);
                                  });
   
