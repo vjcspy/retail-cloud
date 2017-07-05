@@ -1471,8 +1471,7 @@ textarea[readonly="readonly"] {
       }
       .c-mail {
         //right: 20px; text-align: right;
-        font-size: $size; color: $disTxt;
-        display: none;
+        font-size: $size; color: $disTxt;        
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -1797,6 +1796,9 @@ textarea[readonly="readonly"] {
   .total-blk {
   padding: 20px $hozlSpace 0 20px;
   color: $gray40;
+  .total-row-content{
+    padding-bottom: 10px;
+  }
   .btn-collapse{     
     height: 20px;
     position: absolute;
@@ -1805,6 +1807,9 @@ textarea[readonly="readonly"] {
     left: 0;  
     border-bottom: $border solid 1px;  
     @include gradient-trans();
+    &.c-hide{
+      background: none !important;
+    }
 
     .close-arr{
       @include close-arr($cbkg,270deg);
@@ -1835,7 +1840,7 @@ textarea[readonly="readonly"] {
         top: -30px;  
         .close-arr{
           @include close-arr(#e6e6e6,90deg);
-          padding-top: 6px;
+          padding-top: 4px;
           border-bottom: none;
           height: 30px;
         }  
