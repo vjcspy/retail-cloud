@@ -31,6 +31,7 @@ import {QuoteCustomerService} from "./customer/customer.service";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
 import {ProductDB} from "../../database/xretail/db/product";
+import {OfflineService} from "../../../share/provider/offline";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -41,7 +42,8 @@ export class PosQuoteEffects {
               private quoteActions: PosQuoteActions,
               private notify: NotifyManager,
               private quoteCustomer: QuoteCustomerService,
-              private progress: ProgressBarService) {}
+              private progress: ProgressBarService,
+              private offlineService: OfflineService) {}
   
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
@@ -153,6 +155,7 @@ export class PosQuoteEffects {
                                       PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                       '[Router] Update Location'
                                     )
+                                    .filter(() => this.offlineService.online === true)
                                     .filter((action: Action) => {
                                       if (action.type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
                                         return action.payload['entityCode'] === ShiftDB.getCode();
