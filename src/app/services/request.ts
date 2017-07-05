@@ -21,6 +21,9 @@ export class RequestService {
   }
   
   makeGet(url, option?: any) {
+    // force full page cache magento 2:
+    url += url.indexOf('?') > -1 ? `&forceFullPageCache=${Date.now()}` : `?forceFullPageCache=${Date.now()}`;
+    
     return this.http.get(url, Object.assign({}, this.getRequestOptions(), option))
                .map(
                  (res: Response) => {

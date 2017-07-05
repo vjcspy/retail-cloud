@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 
 @Injectable()
 export class CartTotalsActions {
@@ -14,5 +14,17 @@ export class CartTotalsActions {
   
   changeDiscountType(isDiscountWholeOrderValue: boolean) {
     this.store$.dispatch({type: CartTotalsActions.ACTION_CHANGE_DISCOUNT_TYPE, payload: {isDiscountWholeOrderValue}});
+  }
+  
+  static ACTION_TOGGLE_BLOCK_TOTAL_STATE = 'ACTION_TOGGLE_BLOCK_TOTAL_STATE';
+  
+  toggleBlockTotalState(dispatch: boolean = true): Action {
+    const action = {type: CartTotalsActions.ACTION_TOGGLE_BLOCK_TOTAL_STATE, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }

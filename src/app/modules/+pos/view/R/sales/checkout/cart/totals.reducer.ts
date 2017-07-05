@@ -14,6 +14,9 @@ export const cartTotalsReducer: ActionReducer<CartTotalsStateRecord> = (state = 
     case PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER:
       return state.set('isOpeningPopupDiscount', false);
     
+    case CartTotalsActions.ACTION_TOGGLE_BLOCK_TOTAL_STATE:
+      return state.set('isOpenTotalBlock', !state.isOpenTotalBlock);
+    
     default:
       return state;
   }

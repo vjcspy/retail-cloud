@@ -103,11 +103,11 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     if (typeof this.customerInfo === 'undefined' || force) {
       const customer = this.quoteState.customer;
       let customerName, customerEmail;
-      if (customer && customer['id']) {
+      if (customer && customer['id'] && parseInt(customer['id'] + '') !== parseInt(this.configState.setting.customer.getDefaultCustomerId())) {
         customerName  = customer['first_name'] + " " + customer['last_name'];
         customerEmail = customer['email'];
       } else {
-        customerName  = 'Guest';
+        customerName  = 'Guest Customer';
         customerEmail = '';
       }
       
