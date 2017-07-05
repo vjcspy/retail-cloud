@@ -1,12 +1,13 @@
 <div class="cart-table" perfectScroll [ngStyle]="cartItemState.cartItemsStyle" *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
-  <div class="customer-row" *ngIf="!!quoteState.customer && !!quoteState.customer['id']">
-    <div class="customer-head">
+  <div class="customer-row">
+    <div class="customer-head" (click)="customerAction($event)">
       <span class="icon-user click"></span>
       <div class="c-name">
-        <span class="c-user">{{quoteState.customer['first_name'] +" "+ quoteState.customer['last_name']}}</span>
-        <span class="c-mail">{{quoteState.customer['email']}}</span>
+        <span class="c-user">{{getCustomerInfo(true)['customerName']}}</span>
+        <span class="c-mail">{{getCustomerInfo()['customerEmail']}}</span>
       </div>
-      <span class="icon icon-change">
+      <span class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),
+      'icon-plus':!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()}">
       </span>
     </div>
   </div>
