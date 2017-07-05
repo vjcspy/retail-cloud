@@ -8,13 +8,16 @@
   .cateogries-inner{  
     @include clearfix;
     padding: 13px 10px 13px 20px;        
-    align-items: center;      
-    .cate-slider.slick-slider{
+    align-items: center;
+    overflow-x:scroll;     
+    .cate-slider{
       margin: 0;
       padding: 0; 
       position: relative; 
+      width: 200%; //remove;
+      @include clearfix;
       &:hover{
-        .slick-arrow{
+        .cate-arrow{
           opacity: 1;
         }
       }       
@@ -71,7 +74,7 @@
       }
     }
     // arrow
-    .slick-arrow{
+    .cate-arrow{
       font-size: 0;
       position: absolute;
       right: -10px;
@@ -82,6 +85,9 @@
       z-index: 1;
       padding: 0;
       opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       @include single-transition();
       @include border-radius(0px);
       &:before{
@@ -90,7 +96,7 @@
         color: $cgreen;
         content: "\e91f";
       }      
-      &.slick-next{
+      &.next{
         top: 31px;
         @include rotate(180deg);
       }
