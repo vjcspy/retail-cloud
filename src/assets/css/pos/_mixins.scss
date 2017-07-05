@@ -52,7 +52,7 @@
 }
 
 //transition
-@mixin single-transition($property,$duration){
+@mixin single-transition($property: all,$duration:.3s){
   -webkit-transition: $property $duration ease-in-out;
   -moz-transition: $property $duration ease-in-out;
   -o-transition: $property $duration ease-in-out;

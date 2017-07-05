@@ -5,22 +5,17 @@
       <a class="back-cate"><!-- "last-cate" class when lastest categories -->
         <i class="icon-back-btn"></i>Back
         <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
-      </a>
-
-
-      <ul class="slider">
-        <li *ngFor="let category of checkoutProductState.categoryList">
+      </a>     
+      <!-- class of preview/next button is "hidden" when lastest categories  --> 
+      <div class="cate-slider"> 
+        <div class="item" *ngFor="let category of checkoutProductState.categoryList">
           <a (click)="checkoutProductCategoryActions.selectCategory(category)">
-            <img src="{{category['image_url']? category['image_url'] :'assets/img/no-image1.png'}}">
+            <img src="{{category['image_url']? category['image_url'] :'assets/img/cate-no-image.png'}}">
             <span class="cat-name">{{category['name']}}</span>
           </a>
-        </li>
+        </div>
 
-      </ul>
-      <div class="navigation">
-        <a class="icon-left-thin preview">Preview</a>
-        <a class="icon-left-thin next">Next</a>
-      </div>
+      </div>      
     </div>
 
     <span class="cate-close" (click)="toggleCategoryMode()"></span>

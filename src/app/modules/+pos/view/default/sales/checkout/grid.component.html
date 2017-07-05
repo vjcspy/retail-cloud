@@ -2,8 +2,8 @@
   <div class="grid-mode">
     <div *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;" class="item"
          [ngStyle]="checkoutProductState.productGridStyles">
-      <span class="tags sale" *ngIf="isSales(product)"><img src="assets/icon/sale-icon148x84.png" alt=""/></span>
-      <span class="tags info" *ngIf="isOutOfStock(product)"><img src="assets/icon/info-icon80x80.png" alt=""/></span>
+      <span class="tags sale" *ngIf="isSales(product)"><img src="assets/img/sale-icon.png" alt=""/></span>
+      <span class="tags soldout" *ngIf="isOutOfStock(product)"><img src="assets/img/soldout-icon.png" alt=""/></span>
       <span class="show-label" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)"><span>{{ 'View Details' | translate }}</span></span>
 
       <div class="inner" (click)="quoteActions.selectProductToAdd(product)">

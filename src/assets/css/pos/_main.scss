@@ -1194,22 +1194,7 @@ textarea[readonly="readonly"] {
         margin-top: -1px;
       }
     }
-    .tags, .show-label {
-      position: absolute;
-      z-index: 2;
-      display: inline-block;
-      img {height: auto;}
-      &.sale {
-        width: 22.1556%;
-        //top: 13px; left: 14px;
-        @include pos(11%,8.5%);
-      }
-      &.info {
-        width: 11.9760%;
-        //top: 14px; right: 13px;
-        @include pos(91%,9%);
-      }
-    }
+    
     .show-label {
       right: 4px; bottom: 4px; left: 4px;
       height: 45px; padding: 5px;
@@ -1218,6 +1203,9 @@ textarea[readonly="readonly"] {
       text-align: center; text-transform: uppercase;
       line-height: normal; overflow: hidden;
       opacity: 0;
+       position: absolute;
+      z-index: 2;
+      display: inline-block;
       @include border-radius(6px);
       @include single-transition(all,.3s);
       > span {
@@ -1227,6 +1215,22 @@ textarea[readonly="readonly"] {
         @include center-pos;
       }
     }
+  }
+}
+.grid-mode{
+  .tags {
+    position: absolute;
+    z-index: 2;
+    display: inline-block;
+    width: 44px;  
+    left: 10px;
+    top: 10px;
+    @include tablet{
+      width: 36px;
+      left: 5px;
+      top: 5px;
+    }
+  
   }
 }
 
@@ -1456,13 +1460,15 @@ textarea[readonly="readonly"] {
       .c-user {
         //left: 77px;
         font-family: $boldFont;
-        font-size: 15px; color: $mainTxt;
+        font-size: 17px; color:$cgreen2;
         line-height: 19px;
+        text-transform: uppercase;
         //@include ellipsis;
       }
       .c-mail {
         //right: 20px; text-align: right;
         font-size: $size; color: $disTxt;
+        display: none;
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -1590,6 +1596,39 @@ textarea[readonly="readonly"] {
         background: #e6e6e6;
       }      
       .cart-content {max-height: 7000px;}
+    }
+  }
+
+  .customer-row .customer-head{
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    .c-name{
+      padding-top: 0;
+      flex: 1;
+    }
+    .icon-user.click[class^="icon-"]{
+        font-size: 60px;
+        margin-right: 10px;
+        width: auto;
+        color: #aaa;
+        margin: 0;
+        padding: 0;
+        height: auto;
+        line-height: 47px;
+    }
+    .icon-plus,.icon-minus{
+      background: $gray1;
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
+      @include  border-radius(50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;      
+    }
+    .icon-change{
+      font-size: 19px;
     }
   }
   .c-search {
