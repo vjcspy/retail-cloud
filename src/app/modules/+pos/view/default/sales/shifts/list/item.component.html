@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div *ngIf="shift['is_open'] === '1' || shift['is_open'] ===1" (click)="shiftListActions.selectShiftDetail(shift)">
+  <div class="items t-bar">
+    <div class="price">
+      <h3>{{ 'Opening' | translate }}</h3>
+    </div>
+    <div class="timer">
+      <p>
+        <strong>{{shift['open_at'] | datetimeFormat : 'time'}}</strong>
+      </p>
+    </div>
+  </div>
+</div>
+<div *ngIf="shift['is_open'] === '0' || shift['is_open']===0" (click)="shiftListActions.selectShiftDetail(shift)">
+  <div class="items">
+    <div class="price">
+      <span>{{shift['total_net_amount'] | priceFormat}}</span>
+    </div>
+    <div class="timer">
+      <p>
+        <strong>{{shift['open_at']| datetimeFormat : 'short-date' }}</strong>
+        <span>{{shift['open_at']| datetimeFormat : 'short-time' }}</span>
+      </p>
+      <p>
+        <strong>{{shift['close_at']| datetimeFormat : 'short-date'}}</strong>
+        <span>{{shift['close_at']| datetimeFormat : 'short-time' }}</span>
+      </p>
+    </div>
+  </div>
+</div>

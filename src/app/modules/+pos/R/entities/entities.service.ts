@@ -107,14 +107,12 @@ export class PosEntitiesService {
                 return resolve({error: false, data: {isFinished: true}});
               } else {
                 // not yet finished
-                if (entity.entityCode !== ShiftDB.getCode()) {
-                  let db: RetailDB = this.databaseManager.getDbInstance();
-                  try {
-                    await db[entity.entityCode].bulkAdd(items);
-                  } catch (e) {
-                    console.log("add entities to cache failed" + entity.entityCode + ", try to put again");
-                    await db[entity.entityCode].bulkPut(items);
-                  }
+                let db: RetailDB = this.databaseManager.getDbInstance();
+                try {
+                  await db[entity.entityCode].bulkAdd(items);
+                } catch (e) {
+                  console.log("add entities to cache failed" + entity.entityCode + ", try to put again");
+                  await db[entity.entityCode].bulkPut(items);
                 }
             
                 const additionData = {

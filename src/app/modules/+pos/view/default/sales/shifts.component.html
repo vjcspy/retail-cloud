@@ -1,1 +1,2 @@
-<pos-default-sales-shifts-list></pos-default-sales-shifts-list>
+<pos-default-sales-shifts-list [shiftState]="shiftState$ | async" [posQuoteState]="posQuoteState$ | async"></pos-default-sales-shifts-list>
+<pos-default-sales-shifts-detail [shiftState]="shiftState$ | async" [entitiesState]="entitiesState$ | async"></pos-default-sales-shifts-detail>

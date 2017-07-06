@@ -1,4 +1,4 @@
-<div class="cart-product-inner refund-blk"  (window:resize)="onResizeCart()">
+<div class="cart-product-inner refund-blk" (window:resize)="onResizeCart()">
 
   <div class="unopened-shift" *ngIf="!quoteState.info.isShiftOpening">
     <h3>{{ 'There is no opening shift' | translate }}</h3>
@@ -8,12 +8,11 @@
   <pos-default-sales-checkout-cart-customers *ngIf="cartCustomerState.inSearchCustomers" [configState]="configState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-customers>
 
-  <pos-default-sales-checkout-cart-items   class="cart-items-comp"*ngIf="configState.isResolveSetting"
+  <pos-default-sales-checkout-cart-items class="cart-items-comp" *ngIf="configState.isResolveSetting"
                                          [configState]="configState" [quoteState]="quoteState" [cartItemState]="cartItemState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-items>
 
-<!-- add "totals-collapse" class when hide total cart -->
-  <pos-default-sales-checkout-cart-totals  class="cart-totals-comp" *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
+  <pos-default-sales-checkout-cart-totals class="cart-totals-comp" [ngClass]="{'totals-collapse': !cartTotalsState.isOpenTotalBlock}" *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
                                           [cartTotalsState]="cartTotalsState" [quoteState]="quoteState" [configState]="configState"
   ></pos-default-sales-checkout-cart-totals>
 </div>
