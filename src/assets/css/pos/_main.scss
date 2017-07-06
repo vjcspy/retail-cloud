@@ -1658,7 +1658,8 @@ textarea[readonly="readonly"] {
 
 .cart-table {
   height: calc(100% - 116px);
-  position: relative;    
+  position: relative;  
+  background: $white;  
   .cart-row {
     .cart-head {
       padding-right: 145px;

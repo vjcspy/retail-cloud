@@ -7,16 +7,47 @@
         <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
       </a>     
       <!-- class of preview/next button is "hidden" when lastest categories  --> 
-      <div class="cate-slider" > 
+      <div class="cate-slider" perfectScroll> 
         <div class="item" *ngFor="let category of checkoutProductState.categoryList">
           <a (click)="checkoutProductCategoryActions.selectCategory(category)">
             <img src="{{category['image_url']? category['image_url'] :'assets/img/cate-no-image.png'}}">
             <span class="cat-name">{{category['name']}}</span>
           </a>
         </div> 
-        <a class="cate-arrow prev"></a>
-        <a class="cate-arrow next"></a>           
+        <div class="item">
+          <a>
+            <img src="assets/img/cate-no-image.png">
+            <span class="cat-name">Men</span>
+          </a>
+        </div><div class="item">
+          <a>
+            <img src="assets/img/cate-no-image.png">
+            <span class="cat-name">Women</span>
+          </a>
+        </div><div class="item">
+          <a>
+            <img src="assets/img/cate-no-image.png">
+            <span class="cat-name">Gear</span>
+          </a>
+        </div><div class="item">
+          <a>
+            <img src="assets/img/cate-no-image.png">
+            <span class="cat-name">Sale</span>
+          </a>
+        </div><div class="item">
+          <a>
+            <img src="http://mage2.dev/pub/media/catalog/category/7824116522_9078e03df9.jpg">
+            <span class="cat-name">What's New</span>
+          </a>
+        </div><div class="item">
+          <a>
+            <img src="assets/img/cate-no-image.png">
+            <span class="cat-name">Training</span>
+          </a>
+        </div>                  
       </div>  
+      <a class="cate-arrow prev"></a>
+        <a class="cate-arrow next"></a>   
       
     </div>
 
