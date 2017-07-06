@@ -136,9 +136,9 @@
   }
 }
 @mixin float-reset{
-  width: 100%;
-  float: none;
-  clear: both;
+  width: 100% !important;
+  float: none !important;
+  clear: both !important;
 }
 
 @mixin close-arr($bg: #fff,$rotate:90deg ) {

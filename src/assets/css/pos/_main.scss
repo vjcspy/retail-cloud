@@ -1184,14 +1184,18 @@ textarea[readonly="readonly"] {
       }
     }
     .product-name {
-      bottom: 10px;
+      bottom: 15px;
       font-family: $mediumFont;
       font-size: $sizeS;
-      height: 31px; width: 100%;
-      line-height: 15px;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding: 0 20px;
+      display: block;
+      text-align: center;
       span {
-        @include ver-pos;
-        margin-top: -1px;
+        position: static;
       }
     }
     
@@ -1516,6 +1520,9 @@ textarea[readonly="readonly"] {
           margin-bottom:15px; padding-left: 76px;
           &:nth-of-type(odd) {float: left; width: 42%;}
           &:nth-of-type(even) {float: right; width: 52%; clear: right;}
+          @include tablet{
+            @include float-reset;
+          }
           &.discount-field{
             display: flex;
             align-items: center;
@@ -1655,10 +1662,13 @@ textarea[readonly="readonly"] {
     }
   }
 }
-
+.cart-product .cart-product-inner{
+  background: $white; 
+}
 .cart-table {
   height: calc(100% - 116px);
-  position: relative;    
+  position: relative;  
+   
   .cart-row {
     .cart-head {
       padding-right: 145px;

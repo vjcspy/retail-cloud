@@ -7,34 +7,35 @@
   background: $white;
   .cateogries-inner{  
     @include clearfix;
-    padding: 13px 10px 13px 20px;        
-    align-items: center;
-    overflow-x:scroll;     
+    padding: 13px 10px 10px 20px;        
+    align-items: center;    
+    position: relative;   
     .cate-slider{
       margin: 0;
       padding: 0; 
-      position: relative; 
-      width: 200%; //remove;
-      @include clearfix;
-      &:hover{
-        .cate-arrow{
-          opacity: 1;
-        }
-      }       
+      text-align: center;
+      white-space: nowrap;            
+      height: 67px;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+      @include tablet{
+        height: 55px;
+      }
+           
       .item{
         list-style: none;
         padding: 0;
         margin-right: 10px;
-        position: relative;
-        float: left;                
+        position: relative;                
         text-align: center; 
         position: relative;
         text-align: center;
         overflow: hidden;
-        max-height: 62px;   
-        display: flex;
-        flex: inherit;
+        max-height: 62px;           
         align-items: center;  
+        display: inline-block;
+        white-space: nowrap;
+        width: 160px;
 
         @include border-radius(5px);        
 
@@ -49,12 +50,9 @@
           @include border-radius(5px);
         }
         img{
-          display: inline-block;          
+          display: inline-block;    
         }
-        
-        a{
-          display: block;
-        }       
+
         .cat-name{
           color: $white;
           text-transform: uppercase;
@@ -74,14 +72,19 @@
       }
     }
     // arrow
+    &:hover{
+      .cate-arrow{
+        opacity: 1;
+      }      
+    }  
     .cate-arrow{
       font-size: 0;
       position: absolute;
-      right: -10px;
-      top: -13px;
+      right: 0;
+      top:0px;
       width: 42px;
-      height: 44px;
-      background: rgba(243,243,243,.7);
+      height: 45px;
+      background: rgba(230,230,230,.8);
       z-index: 1;
       padding: 0;
       opacity: 0;
@@ -97,7 +100,7 @@
         content: "\e91f";
       }      
       &.next{
-        top: 31px;
+        top: 45px;
         @include rotate(180deg);
       }
       &:hover{
@@ -136,7 +139,7 @@
       margin-top: 10px;
       margin-right: 10px;
       @include tablet{
-        margin-top: 6px;
+        margin-top: 3px;
       }
       i:before{
         color: $cgreen;
