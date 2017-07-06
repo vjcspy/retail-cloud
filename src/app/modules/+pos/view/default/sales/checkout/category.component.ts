@@ -1,7 +1,11 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild
+} from '@angular/core';
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {CheckoutProductCategoryActions} from "../../../R/sales/checkout/product/category/category.actions";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
+import {PerfectScrollDirective} from "../../../../../share/directives/perfect-scroll";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -9,13 +13,23 @@ import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.
              templateUrl: 'category.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterViewInit {
+export class PosDefaultSalesCheckoutCategoryComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('productCategory') productCategory: ElementRef;
   @ViewChild('productBreadcrumb') productBreadcrumb: ElementRef;
-  
+  @ViewChild(PerfectScrollDirective) vc: PerfectScrollDirective;
   @Input() checkoutProductState: CheckoutProductState;
   
   constructor(protected checkoutProductCategoryActions: CheckoutProductCategoryActions, protected checkoutProductActions: CheckoutProductActions) { }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    _.forEach(changes, (v, k) => {
+      if (k === 'checkoutProductState') {
+        setTimeout(() => {
+          this.vc.update();
+        }, 250);
+      }
+    })
+  }
   
   ngOnInit() { }
   
