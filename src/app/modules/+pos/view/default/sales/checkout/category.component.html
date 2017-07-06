@@ -7,7 +7,7 @@
         <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
       </a>
       <!-- class of preview/next button is "hidden" when lastest categories  -->
-      <div class="cate-slider" perfectScroll>
+      <div class="cate-slider" drag-scroll perfectScroll>
         <div class="item" *ngFor="let category of checkoutProductState.categoryList">
           <a (click)="checkoutProductCategoryActions.selectCategory(category)">
             <img src="{{category['image_url']? category['image_url'] :'assets/img/cate-no-image.png'}}">
@@ -51,8 +51,8 @@
           </a>
         </div>
       </div>
-      <a class="cate-arrow prev"></a>
-      <a class="cate-arrow next"></a>
+      <!--<a class="cate-arrow prev"></a>-->
+      <!--<a class="cate-arrow next"></a>-->
 
     </div>
 
