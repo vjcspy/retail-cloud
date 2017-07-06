@@ -68,9 +68,7 @@ export class CheckoutProductCategoryEffects {
                                  const categories: List<CategoryDB>               = (z[1] as PosEntitiesState).category.items;
                                  const checkoutProductState: CheckoutProductState = <any> z[2];
     
-                                 const p = categories.find((c) => parseInt(c['id']) === parseInt(checkoutProductState.currentCategory['parent_id']));
-                                 console.log(p);
-                                 return p;
+                                 return categories.find((c) => parseInt(c['id']) === parseInt(checkoutProductState.currentCategory['parent_id']));
                                })
                                .filter((parentCate) => !!parentCate)
                                .map((pC) => this.checkoutProductCategoryActions.selectCategory(pC, false));
