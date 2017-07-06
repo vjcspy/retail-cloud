@@ -9,6 +9,7 @@ import {RouterActions} from "../../../../../R/router/router.actions";
 import {AccountActions} from "../../../../../R/account/account.actions";
 import {AccountState} from "../../../../../R/account/account.state";
 import {DatabaseManager} from "../../../../../services/database-manager";
+import {PosGeneralState} from "../../../R/general/general.state";
 
 @Component({
              // moduleId: module.id,
@@ -20,6 +21,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   @ViewChild('menuElem') menuElem: ElementRef;
   @Input() menuState: MenuState;
   @Input() accountState: AccountState;
+  @Input() generalState: PosGeneralState;
   
   constructor(public authenticateService: AuthenticateService,
               public offline: OfflineService,
@@ -33,11 +35,13 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   ngOnInit() { }
   
   getUserName() {
-    return "Cashier";
+    return this.authenticateService.user['username'];
   }
   
   getOutletRegisterData() {
-    return "Register 1 - Outlet 1"
+    if (this.generalState.register && this.generalState.outlet) {
+      return this.generalState.register['name'] + ' - ' + this.generalState.outlet['name'];
+    }
   }
   
   

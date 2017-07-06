@@ -10,6 +10,7 @@ import {PosConfigState} from "../../R/config/config.state";
 import {ReceiptState} from "../R/sales/receipts/receipt.state";
 import {AccountState} from "../../../../R/account/account.state";
 import {OrderService} from "../R/sales/orders/order.service";
+import {PosGeneralState} from "../../R/general/general.state";
 
 @Component({
              // moduleId: module.id,
@@ -23,6 +24,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
   configState$: Observable<PosConfigState>;
   receiptState$: Observable<ReceiptState>;
   accountState$: Observable<AccountState>;
+  generalState$: Observable<PosGeneralState>;
   
   
   constructor(protected store$: Store<SalesState>, public orderListViewService: OrderService) {
@@ -33,6 +35,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
     this.configState$  = this.store$.select('config');
     this.receiptState$ = this.store$.select('receipt');
     this.accountState$ = this.store$.select('account');
+    this.generalState$ = this.store$.select('general');
   }
   
   ngOnInit(): void {
