@@ -35,7 +35,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   ngOnInit() { }
   
   getUserName() {
-    return this.authenticateService.user['username'];
+    return this.authenticateService.getUserName();
   }
   
   getOutletRegisterData() {
