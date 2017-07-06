@@ -42,6 +42,8 @@ import {PosDefaultSalesCheckoutActionsBarOrderOnholdComponent} from "./sales/che
 import {PosDefaultSalesShiftsListComponent} from "./sales/shifts/list.component";
 import {PosDefaultSalesShiftsListItemComponent} from "./sales/shifts/list/item.component";
 import {PosDefaultSalesShiftDetailComponent} from "./sales/shifts/detail.component";
+import {PosDefaultSalesShiftsPopupComponent} from "./sales/shifts/popup.component";
+import {PosDefaultSalesShiftsPopupCloseComponent} from "./sales/shifts/popup/close.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -97,5 +99,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesShiftsComponent,
   PosDefaultSalesShiftsListComponent,
   PosDefaultSalesShiftsListItemComponent,
-  PosDefaultSalesShiftDetailComponent
+  PosDefaultSalesShiftDetailComponent,
+  PosDefaultSalesShiftsPopupComponent,
+  PosDefaultSalesShiftsPopupCloseComponent,
 ];

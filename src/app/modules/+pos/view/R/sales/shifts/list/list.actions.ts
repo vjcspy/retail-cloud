@@ -29,4 +29,16 @@ export class ShiftListActions {
     
     return action;
   }
+  
+  static ACTION_PULLED_SHIFT = 'ACTION_PULLED_SHIFT';
+  
+  pulledShift(shifts, lastPageNumber, dispatch: boolean = true): Action {
+    const action = {type: ShiftListActions.ACTION_PULLED_SHIFT, payload: {shifts, lastPageNumber}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

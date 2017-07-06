@@ -1,0 +1,69 @@
+<div id="closeShift" class="popup-wrapper open">
+  <div class="popup-content">
+    <div class="closeshift-table">
+      <h2 class="p-head">
+        {{ 'Close Shift' | translate }}
+        <span>{{getUserName() + " / " + getOutletRegisterData() + " / Shift #" + shift['id']}}</span>
+      </h2>
+      <div class="inner" #posPerfectScroll>
+        <table>
+          <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>{{ 'Expected' | translate }} ($)</th>
+            <th class="c-center">{{ 'Counted' | translate }} ($)</th>
+            <th>{{ 'Differences' | translate }} ($)</th>
+          </tr>
+          </thead>
+          <tbody class="first v-bot">
+          <tr *ngFor="let payment of entitiesState.payment.items;trackBy:trackById">
+            <td><!--<strong>Cash Summary</strong>-->{{payment['title']}}</td>
+            <td>{{getExpectedAmount(payment) | priceFormat}}</td>
+            <td class="c-center">
+              <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]"
+                           (keyup)="getDiff(payment,true)"
+                           [formKey]="'popup-close-shift'"
+                           [validation]="'require,i-number'">
+              </retail-text>
+            </td>
+            <td><span class="un-expect">{{getDiff(payment) | priceFormat}}</span></td>
+          </tr>
+          </tbody>
+          <!--<thead>-->
+          <!--<tr>-->
+          <!--<th><strong>Reward Points</strong></th>-->
+          <!--<th>Points Earned</th>-->
+          <!--<th>Points Spent</th>-->
+          <!--<th>Differences</th>-->
+          <!--</tr>-->
+          <!--<tr>-->
+          <!--<td>&nbsp;</td>-->
+          <!--<td>300</td>-->
+          <!--<td>400</td>-->
+          <!--<td><span class="un-expect">-100</span></td>-->
+          <!--</tr>-->
+          <!--</thead>-->
+          <tbody>
+          <tr>
+            <td><strong>{{ 'CASH AMOUNT TAKEOUT' | translate }}</strong></td>
+            <td colspan="3">
+              <div class="cash-amount">
+                <retail-text [(model)]="_data['takeOut']"
+                             [formKey]="'popup-close-shift'"
+                             [validation]="'require,i-number'">
+                </retail-text>
+                <textarea placeholder="{{ 'Add note here' | translate }}" [(ngModel)]="_data['note']" name="note">{{ 'Add note here' | translate }}</textarea>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="desc-bottom">
+        <button class="gray" (click)="shiftViewService.viewState['close_shift_popup'] = false">{{ 'Cancel' | translate }}</button>
+        <button (click)="closeShift()">{{ 'Close Shift' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>
