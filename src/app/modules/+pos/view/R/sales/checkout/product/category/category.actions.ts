@@ -42,10 +42,22 @@ export class CheckoutProductCategoryActions {
     return action;
   }
   
+  static ACTION_BACK_CATEGORY = 'ACTION_BACK_CATEGORY';
+  
+  backCategory(dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductCategoryActions.ACTION_BACK_CATEGORY, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   static ACTION_RESOLVED_CATEGORY_LIST = 'ACTION_RESOLVED_CATEGORY_LIST';
   
-  resolvedCategoryList(categoryList, dispatch: boolean = true): Action {
-    const action = {type: CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST, payload: {categoryList}};
+  resolvedCategoryList(categoryList, categoryBreadcrumb, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST, payload: {categoryList, categoryBreadcrumb}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
