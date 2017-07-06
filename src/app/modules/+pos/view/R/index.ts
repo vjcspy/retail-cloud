@@ -62,6 +62,9 @@ import {ShiftService} from "./sales/shifts/shift.service";
 import {ShiftListService} from "./sales/shifts/list/list.service";
 import {ShiftListEffects} from "./sales/shifts/list/list.effects";
 import {ShiftListActions} from "./sales/shifts/list/list.actions";
+import {ShiftDetailActions} from "./sales/shifts/detail/detail.actions";
+import {ShiftDetailEffects} from "./sales/shifts/detail/detail.effects";
+import {ShiftDetailService} from "./sales/shifts/detail/detail.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -77,6 +80,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(ReceiptEffects),
   EffectsModule.run(ListEffects),
   EffectsModule.run(ShiftListEffects),
+  EffectsModule.run(ShiftDetailEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -143,7 +147,10 @@ export const R_POS_VIEW_PROVIDERS = [
   ShiftService,
   ShiftListActions,
   ShiftListService,
-  ShiftListEffects
+  ShiftListEffects,
+  ShiftDetailActions,
+  ShiftDetailEffects,
+  ShiftDetailService,
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/

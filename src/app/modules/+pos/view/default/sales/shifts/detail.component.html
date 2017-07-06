@@ -1,6 +1,6 @@
 <div class="cashdrawer-detail" *ngIf="shiftState.detail.shift">
   <div class="top-bar">
-    <div class="grand-total">{{(getTotalsSales() + getTotalsRefund()) | priceFormat}}</div>
+    <div class="grand-total">{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) | priceFormat}}</div>
   </div><!--end top-bar-->
   <div class="cashdrawer-inner" perfectScroll>
     <div class="table-total">
@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let payment of entitiesState.payment.items">
+        <tr *ngFor="let payment of shiftState.detail.amounts.paymentUsed">
           <td>
              <span style="top: 5px" [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',
@@ -24,19 +24,19 @@
                         </span>
             <h4>{{payment['title']}}</h4>
           </td>
-          <td>{{getSaleTransaction(payment['id']) | priceFormat}}</td>
-          <td>{{getRefundTransaction(payment['id']) | priceFormat}}</td>
-          <td>{{getNetTransaction(payment['id']) | priceFormat}}</td>
-          <td *ngIf="!shiftIsOpening()">{{getCountedPayment(payment) | priceFormat}}</td>
+          <td>{{payment.sales | priceFormat}}</td>
+          <td>{{payment.refund | priceFormat}}</td>
+          <td>{{(payment.sales + payment.refund) | priceFormat}}</td>
+          <td *ngIf="!shiftIsOpening()">{{shiftState.detail.shift['data']['counted'][payment['id']] | priceFormat}}</td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
           <td><h4>{{ 'Total' | translate }}</h4></td>
-          <td>{{getTotalsSales() | priceFormat}}</td>
-          <td>{{getTotalsRefund() | priceFormat}}</td>
-          <td>{{(getTotalsSales() + getTotalsRefund()) | priceFormat}}</td> <!--total refund is negative number-->
-          <td *ngIf="!shiftIsOpening()">{{getTotalsCountedAllPayment() | priceFormat}}</td>
+          <td>{{shiftState.detail.amounts.totals.sales | priceFormat}}</td>
+          <td>{{shiftState.detail.amounts.totals.refund | priceFormat}}</td>
+          <td>{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) | priceFormat}}</td>
+          <td *ngIf="!shiftIsOpening()">{{shiftState.detail.amounts.totals.counted | priceFormat}}</td>
         </tr>
         </tfoot>
       </table><!--end table-->
@@ -93,7 +93,7 @@
         <div class="merge-row" *ngIf="!shiftIsOpening()">
           <div class="total-row">
             <h3 class="t-txt">{{ 'Total Adjustment' | translate }}</h3>
-            <h3 class="t-value">{{getTotalInOut() | priceFormat}}</h3>
+            <h3 class="t-value">{{shiftState.detail.amounts.totals.inOut | priceFormat}}</h3>
           </div>
         </div>
       </div>
