@@ -3,8 +3,8 @@
     <div class="closeshift-table">
       <h2 class="p-head">
         {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
+        <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
       </h2>
-      <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
       <div class="inner" #posPerfectScroll>
         <table>
           <thead>

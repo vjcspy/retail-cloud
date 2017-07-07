@@ -2,7 +2,7 @@
 
   <div class="unopened-shift" *ngIf="!quoteState.info.isShiftOpening">
     <h3>{{ 'There is no opening shift' | translate }}</h3>
-    <button class="bounder">{{ 'Open' | translate }}</button>
+    <button class="bounder" (click)="openShift()">{{ 'Open' | translate }}</button>
   </div>
 
   <pos-default-sales-checkout-cart-customers *ngIf="cartCustomerState.inSearchCustomers" [configState]="configState" [cartCustomerState]="cartCustomerState">

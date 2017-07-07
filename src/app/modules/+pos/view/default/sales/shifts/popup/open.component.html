@@ -1,8 +1,10 @@
 <div id="openShift" class="popup-wrapper open">
   <div class="popup-content">
     <div class="cashdrawer-form">
-      <h2 class="p-head">{{ 'Open Shift' | translate }}</h2>
-      <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
+      <h2 class="p-head">
+        {{ 'Open Shift' | translate }}
+        <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
+      </h2>
       <div class="inner" perfectScroll>
         <form>
           <div class="item-row">
