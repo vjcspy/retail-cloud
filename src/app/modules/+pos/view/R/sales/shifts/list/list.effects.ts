@@ -31,18 +31,20 @@ export class ShiftListEffects {
   
   @Effect() pullShift = this.actions$
                             .ofType(
+                              ShiftListActions.ACTION_LOAD_MORE_SHIFT,
                               ShiftListActions.ACTION_NEED_PULL_SHIFT,
                               ShiftActions.ACTION_CLEAR_SHIFT_STATE)
                             .withLatestFrom(this.store$.select('general'))
                             .withLatestFrom(this.store$.select('shifts'), (z, z1) => [...z, z1])
                             .filter((z) => {
                               const shiftState: ShiftState = <any>z[2];
-                              if (shiftState.list.currentPage >= shiftState.list.limitPage) {
+                              if (shiftState.list.currentPage > shiftState.list.lastPageNumber) {
                                 return false
                               }
     
                               return true;
                             })
+                            .debounceTime(500)
                             .switchMap((z) => {
                               const shiftState: ShiftState = <any>z[2];
                               return this.shiftListService.createGetShiftRequest(shiftState.list.currentPage, <any>z[1])

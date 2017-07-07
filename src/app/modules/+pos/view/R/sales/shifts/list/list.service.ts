@@ -18,7 +18,7 @@ export class ShiftListService {
     let _query = this.apiManager.get('shifts', generalState.baseUrl);
     _query += "?searchCriteria[outlet_id]=" + generalState.outlet['id'];
     _query += "&searchCriteria[register_id]=" + generalState.register['id'];
-    _query += "&searchCriteria[pageSize]=20";
+    _query += "&searchCriteria[pageSize]=15";
     _query += "&searchCriteria[currentPage]=" + (currentPage + 1);
     return this.request.makeGet(_query);
   }

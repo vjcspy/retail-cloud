@@ -25,6 +25,8 @@ export const shiftListReducer: ActionReducer<ShiftStateRecord> = (state: ShiftSt
       });
       
       return state.setIn(['list', 'shifts'], newShifts)
+                  .setIn(['list', 'currentPage'], state.list.currentPage + 1)
+                  .setIn(['list', 'isLoadingFromServer'], false)
                   .setIn(['list', 'lastPageNumber'], action.payload['lastPageNumber']);
     
     case ShiftDetailActions.ACTION_CLOSE_SHIFT_SUCCESS:
@@ -38,6 +40,13 @@ export const shiftListReducer: ActionReducer<ShiftStateRecord> = (state: ShiftSt
     
     case ShiftDetailActions.ACTION_OPEN_SHIFT_SUCCESS:
       return state.updateIn(['list', 'shifts'], (shifts) => shifts.push(action.payload['shift']));
+    
+    case ShiftListActions.ACTION_LOAD_MORE_SHIFT:
+      if (state.list.currentPage <= state.list.lastPageNumber) {
+        return state.setIn(['list', 'isLoadingFromServer'], true)
+                    .setIn(['list', 'currentPage'], state.list.currentPage + 1);
+      }
+      return state;
     
     default:
       return state;

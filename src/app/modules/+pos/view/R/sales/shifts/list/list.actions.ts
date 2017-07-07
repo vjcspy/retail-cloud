@@ -53,4 +53,16 @@ export class ShiftListActions {
     
     return action;
   }
+  
+  static ACTION_LOAD_MORE_SHIFT = 'ACTION_LOAD_MORE_SHIFT';
+  
+  loadMoreShift(dispatch: boolean = true): Action {
+    const action = {type: ShiftListActions.ACTION_LOAD_MORE_SHIFT, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
