@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 
@@ -11,6 +11,7 @@ import {FormValidationService} from "../../share/provider/form-validation";
 export class RetailTextComponent implements OnInit, OnDestroy {
   @Input() validation: string = "";
   @Input() formKey: string;
+  @Input() disabled           = false;
   @Input('placeHolderText') placeHolderText: string;
   
   modelValue: string;

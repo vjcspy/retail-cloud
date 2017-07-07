@@ -110,4 +110,17 @@ export class ShiftDetailService {
       note: data['note']
     });
   }
+  
+  createAdjustShiftRequest(shift, data, generalState: PosGeneralState) {
+    return this.requestService.makePost(this.api.get('adjust-shift', generalState.baseUrl), {
+      shift_id: shift['id'],
+      outlet_id: generalState.outlet['id'],
+      register_id: generalState.register['id'],
+      user_id: generalState.user['id'],
+      user_name: this.authenticate.getUserName(),
+      amount: data['amount'],
+      note: data['note'],
+      is_in: data['isIn']
+    });
+  }
 }

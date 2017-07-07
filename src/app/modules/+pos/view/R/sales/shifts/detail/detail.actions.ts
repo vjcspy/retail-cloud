@@ -88,4 +88,40 @@ export class ShiftDetailActions {
     
     return action;
   }
+  
+  static ACTION_ADJUST_SHIFT = 'ACTION_ADJUST_SHIFT';
+  
+  adjustShift(shift, data, dispatch: boolean = true): Action {
+    const action = {type: ShiftDetailActions.ACTION_ADJUST_SHIFT, payload: {shift, data}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_ADJUST_SHIFT_SUCCESS = 'ACTION_ADJUST_SHIFT_SUCCESS';
+  
+  adjustShiftSuccess(shift, dispatch: boolean = true): Action {
+    const action = {type: ShiftDetailActions.ACTION_ADJUST_SHIFT_SUCCESS, payload: {shift}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_ADJUST_SHIFT_FAILED = 'ACTION_ADJUST_SHIFT_FAILED';
+  
+  adjustShiftFailed(mess, dispatch: boolean = true): Action {
+    const action = {type: ShiftDetailActions.ACTION_ADJUST_SHIFT_FAILED, payload: {mess}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

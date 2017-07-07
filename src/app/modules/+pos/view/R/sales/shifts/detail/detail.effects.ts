@@ -66,26 +66,26 @@ export class ShiftDetailEffects {
                                               ]);
                                           });
   
-  @Effect() openShift        = this.actions$
-                                   .ofType(
-                                     ShiftDetailActions.ACTION_OPEN_SHIFT
-                                   )
-                                   .withLatestFrom(this.store$.select('general'))
-                                   .switchMap((z) => {
-                                     const action = z[0];
+  @Effect() openShift = this.actions$
+                            .ofType(
+                              ShiftDetailActions.ACTION_OPEN_SHIFT
+                            )
+                            .withLatestFrom(this.store$.select('general'))
+                            .switchMap((z) => {
+                              const action = z[0];
     
-                                     return this.detailService.createOpenShiftRequest(action.payload['shiftOpenData'], <any>z[1])
-                                                .map((data) => {
-                                                  if (_.isArray(data.items) && _.size(data.items) == 1) {
-                                                    return this.shiftDetailActions.openShiftSuccess(data.items[0], false);
-                                                  } else {
-                                                    return this.shiftDetailActions.openShiftFailed('check_connector', false);
-                                                  }
-                                                })
-                                                .catch((e) => {
-                                                  return Observable.of(this.shiftDetailActions.openShiftFailed('close_shift_error_from_sv', false));
-                                                });
-                                   });
+                              return this.detailService.createOpenShiftRequest(action.payload['shiftOpenData'], <any>z[1])
+                                         .map((data) => {
+                                           if (_.isArray(data.items) && _.size(data.items) == 1) {
+                                             return this.shiftDetailActions.openShiftSuccess(data.items[0], false);
+                                           } else {
+                                             return this.shiftDetailActions.openShiftFailed('check_connector', false);
+                                           }
+                                         })
+                                         .catch((e) => {
+                                           return Observable.of(this.shiftDetailActions.openShiftFailed('close_shift_error_from_sv', false));
+                                         });
+                            });
   
   @Effect() openShiftSuccess = this.actions$
                                    .ofType(
@@ -97,5 +97,38 @@ export class ShiftDetailEffects {
                                          this.shiftListActions.selectShiftDetail(action.payload['shift'], false),
                                          this.posQuoteActions.updateQuoteInfo({isShiftOpening: true}, false)
                                        ]);
-                                   })
+                                   });
+  
+  @Effect() adjustShift = this.actions$
+                              .ofType(
+                                ShiftDetailActions.ACTION_ADJUST_SHIFT
+                              )
+                              .withLatestFrom(this.store$.select('general'))
+                              .switchMap((z) => {
+                                const action = z[0];
+    
+                                return this.detailService.createAdjustShiftRequest(action.payload['shift'], action.payload['data'], <any>z[1])
+                                           .map((data) => {
+                                             if (_.isArray(data.items) && _.size(data.items) == 1) {
+                                               return this.shiftDetailActions.adjustShiftSuccess(data.items[0], false);
+                                             } else {
+                                               return this.shiftDetailActions.adjustShiftFailed('check_connector', false);
+                                             }
+                                           })
+                                           .catch((e) => {
+                                             return Observable.of(this.shiftDetailActions.adjustShiftFailed('adjust_shift_error_from_sv', false));
+                                           });
+                              });
+  
+  @Effect() adjustShiftSuccess = this.actions$
+                                     .ofType(
+                                       ShiftDetailActions.ACTION_ADJUST_SHIFT_SUCCESS
+                                     )
+                                     .flatMap((action) => {
+                                       return Observable.from(
+                                         [
+                                           this.shiftListActions.selectShiftDetail(action.payload['shift'], false)
+                                         ]);
+                                     });
+  
 }

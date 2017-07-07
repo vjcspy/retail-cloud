@@ -22,4 +22,8 @@ export class PosDefaultSalesShiftsPopupComponent implements OnInit {
   isOpeningShiftOpenPopup() {
     return this.shiftState.popupOpening === SHIFT_POPUP.OPEN_POPUP;
   }
+  
+  isOpeningShiftAdjustPopup() {
+    return this.shiftState.popupOpening === SHIFT_POPUP.ADJUST_POPUP;
+  }
 }

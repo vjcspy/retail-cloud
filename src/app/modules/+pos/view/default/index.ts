@@ -45,6 +45,7 @@ import {PosDefaultSalesShiftDetailComponent} from "./sales/shifts/detail.compone
 import {PosDefaultSalesShiftsPopupComponent} from "./sales/shifts/popup.component";
 import {PosDefaultSalesShiftsPopupCloseComponent} from "./sales/shifts/popup/close.component";
 import {PosDefaultSalesShiftsPopupOpenComponent} from "./sales/shifts/popup/open.component";
+import {PosDefaultSalesShiftsPopupAdjustComponent} from "./sales/shifts/popup/adjust.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -104,4 +105,5 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesShiftsPopupComponent,
   PosDefaultSalesShiftsPopupCloseComponent,
   PosDefaultSalesShiftsPopupOpenComponent,
+  PosDefaultSalesShiftsPopupAdjustComponent
 ];

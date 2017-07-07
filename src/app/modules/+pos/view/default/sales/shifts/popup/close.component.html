@@ -4,6 +4,7 @@
       <h2 class="p-head">
         {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
       </h2>
+      <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
       <div class="inner" #posPerfectScroll>
         <table>
           <thead>
@@ -19,7 +20,7 @@
             <td>{{payment['title']}}</td>
             <td>{{getExpectedAmount(payment) | priceFormat}}</td>
             <td class="c-center">
-              <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]" inputSelectText
+              <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]" inputSelectText [disabled]="shiftState.detail.waitingServer"
                            (modelChange)="getDiff(payment)"
                            [formKey]="'popup-close-shift'"
                            [validation]="'require,i-number'">
@@ -47,7 +48,7 @@
             <td><strong>{{ 'CASH AMOUNT TAKEOUT' | translate }}</strong></td>
             <td colspan="3">
               <div class="cash-amount">
-                <retail-text [(model)]="_data['takeOut']" inputSelectText
+                <retail-text [(model)]="_data['takeOut']" inputSelectText [disabled]="shiftState.detail.waitingServer"
                              [formKey]="'popup-close-shift'"
                              [validation]="'require,i-number'">
                 </retail-text>
@@ -59,8 +60,10 @@
         </table>
       </div>
       <div class="desc-bottom">
-        <button class="gray" (click)="shiftActions.changeStatePopup(null)">{{ 'Cancel' | translate }}</button>
-        <button (click)="closeShift()">{{ 'Close Shift' | translate }}</button>
+        <button class="gray" (click)="shiftActions.changeStatePopup(null)" [ladda]="shiftState.detail.waitingServer">
+          {{ 'Cancel' | translate }}
+        </button>
+        <button (click)="closeShift()" [ladda]="shiftState.detail.waitingServer">{{ 'Close Shift' | translate }}</button>
       </div>
     </div>
   </div>

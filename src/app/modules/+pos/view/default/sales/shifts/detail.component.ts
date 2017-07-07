@@ -20,4 +20,8 @@ export class PosDefaultSalesShiftDetailComponent {
   closeShift() {
     this.shiftActions.changeStatePopup(SHIFT_POPUP.CLOSE_POPUP);
   }
+  
+  adjustShift(){
+    this.shiftActions.changeStatePopup(SHIFT_POPUP.ADJUST_POPUP);
+  }
 }

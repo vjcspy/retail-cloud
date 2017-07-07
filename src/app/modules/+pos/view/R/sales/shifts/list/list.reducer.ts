@@ -28,6 +28,7 @@ export const shiftListReducer: ActionReducer<ShiftStateRecord> = (state: ShiftSt
                   .setIn(['list', 'lastPageNumber'], action.payload['lastPageNumber']);
     
     case ShiftDetailActions.ACTION_CLOSE_SHIFT_SUCCESS:
+    case ShiftDetailActions.ACTION_ADJUST_SHIFT_SUCCESS:
       const shiftIndex = state.list.shifts.findIndex((s) => parseInt(s['id']) === parseInt(action.payload['shift']['id']));
       if (shiftIndex > -1) {
         state = state.updateIn(['list', 'shifts'], (shifts) => shifts.set(shiftIndex, action.payload['shift']));

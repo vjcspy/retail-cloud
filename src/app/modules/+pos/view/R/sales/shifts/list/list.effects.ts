@@ -56,7 +56,8 @@ export class ShiftListEffects {
                                 .ofType(
                                   ShiftListActions.ACTION_PULLED_SHIFT,
                                   ShiftDetailActions.ACTION_CLOSE_SHIFT_SUCCESS,
-                                  ShiftDetailActions.ACTION_OPEN_SHIFT_SUCCESS
+                                  ShiftDetailActions.ACTION_OPEN_SHIFT_SUCCESS,
+                                  ShiftDetailActions.ACTION_ADJUST_SHIFT_SUCCESS,
                                 )
                                 .withLatestFrom(this.store$.select('shifts'))
                                 .map((z) => {
