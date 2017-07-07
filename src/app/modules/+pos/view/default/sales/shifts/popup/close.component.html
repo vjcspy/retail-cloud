@@ -2,8 +2,7 @@
   <div class="popup-content">
     <div class="closeshift-table">
       <h2 class="p-head">
-        {{ 'Close Shift' | translate }}
-        <span>{{getUserName() + " / " + getOutletRegisterData() + " / Shift #" + shift['id']}}</span>
+        {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
       </h2>
       <div class="inner" #posPerfectScroll>
         <table>
@@ -16,12 +15,12 @@
           </tr>
           </thead>
           <tbody class="first v-bot">
-          <tr *ngFor="let payment of entitiesState.payment.items;trackBy:trackById">
-            <td><!--<strong>Cash Summary</strong>-->{{payment['title']}}</td>
+          <tr *ngFor="let payment of shiftState.detail.amounts.paymentUsed">
+            <td>{{payment['title']}}</td>
             <td>{{getExpectedAmount(payment) | priceFormat}}</td>
             <td class="c-center">
-              <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]"
-                           (keyup)="getDiff(payment,true)"
+              <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]" inputSelectText
+                           (modelChange)="getDiff(payment)"
                            [formKey]="'popup-close-shift'"
                            [validation]="'require,i-number'">
               </retail-text>
@@ -48,7 +47,7 @@
             <td><strong>{{ 'CASH AMOUNT TAKEOUT' | translate }}</strong></td>
             <td colspan="3">
               <div class="cash-amount">
-                <retail-text [(model)]="_data['takeOut']"
+                <retail-text [(model)]="_data['takeOut']" inputSelectText
                              [formKey]="'popup-close-shift'"
                              [validation]="'require,i-number'">
                 </retail-text>
@@ -60,7 +59,7 @@
         </table>
       </div>
       <div class="desc-bottom">
-        <button class="gray" (click)="shiftViewService.viewState['close_shift_popup'] = false">{{ 'Cancel' | translate }}</button>
+        <button class="gray" (click)="shiftActions.changeStatePopup(null)">{{ 'Cancel' | translate }}</button>
         <button (click)="closeShift()">{{ 'Close Shift' | translate }}</button>
       </div>
     </div>

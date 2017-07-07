@@ -32,8 +32,20 @@ export class ShiftListActions {
   
   static ACTION_PULLED_SHIFT = 'ACTION_PULLED_SHIFT';
   
-  pulledShift(shifts, lastPageNumber, dispatch: boolean = true): Action {
+  pulledShift(shifts, lastPageNumber, isFirstPage: boolean = false, dispatch: boolean = true): Action {
     const action = {type: ShiftListActions.ACTION_PULLED_SHIFT, payload: {shifts, lastPageNumber}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_NEED_PULL_SHIFT = 'ACTION_NEED_PULL_SHIFT';
+  
+  needPullShift(dispatch: boolean = true): Action {
+    const action = {type: ShiftListActions.ACTION_NEED_PULL_SHIFT, payload: {}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

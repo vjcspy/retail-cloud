@@ -10,7 +10,6 @@ import {PosGeneralState} from "../../../../R/general/general.state";
            })
 export class PosDefaultSalesShiftsPopupComponent implements OnInit {
   @Input() shiftState: ShiftState;
-  @Input() generalState: PosGeneralState;
   
   constructor() { }
   
@@ -18,5 +17,9 @@ export class PosDefaultSalesShiftsPopupComponent implements OnInit {
   
   isOpeningShiftClosePopup() {
     return this.shiftState.popupOpening === SHIFT_POPUP.CLOSE_POPUP;
+  }
+  
+  isOpeningShiftOpenPopup() {
+    return this.shiftState.popupOpening === SHIFT_POPUP.OPEN_POPUP;
   }
 }

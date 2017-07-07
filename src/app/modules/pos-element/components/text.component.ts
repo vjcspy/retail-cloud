@@ -6,7 +6,7 @@ import {FormValidationService} from "../../share/provider/form-validation";
              //moduleId: module.id,
              selector: 'retail-text',
              templateUrl: 'text.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailTextComponent implements OnInit, OnDestroy {
   @Input() validation: string = "";
@@ -23,7 +23,7 @@ export class RetailTextComponent implements OnInit, OnDestroy {
   set model(optionValue: string) {
     // remove validate
     this._validateElement(false);
-    if (!optionValue) {
+    if (optionValue === null || typeof optionValue === 'undefined') {
       optionValue = '';
     }
     this.modelValue = optionValue;

@@ -2,11 +2,17 @@ import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 import {List} from "immutable";
 import {GeneralException} from "../../../../../core/framework/General/Exception/GeneralException";
+import {RequestService} from "../../../../../../../services/request";
+import {ApiManager} from "../../../../../../../services/api-manager";
+import {PosGeneralState} from "../../../../../R/general/general.state";
+import {AuthenticateService} from "../../../../../../../services/authenticate";
 
 @Injectable()
 export class ShiftDetailService {
   
-  constructor() { }
+  constructor(private requestService: RequestService,
+              private api: ApiManager,
+              private authenticate: AuthenticateService) { }
   
   getTransactionAmounts(shift: any, payments: List<any>): Object {
     let paymentUsed: any = List.of();
@@ -81,5 +87,27 @@ export class ShiftDetailService {
     });
     
     return {totals, paymentUsed};
+  }
+  
+  createCloseShiftRequest(shift, data, generalState: PosGeneralState) {
+    return this.requestService.makePost(this.api.get('close-shift', generalState.baseUrl), {
+      outlet_id: generalState.outlet['id'],
+      register_id: generalState.register['id'],
+      user_id: generalState.user['id'],
+      user_name: this.authenticate.getUserName(),
+      shift_id: shift['id'],
+      data: data
+    });
+  }
+  
+  createOpenShiftRequest(data, generalState: PosGeneralState) {
+    return this.requestService.makePost(this.api.get('open-shift', generalState.baseUrl), {
+      outlet_id: generalState.outlet['id'],
+      register_id: generalState.register['id'],
+      user_id: generalState.user['id'],
+      user_name: this.authenticate.getUserName(),
+      amount: data['startMoney'],
+      note: data['note']
+    });
   }
 }

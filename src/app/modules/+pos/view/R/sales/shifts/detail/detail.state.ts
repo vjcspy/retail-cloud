@@ -11,6 +11,7 @@ export interface ShiftDetail {
       counted: number;
     };
   };
+  waitingServer: boolean;
 }
 export interface ShiftDetailRecord extends TypedRecord<any>, ShiftDetail {}
 
@@ -25,4 +26,5 @@ export const shiftDetailFactory = makeTypedFactory<ShiftDetail, ShiftDetailRecor
                                                                                          counted: 0
                                                                                        }
                                                                                      },
+                                                                                     waitingServer: false,
                                                                                    });

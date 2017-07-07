@@ -14,5 +14,20 @@ export const shiftDetailReducer: ActionReducer<ShiftStateRecord> = (state, actio
     return state.setIn(['detail', 'amounts'], action.payload['amounts']);
   }
   
+  if (type === ShiftDetailActions.ACTION_CLOSE_SHIFT) {
+    return state.setIn(['detail', 'waitingServer'], true);
+  }
+  
+  if (type === ShiftDetailActions.ACTION_CLOSE_SHIFT_SUCCESS
+      || type === ShiftDetailActions.ACTION_OPEN_SHIFT_SUCCESS) {
+    return state.setIn(['detail', 'waitingServer'], false)
+                .set('popupOpening', null);
+  }
+  
+  if (type === ShiftDetailActions.ACTION_CLOSE_SHIFT_FAILED
+      || type === ShiftDetailActions.ACTION_CLOSE_SHIFT_FAILED) {
+    return state.setIn(['detail', 'waitingServer'], false);
+  }
+  
   return state;
 };

@@ -4,7 +4,7 @@
   </div><!--end top-bar-->
   <div class="cashdrawer-inner" perfectScroll>
     <div class="items no-line" *ngIf="!posQuoteState.info.isShiftOpening">
-      <div class="price">`
+      <div class="price" (click)="openShiftPopup()">
         <button class="bounder">{{ 'Open' | translate }}</button>
       </div>
       <div class="timer">

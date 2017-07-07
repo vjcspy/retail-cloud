@@ -65,6 +65,7 @@ import {ShiftListActions} from "./sales/shifts/list/list.actions";
 import {ShiftDetailActions} from "./sales/shifts/detail/detail.actions";
 import {ShiftDetailEffects} from "./sales/shifts/detail/detail.effects";
 import {ShiftDetailService} from "./sales/shifts/detail/detail.service";
+import {ShiftActions} from "./sales/shifts/shift.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -145,6 +146,7 @@ export const R_POS_VIEW_PROVIDERS = [
   
   // Shifts
   ShiftService,
+  ShiftActions,
   ShiftListActions,
   ShiftListService,
   ShiftListEffects,

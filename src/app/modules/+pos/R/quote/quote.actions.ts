@@ -3,7 +3,6 @@ import {Customer} from "../../core/framework/customer/Model/Customer";
 import {Action, Store} from "@ngrx/store";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {Product} from "../../core/framework/catalog/Model/Product";
-import {ProductDB} from "../../database/xretail/db/product";
 import {DataObject} from "../../core/framework/General/DataObject";
 
 @Injectable()
