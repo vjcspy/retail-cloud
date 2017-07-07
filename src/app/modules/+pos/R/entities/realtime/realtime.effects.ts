@@ -8,6 +8,7 @@ import {RealtimeService} from "./realtime.service";
 import {RealtimeActions} from "./realtime.actions";
 import {List} from "immutable";
 import {Entity} from "../entities.model";
+import {RootActions} from "../../../../../R/root.actions";
 
 @Injectable()
 export class RealtimeEffects {
@@ -17,7 +18,8 @@ export class RealtimeEffects {
   constructor(private actions$: Actions,
               private store$: Store<any>,
               private realtimeService: RealtimeService,
-              private realtimeActions: RealtimeActions) { }
+              private realtimeActions: RealtimeActions,
+              private rootActions: RootActions) { }
   
   @Effect() subscribeRealtimeChange = this.actions$
                                           .ofType(
@@ -92,7 +94,7 @@ export class RealtimeEffects {
                                      const entity: Entity        = action.payload['realtimeData']['entity'];
                                      const needUpdate: List<any> = action.payload['realtimeData']['needUpdate'];
                                      return this.realtimeService
-                                                .createRequestPullUpdateEntity(entity, needUpdate, <any>z[1])
+                                                .createRequestPullUpdateEntity(entity, needUpdate, action.payload['realtimeData']['newCacheTime'], <any>z[1])
                                                 .flatMap((itemsData) => {
                                                   return Observable.fromPromise(this.realtimeService.handleDBUpdateEntity(entity, needUpdate, itemsData))
                                                                    .flatMap(() => {
@@ -101,6 +103,7 @@ export class RealtimeEffects {
                                                                                       .map(() => this.realtimeActions
                                                                                                      .realtimeUpdatedEntityDB(entity.entityCode, needUpdate, itemsData, false));
                                                                    })
-                                                });
+                                                })
+                                                .catch(() => Observable.of(this.rootActions.error('realtime_failed', null, false)));
                                    });
 }
