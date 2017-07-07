@@ -6,13 +6,23 @@ import {RequestService} from "../../../../../../../services/request";
 import {ApiManager} from "../../../../../../../services/api-manager";
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {AuthenticateService} from "../../../../../../../services/authenticate";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class ShiftDetailService {
+  protected printShiftReportSubject = new Subject();
   
   constructor(private requestService: RequestService,
               private api: ApiManager,
               private authenticate: AuthenticateService) { }
+  
+  getPrintReportObservable() {
+    return this.printShiftReportSubject.asObservable().debounceTime(200).share();
+  }
+  
+  printShiftReport() {
+    this.printShiftReportSubject.next();
+  }
   
   getTransactionAmounts(shift: any, payments: List<any>): Object {
     let paymentUsed: any = List.of();

@@ -154,7 +154,7 @@
 
   </div>
   <div class="bottom-bar">
-    <button *ngIf="!shiftIsOpening()">{{ 'Print Report' | translate }}
+    <button (click)="printShiftReport()">{{ 'Print Report' | translate }}
     </button>
     <button *ngIf="shiftIsOpening()" (click)="adjustShift()">
       {{ 'Adjust' | translate }}

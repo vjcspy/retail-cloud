@@ -61,7 +61,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
         myWindow.close();
       }, 1000);
     } else {
-      this.notify.info("Please allow open new page to print receipt");
+      this.notify.info("allow_new_page_print_receipt");
     }
   }
   

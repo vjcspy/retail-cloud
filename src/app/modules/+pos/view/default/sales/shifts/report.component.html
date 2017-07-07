@@ -1,0 +1,168 @@
+<div #receiptElem class="invoice" *ngIf="shiftState.detail.shift">
+  <h1>{{ 'Register Summary' | translate }}</h1>
+  <div class="star-line">&nbsp;</div>
+  <table>
+    <tbody>
+    <tr>
+      <td class="ttu tal">{{ 'Opening time' | translate }}:</td>
+      <td class="tar">{{shiftState.detail.shift['open_at'] | datetimeFormat:'detail'}}</td>
+    </tr>
+    <tr>
+      <td class="ttu">{{ 'Closing time' | translate }}:</td>
+      <td class="tar">{{shiftState.detail.shift['close_at'] | datetimeFormat:'detail'}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="total-net-btn tac">
+    <div class="ttu">{{ 'Total net' | translate }}:<strong>{{shiftState.detail.shift['total_net_amount'] | priceFormat}}</strong></div>
+  </div>
+  <div class="star-line">&nbsp;</div>
+  <div class="payments">
+    <h2>{{ 'Payments' | translate }}</h2>
+    <table *ngFor="let payment of shiftState.detail.amounts.paymentUsed" class="payment-tbl">
+      <tbody>
+      <tr>
+        <td rowspan="3" class="ttu"><strong>{{payment['title']}}</strong></td>
+        <td class="tal">{{ 'Sale' | translate }}:</td>
+        <td class="tar"><strong>{{payment.sales | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal">{{ 'Refund' | translate }}:</td>
+        <td class="tar"><strong>{{payment.refund | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal">{{ 'Net' | translate }}</td>
+        <td class="tar"><strong>{{(payment.sales + payment.refund) | priceFormat}}</strong></td>
+      </tr>
+      </tbody>
+      <div class="dot-line">&nbsp;</div>
+    </table>
+    <div class="dot-line">&nbsp;</div>
+    <h4>{{ 'Summary' | translate }}</h4>
+    <table class="summary">
+      <tbody>
+      <tr>
+        <td class="ttu tal">{{ 'Total sales' | translate }}:</td>
+        <td class="tar"><strong>{{shiftState.detail.amounts.totals.sales | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="ttu tal">{{ 'Total refund' | translate }}:</td>
+        <td class="tar"><strong>{{shiftState.detail.amounts.totals.refund | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="ttu tal">{{ 'Total net' | translate }}:</td>
+        <td class="tar"><strong>{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) | priceFormat}}</strong></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="dot-line">&nbsp;</div>
+    <h4>{{ 'Reward points' | translate }}</h4>
+    <table class="summary">
+      <tbody>
+      <tr>
+        <td class="ttu tal">{{ 'Points earned' | translate }}:</td>
+        <td class="tar"><strong>{{shiftState.detail.shift['point_earned']}}</strong></td>
+      </tr>
+      <tr>
+        <td class="ttu tal">{{ 'Points spent' | translate }}:</td>
+        <td class="tar"><strong>{{shiftState.detail.shift['point_spent']}}</strong></td>
+      </tr>
+      <tr>
+        <td class="ttu tal">{{ 'Differences' | translate }}:</td>
+        <td class="tar"><strong>{{shiftState.detail.shift['point_earned'] - shiftState.detail.shift['point_spent']}}</strong></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="star-line">&nbsp;</div>
+  <div class="activities">
+    <h3>{{ 'Activities' | translate }}</h3>
+    <div class="dot-line">&nbsp;</div>
+    <table>
+      <tbody>
+      <tr>
+        <td class="ttu tal"><strong>{{ 'Opened shift' | translate }}</strong></td>
+        <td class="tar"><strong>{{shiftState.detail.shift['start_amount'] | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal">
+          <div class="info">
+            <strong>{{ 'Date' | translate }}:</strong> {{shiftState.detail.shift['open_at'] | datetimeFormat:'detail'}}
+            <br>
+            <strong>{{ 'Name' | translate }}:</strong> {{shiftState.detail.shift['user_open_name']}}
+            <br>
+            <strong>{{ 'Note' | translate }}:</strong> {{shiftState.detail.shift['open_note']}}
+          </div>
+        </td>
+        <td class="empty"></td>
+      </tr>
+      </tbody>
+    </table>
+    <table *ngFor="let adjustment of shiftState.detail.shift['in_out']">
+      <tbody>
+      <tr>
+        <td class="tal"><strong>{{ 'Adjustment' | translate }}</strong></td>
+        <td class="tar"><strong>{{(adjustment['is_in'] == '1' ? adjustment['amount'] : -adjustment['amount']) | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal">
+          <div class="info">
+            <strong>{{ 'Date' | translate }}:</strong> {{adjustment['created_at'] | datetimeFormat:'detail'}}
+            <br>
+            <strong>{{ 'Name' | translate }}:</strong> {{adjustment['user_name']}}
+            <br>
+            <strong>{{ 'Note' | translate }}:</strong> {{adjustment['note']}}
+          </div>
+        </td>
+        <td class="empty"></td>
+      </tr>
+      </tbody>
+      <div class="dot-line">&nbsp;</div>
+    </table>
+    <div class="dot-line">&nbsp;</div>
+    <table class="close-shift" *ngIf="shiftState.detail.shift['is_open'] == 0">
+      <thead>
+      <tr>
+        <th colspan="2" class="ttu tal"><strong>{{ 'Close Shift' | translate }}</strong></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="tal"><strong>{{ 'Counted Cash' | translate }}</strong></td>
+        <td class="tar"><strong>{{shiftState.detail.shift['total_counted_amount'] | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal"><strong>{{ 'Expected Cash' | translate }}</strong></td>
+        <td class="tar"><strong>{{shiftState.detail.shift['total_expected_amount'] | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal"><strong>{{ 'Differences' | translate }}</strong></td>
+        <td class="tar"><strong>{{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['total_expected_amount']) |
+          priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal"><strong>{{ 'Take out' | translate }}</strong></td>
+        <td class="tar"><strong>{{shiftState.detail.shift['take_out_amount'] | priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal"><strong>{{ 'Left in' | translate }}</strong></td>
+        <td class="tar"><strong>{{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) |
+          priceFormat}}</strong></td>
+      </tr>
+      <tr>
+        <td class="tal">
+          <div class="info">
+            <strong>{{ 'Date' | translate }}:</strong> {{shiftState.detail.shift['close_at'] | datetimeFormat:'detail'}}
+            <br>
+            <strong>{{ 'Name' | translate }}:</strong> {{shiftState.detail.shift['user_close_name']}}
+            <br>
+            <strong>{{ 'Note' | translate }}:</strong> {{shiftState.detail.shift['close_note']}}
+          </div>
+        </td>
+        <td class="empty"></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="dot-line">&nbsp;</div>
+  </div>
+</div>
