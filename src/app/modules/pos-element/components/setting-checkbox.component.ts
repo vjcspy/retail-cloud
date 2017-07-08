@@ -47,7 +47,7 @@ export class RetailSettingCheckboxComponent implements OnInit, AfterViewInit {
     
     if (this.isChecked(option)) {
       if (_.size(this._model) > 1) {
-        _.remove(this._model, (_option) => _option == option['value']);
+        _.remove(this._model, (_option) => _option === option['value']);
         option['isChecked'] = false;
       }
     } else {
