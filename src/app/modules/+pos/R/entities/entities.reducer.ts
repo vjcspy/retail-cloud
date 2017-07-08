@@ -63,6 +63,9 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       // Not need beacause we are support pull again when data not valid, thought this code improve ux
       return posEntitiesStateFactory();
     
+    case PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS:
+      return state.setIn([action.payload['entityCode'], 'isFinished'], true);
+    
     default:
       return state;
   }
