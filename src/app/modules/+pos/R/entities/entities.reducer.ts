@@ -10,6 +10,7 @@ import {List} from "immutable";
 import {AccountActions} from "../../../../R/account/account.actions";
 import {EntityRecord} from "./entities.model";
 import {realtimeReducer} from "./realtime/realtime.reducer";
+import {entityRetailConfigReducer} from "./entity/retail-config.reducer";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -71,4 +72,4 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   }
 };
 
-export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer);
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer, entityRetailConfigReducer);

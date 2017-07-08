@@ -1,1 +1,3 @@
-<product-category-settings [entitiesState]="entitiesState$ | async" *ngIf="(entitiesState$ | async)?.taxClass.isFinished === true"></product-category-settings>
+<product-category-settings *ngIf="(entitiesState$ | async)?.taxClass.isFinished === true"
+                           [retailConfigState]="retailConfigState$ | async" [entitiesState]="entitiesState$ | async">
+</product-category-settings>

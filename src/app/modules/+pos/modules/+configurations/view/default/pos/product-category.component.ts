@@ -1,6 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 import {Store} from "@ngrx/store";
+import {Observable} from "rxjs/Observable";
+import {RetailConfigState} from "../../../R/retail-config/retail-config.state";
+import {ConfigurationState} from "../../../R/index";
 
 @Component({
              // moduleId: module.id,
@@ -9,9 +12,11 @@ import {Store} from "@ngrx/store";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosConfigurationsDefaultPosProductCategoryComponent {
-  @Input() entitiesState$: PosEntitiesState;
+  @Input() entitiesState$: Observable<PosEntitiesState>;
+  @Input() retailConfigState$: Observable<RetailConfigState>;
   
   constructor(protected store$: Store<any>) {
-    this.entitiesState$ = this.store$.select('entities');
+    this.entitiesState$     = this.store$.select('entities');
+    this.retailConfigState$ = this.store$.map((store: ConfigurationState) => store.configurations.retailConfig).distinctUntilChanged();
   }
 }

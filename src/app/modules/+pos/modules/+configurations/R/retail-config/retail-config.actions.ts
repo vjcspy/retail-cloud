@@ -17,4 +17,40 @@ export class RetailConfigActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_RETAIL_CONFIG = 'ACTION_SAVE_RETAIL_CONFIG';
+  
+  saveRetailConfig(group, data, dispatch: boolean = true): Action {
+    const action = {type: RetailConfigActions.ACTION_SAVE_RETAIL_CONFIG, payload: {group, data}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_RETAIL_CONFIG_SUCCESS = 'ACTION_SAVE_RETAIL_CONFIG_SUCCESS';
+  
+  saveRetailConfigSuccess(group, data, dispatch: boolean = true): Action {
+    const action = {type: RetailConfigActions.ACTION_SAVE_RETAIL_CONFIG_SUCCESS, payload: {group, data}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_RETAIL_CONFIG_FAILED = 'ACTION_SAVE_RETAIL_CONFIG_FAILED';
+  
+  saveRetailConfigFailed(mess, dispatch: boolean = true): Action {
+    const action = {type: RetailConfigActions.ACTION_SAVE_RETAIL_CONFIG_FAILED, payload: {mess}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

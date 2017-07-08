@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {configurationsReducer} from "./R/index";
 
 @Component({
              // moduleId: module.id,
@@ -12,9 +14,8 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
              `,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class ConfigurationsComponent implements OnInit {
-  constructor() { }
-  
-  ngOnInit() { }
-  
+export class ConfigurationsComponent {
+  constructor(private store$: Store<any>) {
+    this.store$.replaceReducer(configurationsReducer);
+  }
 }

@@ -21,6 +21,7 @@ import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosConfigState} from "./config.state";
 import {TaxClassDB} from "../../database/xretail/db/tax-class";
 import {TaxClassHelper} from "../../core/framework/tax/Helper/TaxClass";
+import {RetailConfigDB} from "../../database/xretail/db/retail-config";
 
 @Injectable()
 export class PosConfigEffects {
@@ -122,4 +123,17 @@ export class PosConfigEffects {
                                      TaxClassHelper.taxClass = (z[1] as PosEntitiesState).taxClass.items.toJS();
                                      return this.rootActions.nothing("Save taxClass to core");
                                    });
+  
+  @Effect() initPosRetailConfig = this.actions
+                                      .ofType(
+                                        PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                      )
+                                      .filter((action) => action.payload['entityCode'] === RetailConfigDB.getCode())
+                                      .withLatestFrom(this.store$.select('entities'))
+                                      .map((z) => {
+                                        const retailConfig = (z[1] as PosEntitiesState).retailConfig.items;
+                                        return retailConfig.find((c) => c['key'] === 'pos');
+                                      })
+                                      .filter((posConfig) => !!posConfig)
+                                      .map((posConfig) => this.configActions.initPosRetailConfig(posConfig['value'], false));
 }

@@ -168,5 +168,5 @@
   </div>
 </div>
 <div class="bottom-bar">
-  <button>{{ 'Save' | translate }}</button>
+  <button (click)="retailConfigService.saveRetailConfig('pos')" [ladda]="retailConfigState.isSaving">{{ 'Save' | translate }}</button>
 </div>

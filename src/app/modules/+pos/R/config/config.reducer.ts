@@ -1,6 +1,7 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {posConfigStateFactory, PosConfigStateRecord} from "./config.state";
 import {PosConfigActions} from "./config.actions";
+import * as _ from 'lodash';
 
 export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: PosConfigStateRecord = posConfigStateFactory(), action: Action) => {
   switch (action.type) {
@@ -14,7 +15,67 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
     case PosConfigActions.ACTION_SAVE_RECEIPT_SETTING:
       return state.set('receipt', action.payload['receipt']);
     
+    case PosConfigActions.ACTION_INIT_POS_REAIL_CONFIG:
+      return state.set('posRetailConfig', resolveConfig(action.payload['configs']));
+    
     default:
       return state;
   }
 };
+
+function resolveConfig(posSetting) {
+  let configData: any = {
+    numberOfSearchCustomerResult: 7,
+    fieldSearchProduct: ["name", "sku", "id", "price", "type_id"],
+    fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
+    fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
+    supportUnicodeInSearch: false,
+    waitTimeEachSearch: 177,
+    displayRealTax: true,
+    allowSplitPayment: true,
+    allowPartialPayment: true,
+    isIntegrateRP: true,
+    rpType: 'aheadWorld',
+    inclDiscountPerItemInDiscount: false
+  };
+  
+  if (posSetting.hasOwnProperty('xretail/pos/search_product_attribute') && _.size(posSetting['xretail/pos/search_product_attribute']) > 0) {
+    configData.fieldSearchProduct = posSetting['xretail/pos/search_product_attribute'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/search_order') &&
+      _.size(posSetting['xretail/pos/search_order']) > 0) {
+    configData.fieldSearchOrderOffline = posSetting['xretail/pos/search_order'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/search_customer_by_attribute') &&
+      _.size(posSetting['xretail/pos/search_customer_by_attribute']) >
+      0) {
+    let customerSearchField: any;
+    if (typeof posSetting['xretail/pos/search_customer_by_attribute'] == "object") {
+      customerSearchField = _.sortBy(posSetting['xretail/pos/search_customer_by_attribute']);
+    } else {
+      customerSearchField = posSetting['xretail/pos/search_customer_by_attribute'];
+    }
+    configData.fieldSearchCustomer = customerSearchField;
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/customer_search_max_result') && posSetting['xretail/pos/customer_search_max_result'] > 0) {
+    configData.numberOfSearchCustomerResult = posSetting['xretail/pos/customer_search_max_result'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/display_real_tax')) {
+    configData.displayRealTax = posSetting['xretail/pos/display_real_tax'] == true;
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/allow_split_payment')) {
+    configData.allowSplitPayment = posSetting['xretail/pos/allow_split_payment'] == true;
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/allow_partial_payment')) {
+    configData.allowPartialPayment = posSetting['xretail/pos/allow_partial_payment'] == true;
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/display_discount_incl_discount_peritem')) {
+    configData.inclDiscountPerItemInDiscount = posSetting['xretail/pos/display_discount_incl_discount_peritem'] == true;
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/integrate_rp')) {
+    configData.isIntegrateRP = (posSetting['xretail/pos/integrate_rp'] !== 'none' && !!posSetting['xretail/pos/integrate_rp']);
+    configData.rpType        = posSetting['xretail/pos/integrate_rp'];
+  }
+  
+  return configData;
+}

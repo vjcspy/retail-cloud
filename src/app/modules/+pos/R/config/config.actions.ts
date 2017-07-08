@@ -66,4 +66,16 @@ export class PosConfigActions {
     
     return action;
   }
+  
+  static ACTION_INIT_POS_REAIL_CONFIG = 'ACTION_INIT_POS_REAIL_CONFIG';
+  
+  initPosRetailConfig(configs, dispatch: boolean = true): Action {
+    const action = {type: PosConfigActions.ACTION_INIT_POS_REAIL_CONFIG, payload: {configs}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
