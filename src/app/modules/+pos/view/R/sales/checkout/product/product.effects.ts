@@ -7,11 +7,14 @@ import {GeneralMessage} from "../../../../../services/general/message";
 import {CheckoutProductService} from "./product.service";
 import {CheckoutProductActions} from "./product.actions";
 import {CheckoutProductCategoryActions} from "./category/category.actions";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class CheckoutProductEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private checkoutProductsService: CheckoutProductService) { }
+  constructor(private store$: Store<any>, private actions$: Actions,
+              private checkoutProductsService: CheckoutProductService,
+              private router: Router) { }
   
   @Effect() triggerCalculateGridStyle = this.actions$
                                             .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
@@ -29,6 +32,7 @@ export class CheckoutProductEffects {
                                          CheckoutProductActions.ACTION_CHANGE_VIEW_MODE,
                                          CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY
                                        )
+                                       .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                        .debounceTime(150)
                                        .withLatestFrom(this.store$.select('checkoutProduct'))
                                        .withLatestFrom(this.store$.select('entities'),
