@@ -10,6 +10,7 @@ import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
 export interface PosConfigState {
   posRetailConfig: {
     numberOfSearchCustomerResult: number;
+    numberOfSearchProductResult: number;
     fieldSearchProduct: string[];
     fieldSearchCustomer: string[];
     useCustomerOnlineMode: boolean;
@@ -48,6 +49,7 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
   {
     posRetailConfig: {
       numberOfSearchCustomerResult: 7,
+      numberOfSearchProductResult: 20,
       fieldSearchProduct: ["name", "sku", "type_id"],
       fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
       useCustomerOnlineMode: true,

@@ -26,6 +26,7 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
 function resolveConfig(posSetting) {
   let configData: any = {
     numberOfSearchCustomerResult: 7,
+    numberOfSearchProductResult: 20,
     fieldSearchProduct: ["name", "sku", "id", "price", "type_id"],
     fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
     fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
@@ -47,10 +48,9 @@ function resolveConfig(posSetting) {
     configData.fieldSearchOrderOffline = posSetting['xretail/pos/search_order'];
   }
   if (posSetting.hasOwnProperty('xretail/pos/search_customer_by_attribute') &&
-      _.size(posSetting['xretail/pos/search_customer_by_attribute']) >
-      0) {
+      _.size(posSetting['xretail/pos/search_customer_by_attribute']) > 0) {
     let customerSearchField: any;
-    if (typeof posSetting['xretail/pos/search_customer_by_attribute'] == "object") {
+    if (typeof posSetting['xretail/pos/search_customer_by_attribute'] === "object") {
       customerSearchField = _.sortBy(posSetting['xretail/pos/search_customer_by_attribute']);
     } else {
       customerSearchField = posSetting['xretail/pos/search_customer_by_attribute'];
@@ -60,17 +60,20 @@ function resolveConfig(posSetting) {
   if (posSetting.hasOwnProperty('xretail/pos/customer_search_max_result') && posSetting['xretail/pos/customer_search_max_result'] > 0) {
     configData.numberOfSearchCustomerResult = posSetting['xretail/pos/customer_search_max_result'];
   }
+  if (posSetting.hasOwnProperty('xretail/pos/search_max_result') && posSetting['xretail/pos/search_max_result'] > 0) {
+    configData.numberOfSearchProductResult = posSetting['xretail/pos/search_max_result'];
+  }
   if (posSetting.hasOwnProperty('xretail/pos/display_real_tax')) {
-    configData.displayRealTax = posSetting['xretail/pos/display_real_tax'] == true;
+    configData.displayRealTax = posSetting['xretail/pos/display_real_tax'] === true || parseInt(posSetting['xretail/pos/display_real_tax']) === 1;
   }
   if (posSetting.hasOwnProperty('xretail/pos/allow_split_payment')) {
-    configData.allowSplitPayment = posSetting['xretail/pos/allow_split_payment'] == true;
+    configData.allowSplitPayment = posSetting['xretail/pos/allow_split_payment'] === true || parseInt(posSetting['xretail/pos/allow_split_payment']) === 1;
   }
   if (posSetting.hasOwnProperty('xretail/pos/allow_partial_payment')) {
-    configData.allowPartialPayment = posSetting['xretail/pos/allow_partial_payment'] == true;
+    configData.allowPartialPayment = posSetting['xretail/pos/allow_partial_payment'] === true || parseInt(posSetting['xretail/pos/allow_partial_payment']) === 1;
   }
   if (posSetting.hasOwnProperty('xretail/pos/display_discount_incl_discount_peritem')) {
-    configData.inclDiscountPerItemInDiscount = posSetting['xretail/pos/display_discount_incl_discount_peritem'] == true;
+    configData.inclDiscountPerItemInDiscount = posSetting['xretail/pos/display_discount_incl_discount_peritem'] === true || parseInt(posSetting['xretail/pos/display_discount_incl_discount_peritem']) === 1;
   }
   if (posSetting.hasOwnProperty('xretail/pos/integrate_rp')) {
     configData.isIntegrateRP = (posSetting['xretail/pos/integrate_rp'] !== 'none' && !!posSetting['xretail/pos/integrate_rp']);

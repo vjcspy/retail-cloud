@@ -50,7 +50,7 @@ export class CheckoutProductService {
         let _priceFormat = new PriceFormatPipe();
         products.forEach((product: ProductDB) => {
           let re = new RegExp(reString, "gi");
-          if (work >= checkoutProductsState.productGridNumOfProductPerPage) {
+          if (work >= config.posRetailConfig.numberOfSearchProductResult) {
             return false;
           }
           
