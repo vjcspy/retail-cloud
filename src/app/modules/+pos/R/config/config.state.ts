@@ -23,6 +23,8 @@ export interface PosConfigState {
     isIntegrateRP: boolean;
     rpType: string;
     inclDiscountPerItemInDiscount: boolean
+    sortCategoryBaseOn: string;
+    sortCategorySorting: string;
   };
   constrain: {
     debounceTimeUpdateItemBuyRequest: number;
@@ -61,7 +63,9 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       allowPartialPayment: true,
       isIntegrateRP: true,
       rpType: 'aheadWorld',
-      inclDiscountPerItemInDiscount: false
+      inclDiscountPerItemInDiscount: false,
+      sortCategoryBaseOn: 'name',
+      sortCategorySorting: 'asc'
     },
     constrain: {
       debounceTimeUpdateItemBuyRequest: 1234,

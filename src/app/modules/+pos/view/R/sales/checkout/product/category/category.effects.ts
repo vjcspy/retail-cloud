@@ -8,6 +8,7 @@ import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {CheckoutProductState} from "../product.state";
 import {PosEntitiesActions} from "../../../../../../R/entities/entities.actions";
 import * as _ from 'lodash';
+import {PosConfigState} from "../../../../../../R/config/config.state";
 
 @Injectable()
 export class CheckoutProductCategoryEffects {
@@ -26,6 +27,7 @@ export class CheckoutProductCategoryEffects {
                                   })
                                   .withLatestFrom(this.store$.select('entities'))
                                   .withLatestFrom(this.store$.select('checkoutProduct'), (z, z1) => [...z, z1])
+                                  .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
                                   .map((z) => {
                                     const categories: List<CategoryDB>               = (z[1] as PosEntitiesState).category.items;
                                     const checkoutProductState: CheckoutProductState = <any> z[2];
@@ -36,13 +38,25 @@ export class CheckoutProductCategoryEffects {
                                       if (root) {
                                         return this.checkoutProductCategoryActions.selectCategory(root, false);
                                       }
-                                    }
-                                    else if (parseInt(checkoutProductState.currentCategory['level']) === 1) {
+                                    } else if (parseInt(checkoutProductState.currentCategory['level']) === 1) {
                                       categoryList = <any>categories.filter((c) => parseInt(c['level']) === 2);
                                     } else if (checkoutProductState.currentCategory && parseInt(checkoutProductState.currentCategory['level']) > 1) {
                                       categoryList = <any>categories.filter((c) => parseInt(c['level']) === (parseInt(checkoutProductState.currentCategory['level']) + 1) && c['parent_id'] === checkoutProductState.currentCategory['id']);
                                     }
     
+                                    // sort category list
+                                    const configState = (z[3] as PosConfigState);
+                                    categoryList      = <any>categoryList.sortBy((c) => {
+                                      if (configState.posRetailConfig.sortCategoryBaseOn === 'name') {
+                                        return _.toLower(c[configState.posRetailConfig.sortCategoryBaseOn]);
+                                      } else {
+                                        return parseInt(c[configState.posRetailConfig.sortCategoryBaseOn]);
+                                      }
+                                    });
+                                    if (configState.posRetailConfig.sortCategorySorting !== 'asc') {
+                                      categoryList = <any>categoryList.reverse();
+                                    }
+                                    
                                     // find breadcrumb
                                     let listBc = checkoutProductState.currentCategory['path'].split('/');
                                     _.forEach(listBc, (id) => {

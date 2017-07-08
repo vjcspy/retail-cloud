@@ -2,6 +2,7 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {posConfigStateFactory, PosConfigStateRecord} from "./config.state";
 import {PosConfigActions} from "./config.actions";
 import * as _ from 'lodash';
+import {config} from "shelljs";
 
 export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: PosConfigStateRecord = posConfigStateFactory(), action: Action) => {
   switch (action.type) {
@@ -37,7 +38,9 @@ function resolveConfig(posSetting) {
     allowPartialPayment: true,
     isIntegrateRP: true,
     rpType: 'aheadWorld',
-    inclDiscountPerItemInDiscount: false
+    inclDiscountPerItemInDiscount: false,
+    sortCategoryBaseOn: 'name',
+    sortCategorySorting: 'asc'
   };
   
   if (posSetting.hasOwnProperty('xretail/pos/search_product_attribute') && _.size(posSetting['xretail/pos/search_product_attribute']) > 0) {
@@ -78,6 +81,14 @@ function resolveConfig(posSetting) {
   if (posSetting.hasOwnProperty('xretail/pos/integrate_rp')) {
     configData.isIntegrateRP = (posSetting['xretail/pos/integrate_rp'] !== 'none' && !!posSetting['xretail/pos/integrate_rp']);
     configData.rpType        = posSetting['xretail/pos/integrate_rp'];
+  }
+  
+  if (posSetting.hasOwnProperty('xretail/pos/sort_category_base_on')) {
+    configData.sortCategoryBaseOn = posSetting['xretail/pos/sort_category_base_on'];
+  }
+  
+  if (posSetting.hasOwnProperty('xretail/pos/sort_category_sorting')) {
+    configData.sortCategorySorting = posSetting['xretail/pos/sort_category_sorting'];
   }
   
   return configData;
