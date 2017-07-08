@@ -4,7 +4,7 @@
     <button style="width: 100%" type="button" (click)="backPos()">Back to POS</button>
   </div>
   <ul class="left-menu">
-    <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}">
+    <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}" (click)="goPosSetting()">
             <span class="click">
                 {{ 'X-POS Setting' | translate }}
             </span>
@@ -42,7 +42,6 @@
     </li>
   </ul>
 </div>
-<!--end left menu side-->
 <div class="setting-blk">
   <div class="accordion-blk" perfectScroll>
     <router-outlet></router-outlet>

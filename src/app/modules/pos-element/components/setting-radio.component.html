@@ -1,12 +1,11 @@
 <h3>{{data['title']|translate}}</h3>
 <div class="single-choice">
-    <div class="f-left"><span class="value-choosen click">{{_selectText | translate}}</span></div>
-    <ul class="option-list animated fadeIn">
-        <li *ngFor="let option of data.data;trackBy:trackBy" class="click" (click)="selectOption(option)">
-            <div class="radio-box single-list">
-                <input type="radio" [checked]="option['isChecked']"/>
-                <span></span><em>{{option['label']|translate}}</em>
-            </div>
-        </li>
-    </ul>
+  <ul class="option-list animated fadeIn">
+    <li *ngFor="let option of data.data" class="click" (click)="selectOption(option)">
+      <div class="radio-box single-list">
+        <input type="radio" [checked]="option['isChecked']"/>
+        <span></span><em>{{option['label']|translate}}</em>
+      </div>
+    </li>
+  </ul>
 </div>

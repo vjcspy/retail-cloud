@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
              // moduleId: module.id,
@@ -9,8 +9,8 @@ import {Component, OnInit} from '@angular/core';
                    <router-outlet></router-outlet>
                  </div>
                </div>
-  
-             `
+             `,
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class ConfigurationsComponent implements OnInit {
   constructor() { }

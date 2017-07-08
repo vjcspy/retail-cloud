@@ -1,0 +1,172 @@
+<div class="acr-row filter-product">
+  <div class="acr-head"><h2>{{ 'Filter product' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/show_disable_product']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Show disable product' | translate }}</h3>
+        </div>
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/show_outofstock_product']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Show out of stock product' | translate }}</h3>
+        </div>
+      </div>
+
+      <div class="th-row two-column">
+        <div class="box-content">
+          <retail-setting-checkbox [data]="_data['show_product_by_type']"
+                                   [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/show_product_by_type']">
+          </retail-setting-checkbox>
+        </div>
+        <div class="box-content">
+          <retail-setting-checkbox [data]="_data['show_product_by_visibility']"
+                                   [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/show_product_by_visibility']">
+          </retail-setting-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="acr-row sort-product">
+  <div class="acr-head"><h2>{{ 'Sort product' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <retail-setting-radio [data]="_data['sort_product_base_on']"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/sort_product_base_on']">
+          </retail-setting-radio>
+        </div>
+        <div class="box-content">
+          <retail-setting-radio [data]="_data['sort_product_sorting']"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/sort_product_sorting']">
+          </retail-setting-radio>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="acr-row search-product">
+  <div class="acr-head"><h2>{{ 'Search product' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <retail-setting-checkbox [data]="_data['search_product_attribute']"
+                                   [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/search_product_attribute']">
+          </retail-setting-checkbox>
+        </div>
+        <div class="box-content color">
+          <div class="search-option f-right">
+            <input type="text" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/search_max_result']"/>
+          </div>
+          <h3>Maximum result</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="acr-row display-att">
+  <div class="acr-head"><h2>Barcode attributes</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <h3 class="f-left">display fields</h3>
+          <ul class="option-list">
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value=""/>
+                <span></span><em>Sku</em>
+              </div>
+            </li>
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value=""/>
+                <span></span><em>Price</em>
+              </div>
+            </li>
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value="" checked/>
+                <span></span><em>Name</em>
+              </div>
+            </li>
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value=""/>
+                <span></span><em>Tax Class</em>
+              </div>
+            </li>
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value=""/>
+                <span></span><em>ID</em>
+              </div>
+            </li>
+            <li>
+              <div class="check-box tick-list">
+                <input type="checkbox" name="" value=""/>
+                <span></span><em>Description</em>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="acr-row custom-sale">
+  <div class="acr-head"><h2>{{ 'Custom Sale' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/enable_custom_sale']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Enable custom sale' | translate }}</h3>
+        </div>
+        <div class="box-content">
+          <retail-setting-radio [data]="_data['custom_sale_tax_class']"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/enable_select_custom_sale_tax_class']">
+          </retail-setting-radio>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="acr-row sort-category">
+  <div class="acr-head"><h2>{{ 'Sort categories' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <retail-setting-radio [data]="_data['sort_category_base_on']"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/sort_category_base_on']">
+          </retail-setting-radio>
+        </div>
+        <div class="box-content">
+          <retail-setting-radio [data]="_data['sort_category_sorting']"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/sort_category_sorting']">
+          </retail-setting-radio>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button>{{ 'Save' | translate }}</button>
+</div>

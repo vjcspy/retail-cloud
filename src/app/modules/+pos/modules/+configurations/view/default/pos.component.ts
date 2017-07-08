@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 @Component({
              // moduleId: module.id,
              selector: 'configurations-default-pos',
-             templateUrl: 'pos.component.html'
+             templateUrl: 'pos.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class ConfigurationsDefaultPosComponent implements OnInit {
   constructor() { }
