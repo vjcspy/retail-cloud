@@ -54,7 +54,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   goPosSetting() {
-  
+    this.routerActions.go('pos/configurations/default/cache-management');
   }
   
   changeOutlet() {

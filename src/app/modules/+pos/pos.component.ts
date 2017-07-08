@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {posReducer, PosState} from "./R/index";
 import {OfflineService} from "../share/provider/offline";
@@ -10,6 +10,8 @@ import {TranslateService} from "@ngx-translate/core";
              selector: 'pos',
              template: `
                <router-outlet></router-outlet>`,
+             encapsulation: ViewEncapsulation.None,
+             styleUrls: ['../../../assets/css/pos.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {
