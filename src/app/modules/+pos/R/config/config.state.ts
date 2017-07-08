@@ -38,9 +38,9 @@ export interface PosConfigState {
     customer: CustomerSetting;
     product: ProductSetting;
     shipping: ShippingSetting;
-  },
-  orderCount: Object,
-  receipt: Object
+  };
+  orderCount: Object;
+  receipt: Object;
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
