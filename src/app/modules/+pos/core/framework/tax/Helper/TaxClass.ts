@@ -2,8 +2,9 @@ import * as _ from 'lodash';
 
 export class TaxClassHelper {
   protected _elementData = {};
+  static taxClass;
   
-  getProductTaxClass(taxClass: any[]) {
+  getProductTaxClassElementData() {
     if (!this._elementData.hasOwnProperty('tax_class')) {
       this._elementData['tax_class'] = {
         data: [
@@ -13,8 +14,8 @@ export class TaxClassHelper {
           }
         ]
       };
-      _.forEach(taxClass, (taxClass) => {
-        if (taxClass['type'] == "PRODUCT") {
+      _.forEach(TaxClassHelper.taxClass, (taxClass) => {
+        if (taxClass['type'] === "PRODUCT") {
           this._elementData['tax_class']['data']
             .push({
                     value: taxClass['id'],

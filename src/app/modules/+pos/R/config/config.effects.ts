@@ -19,6 +19,8 @@ import {PosEntitiesState} from "../entities/entities.state";
 import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosConfigState} from "./config.state";
+import {TaxClassDB} from "../../database/xretail/db/tax-class";
+import {TaxClassHelper} from "../../core/framework/tax/Helper/TaxClass";
 
 @Injectable()
 export class PosConfigEffects {
@@ -112,4 +114,12 @@ export class PosConfigEffects {
                                     CountryHelper.countries = (z[1] as PosEntitiesState).countries.items.toJS();
                                     return this.rootActions.nothing("Save country to core");
                                   });
+  
+  @Effect() saveTaxClassData = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                   .filter((action: Action) => action.payload['entityCode'] === TaxClassDB.getCode())
+                                   .withLatestFrom(this.store$.select('entities'))
+                                   .map((z) => {
+                                     TaxClassHelper.taxClass = (z[1] as PosEntitiesState).taxClass.items.toJS();
+                                     return this.rootActions.nothing("Save taxClass to core");
+                                   });
 }
