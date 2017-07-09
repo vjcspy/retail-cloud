@@ -5,7 +5,8 @@ import {Routes} from "@angular/router";
 import {ConfigurationsDefaultPosComponent} from "./view/default/pos.component";
 import {ConfigurationsDefaultCacheManagement} from "./view/default/cache-management.component";
 import {PosConfigurationsDefaultPosProductCategoryComponent} from "./view/default/pos/product-category.component";
-import {GeneralGuard} from "../../services/router-guards/general-guard";
+import {BaseUrlGuard} from "./services/router-guards/BaseUrlGuard";
+import {ConfigurationsDefaultGeneralComponent} from "./view/default/general.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -16,8 +17,9 @@ export const CONFIGURATIONS_ROUTES: Routes = [
       {
         path: 'default',
         component: ConfigurationsDefaultContainerComponent,
-        canActivate: [GeneralGuard],
+        canActivate: [BaseUrlGuard],
         children: [
+          {path: 'general', component: ConfigurationsDefaultGeneralComponent},
           {
             path: 'pos',
             component: ConfigurationsDefaultPosComponent,

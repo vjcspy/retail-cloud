@@ -4,6 +4,9 @@
     <button style="width: 100%" type="button" (click)="backPos()">Back to POS</button>
   </div>
   <ul class="left-menu">
+    <li [ngClass]="{active: router.isActive('/pos/configurations/default/general')}">
+      <span class="click" (click)="goGeneral()">{{ 'General' | translate }}</span>
+    </li>
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}" (click)="goPosSetting()">
             <span class="click">
                 {{ 'X-POS Setting' | translate }}

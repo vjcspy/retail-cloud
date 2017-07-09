@@ -23,4 +23,8 @@ export class ConfigurationsDefaultContainerComponent implements OnInit {
   goPosSetting() {
     this.routerActions.go('pos/configurations/default/pos/product-category');
   }
+  
+  goGeneral() {
+    this.routerActions.go('pos/configurations/default/general');
+  }
 }

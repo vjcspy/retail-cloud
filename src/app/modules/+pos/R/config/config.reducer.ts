@@ -2,7 +2,6 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {posConfigStateFactory, PosConfigStateRecord} from "./config.state";
 import {PosConfigActions} from "./config.actions";
 import * as _ from 'lodash';
-import {config} from "shelljs";
 
 export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: PosConfigStateRecord = posConfigStateFactory(), action: Action) => {
   switch (action.type) {
