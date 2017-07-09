@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
 import {PosGeneralState} from "../../../R/general/general.state";
 import {AccountActions} from "../../../../../R/account/account.actions";
 import {LocalStorage} from "ngx-webstorage";
@@ -10,15 +10,13 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
              selector: 'pos-default-outlet-register-website',
              templateUrl: 'website.component.html'
            })
-export class PosDefaultOutletRegisterWebsiteComponent implements OnInit, OnChanges {
+export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, AfterViewInit {
   @Input() generalState: PosGeneralState;
   
   @LocalStorage('baseUrl')
   public baseUrl: string;
   
   constructor(public accountActions: AccountActions, public generalActions: PosGeneralActions) { }
-  
-  ngOnInit() { }
   
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.baseUrl || this.baseUrl === "") {
