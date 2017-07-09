@@ -1,14 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
              // moduleId: module.id,
              selector: 'configurations-default-pos',
-             templateUrl: 'pos.component.html',
+             template: `
+               <router-outlet></router-outlet>`,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class ConfigurationsDefaultPosComponent implements OnInit {
-  constructor() { }
-  
-  ngOnInit() { }
-  
+export class ConfigurationsDefaultPosComponent {
 }

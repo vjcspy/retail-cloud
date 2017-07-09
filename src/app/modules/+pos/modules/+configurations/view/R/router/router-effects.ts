@@ -11,15 +11,38 @@ export class ConfigurationsViewRouterEffects {
               private actions$: Actions,
               private pullActions: PosPullActions) { }
   
-  @Effect() whenGoCheckout = this.actions$
+  @Effect() whenGoProductCategory = this.actions$
+                                        .ofType(routerActions.UPDATE_LOCATION)
+                                        .filter((action: Action) => action.payload['path'] === '/pos/configurations/default/pos/product-category')
+                                        .map(() => {
+                                          return this.pullActions.pullEntities([
+                                                                                 'retailConfig',
+                                                                                 'settings',
+                                                                                 // 'countries',
+                                                                                 'taxClass',
+                                                                                 // 'taxes',
+                                                                                 // 'receipts',
+                                                                                 // 'payment',
+                                                                                 // 'userOrderCount',
+                                                                                 // 'warehouse',
+                                                                                 // 'permission',
+                                                                                 // 'customerGroup',
+                                                                                 // 'customers',
+                                                                                 // 'category',
+                                                                                 // 'products',
+                                                                                 // 'orders',
+                                                                               ], false);
+                                        });
+  
+  @Effect() whenGoCustomer = this.actions$
                                  .ofType(routerActions.UPDATE_LOCATION)
-                                 .filter((action: Action) => action.payload['path'] === '/pos/configurations/default/pos/product-category')
+                                 .filter((action: Action) => action.payload['path'] === '/pos/configurations/default/pos/customer')
                                  .map(() => {
                                    return this.pullActions.pullEntities([
                                                                           'retailConfig',
-                                                                          'settings',
-                                                                          // 'countries',
-                                                                          'taxClass',
+                                                                          // 'settings',
+                                                                          'countries',
+                                                                          // 'taxClass',
                                                                           // 'taxes',
                                                                           // 'receipts',
                                                                           // 'payment',

@@ -22,6 +22,7 @@ import {PosConfigState} from "./config.state";
 import {TaxClassDB} from "../../database/xretail/db/tax-class";
 import {TaxClassHelper} from "../../core/framework/tax/Helper/TaxClass";
 import {RetailConfigDB} from "../../database/xretail/db/retail-config";
+import {CountryDB} from "../../database/xretail/db/country";
 
 @Injectable()
 export class PosConfigEffects {
@@ -109,7 +110,7 @@ export class PosConfigEffects {
                                   });
   
   @Effect() saveCountryData = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
-                                  .filter((action: Action) => action.payload['entityCode'] === ReceiptDB.getCode())
+                                  .filter((action: Action) => action.payload['entityCode'] === CountryDB.getCode())
                                   .withLatestFrom(this.store$.select('entities'))
                                   .map((z) => {
                                     CountryHelper.countries = (z[1] as PosEntitiesState).countries.items.toJS();

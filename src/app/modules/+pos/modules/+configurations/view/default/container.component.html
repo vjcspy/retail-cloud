@@ -1,24 +1,24 @@
 <!--left menu side-->
 <div class="left-menu-side">
   <div class="search">
-    <button style="width: 100%" type="button" (click)="backPos()">Back to POS</button>
+    <button style="width: 100%" type="button" (click)="go('pos/default/sales/checkout')">Back to POS</button>
   </div>
   <ul class="left-menu">
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/general')}">
       <span class="click" (click)="goGeneral()">{{ 'General' | translate }}</span>
     </li>
-    <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}" (click)="goPosSetting()">
-            <span class="click">
+    <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}">
+            <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
                 {{ 'X-POS Setting' | translate }}
             </span>
       <ul class="sub-menu">
-        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/product-category')}">
-                    <span class="click">
+        <li [ngClass]="{active: router.isActive('pos/configurations/default/pos/product-category')}">
+                    <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
                     {{ 'Product' | translate }} &amp; {{ 'Category' | translate }}
                     </span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/customer')}">
-          <span class="click">{{ 'Customer' | translate }}</span>
+          <span class="click" (click)="go('pos/configurations/default/pos/customer')">{{ 'Customer' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/outlet')}">
           <span class="click">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>

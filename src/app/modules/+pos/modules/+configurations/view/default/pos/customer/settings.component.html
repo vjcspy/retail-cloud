@@ -1,0 +1,57 @@
+<div class="acr-row search-customer">
+  <div class="acr-head"><h2>{{ 'Search Customer' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row">
+        <div class="box-content">
+          <retail-setting-checkbox [data]="_data.search_customer_by_attribute"
+                                   [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/search_customer_by_attribute']">
+          </retail-setting-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="acr-row new-customer">
+  <div class="acr-head"><h2>{{ 'New Customer' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row">
+        <div class="box-content">
+          <h3>{{ 'Default Country' | translate }}</h3>
+          <retail-select2 [elementData]="getCountrySelect()"
+                          [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/new_customer_default_country']">
+          </retail-select2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="acr-row search-order">
+  <div class="acr-head"><h2>{{ 'Search Order' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <retail-setting-checkbox [data]="_data.search_order"
+                                   [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/search_order']">
+          </retail-setting-checkbox>
+        </div>
+        <div class="box-content color">
+          <div class="search-option f-right">
+            <retail-text [formKey]="'customer_edit_setting'"
+                         [validation]="'p-not-decimal-num'"
+                         [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/customer_search_max_result']">
+            </retail-text>
+          </div>
+          <h3>{{ 'Maximum result' | translate }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button (click)="retailConfigService.saveRetailConfig('pos')" [ladda]="retailConfigState.isSaving">{{ 'Save' | translate }}</button>
+</div>
+

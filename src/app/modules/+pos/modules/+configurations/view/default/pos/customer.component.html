@@ -1,0 +1,3 @@
+<configurations-default-pos-customer-settings *ngIf="(entitiesState$ | async)?.countries.isFinished === true && (entitiesState$ | async)?.retailConfig.isFinished === true && getRetailConfigSnapshot()"
+                                              [retailConfigState]="retailConfigState$ | async">
+</configurations-default-pos-customer-settings>

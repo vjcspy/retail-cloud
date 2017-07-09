@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {Router} from "@angular/router";
 import {RouterActions} from "../../../../../../R/router/router.actions";
@@ -9,22 +9,12 @@ import {RouterActions} from "../../../../../../R/router/router.actions";
              templateUrl: 'container.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class ConfigurationsDefaultContainerComponent implements OnInit {
+export class ConfigurationsDefaultContainerComponent {
   constructor(private authService: AuthenticateService,
               public router: Router,
               protected routerActions: RouterActions) { }
   
-  ngOnInit() { }
-  
-  backPos() {
-    this.routerActions.go('pos/default/sales/checkout');
-  }
-  
-  goPosSetting() {
-    this.routerActions.go('pos/configurations/default/pos/product-category');
-  }
-  
-  goGeneral() {
-    this.routerActions.go('pos/configurations/default/general');
+  go(path: string) {
+    this.routerActions.go(path);
   }
 }

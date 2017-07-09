@@ -7,6 +7,7 @@ import {ConfigurationsDefaultCacheManagement} from "./view/default/cache-managem
 import {PosConfigurationsDefaultPosProductCategoryComponent} from "./view/default/pos/product-category.component";
 import {BaseUrlGuard} from "./services/router-guards/BaseUrlGuard";
 import {ConfigurationsDefaultGeneralComponent} from "./view/default/general.component";
+import {ConfigurationsDefaultPosCustomerComponent} from "./view/default/pos/customer.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -25,6 +26,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
             component: ConfigurationsDefaultPosComponent,
             children: [
               {path: 'product-category', component: PosConfigurationsDefaultPosProductCategoryComponent},
+              {path: 'customer', component: ConfigurationsDefaultPosCustomerComponent},
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},

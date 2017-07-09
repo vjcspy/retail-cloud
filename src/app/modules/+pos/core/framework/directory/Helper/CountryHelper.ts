@@ -1,20 +1,16 @@
-import {db} from "../../../../database/xretail/db/retail-db";
 import * as _ from 'lodash';
-import {GeneralException} from "../../General/Exception/GeneralException";
 
 export class CountryHelper {
   private static _selectElement = {};
-  private static _countries;
+  private static _countries     = [];
   private static _data          = {};
   
   static set countries(value) {
-    this._countries = value;
+    CountryHelper._selectElement = {};
+    this._countries              = value;
   }
   
   getCountries() {
-    if (typeof CountryHelper._countries == "undefined") {
-      throw new GeneralException("please set country data");
-    }
     return CountryHelper._countries;
   }
   
@@ -48,7 +44,7 @@ export class CountryHelper {
     }
     
     if (!CountryHelper._selectElement['region'].hasOwnProperty(countryId)) {
-      let _country = _.find(this.getCountries(), (country) => country['id'] == countryId);
+      let _country = _.find(this.getCountries(), (country) => country['id'] === countryId);
       if (_country && _.size(_country['regions']) > 0) {
         CountryHelper._selectElement['region'][countryId] = {
           data: []
@@ -70,9 +66,9 @@ export class CountryHelper {
   getRegionSelected(countryId, regionId) {
     if (!CountryHelper._data.hasOwnProperty(countryId + "|" + regionId)) {
       let _region  = {};
-      let _country = _.find(this.getCountries(), (country) => country['id'] == countryId);
+      let _country = _.find(this.getCountries(), (country) => country['id'] === countryId);
       if (_country && _.size(_country['regions']) > 0) {
-        _region = _.find(_country['regions'], (region) => region['region_id'] == regionId);
+        _region = _.find(_country['regions'], (region) => region['region_id'] === regionId);
       }
       CountryHelper._data[countryId + "|" + regionId] = _region['default_name'];
     }
