@@ -2,13 +2,13 @@ import {Injectable}     from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot}    from '@angular/router';
 import {PosGeneralService} from "../../R/general/general.service";
 import {PosGeneralActions} from "../../R/general/general.actions";
-import {Store} from "@ngrx/store";
 import {posReducer} from "../../R/index";
+import {ReducerManagement} from "../../../../services/reducer-management";
 
 @Injectable()
 export class GeneralGuard implements CanActivate, CanActivateChild {
-  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected store$: Store<any>) {
-    this.store$.replaceReducer(posReducer);
+  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected reducerManagement: ReducerManagement) {
+    this.reducerManagement.replaceReducer('posReducer', posReducer);
   }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

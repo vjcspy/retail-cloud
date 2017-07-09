@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {Store} from "@ngrx/store";
 import {configurationsReducer} from "./R/index";
+import {ReducerManagement} from "../../../../services/reducer-management";
 
 @Component({
              // moduleId: module.id,
@@ -15,7 +15,7 @@ import {configurationsReducer} from "./R/index";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class ConfigurationsComponent {
-  constructor(private store$: Store<any>) {
-    this.store$.replaceReducer(configurationsReducer);
+  constructor(private reducerManagement: ReducerManagement) {
+    this.reducerManagement.replaceReducer('configurationsReducer', configurationsReducer);
   }
 }

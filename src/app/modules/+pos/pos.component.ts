@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-import {Store} from "@ngrx/store";
-import {posReducer, PosState} from "./R/index";
+import {posReducer} from "./R/index";
 import {OfflineService} from "../share/provider/offline";
 import {RetailTranslate} from "../../services/retail-translate";
 import {TranslateService} from "@ngx-translate/core";
+import {ReducerManagement} from "../../services/reducer-management";
 
 @Component({
              // moduleId: module.id,
@@ -15,8 +15,8 @@ import {TranslateService} from "@ngx-translate/core";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {
-  constructor(private store: Store<PosState>, private offline: OfflineService, private retailTranslate: RetailTranslate, private translate: TranslateService) {
-    this.store.replaceReducer(posReducer);
+  constructor(private reducerManagement: ReducerManagement, private offline: OfflineService, private retailTranslate: RetailTranslate, private translate: TranslateService) {
+    this.reducerManagement.replaceReducer('posReducer', posReducer);
     this.offline.init();
     
     this.translate.setDefaultLang('en');
