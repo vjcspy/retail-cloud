@@ -50,7 +50,6 @@ export const R_POS_IMPORTS = [
   EffectsModule.run(PosGeneralEffects),
   
   EffectsModule.run(PosEntitiesEffects),
-  // EffectsModule.run(GeneralEntityEffects),
   EffectsModule.run(RealtimeEffects),
   EffectsModule.run(EntityOrderEffects),
   
@@ -73,9 +72,6 @@ export const R_POS_PROVIDERS = [
   PosEntitiesService,
   PosEntitiesActions,
   PosEntitiesEffects,
-  // GeneralEntityEffects,
-  // GeneralEntityService,
-  // GeneralEntityActions,
   RealtimeActions,
   RealtimeEffects,
   RealtimeService,
