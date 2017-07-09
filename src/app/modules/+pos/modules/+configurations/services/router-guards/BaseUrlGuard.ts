@@ -3,12 +3,13 @@ import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapsh
 import {PosGeneralService} from "../../../../R/general/general.service";
 import {PosGeneralActions} from "../../../../R/general/general.actions";
 import {posReducer} from "../../../../R/index";
-import {Store} from "@ngrx/store";
+import {ReducerManagement} from "../../../../../../services/reducer-management";
+
 @Injectable()
 export class BaseUrlGuard implements CanActivate, CanActivateChild {
   
-  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected store$: Store<any>) {
-    this.store$.replaceReducer(posReducer);
+  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected reducerManagement: ReducerManagement) {
+    this.reducerManagement.replaceReducer('posReducer', posReducer);
   }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
