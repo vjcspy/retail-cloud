@@ -28,6 +28,7 @@
     <ul class="breadcumb" *ngIf="!!checkoutProductState.currentCategory">
       <li *ngFor="let cB of checkoutProductState.categoryBreadcrumb;let last = last" [ngClass]="{current: last}">
         <span>{{cB}}</span>
+        <span *ngIf="last" style="color: #ffab21">&nbsp;({{checkoutProductState.productGridTotals}})</span>
       </li>
     </ul>
     <div class="view-mode">

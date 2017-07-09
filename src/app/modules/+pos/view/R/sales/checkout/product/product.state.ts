@@ -19,6 +19,7 @@ export interface CheckoutProductState {
   productGridProducts: List<any>;
   productGridCurrentPage: number;
   productGridTotalsPage: number;
+  productGridTotals: number;
   productGridNumOfProductPerPage: number;
   productGridStyleValue: Object;
   productGridPagingData: any[];
@@ -44,7 +45,6 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     searchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
     
-    
     productGridStyles: {},
     productGridHeight: null,
     productGridWidth: null,
@@ -59,6 +59,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
       stretchAspectRatioAllows: 0.86 // Tỷ lệ co chiều dài cho phép
     },
     productGridTotalsPage: 0,
+    productGridTotals: 0,
     productGridProducts: List.of(),
     productGridPagingData: [],
     
