@@ -169,17 +169,16 @@ export interface SalesState {
   orders: OrdersState;
   shifts: ShiftState;
 }
-
-export const salesReducer = createReducer({
-                                            checkoutProduct: checkoutProductReducer,
-                                            cartCustomer: cartCustomerReducer,
-                                            cartItem: cartItemReducer,
-                                            cartTotals: cartTotalsReducer,
-                                            cartActionBar: cartActionBarReducer,
-                                            productOptions: productOptionsReducer,
-                                            step: posStepReducer,
-                                            receipt: receiptReducer,
-                                            menu: menuReducer,
-                                            orders: ordersReducer,
-                                            shifts: shiftReducer
-                                          });
+export const salesReducer = () => createReducer({
+                                                  checkoutProduct: checkoutProductReducer,
+                                                  cartCustomer: cartCustomerReducer,
+                                                  cartItem: cartItemReducer,
+                                                  cartTotals: cartTotalsReducer,
+                                                  cartActionBar: cartActionBarReducer,
+                                                  productOptions: productOptionsReducer,
+                                                  step: posStepReducer,
+                                                  receipt: receiptReducer,
+                                                  menu: menuReducer,
+                                                  orders: ordersReducer,
+                                                  shifts: shiftReducer
+                                                });

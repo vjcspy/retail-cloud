@@ -16,7 +16,7 @@ import {ReducerManagement} from "../../services/reducer-management";
            })
 export class PosComponent {
   constructor(private reducerManagement: ReducerManagement, private offline: OfflineService, private retailTranslate: RetailTranslate, private translate: TranslateService) {
-    this.reducerManagement.replaceReducer('posReducer', posReducer);
+    this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
     
     this.translate.setDefaultLang('en');

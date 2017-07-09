@@ -23,8 +23,8 @@ export interface ConfigurationState {
   };
 }
 
-export const configurationsReducer = createReducer({
-                                                     configurations: combineReducers({
-                                                                                       retailConfig: retailConfigReducer
-                                                                                     })
-                                                   });
+export const configurationsReducer = () => createReducer({
+                                                           configurations: combineReducers({
+                                                                                             retailConfig: retailConfigReducer
+                                                                                           })
+                                                         });

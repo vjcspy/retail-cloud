@@ -29,7 +29,7 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
   
   constructor(protected store$: Store<SalesState>, public orderListViewService: OrderService, private reducerManagement: ReducerManagement) {
     super();
-    this.reducerManagement.replaceReducer('salesReducer', salesReducer);
+    this.reducerManagement.replaceReducer('salesReducer', salesReducer());
     this.posStepState$ = this.store$.select('step');
     this.menuState$    = this.store$.select('menu');
     this.configState$  = this.store$.select('config');

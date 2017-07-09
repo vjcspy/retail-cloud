@@ -16,6 +16,6 @@ import {ReducerManagement} from "../../../../services/reducer-management";
            })
 export class ConfigurationsComponent {
   constructor(private reducerManagement: ReducerManagement) {
-    this.reducerManagement.replaceReducer('configurationsReducer', configurationsReducer);
+    this.reducerManagement.replaceReducer('configurationsReducer', configurationsReducer());
   }
 }

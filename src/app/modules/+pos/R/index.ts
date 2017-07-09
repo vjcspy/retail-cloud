@@ -113,11 +113,11 @@ export interface PosState {
   sync: PosSyncState;
 }
 
-export const posReducer = createReducer({
-                                          general: generalReducer,
-                                          quote: quoteReducer,
-                                          entities: entitiesReducer,
-                                          pull: pullReducer,
-                                          config: posConfigReducer,
-                                          sync: posSyncReducer,
-                                        });
+export const posReducer = () => createReducer({
+                                                general: generalReducer,
+                                                quote: quoteReducer,
+                                                entities: entitiesReducer,
+                                                pull: pullReducer,
+                                                config: posConfigReducer,
+                                                sync: posSyncReducer,
+                                              });
