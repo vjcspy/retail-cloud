@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy
+  Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef, Output, EventEmitter, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy
 } from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
@@ -13,7 +13,7 @@ import {GeneralException} from "../../+pos/core/framework/General/Exception/Gene
              styleUrls: ['select2.component.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class RetailSelect2Component implements OnInit, AfterViewInit {
+export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy {
   @Input('elementData') elementData: any;
   @Input() formKey: string;
   @Input() disabled: boolean  = false;
@@ -48,19 +48,21 @@ export class RetailSelect2Component implements OnInit, AfterViewInit {
   
   ngOnInit() {
     // for form validation
-    this._validateSubscription = this.formValidationService
-                                     .onSubmitOrCancel(
-                                       this.formKey,
-                                       () => this._validateElement(true),
-                                       () => this._validateElement(false)
-                                     );
+    if (this.formKey) {
+      this._validateSubscription = this.formValidationService
+                                       .onSubmitOrCancel(
+                                         this.formKey,
+                                         () => this._validateElement(true),
+                                         () => this._validateElement(false)
+                                       );
+    }
   }
   
   ngOnDestroy(): void {
-    if (typeof this._validateSubscription != "undefined")
+    if (typeof this._validateSubscription !== "undefined") {
       this._validateSubscription.unsubscribe();
+    }
   }
-  
   
   ngAfterViewInit(): void {
     let vm = this;
@@ -70,8 +72,7 @@ export class RetailSelect2Component implements OnInit, AfterViewInit {
         .on('change', function () {
           vm.model = <any>jQuery(this).val();
         });
-    }
-    else {
+    } else {
       throw new GeneralException("Can't create retail-select2 component");
     }
   }
