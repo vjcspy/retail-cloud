@@ -17,7 +17,7 @@ export class ConfigurationsViewRouterEffects {
                                  .map(() => {
                                    return this.pullActions.pullEntities([
                                                                           'retailConfig',
-                                                                          // 'settings',
+                                                                          'settings',
                                                                           // 'countries',
                                                                           'taxClass',
                                                                           // 'taxes',

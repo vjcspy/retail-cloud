@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {TaxClassHelper} from "../../../../../../core/framework/tax/Helper/TaxClass";
 import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {RetailConfigService} from "../../../../R/retail-config/retail-config.service";
-import {RetailConfigActions} from "../../../../R/retail-config/retail-config.actions";
 import {RetailConfigState} from "../../../../R/retail-config/retail-config.state";
+import {ProductSetting} from "../../../../../../core/framework/setting/ProductSetting";
 
 @Component({
              // moduleId: module.id,
@@ -158,6 +158,10 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         data: this.taxClassHelper.getProductTaxClassElementData()['data']
       }
     };
+  }
+  
+  getProductAttributesSelect() {
+    return ProductSetting.getProductAttributesSelect();
   }
   
   getRetailConfigSnapshot() {

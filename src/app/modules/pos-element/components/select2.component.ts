@@ -18,6 +18,7 @@ export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy 
   @Input() formKey: string;
   @Input() disabled: boolean  = false;
   @Input() validation: string = "";
+  @Input() multiple: boolean  = false;
   @ViewChild("selectElem") selectElem: ElementRef;
   
   protected _validProperty = {
