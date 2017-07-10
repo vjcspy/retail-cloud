@@ -43,7 +43,7 @@ export class PosConfigEffects {
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });
   
-  @Effect() n6 = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
+  @Effect() increaseOrderCount = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
                                      .withLatestFrom(this.store$.select('config'))
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
@@ -63,6 +63,7 @@ export class PosConfigEffects {
                                   .withLatestFrom(this.store$.select('entities'))
                                   .withLatestFrom(this.store$.select('general'),
                                                   ([action, entitiesState], generalState) => [action, entitiesState, generalState])
+                                  .filter((z) => !!(z[2] as PosGeneralState).outlet && !!(z[2] as PosGeneralState).outlet['id'])
                                   .map(([action, entitiesState, generalState]) => {
                                     let receipt;
                                     receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => parseInt(r['id'] + '') === parseInt(generalState.outlet['paper_receipt_template_id'] + ''));
