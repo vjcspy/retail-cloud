@@ -29,8 +29,6 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
   };
   
-  protected countryHelper = new CountryHelper();
-  
   constructor(private userCollection: UserCollection, private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
     super();
   }
@@ -75,9 +73,10 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   
   checkoutAsGuest(): boolean {
     if (this.getOrder().hasOwnProperty('customer')) {
-      return this.getOrder()['customer']['id'] == this.posConfigState.setting.customer.getDefaultCustomerId();
-    } else
+      return parseInt(this.getOrder()['customer']['id']) === parseInt(this.posConfigState.setting.customer.getDefaultCustomerId());
+    } else {
       return false;
+    }
   }
   
   getUserNameById(id) {
@@ -104,25 +103,23 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
           this._data['productOptions']['configurableOption'][item['id']] +=
             _f ? option['label'] + ": " + option['value'] : " - " + option['label'] + ": " + option['value'];
         });
-      } else
+      } else {
         this._data['productOptions']['configurableOption'][item['id']] = false;
+      }
     }
     return this._data['productOptions']['configurableOption'][item['id']];
   }
   
   getBundleChildren(item) {
-    //Fix 835 : print receipt for bundle product if product id has same ID
-    // if (!this._data['productOptions']['bundleChildren'].hasOwnProperty(item['id'])) {
-    if (item['type_id'] == 'bundle' && _.isArray(item['children'])) {
+    if (item['type_id'] === 'bundle' && _.isArray(item['children'])) {
       this._data['productOptions']['bundleChildren'][item['id']] = item['children'];
-    } else
+    } else {
       this._data['productOptions']['bundleChildren'][item['id']] = [];
-    // }
+    }
     return this._data['productOptions']['bundleChildren'][item['id']];
   }
   
   getProductCustomOption(item) {
-    // if (!this._data['productOptions']['customOptions'].hasOwnProperty(item['id'])) {
     if (item['product_options'].hasOwnProperty('options')) {
       this._data['productOptions']['customOptions'][item['id']] = "";
       let _f                                                    = true;
@@ -130,18 +127,18 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
         this._data['productOptions']['customOptions'][item['id']] +=
           _f ? option['label'] + ": " + option['value'] : " - " + option['label'] + ": " + option['value'];
       });
-    } else
+    } else {
       this._data['productOptions']['customOptions'][item['id']] = false;
-    // }
+    }
     return this._data['productOptions']['customOptions'][item['id']];
   }
   
   showDiscountOrShipment(value) {
-    return !!this.getReceiptSetting()['order_info']['discount_shipment'] || parseFloat(value) != 0;
+    return !!this.getReceiptSetting()['order_info']['discount_shipment'] || parseFloat(value) !== 0;
   }
   
   getPaymentTitle(payment) {
-    if (payment['type'] == 'credit_card') {
+    if (payment['type'] === 'credit_card') {
       return payment['title'] + (parseInt(payment['is_purchase']) === 0 ? " Refund" : "") + (payment['data'] && !!payment['data']['ref'] ?
           (": Ref# " + payment['data']['ref']) :
           "");
@@ -161,8 +158,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   protected getRemainingData() {
     if (!this.getOrder().hasOwnProperty('remain')) {
       let paid = 0;
-      _.forEach(this.getOrder()['payment'], p => {
-        if (parseInt(p['is_purchase']) == 1) {
+      _.forEach(this.getOrder()['payment'], (p) => {
+        if (parseInt(p['is_purchase']) === 1) {
           paid += parseFloat(p['amount']);
         }
       });
@@ -178,19 +175,18 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   }
   
   getRegionSelectedByCountryId(countryId, regionId) {
-    return this.countryHelper.getRegionSelected(countryId, regionId);
+    return CountryHelper.getRegionSelected(countryId, regionId);
   }
   
   getCountryNameFromId(country_id: string) {
     if (!this.getOrder().hasOwnProperty(country_id)) {
-      let arr = _.filter(this.countryHelper.getCountrySelect()['data'], (value, key) => {
+      let arr = _.filter(CountryHelper.getCountrySelect()['data'], (value, key) => {
         return value['value'] == country_id;
         
       });
       if (arr) {
         this.getOrder()[country_id] = arr[0]['label'];
-      }
-      else {
+      } else {
         this.getOrder()[country_id] = country_id;
       }
     }
@@ -198,8 +194,9 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   }
   
   protected initBarcode() {
-    if (!this.getReceiptSetting()['enable_barcode'])
+    if (!this.getReceiptSetting()['enable_barcode']) {
       return;
+    }
     
     if (this.getReceiptSetting()['barcode_symbology']) {
       let defaultWidth  = 2;
