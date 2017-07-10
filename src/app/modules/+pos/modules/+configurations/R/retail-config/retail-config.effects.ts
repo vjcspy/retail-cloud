@@ -10,16 +10,44 @@ import * as _ from 'lodash';
 import {Observable} from "rxjs/Observable";
 import {PosConfigActions} from "../../../../R/config/config.actions";
 import {EntityRetailConfigActions} from "../../../../R/entities/entity/retail-config.actions";
+import {TaxClassDB} from "../../../../database/xretail/db/tax-class";
+import {Router} from "@angular/router";
+import {SettingDB} from "../../../../database/xretail/db/setting";
 
 @Injectable()
 export class RetailConfigEffects {
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
+              private router: Router,
               private retailConfigActions: RetailConfigActions,
               private retailConfigService: RetailConfigService,
               private posConfigActions: PosConfigActions,
               private entityRetailConfigActions: EntityRetailConfigActions) { }
+  
+  @Effect() checkLoadedDepend = this.actions$
+                                    .ofType(
+                                      PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                    )
+                                    .filter(() => this.router.isActive('pos/configurations/default/pos', false))
+                                    .withLatestFrom(this.store$.select('entities'))
+                                    .map((z) => {
+                                      let productCategory = false;
+                                      let customer        = false;
+    
+                                      const entitiesState: PosEntitiesState = <any>z[1];
+    
+                                      if (entitiesState.retailConfig.isFinished === true
+                                          && entitiesState.taxClass.isFinished === true
+                                          && entitiesState.settings.isFinished === true) {
+                                        productCategory = true;
+                                      }
+                                      if (entitiesState.retailConfig.isFinished === true
+                                          && entitiesState.countries.isFinished === true) {
+                                        customer = true;
+                                      }
+                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer});
+                                    });
   
   @Effect() saveRetailConfigSnapShot = this.actions$
                                            .ofType(

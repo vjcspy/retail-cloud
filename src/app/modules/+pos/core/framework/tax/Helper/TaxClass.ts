@@ -1,12 +1,21 @@
 import * as _ from 'lodash';
 
 export class TaxClassHelper {
-  protected _elementData = {};
-  static taxClass;
+  static _elementData = {};
+  private static _taxClass;
   
-  getProductTaxClassElementData() {
-    if (!this._elementData.hasOwnProperty('tax_class')) {
-      this._elementData['tax_class'] = {
+  static get taxClass() {
+    return this._taxClass;
+  }
+  
+  static set taxClass(value) {
+    TaxClassHelper._elementData = {};
+    this._taxClass              = value;
+  }
+  
+  static getProductTaxClassElementData() {
+    if (!TaxClassHelper._elementData.hasOwnProperty('tax_class')) {
+      TaxClassHelper._elementData['tax_class'] = {
         data: [
           {
             value: '0',
@@ -14,9 +23,9 @@ export class TaxClassHelper {
           }
         ]
       };
-      _.forEach(TaxClassHelper.taxClass, (taxClass) => {
+      _.forEach(TaxClassHelper._taxClass, (taxClass) => {
         if (taxClass['type'] === "PRODUCT") {
-          this._elementData['tax_class']['data']
+          TaxClassHelper._elementData['tax_class']['data']
             .push({
                     value: taxClass['id'],
                     label: taxClass['name']
@@ -24,6 +33,6 @@ export class TaxClassHelper {
         }
       });
     }
-    return this._elementData['tax_class'];
+    return TaxClassHelper._elementData['tax_class'];
   }
 }

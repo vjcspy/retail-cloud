@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {TaxClassHelper} from "../../../../../../core/framework/tax/Helper/TaxClass";
 import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {RetailConfigService} from "../../../../R/retail-config/retail-config.service";
 import {RetailConfigState} from "../../../../R/retail-config/retail-config.state";
 import {ProductSetting} from "../../../../../../core/framework/setting/ProductSetting";
+import {TaxClassHelper} from "../../../../../../core/framework/tax/Helper/TaxClass";
 
 @Component({
              // moduleId: module.id,
@@ -15,8 +15,7 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
   @Input() entitiesState: PosEntitiesState;
   @Input() retailConfigState: RetailConfigState;
   
-  protected taxClassHelper = new TaxClassHelper();
-  protected _data          = {};
+  protected _data = {};
   
   constructor(public retailConfigService: RetailConfigService) { }
   
@@ -155,7 +154,7 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
       },
       custom_sale_tax_class: {
         title: "Custom sale tax class",
-        data: this.taxClassHelper.getProductTaxClassElementData()['data']
+        data: TaxClassHelper.getProductTaxClassElementData()['data']
       }
     };
   }

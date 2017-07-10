@@ -13,6 +13,9 @@ export const retailConfigReducer: ActionReducer<RetailConfigStateRecord> = (stat
     case RetailConfigActions.ACTION_SAVE_RETAIL_CONFIG_FAILED:
       return state.set('isSaving', false);
     
+    case RetailConfigActions.ACTION_LOADED_DEPEND:
+      return state.set('isLoadedDepend', action.payload['isLoadedDepend']);
+    
     default:
       return state;
   }
