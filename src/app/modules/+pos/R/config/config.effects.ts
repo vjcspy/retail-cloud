@@ -43,7 +43,7 @@ export class PosConfigEffects {
                                        return Observable.of(this.configActions.retrieveOrderCount(orderCount, false));
                                      });
   
-  @Effect() increaseOrderCount = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
+  @Effect() n6 = this.actions.ofType(PosStepActions.ACTION_SAVED_ORDER)
                                      .withLatestFrom(this.store$.select('config'))
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
