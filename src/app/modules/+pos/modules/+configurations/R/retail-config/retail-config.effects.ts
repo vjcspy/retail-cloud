@@ -10,9 +10,7 @@ import * as _ from 'lodash';
 import {Observable} from "rxjs/Observable";
 import {PosConfigActions} from "../../../../R/config/config.actions";
 import {EntityRetailConfigActions} from "../../../../R/entities/entity/retail-config.actions";
-import {TaxClassDB} from "../../../../database/xretail/db/tax-class";
 import {Router} from "@angular/router";
-import {SettingDB} from "../../../../database/xretail/db/setting";
 
 @Injectable()
 export class RetailConfigEffects {
