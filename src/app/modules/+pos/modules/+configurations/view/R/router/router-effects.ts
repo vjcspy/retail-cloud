@@ -64,12 +64,12 @@ export class ConfigurationsViewRouterEffects {
                                .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/outlet', false))
                                .map(() => {
                                  return this.pullActions.pullEntities([
-                                                                        'retailConfig',
+                                                                        // 'retailConfig',
                                                                         'outlet',
                                                                         'countries',
                                                                         'stores',
                                                                         // 'taxes',
-                                                                        // 'receipts',
+                                                                        'receipts',
                                                                         // 'payment',
                                                                         // 'userOrderCount',
                                                                         // 'warehouse',

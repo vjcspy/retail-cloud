@@ -23,7 +23,7 @@
       <retail-select [(model)]="configurationsState.outlets.filterData.warehouse_id" [elementData]="getWarehouseElementData()"></retail-select>
     </td>
   </tr>
-  <tr *ngFor="let outlet of configurationsState.outlets.outletFiltered">
+  <tr *ngFor="let outlet of configurationsState.outlets.outletFiltered" (click)="editOutlet(outlet['id'])">
     <td>{{outlet['id']}}</td>
     <td>{{outlet['name']}}</td>
     <td>{{getStoreById(outlet['store_id']) ? getStoreById(outlet['store_id'])['name'] : ''}}</td>

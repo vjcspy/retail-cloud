@@ -10,6 +10,7 @@ import {ConfigurationsDefaultGeneralComponent} from "./view/default/general.comp
 import {ConfigurationsDefaultPosCustomerComponent} from "./view/default/pos/customer.component";
 import {ConfigurationsDefaultPosOutletRegisterComponent} from "./view/default/pos/outlet-register.component";
 import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./view/default/pos/outlet-register/grid.component";
+import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./view/default/pos/outlet-register/edit.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -34,6 +35,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
                 component: ConfigurationsDefaultPosOutletRegisterComponent,
                 children: [
                   {path: 'grid', component: ConfigurationsDefaultPosOutletRegisterGridComponent},
+                  {path: 'edit/:id', component: ConfigurationsDefaultPosOutletRegisterEditComponent},
                 ]
               },
             ]

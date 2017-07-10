@@ -12,7 +12,7 @@ import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
            })
 
 export class ConfigurationsDefaultPosCustomerSettingsComponent {
-  public _data            = {
+  public _data = {
     search_customer_by_attribute: {
       title: "CUSTOMER'S ATRIBUTES",
       data: [
@@ -72,7 +72,6 @@ export class ConfigurationsDefaultPosCustomerSettingsComponent {
       ]
     },
   };
-  protected countryHelper = new CountryHelper();
   
   @Input() retailConfigState: RetailConfigState;
   
@@ -80,7 +79,7 @@ export class ConfigurationsDefaultPosCustomerSettingsComponent {
   }
   
   getCountrySelect() {
-    return this.countryHelper.getCountrySelect();
+    return CountryHelper.getCountrySelect();
   }
   
   getRetailConfigSnapshot() {

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ConfigurationsState} from "../../../../../R/index";
 import {StoreHelper} from "../../../../../../../core/framework/store/Helper/StoreHelper";
 import {ConfigurationsOutletActions} from "../../../../../R/outlets/outlet.actions";
+import {RouterActions} from "../../../../../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -13,7 +14,8 @@ import {ConfigurationsOutletActions} from "../../../../../R/outlets/outlet.actio
 export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   @Input() configurationsState: ConfigurationsState;
   
-  constructor(private configurationsOutletActions: ConfigurationsOutletActions) {}
+  constructor(private configurationsOutletActions: ConfigurationsOutletActions,
+              private routerActions: RouterActions) {}
   
   getStoreElementData() {
     return StoreHelper.getStoreElementData();
@@ -41,5 +43,9 @@ export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   
   updateFilter(filterData) {
     this.configurationsOutletActions.updateOutletFilter(filterData);
+  }
+  
+  editOutlet(id) {
+    this.routerActions.go('pos/configurations/default/pos/outlet/edit', id);
   }
 }

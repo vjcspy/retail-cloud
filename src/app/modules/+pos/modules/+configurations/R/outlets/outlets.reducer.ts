@@ -10,6 +10,17 @@ export const configurationsOutletReducer: ActionReducer<ConfigurationOutletState
     case ConfigurationsOutletActions.ACTION_UPDATE_OUTLET_FILTER:
       return state.set('filterData', Object.assign({}, state.filterData, action.payload['filterData']));
     
+    case ConfigurationsOutletActions.ACTION_RESOLVE_EDIT_OUTLET_FORM:
+      return state.set('editForm', Object.assign({}, state.editForm, {
+        outlet: action.payload['outlet'],
+        registers: action.payload['registers']
+      }));
+    
+    case ConfigurationsOutletActions.ACTION_LOADED_DEPEND_EDIT_FORM:
+      return state.set('editForm', Object.assign({}, state.editForm, {
+        isLoadedDepend: action.payload['isLoadedDepend'],
+      }));
+    
     default:
       return state;
   }

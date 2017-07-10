@@ -29,4 +29,40 @@ export class ConfigurationsOutletActions {
     
     return action;
   }
+  
+  static ACTION_LOADED_DEPEND_EDIT_FORM = 'ACTION_LOADED_DEPEND_EDIT_FORM';
+  
+  loadedDependEditForm(isLoadedDepend, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_LOADED_DEPEND_EDIT_FORM, payload: {isLoadedDepend}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_EDIT_OUTLET = 'ACTION_EDIT_OUTLET';
+  
+  editOutlet(id: number, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_EDIT_OUTLET, payload: {id}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_RESOLVE_EDIT_OUTLET_FORM = 'ACTION_RESOLVE_EDIT_OUTLET_FORM';
+  
+  resolveEditOutletForm(outlet, registers, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_RESOLVE_EDIT_OUTLET_FORM, payload: {outlet, registers}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
