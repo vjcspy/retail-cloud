@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RetailConfigService} from "../../../R/retail-config/retail-config.service";
 import {Observable} from "rxjs/Observable";
 import {Store} from "@ngrx/store";
-import {ConfigurationState} from "../../../R/index";
 import {RetailConfigState} from "../../../R/retail-config/retail-config.state";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 
@@ -19,7 +18,7 @@ export class ConfigurationsDefaultPosCustomerComponent {
   
   constructor(protected store$: Store<any>, protected retailConfigService: RetailConfigService) {
     this.entitiesState$     = this.store$.select('entities');
-    this.retailConfigState$ = this.store$.map((store: ConfigurationState) => store.configurations.retailConfig).distinctUntilChanged();
+    this.retailConfigState$ = this.store$.map((store: any) => store.configurations.retailConfig).distinctUntilChanged();
   }
   
   getRetailConfigSnapshot() {

@@ -6,6 +6,9 @@ import {PosConfigurationsDefaultPosProductCategorySettingsComponent} from "./pos
 import {ConfigurationsDefaultGeneralComponent} from "./general.component";
 import {ConfigurationsDefaultPosCustomerComponent} from "./pos/customer.component";
 import {ConfigurationsDefaultPosCustomerSettingsComponent} from "./pos/customer/settings.component";
+import {ConfigurationsDefaultPosOutletRegisterComponent} from "./pos/outlet-register.component";
+import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./pos/outlet-register/grid.component";
+import {ConfigurationsDefaultPosOutletRegisterGridTableComponent} from "./pos/outlet-register/grid/table.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -19,5 +22,9 @@ export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultPosCustomerComponent,
   ConfigurationsDefaultPosCustomerSettingsComponent,
   
-  ConfigurationsDefaultCacheManagement
+  ConfigurationsDefaultPosOutletRegisterComponent,
+  ConfigurationsDefaultPosOutletRegisterGridComponent,
+  ConfigurationsDefaultPosOutletRegisterGridTableComponent,
+  
+  ConfigurationsDefaultCacheManagement,
 ];

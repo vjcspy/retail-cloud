@@ -8,6 +8,8 @@ import {PosConfigurationsDefaultPosProductCategoryComponent} from "./view/defaul
 import {BaseUrlGuard} from "./services/router-guards/BaseUrlGuard";
 import {ConfigurationsDefaultGeneralComponent} from "./view/default/general.component";
 import {ConfigurationsDefaultPosCustomerComponent} from "./view/default/pos/customer.component";
+import {ConfigurationsDefaultPosOutletRegisterComponent} from "./view/default/pos/outlet-register.component";
+import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./view/default/pos/outlet-register/grid.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -27,6 +29,13 @@ export const CONFIGURATIONS_ROUTES: Routes = [
             children: [
               {path: 'product-category', component: PosConfigurationsDefaultPosProductCategoryComponent},
               {path: 'customer', component: ConfigurationsDefaultPosCustomerComponent},
+              {
+                path: 'outlet',
+                component: ConfigurationsDefaultPosOutletRegisterComponent,
+                children: [
+                  {path: 'grid', component: ConfigurationsDefaultPosOutletRegisterGridComponent},
+                ]
+              },
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},

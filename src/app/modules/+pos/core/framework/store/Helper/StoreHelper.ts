@@ -31,4 +31,9 @@ export class StoreHelper {
     }
     return StoreHelper._elementData['store'];
   }
+  
+  static getStoreById(storeId) {
+    let _store = _.find(StoreHelper._stores, (store) => parseInt(store['id']) === parseInt(storeId));
+    return _store ? _store : null;
+  }
 }

@@ -21,7 +21,7 @@
           <span class="click" (click)="go('pos/configurations/default/pos/customer')">{{ 'Customer' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/outlet')}">
-          <span class="click">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
+          <span class="click" (click)="go('pos/configurations/default/pos/outlet/grid')">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/payment')}">
           <span class="click">{{ 'Payment' | translate }}</span>
