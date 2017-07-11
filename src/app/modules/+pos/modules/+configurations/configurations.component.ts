@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {configurationsReducer} from "./R/index";
 import {ReducerManagement} from "../../../../services/reducer-management";
 
@@ -12,6 +12,8 @@ import {ReducerManagement} from "../../../../services/reducer-management";
                  </div>
                </div>
              `,
+             styleUrls: ['configurations.component.scss'],
+             encapsulation: ViewEncapsulation.None,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class ConfigurationsComponent {
