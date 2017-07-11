@@ -16,8 +16,8 @@
   <!--<pos-refund-item *ngFor="let item of posRefund.creditmemo['items']" [item]="item"></pos-refund-item>-->
   <!--</div>-->
 
-  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
-    <div class="cart-head">
+  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">  
+    <div class="cart-head"><!-- add "touch" class when device -->
       <div class="c-img">
         <img src="{{getItemImage(item)}}" alt="no-image"/>
       </div>

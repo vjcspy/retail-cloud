@@ -1677,6 +1677,22 @@ textarea[readonly="readonly"] {
         @include ver-pos; right: 50px;
         margin: 2px 0 0;
       }
+      &.touch{
+        .delete-btn{
+          background: #fc636b;
+          color: #fff;
+          width: 58px;
+          height: 100%;
+          font-weight: bold;
+          right: -55px;
+          opacity: 1;
+          @include border-radius(0px);
+          span[class^="icon-"]{
+            color: #fff;
+            font-weight: bold;
+          }
+        }
+      }
     }
   }
 }
