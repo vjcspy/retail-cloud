@@ -178,7 +178,13 @@ button {
       background: $cgreen2;
       &, [class^="icon-"] {color: $white;}
     }
+
   }
+  &.ladda-button{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
   &.bounder {
     &, &:hover {
       font-size: 13px; color: $grayDark;
@@ -821,7 +827,7 @@ textarea[readonly="readonly"] {
       //position: fixed; left: 0;
       top: 0; right: 0;
       display: block;
-      width: 36.0176%; height: 100%;
+      width: 37.8%; height: 100%;
       background: rgba(0,0,0,0.4);
       z-index: 5;
     }
@@ -1665,8 +1671,7 @@ textarea[readonly="readonly"] {
 .cart-product .cart-product-inner{
   background: $white; 
 }
-.cart-table {
-  height: calc(100% - 116px);
+.cart-table {  
   position: relative;  
    
   .cart-row {
@@ -2062,7 +2067,12 @@ textarea[readonly="readonly"] {
             float: left; width: 89px; height: 54px;
             overflow: hidden;
             cursor: pointer; margin-right: 18px;
+            position: relative;
             &.active {border: #DADADA solid 1px;}
+            img{
+              position: absolute;
+              @include center-pos;
+            }
           }
         }
       }
@@ -3411,8 +3421,8 @@ h2.p-head {padding: 18px 20px;}
     background: #D2E0EC; min-height: inherit;
     @include box-shadow(none);
   }
-  .f-left {width: 175px; padding-right: 20px; margin: 0;}
-  .option-list {float: none; width: auto; overflow: hidden;}
+  .f-left {width: 175px; padding-right: 20px; margin: 0; padding-bottom: 10px;}
+  .option-list {float: none; width: auto; overflow: hidden;clear: both;}
 }
 
 .th-row {

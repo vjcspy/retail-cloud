@@ -13,15 +13,12 @@
     .cate-slider{
       margin: 0;
       padding: 0; 
-      text-align: center;
+      text-align: left;
       white-space: nowrap;            
-      height: 67px;
+      height:auto;
       position: relative;
       -webkit-overflow-scrolling: touch;    
-       
-      @include tablet{
-        height: 55px;
-      }
+     
            
       .item{
         list-style: none;
@@ -32,7 +29,7 @@
         position: relative;
         text-align: center;
         overflow: hidden;
-        max-height: 62px;           
+        height: 62px;           
         align-items: center;  
         display: inline-block;
         white-space: nowrap;
@@ -48,10 +45,15 @@
           background: rgba(183,109,112,0.8);
           width: 100%;
           height: 100%;
+          z-index: 11;
           @include border-radius(5px);
         }
         img{
-          display: inline-block;    
+          display: inline-block;  
+          left: 0; 
+          position: absolute;
+          @include ver-pos; 
+          z-index: 10;
         }
 
         .cat-name{
@@ -65,7 +67,8 @@
 
         }
         @include tablet{
-          max-height: 50px;
+          height: 50px;
+          width: 140px;
           .cat-name{
             font-size: 12px;
           }
