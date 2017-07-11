@@ -1,0 +1,147 @@
+<div class="acr-row new-outlet">
+  <div class="acr-head">
+    <h2>
+      <span class="icon-left click" (click)="back()"></span>
+      {{!!getEditOutletFormData()['outlet']['id'] ? ("Edit Outlet"|translate):("New Outlet"|translate)}}
+    </h2>
+  </div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="tabs-blk">
+        <ul class="tabs-header">
+          <li [ngClass]="{active: tabState === 'info'}"
+              (click)=" tabState = 'info'">
+            {{ 'Outlet Information' | translate }}
+          </li>
+          <li [ngClass]="{active: tabState === 'address'}"
+              (click)=" tabState = 'address'">
+            {{ 'Outlet Address' | translate }}
+          </li>
+        </ul>
+        <div class="tabs-content outlet-info" id="outletInfo"
+             [ngClass]="{'d-show': tabState ==='info','d-hide': tabState !=='info'}">
+          <div class="inner">
+            <ul class="fr-control">
+              <li>
+                <label>Outlet ID</label>
+                <span class="fr-text">{{getEditOutletFormData()['outlet'] ? getEditOutletFormData()['outlet']['id'] : ''}}</span>
+              </li>
+              <li>
+                <label>{{ 'Outlet Status' | translate }}</label>
+                <retail-select [(model)]="getEditOutletFormData()['outlet']['is_active']"
+                               [elementData]="getStatusSelect()"
+                               [formKey]="'outlet_edit_address'"
+                               [validation]="'required'"></retail-select>
+              </li>
+
+              <li>
+                <label>{{ 'Outlet Name' | translate }}</label>
+                <retail-text [(model)]="getEditOutletFormData()['outlet']['name']"
+                             [formKey]="'outlet_edit_address'"
+                             [validation]="'required'"></retail-text>
+              </li>
+              <!--<li>-->
+              <!--<label>{{ 'Tax Calculation' | translate }}</label>-->
+              <!--<retail-select [elementData]="getTaxCalculationSelect()"-->
+              <!--[(model)]="getEditOutletFormData()['outlet']['tax_calculation_based_on']"-->
+              <!--[formKey]="'outlet_edit_address'"-->
+              <!--[validation]="'required'"></retail-select>-->
+              <!--</li>-->
+              <li>
+                <label>{{ 'Allow Guest Customer' | translate }}</label>
+                <div class="switch-button">
+                  <input [(ngModel)]="getEditOutletFormData()['outlet']['enable_guest_checkout']" [checked]="getEditOutletFormData()['outlet']['enable_guest_checkout']=='1'"
+                         type="checkbox">
+                  <span></span>
+                </div>
+              </li>
+              <!--<li *ngIf="clientSettingDataManagement.getConfig('pos','xretail/pos/integrate_wh') != 'none' && !!clientSettingDataManagement.getConfig('pos','xretail/pos/integrate_wh')">
+                  <label>Warehouse</label>
+                  <retail-select [elementData]="getWarehouseSelect()"
+                                 [(model)]="_outlet['warehouse_id']"
+                                 [formKey]="'outlet_edit_address'"></retail-select>
+              </li>-->
+              <li>
+                <label>{{ 'Paper Receipt\'s Template' | translate }}</label>
+                <retail-select [elementData]="getReceiptTemplateSelect()"
+                               [(model)]="getEditOutletFormData()['outlet']['paper_receipt_template_id']"
+                               [formKey]="'outlet_edit_address'"></retail-select>
+              </li>
+              <li>
+                <label>{{ 'Cashier' | translate }}</label>
+                <input [(ngModel)]="getEditOutletFormData()['outlet']['cashier_ids']">
+              </li>
+              <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
+                <label>{{ 'Register' | translate }}</label>
+                <div class="groups">
+                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']"
+                          [ngClass]="{active: register['is_active']}">
+                    {{register['name']}}
+                  </button>
+                  <button class="square orange">
+                    {{ 'Add Register' | translate }}
+                  </button>
+                </div>
+              </li>
+              <li>
+                <label>{{ 'Store View' | translate }}</label>
+                <retail-select [elementData]="getStoreElementData()"
+                               [(model)]="getEditOutletFormData()['outlet']['store_id']"
+                               [formKey]="'outlet_edit_address'"
+                               [validation]="'required'"></retail-select>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="tabs-content outlet-address" id="outletAddress"
+             [ngClass]="{'d-show': tabState ==='address','d-hide':tabState !=='address'}">
+          <div class="inner">
+            <ul class="fr-control">
+              <li>
+                <label>{{ 'Street' | translate }}</label>
+                <retail-text [(model)]="getEditOutletFormData()['outlet']['street']"
+                             [formKey]="'outlet_edit_address'"
+                             [validation]="'required'"></retail-text>
+              </li>
+              <li>
+                <label>{{ 'City' | translate }}</label>
+                <retail-text [(model)]="getEditOutletFormData()['outlet']['city']"
+                             [formKey]="'outlet_edit_address'"
+                             [validation]="'required'"></retail-text>
+              </li>
+              <li>
+                <label>ZIP/Postal Code</label>
+                <retail-text [(model)]="getEditOutletFormData()['outlet']['postcode']"
+                             [formKey]="'outlet_edit_address'"
+                             [validation]="'required'"></retail-text>
+              </li>
+              <li>
+                <label>{{ 'Country' | translate }}</label>
+                <retail-select2 class="lightblue" [elementData]="getCountrySelect()"
+                                [(model)]="getEditOutletFormData()['outlet']['country_id']"
+                                [formKey]="'outlet_edit_address'"
+                                [validation]="'required'"></retail-select2>
+              </li>
+              <li>
+                <label>{{ 'Telephone' | translate }}</label>
+                <retail-text [(model)]="getEditOutletFormData()['outlet']['telephone']"
+                             [formKey]="'outlet_edit_address'"
+                             [validation]="'required'"></retail-text>
+              </li>
+              <li *ngIf="getRegionSelect(getEditOutletFormData()['outlet']['country_id']) !== false">
+                <label>{{ 'Region' | translate }}</label>
+                <retail-select2 class="lightblue" [elementData]="getRegionSelect(getEditOutletFormData()['outlet']['country_id'])"
+                                [(model)]="getEditOutletFormData()['outlet']['region_id']"
+                                [formKey]="'outlet_edit_address'"
+                                [validation]="'required'"></retail-select2>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button (click)="saveOutlet()">{{!!getEditOutletFormData()['outlet']['id'] ? ('Save'|translate) : ('Create New'|translate)}}</button>
+</div>

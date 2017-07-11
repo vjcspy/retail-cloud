@@ -7,6 +7,9 @@ export const cartItemReducer: ActionReducer<CartItemStateRecord> = (state = cart
     case CartItemActions.ACTION_CHANGE_ROW_SELECTED:
       return state.set('cartItemRowSelected', action.payload['cartItemRowSelected']);
     
+    case CartItemActions.ACTION_UPDATE_CART_ITEM_STYLES:
+      return state.set('cartItemsStyle', action.payload['cartItemsStyle']);
+    
     default:
       return state;
   }

@@ -118,6 +118,7 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
       return state.set('productGridProducts', action.payload['productGridProducts'])
                   // .set('productGridPagingData', pagesView)
                   .set('productGridCurrentPage', action.payload['currentPage'])
+                  .set('productGridTotals', action.payload['totalsProduct'])
                   .set('productGridTotalsPage', action.payload['totalsPage']);
     
     case CheckoutProductActions.ACTION_UPDATE_GRID_STATE:

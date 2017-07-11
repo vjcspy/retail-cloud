@@ -22,6 +22,7 @@ export class CheckoutProductService {
       }
       
       let totalsPage: number;
+      let totalsProduct: number;
       let currentPage: number;
       let productGridProducts: List<any> = List.of();
       
@@ -50,7 +51,7 @@ export class CheckoutProductService {
         let _priceFormat = new PriceFormatPipe();
         products.forEach((product: ProductDB) => {
           let re = new RegExp(reString, "gi");
-          if (work >= checkoutProductsState.productGridNumOfProductPerPage) {
+          if (work >= config.posRetailConfig.numberOfSearchProductResult) {
             return false;
           }
           
@@ -76,6 +77,7 @@ export class CheckoutProductService {
             productGridProducts = <any> productGridProducts.push(product);
           }
         });
+        totalsProduct = productGridProducts.count();
       } else {
         currentPage = checkoutProductsState.productGridCurrentPage;
         // OLD UI
@@ -92,11 +94,12 @@ export class CheckoutProductService {
         // }
         
         // NEW UI
+        totalsProduct       = products.count();
         totalsPage          = Math.ceil(products.count() / checkoutProductsState.productGridNumOfProductPerPage);
         productGridProducts = <any> (products.take((currentPage + checkoutProductsState.bufferPageView) * checkoutProductsState.productGridNumOfProductPerPage));
       }
       
-      return resolve({data: {totalsPage, currentPage, productGridProducts}});
+      return resolve({data: {totalsPage, currentPage, productGridProducts, totalsProduct}});
     });
   }
   

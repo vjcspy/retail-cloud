@@ -40,6 +40,13 @@ export class AuthenticateService {
     this._user = value;
   }
   
+  getUserName() {
+    if (this.user) {
+      return this.user['username'];
+    }
+    return '';
+  }
+  
   userCan(permission: string) {
     return true;
   }

@@ -2,21 +2,15 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {PosEntitiesActions} from "../entities/entities.actions";
-import {SettingDB} from "../../database/xretail/db/setting";
 import {List} from "immutable";
-import {TaxConfig} from "../../core/framework/tax/Model/TaxConfig";
 import {RootActions} from "../../../../R/root.actions";
 import {PosConfigActions} from "./config.actions";
-import {CustomerSetting} from "../../core/framework/setting/CustomerSetting";
-import {ProductSetting} from "../../core/framework/setting/ProductSetting";
-import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
 import {UserOrderCountDB} from "../../database/xretail/db/user-order-count";
 import {PosGeneralState} from "../general/general.state";
 import {Observable} from "rxjs";
 import {PosConfigService} from "./config.service";
 import {ReceiptDB} from "../../database/xretail/db/receipt";
 import {PosEntitiesState} from "../entities/entities.state";
-import {CountryHelper} from "../../core/framework/directory/Helper/CountryHelper";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosConfigState} from "./config.state";
 
@@ -28,32 +22,6 @@ export class PosConfigEffects {
               private configService: PosConfigService,
               private configActions: PosConfigActions,
               private rootActions: RootActions) { }
-  
-  @Effect() initPosSettings = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
-                                  .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
-                                  .withLatestFrom(this.store$.select('entities'))
-                                  .map(([action, entitiesState]) => {
-                                    const settings: List<SettingDB> = entitiesState[SettingDB.getCode()].items;
-                                    let tax                         = new TaxConfig();
-                                    let customer                    = new CustomerSetting();
-                                    let product                     = new ProductSetting();
-                                    let shipping                    = new ShippingSetting();
-                                    let taxConfig: SettingDB        = settings.find((s) => s['key'] === 'tax');
-                                    let productConfig: SettingDB    = settings.find((s) => s['key'] === 'product');
-                                    let shippingConfig: SettingDB   = settings.find((s) => s['key'] === 'shipping');
-                                    let customerConfig: SettingDB   = settings.find((s) => s['key'] === 'customer');
-    
-                                    if (!taxConfig || !productConfig || !shippingConfig || !customerConfig) {
-                                      return this.rootActions.error("Can't get setting in initPosSettings", null, false);
-                                    } else {
-                                      TaxConfig.taxConfig    = taxConfig['value'];
-                                      CustomerSetting.config = customerConfig['value'];
-                                      ProductSetting.config  = productConfig['value'];
-                                      ShippingSetting.config = productConfig['value'];
-      
-                                      return this.configActions.initPosSetting({tax, customer, product, shipping}, false);
-                                    }
-                                  });
   
   @Effect() retrieveOrderCount = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                      .filter((action: Action) => action.payload['entityCode'] === UserOrderCountDB.getCode())
@@ -95,6 +63,7 @@ export class PosConfigEffects {
                                   .withLatestFrom(this.store$.select('entities'))
                                   .withLatestFrom(this.store$.select('general'),
                                                   ([action, entitiesState], generalState) => [action, entitiesState, generalState])
+                                  .filter((z) => !!(z[2] as PosGeneralState).outlet && !!(z[2] as PosGeneralState).outlet['id'])
                                   .map(([action, entitiesState, generalState]) => {
                                     let receipt;
                                     receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => parseInt(r['id'] + '') === parseInt(generalState.outlet['paper_receipt_template_id'] + ''));
@@ -103,13 +72,5 @@ export class PosConfigEffects {
                                     }
     
                                     return this.configActions.saveReceiptSetting(receipt);
-                                  });
-  
-  @Effect() saveCountryData = this.actions.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
-                                  .filter((action: Action) => action.payload['entityCode'] === ReceiptDB.getCode())
-                                  .withLatestFrom(this.store$.select('entities'))
-                                  .map((z) => {
-                                    CountryHelper.countries = (z[1] as PosEntitiesState).countries.items.toJS();
-                                    return this.rootActions.nothing("Save country to core");
                                   });
 }

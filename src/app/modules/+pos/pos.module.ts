@@ -10,12 +10,14 @@ import {R_POS_VIEW_IMPORTS, R_POS_VIEW_PROVIDERS} from "./view/R/index";
 import {POS_PIPES} from "./view/pipes/index";
 import {PosElementModule} from "../pos-element";
 import {POS_DIRECTIVES} from "./view/directives/index";
+import {DragScrollModule} from "angular2-drag-scroll";
 
 @NgModule({
             imports: [
               ShareModule,
               PosElementModule,
               RouterModule.forChild(POS_ROUTES),
+              DragScrollModule,
               ...R_POS_IMPORTS,
               ...R_POS_VIEW_IMPORTS
             ],

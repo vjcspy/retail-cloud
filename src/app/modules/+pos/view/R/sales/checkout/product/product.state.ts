@@ -8,6 +8,7 @@ export interface CheckoutProductState {
   
   isGridMode: boolean;
   currentCategory: Object;
+  categoryBreadcrumb: List<any>;
   categoryList: List<any>;
   searchString: string;
   searchStringPattern: string;
@@ -18,6 +19,7 @@ export interface CheckoutProductState {
   productGridProducts: List<any>;
   productGridCurrentPage: number;
   productGridTotalsPage: number;
+  productGridTotals: number;
   productGridNumOfProductPerPage: number;
   productGridStyleValue: Object;
   productGridPagingData: any[];
@@ -38,10 +40,10 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     
     isGridMode: true,
     currentCategory: null,
+    categoryBreadcrumb: List.of(),
     categoryList: List.of(),
     searchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
-    
     
     productGridStyles: {},
     productGridHeight: null,
@@ -57,6 +59,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
       stretchAspectRatioAllows: 0.86 // Tỷ lệ co chiều dài cho phép
     },
     productGridTotalsPage: 0,
+    productGridTotals: 0,
     productGridProducts: List.of(),
     productGridPagingData: [],
     

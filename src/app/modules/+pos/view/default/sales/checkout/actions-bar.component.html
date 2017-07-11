@@ -5,7 +5,7 @@
   </div>
   <div class="cart-info">
     Cart
-    <span class="cart-num">{{(quoteState.quote.getShippingAddress().getData('total_qty') || 0) | number : "1.2-2"}}</span>
+    <span class="cart-num">({{(quoteState.quote.getShippingAddress().getData('total_qty') || 0) | qtyFormat}})</span>
   </div>
   <div class="nav-customer">
     <a class="btn-more icon-more2" (click)="cartActionBarActions.changeModeActionPopup(true)"></a>

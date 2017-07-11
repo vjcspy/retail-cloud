@@ -1,0 +1,26 @@
+<div id="openShift" class="popup-wrapper open">
+  <div class="popup-content">
+    <div class="cashdrawer-form">
+      <h2 class="p-head">
+        {{ 'Open Shift' | translate }}
+        <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
+      </h2>
+      <div class="inner" perfectScroll>
+        <form>
+          <div class="item-row">
+            <div class="user-item"><span class="icon-user"></span><span class="name">{{authenticate.getUserName()}}</span></div>
+            <retail-text [(model)]="_data.startMoney" [disabled]="shiftState.detail.waitingServer"
+                         [formKey]="'popup-open-shift'"
+                         [validation]="'require,is-number'" [placeHolderText]="'Enter start amount' | translate"></retail-text>
+          </div>
+          <textarea placeholder="{{ 'Add note here' | translate }}" [(ngModel)]="_data.note" name="note"></textarea>
+        </form>
+      </div>
+      <div class="desc-bottom">
+        <button class="gray" (click)="cancel()" [ladda]="shiftState.detail.waitingServer">{{ 'Cancel' | translate }}</button>
+        <button (click)="openShift()" [ladda]="shiftState.detail.waitingServer">{{ 'Done' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>

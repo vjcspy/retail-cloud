@@ -21,7 +21,7 @@
     "no-forward-ref": true,
     "no-input-rename": true,
     "no-output-rename": true,
-//    "pipe-naming": [true, "camelCase", "my"],
+    //    "pipe-naming": [true, "camelCase", "my"],
     "templates-use-public": false,
     "use-host-property-decorator": true,
     "use-input-property-decorator": true,
@@ -50,8 +50,9 @@
       //      "single",
       //      "avoid-escape"
     ],
+    "whitespace": false,
     "variable-name": [
-      //      true,
+      //      true
       //      "allow-leading-underscore",
       //      "allow-pascal-case",
       //      "allow-trailing-underscore",
@@ -62,6 +63,6 @@
     "radix": false,
     "no-trailing-whitespace": false,
     "object-literal-key-quotes": false,
-    "prefer-for-of": false,
+    "prefer-for-of": false
   }
 }

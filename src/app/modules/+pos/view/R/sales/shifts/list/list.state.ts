@@ -2,15 +2,19 @@ import {List} from "immutable";
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 
 export interface ShiftList {
+  shifts: List<any>;
   shiftGroped: List<any>;
-  limitPage: number;
-  isResolving: boolean;
+  currentPage: number;
+  lastPageNumber: number;
+  isLoadingFromServer: boolean;
 }
 
 export interface ShiftListRecord extends TypedRecord<any>, ShiftList {}
 
 export const shiftListFactory = makeTypedFactory<ShiftList, ShiftListRecord>({
+                                                                               shifts: List.of(),
                                                                                shiftGroped: List.of(),
-                                                                               limitPage: 1,
-                                                                               isResolving: false
+                                                                               currentPage: 0,
+                                                                               lastPageNumber: 1,
+                                                                               isLoadingFromServer: false,
                                                                              });

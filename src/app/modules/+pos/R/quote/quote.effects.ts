@@ -159,7 +159,11 @@ export class PosQuoteEffects {
                                     .filter((action: Action) => {
                                       if (action.type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
                                         return action.payload['entityCode'] === ShiftDB.getCode();
-                                      } else {return action.payload['path'] === '/pos/default/sales/checkout';}
+                                      } else {
+                                        return ['/pos/default/sales/checkout',
+                                                '/pos/default/sales/shifts'
+                                               ].indexOf(action.payload['path']) > -1;
+                                      }
                                     })
                                     .withLatestFrom(this.store$.select('general'))
                                     .withLatestFrom(this.store$.select('entities'),

@@ -16,11 +16,10 @@ import {OrderListAddPaymentActions} from "../../../R/sales/checkout/step/order-l
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOrdersDetailComponent implements OnInit {
-  protected _data         = {
+  protected _data = {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  protected countryHelper = new CountryHelper();
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
@@ -66,11 +65,11 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   }
   
   getCountryNameFromId(country_id: string) {
-    return this.countryHelper.getCountryNameFromId(country_id);
+    return CountryHelper.getCountryNameFromId(country_id);
   }
   
   getRegionSelectedByCountryId(countryId, regionId) {
-    return this.countryHelper.getRegionSelected(countryId, regionId);
+    return CountryHelper.getRegionSelected(countryId, regionId);
   }
   
   reorder() {

@@ -11,6 +11,7 @@ import {ReceiptState} from "../R/sales/receipts/receipt.state";
 import {AccountState} from "../../../../R/account/account.state";
 import {OrderService} from "../R/sales/orders/order.service";
 import {PosGeneralState} from "../../R/general/general.state";
+import {ReducerManagement} from "../../../../services/reducer-management";
 
 @Component({
              // moduleId: module.id,
@@ -26,10 +27,9 @@ export class PosDefaultSalesPage extends AbstractSubscriptionComponent implement
   accountState$: Observable<AccountState>;
   generalState$: Observable<PosGeneralState>;
   
-  
-  constructor(protected store$: Store<SalesState>, public orderListViewService: OrderService) {
+  constructor(protected store$: Store<SalesState>, public orderListViewService: OrderService, private reducerManagement: ReducerManagement) {
     super();
-    this.store$.replaceReducer(salesReducer);
+    this.reducerManagement.replaceReducer('salesReducer', salesReducer());
     this.posStepState$ = this.store$.select('step');
     this.menuState$    = this.store$.select('menu');
     this.configState$  = this.store$.select('config');

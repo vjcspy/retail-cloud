@@ -23,10 +23,13 @@ export class PosGeneralService {
     
     if (!!outlet && !!register && !!store && !!baseUrl) {
       return {outlet, register, store, baseUrl, user};
-    }
-    else {
+    } else {
       return null;
     }
+  }
+  
+  getBaseUrl() {
+    return this.storage.localRetrieve('baseUrl');
   }
   
   saveGeneralDataToDB(generalData) {

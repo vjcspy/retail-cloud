@@ -1,6 +1,6 @@
 <h3 class="f-left">{{data['title'] | translate}}</h3>
 <ul class="option-list">
-    <li *ngFor="let option of data.data;trackBy:trackBy" class="click" (click)="selectOption(option)">
+    <li *ngFor="let option of data.data" class="click" (click)="selectOption(option)">
         <div class="check-box tick-list">
             <input type="checkbox" [checked]="option['isChecked']" disabled/>
             <span></span><em>{{option['label'] | translate}}</em>

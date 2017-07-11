@@ -10,6 +10,7 @@ import {List} from "immutable";
 import {AccountActions} from "../../../../R/account/account.actions";
 import {EntityRecord} from "./entities.model";
 import {realtimeReducer} from "./realtime/realtime.reducer";
+import {entityRetailConfigReducer} from "./entity/retail-config.reducer";
 
 const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   switch (action.type) {
@@ -63,9 +64,12 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       // Not need beacause we are support pull again when data not valid, thought this code improve ux
       return posEntitiesStateFactory();
     
+    case PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS:
+      return state.setIn([action.payload['entityCode'], 'isFinished'], true);
+    
     default:
       return state;
   }
 };
 
-export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer);
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer, entityRetailConfigReducer);

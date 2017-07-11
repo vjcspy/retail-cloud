@@ -1,0 +1,33 @@
+<table class="outlet-table">
+  <tr>
+    <th>Outlet ID</th>
+    <th>{{ 'Outlet Name' | translate }}</th>
+    <th>{{ 'Outlet Storeview' | translate }}</th>
+    <th>{{ 'Status' | translate }}</th>
+    <th>{{ 'Warehouse' | translate }}</th>
+  </tr>
+  <tr>
+    <td>
+      <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.outlets.filterData.id" enterBlur (blur)="updateFilter({id:$event.target['value']})"/>
+    </td>
+    <td>
+      <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.outlets.filterData.name" enterBlur (blur)="updateFilter({name:$event.target['value']})"/>
+    </td>
+    <td>
+      <retail-select [model]="configurationsState.outlets.filterData.store_id" [elementData]="getStoreElementData()" (modelChange)="updateFilter({store_id:$event})"></retail-select>
+    </td>
+    <td>
+      <retail-select [(model)]="configurationsState.outlets.filterData.is_active" [elementData]="getStatusElementData()" (modelChange)="updateFilter({is_active:$event})"></retail-select>
+    </td>
+    <td>
+      <retail-select [(model)]="configurationsState.outlets.filterData.warehouse_id" [elementData]="getWarehouseElementData()"></retail-select>
+    </td>
+  </tr>
+  <tr *ngFor="let outlet of configurationsState.outlets.outletFiltered" (click)="editOutlet(outlet['id'])">
+    <td>{{outlet['id']}}</td>
+    <td>{{outlet['name']}}</td>
+    <td>{{getStoreById(outlet['store_id']) ? getStoreById(outlet['store_id'])['name'] : ''}}</td>
+    <td>{{outlet['is_active'] ? ('Enable'|translate) : ('Disable'|translate)}}</td>
+    <td>-</td>
+  </tr>
+</table>

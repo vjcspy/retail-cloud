@@ -2,7 +2,7 @@
 
   <div class="unopened-shift" *ngIf="!quoteState.info.isShiftOpening">
     <h3>{{ 'There is no opening shift' | translate }}</h3>
-    <button class="bounder">{{ 'Open' | translate }}</button>
+    <button class="bounder" (click)="openShift()">{{ 'Open' | translate }}</button>
   </div>
 
   <pos-default-sales-checkout-cart-customers *ngIf="cartCustomerState.inSearchCustomers" [configState]="configState" [cartCustomerState]="cartCustomerState">
@@ -12,7 +12,7 @@
                                          [configState]="configState" [quoteState]="quoteState" [cartItemState]="cartItemState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-items>
 
-  <pos-default-sales-checkout-cart-totals class="cart-totals-comp" [ngClass]="{'totals-collapse': !cartTotalsState.isOpenTotalBlock}" *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
+  <pos-default-sales-checkout-cart-totals id="cart-totals-comp" class="cart-totals-comp" [ngClass]="{'totals-collapse': !cartTotalsState.isOpenTotalBlock}" *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
                                           [cartTotalsState]="cartTotalsState" [quoteState]="quoteState" [configState]="configState"
   ></pos-default-sales-checkout-cart-totals>
 </div>

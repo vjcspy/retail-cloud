@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, AfterViewInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import * as _ from "lodash";
 
 @Component({
@@ -24,22 +24,18 @@ export class RetailSettingCheckboxComponent implements OnInit, AfterViewInit {
     return this._model;
   }
   
-  constructor() { }
+  constructor(protected elemChangeDetector: ChangeDetectorRef) { }
   
   ngOnInit() {
-    if (typeof this.model == "undefined" || !_.isArray(this.model))
-      this.model = [];
   }
   
   ngAfterViewInit(): void {
     _.forEach(this.data['data'], (option) => {
-      if (this.isChecked(option))
+      if (this.isChecked(option)) {
         option['isChecked'] = true;
+      }
     });
-  }
-  
-  protected trackBy(index, option) {
-    return option['value'];
+    this.elemChangeDetector.detectChanges();
   }
   
   protected isChecked(option) {
@@ -47,16 +43,24 @@ export class RetailSettingCheckboxComponent implements OnInit, AfterViewInit {
   }
   
   protected selectOption(option) {
+    this.initDefaultValue();
+    
     if (this.isChecked(option)) {
       if (_.size(this._model) > 1) {
-        _.remove(this._model, (_option) => _option == option['value']);
+        _.remove(this._model, (_option) => _option === option['value']);
         option['isChecked'] = false;
       }
     } else {
       this._model.push(option['value']);
       option['isChecked'] = true;
     }
-    this.model = this._model;
+    this.modelChange.emit(this._model);
+  }
+  
+  protected initDefaultValue() {
+    if (typeof this.model == "undefined" || !_.isArray(this.model)) {
+      this.model = [];
+    }
   }
 }
 

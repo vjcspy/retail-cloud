@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 
@@ -6,11 +6,12 @@ import {FormValidationService} from "../../share/provider/form-validation";
              //moduleId: module.id,
              selector: 'retail-text',
              templateUrl: 'text.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailTextComponent implements OnInit, OnDestroy {
   @Input() validation: string = "";
   @Input() formKey: string;
+  @Input() disabled           = false;
   @Input('placeHolderText') placeHolderText: string;
   
   modelValue: string;
@@ -23,7 +24,7 @@ export class RetailTextComponent implements OnInit, OnDestroy {
   set model(optionValue: string) {
     // remove validate
     this._validateElement(false);
-    if (!optionValue) {
+    if (optionValue === null || typeof optionValue === 'undefined') {
       optionValue = '';
     }
     this.modelValue = optionValue;

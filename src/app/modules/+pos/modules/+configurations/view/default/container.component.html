@@ -1,0 +1,52 @@
+<!--left menu side-->
+<div class="left-menu-side">
+  <div class="search">
+    <button style="width: 100%" type="button" (click)="go('pos/default/sales/checkout')">Back to POS</button>
+  </div>
+  <ul class="left-menu">
+    <li [ngClass]="{active: router.isActive('/pos/configurations/default/general')}">
+      <span class="click" (click)="goGeneral()">{{ 'General' | translate }}</span>
+    </li>
+    <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}">
+            <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
+                {{ 'X-POS Setting' | translate }}
+            </span>
+      <ul class="sub-menu">
+        <li [ngClass]="{active: router.isActive('pos/configurations/default/pos/product-category')}">
+                    <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
+                    {{ 'Product' | translate }} &amp; {{ 'Category' | translate }}
+                    </span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/customer')}">
+          <span class="click" (click)="go('pos/configurations/default/pos/customer')">{{ 'Customer' | translate }}</span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/outlet')}">
+          <span class="click" (click)="go('pos/configurations/default/pos/outlet/grid')">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/payment')}">
+          <span class="click">{{ 'Payment' | translate }}</span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/checkout')}">
+          <span class="click">{{ 'Checkout' | translate }}</span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/receipt')}">
+          <span class="click">{{ 'Receipt' | translate }}</span>
+        </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/integration')}">
+          <span class="click">{{ 'Integration' | translate }}</span>
+        </li>
+      </ul>
+    </li>
+    <li [ngClass]="{active: router.isActive('/pos/configurations/default/translate')}">
+      <span class="click">{{ 'Translate' | translate }}</span>
+    </li>
+    <li>
+      <span class="click">{{ 'Cache Management' | translate }}</span>
+    </li>
+  </ul>
+</div>
+<div class="setting-blk">
+  <div class="accordion-blk" perfectScroll>
+    <router-outlet></router-outlet>
+  </div>
+</div>

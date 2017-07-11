@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import * as _ from "lodash";
 
 @Component({
@@ -9,8 +9,6 @@ import * as _ from "lodash";
            })
 export class RetailSettingRadioComponent implements OnInit {
   private _model: any;
-  private isActive      = false;
-  protected _selectText = "Choose an option";
   
   @Input() data;
   
@@ -26,25 +24,19 @@ export class RetailSettingRadioComponent implements OnInit {
     return this._model;
   }
   
-  constructor() { }
+  constructor(protected elemChangeDetector: ChangeDetectorRef) { }
   
   ngOnInit() {
-    if (typeof this.model == "undefined")
-      this.model = "";
   }
   
   ngAfterViewInit(): void {
     _.forEach(this.data['data'], (option) => {
       if (this.isChecked(option)) {
         option['isChecked'] = true;
-        this._selectText    = option['label'];
         return false;
       }
     });
-  }
-  
-  protected trackBy(index, option) {
-    return option['value'];
+    this.elemChangeDetector.detectChanges();
   }
   
   protected isChecked(option) {
@@ -55,8 +47,6 @@ export class RetailSettingRadioComponent implements OnInit {
     this.model = option['value'];
     _.forEach(this.data['data'], (option) => {option['isChecked'] = false});
     option['isChecked'] = true;
-    this._selectText    = option['label'];
-    this.isActive       = false;
   }
   
 }

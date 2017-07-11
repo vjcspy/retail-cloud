@@ -1,0 +1,33 @@
+<div id="makeAdjust" class="popup-wrapper open">
+  <div class="popup-content">
+    <div class="cashdrawer-form">
+      <h2 class="p-head">
+        {{ 'Make Adjustment Cash' | translate }}
+        <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
+      </h2>
+      <div class="inner" perfectScroll>
+        <form>
+          <div class="item-row">
+            <div class="radio-box huge">
+              <input type="radio" name="name" [checked]="_data.isIn" (click)="_data.isIn = true" [disabled]="shiftState.detail.waitingServer"/>
+              <span></span>{{ 'Add' | translate }}
+            </div>
+            <div class="radio-box huge">
+              <input type="radio" name="name" [checked]="!_data.isIn" (click)="_data.isIn = false" [disabled]="shiftState.detail.waitingServer"/>
+              <span></span>{{ 'Remove' | translate }}
+            </div>
+            <retail-text [(model)]="_data.amount" [disabled]="shiftState.detail.waitingServer"
+                         [formKey]="'popup-adjust-shift'"
+                         [validation]="'require,p-number'"></retail-text>
+          </div>
+          <textarea [disabled]="shiftState.detail.waitingServer" placeholder="{{ 'Add note here' | translate }}" [(ngModel)]="_data.note" name="adjust_name"></textarea>
+        </form>
+      </div>
+      <div class="desc-bottom">
+        <button class="gray" (click)="cancel()" [ladda]="shiftState.detail.waitingServer">{{ 'Cancel' | translate }}</button>
+        <button (click)="adjustShift()" [ladda]="shiftState.detail.waitingServer">{{ 'Done' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>

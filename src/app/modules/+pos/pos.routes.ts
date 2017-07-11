@@ -29,9 +29,10 @@ export const POS_ROUTES: Routes = [
               {path: 'shifts', component: PosDefaultSalesShiftsComponent},
             ]
           },
-          {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent}
+          {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent},
         ]
-      }
-    ]
-  }
+      },
+      {path: 'configurations', loadChildren: './modules/+configurations#ConfigurationsModule', data: {preload: true}}
+    ],
+  },
 ];

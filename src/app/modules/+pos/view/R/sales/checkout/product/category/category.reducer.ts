@@ -19,7 +19,8 @@ export const checkoutProductCategoryReducer: ActionReducer<CheckoutProductStateR
   }
   
   if (type === CheckoutProductCategoryActions.ACTION_RESOLVED_CATEGORY_LIST) {
-    return state.set('categoryList', action.payload['categoryList']);
+    return state.set('categoryList', action.payload['categoryList'])
+                .set('categoryBreadcrumb', action.payload['categoryBreadcrumb']);
   }
   
   return state;

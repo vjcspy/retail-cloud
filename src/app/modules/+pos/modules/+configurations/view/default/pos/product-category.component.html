@@ -1,0 +1,3 @@
+<product-category-settings *ngIf="(retailConfigState$ | async)?.isLoadedDepend.productCategory === true"
+                           [retailConfigState]="retailConfigState$ | async" [entitiesState]="entitiesState$ | async">
+</product-category-settings>

@@ -27,6 +27,7 @@ import {SelectivePreloadingStrategy} from "./services/preloading-router";
 import {Ng2Webstorage} from "ngx-webstorage";
 import {AppStorage} from "./services/storage";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
+import {DialogModule} from "./modules/dialog/dialog.module";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -48,6 +49,7 @@ import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
               BrowserModule,
               BrowserAnimationsModule,
               RouterExternalModule,
+              DialogModule,
               RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: SelectivePreloadingStrategy}),
             ],
             /**

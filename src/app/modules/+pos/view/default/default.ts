@@ -5,7 +5,7 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
              encapsulation: ViewEncapsulation.None,
              selector: 'pos-default-theme',
              template: '<router-outlet></router-outlet>',
-             styleUrls: ['default.scss', '../../../../../assets/css/pos.scss'],
+             styleUrls: ['default.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultTheme {

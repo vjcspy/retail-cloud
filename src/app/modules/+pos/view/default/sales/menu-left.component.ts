@@ -35,7 +35,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   ngOnInit() { }
   
   getUserName() {
-    return this.authenticateService.user['username'];
+    return this.authenticateService.getUserName();
   }
   
   getOutletRegisterData() {
@@ -43,7 +43,6 @@ export class PosDefaultMenuLeftComponent implements OnInit {
       return this.generalState.register['name'] + ' - ' + this.generalState.outlet['name'];
     }
   }
-  
   
   openCart() {
     this.routerActions.go('pos/default/sales/checkout');
@@ -54,7 +53,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   goPosSetting() {
-  
+    this.routerActions.go('pos/configurations/default/general');
   }
   
   changeOutlet() {
@@ -66,7 +65,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   flushCache() {
-    this.databaseManager.deleteDb().then(() => {location.reload(true);})
+    this.databaseManager.deleteDb().then(() => {location.reload(true);});
   }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
@@ -75,8 +74,9 @@ export class PosDefaultMenuLeftComponent implements OnInit {
     //   screenfull.request();
     // }
     
-    if (target.className.indexOf('menu-toggle') > -1 || target.className.indexOf('amenu') > -1)
+    if (target.className.indexOf('menu-toggle') > -1 || target.className.indexOf('amenu') > -1) {
       return;
+    }
     if (this.menuElem && !this.menuElem.nativeElement.contains(target)) {
       if (this.menuState.leftMenu.isOpen === true) {
         this.menuLeftActions.changeOpenState(false);

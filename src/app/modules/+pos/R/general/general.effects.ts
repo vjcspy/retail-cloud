@@ -15,6 +15,7 @@ import {Observable} from "rxjs";
 import {StoreDB} from "../../database/xretail/db/store";
 import {RouterActions} from "../../../../R/router/router.actions";
 import {PosGeneralState} from "./general.state";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class PosGeneralEffects {
@@ -25,11 +26,13 @@ export class PosGeneralEffects {
               private generalService: PosGeneralService,
               private pullActions: PosPullActions,
               private routerActions: RouterActions,
-              private rootActions: RootActions) { }
+              private rootActions: RootActions,
+              private router: Router) { }
   
   @Effect() pullGeneralDataFromSever = this.actions$
                                            .ofType(PosGeneralActions.ACTION_SELECT_WEBSITE)
                                            .filter((action) => _.isString(action.payload['baseUrl']) && action.payload['baseUrl'] !== '')
+                                           .filter(() => this.router.isActive('/pos/default/outlet-register', false))
                                            .map(() => {
                                              return this.pullActions.pullEntities(['stores', 'outlet', 'retailConfig'], false);
                                            });

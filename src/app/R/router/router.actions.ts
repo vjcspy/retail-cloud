@@ -7,8 +7,12 @@ export class RouterActions {
   
   constructor(private store$: Store<any>) { }
   
-  go(path: string, param = {}, query = {}) {
-    this.store$.dispatch(go([path, param], query));
+  go(path: string, param = null, query = {}) {
+    let _p = [path];
+    if (param) {
+      _p.push(param);
+    }
+    this.store$.dispatch(go(_p, query));
   }
   
 }

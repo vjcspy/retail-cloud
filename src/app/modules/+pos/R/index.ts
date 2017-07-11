@@ -43,13 +43,14 @@ import {PosSyncWishlistActions} from "./sync/actions/wishlist.actions";
 import {PosSyncWishlistEffects} from "./sync/actions/wishlist.effects";
 import {PosSyncWishlistService} from "./sync/actions/wishlist.service";
 import {EntityOrderEffects} from "./entities/entity/order.effects";
+import {EntityRetailConfigActions} from "./entities/entity/retail-config.actions";
+import {AssignConfigCoreEffects} from "./config/assign/assign-core.effects";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
   EffectsModule.run(PosGeneralEffects),
   
   EffectsModule.run(PosEntitiesEffects),
-  // EffectsModule.run(GeneralEntityEffects),
   EffectsModule.run(RealtimeEffects),
   EffectsModule.run(EntityOrderEffects),
   
@@ -57,6 +58,7 @@ export const R_POS_IMPORTS = [
   EffectsModule.run(PosQuoteEffects),
   EffectsModule.run(QuoteItemEffects),
   EffectsModule.run(PosConfigEffects),
+  EffectsModule.run(AssignConfigCoreEffects),
   EffectsModule.run(PosSyncEffects),
   EffectsModule.run(PosSyncWishlistEffects),
 ];
@@ -72,14 +74,12 @@ export const R_POS_PROVIDERS = [
   PosEntitiesService,
   PosEntitiesActions,
   PosEntitiesEffects,
-  // GeneralEntityEffects,
-  // GeneralEntityService,
-  // GeneralEntityActions,
   RealtimeActions,
   RealtimeEffects,
   RealtimeService,
   EntityOrderActions,
   EntityOrderEffects,
+  EntityRetailConfigActions,
   
   PosQuoteService,
   PosQuoteEffects,
@@ -115,11 +115,11 @@ export interface PosState {
   sync: PosSyncState;
 }
 
-export const posReducer = createReducer({
-                                          general: generalReducer,
-                                          quote: quoteReducer,
-                                          entities: entitiesReducer,
-                                          pull: pullReducer,
-                                          config: posConfigReducer,
-                                          sync: posSyncReducer,
-                                        });
+export const posReducer = () => createReducer({
+                                                general: generalReducer,
+                                                quote: quoteReducer,
+                                                entities: entitiesReducer,
+                                                pull: pullReducer,
+                                                config: posConfigReducer,
+                                                sync: posSyncReducer,
+                                              });

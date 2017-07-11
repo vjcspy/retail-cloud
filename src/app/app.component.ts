@@ -3,11 +3,12 @@
  */
 import {
   ChangeDetectionStrategy,
-  Component, OnInit, ViewContainerRef,
+  Component, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
+import {DialogService} from "./modules/dialog/dialog.service";
 
 /**
  * App Component
@@ -37,13 +38,10 @@ import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponen
              `,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class AppComponent extends AbstractSubscriptionComponent implements OnInit {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef) {
+export class AppComponent extends AbstractSubscriptionComponent {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private dialogService: DialogService) {
     super();
-    
+    this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
-  }
-  
-  ngOnInit(): void {
   }
 }

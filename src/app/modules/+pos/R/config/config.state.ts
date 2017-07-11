@@ -10,8 +10,8 @@ import {ShippingSetting} from "../../core/framework/setting/ShippingSetting";
 export interface PosConfigState {
   posRetailConfig: {
     numberOfSearchCustomerResult: number;
+    numberOfSearchProductResult: number;
     fieldSearchProduct: string[];
-    fieldSearchProductLable: string[];
     fieldSearchCustomer: string[];
     useCustomerOnlineMode: boolean;
     fieldSearchOrderOffline: string[];
@@ -23,6 +23,8 @@ export interface PosConfigState {
     isIntegrateRP: boolean;
     rpType: string;
     inclDiscountPerItemInDiscount: boolean
+    sortCategoryBaseOn: string;
+    sortCategorySorting: string;
   };
   constrain: {
     debounceTimeUpdateItemBuyRequest: number;
@@ -38,9 +40,9 @@ export interface PosConfigState {
     customer: CustomerSetting;
     product: ProductSetting;
     shipping: ShippingSetting;
-  },
-  orderCount: Object,
-  receipt: Object
+  };
+  orderCount: Object;
+  receipt: Object;
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -49,8 +51,8 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
   {
     posRetailConfig: {
       numberOfSearchCustomerResult: 7,
+      numberOfSearchProductResult: 20,
       fieldSearchProduct: ["name", "sku", "type_id"],
-      fieldSearchProductLable: ["Name", "Sku", "Id", "Price", "Type"],
       fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
       useCustomerOnlineMode: true,
       fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
@@ -61,7 +63,9 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       allowPartialPayment: true,
       isIntegrateRP: true,
       rpType: 'aheadWorld',
-      inclDiscountPerItemInDiscount: false
+      inclDiscountPerItemInDiscount: false,
+      sortCategoryBaseOn: 'name',
+      sortCategorySorting: 'asc'
     },
     constrain: {
       debounceTimeUpdateItemBuyRequest: 1234,

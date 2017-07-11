@@ -2,9 +2,9 @@
   <div class="top-bar">
     <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span class="text">X-Retail</span></span>
   </div><!--end top-bar-->
-  <div class="cashdrawer-inner" perfectScroll>
+  <div class="cashdrawer-inner" perfectScroll (scrollEnd)="loadMoreShift()">
     <div class="items no-line" *ngIf="!posQuoteState.info.isShiftOpening">
-      <div class="price">`
+      <div class="price" (click)="openShiftPopup()">
         <button class="bounder">{{ 'Open' | translate }}</button>
       </div>
       <div class="timer">
@@ -17,6 +17,10 @@
         {{!!shiftGrouped['today'] ? ('Today' | translate) : shiftGrouped['timestamp']}}
       </div>
       <pos-default-sales-shifts-list-item *ngFor="let shift of shiftGrouped['shifts']" [shift]="shift"></pos-default-sales-shifts-list-item>
+    </div>
+
+    <div class="loading-img" *ngIf="shiftState.list.currentPage < shiftState.list.lastPageNumber">
+      <img src="assets/img/loading.gif" alt="loading image">
     </div>
 
   </div>

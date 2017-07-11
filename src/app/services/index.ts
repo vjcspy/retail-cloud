@@ -6,6 +6,7 @@ import {NotifyManager} from "./notify-manager";
 import {RetailTranslate} from "./retail-translate";
 import {AuthenticateService} from "./authenticate";
 import {routerGuardService} from "./router-guard/index";
+import {ReducerManagement} from "./reducer-management";
 
 export const APP_PROVIDERS = [
   DatabaseManager,
@@ -15,6 +16,6 @@ export const APP_PROVIDERS = [
   NotifyManager,
   RetailTranslate,
   AuthenticateService,
-  
+  ReducerManagement,
   ...routerGuardService
 ];

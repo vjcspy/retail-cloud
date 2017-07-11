@@ -62,6 +62,10 @@ import {ShiftService} from "./sales/shifts/shift.service";
 import {ShiftListService} from "./sales/shifts/list/list.service";
 import {ShiftListEffects} from "./sales/shifts/list/list.effects";
 import {ShiftListActions} from "./sales/shifts/list/list.actions";
+import {ShiftDetailActions} from "./sales/shifts/detail/detail.actions";
+import {ShiftDetailEffects} from "./sales/shifts/detail/detail.effects";
+import {ShiftDetailService} from "./sales/shifts/detail/detail.service";
+import {ShiftActions} from "./sales/shifts/shift.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -77,6 +81,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(ReceiptEffects),
   EffectsModule.run(ListEffects),
   EffectsModule.run(ShiftListEffects),
+  EffectsModule.run(ShiftDetailEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -141,9 +146,13 @@ export const R_POS_VIEW_PROVIDERS = [
   
   // Shifts
   ShiftService,
+  ShiftActions,
   ShiftListActions,
   ShiftListService,
-  ShiftListEffects
+  ShiftListEffects,
+  ShiftDetailActions,
+  ShiftDetailEffects,
+  ShiftDetailService,
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
@@ -160,17 +169,16 @@ export interface SalesState {
   orders: OrdersState;
   shifts: ShiftState;
 }
-
-export const salesReducer = createReducer({
-                                            checkoutProduct: checkoutProductReducer,
-                                            cartCustomer: cartCustomerReducer,
-                                            cartItem: cartItemReducer,
-                                            cartTotals: cartTotalsReducer,
-                                            cartActionBar: cartActionBarReducer,
-                                            productOptions: productOptionsReducer,
-                                            step: posStepReducer,
-                                            receipt: receiptReducer,
-                                            menu: menuReducer,
-                                            orders: ordersReducer,
-                                            shifts: shiftReducer
-                                          });
+export const salesReducer = () => createReducer({
+                                                  checkoutProduct: checkoutProductReducer,
+                                                  cartCustomer: cartCustomerReducer,
+                                                  cartItem: cartItemReducer,
+                                                  cartTotals: cartTotalsReducer,
+                                                  cartActionBar: cartActionBarReducer,
+                                                  productOptions: productOptionsReducer,
+                                                  step: posStepReducer,
+                                                  receipt: receiptReducer,
+                                                  menu: menuReducer,
+                                                  orders: ordersReducer,
+                                                  shifts: shiftReducer
+                                                });
