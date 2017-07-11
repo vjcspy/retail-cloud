@@ -143,5 +143,7 @@
   </div>
 </div>
 <div class="bottom-bar">
-  <button (click)="saveOutlet()">{{!!getEditOutletFormData()['outlet']['id'] ? ('Save'|translate) : ('Create New'|translate)}}</button>
+  <button (click)="saveOutlet()" [ladda]="configurationsState.outlets.editForm.isSaving">
+    {{!!getEditOutletFormData()['outlet']['id'] ? ('Save'|translate) : ('Create New'|translate)}}
+  </button>
 </div>

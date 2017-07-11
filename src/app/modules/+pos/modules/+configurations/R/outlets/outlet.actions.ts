@@ -65,4 +65,40 @@ export class ConfigurationsOutletActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_OUTLET = 'ACTION_SAVE_OUTLET';
+  
+  saveOutlet(outlet, registers, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_SAVE_OUTLET, payload: {outlet, registers}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_OUTLET_SUCCESS = 'ACTION_SAVE_OUTLET_SUCCESS';
+  
+  saveOutletSuccess(outlet, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_SAVE_OUTLET_SUCCESS, payload: {outlet}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_OUTLET_FAILED = 'ACTION_SAVE_OUTLET_FAILED';
+  
+  saveOutletFailed(mess, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_SAVE_OUTLET_FAILED, payload: {mess}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

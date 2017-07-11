@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {List} from "immutable";
 import * as _ from 'lodash';
+import {PosGeneralState} from "../../../../R/general/general.state";
+import {RequestService} from "../../../../../../services/request";
+import {ApiManager} from "../../../../../../services/api-manager";
 
 @Injectable()
 export class ConfigurationsOutletService {
@@ -8,6 +11,9 @@ export class ConfigurationsOutletService {
     outlet: {},
     registers: List.of()
   };
+  
+  constructor(private requestService: RequestService,
+              private apiUrlManager: ApiManager) {}
   
   resolveFilterOutlets(outlets: List<any>, filterData) {
     let outletFiltered = outlets.filter((outlet) => {
@@ -45,6 +51,10 @@ export class ConfigurationsOutletService {
     });
     
     return outletFiltered.sortBy((o) => parseInt(o['id']));
-    
+  }
+  
+  createSaveOutletRequest(outlet, generalState: PosGeneralState) {
+    return this.requestService
+               .makePost(this.apiUrlManager.get("outlet", generalState.baseUrl), {data: outlet});
   }
 }

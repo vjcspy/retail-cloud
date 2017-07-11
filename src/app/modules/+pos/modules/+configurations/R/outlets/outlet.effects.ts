@@ -12,6 +12,8 @@ import * as _ from 'lodash';
 import {StoreDB} from "../../../../database/xretail/db/store";
 import {CountryDB} from "../../../../database/xretail/db/country";
 import {ReceiptDB} from "../../../../database/xretail/db/receipt";
+import {NotifyManager} from "../../../../../../services/notify-manager";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
@@ -20,7 +22,8 @@ export class ConfigurationsOutletEffects {
               private actions$: Actions,
               private configurationsOutletActions: ConfigurationsOutletActions,
               private outletService: ConfigurationsOutletService,
-              private router: Router) { }
+              private router: Router,
+              private notify: NotifyManager) { }
   
   @Effect() resolveOutletGrid = this.actions$
                                     .ofType(
@@ -99,4 +102,25 @@ export class ConfigurationsOutletEffects {
                                           return this.configurationsOutletActions.resolveEditOutletForm(outlet, registers, false);
                                         });
   
+  @Effect() saveOutlet = this.actions$
+                             .ofType(
+                               ConfigurationsOutletActions.ACTION_SAVE_OUTLET
+                             )
+                             .withLatestFrom(this.store$.select('general'))
+                             .switchMap((z) => {
+                               const action: Action    = z[0];
+                               let outletData          = action.payload['outlet'];
+                               outletData['registers'] = action.payload['registers'];
+    
+                               return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
+                                          .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
+                                          .switchMap((data) => {
+                                            this.notify.success("save_outlet_data_successfully");
+                                            let outlet = new OutletDB();
+                                            return Observable.fromPromise(outlet.save(data['items'][0]))
+                                                             .map(() => this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false))
+                                                             .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', false)));
+                                          })
+                                          .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed_from_sv', false)));
+                             });
 }

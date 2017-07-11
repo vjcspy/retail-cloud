@@ -8,6 +8,9 @@ import {ConfigurationsOutletActions} from "../../../../../R/outlets/outlet.actio
 import {ReceiptHelper} from "../../../../../../../core/framework/receipt/Helper/ReceiptHelper";
 import {StoreHelper} from "../../../../../../../core/framework/store/Helper/StoreHelper";
 import {CountryHelper} from "../../../../../../../core/framework/directory/Helper/CountryHelper";
+import {AuthenticateService} from "../../../../../../../../../services/authenticate";
+import {FormValidationService} from "../../../../../../../../share/provider/form-validation";
+import {NotifyManager} from "../../../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -25,6 +28,9 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   constructor(private routerActions: RouterActions,
               private configurationsOutletService: ConfigurationsOutletService,
               private configurationsOutletActions: ConfigurationsOutletActions,
+              private authenticate: AuthenticateService,
+              private formValidation: FormValidationService,
+              private notify: NotifyManager,
               private route: ActivatedRoute) { }
   
   ngOnInit(): void {
@@ -66,5 +72,15 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   
   getRegionSelect(id) {
     return CountryHelper.getRegionSelect(id);
+  }
+  
+  saveOutlet() {
+    if (this.authenticate.userCan('change_register_information')) {
+      this.formValidation.submit('outlet_edit_address', () => {
+        this.configurationsOutletActions.saveOutlet(this.getEditOutletFormData().outlet, this.getEditOutletFormData().registers);
+      }, true);
+    } else {
+      this.notify.error("not_have_permission_to_change_outlet_register_information");
+    }
   }
 }
