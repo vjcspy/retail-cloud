@@ -56,7 +56,7 @@ export class RetailConfigEffects {
                                            .map((z) => {
                                              let retailConfig = {};
                                              (z[1] as PosEntitiesState).retailConfig.items.forEach((config) => {
-                                               retailConfig[config['key']] = config['value'];
+                                               retailConfig[config['key']] = _.clone(config['value']);
                                              });
     
                                              this.retailConfigService.retailConfigSnapshot = retailConfig;
