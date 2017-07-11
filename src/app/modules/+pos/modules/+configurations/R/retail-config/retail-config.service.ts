@@ -28,7 +28,7 @@ export class RetailConfigService {
                .makePost(this.apiUrl.get(RetailConfigDB.getCode(), generalState.baseUrl), {data, group});
   }
   
-  saveRetailConfigToDB(config: any[]): Promise<GeneralMessage> {
+  saveRetailConfigToDB(config: any): Promise<GeneralMessage> {
     let db = this.databaseManager.getDbInstance();
     return new Promise(async (resolve, reject) => {
       try {
