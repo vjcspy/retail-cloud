@@ -7,7 +7,7 @@
   background: $white;   
   .cateogries-inner{  
     @include clearfix;
-    padding: 13px 10px 10px 20px;        
+    padding: 13px 20px 10px 20px;        
     align-items: center;    
     position: relative;    
     .cate-slider{
@@ -64,6 +64,7 @@
           font-family: $boldFont;
           position: absolute;
           @include center-pos;
+          z-index: 12;
 
         }
         @include tablet{

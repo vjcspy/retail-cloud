@@ -88,6 +88,13 @@
 					font-size: 74px;
 					margin-bottom: 15px;
 				}
+				.outlet-title{
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;	
+					padding: 0 10px;
+					display: inline-block;				
+				}
 			}
 			ul{
 				display: flex;
