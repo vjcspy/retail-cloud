@@ -2965,7 +2965,7 @@ h2.p-head {padding: 18px 20px;}
     background: $cbkg;
     @include border-radius(5px);
     .badge-ico {
-      background: url('assets/img/badge-ico.png') no-repeat left top;
+      background: url('../assets/img/badge-ico.png') no-repeat left top;
       padding: 0 46px;
     }
     p {
