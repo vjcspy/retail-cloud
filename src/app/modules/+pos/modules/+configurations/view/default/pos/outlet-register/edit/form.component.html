@@ -68,8 +68,11 @@
                                [formKey]="'outlet_edit_address'"></retail-select>
               </li>
               <li>
-                <label>{{ 'Cashier' | translate }}</label>
-                <input [(ngModel)]="getEditOutletFormData()['outlet']['cashier_ids']">
+                <label>{{ 'Store View' | translate }}</label>
+                <retail-select [elementData]="getStoreElementData()"
+                               [(model)]="getEditOutletFormData()['outlet']['store_id']"
+                               [formKey]="'outlet_edit_address'"
+                               [validation]="'required'"></retail-select>
               </li>
               <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
                 <label>{{ 'Register' | translate }}</label>
@@ -84,11 +87,9 @@
                 </div>
               </li>
               <li>
-                <label>{{ 'Store View' | translate }}</label>
-                <retail-select [elementData]="getStoreElementData()"
-                               [(model)]="getEditOutletFormData()['outlet']['store_id']"
-                               [formKey]="'outlet_edit_address'"
-                               [validation]="'required'"></retail-select>
+                <label>{{ 'Cashier' | translate }}</label>
+                <retail-select2 [elementData]="getUserSelect()" [multiple]="true"
+                                [(model)]="getEditOutletFormData()['outlet']['cashier_ids']"></retail-select2>
               </li>
             </ul>
           </div>
