@@ -11,7 +11,7 @@ import {ReducerManagement} from "../../services/reducer-management";
              template: `
                <router-outlet></router-outlet>`,
              encapsulation: ViewEncapsulation.None,
-             styleUrls: ['../../../assets/css/pos.scss'],
+             styleUrls: ['../../../styles/pos.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {

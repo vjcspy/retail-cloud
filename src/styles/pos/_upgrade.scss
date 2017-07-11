@@ -4,43 +4,43 @@
   min-height: 3px;
   margin-bottom: 15px;
   border-bottom: $border solid 1px;
-  background: $white;
-  .cateogries-inner{
+  background: $white;   
+  .cateogries-inner{  
     @include clearfix;
-    padding: 13px 10px 10px 20px;
-    align-items: center;
-    position: relative;
+    padding: 13px 20px 10px 20px;        
+    align-items: center;    
+    position: relative;    
     .cate-slider{
       margin: 0;
-      padding: 0;
+      padding: 0; 
       text-align: left;
-      white-space: nowrap;
+      white-space: nowrap;            
       height:auto;
       position: relative;
-      -webkit-overflow-scrolling: touch;
-
-
+      -webkit-overflow-scrolling: touch;    
+     
+           
       .item{
         list-style: none;
         padding: 0;
         margin-right: 10px;
-        position: relative;
-        text-align: center;
+        position: relative;                
+        text-align: center; 
         position: relative;
         text-align: center;
         overflow: hidden;
-        height: 62px;
-        align-items: center;
+        height: 62px;           
+        align-items: center;  
         display: inline-block;
         white-space: nowrap;
         width: 160px;
 
-        @include border-radius(5px);
+        @include border-radius(5px);        
 
         &::before {
           content: "";
-          position: absolute;
-          left: 0;top: 0;
+          position: absolute;   
+          left: 0;top: 0;       
           pointer-events: none;
           background: rgba(183,109,112,0.8);
           width: 100%;
@@ -49,10 +49,10 @@
           @include border-radius(5px);
         }
         img{
-          display: inline-block;
-          left: 0;
+          display: inline-block;  
+          left: 0; 
           position: absolute;
-          @include ver-pos;
+          @include ver-pos; 
           z-index: 10;
         }
 
@@ -60,10 +60,11 @@
           color: $white;
           text-transform: uppercase;
           font-size: 14px;
-          line-height: 1.2;
+          line-height: 1.2;          
           font-family: $boldFont;
           position: absolute;
           @include center-pos;
+          z-index: 12;
 
         }
         @include tablet{
@@ -79,8 +80,8 @@
     &:hover{
       .cate-arrow{
         opacity: 1;
-      }
-    }
+      }      
+    }  
     .cate-arrow{
       font-size: 0;
       position: absolute;
@@ -98,11 +99,11 @@
       @include single-transition();
       @include border-radius(0px);
       &:before{
-        font-family:'icomoon';
+        font-family:'icomoon'; 
         font-size: 20px;
         color: $cgreen;
         content: "\e91f";
-      }
+      }      
       &.next{
         top: 45px;
         @include rotate(180deg);
@@ -117,16 +118,16 @@
         display: none !important;
       }
     }
-
+    
     [class*="icon-"]{
       font-size: 0;
-     &:hover{
+     &:hover{    
       @include single-transition(all,.3s);
       cursor: pointer;
      }
       &:before{
         font-size: 20px;
-      }
+      }  
     }
     .back-cate{
       background: $gray1;
@@ -136,12 +137,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      padding: 0;        
       cursor: pointer;
       font-size: 0;
       float: left;
       margin-top: 10px;
-      margin-right: 20px;
+      margin-right: 10px;
       @include tablet{
         margin-top: 3px;
       }
@@ -171,10 +172,10 @@
           margin-right: 8px;
         }
       }
-
+     
     }
 
-
+   
   }
   .cate-close
   {
@@ -183,10 +184,10 @@
     border-top: none;
   }
   &.cate-collapse{
-    background: #e6e6e6;
+    background: #e6e6e6;    
     .cateogries-inner{
-      display: none;
-
+      display: none;  
+          
     }
     .cate-close{
       background: #e6e6e6;
@@ -199,16 +200,16 @@
   }
 
 }
-
-
+  
+  
 .breadcumb{
-  @include clearfix;
+  @include clearfix; 
   li{
     float: left;
     font-size: 13px;
     padding-right: 10px;
     a{
-      color: $grayDark;
+      color: $grayDark;      
     }
     &:after{
       content: "/";
@@ -229,14 +230,14 @@
    padding-right: 10px;
 }
 .grid-product-inner,
-.list-product-inner{
+.list-product-inner{  
   overflow: hidden;
   position: relative;
-
+ 
 }
 .view-mode{
-    display: flex;
-    align-items: center;
+    display: flex;      
+    align-items: center;  
     [class*="icon-"]{
       cursor: pointer;
       font-size: 27px;
@@ -245,7 +246,7 @@
       &:hover,&:focus,&:active,&.current{
         color: #189188;
       }
-
+      
     }
     .icon-list{
       font-size: 20px;
@@ -274,15 +275,15 @@
   text-align: center;
   padding: 50px 20px;
   img{
-    width: 33px;
+    width: 33px;    
   }
 }
 
 .list-mode{
   .list-item{
-    background: $white;
-    border-top: $border 1px solid;
-    border-bottom: $border 1px solid;
+    background: $white;   
+    border-top: $border 1px solid; 
+    border-bottom: $border 1px solid; 
     ul.items{
       display: flex;
       flex-direction: row;
@@ -305,16 +306,16 @@
 
         &:last-of-type{
           border-right: none;
-        }
+        }  
         &.product-item{
           flex: 3;
 
-        }
-
-        &.product-item{
-          padding-left: 20px;
+        } 
+         
+        &.product-item{          
+          padding-left: 20px; 
           justify-content: left;
-            .product-img {
+            .product-img {  
               width: 70px;
               overflow: hidden;
               background: $white;
@@ -331,7 +332,7 @@
               font-family: $mediumFont;
             }
         }
-
+        
         &.qty-item{
           .zero{
             color: #fc636b;
@@ -339,8 +340,8 @@
           }
         }
         &.price-item{
-          width: 180px;
-          flex:  initial;
+          width: 180px;   
+          flex:  initial;                
           .price,
           .spec-price{
              color: $cgreen2;
@@ -358,13 +359,13 @@
           .old-price{
             font-family: $boldFont;
           }
-
+        
         }
 
       }
       // first items
       &:first-of-type li{
-        color:$gray40;
+        color:$gray40; 
         font-family: $boldFont;
         font-size: 13px;
         text-transform: uppercase;
@@ -372,7 +373,7 @@
         &:first-of-type{
           text-align: left;
           padding-left: 20px;
-        }
+        }   
       }
       &:hover{
         cursor: pointer;
@@ -399,15 +400,15 @@
           }
       }
 
-      // add to cart - overlay
+      // add to cart - overlay     
       .list-addcart{
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 100%;   
         display: flex;
-        align-items: center;
+        align-items: center;        
         opacity: 0;
         @include single-transition(all,0.3s);
         .btn-addcart{
@@ -417,8 +418,8 @@
           align-items: center;
           color: #089a90;
           text-transform: uppercase;
-          font-size: 13px;
-          font-family: $mediumFont;
+          font-size: 13px; 
+          font-family: $mediumFont;          
           padding: 10px;
           i{
             font-size: 31px;
@@ -430,18 +431,18 @@
           width: 124px;
           height: 40px;
           border-radius: 5px;
-          background: #e1e1e1;
-          position: absolute;
+          background: #e1e1e1;        
+          position: absolute; 
           right: 20px;
           &:hover{
             background:$gray;
             ~.btn-addcart{
-              opacity: 0.5;
+              opacity: 0.5;              
             }
           }
         }
 
-
+      
     }
 
     }
@@ -458,12 +459,12 @@
       .btn-delete{
         float: left;
         width:58px;
-        background: none;
+        background: none;        
         @include single-transition(all,.3s);
         i{
-          font-size: 25px;
-          color: $text-gray;
-          @include single-transition(all,.3s);
+          font-size: 25px;  
+          color: $text-gray;  
+          @include single-transition(all,.3s);      
         }
         &:hover{
           background: $corange;
@@ -499,7 +500,7 @@
           justify-content: center;
           cursor: pointer;
           @include single-transition(all,.3s);
-          &:focus, &:hover{
+          &:focus, &:hover{            
             color: $cgreen2;
           }
 
@@ -528,10 +529,10 @@
           li{
             padding: 0 20px;
             a{
-              font-size: 14px;
+              font-size: 14px; 
               font-family: $mediumFont;
               border-bottom: 1px solid $gray1;
-              padding: 12px 0;
+              padding: 12px 0;              
               display: block;
               color: $text-gray;
               display: flex;
@@ -569,7 +570,7 @@
 
 .grid-mode .item{
   .show-label{
-    background: #76d2cb;
+    background: #76d2cb;   
     &:hover{
       background: #1fa79d;
       ~.inner{
@@ -600,7 +601,7 @@
     }
   }
 
-  &:hover{
+  &:hover{    
     .icon-addcart{
       opacity: 1;
     }
