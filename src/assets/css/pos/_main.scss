@@ -178,7 +178,13 @@ button {
       background: $cgreen2;
       &, [class^="icon-"] {color: $white;}
     }
+
   }
+  &.ladda-button{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
   &.bounder {
     &, &:hover {
       font-size: 13px; color: $grayDark;
@@ -821,7 +827,7 @@ textarea[readonly="readonly"] {
       //position: fixed; left: 0;
       top: 0; right: 0;
       display: block;
-      width: 36.0176%; height: 100%;
+      width: 37.8%; height: 100%;
       background: rgba(0,0,0,0.4);
       z-index: 5;
     }
@@ -897,7 +903,7 @@ textarea[readonly="readonly"] {
   }
   &.mn-xpos {
     width: 313px; left: -313px;
-      background: $white; padding-top: 0;
+      background: $white; padding-top: 0;      
       .mn-close{
         position: absolute;
         right: 0;
@@ -918,7 +924,7 @@ textarea[readonly="readonly"] {
         }
       }
     @include box-shadow(5px 0px 10px 0px rgba(135,149,162,0.28));
-    .left-menu-link {
+    .left-menu-link {      
       padding-top: .01em;
     }
   }
@@ -993,7 +999,7 @@ textarea[readonly="readonly"] {
     li {
         font-family: $boldFont;
         font-size: 15px; color: $gray40;
-        text-transform: uppercase;
+        text-transform: uppercase;         
         padding: 18px 35px;
         position: relative;
          @include single-transition(all,0.3s);
@@ -1001,9 +1007,9 @@ textarea[readonly="readonly"] {
             @include single-transition(all,0.3s);
         }
         .click {
-          position: relative;
+          position: relative;          
           display: flex;
-          align-items: center;
+          align-items: center;                  
             &:hover,
             &.active {color: $cgreen;}
         }
@@ -1019,8 +1025,8 @@ textarea[readonly="readonly"] {
           width: calc(100% - 60px);
         }
         &:hover{
-          background: $cbkg;
-          &:after{display: none;}
+          background: $cbkg;    
+          &:after{display: none;}      
         }
     }
 }
@@ -1040,7 +1046,7 @@ textarea[readonly="readonly"] {
         font-size: $sizeS;
         font-family: $mainFont;
     }
-    .icon-user-bold{
+    .icon-user-bold{        
         font-size: 50px; color: #b3b6bd;
         margin-right: 10px;
     }
@@ -1113,7 +1119,7 @@ textarea[readonly="readonly"] {
   float: left;
   width: $w-precent;
   border-right: $border solid 1px;
-
+  
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -1198,7 +1204,7 @@ textarea[readonly="readonly"] {
         position: static;
       }
     }
-
+    
     .show-label {
       right: 4px; bottom: 4px; left: 4px;
       height: 45px; padding: 5px;
@@ -1226,7 +1232,7 @@ textarea[readonly="readonly"] {
     position: absolute;
     z-index: 2;
     display: inline-block;
-    width: 44px;
+    width: 44px;  
     left: 10px;
     top: 10px;
     @include tablet{
@@ -1234,7 +1240,7 @@ textarea[readonly="readonly"] {
       left: 5px;
       top: 5px;
     }
-
+  
   }
 }
 
@@ -1382,7 +1388,7 @@ textarea[readonly="readonly"] {
       cursor: pointer;
       @include clearfix;
       @include single-transition(all,.3s);
-
+      
       .click[class^="icon-"] {
         float: left; margin: 2px 16px 0 0;
         width: 41px; height: 41px; line-height: 39px;
@@ -1401,9 +1407,9 @@ textarea[readonly="readonly"] {
         background: $white;
         border-radius: 5px;
         border: 1px solid $border;
-        padding: 1px;
+        padding: 1px; 
         float: left;
-        margin-right: 15px;
+        margin-right: 15px;       
       }
       .c-num {
         background: $corange;
@@ -1429,14 +1435,14 @@ textarea[readonly="readonly"] {
       .c-name {
         overflow: hidden;
         font-size: 15px;
-        padding-top: 5px;
+        padding-top: 5px;              
         .product-name, p {margin: 0}
         .product-name {
           color: $gray40;
           white-space: nowrap;
-          text-overflow: ellipsis;
+          text-overflow: ellipsis;  
           overflow: hidden;
-
+          
         }
         .p-product-name{
           font-size: 13px;
@@ -1475,7 +1481,7 @@ textarea[readonly="readonly"] {
       }
       .c-mail {
         //right: 20px; text-align: right;
-        font-size: $size; color: $disTxt;
+        font-size: $size; color: $disTxt;        
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -1604,7 +1610,7 @@ textarea[readonly="readonly"] {
       }
       .cart-content {
         background: #e6e6e6;
-      }
+      }      
       .cart-content {max-height: 7000px;}
     }
   }
@@ -1636,7 +1642,7 @@ textarea[readonly="readonly"] {
       @include  border-radius(50%);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center;      
     }
     .icon-change{
       font-size: 19px;
@@ -1663,11 +1669,11 @@ textarea[readonly="readonly"] {
   }
 }
 .cart-product .cart-product-inner{
-  background: $white;
+  background: $white; 
 }
-.cart-table {
-  position: relative;
-
+.cart-table {  
+  position: relative;  
+   
   .cart-row {
     .cart-head {
       padding-right: 145px;
@@ -1675,6 +1681,22 @@ textarea[readonly="readonly"] {
         position: absolute;
         @include ver-pos; right: 50px;
         margin: 2px 0 0;
+      }
+      &.touch{
+        .delete-btn{
+          background: #fc636b;
+          color: #fff;
+          width: 58px;
+          height: 100%;
+          font-weight: bold;
+          right: -55px;
+          opacity: 1;
+          @include border-radius(0px);
+          span[class^="icon-"]{
+            color: #fff;
+            font-weight: bold;
+          }
+        }
       }
     }
   }
@@ -1689,12 +1711,12 @@ textarea[readonly="readonly"] {
 }
 .cart-items-comp
 {
-  position: relative;
+  position: relative; 
   z-index: 1;
 }
 
 
-
+  
   .total-row {
     position: relative;
     font-family:$boldFont;
@@ -1707,7 +1729,7 @@ textarea[readonly="readonly"] {
     }
     .discount-txt{
       color:$gray60;
-      text-decoration: underline;
+      text-decoration: underline; 
     }
     .t-value {text-align: right;}
     &.has-popover {
@@ -1801,20 +1823,20 @@ textarea[readonly="readonly"] {
       &:last-child {padding-bottom: 21px;}
     }
   }
-
+  
   .total-blk {
   padding: 20px $hozlSpace 0 20px;
   color: $gray40;
   .total-row-content{
     padding-bottom: 10px;
   }
-  .btn-collapse{
+  .btn-collapse{     
     height: 20px;
     position: absolute;
     width: 100%;
     top: -20px;
-    left: 0;
-    border-bottom: $border solid 1px;
+    left: 0;  
+    border-bottom: $border solid 1px;  
     @include gradient-trans();
     &.c-hide{
       background: none !important;
@@ -1824,7 +1846,7 @@ textarea[readonly="readonly"] {
       @include close-arr($cbkg,270deg);
       border-radius: 4px 4px 0 0;
       border-bottom: none;
-      padding-top: 2px;
+      padding-top: 2px;      
     }
   }
 
@@ -1844,18 +1866,18 @@ textarea[readonly="readonly"] {
     }
     .total-blk{
       padding-top: 0;
-      .btn-collapse{
-        height: 30px;
-        top: -30px;
+      .btn-collapse{  
+        height: 30px;      
+        top: -30px;  
         .close-arr{
           @include close-arr(#e6e6e6,90deg);
           padding-top: 4px;
           border-bottom: none;
           height: 30px;
-        }
+        }  
       }
-    }
-
+    } 
+    
   }
 }
 
@@ -2045,7 +2067,12 @@ textarea[readonly="readonly"] {
             float: left; width: 89px; height: 54px;
             overflow: hidden;
             cursor: pointer; margin-right: 18px;
+            position: relative;
             &.active {border: #DADADA solid 1px;}
+            img{
+              position: absolute;
+              @include center-pos;
+            }
           }
         }
       }
@@ -2102,7 +2129,7 @@ textarea[readonly="readonly"] {
     .inner {
       position: relative;
       overflow: hidden;
-      padding-right: 13px;
+      padding-right: 13px;  
     }
     .fr-control {
       margin-top: 31px;
@@ -3151,18 +3178,18 @@ h2.p-head {padding: 18px 20px;}
   }
   .grid-item {
     padding: 10px 27px 0;
-    display: flex;
+    display: flex;    
     flex-wrap: wrap;
     li {
       position: relative;
-      float: left;
+      float: left; 
       width: calc(25% - 12px);
       margin: 6px;
       color: $disTxt; background: $cbkg;
       min-height: 165px; padding: 17px 27px 48px;
       @include tablet{
         width: calc(33.333% - 12px);
-      }
+      }      
 
       &:nth-of-type(4n+1) {clear: left}
       &, .click {@include single-transition(all,0.3s);}
@@ -3394,8 +3421,8 @@ h2.p-head {padding: 18px 20px;}
     background: #D2E0EC; min-height: inherit;
     @include box-shadow(none);
   }
-  .f-left {width: 175px; padding-right: 20px; margin: 0;}
-  .option-list {float: none; width: auto; overflow: hidden;}
+  .f-left {width: 175px; padding-right: 20px; margin: 0; padding-bottom: 10px;}
+  .option-list {float: none; width: auto; overflow: hidden;clear: both;}
 }
 
 .th-row {
@@ -3568,7 +3595,7 @@ h2.p-head {padding: 18px 20px;}
           min-height: 26px;
           h3 {
             position: absolute; left: 22px;
-            width: calc(100% - 110px);
+            width: calc(100% - 110px);            
             @include ver-pos;
 
           }
@@ -3832,7 +3859,7 @@ h2.p-head {padding: 18px 20px;}
     text-align: center;
     img {max-width: 100%; height: auto}
     // padding: 46px 0 41px;
-    // background: #15AF53;
+    // background: #15AF53;    
     // background-image: -moz-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
     // background-image: -o-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
     // background-image: -webkit-linear-gradient(337deg, #15af52 0%, #5bdb82 100%); /* gradient overlay */
@@ -3842,7 +3869,7 @@ h2.p-head {padding: 18px 20px;}
   .bottom-br {
     font-size: 16px; padding: 22px 0 16px;
     p {margin: 0 0 22px;}
-    .footer-img {
+    .footer-img {      
       margin: 10px 0 15px;
       text-align: center;
       img {max-width: 100%; height: auto;}
@@ -4120,7 +4147,7 @@ h2.p-head {padding: 18px 20px;}
 
   .checkout-completed {
     position: absolute;
-    // width: 61.3184%;
+    // width: 61.3184%; 
     width: 515px;
     padding: 60px 0;
     @include center-pos;
@@ -4131,7 +4158,7 @@ h2.p-head {padding: 18px 20px;}
       padding: 0; margin-bottom: 4.9% !important;
       @include user-select(none);
       > button {
-        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;
+        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;      
         height: 45px; line-height: 43px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
@@ -4141,7 +4168,7 @@ h2.p-head {padding: 18px 20px;}
         margin-top: 30px;
         opacity: 0; z-index: -1;
         width: 370px;
-        padding-right: 0;
+        padding-right: 0;        
       }
     }
     .control-bar, .s-blk {
@@ -4151,10 +4178,10 @@ h2.p-head {padding: 18px 20px;}
     .s-blk {
       padding-right: 20px;
       @include clearfix;
-      @include single-transition(all,0.3s);
+      @include single-transition(all,0.3s);  
       input, button{
         float: left;
-      }
+      }    
       input[type="text"] {width: 250px;}
       button {
         width: 110px; margin: 0 0 0 10px;padding: 0;
@@ -4820,10 +4847,10 @@ ul.has-list {
         .f-left:not(:first-child){
           .txt,.value{
             margin-top: 14px;
-          }
+          }        
         }
       }
-
+      
     }
     .txt, .value {float: left; @include ellipsis; line-height: 22px;}
     .txt {
