@@ -36,7 +36,7 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   }
   
   back() {
-    this.routerActions.go('pos/configurations/default/outlet/grid');
+    this.routerActions.go('pos/configurations/default/pos/outlet/grid');
   }
   
   getStatusSelect() {
