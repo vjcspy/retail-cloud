@@ -14,6 +14,7 @@ export interface ConfigurationsOutletState {
     isLoadedDepend: boolean;
     outlet: Object;
     registers: List<any>;
+    isSaving: boolean;
   };
 }
 
@@ -32,7 +33,8 @@ export const configurationsOutletStateFactory = makeTypedFactory<ConfigurationsO
     editForm: {
       isLoadedDepend: false,
       outlet: {},
-      registers: List.of()
+      registers: List.of(),
+      isSaving: false
     }
   }
 );
