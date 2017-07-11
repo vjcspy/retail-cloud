@@ -10,8 +10,6 @@ import {ReducerManagement} from "../../services/reducer-management";
              selector: 'pos',
              template: `
                <router-outlet></router-outlet>`,
-             encapsulation: ViewEncapsulation.None,
-             styleUrls: ['../../../styles/pos.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {
