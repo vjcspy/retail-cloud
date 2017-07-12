@@ -26,6 +26,12 @@ export const configurationsOutletReducer: ActionReducer<ConfigurationOutletState
         isSaving: true,
       }));
     
+    case ConfigurationsOutletActions.ACTION_SAVE_OUTLET_FAILED:
+    case ConfigurationsOutletActions.ACTION_SAVE_OUTLET_SUCCESS:
+      return state.set('editForm', Object.assign({}, state.editForm, {
+        isSaving: false,
+      }));
+    
     default:
       return state;
   }

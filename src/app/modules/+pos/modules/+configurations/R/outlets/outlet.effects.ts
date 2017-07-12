@@ -14,6 +14,8 @@ import {CountryDB} from "../../../../database/xretail/db/country";
 import {ReceiptDB} from "../../../../database/xretail/db/receipt";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {Observable} from "rxjs/Observable";
+import {EntityActions} from "../../../../R/entities/entity/entity.actions";
+import {routerActions} from "@ngrx/router-store";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
@@ -23,19 +25,22 @@ export class ConfigurationsOutletEffects {
               private configurationsOutletActions: ConfigurationsOutletActions,
               private outletService: ConfigurationsOutletService,
               private router: Router,
-              private notify: NotifyManager) { }
+              private notify: NotifyManager,
+              private entityActions: EntityActions) { }
   
   @Effect() resolveOutletGrid = this.actions$
                                     .ofType(
                                       PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
-                                      ConfigurationsOutletActions.ACTION_UPDATE_OUTLET_FILTER
+                                      ConfigurationsOutletActions.ACTION_UPDATE_OUTLET_FILTER,
+                                      routerActions.UPDATE_LOCATION
                                     )
-                                    .filter(() => this.router.isActive('pos/configurations/default/pos/outlet/grid', true))
+                                    .filter(() => this.router.isActive('pos/configurations/default/pos/outlet/grid', false))
                                     .filter((action: Action) => {
                                       return !!action.payload['entityCode'] ? action.payload['entityCode'] === OutletDB.getCode() : true;
                                     })
                                     .withLatestFrom(this.store$.select('entities'))
                                     .withLatestFrom(this.store$.select('configurations'), (z, z1) => [...z, z1])
+                                    .filter((z) => (z[1] as PosEntitiesState).outlet.isFinished === true)
                                     .map((z) => {
                                       const outlets    = (z[1] as PosEntitiesState).outlet.items;
                                       const filterData = <any>z[2].outlets.filterData;
@@ -85,7 +90,7 @@ export class ConfigurationsOutletEffects {
                                           const id      = z[0].payload['id'];
                                           let outlet: Object;
                                           let registers = List.of();
-                                          if (isNaN(id)) {
+                                          if (isNaN(id) || parseInt(id) === 0) {
                                             outlet = {};
                                           } else {
                                             const _outlet = outlets.find((o) => parseInt(id) === parseInt(o['id']));
@@ -115,10 +120,16 @@ export class ConfigurationsOutletEffects {
                                return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
                                           .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
                                           .switchMap((data) => {
-                                            this.notify.success("save_outlet_data_successfully");
                                             let outlet = new OutletDB();
+                                            outlet.addData(data['items'][0]);
                                             return Observable.fromPromise(outlet.save(data['items'][0]))
-                                                             .map(() => this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false))
+                                                             .switchMap(() => {
+                                                               this.notify.success("save_outlet_data_successfully");
+                                                               return Observable.from([
+                                                                                        this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
+                                                                                        this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
+                                                                                      ]);
+                                                             })
                                                              .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', false)));
                                           })
                                           .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed_from_sv', false)));
