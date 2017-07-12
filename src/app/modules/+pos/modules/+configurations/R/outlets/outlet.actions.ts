@@ -92,7 +92,7 @@ export class ConfigurationsOutletActions {
   
   static ACTION_SAVE_OUTLET_FAILED = 'ACTION_SAVE_OUTLET_FAILED';
   
-  saveOutletFailed(mess, dispatch: boolean = true): Action {
+  saveOutletFailed(mess, e = null, dispatch: boolean = true): Action {
     const action = {type: ConfigurationsOutletActions.ACTION_SAVE_OUTLET_FAILED, payload: {mess}};
     
     if (dispatch === true) {

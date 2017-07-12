@@ -130,8 +130,8 @@ export class ConfigurationsOutletEffects {
                                                                                         this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
                                                                                       ]);
                                                              })
-                                                             .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', false)));
+                                                             .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', e, false)));
                                           })
-                                          .catch(() => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed_from_sv', false)));
+                                          .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed_from_sv', e, false)));
                              });
 }

@@ -28,7 +28,7 @@ export class OutletDB extends DataObject {
   save(outlet: any = null): Promise<any> {
     return new Promise((resolve, reject) => {
       if (outlet) {
-        window['retailDB'].outlet.push(outlet === null ? this : outlet).then((result) => {
+        window['retailDB'].outlet.put(outlet === null ? this : outlet).then((result) => {
           return resolve();
         }).catch((error) => {
           return reject(error);
