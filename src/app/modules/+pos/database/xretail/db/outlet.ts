@@ -36,4 +36,18 @@ export class OutletDB extends DataObject {
       }
     });
   }
+  
+  delete(id: number, key: string = 'id') {
+    return new Promise((resolve, reject) => {
+      window['retailDB'].outlet
+                        .where(key).equals(id)
+                        .delete()
+                        .then((deleteCount) => {
+                          return resolve();
+                        })
+                        .catch((e) => {
+                          return reject(e);
+                        });
+    });
+  }
 }

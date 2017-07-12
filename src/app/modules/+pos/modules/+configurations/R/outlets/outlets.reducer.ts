@@ -15,6 +15,7 @@ export const configurationsOutletReducer: ActionReducer<ConfigurationOutletState
         isLoadedDepend: action.payload['isLoadedDepend'],
       }));
     
+    case ConfigurationsOutletActions.ACTION_SAVE_REGISTER:
     case ConfigurationsOutletActions.ACTION_SAVE_OUTLET:
       return state.set('editForm', Object.assign({}, state.editForm, {
         isSaving: true,

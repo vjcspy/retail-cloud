@@ -11,6 +11,8 @@ import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./pos/outlet-
 import {ConfigurationsDefaultPosOutletRegisterGridTableComponent} from "./pos/outlet-register/grid/table.component";
 import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./pos/outlet-register/edit.component";
 import {ConfigurationsDefaultPosOutletRegisterEditFormComponent} from "./pos/outlet-register/edit/form.component";
+import {ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent} from "./pos/outlet-register/edit/edit-register/form.component";
+import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./pos/outlet-register/edit/register.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -29,6 +31,8 @@ export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultPosOutletRegisterGridTableComponent,
   ConfigurationsDefaultPosOutletRegisterEditComponent,
   ConfigurationsDefaultPosOutletRegisterEditFormComponent,
+  ConfigurationsDefaultPosOutletRegisterEditRegisterComponent,
+  ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent,
   
   ConfigurationsDefaultCacheManagement,
 ];

@@ -1,7 +1,7 @@
 <div class="popup-wrapper" [ngClass]="{open: questionData.isOpening}">
   <div class="popup-content">
-    <h3>{{questionData.title}}</h3>
-    <p>{{questionData.content}}</p>
+    <h3>{{questionData.title | translate}}</h3>
+    <p>{{questionData.content | translate}}</p>
     <div class="button-bar">
       <button class="gray" (click)="questionData.callBackCancel()">{{ 'No' | translate }}</button>
       <button (click)="questionData.callBackYes()">{{ 'Yes' | translate }}</button>

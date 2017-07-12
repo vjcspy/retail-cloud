@@ -56,8 +56,8 @@ export class ConfigurationsOutletActions {
   
   static ACTION_RESOLVE_EDIT_OUTLET_FORM = 'ACTION_RESOLVE_EDIT_OUTLET_FORM';
   
-  resolveEditOutletForm(outlet, registers, dispatch: boolean = true): Action {
-    const action = {type: ConfigurationsOutletActions.ACTION_RESOLVE_EDIT_OUTLET_FORM, payload: {outlet, registers}};
+  resolveEditOutletForm(formData, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_RESOLVE_EDIT_OUTLET_FORM, payload: {formData}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -94,6 +94,42 @@ export class ConfigurationsOutletActions {
   
   saveOutletFailed(mess, e = null, dispatch: boolean = true): Action {
     const action = {type: ConfigurationsOutletActions.ACTION_SAVE_OUTLET_FAILED, payload: {mess}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_EDIT_REGISTER = 'ACTION_EDIT_REGISTER';
+  
+  editRegister(register, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_EDIT_REGISTER, payload: {register}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_REGISTER = 'ACTION_SAVE_REGISTER';
+  
+  saveRegister(register, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_SAVE_REGISTER, payload: {register}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_DELETE_REGISTER = 'ACTION_DELETE_REGISTER';
+  
+  deleteRegister(register, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsOutletActions.ACTION_DELETE_REGISTER, payload: {register}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

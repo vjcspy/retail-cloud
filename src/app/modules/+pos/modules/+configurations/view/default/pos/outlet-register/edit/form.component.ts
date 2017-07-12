@@ -89,4 +89,9 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
     let userCollection = new UserCollection();
     return userCollection.getUserSelect();
   }
+  
+  editRegister(register) {
+    this.configurationsOutletActions.editRegister(register);
+    this.routerActions.go('pos/configurations/default/pos/outlet/register-edit');
+  }
 }

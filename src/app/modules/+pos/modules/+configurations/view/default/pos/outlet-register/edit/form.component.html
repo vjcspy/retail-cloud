@@ -1,7 +1,7 @@
 <div class="acr-row new-outlet">
   <div class="acr-head">
-    <h2>
-      <span class="icon-left click" (click)="back()"></span>
+    <h2 class="click" (click)="back()">
+      <span class="icon-left click"></span>
       {{!!getEditOutletFormData()['outlet']['id'] ? ("Edit Outlet"|translate):("New Outlet"|translate)}}
     </h2>
   </div>
@@ -74,14 +74,14 @@
                                [formKey]="'outlet_edit_address'"
                                [validation]="'required'"></retail-select>
               </li>
-              <li class="ctrl-spec">
+              <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
                 <label>{{ 'Register' | translate }}</label>
                 <div class="groups">
-                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']"
+                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']" (click)="editRegister(register)"
                           [ngClass]="{active: register['is_active']}">
                     {{register['name']}}
                   </button>
-                  <button class="square orange">
+                  <button class="square orange" (click)="editRegister({})">
                     {{ 'Add Register' | translate }}
                   </button>
                 </div>
