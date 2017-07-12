@@ -74,7 +74,7 @@
                                [formKey]="'outlet_edit_address'"
                                [validation]="'required'"></retail-select>
               </li>
-              <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
+              <li class="ctrl-spec">
                 <label>{{ 'Register' | translate }}</label>
                 <div class="groups">
                   <button class="square" *ngFor="let register of getEditOutletFormData()['registers']"
