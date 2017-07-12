@@ -18,6 +18,7 @@ import {PosSyncService} from "../../../../../R/sync/sync.service";
 import {PosStepService} from "./step.service";
 import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class PosStepEffects {
@@ -27,6 +28,7 @@ export class PosStepEffects {
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private notify: NotifyManager,
+              private router: Router,
               private offlineService: OfflineService,
               private posQuoteService: PosQuoteService,
               private syncService: PosSyncService,
@@ -36,6 +38,7 @@ export class PosStepEffects {
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
+                                   .filter(() => this.router.isActive('/pos/default/sales/checkout',false))
                                    .withLatestFrom(this.store$.select('entities'))
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;
