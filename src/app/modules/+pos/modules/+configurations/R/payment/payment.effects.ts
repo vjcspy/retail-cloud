@@ -9,6 +9,9 @@ import {PaymentDB} from "../../../../database/xretail/db/payment";
 import {Observable} from "rxjs/Observable";
 import {EntityActions} from "../../../../R/entities/entity/entity.actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {PosEntitiesActions} from "../../../../R/entities/entities.actions";
+import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {RetailConfigActions} from "../retail-config/retail-config.actions";
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
@@ -19,7 +22,27 @@ export class ConfigurationsPaymentEffects {
               private configurationsPaymentActions: ConfigurationsPaymentActions,
               private entityActions: EntityActions,
               private notify: NotifyManager,
+              private retailConfigActions: RetailConfigActions,
               private router: Router) { }
+  
+  @Effect() takeSnapshotPayment = this.actions$
+                                      .ofType(
+                                        PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                        EntityActions.ACTION_PUSH_MANY_ENTITY
+                                      )
+                                      .filter((action) => action.payload.hasOwnProperty('entityCode') ?
+                                        action.payload['entityCode'] === PaymentDB.getCode() : true)
+                                      .withLatestFrom(this.store$.select('entities'))
+                                      .switchMap((z) => {
+                                        const entitiesState: PosEntitiesState = <any>z[1];
+                                        let payment                           = false;
+                                        if (entitiesState.payment.isFinished === true) {
+                                          payment                                           = true;
+                                          this.configurationsPaymentService.paymentSnapshot = entitiesState.payment.items;
+                                        }
+    
+                                        return Observable.from([this.retailConfigActions.isLoadedDepend({payment}, false)]);
+                                      });
   
   @Effect() savePayment = this.actions$
                               .ofType(

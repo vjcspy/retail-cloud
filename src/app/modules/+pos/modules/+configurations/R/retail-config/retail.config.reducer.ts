@@ -14,7 +14,7 @@ export const retailConfigReducer: ActionReducer<RetailConfigStateRecord> = (stat
       return state.set('isSaving', false);
     
     case RetailConfigActions.ACTION_LOADED_DEPEND:
-      return state.set('isLoadedDepend', action.payload['isLoadedDepend']);
+      return state.set('isLoadedDepend', Object.assign({}, state.isLoadedDepend, action.payload['isLoadedDepend']));
     
     default:
       return state;

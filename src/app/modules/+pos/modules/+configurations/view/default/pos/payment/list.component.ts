@@ -4,6 +4,7 @@ import {FormValidationService} from "../../../../../../../share/provider/form-va
 import {ConfigurationsPaymentService} from "../../../../R/payment/payment.service";
 import {ConfigurationsPaymentActions} from "../../../../R/payment/payment.actions";
 import {ConfigurationsState} from "../../../../R/index";
+import {PaymentDB} from "../../../../../../database/xretail/db/payment";
 
 @Component({
              // moduleId: module.id,
@@ -21,11 +22,30 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
               private configurationsPaymentActions: ConfigurationsPaymentActions) {
   }
   
+  getPayments() {
+    return this.configurationsPaymentService.paymentSnapshot;
+  }
+  
   save() {
     this.formValidation.submit('payment_edit_data', async () => {
-      this.configurationsPaymentActions.savePayment(this.entitiesState.payment.items);
+      this.configurationsPaymentActions.savePayment(this.getPayments());
     }, true);
   }
   
+  getPaymentTypeSelect() {
+    return {
+      data: [
+        {label: "Credit card", value: "credit_card"}
+      ]
+    };
+  }
+  
   ngOnInit() { }
+  
+  addNewPayment() {
+    let payment     = new PaymentDB();
+    payment['type'] = 'credit_card';
+    
+    this.configurationsPaymentService.paymentSnapshot = this.configurationsPaymentService.paymentSnapshot.push(payment);
+  }
 }

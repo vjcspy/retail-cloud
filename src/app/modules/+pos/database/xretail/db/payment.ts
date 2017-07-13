@@ -38,7 +38,7 @@ export class PaymentDB extends DataObject {
   
   save(payment: any = null) {
     return new Promise((resolve, reject) => {
-      window['retailDB'].outlet.put(payment === null ? this : payment).then((result) => {
+      window['retailDB'].payment.put(payment === null ? this : payment).then((result) => {
         return resolve();
       }).catch((error) => {
         return reject(error);
