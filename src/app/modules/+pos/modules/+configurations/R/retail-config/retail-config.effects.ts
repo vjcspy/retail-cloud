@@ -35,6 +35,7 @@ export class RetailConfigEffects {
                                       let productCategory = false;
                                       let customer        = false;
                                       let checkout        = false;
+                                      let integration     = false;
     
                                       const entitiesState: PosEntitiesState = <any>z[1];
     
@@ -48,9 +49,10 @@ export class RetailConfigEffects {
                                         customer = true;
                                       }
                                       if (entitiesState.retailConfig.isFinished === true) {
-                                        checkout = true;
+                                        checkout    = true;
+                                        integration = true;
                                       }
-                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, checkout});
+                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, checkout, integration});
                                     });
   
   @Effect() saveRetailConfigSnapShot = this.actions$

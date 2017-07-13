@@ -33,7 +33,7 @@
           <span class="click">{{ 'Receipt' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/integration')}">
-          <span class="click">{{ 'Integration' | translate }}</span>
+          <span class="click" (click)="go('pos/configurations/default/pos/integration')">{{ 'Integrations' | translate }}</span>
         </li>
       </ul>
     </li>

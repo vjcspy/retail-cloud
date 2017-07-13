@@ -6,6 +6,7 @@ export interface RetailConfigState {
     customer: boolean;
     payment: boolean;
     checkout: boolean;
+    integration: boolean;
   };
 }
 
@@ -19,5 +20,6 @@ export const retailConfigStateFactory = makeTypedFactory<RetailConfigState, Reta
       customer: false,
       payment: false,
       checkout: false,
+      integration: false,
     }
   });

@@ -63,4 +63,13 @@ export class ConfigurationsViewRouterEffects {
                                                                           'retailConfig',
                                                                         ], false);
                                  });
+  
+  @Effect() whenGoIntegration = this.actions$
+                                    .ofType(routerActions.UPDATE_LOCATION)
+                                    .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/integration', false))
+                                    .map(() => {
+                                      return this.pullActions.pullEntities([
+                                                                             'retailConfig',
+                                                                           ], false);
+                                    });
 }

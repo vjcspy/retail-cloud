@@ -14,6 +14,7 @@ import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./view/defaul
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./view/default/pos/outlet-register/edit/register.component";
 import {ConfigurationsDefaultPosPaymentComponent} from "./view/default/pos/payment.component";
 import {ConfigurationsDefaultPosCheckoutComponent} from "./view/default/pos/checkout.component";
+import {ConfigurationsDefaultPosIntegrationComponent} from "./view/default/pos/integration.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -44,6 +45,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
               },
               {path: 'payment', component: ConfigurationsDefaultPosPaymentComponent},
               {path: 'checkout', component: ConfigurationsDefaultPosCheckoutComponent},
+              {path: 'integration', component: ConfigurationsDefaultPosIntegrationComponent},
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},
