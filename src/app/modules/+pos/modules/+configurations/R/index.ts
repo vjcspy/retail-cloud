@@ -11,10 +11,16 @@ import {configurationsOutletReducer} from "./outlets/outlets.reducer";
 import {ConfigurationsOutletEffects} from "./outlets/outlet.effects";
 import {ConfigurationsOutletService} from "./outlets/outlet.service";
 import {ConfigurationsOutletActions} from "./outlets/outlet.actions";
+import {ConfigurationsPaymentActions} from "./payment/payment.actions";
+import {ConfigurationsPaymentEffects} from "./payment/payment.effects";
+import {ConfigurationsPaymentService} from "./payment/payment.service";
+import {ConfigurationsPaymentState} from "./payment/payment.state";
+import {paymentReducer} from "./payment/payment.reducer";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
   EffectsModule.run(ConfigurationsOutletEffects),
+  EffectsModule.run(ConfigurationsPaymentEffects),
 ];
 
 export const R_PROVIDER = [
@@ -25,11 +31,16 @@ export const R_PROVIDER = [
   ConfigurationsOutletEffects,
   ConfigurationsOutletService,
   ConfigurationsOutletActions,
+  
+  ConfigurationsPaymentActions,
+  ConfigurationsPaymentEffects,
+  ConfigurationsPaymentService,
 ];
 
 export interface ConfigurationsState {
   retailConfig: RetailConfigState;
   outlets: ConfigurationsOutletState;
+  payments: ConfigurationsPaymentState;
 }
 
 export interface ConfigurationModuleState {
@@ -40,5 +51,6 @@ export const configurationsReducer = () => createReducer({
                                                            configurations: combineReducers({
                                                                                              retailConfig: retailConfigReducer,
                                                                                              outlets: configurationsOutletReducer,
+                                                                                             payments: paymentReducer,
                                                                                            })
                                                          });

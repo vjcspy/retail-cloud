@@ -18,4 +18,16 @@ export class EntityActions {
     
     return action;
   }
+  
+  static ACTION_PUSH_MANY_ENTITY = 'ACTION_PUSH_MANY_ENTITY';
+  
+  pushManyEntity(items: DataObject[], entityCode: string, key: string = 'id', dispatch: boolean = true): Action {
+    const action = {type: EntityActions.ACTION_PUSH_MANY_ENTITY, payload: {items, entityCode, key}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

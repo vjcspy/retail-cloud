@@ -3,6 +3,7 @@ import {NotifyManager} from "../../../../../../../../services/notify-manager";
 import {GeneralException} from "../../../../../../core/framework/General/Exception/GeneralException";
 import {Subject} from "rxjs";
 import * as _ from 'lodash';
+import {TyroPayment} from "../../../../../../services/payment-integrate/tyro";
 
 @Injectable()
 export class TyroService {
@@ -11,13 +12,16 @@ export class TyroService {
   private iClient: any;
   private tyroStream = new Subject();
   
+  constructor(private tyroPayment: TyroPayment,
+              protected notify: NotifyManager) {}
+  
   getTyroObservable() {
     return this.tyroStream.asObservable();
   }
   
   // Config transaction callback when complete
   transactionCompleteCallback: (response: any) => void = (response) => {
-    if (response['result'] == 'APPROVED') {
+    if (response['result'] === 'APPROVED') {
       
       let customerReceipt;
       if (response.hasOwnProperty('customerReceipt')) {
@@ -35,14 +39,14 @@ export class TyroService {
                                       },
                                       customerReceipt
                                     }
-                                  })
+                                  });
     } else {
       return this.tyroStream.next({
                                     type: 'error',
-                                    data: {isError: true, additionData: {}, response: response}
-                                  })
+                                    data: {isError: true, additionData: {}, response}
+                                  });
     }
-  };
+  }
   
   // Config callback to display message
   statusMessageCallback: (message: any) => void = (message) => {
@@ -50,7 +54,7 @@ export class TyroService {
                            type: 'statusMessageCallback',
                            data: {isError: false, additionData: {message}}
                          });
-  };
+  }
   
   answerCallback: (value) => void;
   
@@ -61,12 +65,12 @@ export class TyroService {
       answerCallback(value);
     };
     
-    if (question.hasOwnProperty("isError") && question['isError'] == true) {
+    if (question.hasOwnProperty("isError") && question['isError'] === true) {
       this.notify.error(question['text']);
       return this.tyroStream.next({
                                     type: 'error',
                                     data: {isError: true, additionData: {message: question['text']}}
-                                  })
+                                  });
     } else {
       let questions = [];
       let message   = '';
@@ -76,7 +80,7 @@ export class TyroService {
       }
       if (_.size(question.options) > 0) {
         _.forEach(question.options, (value) => {
-          questions.push({label: value, value: value});
+          questions.push({label: value, value});
         });
       }
       
@@ -85,60 +89,24 @@ export class TyroService {
                              data: {isError: false, additionData: {questions, message}}
                            });
     }
-  };
+  }
   
   receiptCallback: (merchantReceipt) => void = (merchantReceipt) => {
     this.tyroStream.next({
                            type: 'receiptCallback',
                            data: {merchantReceipt: merchantReceipt['merchantReceipt'], isError: false}
-                         })
-  };
-  
-  constructor(protected notify: NotifyManager) {
-  }
-  
-  initConfig(tyroPayment) {
-    this.config = {
-      mid: tyroPayment['payment_data']['mid'],
-      tid: tyroPayment['payment_data']['tid'],
-      apiKey: tyroPayment['payment_data']['api_key'],
-      posProductInfo: {
-        posProductVendor: "SMART OSC",
-        posProductName: "X-Retail",
-        posProductVersion: "1.0.0"
-      }
-    };
-  }
-  
-  pair() {
-    this.getIClientInstance().pairTerminal(this.config.mid, this.config.tid, (response) => {
-      console.log("Paring... OK");
-      console.log(response);
-      
-      // if success
-      if (response.hasOwnProperty('integrationKey'))
-        this.config['integrationKey'] = response['integrationKey'];
-    });
-    
-    return this.config;
+                         });
   }
   
   getIClientInstance(force: boolean = false): any {
-    if (force || typeof this.iClient == "undefined") {
-      this.iClient = new TYRO.IClient(this.config.apiKey, this.config.posProductInfo);
-    }
-    return this.iClient;
+    return this.tyroPayment.getIClientInstance(force);
   }
   
   doPurchase(amount: string) {
-    if (typeof this.transactionCompleteCallback == "undefined"
-        || typeof this.statusMessageCallback == "undefined"
-        || typeof this.questionCallback == "undefined") {
-      throw new GeneralException("Must define callback");
-    }
+    this.checkInitCallBack();
     
     this.getIClientInstance().initiatePurchase({
-                                                 amount: amount,
+                                                 amount,
                                                  cashout: "0",
                                                  integratedReceipt: true
                                                }, {
@@ -150,13 +118,10 @@ export class TyroService {
   }
   
   doRefund(amount: string) {
-    if (typeof this.transactionCompleteCallback == "undefined"
-        || typeof this.statusMessageCallback == "undefined"
-        || typeof this.questionCallback == "undefined") {
-      throw new GeneralException("Must define callback");
-    }
+    this.checkInitCallBack();
+    
     this.getIClientInstance().initiateRefund({
-                                               amount: amount,
+                                               amount,
                                                integratedReceipt: true
                                              }, {
                                                statusMessageCallback: this.statusMessageCallback,
@@ -164,6 +129,14 @@ export class TyroService {
                                                receiptCallback: this.receiptCallback,
                                                transactionCompleteCallback: this.transactionCompleteCallback
                                              });
+  }
+  
+  protected checkInitCallBack() {
+    if (typeof this.transactionCompleteCallback === "undefined"
+        || typeof this.statusMessageCallback === "undefined"
+        || typeof this.questionCallback === "undefined") {
+      throw new GeneralException("Must define callback");
+    }
   }
   
   canel() {
@@ -175,9 +148,9 @@ export class TyroService {
   
   convertAmount(amount: string): string {
     if (amount.indexOf(".") > -1) {
-      if ((amount.length - amount.indexOf(".")) == 3)
+      if ((amount.length - amount.indexOf(".")) === 3) {
         amount = amount.replace(".", "");
-      else if ((amount.length - amount.indexOf(".")) == 2) {
+      } else if ((amount.length - amount.indexOf(".")) === 2) {
         amount = amount.replace(".", "");
         amount += "0";
       } else {

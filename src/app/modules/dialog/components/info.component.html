@@ -1,0 +1,10 @@
+<div class="popup-wrapper" [ngClass]="{open: infoData.isOpening}">
+  <div class="popup-content">
+    <h3>{{infoData.title | translate}}</h3>
+    <p [innerHTML]="infoData.content"></p>
+    <div class="button-bar">
+      <button (click)="infoData.infoOK()">{{ 'OK' | translate }}</button>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay" [ngClass]="{open: infoData.isOpening}"></div>

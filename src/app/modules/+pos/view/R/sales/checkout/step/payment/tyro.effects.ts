@@ -6,11 +6,12 @@ import {PosStepState} from "../step.state";
 import {TyroService} from "./tyro.service";
 import {TyroActions} from "./tyro.actions";
 import * as _ from 'lodash';
+import {TyroPayment} from "../../../../../../services/payment-integrate/tyro";
 
 @Injectable()
 export class TyroEffects {
   
-  constructor(private store$: Store<any>, private actions: Actions, private tyroService: TyroService) {}
+  constructor(private store$: Store<any>, private actions: Actions, private tyroService: TyroService, private tyroPayment: TyroPayment) {}
   
   @Effect() initTyroConfig = this.actions
                                  .ofType(
@@ -20,7 +21,7 @@ export class TyroEffects {
                                  .map((action: Action) => {
     
                                    // init data for tyro (TID-MID)
-                                   this.tyroService.initConfig(action.payload['payment']);
+                                   this.tyroPayment.initConfig(action.payload['payment']);
     
                                    return {type: TyroActions.ACTION_INITED_TYRO_CONFIG};
                                  });
@@ -32,17 +33,15 @@ export class TyroEffects {
                               .map((z) => {
                                 const action: Action             = z[0];
                                 const posStepState: PosStepState = <any>z[1];
-                                const payment                    = posStepState.paymentMethodUsed.find((p) => p.type === action.payload['payment3rdData']['type'])
+                                const payment                    = posStepState.paymentMethodUsed.find((p) => p.type === action.payload['payment3rdData']['type']);
     
                                 const isRefund = parseFloat(payment.amount + '') < 0;
                                 const amount   = this.tyroService.convertAmount(Math.abs(payment.amount) + '');
     
-    
                                 setTimeout(() => {
                                   if (isRefund) {
                                     this.tyroService.doRefund(amount);
-                                  }
-                                  else {
+                                  } else {
                                     this.tyroService.doPurchase(amount);
                                   }
                                 }, 100);
@@ -53,7 +52,7 @@ export class TyroEffects {
   @Effect() selectAnswer = this.actions
                                .ofType(TyroActions.ACTION_SELECT_ANSWER)
                                .map((action: Action) => {
-                                 setTimeout(() => {this.tyroService.answerCallback(action.payload['answer'])}, 100);
+                                 setTimeout(() => {this.tyroService.answerCallback(action.payload['answer']);}, 100);
                                  return {type: TyroActions.ACTION_WAIT_STREAM_FROM_TYRO};
                                });
   
@@ -70,17 +69,17 @@ export class TyroEffects {
                                                       return {
                                                         type: PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO,
                                                         payload: {type: 'tyro', ...res['data']}
-                                                      }
+                                                      };
                                                     } else if (res  ['type'] === 'transactionCompleteCallback') {
                                                       return {
                                                         type: PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS,
                                                         payload: {type: 'tyro', ...res['data']}
-                                                      }
+                                                      };
                                                     } else if (res['type'] === 'error') {
                                                       return {
                                                         type: PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL,
                                                         payload: {type: 'tyro', ...res['data']}
-                                                      }
+                                                      };
                                                     }
                                                   });
                                      });
@@ -90,5 +89,5 @@ export class TyroEffects {
                              .map(() => {
                                this.tyroService.canel();
                                return {type: TyroActions.ACTION_CANCEL_PAY};
-                             })
+                             });
 }
