@@ -15,6 +15,7 @@ import "ng2-toastr/ng2-toastr.js";
 
 // tyro payment gateway
 import "assets/js/iclientsimulator-v1.js";
+// import "assets/js/iclient-with-ui-v1.js";
 // import "assets/js/iclient-v1.js";
 
 // add tiny mce

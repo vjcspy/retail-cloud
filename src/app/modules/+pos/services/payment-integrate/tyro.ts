@@ -19,6 +19,10 @@ export class TyroPayment {
     this.config = Object.assign({}, this.config, data);
   }
   
+  isIntegratedReceipt() {
+    return this.config.hasOwnProperty('payment_data') && this.config['payment_data']['integratedReceipt'] === true;
+  }
+  
   getIClientInstance(force: boolean = false): any {
     if (force || typeof this.iClient === "undefined") {
       this.iClient = new TYRO.IClient(this.config.apiKey, this.config.posProductInfo);

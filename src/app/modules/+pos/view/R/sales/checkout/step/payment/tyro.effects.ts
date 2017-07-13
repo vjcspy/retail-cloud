@@ -63,6 +63,7 @@ export class TyroEffects {
                                      .switchMap(() => {
                                        return this.tyroService.getTyroObservable()
                                                   .map((res) => {
+                                                    console.log(res);
                                                     if (_.indexOf(['receiptCallback',
                                                                    'questionCallback',
                                                                    'statusMessageCallback'], res['type']) > -1) {
