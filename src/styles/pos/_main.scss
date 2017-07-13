@@ -856,12 +856,12 @@ textarea[readonly="readonly"] {
   }
 }
 .left-menu-side {
-  position: absolute; top: 0; left: -280px;
+  position: fixed; top: 0; left: -280px;  
   width: 280px; height: 100%;
   font-family: $mediumFont;
   font-size: $sizeS; color: #D2D4DA;
   background: $cblueDeep;
-  z-index: 9996;
+  z-index: 9997;
   @include single-transition(all,0.3s);
   @include tablet {
     @include single-transition(all,0);
@@ -1272,9 +1272,9 @@ textarea[readonly="readonly"] {
 }
 
 .pay-info {
-  font-family: $boldFont;
+  font-family: $blackFont;
   color: $white;
-  font-size: 21px;
+  font-size: 22px;
   text-transform: uppercase;
   cursor: pointer;
   background: $cgreen;
@@ -1300,6 +1300,9 @@ textarea[readonly="readonly"] {
     font-size: 18px;
     &, &:hover {background: $cred2;}
     .value {opacity: .6;}
+  }
+  &.disable{
+    opacity: .4;
   }
 }
 
@@ -1634,6 +1637,13 @@ textarea[readonly="readonly"] {
         line-height: 47px;
         margin-right: 10px;
     }
+    
+    .customer-icon-action{
+      position: relative;
+      .tooltiptext-left{
+        min-width: 70px;
+      }
+    }
     .icon-plus,.icon-minus{
       background: $gray1;
       width: 34px;
@@ -1647,6 +1657,7 @@ textarea[readonly="readonly"] {
     .icon-change{
       font-size: 19px;
     }
+
   }
   .c-search {
     padding: 24px $hozSpace 18px;
@@ -2117,6 +2128,17 @@ textarea[readonly="readonly"] {
       }
     }
     .info-row {
+      .table{
+        > tbody , > thead{
+          tr{
+            th, td{
+              border: none;
+              padding: 10px 10px 10px 30px;
+            }
+          }
+        }
+      }
+      
       font-family: $mediumFont; padding-bottom: 7px;
       p {margin: 0}
     }
@@ -5511,7 +5533,12 @@ ul.has-list {
   visibility: visible;
 }
 
-.regular-pr:hover .tooltiptext-left {
-  visibility: visible;
+.regular-pr,
+.customer-icon-action{
+  &:hover{
+    .tooltiptext-left {
+        visibility: visible;
+    }
+  }
 }
 
