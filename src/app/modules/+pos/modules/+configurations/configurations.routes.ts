@@ -11,9 +11,9 @@ import {ConfigurationsDefaultPosCustomerComponent} from "./view/default/pos/cust
 import {ConfigurationsDefaultPosOutletRegisterComponent} from "./view/default/pos/outlet-register.component";
 import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./view/default/pos/outlet-register/grid.component";
 import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./view/default/pos/outlet-register/edit.component";
-import {ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent} from "./view/default/pos/outlet-register/edit/edit-register/form.component";
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./view/default/pos/outlet-register/edit/register.component";
 import {ConfigurationsDefaultPosPaymentComponent} from "./view/default/pos/payment.component";
+import {ConfigurationsDefaultPosCheckoutComponent} from "./view/default/pos/checkout.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -43,6 +43,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
                 ]
               },
               {path: 'payment', component: ConfigurationsDefaultPosPaymentComponent},
+              {path: 'checkout', component: ConfigurationsDefaultPosCheckoutComponent},
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},

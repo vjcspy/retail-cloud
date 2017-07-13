@@ -11,6 +11,7 @@ import {Observable} from "rxjs/Observable";
 import {PosConfigActions} from "../../../../R/config/config.actions";
 import {Router} from "@angular/router";
 import {EntityActions} from "../../../../R/entities/entity/entity.actions";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Injectable()
 export class RetailConfigEffects {
@@ -18,6 +19,7 @@ export class RetailConfigEffects {
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private router: Router,
+              private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
               private retailConfigService: RetailConfigService,
               private posConfigActions: PosConfigActions,
@@ -32,6 +34,7 @@ export class RetailConfigEffects {
                                     .map((z) => {
                                       let productCategory = false;
                                       let customer        = false;
+                                      let checkout        = false;
     
                                       const entitiesState: PosEntitiesState = <any>z[1];
     
@@ -44,7 +47,10 @@ export class RetailConfigEffects {
                                           && entitiesState.countries.isFinished === true) {
                                         customer = true;
                                       }
-                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer});
+                                      if (entitiesState.retailConfig.isFinished === true) {
+                                        checkout = true;
+                                      }
+                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, checkout});
                                     });
   
   @Effect() saveRetailConfigSnapShot = this.actions$
@@ -76,12 +82,15 @@ export class RetailConfigEffects {
                                                   let config = new RetailConfigDB();
                                                   config.addData(data['items'][0]);
                                                   return Observable.fromPromise(this.retailConfigService.saveRetailConfigToDB(config))
-                                                                   .flatMap(() => Observable.from(
-                                                                     [
-                                                                       this.retailConfigActions.saveRetailConfigSuccess(config['key'], config['value'], false),
-                                                                       this.posConfigActions.initPosRetailConfig(config['value'], false),
-                                                                       this.entityActions.pushEntity(config, RetailConfigDB.getCode(), 'key', false)
-                                                                     ]))
+                                                                   .flatMap(() => {
+                                                                     this.notify.success("save_config_successfully");
+                                                                     return Observable.from(
+                                                                       [
+                                                                         this.retailConfigActions.saveRetailConfigSuccess(config['key'], config['value'], false),
+                                                                         this.posConfigActions.initPosRetailConfig(config['value'], false),
+                                                                         this.entityActions.pushEntity(config, RetailConfigDB.getCode(), 'key', false)
+                                                                       ]);
+                                                                   })
                                                                    .catch(() => Observable.of(this.retailConfigActions.saveRetailConfigFailed('save_config_failed')));
                                                 })
                                                 .catch(() => Observable.of(this.retailConfigActions.saveRetailConfigFailed('save_config_failed_from_server')));

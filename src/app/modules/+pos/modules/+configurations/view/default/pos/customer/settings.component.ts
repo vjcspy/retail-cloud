@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CountryHelper} from "../../../../../../core/framework/directory/Helper/CountryHelper";
 import {RetailConfigState} from "../../../../R/retail-config/retail-config.state";
 import {RetailConfigService} from "../../../../R/retail-config/retail-config.service";
-import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 
 @Component({
              // moduleId: module.id,

@@ -1,0 +1,36 @@
+<div class="acr-row checkout">
+  <div class="acr-head"><h2>{{ 'Checkout' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/allow_split_payment']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Allow Split Payment' | translate }}</h3>
+        </div>
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/allow_partial_payment']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Allow Partial (Layaway) Payment' | translate }}</h3>
+        </div>
+      </div>
+      <div class="th-row two-column">
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox"
+                   [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/display_discount_incl_discount_peritem']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Show Discount Incl Discount Per Item' | translate }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button (click)="retailConfigService.saveRetailConfig('pos')" [ladda]="retailConfigState.isSaving">{{ 'Save' | translate }}</button>
+</div>
