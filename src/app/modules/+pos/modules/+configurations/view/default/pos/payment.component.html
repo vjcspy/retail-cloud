@@ -1,0 +1,3 @@
+<configurations-default-pos-payment-list *ngIf="(configurationsState$ | async)?.retailConfig.isLoadedDepend.payment=== true"
+                                         [entitiesState]="entitiesState$ | async" [configurationsState]="configurationsState$ | async">
+</configurations-default-pos-payment-list>

@@ -13,6 +13,7 @@ import {ConfigurationsDefaultPosOutletRegisterGridComponent} from "./view/defaul
 import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./view/default/pos/outlet-register/edit.component";
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent} from "./view/default/pos/outlet-register/edit/edit-register/form.component";
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./view/default/pos/outlet-register/edit/register.component";
+import {ConfigurationsDefaultPosPaymentComponent} from "./view/default/pos/payment.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -41,6 +42,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
                   {path: 'register-edit', component: ConfigurationsDefaultPosOutletRegisterEditRegisterComponent},
                 ]
               },
+              {path: 'payment', component: ConfigurationsDefaultPosPaymentComponent},
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},

@@ -4,6 +4,7 @@ export interface RetailConfigState {
   isLoadedDepend: {
     productCategory: boolean;
     customer: boolean;
+    payment: boolean;
   };
 }
 
@@ -14,6 +15,7 @@ export const retailConfigStateFactory = makeTypedFactory<RetailConfigState, Reta
     isSaving: false,
     isLoadedDepend: {
       productCategory: false,
-      customer: false
+      customer: false,
+      payment: false,
     }
   });

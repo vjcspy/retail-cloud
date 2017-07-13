@@ -32,6 +32,7 @@ export class RetailConfigEffects {
                                     .map((z) => {
                                       let productCategory = false;
                                       let customer        = false;
+                                      let payment         = false;
     
                                       const entitiesState: PosEntitiesState = <any>z[1];
     
@@ -44,7 +45,11 @@ export class RetailConfigEffects {
                                           && entitiesState.countries.isFinished === true) {
                                         customer = true;
                                       }
-                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer});
+    
+                                      if (entitiesState.payment.isFinished === true) {
+                                        payment = true;
+                                      }
+                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, payment});
                                     });
   
   @Effect() saveRetailConfigSnapShot = this.actions$

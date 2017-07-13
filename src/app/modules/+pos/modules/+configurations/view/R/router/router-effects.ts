@@ -81,4 +81,27 @@ export class ConfigurationsViewRouterEffects {
                                                                         // 'orders',
                                                                       ], false);
                                });
+  
+  @Effect() whenGoPayment = this.actions$
+                                .ofType(routerActions.UPDATE_LOCATION)
+                                .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/payment', false))
+                                .map(() => {
+                                  return this.pullActions.pullEntities([
+                                                                         // 'retailConfig',
+                                                                         // 'outlet',
+                                                                         // 'countries',
+                                                                         // 'stores',
+                                                                         // 'taxes',
+                                                                         // 'receipts',
+                                                                         'payment',
+                                                                         // 'userOrderCount',
+                                                                         // 'warehouse',
+                                                                         // 'permission',
+                                                                         // 'customerGroup',
+                                                                         // 'customers',
+                                                                         // 'category',
+                                                                         // 'products',
+                                                                         // 'orders',
+                                                                       ], false);
+                                });
 }

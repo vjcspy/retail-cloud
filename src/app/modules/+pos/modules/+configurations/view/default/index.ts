@@ -13,6 +13,8 @@ import {ConfigurationsDefaultPosOutletRegisterEditComponent} from "./pos/outlet-
 import {ConfigurationsDefaultPosOutletRegisterEditFormComponent} from "./pos/outlet-register/edit/form.component";
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent} from "./pos/outlet-register/edit/edit-register/form.component";
 import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./pos/outlet-register/edit/register.component";
+import {ConfigurationsDefaultPosPaymentComponent} from "./pos/payment.component";
+import {ConfigurationsDefaultPosPaymentListComponent} from "./pos/payment/list.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -33,6 +35,9 @@ export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultPosOutletRegisterEditFormComponent,
   ConfigurationsDefaultPosOutletRegisterEditRegisterComponent,
   ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent,
+
+  ConfigurationsDefaultPosPaymentComponent,
+  ConfigurationsDefaultPosPaymentListComponent,
   
   ConfigurationsDefaultCacheManagement,
 ];

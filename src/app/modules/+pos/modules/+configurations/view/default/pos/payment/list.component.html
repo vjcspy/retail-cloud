@@ -1,0 +1,62 @@
+<div class="acr-row payment">
+  <div class="acr-head"><h2>{{ 'Payment' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+
+      <div class="th-row two-column">
+        <div class="box-content" *ngFor="let payment of entitiesState.payment.items">
+          <h3>{{payment['title']}}</h3>
+          <ul class="fr-control">
+            <li>
+              <label>{{ 'Name' | translate }}</label>
+              <retail-text [(model)]="payment['title']"
+                           [formKey]="'payment_edit_data'"
+                           [validation]="'required'"></retail-text>
+            </li>
+            <li>
+              <label>{{ 'Enable' | translate }}</label>
+              <div class="switch-button f-right">
+                <input [(ngModel)]="payment['is_active']" [checked]="payment['is_active']=='1'" type="checkbox"/>
+                <span></span>
+              </div>
+            </li>
+            <li *ngIf="payment['type'] === 'tyro'">
+              <label>MID</label>
+              <retail-text [(model)]="payment['payment_data']['mid']"
+                           [formKey]="'payment_edit_data'"
+                           [validation]="'required'"></retail-text>
+            </li>
+            <li *ngIf="payment['type'] === 'tyro'">
+              <label>TID</label>
+              <retail-text [(model)]="payment['payment_data']['tid']"
+                           [formKey]="'payment_edit_data'"
+                           [validation]="'required'"></retail-text>
+            </li>
+            <li *ngIf="payment['type'] === 'tyro'">
+              <label>{{ 'Integrated Receipt' | translate }}</label>
+              <div class="switch-button f-right">
+                <input [(ngModel)]="payment['payment_data']['integratedReceipt']" [checked]="payment['payment_data']['integratedReceipt'] === true" type="checkbox"/>
+                <span></span>
+              </div>
+            </li>
+            <li *ngIf="payment['type'] !== 'tyro'">
+              <label>{{ 'Allow amount tendered' | translate }}</label>
+              <div class="switch-button f-right">
+                <input [(ngModel)]="payment['allow_amount_tendered']" [checked]="payment['allow_amount_tendered']" type="checkbox"/>
+                <span></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="button-bar">
+        <button class="orange">{{ 'New Payment' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <button (click)="save()" [ladda]="configurationsState.payments.isSaving === true">{{ 'Save' | translate }}</button>
+</div>
