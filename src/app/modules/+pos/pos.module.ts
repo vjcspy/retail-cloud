@@ -12,6 +12,7 @@ import {PosElementModule} from "../pos-element";
 import {POS_DIRECTIVES} from "./view/directives/index";
 import {DragScrollModule} from "angular2-drag-scroll";
 
+import "../../../styles/pos.scss";
 @NgModule({
             imports: [
               ShareModule,

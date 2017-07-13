@@ -1,7 +1,7 @@
 <div class="acr-row new-outlet">
   <div class="acr-head">
-    <h2>
-      <span class="icon-left click" (click)="back()"></span>
+    <h2 class="click" (click)="back()">
+      <span class="icon-left click"></span>
       {{!!getEditOutletFormData()['outlet']['id'] ? ("Edit Outlet"|translate):("New Outlet"|translate)}}
     </h2>
   </div>
@@ -68,27 +68,28 @@
                                [formKey]="'outlet_edit_address'"></retail-select>
               </li>
               <li>
-                <label>{{ 'Cashier' | translate }}</label>
-                <input [(ngModel)]="getEditOutletFormData()['outlet']['cashier_ids']">
-              </li>
-              <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
-                <label>{{ 'Register' | translate }}</label>
-                <div class="groups">
-                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']"
-                          [ngClass]="{active: register['is_active']}">
-                    {{register['name']}}
-                  </button>
-                  <button class="square orange">
-                    {{ 'Add Register' | translate }}
-                  </button>
-                </div>
-              </li>
-              <li>
                 <label>{{ 'Store View' | translate }}</label>
                 <retail-select [elementData]="getStoreElementData()"
                                [(model)]="getEditOutletFormData()['outlet']['store_id']"
                                [formKey]="'outlet_edit_address'"
                                [validation]="'required'"></retail-select>
+              </li>
+              <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
+                <label>{{ 'Register' | translate }}</label>
+                <div class="groups">
+                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']" (click)="editRegister(register)"
+                          [ngClass]="{active: register['is_active']}">
+                    {{register['name']}}
+                  </button>
+                  <button class="square orange" (click)="editRegister({})">
+                    {{ 'Add Register' | translate }}
+                  </button>
+                </div>
+              </li>
+              <li>
+                <label>{{ 'Cashier' | translate }}</label>
+                <retail-select2 [elementData]="getUserSelect()" [multiple]="true"
+                                [(model)]="getEditOutletFormData()['outlet']['cashier_ids']"></retail-select2>
               </li>
             </ul>
           </div>

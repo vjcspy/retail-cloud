@@ -1,0 +1,49 @@
+<div class="acr-row add-register">
+  <div class="acr-head">
+    <h2 class="click" (click)="back()">
+            <span class="icon-left">
+            </span>
+      {{getRegister()['id'] != 0 ? ("Edit register"|translate):("New register"|translate)}}
+    </h2>
+  </div>
+  <div class="acr-content">
+    <div class="inner">
+      <ul class="fr-control">
+        <li *ngIf="!!getRegister()['id']">
+          <label>{{ 'Register ID' | translate }}</label>
+          <span class="fr-text">{{getRegister()['id']}}</span>
+        </li>
+        <li *ngIf="!!getRegister()['outlet_name']">
+          <label class="require">{{ 'Outlet Name' | translate }}</label>
+          <span class="fr-text">{{getRegister()['outlet_name']}}</span>
+        </li>
+        <li>
+          <label class="require">{{ 'Register Name' | translate }}</label>
+          <retail-text [(model)]="getRegister()['name']"
+                       [formKey]="'register_edit_data'"
+                       [validation]="'required'"></retail-text>
+        </li>
+        <li>
+          <label>{{ 'Register Status' | translate }}</label>
+          <retail-select [(model)]="getRegister()['is_active']"
+                         [elementData]="getStatusSelect()"
+                         [validation]="'required'"></retail-select>
+        </li>
+        <li>
+          <label>{{ 'Always Print Receipt After Sale' | translate }}</label>
+          <retail-select [(model)]="getRegister()['is_print_receipt']"
+                         [elementData]="getStatusSelect()"
+                         [validation]="'required'"></retail-select>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button *ngIf="!!getRegister()['id']" class="red" (click)="confirmDeleteRegister()" [hidden]="getRegister()['id']==0">
+    {{ 'Delete' | translate }}
+  </button>
+  <button (click)="saveRegister()" [ladda]="configurationsState.outlets.editForm.isSaving">
+    {{getRegister()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
+  </button>
+</div>

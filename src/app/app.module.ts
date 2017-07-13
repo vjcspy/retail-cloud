@@ -13,6 +13,8 @@ import {AppComponent} from "./app.component";
 
 import "../styles/styles.scss";
 import "../styles/headings.css";
+import'../styles/font-awesome.scss';
+import '../styles/daterangepicker.scss';
 import {ShareModule} from "./modules/share/share.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";

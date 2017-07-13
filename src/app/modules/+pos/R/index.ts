@@ -43,8 +43,8 @@ import {PosSyncWishlistActions} from "./sync/actions/wishlist.actions";
 import {PosSyncWishlistEffects} from "./sync/actions/wishlist.effects";
 import {PosSyncWishlistService} from "./sync/actions/wishlist.service";
 import {EntityOrderEffects} from "./entities/entity/order.effects";
-import {EntityRetailConfigActions} from "./entities/entity/retail-config.actions";
 import {AssignConfigCoreEffects} from "./config/assign/assign-core.effects";
+import {EntityActions} from "./entities/entity/entity.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -77,9 +77,9 @@ export const R_POS_PROVIDERS = [
   RealtimeActions,
   RealtimeEffects,
   RealtimeService,
+  EntityActions,
   EntityOrderActions,
   EntityOrderEffects,
-  EntityRetailConfigActions,
   
   PosQuoteService,
   PosQuoteEffects,

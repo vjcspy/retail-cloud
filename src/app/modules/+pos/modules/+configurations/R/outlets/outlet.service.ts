@@ -9,7 +9,8 @@ import {ApiManager} from "../../../../../../services/api-manager";
 export class ConfigurationsOutletService {
   editOutletFormData = {
     outlet: {},
-    registers: List.of()
+    registers: List.of(),
+    register: {}
   };
   
   constructor(private requestService: RequestService,
@@ -56,5 +57,17 @@ export class ConfigurationsOutletService {
   createSaveOutletRequest(outlet, generalState: PosGeneralState) {
     return this.requestService
                .makePost(this.apiUrlManager.get("outlet", generalState.baseUrl), {data: outlet});
+  }
+  
+  createSaveRegister(register: any, generalState: PosGeneralState) {
+    return this.requestService.makePost(
+      this.apiUrlManager.get("register", generalState.baseUrl),
+      {data: register}
+    );
+  }
+  
+  createDeleteRegister(register: any, generalState: PosGeneralState) {
+    return this.requestService.makeDelete(this.apiUrlManager.get("register", generalState.baseUrl) + "?id=" + register['id'] + "&outlet_id=" + register['outlet_id']
+    );
   }
 }

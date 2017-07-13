@@ -3,11 +3,11 @@ import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class DialogQuestionData {
-  isOpening: boolean = false;
-  title: string      = null;
-  content: string    = null;
-  whenYes: () => void;
-  whenCancel: () => void;
+  isOpening: boolean     = false;
+  title: string          = null;
+  content: string        = null;
+  whenYes: () => void    = () => {};
+  whenCancel: () => void = () => {};
   
   dialogQuestion: Subject<boolean>;
   componentElem: ComponentRef<any>;
@@ -19,7 +19,8 @@ export class DialogQuestionData {
   
   callBackYes() {
     this.whenYes();
-    this.isOpening = false;
+    this.isOpening      = false;
+    this.dialogQuestion = new Subject();
     this.dialogQuestion.next(true);
   }
   

@@ -9,12 +9,14 @@ import {CheckoutProductState} from "../product.state";
 import {PosEntitiesActions} from "../../../../../../R/entities/entities.actions";
 import * as _ from 'lodash';
 import {PosConfigState} from "../../../../../../R/config/config.state";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class CheckoutProductCategoryEffects {
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
+              private router: Router,
               private checkoutProductCategoryActions: CheckoutProductCategoryActions) { }
   
   @Effect() resolveCategory = this.actions$
@@ -25,6 +27,7 @@ export class CheckoutProductCategoryEffects {
                                   .filter((action) => {
                                     return !!action.payload['entityCode'] ? action.payload['entityCode'] === CategoryDB.getCode() : true;
                                   })
+                                  .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                   .withLatestFrom(this.store$.select('entities'))
                                   .withLatestFrom(this.store$.select('checkoutProduct'), (z, z1) => [...z, z1])
                                   .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
@@ -56,7 +59,7 @@ export class CheckoutProductCategoryEffects {
                                     if (configState.posRetailConfig.sortCategorySorting !== 'asc') {
                                       categoryList = <any>categoryList.reverse();
                                     }
-                                    
+    
                                     // find breadcrumb
                                     let listBc = checkoutProductState.currentCategory['path'].split('/');
                                     _.forEach(listBc, (id) => {

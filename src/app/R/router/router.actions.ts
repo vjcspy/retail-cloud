@@ -9,7 +9,7 @@ export class RouterActions {
   
   go(path: string, param = null, query = {}) {
     let _p = [path];
-    if (param) {
+    if (typeof param !== 'undefined' && param !== null) {
       _p.push(param);
     }
     this.store$.dispatch(go(_p, query));

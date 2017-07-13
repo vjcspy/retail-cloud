@@ -39,6 +39,6 @@ export class DialogService {
     this._dialogSubject             = new Subject();
     let questionElem                = this.componentFactoryResolver.resolveComponentFactory(DialogQuestionComponent);
     this.questionData.componentElem = this._rootViewContainerRef.createComponent(questionElem);
-    this._dialogSubject.asObservable().share();
+    return this._dialogSubject.asObservable().share();
   }
 }
