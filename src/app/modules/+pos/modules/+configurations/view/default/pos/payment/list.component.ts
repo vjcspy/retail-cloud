@@ -5,6 +5,9 @@ import {ConfigurationsPaymentService} from "../../../../R/payment/payment.servic
 import {ConfigurationsPaymentActions} from "../../../../R/payment/payment.actions";
 import {ConfigurationsState} from "../../../../R/index";
 import {PaymentDB} from "../../../../../../database/xretail/db/payment";
+import {TyroPayment} from "../../../../../../services/payment-integrate/tyro";
+import {DialogService} from "../../../../../../../dialog/dialog.service";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +22,9 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
   
   constructor(private formValidation: FormValidationService,
               private configurationsPaymentService: ConfigurationsPaymentService,
-              private configurationsPaymentActions: ConfigurationsPaymentActions) {
+              private configurationsPaymentActions: ConfigurationsPaymentActions,
+              private dialogService: DialogService,
+              private tyroPayment: TyroPayment) {
   }
   
   getPayments() {
@@ -48,4 +53,19 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
     
     this.configurationsPaymentService.paymentSnapshot = this.configurationsPaymentService.paymentSnapshot.push(payment);
   }
+  
+  pairTyro(tid, mid) {
+    return this.tyroPayment.pair(tid, mid, (response: Object) => {});
+  }
+  
+  requestTerminalInfo(tid, mid) {
+    return this.tyroPayment.requestTerminalInfo(tid, mid, (info) => {
+      let content = '';
+      _.forEach(info, (val, key) => {
+        content += `<div><span>${key}: ${val}</span></div>`;
+      });
+      this.dialogService.info("Terminal Information", content);
+    });
+  }
+  
 }

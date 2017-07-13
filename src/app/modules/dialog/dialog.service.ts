@@ -2,13 +2,17 @@ import {ComponentFactoryResolver, Injectable, ViewContainerRef} from '@angular/c
 import {DialogQuestionData} from "./components/question.data";
 import {Subject} from "rxjs/Subject";
 import {DialogQuestionComponent} from "./components/question.component";
+import {DialogInfoData} from "./components/info.data";
+import {DialogInfoComponent} from "./components/info.component";
 
 @Injectable()
 export class DialogService {
   protected _rootViewContainerRef: ViewContainerRef;
   protected _dialogSubject: Subject<any>;
   
-  constructor(private questionData: DialogQuestionData, private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private questionData: DialogQuestionData,
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private infoData: DialogInfoData) { }
   
   setRootViewContainerRef(vcr: ViewContainerRef) {
     this._rootViewContainerRef = vcr;
@@ -40,5 +44,13 @@ export class DialogService {
     let questionElem                = this.componentFactoryResolver.resolveComponentFactory(DialogQuestionComponent);
     this.questionData.componentElem = this._rootViewContainerRef.createComponent(questionElem);
     return this._dialogSubject.asObservable().share();
+  }
+  
+  info(title, content) {
+    this.infoData.title         = title;
+    this.infoData.content       = content;
+    this.infoData.isOpening     = true;
+    let infoElem                = this.componentFactoryResolver.resolveComponentFactory(DialogInfoComponent);
+    this.infoData.componentElem = this._rootViewContainerRef.createComponent(infoElem);
   }
 }

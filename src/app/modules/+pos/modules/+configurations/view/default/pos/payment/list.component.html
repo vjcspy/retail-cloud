@@ -39,6 +39,17 @@
                 <span></span>
               </div>
             </li>
+            <li *ngIf="payment['type'] === 'tyro'">
+              <label></label>
+              <div class="switch-button f-right">
+                <button (click)="pairTyro(payment['payment_data']['tid'],payment['payment_data']['mid'])">
+                  Pair
+                </button>
+                <button (click)="requestTerminalInfo(payment['payment_data']['tid'],payment['payment_data']['mid'])">
+                  Request Terminal Info
+                </button>
+              </div>
+            </li>
             <!--<li *ngIf="payment['type'] == 'credit_card'">-->
             <!--<label>{{ 'Payment Type' | translate }}</label>-->
             <!--<retail-select [elementData]="getPaymentTypeSelect()"-->
