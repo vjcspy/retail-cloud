@@ -27,13 +27,13 @@
           <span class="click" (click)="go('pos/configurations/default/pos/payment')">{{ 'Payment' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/checkout')}">
-          <span class="click">{{ 'Checkout' | translate }}</span>
+          <span class="click" (click)="go('pos/configurations/default/pos/checkout')">{{ 'Checkout' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/receipt')}">
           <span class="click">{{ 'Receipt' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/integration')}">
-          <span class="click">{{ 'Integration' | translate }}</span>
+          <span class="click" (click)="go('pos/configurations/default/pos/integration')">{{ 'Integrations' | translate }}</span>
         </li>
       </ul>
     </li>

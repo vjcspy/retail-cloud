@@ -8,8 +8,6 @@ import {TyroPayment} from "../../../../../../services/payment-integrate/tyro";
 @Injectable()
 export class TyroService {
   
-  private config;
-  private iClient: any;
   private tyroStream = new Subject();
   
   constructor(private tyroPayment: TyroPayment,
@@ -60,6 +58,7 @@ export class TyroService {
   
   // Config callback when have a question from tyro
   questionCallback: (question: any, answerCallback: any) => void = (question, answerCallback) => {
+    console.log(question);
     // save answer callback for answer later
     this.answerCallback = (value) => {
       answerCallback(value);
@@ -108,7 +107,7 @@ export class TyroService {
     this.getIClientInstance().initiatePurchase({
                                                  amount,
                                                  cashout: "0",
-                                                 integratedReceipt: true
+                                                 integratedReceipt: this.tyroPayment.isIntegratedReceipt()
                                                }, {
                                                  statusMessageCallback: this.statusMessageCallback,
                                                  questionCallback: this.questionCallback,
@@ -122,7 +121,7 @@ export class TyroService {
     
     this.getIClientInstance().initiateRefund({
                                                amount,
-                                               integratedReceipt: true
+                                               integratedReceipt: this.tyroPayment.isIntegratedReceipt()
                                              }, {
                                                statusMessageCallback: this.statusMessageCallback,
                                                questionCallback: this.questionCallback,

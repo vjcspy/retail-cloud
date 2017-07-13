@@ -20,19 +20,7 @@ export class ConfigurationsViewRouterEffects {
                                           return this.pullActions.pullEntities([
                                                                                  'retailConfig',
                                                                                  'settings',
-                                                                                 // 'countries',
                                                                                  'taxClass',
-                                                                                 // 'taxes',
-                                                                                 // 'receipts',
-                                                                                 // 'payment',
-                                                                                 // 'userOrderCount',
-                                                                                 // 'warehouse',
-                                                                                 // 'permission',
-                                                                                 // 'customerGroup',
-                                                                                 // 'customers',
-                                                                                 // 'category',
-                                                                                 // 'products',
-                                                                                 // 'orders',
                                                                                ], false);
                                         });
   
@@ -42,20 +30,7 @@ export class ConfigurationsViewRouterEffects {
                                  .map(() => {
                                    return this.pullActions.pullEntities([
                                                                           'retailConfig',
-                                                                          // 'settings',
                                                                           'countries',
-                                                                          // 'taxClass',
-                                                                          // 'taxes',
-                                                                          // 'receipts',
-                                                                          // 'payment',
-                                                                          // 'userOrderCount',
-                                                                          // 'warehouse',
-                                                                          // 'permission',
-                                                                          // 'customerGroup',
-                                                                          // 'customers',
-                                                                          // 'category',
-                                                                          // 'products',
-                                                                          // 'orders',
                                                                         ], false);
                                  });
   
@@ -64,21 +39,10 @@ export class ConfigurationsViewRouterEffects {
                                .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/outlet', false))
                                .map(() => {
                                  return this.pullActions.pullEntities([
-                                                                        // 'retailConfig',
                                                                         'outlet',
                                                                         'countries',
                                                                         'stores',
-                                                                        // 'taxes',
                                                                         'receipts',
-                                                                        // 'payment',
-                                                                        // 'userOrderCount',
-                                                                        // 'warehouse',
-                                                                        // 'permission',
-                                                                        // 'customerGroup',
-                                                                        // 'customers',
-                                                                        // 'category',
-                                                                        // 'products',
-                                                                        // 'orders',
                                                                       ], false);
                                });
   
@@ -87,21 +51,25 @@ export class ConfigurationsViewRouterEffects {
                                 .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/payment', false))
                                 .map(() => {
                                   return this.pullActions.pullEntities([
-                                                                         // 'retailConfig',
-                                                                         // 'outlet',
-                                                                         // 'countries',
-                                                                         // 'stores',
-                                                                         // 'taxes',
-                                                                         // 'receipts',
                                                                          'payment',
-                                                                         // 'userOrderCount',
-                                                                         // 'warehouse',
-                                                                         // 'permission',
-                                                                         // 'customerGroup',
-                                                                         // 'customers',
-                                                                         // 'category',
-                                                                         // 'products',
-                                                                         // 'orders',
                                                                        ], false);
                                 });
+  
+  @Effect() whenGoCheckout = this.actions$
+                                 .ofType(routerActions.UPDATE_LOCATION)
+                                 .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/checkout', false))
+                                 .map(() => {
+                                   return this.pullActions.pullEntities([
+                                                                          'retailConfig',
+                                                                        ], false);
+                                 });
+  
+  @Effect() whenGoIntegration = this.actions$
+                                    .ofType(routerActions.UPDATE_LOCATION)
+                                    .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/integration', false))
+                                    .map(() => {
+                                      return this.pullActions.pullEntities([
+                                                                             'retailConfig',
+                                                                           ], false);
+                                    });
 }

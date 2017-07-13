@@ -56,7 +56,10 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepSta
     case PosStepActions.ACTION_PAYMENT_3RD_UPDATE_INFO:
       return state.update('listPayment3rdData', (l: List<Payment3rd>) => l.map((_p) => {
         if (_p.type === action.payload['type']) {
-          _p = Object.assign({}, {..._p}, action.payload);
+          // fix addition data missing
+          let additionData = Object.assign({}, {..._p['additionData']}, {...action.payload['additionData']});
+          
+          _p = Object.assign({}, {..._p}, action.payload, {additionData});
           
           if (action.type === PosStepActions.ACTION_PAYMENT_3RD_PAY_SUCCESS) {
             _p.isPaySuccess = true;
