@@ -18,12 +18,18 @@
   </div><!--end top-bar-->
 
   <div class="top-field">
-    <input #dateSelectFrom type="text" class="calendar-picker"/>
-    <input #dateSelectTo class="calendar-picker" type="text"/>
-    <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
-                   [model]="ordersState.list.searchOrderStatus"
-                   (modelChange)="searchOrderStatus($event)">
-    </retail-select>
+    <div class="date-input-wrap">
+      <input #dateSelectFrom type="text" class="calendar-picker"/>
+      <label>To</label>
+      <input #dateSelectTo class="calendar-picker" type="text"/>
+    </div>
+    <div class="selectbox-wrap">
+        <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
+                     [model]="ordersState.list.searchOrderStatus"
+                     (modelChange)="searchOrderStatus($event)">
+        </retail-select>
+    </div>
+    
   </div><!--end top-field-->
 
   <div class="order-list-inner" style="top: -20px" perfectScroll>

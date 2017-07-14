@@ -401,7 +401,8 @@ textarea[readonly="readonly"] {
   input[type="checkbox"], input[type="radio"] {
     position: absolute; top: 1px; left: 0;
     width: 17px; height: 17px;
-    cursor: pointer;
+    cursor: pointer;pointer-events: none;
+    margin-top: 0;
   }
   input[type="checkbox"], input[type="radio"] {
     opacity: 0; z-index: 1;
@@ -424,46 +425,46 @@ textarea[readonly="readonly"] {
   }
   &.tick-list {
     padding-left: 24px;
-    > span {background: transparent; border: none;}
+    > span {background: $cbkg; border: 1px solid #b4b4b4;}
     input[type="checkbox"] {
       &:hover + span + em {color: $cgreen2;}
       &:checked + span {
-        background: transparent; border: none;
+        background: $aqua; border: none;
         &:before {
           content: "\e91c";
-          color: $cgreen2; font-size: 18px;
-          top: -1px; left: 0;
+          color: $white;     
+          font-size: 15px;
+          top: 2px;
+          left: 2px;
         }
       }
     }
   }
 }
 .radio-box {
-  > span {
+  > span {    
     @include border-radius(100%);
     &:before {
       content: "";
-      position: absolute; top: 1px; left: 1px;
+      position: absolute; top: 3px; left: 3px;
       display: block;
-      width: 13px; height: 13px;
+      width: 9px; height: 9px;
       background: $cgreen;
       opacity: 0;
-      @include border-radius(100%);
+      @include border-radius(50%);
       @include single-transition(all,.3s);
     }
   }
   input[type="radio"] {
     &:checked + span {
+      border-color: $cgreen;
       &:before {
         opacity: 1;
       }
     }
   }
   &.single-list {
-    padding-left: 10px;
-    input[type="radio"] {
-      &:checked + span + em {color: $cgreen2;}
-    }
+    padding-left: 25px;    
   }
   &.huge {
     font-family: $mainFont;
@@ -2750,6 +2751,80 @@ input[type="text"] {float: right; width: 160px;}
     &:hover {color: $white;}
   }
 }
+#toast-container{
+  &.toast-top-center  {
+    top: 15px;
+    > div{
+      width: 360px;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+#toast-container{
+  > .toast{
+    min-height: 80px;
+    width: 360px;
+    font-size: 15px;
+    padding: 10px 10px 10px 20px;
+    background-image: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include box-shadow(0 0 6px 0 rgba(0,0,0,0.25));
+    @include  border-radius(6px);
+    &:before{
+        font-family: 'icomoon' ;
+        font-size: 30px;
+        opacity: .6;
+    }
+    > div{
+      flex: 1;
+      padding: 0 10px;
+    }
+    .toast-message{      
+      text-align: left;
+    }
+    .toast-close-button{
+      font-size: 33px;
+      order: 2;
+      opacity: .3;
+      color: $black;
+      right: inherit;
+      top: inherit;
+      flex: inherit;
+      text-shadow: none;
+      -webkit-text-shadow: none;
+
+    }
+
+    
+    &.toast-error{      
+      background: #db524b;
+      &:before{
+        content: "\e93e";
+      }
+    }
+    &.toast-warning{      
+      background: #fbb040;
+      &:before{
+        content: "\e93c";
+      }
+    }
+    &.toast-info{      
+      background: #56c0e0;
+      &:before{
+        content: "\e93d";
+      }
+    }
+    &.toast-success{      
+      background: #58b957;
+      &:before{
+        content: "\e93b";
+      }
+    }     
+  }
+}
 
 /*Tabs*/
 .tabs-blk {
@@ -3496,7 +3571,7 @@ h2.p-head {padding: 18px 20px;}
     li {padding-right: 0;}
   }
   .single-list {
-    span {opacity: 0;}
+    // span {opacity: 0;}
   }
 }
 
@@ -4701,7 +4776,7 @@ ul.has-list {
       font-size: $size; padding-right: 15px;
     }
   }
-  .date {color: #7D7D7D; padding: 0 0 9px $hozcSpace; margin-top: 34px;}
+  .date {color: #7D7D7D; padding: 0 0 15px $hozcSpace; margin-top: 34px; font-family: $mediumFont}
   .items {
     position: relative;
     background: $white;
@@ -4740,21 +4815,57 @@ ul.has-list {
   .items + .date {margin-top: 40px;}
 }
 .order-list-leftside {
-  padding-top: 144px;
+  padding-top: 200px;
   .top-field {
     position: absolute; top: 83px; left: 0;
-    width: 100%; padding: 0 11px;
-    @include clearfix;
-    .calendar-picker, .select-wrapper {
-      float: left; width: calc(33.3333% - 22px); margin: 0 11px;
+    width: 100%; padding: 0 11px 5px ;
+    &:before{
+      width: calc(100% - 44px);      
+      height: 1px;
+      content: "";
+      background: $border;
+      position: absolute;
+      bottom: 0;
+      left: 22px;
     }
+    @include clearfix;
+    .date-input-wrap,
+    .selectbox-wrap
+    {
+      @include clearfix;
+      margin-bottom: 15px;
+    }
+    .date-input-wrap{
+      display: flex;
+      align-items: center;
+      .calendar-picker {
+        float: left; width: calc(50% - 22px); margin: 0 11px;
+      }
+      label{
+        color: $gray40;
+        font-family: $mainFont;
+        font-weight: normal;
+        font-size: 13px;
+      }
+    }
+    
     .calendar-picker, .select-wrapper input[type="text"], .select-wrapper > ul {
       background: $white; color: $mainTxt;
+      font-family: $mediumFont;
+      font-size: 13px;
+      color: $gray40;
+    }
+    .select-wrapper {
+      float: left; width: calc(33.3333% - 22px); margin: 0 11px;
     }
   }
   .order-list-inner {
     position: relative;
   }
+}
+
+.daterangepicker.dropdown-menu {
+  background: $cblueDark;
 }
 
 .notification {
@@ -4844,7 +4955,7 @@ ul.has-list {
         .items {
           &:before {
             color: $cgreen;
-            @include rotate(0deg);
+            content: "\e940";
           }
         }
       }
@@ -4865,11 +4976,17 @@ ul.has-list {
       &, &:before {@include single-transition(all,0.3s);}
       &:before {
         font-family: $icomoon;
-        content: "\e90a";
+        content: "\e93f";
         position: absolute;
         top: 3px; right: 0;
-        font-size: 16px; color: $mainTxt;
-        @include rotate(-90deg);
+        font-size: 22px; color: $mainTxt;  
+        font-weight: bold;
+        color:#B9B9B9    
+      }
+      &:hover{
+        &:before{
+          color: $cgreen2;
+        }
       }
       @include tablet{
         .f-left:not(:first-child){
@@ -4906,7 +5023,7 @@ ul.has-list {
     .items {
       position: relative;
       color: $grayDark;
-      padding: 30px 0;
+      padding: 15px 0;
       @include clearfix;
       p, h3 {margin: 0;}
       .img, .qty {float: left;}
@@ -5172,10 +5289,12 @@ ul.has-list {
       h4 {margin-top: 14px;}
     }
     &.t-bar {
-      background: $cgreen;
+      background: $grayLight;
+      
+
       div.price, .timer > p {
-        h3, strong, span {color: $white;}
-        h3 {font-size: 18px;}
+        h3, strong, span {color: #019b93; font-family: $blackFont;}
+        h3 {font-size: 20px;}
       }
       .timer {
         > p {margin-top: 12px;}
@@ -5391,6 +5510,13 @@ ul.has-list {
   }
 }
 
+.order-list-detail{
+  .icon-noted .tooltiptext-left{
+    min-width: 75px;
+    top: 2px;
+  }
+}
+
 .expect {color: $cgreen!important;}
 .un-expect {color: $refund!important;}
 
@@ -5534,7 +5660,8 @@ ul.has-list {
 }
 
 .regular-pr,
-.customer-icon-action{
+.customer-icon-action,
+.icon-noted{
   &:hover{
     .tooltiptext-left {
         visibility: visible;
