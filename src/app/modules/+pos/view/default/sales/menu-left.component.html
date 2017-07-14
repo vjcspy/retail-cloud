@@ -8,7 +8,7 @@
     </div>
   </div>
   <ul class="left-menu-link">
-  <li>
+    <li>
       <span class="click" (click)="openCart()">
           <span class="icon-nav-sellscreen"></span>
           <span>{{ 'Sell screen' | translate}}</span>
@@ -47,8 +47,8 @@
   </ul>
   <div class="bot-bar">
     <button class="red" (click)="accountActions.logout()" [ladda]="accountState.isLogging">{{'Logout' | translate}}</button>
-    
+
   </div>
 </div>
-<div class="popup-overlay"></div> <!-- show overlay when open leftmenu -->
+<div class="popup-overlay open" *ngIf="menuState.leftMenu.isOpen"></div>
 
