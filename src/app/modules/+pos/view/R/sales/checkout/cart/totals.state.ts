@@ -10,7 +10,7 @@ export interface CartTotalsStateRecord extends TypedRecord<any>, CartTotalsState
 
 export const cartTotalsStateFactory = makeTypedFactory<CartTotalsState, CartTotalsStateRecord>(
   {
-    isOpenTotalBlock: true,
+    isOpenTotalBlock: false,
     isOpeningPopupDiscount: false,
     isDiscountWholeOrderValue: false,
   });
