@@ -8,6 +8,7 @@
       </div>
       <span class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),
       'icon-plus':!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()}">
+        <span class="tooltiptext-left">{{ 'Change Customer' | translate }}</span>
       </span>
     </div>
   </div>

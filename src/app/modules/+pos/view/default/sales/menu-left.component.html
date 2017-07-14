@@ -47,14 +47,8 @@
   </ul>
   <div class="bot-bar">
     <button class="red" (click)="accountActions.logout()" [ladda]="accountState.isLogging">{{'Logout' | translate}}</button>
-    <div style="margin-top: 15px;width: 100%;margin-bottom: -40px;margin-left: -10px;">
-      <ul class="fr-control">
-        <li>
-          <label>{{'language' |translate}}</label>
-          <retail-select2 [elementData]="retailTranslate.getListLanguageSupport()" [model]="translate.currentLang"
-                          (modelChange)="retailTranslate.updateLanguage($event)"></retail-select2>
-        </li>
-      </ul>
-    </div>
+    
   </div>
 </div>
+<div class="popup-overlay"></div> <!-- show overlay when open leftmenu -->
+

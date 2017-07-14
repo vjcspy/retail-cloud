@@ -26,9 +26,13 @@
             <span>Add to cart</span>
           </div>
         </div>
+
         <li class="product-item">
           <div class="product-img">
             <img src="{{product['origin_image']}}" alt="">
+            <!-- sale - soldout label -->
+            <span class="tags sale">Sale</span>
+            <span class="tags soldout">Sold out</span>   
           </div>
           <div class="product-name">
             {{product['name']}}

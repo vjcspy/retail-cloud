@@ -6,7 +6,9 @@
     <div class="notification"
          [ngClass]="{'has-noted': !!getOrder()['retail_note'] && !getOrder()['add_note'],'add-noted':getOrder()['add_note']}">
             <span class="click" (click)="getOrder()['add_note'] = !getOrder()['add_note']">
-                <span class="icon-noted"></span>
+                <span class="icon-noted">
+                  <span class="tooltiptext-left">{{'Add note' | translate}}</span>
+                </span>
             </span>
       <p class="noted">
         {{getOrder()['retail_note']}}
