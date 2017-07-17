@@ -134,7 +134,7 @@
 </div><!--end receipt-blk-->
 
 <div class="invoice" *ngIf="configurationsReceiptState.receipt">
-  <div class="top-br" *ngIf="!!configurationsReceiptState.receipt['logo_image_status']">
+  <div class="top-br" *ngIf="configurationsReceiptState.receipt['logo_image_status'] == 1">
     <img *ngIf="!configurationsReceiptState.receipt['logo_url']" src="assets/img/img-footer-default.png" alt="SmartOSC"/>
     <img *ngIf="configurationsReceiptState.receipt['logo_url']" [src]="configurationsReceiptState.receipt['logo_url']"/>
   </div>
@@ -268,7 +268,7 @@
   <div class="bottom-br">
     <div [innerHtml]="configurationsReceiptState.receipt['footer']"></div>
     <img [hidden]="!configurationsReceiptState.receipt['enable_barcode']" id="barcode"/>
-    <div class="footer-img" *ngIf="!!configurationsReceiptState.receipt['footer_image_status']">
+    <div class="footer-img" *ngIf="configurationsReceiptState.receipt['footer_image_status'] == 1">
       <img *ngIf="!configurationsReceiptState.receipt['footer_url']" src="assets/img/img-footer-default.png" alt="SmartOSC"/>
       <img *ngIf="configurationsReceiptState.receipt['footer_url']" [src]="configurationsReceiptState.receipt['footer_url']"/>
     </div>
@@ -276,9 +276,9 @@
   </div>
 </div><!--end invoice-->
 <div class="bottom-bar">
-  <button class="red" [ladda]="configurationsReceiptState.isSaving || isSavingImage">
-    {{ 'Delete' | translate }}
-  </button>
+  <!--<button class="red" [ladda]="configurationsReceiptState.isSaving || isSavingImage">-->
+    <!--{{ 'Delete' | translate }}-->
+  <!--</button>-->
   <button [ladda]="configurationsReceiptState.isSaving || isSavingImage" (click)="saveReceipt()">
     {{ 'Save' | translate }}
   </button>
