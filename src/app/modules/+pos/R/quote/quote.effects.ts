@@ -263,8 +263,7 @@ export class PosQuoteEffects {
                                 _buyRequest.setData('product', p);
                                 items = items.push(_buyRequest);
                               } else {
-                                this.notify.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id'));
-                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
+                                return Observable.of(this.rootActions.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id')));
                               }
                             });
     
@@ -285,7 +284,6 @@ export class PosQuoteEffects {
                                                                            this.quoteActions.updateQuoteItems(items, false)
                                                                          ]);
                                                 } else {
-                                                  this.notify.error("we_can't_not_find_customer");
                                                   return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
                                                 }
                                               })
@@ -300,7 +298,6 @@ export class PosQuoteEffects {
                                 const customers: List<CustomerDB> = (z[1] as PosEntitiesState).customers.items;
                                 customer                          = customers.find((c) => parseInt(c['id'] + '') === parseInt(customer + ''));
                                 if (!customer) {
-                                  this.notify.error("we_can't_not_find_customer");
                                   return this.rootActions.error("we_can't_not_find_customer_when_reorder");
                                 }
                               }
