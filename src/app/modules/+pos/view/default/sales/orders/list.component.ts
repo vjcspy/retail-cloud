@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 import {OrdersState} from "../../../R/sales/orders/order.state";
 import {ListActions} from "../../../R/sales/orders/list/list.actions";
@@ -13,7 +13,7 @@ import {PerfectScrollDirective} from "../../../../../share/directives/perfect-sc
              templateUrl: 'list.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit, OnChanges {
+export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChanges {
   @Input() ordersState: OrdersState;
   
   @ViewChild('dateSelectFrom') dateSelectFrom: ElementRef;
@@ -31,8 +31,6 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
       this.perfectScroll.update();
     }
   }
-  
-  ngOnInit() { }
   
   trackById(index, order) {
     return order['retail_id'];
@@ -59,11 +57,11 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
   }
   
   toggleSearchOnline($event) {
-    this.listActions.changeSearchData({isSearchOnline: $event.target.checked})
+    this.listActions.changeSearchData({isSearchOnline: $event});
   }
   
   protected initDateRangePicker() {
-    if (this.dateSelectFrom)
+    if (this.dateSelectFrom) {
       jQuery(this.dateSelectFrom.nativeElement)['daterangepicker']({
                                                                      "singleDatePicker": true,
                                                                      "timePicker": false,
@@ -77,7 +75,8 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
         start.hour(0).minute(0).second(0);
         this.listActions.changeSearchData({searchDateFrom: start});
       });
-    if (this.dateSelectTo)
+    }
+    if (this.dateSelectTo) {
       jQuery(this.dateSelectTo.nativeElement)['daterangepicker']({
                                                                    "singleDatePicker": true,
                                                                    "timePicker": false,
@@ -91,5 +90,6 @@ export class PosDefaultSalesOrdersListComponent implements OnInit, AfterViewInit
         start.hour(23).minute(59).second(59);
         this.listActions.changeSearchData({searchDateTo: start});
       });
+    }
   }
 }
