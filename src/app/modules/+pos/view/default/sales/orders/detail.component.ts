@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {OrderService} from "../../../R/sales/orders/order.service";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {OrdersState} from "../../../R/sales/orders/order.state";
@@ -15,7 +15,7 @@ import {OrderListAddPaymentActions} from "../../../R/sales/checkout/step/order-l
              templateUrl: 'detail.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesOrdersDetailComponent implements OnInit {
+export class PosDefaultSalesOrdersDetailComponent {
   protected _data = {
     totalPaid: {}, // cache total paid of order
     countryName: {}
@@ -29,8 +29,6 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
               protected routerActions: RouterActions,
               protected receiptActions: ReceiptActions,
               protected addPaymentActions: OrderListAddPaymentActions) { }
-  
-  ngOnInit() { }
   
   getPayment() {
     let payments = [];
@@ -55,9 +53,10 @@ export class PosDefaultSalesOrdersDetailComponent implements OnInit {
   getTotalPaidBaseOnPayment() {
     if (!this._data.totalPaid.hasOwnProperty(this.getOrder()['id'])) {
       let paid = 0;
-      _.forEach(this.getPayment(), p => {
-        if (parseInt(p['is_purchase']) == 1)
+      _.forEach(this.getPayment(), (p) => {
+        if (parseInt(p['is_purchase']) === 1) {
           paid += parseFloat(p['amount']);
+        }
       });
       this._data.totalPaid[this.getOrder()['id']] = paid;
     }
