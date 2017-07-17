@@ -32,15 +32,26 @@ export class RequestService {
                .catch(
                  (error: any) => {
                    let errMsg;
-                   if (error['status'] == 0) {
+                   if (error['status'] === 0) {
                      this.notify.error('check_connection');
                    } else {
-                     // In a real world app, we might use a remote logging infrastructure
-                     // We'd also dig deeper into the error to get a better message
-                     errMsg = (
-                       error.message) ? error.message :
-                       error.status ? `${error.status} - ${error.statusText}` : 'Server not responding';
-                     this.notify.error(errMsg, "Opp!");
+                     if (error.status === 400 && error.hasOwnProperty('_body')) {
+                       let _mess = JSON.parse(error['_body']);
+                       if (_mess.error === true) {
+                         this.notify.error(_mess['message'], null, {
+                           newestOnTop: false,
+                           showCloseButton: true,
+                           enableHTML: true
+                         });
+                       } else {
+                         this.notify.error('unknown_error');
+                       }
+                     } else {
+                       errMsg = (
+                         error.message) ? error.message :
+                         error.status ? `${error.status} - ${error.statusText}` : 'Server not responding';
+                       this.notify.error(errMsg, "Opp!");
+                     }
                    }
                    return Observable.throw(error);
                  });
@@ -56,19 +67,19 @@ export class RequestService {
                .catch(
                  (error: any) => {
                    if (showError) {
-                     if (error['status'] == 0) {
+                     if (error['status'] === 0) {
                        this.notify.error('check_connection');
                      } else {
-                       if (error.status == 400 && error.hasOwnProperty('_body')) {
+                       if (error.status === 400 && error.hasOwnProperty('_body')) {
                          let _mess = JSON.parse(error['_body']);
-                         if (_mess.error == true) {
-                           this.notify.warning(_mess['message'], null, {
+                         if (_mess.error === true) {
+                           this.notify.error(_mess['message'], null, {
                              newestOnTop: false,
                              showCloseButton: true,
                              enableHTML: true
                            });
                          } else {
-                           this.notify.error('unknown_error')
+                           this.notify.error('unknown_error');
                          }
                        } else {
                          this.notify.error('server_not_responding');
@@ -101,7 +112,7 @@ export class RequestService {
                  })
                .catch(
                  (error: any) => {
-                   if (error['status'] == 0) {
+                   if (error['status'] === 0) {
                      this.notify.error('check_connection');
                    } else {
                      // In a real world app, we might use a remote logging infrastructure
@@ -114,34 +125,33 @@ export class RequestService {
                  });
   }
   
-  ping(url, multiplier = 1) {
-    let request_image = function (url) {
-      return new Promise(function (resolve, reject) {
-        var img     = new Image();
-        img.onload  = function () { resolve(img); };
-        img.onerror = function () { reject(url); };
-        img.src     = url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
-      });
-    };
-    
-    /**
-     * Pings a url.
-     * @param  {String} url
-     * @param  {Number} multiplier - optional, factor to adjust the ping by.  0.3 works well for HTTP servers.
-     * @return {Promise} promise that resolves to a ping (ms, float).
-     */
-    return new Promise(function (resolve, reject) {
-      var start    = (new Date()).getTime();
-      var response = function () {
-        var delta = ((new Date()).getTime() - start);
-        delta *= (multiplier || 1);
-        resolve(delta);
-      };
-      request_image(url).then(response).catch(response);
-      
-      // Set a timeout for max-pings, 5s.
-      setTimeout(function () { reject(Error('Timeout')); }, 3000);
-    });
-    
-  }
+  // ping(url, multiplier = 1) {
+  //   let request_image = function (url) {
+  //     return new Promise(function (resolve, reject) {
+  //       var img     = new Image();
+  //       img.onload  = function () { resolve(img); };
+  //       img.onerror = function () { reject(url); };
+  //       img.src     = url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+  //     });
+  //   };
+  //
+  //   /**
+  //    * Pings a url.
+  //    * @param  {String} url
+  //    * @param  {Number} multiplier - optional, factor to adjust the ping by.  0.3 works well for HTTP servers.
+  //    * @return {Promise} promise that resolves to a ping (ms, float).
+  //    */
+  //   return new Promise(function (resolve, reject) {
+  //     var start    = (new Date()).getTime();
+  //     var response = function () {
+  //       var delta = ((new Date()).getTime() - start);
+  //       delta *= (multiplier || 1);
+  //       resolve(delta);
+  //     };
+  //     request_image(url).then(response).catch(response);
+  //
+  //     // Set a timeout for max-pings, 5s.
+  //     setTimeout(function () { reject(Error('Timeout')); }, 3000);
+  //   });
+  // }
 }
