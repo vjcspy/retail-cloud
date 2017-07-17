@@ -1,0 +1,3 @@
+<configurations-default-pos-receipt-template *ngIf="(configurationsReceiptState$ | async)?.isLoadedDependency === true"
+                                             [entitiesState]="entitiesState$ | async" [configurationsReceiptState]="configurationsReceiptState$ | async" [generalState]="generalState$ | async">
+</configurations-default-pos-receipt-template>

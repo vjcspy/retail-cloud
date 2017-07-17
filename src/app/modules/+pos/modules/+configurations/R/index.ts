@@ -16,11 +16,17 @@ import {ConfigurationsPaymentEffects} from "./payment/payment.effects";
 import {ConfigurationsPaymentService} from "./payment/payment.service";
 import {ConfigurationsPaymentState} from "./payment/payment.state";
 import {paymentReducer} from "./payment/payment.reducer";
+import {configurationsReceiptReducer} from "./receipts/receip.reducer";
+import {ConfigurationsReceiptState} from "./receipts/receipt.state";
+import {ConfigurationsReceiptActions} from "./receipts/receipt.actions";
+import {ConfigurationsReceiptService} from "./receipts/receipt.service";
+import {ConfigurationsReceiptEffects} from "./receipts/receipt.effects";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
   EffectsModule.run(ConfigurationsOutletEffects),
   EffectsModule.run(ConfigurationsPaymentEffects),
+  EffectsModule.run(ConfigurationsReceiptEffects),
 ];
 
 export const R_PROVIDER = [
@@ -35,12 +41,17 @@ export const R_PROVIDER = [
   ConfigurationsPaymentActions,
   ConfigurationsPaymentEffects,
   ConfigurationsPaymentService,
+  
+  ConfigurationsReceiptActions,
+  ConfigurationsReceiptService,
+  ConfigurationsReceiptEffects,
 ];
 
 export interface ConfigurationsState {
   retailConfig: RetailConfigState;
   outlets: ConfigurationsOutletState;
   payments: ConfigurationsPaymentState;
+  receipt: ConfigurationsReceiptState;
 }
 
 export interface ConfigurationModuleState {
@@ -52,5 +63,6 @@ export const configurationsReducer = () => createReducer({
                                                                                              retailConfig: retailConfigReducer,
                                                                                              outlets: configurationsOutletReducer,
                                                                                              payments: paymentReducer,
+                                                                                             receipt: configurationsReceiptReducer
                                                                                            })
                                                          });

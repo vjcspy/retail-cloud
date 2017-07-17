@@ -19,6 +19,8 @@ import {ConfigurationsDefaultPosCheckoutComponent} from "./pos/checkout.componen
 import {ConfigurationsDEfaultPosCheckoutSettingComponent} from "./pos/checkout/setting.component";
 import {ConfigurationsDefaultPosIntegrationSettingComponent} from "./pos/integration/setting.component";
 import {ConfigurationsDefaultPosIntegrationComponent} from "./pos/integration.component";
+import {ConfigurationsDefaultPosReceiptComponent} from "./pos/receipt.component";
+import {ConfigurationsDefaultPosReceiptTemplateComponent} from "./pos/receipt/template.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -48,6 +50,9 @@ export const DEFAULT_COMPONENTS = [
 
   ConfigurationsDefaultPosIntegrationComponent,
   ConfigurationsDefaultPosIntegrationSettingComponent,
+
+  ConfigurationsDefaultPosReceiptComponent,
+  ConfigurationsDefaultPosReceiptTemplateComponent,
   
   ConfigurationsDefaultCacheManagement,
 ];
