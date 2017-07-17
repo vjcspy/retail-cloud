@@ -276,10 +276,11 @@
   </div>
 </div><!--end invoice-->
 <div class="bottom-bar">
-
-  <button class="red">
+  <button class="red" [ladda]="configurationsReceiptState.isSaving || isSavingImage">
     {{ 'Delete' | translate }}
   </button>
-  <button>{{ 'Save' | translate }}</button>
+  <button [ladda]="configurationsReceiptState.isSaving || isSavingImage" (click)="saveReceipt()">
+    {{ 'Save' | translate }}
+  </button>
 </div>
 

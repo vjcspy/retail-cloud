@@ -6,7 +6,21 @@ export const configurationsReceiptReducer: ActionReducer<ConfigurationsReceiptSt
   const type = action.type;
   
   if (type === ConfigurationsReceiptActions.ACTION_SELECT_RECEIPT) {
-    return state.set('receipt', action.payload['receipt']);
+    return state.set('receipt', Object.assign({}, action.payload['receipt']));
+  }
+  if (type === ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT_SUCCESS) {
+    return state.set('receipt', Object.assign({}, action.payload['receipt']))
+                .set('isSaving', false);
+  }
+  
+  if (type === ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT_FAIL) {
+    return state
+      .set('isSaving', false);
+  }
+  
+  if (type === ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT) {
+    return state
+      .set('isSaving', true);
   }
   
   if (type === ConfigurationsReceiptActions.ACTION_LOADED_DEPENDENCY) {

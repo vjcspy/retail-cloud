@@ -29,4 +29,40 @@ export class ConfigurationsReceiptActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_RECEIPT = 'ACTION_SAVE_RECEIPT';
+  
+  saveReceipt(receipt, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT, payload: {receipt}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_RECEIPT_SUCCESS = 'ACTION_SAVE_RECEIPT_SUCCESS';
+  
+  saveReceiptSuccess(receipt, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT_SUCCESS, payload: {receipt}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_RECEIPT_FAIL = 'ACTION_SAVE_RECEIPT_FAIL';
+  
+  saveReceiptFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsReceiptActions.ACTION_SAVE_RECEIPT_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

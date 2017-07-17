@@ -8,6 +8,7 @@ import {ApiManager} from "../../../../../../../../services/api-manager";
 import {PosGeneralState} from "../../../../../../R/general/general.state";
 import {NotifyManager} from "../../../../../../../../services/notify-manager";
 import * as _ from 'lodash';
+import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 
 @Component({
              // moduleId: module.id,
@@ -23,8 +24,8 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
   
   public logoImg: FileUploader;
   public footerImg: FileUploader;
-  
-  public froalaEditorOptions = {
+  public isSavingImage: boolean = false;
+  public froalaEditorOptions    = {
     toolbarButtons: [
       'bold',
       'italic',
@@ -48,40 +49,43 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
   
   constructor(private configurationsReceiptActions: ConfigurationsReceiptActions,
               private apiUrl: ApiManager,
-              private notify: NotifyManager) { }
+              private notify: NotifyManager,
+              private formValidation: FormValidationService) { }
   
   ngOnInit() {
     this.initFileUploader();
   }
   
   protected initFileUploader() {
-    let vm                        = this;
     this.logoImg                  = new FileUploader({
                                                        url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl),
-                                                       autoUpload: false,
+                                                       autoUpload: true,
                                                        headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                                      });
     this.footerImg                = new FileUploader({
                                                        url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl),
-                                                       autoUpload: false,
+                                                       autoUpload: true,
                                                        headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                                      });
     this.footerImg.onProgressItem = this.logoImg.onProgressItem = () => {
-      // this.appService.overload();
+      this.isSavingImage = true;
     };
     this.footerImg.onCompleteAll = this.logoImg.onCompleteAll = () => {
-      // this.appService.overload(false);
+      this.isSavingImage = false;
     };
-    this.logoImg.onAfterAddingFile   = (fileItem: FileItem) => {
-      // vm.encodeImageFileAsURL(fileItem['_file'], 'logo_url');
+    // this.logoImg.onAfterAddingFile   = (fileItem: FileItem) => {
+    // };
+    // this.footerImg.onAfterAddingFile = (fileItem: FileItem) => {
+    // };
+    this.logoImg.onCompleteItem   = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      this.configurationsReceiptState.receipt['logo_url'] = response;
+      this.configurationsReceiptActions.selectReceipt(Object.assign({}, this.configurationsReceiptState.receipt));
     };
-    this.footerImg.onAfterAddingFile = (fileItem: FileItem) => {
-      // vm.encodeImageFileAsURL(fileItem['_file'], 'footer_url');
+    this.footerImg.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      this.configurationsReceiptState.receipt['footer_url'] = response;
+      this.configurationsReceiptActions.selectReceipt(Object.assign({}, this.configurationsReceiptState.receipt));
     };
-    this.footerImg.onCompleteItem    = this.footerImg.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      // onComplete
-    };
-    this.footerImg.onErrorItem =
+    this.footerImg.onErrorItem    =
       this.logoImg.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
         this.notify.error('can_not_save_image');
       };
@@ -195,5 +199,11 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
         displayValue: true
       });
     }
+  }
+  
+  saveReceipt() {
+    this.formValidation.submit('retail-receipt', async () => {
+      this.configurationsReceiptActions.saveReceipt(this.configurationsReceiptState.receipt);
+    }, true);
   }
 }

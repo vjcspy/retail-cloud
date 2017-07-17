@@ -3,6 +3,7 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 export interface ConfigurationsReceiptState {
   receipt: any;
   isLoadedDependency: boolean;
+  isSaving: boolean;
 }
 
 export interface ConfigurationsReceiptStateRecord extends TypedRecord<any>, ConfigurationsReceiptState {}
@@ -10,6 +11,7 @@ export interface ConfigurationsReceiptStateRecord extends TypedRecord<any>, Conf
 export const makeConfigurationsReceiptStateFactory = makeTypedFactory<ConfigurationsReceiptState, ConfigurationsReceiptStateRecord>(
   {
     receipt: null,
-    isLoadedDependency: false
+    isLoadedDependency: false,
+    isSaving: false
   }
 );
