@@ -1,0 +1,286 @@
+<div class="acr-head">
+  <h2>{{ 'Receipt Configuration' | translate }}</h2>
+</div>
+<div class="receipt-blk">
+  <form>
+    <ul class="fr-control">
+      <li>
+        <label>{{ 'Select Template' | translate }}</label>
+        <retail-select [elementData]="getReceiptSelectElem()"
+                       (modelChange)="selectReceipt($event)"></retail-select>
+      </li>
+      <li *ngIf="configurationsReceiptState.receipt">
+        <label>{{ 'Template Name' | translate }}</label>
+        <retail-text [(model)]="configurationsReceiptState.receipt['name']"
+                     [formKey]="'retail-receipt'"
+                     [validation]="'require'"
+        ></retail-text>
+      </li>
+    </ul>
+    <ul class="fr-control" *ngIf="configurationsReceiptState.receipt">
+      <li>
+        <label>{{ 'Logo Image Status' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['logo_image_status']"
+                       [elementData]="getStatusImageSelectElem()"></retail-select>
+      </li>
+      <li *ngIf="configurationsReceiptState.receipt['logo_image_status'] == 1">
+        <label>Logo</label>
+        <img *ngIf="!configurationsReceiptState.receipt['logo_url']" src="assets/img/img-header-default.png"/>
+        <img *ngIf="configurationsReceiptState.receipt['logo_url']" [src]="configurationsReceiptState.receipt['logo_url']"/>
+        <em>{{ 'Allows JPG PNG GIF' | translate }}</em>
+        <div class="file-type">
+          <input type="file" name="file" ng2FileSelect [uploader]="logoImg"/>
+          <span>{{ 'Upload' | translate }}</span>
+        </div>
+      </li>
+      <li>
+        <label>{{ 'Header' | translate }}</label>
+        <textarea [froalaEditor]="froalaEditorOptions" [(froalaModel)]="configurationsReceiptState.receipt['header']">Hello, Froala!</textarea>
+      </li>
+      <li>
+        <label>{{ 'Customer Info' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['customer_info']" [elementData]="getCustomerInfoSelectElem()"></retail-select>
+      </li>
+      <li>
+        <label>{{ 'Order Info' | translate }}</label>
+        <div class="check-box">
+          <input type="checkbox"
+                 name="order-info-shipping-add"
+                 [(ngModel)]="configurationsReceiptState.receipt['order_info']['shipping_address']"
+                 [checked]="!!configurationsReceiptState.receipt['order_info']['shipping_address']"/>
+          <span></span>{{ 'Only show shipping address when order has shipment' | translate }}
+        </div>
+        <div class="check-box">
+          <input type="checkbox"
+                 name="order-info-sales-person"
+                 [(ngModel)]="configurationsReceiptState.receipt['order_info']['sales_person']"
+                 [checked]="!!configurationsReceiptState.receipt['order_info']['sales_person']"/>
+          <span></span>{{ 'Show sales person' | translate }}
+        </div>
+        <div class="check-box">
+          <input type="checkbox"
+                 name="order-info-discount"
+                 [(ngModel)]="configurationsReceiptState.receipt['order_info']['discount_shipment']"
+                 [checked]="!!configurationsReceiptState.receipt['order_info']['discount_shipment']"/>
+          <span></span>{{ 'Show discount, shipment amount if they\'re zero' | translate }}
+        </div>
+      </li>
+      <li>
+        <label>{{ 'Show row total' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['row_total_incl_tax']"
+                       [formKey]="'retail-receipt'"
+                       [validation]="'require'"
+                       [elementData]="getTotalElementSelectElem()">
+
+        </retail-select>
+      </li>
+      <li>
+        <label>{{ 'Show sub total' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['subtotal_incl_tax']"
+                       [formKey]="'retail-receipt'"
+                       [validation]="'require'"
+                       [elementData]="getTotalElementSelectElem()">
+
+        </retail-select>
+      </li>
+      <li>
+        <label>{{ 'Footer' | translate }}</label>
+        <retail-text [(model)]="configurationsReceiptState.receipt['footer']"></retail-text>
+      </li>
+      <li>
+        <label>{{ 'Footer Image Status' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['footer_image_status']"
+                       [elementData]="getStatusImageSelectElem()"></retail-select>
+      </li>
+      <li *ngIf="configurationsReceiptState.receipt['footer_image_status'] == 1">
+        <label>{{ 'Footer Image' | translate }}</label>
+        <img *ngIf="!configurationsReceiptState.receipt['footer_url']" src="assets/img/img-footer-default.png"/>
+        <img *ngIf="configurationsReceiptState.receipt['footer_url']" [src]="configurationsReceiptState.receipt['footer_url']"/>
+        <em>{{ 'Allows JPG PNG GIF' | translate }}</em>
+        <div class="file-type">
+          <input type="file" name="file" ng2FileSelect [uploader]="footerImg"/>
+          <span>{{ 'Upload' | translate }}</span>
+        </div>
+      </li>
+      <li>
+        <label>{{ 'Order barcode' | translate }}</label>
+        <div class="switch-button">
+          <input type="checkbox"
+                 name="oreder-barcode"
+                 [(ngModel)]="configurationsReceiptState.receipt['enable_barcode']"
+                 [checked]="!!configurationsReceiptState.receipt['enable_barcode']"
+                 (ngModelChange)="onChangeBarcodeSymbology()">
+          <span></span>
+        </div>
+      </li>
+      <li>
+        <label>{{ 'Barcode Symbology' | translate }}</label>
+        <retail-select [(model)]="configurationsReceiptState.receipt['barcode_symbology']"
+                       [elementData]="getBarcodeSymbologyElemSelect()"
+                       (modelChange)="onChangeBarcodeSymbology()"></retail-select>
+      </li>
+      <li>
+        <label>{{ 'Powered Text' | translate }}</label>
+        <div class="switch-button">
+          <input type="checkbox"
+                 name="enable_power_text"
+                 [(ngModel)]="configurationsReceiptState.receipt['enable_power_text']"
+                 [checked]="!!configurationsReceiptState.receipt['enable_power_text']"/>
+          <span></span>
+        </div>
+      </li>
+    </ul>
+  </form>
+</div><!--end receipt-blk-->
+
+<div class="invoice" *ngIf="configurationsReceiptState.receipt">
+  <div class="top-br" *ngIf="configurationsReceiptState.receipt['logo_image_status'] == 1">
+    <img *ngIf="!configurationsReceiptState.receipt['logo_url']" src="assets/img/img-footer-default.png" alt="SmartOSC"/>
+    <img *ngIf="configurationsReceiptState.receipt['logo_url']" [src]="configurationsReceiptState.receipt['logo_url']"/>
+  </div>
+  <div class="inner">
+    <div [innerHtml]="configurationsReceiptState.receipt['header'] | byPassSecurity"></div>
+    <div class="client-info">
+      <div class="timer">
+        <span>22nd December 2016</span>
+        <span>09:45 AM</span>
+      </div>
+      <h3 class="name">{{ 'Customer' | translate }}: John Doe</h3>
+      <p class="email" *ngIf="configurationsReceiptState.receipt['customer_info'] == '1' || configurationsReceiptState.receipt['customer_info'] == '2'">
+        Email: johndoe@example.com
+      </p>
+      <p *ngIf="configurationsReceiptState.receipt['customer_info'] == '1' || configurationsReceiptState.receipt['customer_info'] == '3'">
+        {{ 'Phone Number' | translate }} : 888-888-8888</p>
+      <p *ngIf="!!configurationsReceiptState.receipt['order_info']['shipping_address']">
+        {{ 'Shipping Address' | translate }} ({{ 'if enable' | translate }}):10441 Jefferson Blvd, Suite 200Culver City, California, 90232 United
+        States
+      </p>
+      <p *ngIf="!!configurationsReceiptState.receipt['order_info']['sales_person']">{{ 'Served By' | translate }}: Cashier</p>
+    </div>
+    <table class="invoice-table">
+      <thead>
+      <tr>
+        <th class="c-left">{{ 'Product' | translate }}</th>
+        <th>{{ 'Quantity' | translate }}</th>
+        <th class="c-right">{{ 'Price' | translate }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td colspan="2" class="c-left"><h4>Hyperion Elements Jacket</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$56.87</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$51.00</h4></td>
+      </tr>
+      <tr>
+        <td class="c-left">SKU: M0021S</td>
+        <td>02</td>
+        <td class="c-right"></td>
+      </tr>
+      <tr>
+        <td class="c-left" style="margin-left: 10%">{{ 'Color' | translate }}: {{ 'Green' | translate }}<br>{{ 'Size' | translate }}: S</td>
+        <td>&nbsp;</td>
+        <td class="c-right">&nbsp;</td>
+      </tr>
+      </tbody>
+      <tbody>
+      <tr>
+        <td colspan="2" class="c-left"><h4>Decimal - Fusion Backpack</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$65.79</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$59.00</h4></td>
+      </tr>
+      <tr>
+        <td class="c-left">SKU: M0021S</td>
+        <td>01</td>
+        <td class="c-right"></td>
+      </tr>
+      </tbody>
+      <tbody class="last">
+      <tr>
+        <td colspan="2" class="c-left"><h4>Bundle Product / Group</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$34.40</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$32.50</h4></td>
+      </tr>
+      <tr>
+        <td class="c-left">Voyage Yoga Bag - None Tax</td>
+        <td>01</td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$16.00</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$16.00</h4></td>
+      </tr>
+      <tr>
+        <td class="c-left">Endeavor Daytrip Backpack</td>
+        <td>01</td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$18.40</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$16.50</h4></td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">X-POS Cash</td>
+        <td class="c-right">$100.00</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">Credit Card</td>
+        <td class="c-right">$35.71</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">Paypal</td>
+        <td class="c-right">$50.00</td>
+      </tr>
+      </tfoot>
+      <tfoot class="grand-total">
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">{{ 'Subtotal' | translate }}</td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['subtotal_incl_tax'] == '1'"><h4>$157.06</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['subtotal_incl_tax'] == '2'"><h4>$142.50</h4></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">{{ 'Discount' | translate }}</td>
+        <td class="c-right">- $14.25</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">{{ 'Ship Amount' | translate }}</td>
+        <td class="c-right">$12.88</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left">{{ 'Tax' | translate }}</td>
+        <td class="c-right">$14.58</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left"><h4>{{ 'Grand Total' | translate }}</h4></td>
+        <td class="c-right"><h4>$155.71</h4></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="c-left"><h4>{{ 'Remain' | translate }}</h4></td>
+        <td class="c-right"><h4>$30.00</h4></td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div class="bottom-br">
+    <div [innerHtml]="configurationsReceiptState.receipt['footer']"></div>
+    <img [hidden]="!configurationsReceiptState.receipt['enable_barcode']" id="barcode"/>
+    <div class="footer-img" *ngIf="configurationsReceiptState.receipt['footer_image_status'] == 1">
+      <img *ngIf="!configurationsReceiptState.receipt['footer_url']" src="assets/img/img-footer-default.png" alt="SmartOSC"/>
+      <img *ngIf="configurationsReceiptState.receipt['footer_url']" [src]="configurationsReceiptState.receipt['footer_url']"/>
+    </div>
+    <p class="copy-right" *ngIf="!!configurationsReceiptState.receipt['enable_power_text']">Power by SmartOSC &copy; 2017</p>
+  </div>
+</div><!--end invoice-->
+<div class="bottom-bar">
+  <!--<button class="red" [ladda]="configurationsReceiptState.isSaving || isSavingImage">-->
+    <!--{{ 'Delete' | translate }}-->
+  <!--</button>-->
+  <button [ladda]="configurationsReceiptState.isSaving || isSavingImage" (click)="saveReceipt()">
+    {{ 'Save' | translate }}
+  </button>
+</div>
+

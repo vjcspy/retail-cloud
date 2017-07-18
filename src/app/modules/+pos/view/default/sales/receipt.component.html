@@ -1,11 +1,11 @@
 <div #receiptElem xmlns="http://www.w3.org/1999/html">
   <div *ngIf="getOrder()" class="invoice">
     <div class="top-br">
-      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']" src="assets/img/img-header-default.png" alt="SmartOSC"/>      
+      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']" src="assets/img/img-header-default.png" alt="SmartOSC"/>
       <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && getReceiptSetting()['logo_url']" [src]="getReceiptSetting()['logo_url']"/>
     </div>
     <div class="inner" *ngIf="getOrder() && getOrder()['customer']">
-      <div [innerHtml]="'<h2>'+getReceiptSetting()['header']+'</h2>'"></div>
+      <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
         <div class="timer">
           <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>

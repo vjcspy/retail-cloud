@@ -99,6 +99,7 @@ export class NotifyManager {
           } else {
             this.toast.error(_mess, _title, {
               animate: 'flyLeft',
+              tapToDismiss: true,
               positionClass: 'toast-bottom-left',
               showCloseButton: true,
               toastLife: 999999
@@ -116,6 +117,7 @@ export class NotifyManager {
         } else {
           this.toast.error(_mess, null, {
             animate: 'flyLeft',
+            tapToDismiss: true,
             positionClass: 'toast-bottom-left',
             showCloseButton: true,
             toastLife: 999999

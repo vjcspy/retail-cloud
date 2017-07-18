@@ -1,4 +1,4 @@
-<div class="order-list-detail" *ngIf="getOrder()['retail_id']">
+<div class="order-list-detail" *ngIf="getOrder()['retail_id'] || getOrder()['increment_id']">
   <div class="top-bar">
     <div class="grand-total">{{getOrder()['totals']['grand_total'] | priceFormat}}</div>
   </div>

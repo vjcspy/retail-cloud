@@ -8,11 +8,15 @@ import {R_VIEW_IMPORTS, R_VIEW_PROVIDER} from "./view/R/index";
 import {PosElementModule} from "../../../pos-element/pos-element.module";
 import {R_IMPORT, R_PROVIDER} from "./R/index";
 import {CONFIGURATIONS_SERVICES} from "./services/index";
+import {FileUploadModule} from "ng2-file-upload";
+import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
 
 @NgModule({
             imports: [
               ShareModule,
               PosElementModule,
+              FileUploadModule,
+              FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
               RouterModule.forChild(CONFIGURATIONS_ROUTES),
               ...R_IMPORT,
               ...R_VIEW_IMPORTS,

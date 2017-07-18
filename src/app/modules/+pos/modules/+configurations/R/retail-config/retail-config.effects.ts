@@ -52,7 +52,7 @@ export class RetailConfigEffects {
                                         checkout    = true;
                                         integration = true;
                                       }
-                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, checkout, integration});
+                                      return this.retailConfigActions.isLoadedDepend({productCategory, customer, checkout, integration}, false);
                                     });
   
   @Effect() saveRetailConfigSnapShot = this.actions$

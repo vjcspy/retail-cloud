@@ -1,5 +1,7 @@
 import 'meteor-client';
 import 'vendor.lib';
+import 'reflect-metadata';
+
 /**
  * Angular bootstrapping
  */

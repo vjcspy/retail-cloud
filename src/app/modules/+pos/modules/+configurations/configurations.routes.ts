@@ -15,6 +15,7 @@ import {ConfigurationsDefaultPosOutletRegisterEditRegisterComponent} from "./vie
 import {ConfigurationsDefaultPosPaymentComponent} from "./view/default/pos/payment.component";
 import {ConfigurationsDefaultPosCheckoutComponent} from "./view/default/pos/checkout.component";
 import {ConfigurationsDefaultPosIntegrationComponent} from "./view/default/pos/integration.component";
+import {ConfigurationsDefaultPosReceiptComponent} from "./view/default/pos/receipt.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -46,6 +47,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
               {path: 'payment', component: ConfigurationsDefaultPosPaymentComponent},
               {path: 'checkout', component: ConfigurationsDefaultPosCheckoutComponent},
               {path: 'integration', component: ConfigurationsDefaultPosIntegrationComponent},
+              {path: 'receipt', component: ConfigurationsDefaultPosReceiptComponent},
             ]
           },
           {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},

@@ -4,12 +4,13 @@ import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 
 @Component({
-             //moduleId: module.id,
+             // moduleId: module.id,
              selector: 'retail-select',
              templateUrl: 'select.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailSelectComponent implements OnInit, OnDestroy {
+  @Input() defaultText        = 'Choose your options';
   @Input('elementData') elementData: ElementData;
   @Input() formKey: string;
   @Input() disabled: boolean  = false;
@@ -53,8 +54,9 @@ export class RetailSelectComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    if (typeof this._validateSubscription != "undefined")
+    if (typeof this._validateSubscription !== "undefined") {
       this._validateSubscription.unsubscribe();
+    }
   }
   
   protected _validateElement(needValid): boolean {
@@ -73,19 +75,19 @@ export class RetailSelectComponent implements OnInit, OnDestroy {
   
   selectOption(option: Option) {
     if (!option.hasOwnProperty("disabled") || option.disabled !== true) {
-      if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect == true) {
-        if (typeof this.model == "undefined" || !this.model || !_.isArray(this.model)) {
+      if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect === true) {
+        if (typeof this.model === "undefined" || !this.model || !_.isArray(this.model)) {
           this.model = [];
         }
         //noinspection TypeScriptUnresolvedFunction
-        let isSelected = _.findIndex(this.model, (o) => o == option.value);
-        if (isSelected == -1) {
-          if (typeof this.model == "undefined" || !_.isArray(this.model))
+        let isSelected = _.findIndex(this.model, (o) => o === option.value);
+        if (isSelected === -1) {
+          if (typeof this.model === "undefined" || !_.isArray(this.model)) {
             this.model = [];
+          }
           
           (this.model as string[]).push(option.value);
-        }
-        else {
+        } else {
           (this.model as string[]).splice(isSelected, 1);
         }
       } else {
@@ -96,58 +98,62 @@ export class RetailSelectComponent implements OnInit, OnDestroy {
   }
   
   isSelect(option: Option) {
-    if (!this.isActive)
+    if (!this.isActive) {
       return false;
+    }
     
-    if (!this.model || !option)
+    if (!this.model || !option) {
       return false;
+    }
     
-    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect == true) {
-      return !!_.find(this.model, o => o == option.value);
+    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect === true) {
+      return !!_.find(this.model, (o) => o === option.value);
     } else {
-      return option.value == this.model;
+      return option.value === this.model;
     }
   }
   
   selectedLabel(): string {
-    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect == true) {
+    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect === true) {
       let label  = "";
       let _first = true;
       // trường hợp chỉ chọn 1 option
-      if (typeof this.model == "string") {
-        let option = _.find(this.elementData.data, (option: Option) => option.value == this.model);
-        if (option) {
-          label = option.label;
+      if (typeof this.model === "string") {
+        let _option = _.find(this.elementData.data, (option: Option) => option.value === this.model);
+        if (_option) {
+          label = _option.label;
         }
       } else {
         _.forEach(this.model, (optionValue: string) => {
-          let option = _.find(this.elementData.data, (option: Option) => option.value == optionValue);
+          let _option = _.find(this.elementData.data, (option: Option) => option.value === optionValue);
           if (_first) {
-            if (option) {
-              label += option.label;
+            if (_option) {
+              label += _option.label;
               _first = !_first;
             }
-          }
-          else {
-            if (option)
-              label += ", " + option.label;
+          } else {
+            if (_option) {
+              label += ", " + _option.label;
+            }
           }
         });
       }
-      return label ? label : "Choose your options";
+      return label ? label : this.defaultText;
     } else {
-      let option = _.find(this.elementData.data, (option: Option) => option.value == this.model);
-      return option ? option.label : "Choose your options";
+      let _option = _.find(this.elementData.data, (option: Option) => option.value === this.model);
+      return _option ? _option.label : this.defaultText;
     }
   }
   
   toggleSelect(event) {
-    if (this.disabled == true)
+    if (this.disabled === true) {
       return;
+    }
     
-    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect == true) {
-      if (event.target.className.indexOf("select-option") == -1)
+    if (this.elementData.hasOwnProperty('isMultiSelect') && this.elementData.isMultiSelect === true) {
+      if (event.target.className.indexOf("select-option") === -1) {
         this.isActive = !this.isActive;
+      }
     } else {
       this.isActive = !this.isActive;
     }

@@ -8,9 +8,11 @@ import {SHARE_DIRECTIVES} from "./directives/index";
 import {LaddaModule} from "angular2-ladda";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {ByPassSecurityPipe} from "./pipes/by-pass-security";
+import {SHARE_PIPES} from "./pipes/index";
 
-export function retailTranslateLoader(http:Http){
-  return new TranslateHttpLoader(http , 'assets/i18n/' , '.json');
+export function retailTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -42,10 +44,12 @@ export function retailTranslateLoader(http:Http){
               TranslateModule,
               ReactiveFormsModule,
               LaddaModule,
-              ...SHARE_DIRECTIVES
+              ...SHARE_DIRECTIVES,
+              ...SHARE_PIPES
             ],
             declarations: [
-              ...SHARE_DIRECTIVES
+              ...SHARE_DIRECTIVES,
+              ...SHARE_PIPES
             ],
             providers: [...SHARE_PROVIDERS],
           })

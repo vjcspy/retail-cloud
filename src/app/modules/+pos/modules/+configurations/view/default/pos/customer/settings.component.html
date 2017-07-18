@@ -1,3 +1,19 @@
+<div class="acr-row filter-product">
+  <div class="acr-head"><h2>{{ 'Customer Mode' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content color">
+          <div class="switch-button f-right">
+            <input type="checkbox" [(ngModel)]="getRetailConfigSnapshot()['pos']['xretail/pos/use_customer_online_mode']"/>
+            <span></span>
+          </div>
+          <h3>{{ 'Use customer online mode' | translate }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="acr-row search-customer">
   <div class="acr-head"><h2>{{ 'Search Customer' | translate }}</h2></div>
   <div class="acr-content">

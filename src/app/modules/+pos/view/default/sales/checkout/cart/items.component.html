@@ -8,7 +8,8 @@
       </div>
       <span class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),
       'icon-plus':!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()}">
-        <span class="tooltiptext-left">{{ 'Change Customer' | translate }}</span>
+        <span class="tooltiptext-left" *ngIf="quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId()">{{ 'Remove Customer' | translate }}</span>
+        <span class="tooltiptext-left" *ngIf="!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()">{{ 'Add Customer' | translate }}</span>
       </span>
     </div>
   </div>
@@ -17,7 +18,7 @@
   <!--<pos-refund-item *ngFor="let item of posRefund.creditmemo['items']" [item]="item"></pos-refund-item>-->
   <!--</div>-->
 
-  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">  
+  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
     <div class="cart-head"><!-- add "touch" class when device -->
       <div class="c-img">
         <img src="{{getItemImage(item)}}" alt="no-image"/>

@@ -33,6 +33,7 @@ function resolveConfig(posSetting) {
     supportUnicodeInSearch: false,
     waitTimeEachSearch: 177,
     displayRealTax: true,
+    useCustomerOnlineMode: false,
     allowSplitPayment: true,
     allowPartialPayment: true,
     isIntegrateRP: true,
@@ -89,6 +90,8 @@ function resolveConfig(posSetting) {
   if (posSetting.hasOwnProperty('xretail/pos/sort_category_sorting')) {
     configData.sortCategorySorting = posSetting['xretail/pos/sort_category_sorting'];
   }
-  
+  if (posSetting.hasOwnProperty('xretail/pos/use_customer_online_mode')) {
+    configData.useCustomerOnlineMode = posSetting['xretail/pos/use_customer_online_mode'] === true || parseInt(posSetting['xretail/pos/use_customer_online_mode']) === 1;
+  }
   return configData;
 }

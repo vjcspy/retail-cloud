@@ -72,4 +72,13 @@ export class ConfigurationsViewRouterEffects {
                                                                              'retailConfig',
                                                                            ], false);
                                     });
+  
+  @Effect() whenGoReceipt = this.actions$
+                                .ofType(routerActions.UPDATE_LOCATION)
+                                .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/receipt', false))
+                                .map(() => {
+                                  return this.pullActions.pullEntities([
+                                                                         'receipts'
+                                                                       ], false);
+                                });
 }

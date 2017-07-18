@@ -64,7 +64,7 @@ export class PosQuoteEffects {
                                        return {
                                          type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
                                          payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState.outlet)
-                                       }
+                                       };
                                      });
   
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
@@ -102,9 +102,10 @@ export class PosQuoteEffects {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                           payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
                                         };
+                                      default:
                                     }
     
-                                    return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}}
+                                    return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}};
                                   });
   
   @Effect() addItemBuyRequest = this.actions$
@@ -116,7 +117,7 @@ export class PosQuoteEffects {
     
                                       if (buyRequest.getData('super_group')) {
                                         _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
-                                          if (qty != '' && _.isNumber(parseFloat(qty))) {
+                                          if (qty !== '' && _.isNumber(parseFloat(qty))) {
                                             let _p = _.find(buyRequest.getData('associatedProducts'), (pr) => parseInt(pr['id'] + '') === parseInt(productId + ''));
                                             if (!!_p) {
                                               let childProduct = new Product();
@@ -202,23 +203,30 @@ export class PosQuoteEffects {
                                    const items: List<DataObject> = quoteState.items;
       
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
-                                                    .map(() => {
+                                                    .switchMap(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
                                                            .setUseDefaultCustomer(false)
                                                            .setShippingAddress(quoteState.shippingAdd)
                                                            .setBillingAddress(quoteState.billingAdd);
         
+                                                      let errorActions = [];
+        
                                                       items.forEach((item: DataObject) => {
-                                                        ObjectManager.getInstance()
-                                                                     .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
-                                                                     .getSalesCreate()
-                                                                     .addProductToQuote(item);
+                                                        try {
+                                                          ObjectManager.getInstance()
+                                                                       .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
+                                                                       .getSalesCreate()
+                                                                       .addProductToQuote(item);
+                                                        } catch (e) {
+                                                          this.notify.error(e.toString());
+                                                          errorActions.push(this.quoteActions.quoteAddItemError(item, false));
+                                                        }
                                                       });
         
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
         
-                                                      return {type: PosQuoteActions.ACTION_RESOLVE_QUOTE};
+                                                      return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
                                  } else if (!!generalState.outlet['enable_guest_checkout']) {
                                    let customer = new Customer();
@@ -262,22 +270,20 @@ export class PosQuoteEffects {
                                 _buyRequest.setData('product', p);
                                 items = items.push(_buyRequest);
                               } else {
-                                this.notify.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id'));
-                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
+                                return Observable.of(this.rootActions.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id')));
                               }
                             });
     
-    
-                            // resolve customer
-                            const customer = action.payload['orderData']['customer'];
+                            // Resolve customer
+                            let customer = action.payload['orderData']['customer'];
     
                             if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
                               return <any>this.quoteCustomer.getCustomerOnline(customer, z[3])
                                               .switchMap((data) => {
                                                 if (_.size(data['items']) > 0) {
-                                                  const customer = data['items'][0];
-                                                  let c          = new Customer();
+                                                  customer = data['items'][0];
+                                                  let c    = new Customer();
                                                   c.mapWithParent(customer);
           
                                                   return Observable.from([
@@ -285,12 +291,11 @@ export class PosQuoteEffects {
                                                                            this.quoteActions.updateQuoteItems(items, false)
                                                                          ]);
                                                 } else {
-                                                  this.notify.error("we_can't_not_find_customer");
                                                   return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
                                                 }
                                               })
                                               .catch(() => {
-                                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"))
+                                                return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
                                               })
                                               .finally(() => {
                                                 this.progress.done(true);
@@ -298,9 +303,8 @@ export class PosQuoteEffects {
                             } else {
                               if (_.isNumber(customer)) {
                                 const customers: List<CustomerDB> = (z[1] as PosEntitiesState).customers.items;
-                                const customer                    = customers.find((c) => parseInt(c['id'] + '') === parseInt(customer + ''));
+                                customer                          = customers.find((c) => parseInt(c['id'] + '') === parseInt(customer + ''));
                                 if (!customer) {
-                                  this.notify.error("we_can't_not_find_customer");
                                   return this.rootActions.error("we_can't_not_find_customer_when_reorder");
                                 }
                               }
@@ -316,8 +320,9 @@ export class PosQuoteEffects {
   
   private _getItemByBuyRequest(buyRequest: DataObject, items: List<DataObject>) {
     let isMatching = false;
-    if (buyRequest.getData('is_custom_sales') === true)
+    if (buyRequest.getData('is_custom_sales') === true) {
       return {items, isMatching};
+    }
     
     if (buyRequest.getData('product').getTypeId() === 'grouped') {
       // Grouped product will be converted before add to cart
@@ -360,13 +365,15 @@ export class PosQuoteEffects {
   }
   
   private _representBuyRequest(itemBuyRequest: DataObject, buyRequest: DataObject) {
-    if (itemBuyRequest.getData('product_id') != buyRequest.getData('product_id'))
+    if (parseInt(itemBuyRequest.getData('product_id')) !== parseInt(buyRequest.getData('product_id'))) {
       return false;
+    }
     
     // check options:
     if (buyRequest.getData('options') || itemBuyRequest.getData('options')) {
-      if (!this._compareOptions(buyRequest.getData('options'), itemBuyRequest.getData('options')))
+      if (!this._compareOptions(buyRequest.getData('options'), itemBuyRequest.getData('options'))) {
         return false;
+      }
     }
     // check groups
     if (itemBuyRequest.getData('super_group') || buyRequest.getData('super_group')) {
@@ -374,17 +381,18 @@ export class PosQuoteEffects {
     }
     // check super_attribute
     if (buyRequest.getData('super_attribute') || itemBuyRequest.getData('super_attribute')) {
-      if (!this._compareOptions(buyRequest.getData('super_attribute'), itemBuyRequest.getData('super_attribute')))
+      if (!this._compareOptions(buyRequest.getData('super_attribute'), itemBuyRequest.getData('super_attribute'))) {
         return false;
+      }
     }
     // bundle_option
     if (buyRequest.getData('bundle_option') || itemBuyRequest.getData('bundle_option')) {
-      if (!this._compareOptions(buyRequest.getData('bundle_option'), itemBuyRequest.getData('bundle_option')))
+      if (!this._compareOptions(buyRequest.getData('bundle_option'), itemBuyRequest.getData('bundle_option'))) {
         return false;
+      }
     }
     return true;
   }
-  
   
   private _compareOptions(option1: Object, option2: Object) {
     if (_.isObject(option1) && _.isObject(option2)) {
@@ -394,8 +402,10 @@ export class PosQuoteEffects {
           return isMatch = false;
         }
       });
-      if (!isMatch)
+      if (!isMatch) {
         return false;
+      }
+      
       _.forEach(option2, (v, k) => {
         if (!option1.hasOwnProperty(k) || !_.isEqual(option1[k], v)) {
           return isMatch = false;
@@ -403,8 +413,9 @@ export class PosQuoteEffects {
       });
       
       return isMatch;
-    } else
+    } else {
       return false;
+    }
   }
   
   private async prepareAddProductToQuote(items: List<DataObject>) {
