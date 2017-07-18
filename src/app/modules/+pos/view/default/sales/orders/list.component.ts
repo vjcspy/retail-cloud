@@ -51,9 +51,7 @@ export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChan
   }
   
   searchOrderStatus(value) {
-    if (value !== this.ordersState.list.searchOrderStatus) {
-      this.listActions.changeSearchData({searchOrderStatus: value});
-    }
+    this.listActions.changeSearchData(value);
   }
   
   toggleSearchOnline($event) {

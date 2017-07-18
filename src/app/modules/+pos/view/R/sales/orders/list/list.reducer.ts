@@ -30,7 +30,6 @@ export const listReducer: ActionReducer<OrdersStateRecord> = (state, action) => 
                    .set('isResolving', false);
       });
     
-    
     case EntityOrderActions.ACTION_PULL_MORE_ORDER_ENTITY:
       return state.update('list', (list) => {
         return list.set('isResolving', true);

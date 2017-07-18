@@ -39,7 +39,7 @@ export class ListEffects {
                                   RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
                                   EntityOrderActions.ACTION_PUT_ORDER_ENTITY
                                 )
-                                .filter(()=>this.router.isActive('/pos/default/sales/orders',false))
+                                .filter(() => this.router.isActive('/pos/default/sales/orders', false))
                                 .filter((action) => !!action.payload['entityCode'] ? action.payload['entityCode'] === OrderDB.getCode() : true)
                                 .withLatestFrom(this.store$.select('entities'))
                                 .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])
@@ -58,9 +58,20 @@ export class ListEffects {
                                       return false;
                                     }
       
-                                    if (!!ordersState.list.searchOrderStatus) {
-                                      if (order['retail_status'] !== ordersState.list.searchOrderStatus)
+                                    if (!!ordersState.list.searchOrderPaymentStatus) {
+                                      if (parseInt(order['retail_status'].slice(0, 1)) !== parseInt(ordersState.list.searchOrderPaymentStatus)) {
                                         return false;
+                                      }
+                                    }
+                                    if (!!ordersState.list.searchOrderShipmentStatus) {
+                                      if (parseInt(order['retail_status'].slice(-1)) !== parseInt(ordersState.list.searchOrderShipmentStatus)) {
+                                        return false;
+                                      }
+                                    }
+                                    if (ordersState.list.searchOrderSyncStatus !== null && ordersState.list.searchOrderSyncStatus !== '') {
+                                      if (parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
+                                        return false;
+                                      }
                                     }
       
                                     if (!!ordersState.list.searchString) {
@@ -69,9 +80,9 @@ export class ListEffects {
         
                                       let reString = "";
                                       _.forEach(searchString, (v) => {
-                                        if (!_.isString(v))
+                                        if (!_.isString(v)) {
                                           return true;
-                                        //noinspection TypeScriptUnresolvedFunction
+                                        }
                                         v = _.toLower(v);
                                         // escape regular expression special characters
                                         v = v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -106,8 +117,9 @@ export class ListEffects {
                                             break;
                                         }
                                       });
-                                      if (!re.test(orderStringData))
+                                      if (!re.test(orderStringData)) {
                                         return false;
+                                      }
                                     }
                                     return true;
                                   });
@@ -116,11 +128,11 @@ export class ListEffects {
                                     return -parseInt(o['retail_id']);
                                   });
                                   let grouped      = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));
-                                  let ordersGroped = grouped.reduce((results, orders, timestamp) => {
+                                  let ordersGroped = grouped.reduce((results, _orders, _timestamp) => {
                                     results = results.push({
-                                                             timestamp: timestamp,
-                                                             orders: orders,
-                                                             today: moment().format('dddd, MMMM Do YYYY') === timestamp
+                                                             timestamp: _timestamp,
+                                                             orders: _orders,
+                                                             today: moment().format('dddd, MMMM Do YYYY') === _timestamp
                                                            });
                                     return results;
                                   }, List.of());
@@ -158,11 +170,11 @@ export class ListEffects {
                                                        let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at']))
                                                          .format("dddd, MMMM Do YYYY"));
         
-                                                       let ordersGroped = group.reduce((results, orders, timestamp) => {
+                                                       let ordersGroped = group.reduce((results, _orders, _timestamp) => {
                                                          results = results.push({
-                                                                                  timestamp: timestamp,
-                                                                                  orders: orders,
-                                                                                  today: moment().format('dddd, MMMM Do YYYY') === timestamp
+                                                                                  timestamp: _timestamp,
+                                                                                  orders: _orders,
+                                                                                  today: moment().format('dddd, MMMM Do YYYY') === _timestamp
                                                                                 });
                                                          return results;
                                                        }, List.of());

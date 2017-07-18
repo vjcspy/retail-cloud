@@ -24,17 +24,17 @@
       <input #dateSelectTo class="calendar-picker" type="text"/>
     </div>
     <div class="selectbox-wrap">
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Payment status'"
-                     [model]="ordersState.list.searchOrderStatus"
-                     (modelChange)="searchOrderStatus($event)">
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getPaymentStatusElem()" [defaultText]="'Payment status'"
+                     [model]="ordersState.list.searchOrderPaymentStatus"
+                     (modelChange)="searchOrderStatus({searchOrderPaymentStatus:$event})">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Shipment status'"
-                     [model]="ordersState.list.searchOrderStatus"
-                     (modelChange)="searchOrderStatus($event)">
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getShipmentStatusElem()" [defaultText]="'Shipment status'"
+                     [model]="ordersState.list.searchOrderShipmentStatus"
+                     (modelChange)="searchOrderStatus({searchOrderShipmentStatus:$event})">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Order status'"
-                     [model]="ordersState.list.searchOrderStatus"
-                     (modelChange)="searchOrderStatus($event)">
+      <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="'Sync status'"
+                     [model]="ordersState.list.searchOrderSyncStatus"
+                     (modelChange)="searchOrderStatus({searchOrderSyncStatus:$event})">
       </retail-select>
     </div>
 

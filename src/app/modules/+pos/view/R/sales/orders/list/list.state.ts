@@ -6,7 +6,9 @@ export interface OrderList {
   isResolving: boolean;
   isSearchOnline: boolean;
   searchString: string;
-  searchOrderStatus: string;
+  searchOrderPaymentStatus: string;
+  searchOrderShipmentStatus: string;
+  searchOrderSyncStatus: string;
   searchDateFrom: moment.Moment;
   searchDateTo: moment.Moment;
   
@@ -20,7 +22,9 @@ export const orderListFactory = makeTypedFactory<OrderList, OrderListRecord>(
     isResolving: true,
     isSearchOnline: false,
     searchString: '',
-    searchOrderStatus: null,
+    searchOrderPaymentStatus: null,
+    searchOrderShipmentStatus: null,
+    searchOrderSyncStatus: null,
     searchDateFrom: moment().subtract(7, 'days').hour(0).minute(0).second(0),
     searchDateTo: moment().hour(23).minute(59).second(59),
     
