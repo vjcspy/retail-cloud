@@ -4,6 +4,7 @@ import {OfflineService} from "../share/provider/offline";
 import {RetailTranslate} from "../../services/retail-translate";
 import {TranslateService} from "@ngx-translate/core";
 import {ReducerManagement} from "../../services/reducer-management";
+import {NotifyManager} from "../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -13,12 +14,17 @@ import {ReducerManagement} from "../../services/reducer-management";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {
-  constructor(private reducerManagement: ReducerManagement, private offline: OfflineService, private retailTranslate: RetailTranslate, private translate: TranslateService) {
+  constructor(private reducerManagement: ReducerManagement,
+              private offline: OfflineService,
+              private notify: NotifyManager) {
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
     
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
-    // this.retailTranslate.resolveLanguages();
+    setTimeout(() => {
+      this.notify.success("Success");
+      this.notify.info("Info");
+      this.notify.warning("Warning");
+      this.notify.error("Error");
+    }, 1000);
   }
 }

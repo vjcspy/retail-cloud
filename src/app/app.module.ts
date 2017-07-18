@@ -21,7 +21,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterExternalModule} from "./modules/router/router.module";
 import {R_IMPORTS, R_PROVIDERS} from "./R/index";
 import {APP_PAGES} from "./pages/index";
-import {ToastModule, ToastOptions} from "ng2-toastr";
+import {ToastModule, ToastsManager} from "ng2-toastr";
 import {CustomToastOptions} from "./services/toast-options";
 import {APP_PROVIDERS} from "./services/index";
 import {METEOR_COLLECTION} from "./services/meteor-collections/index";
@@ -58,7 +58,7 @@ import {DialogModule} from "./modules/dialog/dialog.module";
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
-              {provide: ToastOptions, useClass: CustomToastOptions},
+              {provide: ToastsManager, useClass: CustomToastOptions},
               SelectivePreloadingStrategy,
               LocalStorageService, SessionStorageService,
               AppStorage,

@@ -98,10 +98,6 @@ export class NotifyManager {
                                                           }, !!options ? options : {}));
           } else {
             this.toast.error(_mess, _title, {
-              animate: 'flyLeft',
-              tapToDismiss: true,
-              positionClass: 'toast-bottom-left',
-              showCloseButton: true,
               toastLife: 999999
             });
           }

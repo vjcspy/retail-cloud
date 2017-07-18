@@ -17,7 +17,6 @@ export class RetailTranslate {
       this.translate.addLangs(this.getLanguagesCodeSupported());
       this.translate.setDefaultLang('en');
       
-      
       let usedLang = this.storage.localRetrieve('currentLanguage');
       if (usedLang) {
         this.translate.use(usedLang);

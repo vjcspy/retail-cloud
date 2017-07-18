@@ -9,6 +9,7 @@ import {
 import {ToastsManager} from "ng2-toastr";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 import {DialogService} from "./modules/dialog/dialog.service";
+import {RetailTranslate} from "./services/retail-translate";
 
 /**
  * App Component
@@ -35,9 +36,10 @@ import {DialogService} from "./modules/dialog/dialog.service";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class AppComponent extends AbstractSubscriptionComponent {
-  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private dialogService: DialogService) {
+  constructor(private toastr: ToastsManager, vcr: ViewContainerRef, private dialogService: DialogService,private retailTranslate:RetailTranslate) {
     super();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
+    this.retailTranslate.resolveLanguages();
   }
 }
