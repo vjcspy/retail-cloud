@@ -2,7 +2,7 @@
   <div class="top-bar">
         <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span
           class="text">X-Retail</span></span>
-    <div class="check-box" (click)="toggleSearchOnline(!ordersState.list.isSearchOnline)">
+    <div class="check-box click" (click)="toggleSearchOnline(!ordersState.list.isSearchOnline)">
       <input [checked]="ordersState.list.isSearchOnline"
              type="checkbox" [disabled]="!offline.online">
       <span></span>{{ 'Search Online' | translate }}
