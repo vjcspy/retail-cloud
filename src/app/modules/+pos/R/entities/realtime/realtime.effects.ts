@@ -65,10 +65,9 @@ export class RealtimeEffects {
                                                                                                                           }, false)
                                                                                 ]);
                                                        })
-                                                       .filter((action: Action) => !action.payload['realtimeData']['needRemove'] || (action.payload['realtimeData']['needRemove'] as List<any>).count() > 0)
-                                                       .filter((action: Action) => !action.payload['realtimeData']['needUpdate'] || (action.payload['realtimeData']['needUpdate'] as List<any>).count() > 0);
+                                                       .filter((_action: Action) => !_action.payload['realtimeData']['needRemove'] || (_action.payload['realtimeData']['needRemove'] as List<any>).count() > 0)
+                                                       .filter((_action: Action) => !_action.payload['realtimeData']['needUpdate'] || (_action.payload['realtimeData']['needUpdate'] as List<any>).count() > 0);
                                           });
-  
   
   @Effect() handleNeedRemove = this.actions$
                                    .ofType(
@@ -79,7 +78,7 @@ export class RealtimeEffects {
                                      const needRemove: List<any> = action.payload['needRemove'];
                                      return Observable.fromPromise(this.realtimeService.handleDBNeedRemoveEntity(entity.entityCode, needRemove))
                                                       .flatMap(() => {
-                                                        return Observable.fromPromise(this.realtimeService.updateEntityInfo(action.payload['entityInfo'], action.payload['realtimeData']['newCacheTime']))
+                                                        return Observable.fromPromise(this.realtimeService.updateEntityInfo(action.payload['entityInfo'], action.payload['realtimeData']['newCacheTime']));
                                                       })
                                                       .map(() => this.realtimeActions.realtimeRemovedEntityDB(entity.entityCode, needRemove, false));
                                    });
@@ -102,7 +101,7 @@ export class RealtimeEffects {
                                                                                                        .updateEntityInfo(action.payload['realtimeData']['entityInfo'], action.payload['realtimeData']['newCacheTime']))
                                                                                       .map(() => this.realtimeActions
                                                                                                      .realtimeUpdatedEntityDB(entity.entityCode, needUpdate, itemsData, false));
-                                                                   })
+                                                                   });
                                                 })
                                                 .catch(() => Observable.of(this.rootActions.error('realtime_failed', null, false)));
                                    });

@@ -12,6 +12,7 @@ import {DatabaseManager} from "../../../../../services/database-manager";
 import {ApiManager} from "../../../../../services/api-manager";
 import {RequestService} from "../../../../../services/request";
 import {EntityInformation} from "../../../database/xretail/db/entity-information";
+import {OrderDB} from "../../../database/xretail/db/order";
 
 @Injectable()
 export class RealtimeService {
@@ -52,7 +53,7 @@ export class RealtimeService {
                                     }
         
                                     return {needRemove, needUpdate, entityInfo, newCacheTime};
-                                  })
+                                  });
                });
   }
   
@@ -81,13 +82,26 @@ export class RealtimeService {
         return resolve();
       }
       try {
-        await db[entity.entityCode].where(entity.entityPrimaryKey)
-                                   .anyOf(_.split(_.union(needUpdate.toArray()).join(","), ","))
-                                   .delete();
         
-        
-        await db[entity.entityCode].bulkPut(data['items']);
-        
+        if (entity.entityCode === OrderDB.getCode()) {
+          let retailIdNeedRemove = [];
+          _.forEach(data['items'], (item) => {
+            retailIdNeedRemove.push(item['retail_id']);
+          });
+          await db[entity.entityCode].where('retail_id')
+                                     .anyOf(retailIdNeedRemove)
+                                     .delete();
+          
+          await db[entity.entityCode].bulkPut(data['items']);
+        } else {
+          
+          await db[entity.entityCode].where(entity.entityPrimaryKey)
+                                     .anyOf(_.split(_.union(needUpdate.toArray()).join(","), ","))
+                                     .delete();
+          
+          await db[entity.entityCode].bulkPut(data['items']);
+          
+        }
         return resolve();
       } catch (e) {
         return reject({isError: true, e});
