@@ -10,7 +10,7 @@ export class ListService {
   
   constructor(private requestService: RequestService, private apiUrl: ApiManager) { }
   
-  createRequestSearchOrder(string: string, dateFrom: string, dateTo: string, generalState: PosGeneralState) {
+  createRequestSearchOrder(string: string, dateFrom: string, dateTo: string, getErrorOrder: boolean, generalState: PosGeneralState) {
     return this.requestService
                .makeGet(this.apiUrl.get('orders', generalState.baseUrl) +
                         "?searchCriteria[searchString]=" +
@@ -21,6 +21,7 @@ export class ListService {
                         dateTo +
                         "&searchCriteria[pageSize]=100" +
                         "&searchCriteria[outletId]=" + generalState.outlet['id'] +
+                        "&searchCriteria[getErrorOrder]=" + getErrorOrder +
                         "&searchCriteria[storeId]=" + generalState.store['id']);
   }
 }

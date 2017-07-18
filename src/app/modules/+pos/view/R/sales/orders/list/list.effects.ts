@@ -155,7 +155,7 @@ export class ListEffects {
                                         const generalState: PosGeneralState = z[2];
                                         this.progressBar.start();
                                         return this.listService
-                                                   .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), generalState)
+                                                   .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), parseInt(ordersState.list.searchOrderSyncStatus) === 3, generalState)
                                                    .map((data) => {
                                                      if (data.hasOwnProperty('items')) {
                                                        let orders = List.of();
