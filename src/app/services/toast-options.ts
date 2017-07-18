@@ -8,6 +8,6 @@ export class CustomToastOptions extends ToastOptions {
   dismiss: 'click';
   positionClass: 'toast-bottom-left';
   showCloseButton: true;
-  toastLife: 5500;
+  toastLife: 15500;
   newestOnTop = false;
 }

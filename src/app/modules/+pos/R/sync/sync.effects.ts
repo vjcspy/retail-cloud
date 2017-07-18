@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Store, Action} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {PosSyncActions} from "./sync.actions";
 import {PosSyncService} from "./sync.service";
@@ -39,7 +39,7 @@ export class PosSyncEffects {
                                      .withLatestFrom(this.store$.select('quote'),
                                                      ([action, generalState], quoteState) => [action, generalState, quoteState])
                                      .map(([action, generalState, quoteState]) => {
-                                       return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(quoteState, generalState), false);
+                                       return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), false);
                                      });
   
   @Effect() syncOrder = this.actions$.ofType(PosSyncActions.ACTION_PREPARE_ORDER_SYNC)
@@ -47,15 +47,16 @@ export class PosSyncEffects {
                             .withLatestFrom(this.store$.select('quote'),
                                             ([action, generalState], quoteState) => [action, generalState, quoteState])
                             .switchMap(([action, generalState, quoteState]) => {
-                              const quote = quoteState.quote;
+                              const quote = (quoteState as PosQuoteState).quote;
                               if (this.offline.online) {
-                                return this.posSyncService.syncOrderOnline(action.payload['order'], <any>generalState)
+                                return this.posSyncService.syncOrderOnline((action as Action).payload['order'], <any>generalState)
                                            .map((syncData) => {
                                              const address = quote.getShippingAddress();
         
                                              _.forEach(syncData['totals'], (total, key) => {
-                                               if (total != null)
+                                               if (total !== null) {
                                                  address.setData(key, total);
+                                               }
                                              });
                                              if (syncData.hasOwnProperty("reward_point") && _.isObject(syncData["reward_point"])) {
                                                quote.setData('reward_point', syncData["reward_point"]);
@@ -101,7 +102,7 @@ export class PosSyncEffects {
                                                                                         if (res['data'].hasOwnProperty('orderOffline')) {
                                                                                           ob.push(this.entityActions.pushEntity(res['data']['orderOffline'], OrderDB.getCode(), 'id', false));
                                                                                         }
-                                                                                        
+        
                                                                                         return Observable.from(ob);
                                                                                       })
                                                                                       .catch((e) => {

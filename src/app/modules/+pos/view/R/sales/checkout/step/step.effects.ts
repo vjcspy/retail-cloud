@@ -38,7 +38,7 @@ export class PosStepEffects {
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
-                                   .filter(() => this.router.isActive('/pos/default/sales/checkout',false))
+                                   .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                    .withLatestFrom(this.store$.select('entities'))
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;
@@ -89,9 +89,9 @@ export class PosStepEffects {
                                                                                                                configState,
                                                                                                                stepState])
                                             .map((z) => {
-                                              const paymentToAdd: PaymentMethod = z[0].payload['payment'];
+                                              const paymentToAdd: PaymentMethod = (z[0] as any).payload['payment'];
                                               const quoteState: PosQuoteState   = <any>z[1];
-                                              let amount                        = this.stepService.canAddMorePaymentMethod(paymentToAdd, z[3], z[2], quoteState);
+                                              let amount                        = this.stepService.canAddMorePaymentMethod(paymentToAdd, <any>z[3], <any>z[2], <any>quoteState);
                                               if (amount !== false) {
                                                 let payment = {
                                                   id: paymentToAdd['id'],
@@ -208,7 +208,7 @@ export class PosStepEffects {
                                                  });
                               } else {
                                 if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
-                                  return Observable.fromPromise(this.syncService.saveOrderOffline(z[2], z[3], z[4]))
+                                  return Observable.fromPromise(this.syncService.saveOrderOffline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
                                                      return Observable.from([
                                                                               this.stepActions.savedOrder(orderOffline, true, false),
@@ -217,7 +217,7 @@ export class PosStepEffects {
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
-                                  return Observable.fromPromise(this.syncService.saveOrderOnline(z[2], z[3], z[4]))
+                                  return Observable.fromPromise(this.syncService.saveOrderOnline(<any>[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
                                                      return Observable.from([
                                                                               this.stepActions.savedOrder(orderOffline, false, false),

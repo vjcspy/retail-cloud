@@ -30,10 +30,12 @@ export class PosEntitiesEffects {
                                              .withLatestFrom(this.store.select('general'))
                                              .withLatestFrom(this.store.select('entities'),
                                                              ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                             .filter((z) => {return (z[2] as PosEntitiesState)[z[0].payload['entityCode']]['isLoadedFromDB'] !== true})
+                                             .filter((z) => {
+                                               return (z[2] as PosEntitiesState)[(z[0] as Action).payload['entityCode']]['isLoadedFromDB'] !== true;
+                                             })
                                              .flatMap(([action, generalState, entitiesState]) => {
-                                               const entityCode = (entitiesState[action.payload['entityCode']] as Entity).entityCode;
-                                               return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                               const entityCode = (entitiesState[(action as Action).payload['entityCode']] as Entity).entityCode;
+                                               return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(<any>generalState, entitiesState[entityCode]))
                                                                 .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
                                                                                          .map((mes: GeneralMessage) => {
                                                                                            return this.entitiesActions.getEntityDataFromDB(entityCode, mes.data[entityCode], false);
@@ -58,20 +60,20 @@ export class PosEntitiesEffects {
                                             // Chỉ được pull entity khi dùng pull chain
                                             .filter(([action, generalState, entitiesState, pullState]) => (pullState as PosPullState).isPullingChain === true)
                                             .flatMap(([action, generalState, entitiesState]) => {
-                                              const entityCode     = action.payload['entityCode'];
+                                              const entityCode     = (action as Action).payload['entityCode'];
                                               const entity: Entity = entitiesState[entityCode];
                                               // Kiểm tra xem là entity sắp pull đã được init từ DB ra chưa?
                                               if (entity.isLoadedFromDB !== true) {
                                                 return Observable.of(this.entitiesActions.initDataFromDB(entityCode, false));
                                               } else {
-                                                return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(generalState, entitiesState[entityCode]))
+                                                return Observable.fromPromise(this.posEntityService.getStateCurrentEntityDb(<any>generalState, entitiesState[entityCode]))
                                                                  .map((entityState: GeneralMessage) => {
                                                                    if (entityState.data['notValidDB'] === true) {
-                                                                     return this.entitiesActions.entityInDBNotValid(action.payload['entityCode'], false);
+                                                                     return this.entitiesActions.entityInDBNotValid((action as Action).payload['entityCode'], false);
                                                                    } else {
                                                                      return entityState.data['isFinished'] === true ?
-                                                                       this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
-                                                                       this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, generalState), false);
+                                                                       this.entitiesActions.pullEntitySuccess((action as Action).payload['entityCode'], false) :
+                                                                       this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, <any>generalState), false);
                                                                    }
                                                                  });
                                               }
@@ -85,7 +87,11 @@ export class PosEntitiesEffects {
                                       .withLatestFrom(this.store.select('general'))
                                       .withLatestFrom(this.store.select('entities'),
                                                       ([action, generalState], entitiesState) => [action, generalState, entitiesState])
-                                      .flatMap(([action, generalState, entitiesState]) => {
+                                      .flatMap((z) => {
+                                                 const action: Action                  = <any>z[0];
+                                                 const generalState: PosGeneralState   = <any>z[1];
+                                                 const entitiesState: PosEntitiesState = <any>z[2];
+    
                                                  if (action.type === PosEntitiesActions.ACTION_PULL_CANCEL) {
                                                    return Observable.of({
                                                                           type: RootActions.ACTION_NOTHING,
@@ -126,7 +132,6 @@ export class PosEntitiesEffects {
                                                                        return this.entitiesActions.filteredProducts(mes.data['productsFiltered'], false);
                                                                      });
                                                   });
-  
   
   protected createQueryPull(entity: Entity, generalState: PosGeneralState) {
     let _query = '';

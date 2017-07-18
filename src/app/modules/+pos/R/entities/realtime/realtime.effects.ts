@@ -29,25 +29,25 @@ export class RealtimeEffects {
                                           .withLatestFrom(this.store$.select('entities'),
                                                           ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
-                                            const action: Action = z[0];
+                                            const action: Action = <any>z[0];
                                             return this.subscribedEntity[action.payload['entityCode']] !== true;
                                           })
                                           .filter((z) => {
                                             const entitiesState: PosEntitiesState = z[2];
-                                            const action: Action                  = z[0];
+                                            const action: Action                  = <any>z[0];
                                             return entitiesState[action.payload['entityCode']].needRealTime === true;
                                           })
                                           .map((z) => {
-                                            const action: Action                                = z[0];
+                                            const action: Action                                = <any>z[0];
                                             this.subscribedEntity[action.payload['entityCode']] = true;
                                             return z;
                                           })
                                           .flatMap(([action, generalState, entitiesState]) => {
-                                            const entityCode = action.payload['entityCode'];
+                                            const entityCode = (action as Action).payload['entityCode'];
                                             const entity     = entitiesState[entityCode];
     
                                             return this.realtimeService
-                                                       .realtimeEntityObservable(entityCode, generalState)
+                                                       .realtimeEntityObservable(entityCode, <any>generalState)
                                                        .flatMap((realtimeData) => {
                                                          const {needRemove, needUpdate, entityInfo, newCacheTime} = realtimeData;
                                                          return Observable.from([

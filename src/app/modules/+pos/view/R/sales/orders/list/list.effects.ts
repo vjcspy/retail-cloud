@@ -48,8 +48,8 @@ export class ListEffects {
                                 .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
                                 .filter((z) => !(z[2] as OrdersState).list.isSearchOnline)
                                 .map((z) => {
-                                  const ordersState: OrdersState    = z[2];
-                                  const configState: PosConfigState = z[3];
+                                  const ordersState: OrdersState    = <any>z[2];
+                                  const configState: PosConfigState = <any>z[3];
                                   const orders: List<OrderDB>       = (z[1] as PosEntitiesState).orders.items;
     
                                   let orderFiltered = orders.filter((order) => {
@@ -156,8 +156,8 @@ export class ListEffects {
                                       //   return !!(z[1] as OrdersState).list.searchString;
                                       // })
                                       .switchMap((z) => {
-                                        const ordersState: OrdersState      = z[1];
-                                        const generalState: PosGeneralState = z[2];
+                                        const ordersState: OrdersState      = <any>z[1];
+                                        const generalState: PosGeneralState = <any>z[2];
                                         this.progressBar.start();
                                         return this.listService
                                                    .createRequestSearchOrder(ordersState.list.searchString, ordersState.list.searchDateFrom.format("YYYY-MM-DD"), ordersState.list.searchDateTo.format("YYYY-MM-DD"), parseInt(ordersState.list.searchOrderSyncStatus) === 3, generalState)

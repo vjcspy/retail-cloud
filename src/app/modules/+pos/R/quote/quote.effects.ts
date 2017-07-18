@@ -24,7 +24,6 @@ import {SessionQuote} from "../../core/framework/Backend/Model/Session/Quote";
 import {AsyncHelper} from "../../../../code/AsyncHelper";
 import {PosSyncState} from "../sync/sync.state";
 import {QuoteItemActions} from "./item/item.actions";
-import {RouterActions} from "../../../../R/router/router.actions";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {PosConfigState} from "../config/config.state";
 import {QuoteCustomerService} from "./customer/customer.service";
@@ -32,6 +31,8 @@ import {NotifyManager} from "../../../../services/notify-manager";
 import {ProgressBarService} from "../../../share/provider/progess-bar";
 import {ProductDB} from "../../database/xretail/db/product";
 import {OfflineService} from "../../../share/provider/offline";
+import {PosGeneralState} from "../general/general.state";
+import {PosQuoteState} from "./quote.state";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -51,8 +52,8 @@ export class PosQuoteEffects {
                                      .withLatestFrom(this.store$.select('entities'),
                                                      ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                      .map(([action, generalState, entitiesState]) => {
-                                       const customer                              = action.payload.customer;
-                                       const customerGroups: List<CustomerGroupDB> = entitiesState.customerGroup.items;
+                                       const customer                              = (action as Action).payload.customer;
+                                       const customerGroups: List<CustomerGroupDB> = (entitiesState as PosEntitiesState).customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
     
                                        if (customerGroup) {
@@ -63,7 +64,7 @@ export class PosQuoteEffects {
     
                                        return {
                                          type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
-                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, generalState.outlet)
+                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, (generalState as PosGeneralState).outlet)
                                        };
                                      });
   
@@ -170,12 +171,12 @@ export class PosQuoteEffects {
                                     .withLatestFrom(this.store$.select('entities'),
                                                     ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                     .switchMap((z) => {
-                                      if (z[0].type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
+                                      if ((z[0] as Action).type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
                                         const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
                                         const shiftOpening      = shifts.filter((s: ShiftDB) => parseInt(s.is_open) === 1);
                                         return Observable.of(this.quoteActions.updateQuoteInfo({isShiftOpening: !!shiftOpening}, false));
                                       } else {
-                                        return this.quoteService.checkShiftOpenInSV(z[1])
+                                        return this.quoteService.checkShiftOpenInSV(<any>z[1])
                                                    .map((data) => {
                                                      return this.quoteActions.updateQuoteInfo({isShiftOpening: !!data['is_open']}, false);
                                                    });
@@ -197,18 +198,18 @@ export class PosQuoteEffects {
                                .withLatestFrom(this.store$.select('general'),
                                                ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
                                .switchMap(([action, quoteState, configState, generalState]) => {
-                                 const quote: Quote = quoteState.quote;
+                                 const quote: Quote = (quoteState as PosQuoteState).quote;
     
                                  if (quote.getCustomer() && quote.getCustomer().getId()) {
-                                   const items: List<DataObject> = quoteState.items;
+                                   const items: List<DataObject> = (quoteState as PosQuoteState).items;
       
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
                                                     .switchMap(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
                                                            .setUseDefaultCustomer(false)
-                                                           .setShippingAddress(quoteState.shippingAdd)
-                                                           .setBillingAddress(quoteState.billingAdd);
+                                                           .setShippingAddress((quoteState as PosQuoteState).shippingAdd)
+                                                           .setBillingAddress((quoteState as PosQuoteState).billingAdd);
         
                                                       let errorActions = [];
         
@@ -228,9 +229,9 @@ export class PosQuoteEffects {
         
                                                       return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
-                                 } else if (!!generalState.outlet['enable_guest_checkout']) {
+                                 } else if (!!(generalState as PosGeneralState).outlet['enable_guest_checkout']) {
                                    let customer = new Customer();
-                                   Object.assign(customer, configState.setting.customer.getDefaultCustomer());
+                                   Object.assign(customer, (configState as PosConfigState).setting.customer.getDefaultCustomer());
                                    quote.setUseDefaultCustomer(true);
       
                                    return Observable.of(this.quoteActions.setCustomerToQuote(customer, false));
@@ -246,8 +247,8 @@ export class PosQuoteEffects {
                           .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
                           .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                           .switchMap((z) => {
-                            const action: Action              = z[0];
-                            const configState: PosConfigState = z[2];
+                            const action: Action              = <any>z[0];
+                            const configState: PosConfigState = <any>z[2];
     
                             const allItems: List<ProductDB> = (z[1] as PosEntitiesState).products.items;
     
@@ -279,7 +280,7 @@ export class PosQuoteEffects {
     
                             if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
-                              return <any>this.quoteCustomer.getCustomerOnline(customer, z[3])
+                              return <any>this.quoteCustomer.getCustomerOnline(customer, <any>z[3])
                                               .switchMap((data) => {
                                                 if (_.size(data['items']) > 0) {
                                                   customer = data['items'][0];

@@ -7,6 +7,7 @@ import {CustomerDB} from "../../../../../database/xretail/db/customer";
 import {CartCustomerService} from "./customer.service";
 import {GeneralMessage} from "../../../../../services/general/message";
 import * as _ from 'lodash';
+import {PosConfigState} from "../../../../../R/config/config.state";
 
 @Injectable()
 export class CartCustomEffects {
@@ -22,15 +23,15 @@ export class CartCustomEffects {
                                          [action, cartCustomerState, entitiesState, configState]))
                                        .withLatestFrom(this.store$.select('general'), (([action, cartCustomerState, entitiesState, configState], generalState) =>
                                          [action, cartCustomerState, entitiesState, configState, generalState]))
-                                       .filter(([action, cartCustomerState, entitiesState, configState]) => _.isString(action.payload['cartCustomerSearchString']) && action.payload['cartCustomerSearchString'].length >= configState.constrain.minLengthSearching)
+                                       .filter(([action, cartCustomerState, entitiesState, configState]) => _.isString((action as any).payload['cartCustomerSearchString']) && (action as any).payload['cartCustomerSearchString'].length >= (configState as any).constrain.minLengthSearching)
                                        .switchMap(([action, cartCustomerState, entitiesState, configState, generalState]) => {
-                                         if (configState.posRetailConfig.useCustomerOnlineMode === false) {
-                                           return Observable.fromPromise(this.cartCustomerService.resolveSearchCustomer(cartCustomerState, entitiesState[CustomerDB.getCode()]['items'], configState))
+                                         if ((configState as PosConfigState).posRetailConfig.useCustomerOnlineMode === false) {
+                                           return Observable.fromPromise(this.cartCustomerService.resolveSearchCustomer(<any>cartCustomerState, entitiesState[CustomerDB.getCode()]['items'], <any>configState))
                                                             .map((data: GeneralMessage) => {
                                                               return {type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
                                                             });
                                          } else {
-                                           return Observable.fromPromise(this.cartCustomerService.searchCustomerOnline(cartCustomerState, configState, generalState))
+                                           return Observable.fromPromise(this.cartCustomerService.searchCustomerOnline(<any>cartCustomerState, <any>configState, <any>generalState))
                                                             .map((data) => {
                                                               return {type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
                                                             });
