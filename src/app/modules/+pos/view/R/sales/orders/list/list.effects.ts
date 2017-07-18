@@ -70,8 +70,11 @@ export class ListEffects {
                                         return false;
                                       }
                                     }
+      
                                     if (ordersState.list.searchOrderSyncStatus !== null && ordersState.list.searchOrderSyncStatus !== '') {
-                                      if (!order.hasOwnProperty('pushed') || parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
+                                      if (parseInt(ordersState.list.searchOrderSyncStatus) === 1 && order.hasOwnProperty('pushed') && parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
+                                        return false;
+                                      } else if (parseInt(ordersState.list.searchOrderSyncStatus) !== 1 && parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
                                         return false;
                                       }
                                     }
