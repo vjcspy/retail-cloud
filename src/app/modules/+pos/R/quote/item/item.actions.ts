@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Item} from "../../../core/framework/quote/Model/Quote/Item";
 import {DataObject} from "../../../core/framework/General/DataObject";
 
@@ -14,7 +14,13 @@ export class QuoteItemActions {
     this.store$.dispatch({type: QuoteItemActions.ACTION_UPDATE_ITEM_BUY_REQUEST, payload: {key, value, item}});
   }
   
-  removeQuoteItem(buyRequest: DataObject) {
-    this.store$.dispatch({type: QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST, payload: {buyRequest}});
+  removeQuoteItem(buyRequest: DataObject, dispatch: boolean = true): Action {
+    const action = {type: QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST, payload: {buyRequest}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }

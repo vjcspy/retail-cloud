@@ -203,23 +203,30 @@ export class PosQuoteEffects {
                                    const items: List<DataObject> = quoteState.items;
       
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
-                                                    .map(() => {
+                                                    .switchMap(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
                                                            .setUseDefaultCustomer(false)
                                                            .setShippingAddress(quoteState.shippingAdd)
                                                            .setBillingAddress(quoteState.billingAdd);
         
+                                                      let errorActions = [];
+        
                                                       items.forEach((item: DataObject) => {
-                                                        ObjectManager.getInstance()
-                                                                     .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
-                                                                     .getSalesCreate()
-                                                                     .addProductToQuote(item);
+                                                        try {
+                                                          ObjectManager.getInstance()
+                                                                       .get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote)
+                                                                       .getSalesCreate()
+                                                                       .addProductToQuote(item);
+                                                        } catch (e) {
+                                                          this.notify.error(e.toString());
+                                                          errorActions.push(this.quoteActions.quoteAddItemError(item, false));
+                                                        }
                                                       });
         
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
         
-                                                      return {type: PosQuoteActions.ACTION_RESOLVE_QUOTE};
+                                                      return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
                                  } else if (!!generalState.outlet['enable_guest_checkout']) {
                                    let customer = new Customer();

@@ -68,7 +68,6 @@ export class PosQuoteActions {
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
   
-  
   constructor(private store$: Store<any>) {}
   
   static ACTION_SELECT_PRODUCT_TO_ADD = 'ACTION_SELECT_PRODUCT_TO_ADD';
@@ -133,6 +132,18 @@ export class PosQuoteActions {
   
   reorder(orderData, dispatch: boolean = true): Action {
     const action = {type: PosQuoteActions.ACTION_REORDER, payload: {orderData}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_QUOTE_ADD_ITEM_ERROR = 'ACTION_QUOTE_ADD_ITEM_ERROR';
+  
+  quoteAddItemError(item, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_QUOTE_ADD_ITEM_ERROR, payload: {item}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
