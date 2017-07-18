@@ -124,9 +124,9 @@ export class ListEffects {
                                     return true;
                                   });
     
-                                  let ordersSorted = orderFiltered.sortBy((o) => {
-                                    return -parseInt(o['retail_id']);
-                                  });
+                                  let ordersSorted = orderFiltered.sort(
+                                    (a, b) => -a['created_at'].localeCompare(b['created_at'])
+                                  );
                                   let grouped      = ordersSorted.groupBy((o) => moment(new Date(o['created_at'])).format("dddd, MMMM Do YYYY"));
                                   let ordersGroped = grouped.reduce((results, _orders, _timestamp) => {
                                     results = results.push({
