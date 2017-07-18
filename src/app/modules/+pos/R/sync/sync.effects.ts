@@ -14,12 +14,19 @@ import {RootActions} from "../../../../R/root.actions";
 import {PosPullState} from "../entities/pull.state";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosQuoteState} from "../quote/quote.state";
+import {EntityActions} from "../entities/entity/entity.actions";
+import {OrderDB} from "../../database/xretail/db/order";
 
 @Injectable()
 export class PosSyncEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private posSyncService: PosSyncService, private notify: NotifyManager, private offline: OfflineService,
-              private syncActions: PosSyncActions) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private posSyncService: PosSyncService,
+              private notify: NotifyManager,
+              private offline: OfflineService,
+              private syncActions: PosSyncActions,
+              private entityActions: EntityActions) { }
   
   @Effect() prepareOrderToSync = this.actions$
                                      .ofType(
@@ -85,12 +92,17 @@ export class PosSyncEffects {
                                                           .flatMap(() => {
                                                                      isSyncing = true;
                                                                      return Observable.fromPromise(this.posSyncService.autoGetAndPushOrderOffline(<any>z[3]))
-                                                                                      .map((res) => {
+                                                                                      .flatMap((res) => {
                                                                                         isSyncing = false;
                                                                                         if (res['data']['syncAllOfflineOrder'] === true) {
                                                                                           isPushFull = true;
                                                                                         }
-                                                                                        return this.syncActions.syncedOfflineOrder(res['data'], false);
+                                                                                        let ob: any = [this.syncActions.syncedOfflineOrder(res['data'], false)];
+                                                                                        if (res['data'].hasOwnProperty('orderOffline')) {
+                                                                                          ob.push(this.entityActions.pushEntity(res['data']['orderOffline'], OrderDB.getCode(), 'id', false));
+                                                                                        }
+                                                                                        
+                                                                                        return Observable.from(ob);
                                                                                       })
                                                                                       .catch((e) => {
                                                                                         isSyncing = false;

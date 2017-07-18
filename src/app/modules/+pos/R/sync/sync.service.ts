@@ -231,7 +231,7 @@ export class PosSyncService {
             },
             (e) => {
               let message;
-              if (e.status === 400) {
+              if (parseInt(e.status) === 400) {
                 let _mess = JSON.parse(e['_body']);
                 if (_mess.hasOwnProperty('message')) {
                   message = _mess['message'];

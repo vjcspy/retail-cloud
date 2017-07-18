@@ -19,6 +19,7 @@ import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions
 import {PosPullState} from "../../../../../R/entities/pull.state";
 import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 import {Router} from "@angular/router";
+import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 
 @Injectable()
 export class ListEffects {
@@ -37,7 +38,8 @@ export class ListEffects {
                                   PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                   ListActions.ACTION_CHANGE_SEARCH_DATA,
                                   RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
-                                  EntityOrderActions.ACTION_PUT_ORDER_ENTITY
+                                  EntityOrderActions.ACTION_PUT_ORDER_ENTITY,
+                                  PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER
                                 )
                                 .filter(() => this.router.isActive('/pos/default/sales/orders', false))
                                 .filter((action) => !!action.payload['entityCode'] ? action.payload['entityCode'] === OrderDB.getCode() : true)
@@ -59,17 +61,17 @@ export class ListEffects {
                                     }
       
                                     if (!!ordersState.list.searchOrderPaymentStatus) {
-                                      if (parseInt(order['retail_status'].slice(0, 1)) !== parseInt(ordersState.list.searchOrderPaymentStatus)) {
+                                      if (order['retail_status'] && parseInt(order['retail_status'].slice(0, 1)) !== parseInt(ordersState.list.searchOrderPaymentStatus)) {
                                         return false;
                                       }
                                     }
                                     if (!!ordersState.list.searchOrderShipmentStatus) {
-                                      if (parseInt(order['retail_status'].slice(-1)) !== parseInt(ordersState.list.searchOrderShipmentStatus)) {
+                                      if (order['retail_status'] && parseInt(order['retail_status'].slice(-1)) !== parseInt(ordersState.list.searchOrderShipmentStatus)) {
                                         return false;
                                       }
                                     }
                                     if (ordersState.list.searchOrderSyncStatus !== null && ordersState.list.searchOrderSyncStatus !== '') {
-                                      if (parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
+                                      if (!order.hasOwnProperty('pushed') || parseInt(order['pushed'] + '') !== parseInt(ordersState.list.searchOrderSyncStatus)) {
                                         return false;
                                       }
                                     }
