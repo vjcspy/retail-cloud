@@ -54,6 +54,7 @@ export class ConfigurationsOutletEffects {
                                          .ofType(
                                            PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
                                          )
+                                         .filter(() => this.router.isActive('pos/configurations/default/pos/outlet', false))
                                          .filter((action: Action) => {
                                            return !!action.payload['entityCode'] ?
                                              [

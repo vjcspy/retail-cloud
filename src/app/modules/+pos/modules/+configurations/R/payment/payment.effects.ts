@@ -30,6 +30,7 @@ export class ConfigurationsPaymentEffects {
                                         PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                         EntityActions.ACTION_PUSH_MANY_ENTITY
                                       )
+                                      .filter(() => this.router.isActive('pos/configurations/default/pos', false))
                                       .filter((action) => action.payload.hasOwnProperty('entityCode') ?
                                         action.payload['entityCode'] === PaymentDB.getCode() : true)
                                       .withLatestFrom(this.store$.select('entities'))
