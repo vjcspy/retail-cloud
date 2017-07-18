@@ -3,8 +3,6 @@ import {Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {ReceiptActions} from "./receipt.actions";
 import {RootActions} from "../../../../../../R/root.actions";
-import {PosStepActions} from "../checkout/step/step.actions";
-import {PosGeneralState} from "../../../../R/general/general.state";
 import {ReceiptService} from "./receipt.service";
 import {ReceiptState} from "./receipt.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
@@ -14,7 +12,6 @@ import {Observable} from "rxjs";
 export class ReceiptEffects {
   
   constructor(private store$: Store<any>, private actions$: Actions, private receiptService: ReceiptService, private receiptActions: ReceiptActions, private notify: NotifyManager) { }
-  
   
   @Effect() printReceipt = this.actions$
                                .ofType(
@@ -27,13 +24,12 @@ export class ReceiptEffects {
                                  return {type: RootActions.ACTION_NOTHING, payload: {mess: "Just print receipt"}};
                                });
   
-  
   @Effect() sendEmailData = this.actions$.ofType(ReceiptActions.ACTION_RESOLVED_RECEIPT_EMAIL)
                                 .withLatestFrom(this.store$.select('receipt'))
                                 .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                                 .switchMap((z) => {
                                   const receiptState: ReceiptState = <any>z[1];
-                                  return this.receiptService.sendEmailReceipt(receiptState.salesReceipt.emailReceipt.template, receiptState.salesReceipt.emailReceipt.email, receiptState.salesReceipt.emailReceipt.name, z[2])
+                                  return this.receiptService.sendEmailReceipt(receiptState.salesReceipt.emailReceipt.template, receiptState.salesReceipt.emailReceipt.email, receiptState.salesReceipt.emailReceipt.name, <any>z[2])
                                              .map(() => {
                                                this.notify.success("Send Email Success");
                                                return this.receiptActions.sentReceiptEmail(false);

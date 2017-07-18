@@ -30,7 +30,7 @@ export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: Po
           // Vì order không dùng id của magento để sync mà có thể tự tạo được ở client.
           _.forEach(itemsData['items'], (item: string) => {
             const orderIndex = items.findIndex((order: OrderDB) => {
-              return order.retail_id == item['retail_id'] && (!order.order_id || order.order_id == item['order_id']);
+              return order.retail_id === item['retail_id'] && (!order.order_id || order.order_id === item['order_id']);
             });
             if (orderIndex > -1) {
               items = items.update(orderIndex, (o: OrderDB) => {

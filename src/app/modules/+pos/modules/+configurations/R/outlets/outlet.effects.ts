@@ -17,6 +17,7 @@ import {Observable} from "rxjs/Observable";
 import {EntityActions} from "../../../../R/entities/entity/entity.actions";
 import {routerActions} from "@ngrx/router-store";
 import {RouterActions} from "../../../../../../R/router/router.actions";
+import {ConfigurationsState} from "../index";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
@@ -45,7 +46,7 @@ export class ConfigurationsOutletEffects {
                                     .filter((z) => (z[1] as PosEntitiesState).outlet.isFinished === true)
                                     .map((z) => {
                                       const outlets    = (z[1] as PosEntitiesState).outlet.items;
-                                      const filterData = <any>z[2].outlets.filterData;
+                                      const filterData = (z[2] as ConfigurationsState).outlets.filterData;
     
                                       return this.configurationsOutletActions.resolveOutlet(this.outletService.resolveFilterOutlets(outlets, filterData), false);
                                     });
@@ -54,6 +55,7 @@ export class ConfigurationsOutletEffects {
                                          .ofType(
                                            PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
                                          )
+                                         .filter(() => this.router.isActive('pos/configurations/default/pos/outlet', false))
                                          .filter((action: Action) => {
                                            return !!action.payload['entityCode'] ?
                                              [

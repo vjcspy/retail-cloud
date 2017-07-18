@@ -5,7 +5,7 @@
   </div>
   <ul class="left-menu">
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/general')}">
-      <span class="click" (click)="goGeneral()">{{ 'General' | translate }}</span>
+      <span class="click" (click)="go('pos/configurations/default/general')">{{ 'General' | translate }}</span>
     </li>
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}">
             <span class="click" (click)="go('pos/configurations/default/pos/product-category')">

@@ -42,10 +42,10 @@ export class CheckoutProductEffects {
                                        .withLatestFrom(this.store$.select('config'), (([action, checkoutProductState, entitiesState], configState) =>
                                          [action, checkoutProductState, entitiesState, configState]))
                                        .filter(([action, checkoutProductState]) => {
-                                         return checkoutProductState.productGridNumOfProductPerPage > 0;
+                                         return (checkoutProductState as any).productGridNumOfProductPerPage > 0;
                                        })
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
-                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(checkoutProductState, entitiesState.products.itemFiltered, configState))
+                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (entitiesState as any).products.itemFiltered, <any>configState))
                                                           .map((data: GeneralMessage) => {
                                                             return {
                                                               type: CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT, payload: data.data

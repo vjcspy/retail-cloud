@@ -34,7 +34,7 @@ export class PosConfigEffects {
                                        const orderCount = orderCounts.find((o: UserOrderCountDB) => o.register_id === (generalState as PosGeneralState).register['id']);
     
                                        if (!orderCount) {
-                                         return Observable.fromPromise(this.configService.createNewOrderCount(generalState))
+                                         return Observable.fromPromise(this.configService.createNewOrderCount(<any>generalState))
                                                           .map((_count) => {
                                                             return this.configActions.retrieveOrderCount(_count, false);
                                                           })
@@ -51,7 +51,7 @@ export class PosConfigEffects {
                                        const orderCount  = (configState as PosConfigState).orderCount;
                                        let newOrderCount = Object.assign({}, {...orderCount}, {order_count: parseInt(orderCount['order_count']) + 1});
     
-                                       return Observable.fromPromise(this.configService.createNewOrderCount(generalState, newOrderCount))
+                                       return Observable.fromPromise(this.configService.createNewOrderCount(<any>generalState, newOrderCount))
                                                         .map((_count) => {
                                                           return this.configActions.retrieveOrderCount(_count, false);
                                                         })
@@ -66,7 +66,7 @@ export class PosConfigEffects {
                                   .filter((z) => !!(z[2] as PosGeneralState).outlet && !!(z[2] as PosGeneralState).outlet['id'])
                                   .map(([action, entitiesState, generalState]) => {
                                     let receipt;
-                                    receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => parseInt(r['id'] + '') === parseInt(generalState.outlet['paper_receipt_template_id'] + ''));
+                                    receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => parseInt(r['id'] + '') === parseInt((generalState as PosGeneralState).outlet['paper_receipt_template_id'] + ''));
                                     if (!receipt) {
                                       receipt = (entitiesState as PosEntitiesState).receipts.items.find((r) => r['is_default'] === true);
                                     }

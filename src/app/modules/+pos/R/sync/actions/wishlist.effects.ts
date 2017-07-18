@@ -36,10 +36,11 @@ export class PosSyncWishlistEffects {
                                        .filter((z) => {
                                          const posQuoteState: PosQuoteState = (z[1] as PosQuoteState);
                                          const quote: Quote                 = posQuoteState.quote;
-                                         const configState: PosConfigState  = z[2];
+                                         const configState: PosConfigState  = <any>z[2];
     
-                                         if (!quote.getCustomer() || !quote.getCustomer().getId()
-                                             || quote.getCustomer().getId() == configState.setting.customer.getDefaultCustomerId()) {
+                                         if (!quote.getCustomer() || !quote.getCustomer().getId() ||
+                                             parseInt(quote.getCustomer()
+                                                           .getId() + '') === parseInt(configState.setting.customer.getDefaultCustomerId())) {
                                            this.notifyManager.error('please_select_customer');
                                            return false;
                                          }
@@ -61,7 +62,7 @@ export class PosSyncWishlistEffects {
                                        .flatMap((z) => {
                                          const posQuoteState: PosQuoteState  = (z[1] as PosQuoteState);
                                          const generalState: PosGeneralState = <any>z[3];
-                                         const configState: PosConfigState   = z[2];
+                                         const configState: PosConfigState   = <any>z[2];
     
                                          const order = this.syncService.prepareOrder(posQuoteState, generalState);
     

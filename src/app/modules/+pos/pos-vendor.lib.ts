@@ -8,7 +8,7 @@ import 'eonasdan-bootstrap-datetimepicker';
 import "perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js";
 
 // ion ranger slider
-import "ion-rangeslider/js/ion.rangeSlider.min.js";
+// import "ion-rangeslider/js/ion.rangeSlider.min.js";
 
 // toastr
 import "ng2-toastr/ng2-toastr.js";

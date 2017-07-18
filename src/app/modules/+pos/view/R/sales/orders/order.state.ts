@@ -4,7 +4,7 @@ import {orderDetailFactory, OrderDetailRecord} from "./detail/detail.state";
 
 export interface OrdersState {
   list: OrderListRecord;
-  detail: OrderDetailRecord
+  detail: OrderDetailRecord;
 }
 export interface OrdersStateRecord extends TypedRecord<any>, OrdersState {}
 
