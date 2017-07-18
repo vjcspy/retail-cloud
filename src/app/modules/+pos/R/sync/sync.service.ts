@@ -14,6 +14,7 @@ import {Item} from "../../core/framework/quote/Model/Quote/Item";
 import {DatabaseManager} from "../../../../services/database-manager";
 import {GeneralMessage} from "../../services/general/message";
 import {StringHelper} from "../../services/helper/string-helper";
+import {Order} from "../../core/framework/sales/Model/Order";
 
 @Injectable()
 export class PosSyncService {
@@ -62,7 +63,7 @@ export class PosSyncService {
       order['order']['whole_order_discount'] = {
         'value': quote.getData('discount_whole_order'),
         'isPercentMode': !quote.getData('is_value_discount_whole_order')
-      }
+      };
     }
     if (quote.getData('payment_data')) {
       order['order']['payment_data'] = quote.getData('payment_data');
@@ -116,7 +117,7 @@ export class PosSyncService {
       },
       sync_data: order,
       pushed: 0,
-      has_shipment: order['retail_has_shipment'] == true,
+      has_shipment: order['retail_has_shipment'] === true,
       user_id: generalState.user['id'],
       created_at: Timezone.getCurrentStringTime()
     };
@@ -136,8 +137,8 @@ export class PosSyncService {
         return true;
       }
       let _item = this.initItemData(item);
-      //if bundle product will be response children items
-      if (item.getHasChildren() && item.getProduct().getTypeId() == 'bundle') {
+      // if bundle product will be response children items
+      if (item.getHasChildren() && item.getProduct().getTypeId() === 'bundle') {
         _.forEach(item.getChildren(), (child: Item) => {
           _item['children'].push(this.initItemData(child));
         });
@@ -196,22 +197,21 @@ export class PosSyncService {
     }
     if (quote.getData('is_exchange')) {
       if (quote.getData('retail_has_shipment')) {
-        retail_status = 9;
+        retail_status = Order.RETAIL_ORDER_EXCHANGE_NOT_SHIPPED;
       } else {
-        retail_status = 10;
+        retail_status = Order.RETAIL_ORDER_EXCHANGE;
       }
-    }
-    else if (Math.abs(paid - quote.getShippingAddress().getGrandTotal()) > 0.01) {
+    } else if (Math.abs(paid - quote.getShippingAddress().getGrandTotal()) > 0.01) {
       if (quote.getData('retail_has_shipment')) {
-        retail_status = 2;
+        retail_status = Order.RETAIL_ORDER_PARTIALLY_PAID_NOT_SHIPPED;
       } else {
-        retail_status = 3;
+        retail_status = Order.RETAIL_ORDER_PARTIALLY_PAID;
       }
     } else {
       if (quote.getData('retail_has_shipment')) {
-        retail_status = 12;
+        retail_status = Order.RETAIL_ORDER_COMPLETE_NOT_SHIPPED;
       } else {
-        retail_status = 13;
+        retail_status = Order.RETAIL_ORDER_COMPLETE;
       }
     }
     
@@ -231,12 +231,11 @@ export class PosSyncService {
             },
             (e) => {
               let message;
-              if (e.status == 400) {
+              if (e.status === 400) {
                 let _mess = JSON.parse(e['_body']);
                 if (_mess.hasOwnProperty('message')) {
                   message = _mess['message'];
-                }
-                else {
+                } else {
                   message = "Unknown error when push order to server";
                 }
               } else {
@@ -248,11 +247,11 @@ export class PosSyncService {
             
                 db.orders.put(<any>orderOffline)
                   .then(() => resolve({data: {orderOffline, isPushSuccess: false}}))
-                  .catch((e) => reject({isError: true, e}));
+                  .catch((_e) => reject({isError: true, e: _e}));
               } else {
                 reject({isError: true, e});
               }
-            })
+            });
     });
   }
   

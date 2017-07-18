@@ -24,15 +24,15 @@
       <input #dateSelectTo class="calendar-picker" type="text"/>
     </div>
     <div class="selectbox-wrap">
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Payment status'"
                      [model]="ordersState.list.searchOrderStatus"
                      (modelChange)="searchOrderStatus($event)">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Shipment status'"
                      [model]="ordersState.list.searchOrderStatus"
                      (modelChange)="searchOrderStatus($event)">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()"
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getStatusElementData()" [defaultText]="'Order status'"
                      [model]="ordersState.list.searchOrderStatus"
                      (modelChange)="searchOrderStatus($event)">
       </retail-select>
