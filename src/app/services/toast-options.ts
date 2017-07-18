@@ -8,6 +8,7 @@ export class CustomToastOptions extends ToastsManager {
       positionClass: "toast-bottom-left",
       toastLife: 3456,
       animate: 'flyLeft',
+      dismiss: 'click',
       tapToDismiss: true,
       showCloseButton: true,
     }));
