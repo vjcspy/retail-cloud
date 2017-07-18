@@ -58,10 +58,10 @@ import {DialogModule} from "./modules/dialog/dialog.module";
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
+              {provide: ToastOptions, useClass: CustomToastOptions},
               SelectivePreloadingStrategy,
               LocalStorageService, SessionStorageService,
               AppStorage,
-              {provide: ToastOptions, useClass: CustomToastOptions},
               ...APP_PROVIDERS,
               ...METEOR_COLLECTION,
               ENV_PROVIDERS,
