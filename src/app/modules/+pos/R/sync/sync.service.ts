@@ -221,7 +221,7 @@ export class PosSyncService {
   protected pushOrderOfflineToServer(orderOffline: any, generalState: PosGeneralState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
     const db = this.db.getDbInstance();
     return new Promise((resolve, reject) => {
-      this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), orderOffline['sync_data'])
+      this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), Object.assign({}, {...orderOffline['sync_data']}, {orderOffline}))
           .subscribe(
             () => {
               orderOffline.pushed = 1;
