@@ -21,7 +21,7 @@ export class ListService {
                         dateTo +
                         "&searchCriteria[pageSize]=100" +
                         "&searchCriteria[outletId]=" + generalState.outlet['id'] +
-                        "&searchCriteria[getErrorOrder]=" + getErrorOrder +
+                        "&searchCriteria[getErrorOrder]=" + ((getErrorOrder === true) ? '1' : '0') +
                         "&searchCriteria[storeId]=" + generalState.store['id']);
   }
 }

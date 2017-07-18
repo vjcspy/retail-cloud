@@ -70,7 +70,7 @@ export class OrderService {
           },
           {
             value: "1",
-            label: "No Ship",
+            label: "No Shipping",
           },
           {
             value: "2",
@@ -100,10 +100,10 @@ export class OrderService {
     if (isSearchOnline === false) {
       this._data['sync_status'].data.push({
                                             value: "0",
-                                            label: "Not Pushed",
+                                            label: "Not Synced",
                                           }, {
                                             value: "1",
-                                            label: "Pushed",
+                                            label: "Synced",
                                           });
     }
     
