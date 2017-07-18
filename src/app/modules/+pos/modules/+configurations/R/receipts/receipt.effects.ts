@@ -66,4 +66,14 @@ export class ConfigurationsReceiptEffects {
                                            })
                                            .catch((e) => Observable.of(this.configurationsReceiptActions.saveReceiptFail('can_not_save_receipt_from_sv', e, false)));
                               });
+  
+  @Effect() removeLicenseWhenSelect = this.actions$
+                                          .ofType(ConfigurationsReceiptActions.ACTION_SELECT_RECEIPT)
+                                          .map(() => {
+                                            setTimeout(() => {
+                                              jQuery("a:contains('Unlicensed Froala Editor')").remove();
+                                            }, 250);
+    
+                                            return this.configurationsReceiptActions.removedLicenseEditor(false);
+                                          });
 }

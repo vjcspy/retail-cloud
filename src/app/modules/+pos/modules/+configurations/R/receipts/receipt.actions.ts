@@ -65,4 +65,16 @@ export class ConfigurationsReceiptActions {
     
     return action;
   }
+  
+  static ACTION_REMOVED_LICENSE_EDITOR = 'ACTION_REMOVED_LICENSE_EDITOR';
+  
+  removedLicenseEditor(dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsReceiptActions.ACTION_REMOVED_LICENSE_EDITOR, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
