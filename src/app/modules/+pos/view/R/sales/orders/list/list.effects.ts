@@ -168,9 +168,9 @@ export class ListEffects {
                                                          order['id'] = order['order_id'];
                                                          orders      = orders.push(order);
                                                        });
-                                                       let ordersSorted = orders.sortBy((o) => {
-                                                         return -parseInt(o['order_id']);
-                                                       });
+                                                       let ordersSorted = orders.sort(
+                                                         (a, b) => -a['created_at'].localeCompare(b['created_at'])
+                                                       );
         
                                                        let group = ordersSorted.groupBy((o) => moment(new Date(o['created_at']))
                                                          .format("dddd, MMMM Do YYYY"));
