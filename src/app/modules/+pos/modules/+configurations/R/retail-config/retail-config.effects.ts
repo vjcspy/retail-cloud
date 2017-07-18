@@ -60,6 +60,7 @@ export class RetailConfigEffects {
                                              PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
                                            )
                                            .filter((action) => action.payload['entityCode'] === RetailConfigDB.getCode())
+                                           .filter(() => this.router.isActive('pos/configurations/default/pos', false))
                                            .withLatestFrom(this.store$.select('entities'))
                                            .map((z) => {
                                              let retailConfig = {};
