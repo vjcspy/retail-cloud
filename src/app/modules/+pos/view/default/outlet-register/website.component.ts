@@ -4,6 +4,7 @@ import {AccountActions} from "../../../../../R/account/account.actions";
 import {LocalStorage} from "ngx-webstorage";
 import * as _ from 'lodash';
 import {PosGeneralActions} from "../../../R/general/general.actions";
+import {RouterActions} from "../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +17,7 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   @LocalStorage('baseUrl')
   public baseUrl: string;
   
-  constructor(public accountActions: AccountActions, public generalActions: PosGeneralActions) { }
+  constructor(public accountActions: AccountActions, public generalActions: PosGeneralActions, private routerActions: RouterActions) { }
   
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.baseUrl || this.baseUrl === "") {
@@ -49,5 +50,9 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   
   hasWebsite() {
     return this.generalState.urls.count() > 0;
+  }
+  
+  go(path: string) {
+    this.routerActions.go(path);
   }
 }
