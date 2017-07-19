@@ -8,6 +8,10 @@
   <pos-default-sales-checkout-cart-customers *ngIf="cartCustomerState.inSearchCustomers" [configState]="configState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-customers>
 
+  <pos-default-sales-checkout-cart-refund-items *ngIf="configState.isResolveSetting && quoteState.creditmemo"
+                                                [configState]="configState" [posQuoteState]="quoteState">
+  </pos-default-sales-checkout-cart-refund-items>
+
   <pos-default-sales-checkout-cart-items class="cart-items-comp" *ngIf="configState.isResolveSetting"
                                          [configState]="configState" [quoteState]="quoteState" [cartItemState]="cartItemState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-items>
