@@ -780,19 +780,20 @@ textarea[readonly="readonly"] {
 
 
 // Checkbox input
-
-// Radio input
 .checkbox-input{
-    position: relative;
-    &:hover{
-      cursor: pointer;
-    }
-   input{              
+  position: relative;
+  &:hover{
+    cursor: pointer;
+  }
+   input[type="checkbox"]{              
     position: absolute;
     z-index: 10;
     opacity: 0;             
     width: 17px;
     height: 17px;
+    margin: 0;
+    left: 0;
+    top: 0;
   }
   label{
     position: relative;    
@@ -802,6 +803,7 @@ textarea[readonly="readonly"] {
     font-family: $mainFont;
     font-size: 13px;
     color: $gray60;
+    font-weight: normal;
 
   &:before{
       height: 17px;
@@ -819,8 +821,77 @@ textarea[readonly="readonly"] {
       line-height: 17px;
     }
   }
-  input:checked + label:before{
+  input[type="checkbox"]:checked + label:before{
     content:"\e918";
     font-family:'icomoon';
   }
+}
+// Radio input
+.radio-input{
+  position: relative;  
+  &:hover{
+    cursor: pointer;
+  }
+   input[type="radio"]{              
+    position: absolute;
+    z-index: 10;
+    opacity: 0;             
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    left: 0;
+    top: 3px;
+  }
+  label{
+    position: relative;    
+    z-index: 9;    
+    padding-left: 30px;
+    margin-top: 4px;
+    font-family: $mainFont;
+    font-size: 13px;
+    color: $gray60;
+    font-weight: normal;
+    line-height: 1.3;
+    margin: 0;
+    min-height: 17px;
+
+    &:before{
+      height: 17px;
+      width: 17px;      
+      display: inline-block;
+      border-radius: 50%;
+      background: $cbkg;
+      border: 1px solid $gray;
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: $white;      
+      line-height: 17px;
+    }
+  }
+  input[type="radio"]:checked{
+    ~ label{
+      &:before{
+        border: 1px solid $cgreen;
+        background: none;
+      }
+      &:after{
+        border: none;
+        background: $cgreen;
+        height: 9px;
+        width: 9px;      
+        display: inline-block;
+        border-radius: 50%;      
+        content: "";
+        display: inline-block;
+        position: absolute;
+        left: 4px;
+        top: 6px;
+      }
+
+    }
+  } 
+
 }

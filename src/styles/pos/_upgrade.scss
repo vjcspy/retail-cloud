@@ -704,7 +704,7 @@
   }
 
   // shipment
-  &.shipment-popup{
+  &.shipment-list-popup{
     .list-mode-top{
       label{
         color: $cgreen;
@@ -916,7 +916,7 @@
     .content-scroll{
       position: relative;
       max-height: 300px;
-      overflow-x: hidden;
+      padding: 0 15px;
     }
     .form-group{
       label{
