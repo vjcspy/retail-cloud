@@ -37,6 +37,7 @@ export class QuoteRefundEffects {
                                      data['creditmemo'] = action.payload['creditmemo'];
                                    }
     
+                                   this.notify.info("loading_creditmemo");
                                    return this.refundService.createLoadCreditmemoRequest(data, generalState)
                                               .filter((_data) => {
                                                 if (_.isObject(_data) && _data.hasOwnProperty('items')) {
@@ -47,6 +48,7 @@ export class QuoteRefundEffects {
                                                 }
                                               })
                                               .map((d) => {
+                                                this.notify.success('load_creditmemo_success');
                                                 return !isSave ?
                                                   this.refundActions.loadCreditmemoSuccess(d, false) :
                                                   this.refundActions.saveCreditmemoSuccess(d['items'][0], false);
