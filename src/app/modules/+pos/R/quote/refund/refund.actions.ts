@@ -41,4 +41,16 @@ export class QuoteRefundActions {
     
     return action;
   }
+  
+  static ACTION_UPDATE_CREDITMEMO_DATA = 'ACTION_UPDATE_CREDITMEMO_DATA';
+  
+  updateCreditmemoData(creditmemo, dispatch: boolean = true): Action {
+    const action = {type: QuoteRefundActions.ACTION_UPDATE_CREDITMEMO_DATA, payload: {creditmemo}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

@@ -36,13 +36,16 @@ export class PosDefaultSalesCheckoutCartRefundItemsComponent implements OnInit {
       item['qty'] = item['qty_to_refund'];
       needReload  = true;
     }
+    
     if (needReload) {
+      this.refundActions.loadCreditmemo(this.posQuoteState.creditmemo['order_id'], this.posQuoteState.creditmemo);
     }
   }
   
   getChildrenBundle(item) {
     if (!this.data.hasOwnProperty('children')) {
       this.data['children'] = [];
+      
       _.forEach(this.posQuoteState.creditmemo['items'], (_item) => {
         if (parseInt(_item['parent_id']) === parseInt(item['item_id'])) {
           this.data['children'].push(_item);
