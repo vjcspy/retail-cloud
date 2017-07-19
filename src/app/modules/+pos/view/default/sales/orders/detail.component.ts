@@ -8,6 +8,9 @@ import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {RouterActions} from "../../../../../../R/router/router.actions";
 import {ReceiptActions} from "../../../R/sales/receipts/receipt.actions";
 import {OrderListAddPaymentActions} from "../../../R/sales/checkout/step/order-list-add-payment/add-payment.actions";
+import {AuthenticateService} from "../../../../../../services/authenticate";
+import {NotifyManager} from "../../../../../../services/notify-manager";
+import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 
 @Component({
              // moduleId: module.id,
@@ -27,7 +30,10 @@ export class PosDefaultSalesOrdersDetailComponent {
   constructor(public orderService: OrderService,
               protected quoteActions: PosQuoteActions,
               protected routerActions: RouterActions,
+              protected authService: AuthenticateService,
+              private notify: NotifyManager,
               protected receiptActions: ReceiptActions,
+              protected refundActions: QuoteRefundActions,
               protected addPaymentActions: OrderListAddPaymentActions) { }
   
   getPayment() {
@@ -84,5 +90,20 @@ export class PosDefaultSalesOrdersDetailComponent {
   
   addPayments() {
     this.addPaymentActions.needAddPayment(this.getOrder());
+  }
+  
+  refund() {
+    if (this.authService.userCan('make_refund')) {
+      if (this.getOrder()['can_creditmemo'] && this.getOrder()['order_id']) {
+        const orderId = parseInt(this.getOrder()['order_id']);
+        this.routerActions.go('pos/default/sales/checkout');
+        setTimeout(() => {
+          this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: []});
+          this.refundActions.loadCreditmemo(orderId);
+        }, 250);
+      }
+    } else {
+      this.notify.error("you don't have permission to perform this action");
+    }
   }
 }

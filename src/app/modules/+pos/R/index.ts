@@ -47,6 +47,7 @@ import {AssignConfigCoreEffects} from "./config/assign/assign-core.effects";
 import {EntityActions} from "./entities/entity/entity.actions";
 import {QuoteRefundService} from "./quote/refund/refund.service";
 import {QuoteRefundEffects} from "./quote/refund/refund.effects";
+import {QuoteRefundActions} from "./quote/refund/refund.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -91,6 +92,7 @@ export const R_POS_PROVIDERS = [
   QuoteItemActions,
   QuoteCustomerService,
   QuoteRefundService,
+  QuoteRefundActions,
   
   PosPullActions,
   // PosPullEffects,
