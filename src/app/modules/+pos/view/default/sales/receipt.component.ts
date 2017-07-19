@@ -291,13 +291,13 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
             .bottom-br .copy-right {font-size: 11px; color: #818181; margin: 0;}
 			.bottom-br .bar-code {width: 54.75%; height: auto;}
-            .inner {padding: 0 10px;}
+            .inner {padding: 20px 23px 0;}
             .inner h2, .inner h3 {margin: 0;}
             .inner h2 {font-weight: 800; font-size: 18px; text-align: center; margin-top: 0;}
             .client-info {
                 position: relative;
                 font-size: 10px; line-height: normal;
-                margin: 23px 0 20px;
+                margin: 20px 0 31px;
 
             }
             .client-info h3 {font-size: 10px;}

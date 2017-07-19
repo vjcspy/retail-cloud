@@ -883,16 +883,7 @@
   padding: 20px 0;
   .form-popup-top{
     border-bottom: 1px solid $border;
-    padding-bottom: 15px;    
-    h2{
-      color: $grayDark;
-      font-size: 17px; 
-      font-family: $boldFont;
-      text-transform: uppercase;
-      text-align: center;
-      margin: 0 0 15px;
-      
-    }
+    padding-bottom: 15px;
     .shipment-amount{
       font-size: 15px;  
       display: flex;
@@ -910,6 +901,14 @@
       }
     }
   }
+  h2{
+      color: $grayDark;
+      font-size: 17px; 
+      font-family: $boldFont;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 0 15px;      
+    }
   .form-popup-content{
     width: 550px;
     margin: 20px auto 0;    
@@ -944,14 +943,26 @@
 
 }
 
-.checkbox-wrap{
-  input{
-    width: 17px;
-    height: 17px;
+// add note form
+#addNotePopup{
+  height: auto !important;
+  width: 530px;
+}
+.addNote-form{
+  padding: 20px 30px;
+  h2{
+    text-align: left;
   }
-  label{
-    font-family: $mainFont;
-    font-size: 13px;
-    color: $mainTxt;
+  .form-popup-content{
+    width: auto;
+    margin: 0;
+    textarea{
+      min-height: 100px;
+      font-family: $mainFont;
+      border: none;
+    }
+    .button-group{
+      margin-top: 20px;
+    }
   }
 }
