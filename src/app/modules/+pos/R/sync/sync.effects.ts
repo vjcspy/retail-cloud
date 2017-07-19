@@ -16,6 +16,7 @@ import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {PosQuoteState} from "../quote/quote.state";
 import {EntityActions} from "../entities/entity/entity.actions";
 import {OrderDB} from "../../database/xretail/db/order";
+import {PosGeneralState} from "../general/general.state";
 
 @Injectable()
 export class PosSyncEffects {
@@ -26,7 +27,8 @@ export class PosSyncEffects {
               private notify: NotifyManager,
               private offline: OfflineService,
               private syncActions: PosSyncActions,
-              private entityActions: EntityActions) { }
+              private entityActions: EntityActions,
+              private rootActions: RootActions) { }
   
   @Effect() prepareOrderToSync = this.actions$
                                      .ofType(
@@ -38,8 +40,16 @@ export class PosSyncEffects {
                                      .withLatestFrom(this.store$.select('general'))
                                      .withLatestFrom(this.store$.select('quote'),
                                                      ([action, generalState], quoteState) => [action, generalState, quoteState])
-                                     .map(([action, generalState, quoteState]) => {
-                                       return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), false);
+                                     .map((z: any) => {
+                                       const quoteState: PosQuoteState     = z[2];
+                                       const generalState: PosGeneralState = z[1];
+                                       if (quoteState.items.count() > 0) {
+                                         return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), false);
+                                       } else if (quoteState.info.isRefunding) {
+                                         return this.syncActions.syncOrderSuccess(quoteState.quote, false);
+                                       } else {
+                                         return this.rootActions.error("nothing_to_sync", null, false);
+                                       }
                                      });
   
   @Effect() syncOrder = this.actions$.ofType(PosSyncActions.ACTION_PREPARE_ORDER_SYNC)

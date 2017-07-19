@@ -414,4 +414,14 @@ export class Quote extends DataObject {
   getRewardPointData() {
     return this.getData('reward_point');
   }
+  
+  getPaymentData() {
+    return this.getData('payment_data');
+  }
+  
+  setPaymentData(payments) {
+    this.setData('payment_data', payments);
+    
+    return this;
+  }
 }

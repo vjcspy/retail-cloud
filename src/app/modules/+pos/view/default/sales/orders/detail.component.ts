@@ -57,16 +57,16 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   getTotalPaidBaseOnPayment() {
-    if (!this._data.totalPaid.hasOwnProperty(this.getOrder()['id'])) {
+    if (!this._data.totalPaid.hasOwnProperty(this.getOrder()['retail_id'])) {
       let paid = 0;
       _.forEach(this.getPayment(), (p) => {
         if (parseInt(p['is_purchase']) === 1) {
           paid += parseFloat(p['amount']);
         }
       });
-      this._data.totalPaid[this.getOrder()['id']] = paid;
+      this._data.totalPaid[this.getOrder()['retail_id']] = paid;
     }
-    return this._data.totalPaid[this.getOrder()['id']];
+    return this._data.totalPaid[this.getOrder()['retail_id']];
   }
   
   getCountryNameFromId(country_id: string) {

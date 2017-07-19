@@ -20,11 +20,11 @@ export class PosStepService {
     return {totalPaid, remain, grandTotal};
   }
   
-  canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number
-    | boolean {
+  canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number | boolean {
     // check split payment
-    if (stepState.paymentMethodUsed.count() >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding))
+    if (stepState.paymentMethodUsed.count() >= 1 && (!configState.posRetailConfig.allowSplitPayment || quoteState.info.isRefunding)) {
       return false;
+    }
     
     // check payment gateway
     if (['tyro'].indexOf(method['type']) >= 0 && stepState.listPayment3rdData.count() > 0) {
@@ -36,11 +36,13 @@ export class PosStepService {
     // check amount
     let gt             = stepState.totals.grandTotal;
     let _currentAmount = 0;
-    stepState.paymentMethodUsed.forEach((method: PaymentMethod) => {
-      _currentAmount += this.getvalidatedAmountPayment(method.amount);
+    stepState.paymentMethodUsed.forEach((_method: PaymentMethod) => {
+      _currentAmount += this.getvalidatedAmountPayment(_method.amount);
     });
-    if (_currentAmount >= gt && !quoteState.info.isRefunding)
+    
+    if (_currentAmount >= gt && !quoteState.info.isRefunding) {
       return false;
+    }
     
     return NumberHelper.round((gt - _currentAmount), 2);
   }

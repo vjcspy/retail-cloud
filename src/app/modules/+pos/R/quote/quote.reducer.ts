@@ -37,7 +37,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       let refundAmount = 0;
       let gt           = 0;
       if (state.info.isRefunding && state.creditmemo) {
-        refundAmount = this.posRefund.creditmemo['totals']['grand_total'];
+        refundAmount = state.creditmemo['totals']['grand_total'];
       }
       if (state.quote.getShippingAddress()['grand_total']) {
         gt = state.quote.getShippingAddress()['grand_total'];
