@@ -207,7 +207,7 @@ export class PosStepEffects {
                                                    return {};
                                                  });
                               } else {
-                                if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true) {
+                                if (posQuoteState.items.count() > 0 && (!posQuoteState.quote.getRewardPointData() || posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true)) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
                                                      return Observable.from([

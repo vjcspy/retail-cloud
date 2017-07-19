@@ -85,28 +85,28 @@ export const R_POS_VIEW_IMPORTS = [
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
-  PosViewRouterEffects,
+  // PosViewRouterEffects,
   
   /*Product*/
   CheckoutProductCategoryActions,
-  CheckoutProductCategoryEffects,
+  // CheckoutProductCategoryEffects,
   CheckoutProductActions,
-  CheckoutProductEffects,
+  // CheckoutProductEffects,
   CheckoutProductService,
   
   /*Cart action bar*/
   CartActionBarActions,
   CartActionBarService,
-  CartActionBarEffects,
+  // CartActionBarEffects,
   
   /*Cart customer*/
   CartCustomerActions,
-  CartCustomEffects,
+  // CartCustomEffects,
   CartCustomerService,
   
   /*Cart items*/
   CartItemActions,
-  CartItemEffects,
+  // CartItemEffects,
   CartItemService,
   
   /*Cart totals*/
@@ -114,25 +114,25 @@ export const R_POS_VIEW_PROVIDERS = [
   
   /*Popup*/
   ProductOptionsActions,
-  ProductOptionsEffects,
+  // ProductOptionsEffects,
   ProductOptionsService,
   
   /*Checkout Step*/
   PosStepActions,
-  PosStepEffects,
+  // PosStepEffects,
   PosStepService,
   OrderListAddPaymentActions,
   OrderListAddPaymentService,
-  OrderListAddPaymentEffects,
+  // OrderListAddPaymentEffects,
   
   // 3RD payment
   TyroActions,
   TyroEffects,
   TyroService,
   
-  //Receipt
+  // Receipt
   ReceiptActions,
-  ReceiptEffects,
+  // ReceiptEffects,
   ReceiptService,
   
   // Menu
@@ -142,16 +142,16 @@ export const R_POS_VIEW_PROVIDERS = [
   OrderService,
   ListActions,
   ListService,
-  ListEffects,
+  // ListEffects,
   
   // Shifts
   ShiftService,
   ShiftActions,
   ShiftListActions,
   ShiftListService,
-  ShiftListEffects,
+  // ShiftListEffects,
   ShiftDetailActions,
-  ShiftDetailEffects,
+  // ShiftDetailEffects,
   ShiftDetailService,
 ];
 

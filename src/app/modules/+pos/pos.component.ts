@@ -19,12 +19,5 @@ export class PosComponent {
               private notify: NotifyManager) {
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
-    
-    setTimeout(() => {
-      this.notify.success("Success");
-      this.notify.info("Info");
-      this.notify.warning("Warning");
-      this.notify.error("Error");
-    }, 1000);
   }
 }
