@@ -9,6 +9,7 @@ import {IntegrateRpActions} from "../integrate/rp/integrate-rp.actions";
 import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {mergeSliceReducers} from "../../../../R/index";
 import {quoteItemReducer} from "./item/item.reducer";
+import {quoteRefundReducer} from "./refund/refund.reducer";
 
 
 const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
@@ -72,4 +73,4 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
   }
 };
 
-export const quoteReducer: ActionReducer<PosQuoteStateRecord> = mergeSliceReducers(posQuoteStateFactory(), quoteMainReducer, quoteItemReducer);
+export const quoteReducer: ActionReducer<PosQuoteStateRecord> = mergeSliceReducers(posQuoteStateFactory(), quoteMainReducer, quoteItemReducer, quoteRefundReducer);

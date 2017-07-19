@@ -45,6 +45,8 @@ import {PosSyncWishlistService} from "./sync/actions/wishlist.service";
 import {EntityOrderEffects} from "./entities/entity/order.effects";
 import {AssignConfigCoreEffects} from "./config/assign/assign-core.effects";
 import {EntityActions} from "./entities/entity/entity.actions";
+import {QuoteRefundService} from "./quote/refund/refund.service";
+import {QuoteRefundEffects} from "./quote/refund/refund.effects";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -61,45 +63,47 @@ export const R_POS_IMPORTS = [
   EffectsModule.run(AssignConfigCoreEffects),
   EffectsModule.run(PosSyncEffects),
   EffectsModule.run(PosSyncWishlistEffects),
+  EffectsModule.run(QuoteRefundEffects),
 ];
 
 export const R_POS_PROVIDERS = [
   PosAssignActions,
-  PosAssignEffects,
+  // PosAssignEffects,
   
   PosGeneralActions,
   PosGeneralService,
-  PosGeneralEffects,
+  // PosGeneralEffects,
   
   PosEntitiesService,
   PosEntitiesActions,
-  PosEntitiesEffects,
+  // PosEntitiesEffects,
   RealtimeActions,
-  RealtimeEffects,
+  // RealtimeEffects,
   RealtimeService,
   EntityActions,
   EntityOrderActions,
-  EntityOrderEffects,
+  // EntityOrderEffects,
   
   PosQuoteService,
-  PosQuoteEffects,
+  // PosQuoteEffects,
   PosQuoteActions,
-  QuoteItemEffects,
+  // QuoteItemEffects,
   QuoteItemActions,
   QuoteCustomerService,
+  QuoteRefundService,
   
   PosPullActions,
-  PosPullEffects,
+  // PosPullEffects,
   
   PosConfigActions,
-  PosConfigEffects,
+  // PosConfigEffects,
   PosConfigService,
   
-  PosSyncEffects,
+  // PosSyncEffects,
   PosSyncService,
   PosSyncActions,
   PosSyncWishlistActions,
-  PosSyncWishlistEffects,
+  // PosSyncWishlistEffects,
   PosSyncWishlistService,
   
   IntegrateRpActions,

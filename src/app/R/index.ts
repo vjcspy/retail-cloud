@@ -50,12 +50,12 @@ if ('production' !== ENV) {
  */
 export const R_PROVIDERS = [
   RootActions,
-  RootEffects,
+  // RootEffects,
   RouterActions,
   
   AccountActions,
   AccountService,
-  AccountEffects
+  // AccountEffects
 ];
 
 

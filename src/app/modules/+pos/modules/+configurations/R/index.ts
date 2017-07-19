@@ -32,19 +32,19 @@ export const R_IMPORT = [
 export const R_PROVIDER = [
   RetailConfigService,
   RetailConfigActions,
-  RetailConfigEffects,
+  // RetailConfigEffects,
   
-  ConfigurationsOutletEffects,
+  // ConfigurationsOutletEffects,
   ConfigurationsOutletService,
   ConfigurationsOutletActions,
   
   ConfigurationsPaymentActions,
-  ConfigurationsPaymentEffects,
+  // ConfigurationsPaymentEffects,
   ConfigurationsPaymentService,
   
   ConfigurationsReceiptActions,
   ConfigurationsReceiptService,
-  ConfigurationsReceiptEffects,
+  // ConfigurationsReceiptEffects,
 ];
 
 export interface ConfigurationsState {
