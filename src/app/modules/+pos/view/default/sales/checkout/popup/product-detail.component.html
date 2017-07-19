@@ -1,7 +1,7 @@
 <div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">  
   <div class="popup-content">
     <!-- New address -->
-    <div class="form-popup new-address-popup">
+    <div class="form-popup new-address-popup hide">
         <div class="form-popup-top">
           <h2>New address</h2>             
         </div>
@@ -58,7 +58,7 @@
               </div>
               <div class="row">
                 <div class="col-sm-12">
-                  <div class="checkbox-wrap">
+                  <div class="checkbox-input">
                     <input type="checkbox" id="add-address">
                     <label for="add-address">Add to address book</label>
                 </div>
@@ -134,7 +134,7 @@
               </div>
               <div class="row">
                 <div class="col-sm-12">
-                  <div class="checkbox-wrap">
+                  <div class="checkbox-input">
                     <input type="checkbox" id="add-address">
                     <label for="add-address">Add to address book</label>
                 </div>
@@ -150,7 +150,7 @@
     </div>
 
     <!-- shipment-popup -->
-    <div class="list-mode-popup shipment-popup hide">
+    <div class="list-mode-popup shipment-popup">
       <h2>Add shipment</h2>
       <div class="list-mode-content">        
         <div class="list-mode-top clearfix">
@@ -173,9 +173,9 @@
         <ul class="list-mode-content scroll" perfectScroll>          
           <li class="item">
               <div class="col-item name">
-                <div class="radio-box single-list">
+                <div class="radio-input">
                   <input type="radio">
-                  <span></span>
+                  <label></label>
                 </div>
                 <div class="info">
                   <h3>sydney Opera House</h3>
@@ -197,9 +197,9 @@
           </li>
           <li class="item">
               <div class="col-item name">
-                <div class="radio-box single-list">
+                <div class="radio-input">
                   <input type="radio">
-                  <span></span>
+                  <label></label>
                 </div>
                 <div class="info">
                   <h3>sydney Opera House</h3>
@@ -221,9 +221,9 @@
           </li>
           <li class="item">
               <div class="col-item name">
-                <div class="radio-box single-list">
+                <div class="radio-input">
                   <input type="radio">
-                  <span></span>
+                  <label></label>
                 </div>
                 <div class="info">
                   <h3>sydney Opera House</h3>
@@ -245,9 +245,9 @@
           </li>
           <li class="item">
               <div class="col-item name">
-                <div class="radio-box single-list">
+                <div class="radio-input">
                   <input type="radio">
-                  <span></span>
+                  <label></label>
                 </div>
                 <div class="info">
                   <h3>sydney Opera House</h3>
