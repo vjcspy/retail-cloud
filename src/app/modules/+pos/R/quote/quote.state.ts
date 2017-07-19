@@ -11,7 +11,7 @@ export interface PosQuoteState {
   customer: Customer;
   shippingAdd: Address;
   billingAdd: Address;
-  items: List<DataObject>; //BuyRequest
+  items: List<DataObject>;
   hasShipment: boolean;
   shippingAmount: number;
   
