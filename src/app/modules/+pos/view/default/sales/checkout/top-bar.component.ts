@@ -26,7 +26,10 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                                  .valueChanges
                                                                  .debounceTime(this.configState.constrain['debounceTimeSearch'])
                                                                  .distinctUntilChanged()
-                                                                 .subscribe((searchString: string) => this.checkoutProductActions.updateGridState({searchString}))
+                                                                 .subscribe((searchString: string) => this.checkoutProductActions.updateGridState({
+                                                                                                                                                    searchString,
+                                                                                                                                                    lastLuckySearchString: null
+                                                                                                                                                  }))
     );
   }
 }

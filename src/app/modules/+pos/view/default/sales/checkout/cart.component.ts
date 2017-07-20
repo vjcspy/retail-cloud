@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 import {PosConfigState} from "../../../../R/config/config.state";
@@ -12,7 +12,7 @@ import {RouterActions} from "../../../../../../R/router/router.actions";
              templateUrl: 'cart.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesCheckoutCartComponent implements OnInit {
+export class PosDefaultSalesCheckoutCartComponent{
   @Input() quoteState: PosQuoteState;
   @Input() cartCustomerState: CartCustomerState;
   @Input() configState: PosConfigState;
@@ -20,13 +20,6 @@ export class PosDefaultSalesCheckoutCartComponent implements OnInit {
   @Input() cartTotalsState: CartTotalsState;
   
   constructor(private routerActions: RouterActions) { }
-  
-  ngOnInit() {
-  }
-  
-  protected onResizeCart() {
-    console.log('not implement resize cart');
-  }
   
   openShift() {
     this.routerActions.go('pos/default/sales/shifts');

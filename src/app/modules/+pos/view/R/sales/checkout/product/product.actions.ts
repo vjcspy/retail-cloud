@@ -4,10 +4,21 @@ import {Action, Store} from "@ngrx/store";
 @Injectable()
 export class CheckoutProductActions {
   static ACTION_CALCULATE_GRID_STYLE = 'ACTION_CALCULATE_GRID_STYLE';
+  
+  constructor(private store$: Store<any>) { }
+  
   // Sau khi resolve product trong grid
   static ACTION_RESOLVE_GRID_PRODUCT = 'ACTION_RESOLVE_GRID_PRODUCT';
   
-  constructor(private store$: Store<any>) { }
+  resolvedGridProduct(data, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT, payload: {...data}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
   
   /**
    ** @REDUCER:
@@ -35,8 +46,14 @@ export class CheckoutProductActions {
    */
   static ACTION_UPDATE_GRID_STATE = 'ACTION_UPDATE_GRID_STATE';
   
-  updateGridState(data): void {
-    this.store$.dispatch({type: CheckoutProductActions.ACTION_UPDATE_GRID_STATE, payload: data});
+  updateGridState(data, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductActions.ACTION_UPDATE_GRID_STATE, payload: {...data}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
   
   static ACTION_LOAD_MORE_PAGE = 'ACTION_LOAD_MORE_PAGE';

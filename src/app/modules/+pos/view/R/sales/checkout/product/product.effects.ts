@@ -8,13 +8,18 @@ import {CheckoutProductService} from "./product.service";
 import {CheckoutProductActions} from "./product.actions";
 import {CheckoutProductCategoryActions} from "./category/category.actions";
 import {Router} from "@angular/router";
+import {CheckoutProductState} from "./product.state";
+import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 
 @Injectable()
 export class CheckoutProductEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions,
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
               private checkoutProductsService: CheckoutProductService,
-              private router: Router) { }
+              private checkoutProductActions: CheckoutProductActions,
+              private router: Router,
+              private quoteActions: PosQuoteActions) { }
   
   @Effect() triggerCalculateGridStyle = this.actions$
                                             .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
@@ -47,10 +52,24 @@ export class CheckoutProductEffects {
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (entitiesState as any).products.itemFiltered, <any>configState))
                                                           .map((data: GeneralMessage) => {
-                                                            return {
-                                                              type: CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT, payload: data.data
-                                                            };
+                                                            return this.checkoutProductActions.resolvedGridProduct(data.data, false);
                                                           });
                                        });
   
+  @Effect() luckySearch = this.actions$
+                              .ofType(CheckoutProductActions.ACTION_RESOLVE_GRID_PRODUCT)
+                              .withLatestFrom(this.store$.select('checkoutProduct'))
+                              .filter((z: any) => {
+                                const checkoutProductState: CheckoutProductState = z[1];
+                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null && checkoutProductState.searchString !== checkoutProductState.lastLuckySearchString;
+                              })
+                              .flatMap((z: any) => {
+                                const checkoutProductState: CheckoutProductState = z[1];
+                                const product                                    = checkoutProductState.productGridProducts.first();
+    
+                                return Observable.from([
+                                                         this.checkoutProductActions.updateGridState({lastLuckySearchString: checkoutProductState.searchString}, false),
+                                                         this.quoteActions.selectProductToAdd(product, 1, false, null, false, false)
+                                                       ]);
+                              });
 }
