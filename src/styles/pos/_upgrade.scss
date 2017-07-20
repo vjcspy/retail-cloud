@@ -65,6 +65,10 @@
           position: absolute;
           @include center-pos;
           z-index: 12;
+          padding: 0 10px;
+          white-space: normal;
+          overflow: hidden;
+          max-height: 50px;
 
         }
         @include tablet{
@@ -72,6 +76,7 @@
           width: 140px;
           .cat-name{
             font-size: 12px;
+            max-height: 44px;
           }
         }
       }

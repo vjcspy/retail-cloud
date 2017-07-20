@@ -3737,14 +3737,15 @@ ul.has-list {
       font-size: $size; padding-right: 15px;
     }
   }
-  .date {color: #7D7D7D; padding: 0 0 15px $hozcSpace; margin-top: 34px; font-family: $mediumFont}
+  .date {color: #7D7D7D; padding: 15px 0 15px $hozcSpace; margin-top: 0; font-family: $boldFont;background: #e2e2e2}
   .items {
     position: relative;
     background: $white;
-    padding: 14px $hozSpace 17px $hozcSpace; margin-bottom: 1px;
+    padding: 14px $hozSpace 17px $hozcSpace; 
+    border-bottom: 1px solid #e2e2e2;
     @include clearfix;
     @include single-transition(all,0.3s);
-    &:hover, &.active {background: #ECEAEB;}
+    &:hover, &.active {background:$cbkg;}
     h3, p {margin: 0; padding: 0;}
     h3 {
       font-family: $boldFont;
@@ -3777,6 +3778,7 @@ ul.has-list {
 }
 .order-list-leftside {
   padding-top: 200px;
+  border-right: 1px solid #E0E0E0;
   .top-field {
     position: absolute; top: 83px; left: 0;
     width: 100%; padding: 0 11px 5px ;
@@ -3835,6 +3837,14 @@ ul.has-list {
   }
   .order-list-inner {
     position: relative;
+    background: $white;
+    top: -3px ;
+    .text-center{
+      text-transform: uppercase;
+      font-size: 16px;
+      margin-top: 130px;
+
+    }
   }
 }
 
