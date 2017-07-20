@@ -8,7 +8,6 @@ import {Quote} from "../../../../../core/framework/quote/Model/Quote";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {PosSyncService} from "../../../../../R/sync/sync.service";
-import {Item} from "../../../../../core/framework/quote/Model/Quote/Item";
 
 @Injectable()
 export class CartActionBarService {
@@ -21,7 +20,7 @@ export class CartActionBarService {
       let db     = this.databaseManager.getDbInstance();
       let orders = await db.orderOnhold.toArray();
       orders     = <any>List.of(...orders);
-      resolve({data: {orders}})
+      resolve({data: {orders}});
     });
   }
   
@@ -30,8 +29,9 @@ export class CartActionBarService {
       let arrStr           = searchString.split(' ');
       let reString: string = "";
       _.forEach(arrStr, (v) => {
-        if (!_.isString(v))
+        if (!_.isString(v)) {
           return true;
+        }
         //noinspection TypeScriptUnresolvedFunction
         v = _.toLower(v);
         // escape regular expression special characters
@@ -88,8 +88,7 @@ export class CartActionBarService {
         }]);
         
         resolve();
-      }
-      catch (e) {
+      } catch (e) {
         console.log('add order onhold failed');
         
         return reject({e, isError: true});
@@ -97,5 +96,13 @@ export class CartActionBarService {
     });
   }
   
-  
+  deleteOnholdOrder(order): Promise<GeneralMessage> {
+    return new Promise((resolve, reject) => {
+      let db = this.databaseManager.getDbInstance();
+      db.orderOnhold.where('id').equals(order['id']).delete().then((deleteCount) => {
+        console.log("Deleted " + deleteCount + " objects");
+        return resolve();
+      }, (e) => reject({isError: true, e}));
+    });
+  }
 }

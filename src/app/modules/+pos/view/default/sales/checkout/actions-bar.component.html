@@ -12,7 +12,7 @@
 
     <ul class="submenu" #actionsContainer [hidden]="!cartActionBarState.isOpenActions">
       <li>
-        <a href="#">
+        <a (click)="openNotePopup()">
           <i class="icon-edit"></i>
           <span>Add Note</span>
         </a>
@@ -30,7 +30,7 @@
         </a>
       </li>
       <li>
-        <a (click)="cartActionBarActions.changeModeOrderOnholdPopup(true)">
+        <a (click)="openOnholdPopup()">
           <i class="icon-retrive-order"></i>
           <span>Retrieve On-hold Orders</span>
         </a>
@@ -39,4 +39,7 @@
     <div class="popup-overlay" [ngClass]="{open: cartActionBarState.isOpenActions}"></div>
   </div>
 </div>
-<pos-default-sales-checkout-actions-bar-order-onhold [cartActionBarState]="cartActionBarState"></pos-default-sales-checkout-actions-bar-order-onhold>
+
+<pos-default-sales-checkout-actions-bar-order-onhold *ngIf="isOpeningOnholdPopup()" [cartActionBarState]="cartActionBarState" [clickOutSide]="isOpeningOnholdPopup()" (outside)="openOnholdPopup($event)" [checkType]="2"></pos-default-sales-checkout-actions-bar-order-onhold>
+<pos-default-sales-checkout-actions-bar-note *ngIf="isOpenNotePopup()" [cartActionBarState]="cartActionBarState" [quoteState]="quoteState" [clickOutSide]="isOpenNotePopup()" (outside)="openNotePopup($event)" [checkType]="2">
+</pos-default-sales-checkout-actions-bar-note>

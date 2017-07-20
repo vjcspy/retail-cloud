@@ -277,8 +277,15 @@ export class PosQuoteEffects {
     
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];
-    
-                            if (configState.posRetailConfig.useCustomerOnlineMode) {
+                            if (parseInt(configState.setting.customer.getDefaultCustomerId()) === parseInt(customer + '')) {
+                              let c = new Customer();
+                              c.mapWithParent(configState.setting.customer.getDefaultCustomer());
+      
+                              return Observable.from([
+                                                       this.quoteActions.setCustomerToQuote(c, false),
+                                                       this.quoteActions.updateQuoteItems(items, false)
+                                                     ]);
+                            } else if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
                               return <any>this.quoteCustomer.getCustomerOnline(customer, <any>z[3])
                                               .switchMap((data) => {
@@ -313,7 +320,7 @@ export class PosQuoteEffects {
                               c.mapWithParent(customer);
       
                               return Observable.from([
-                                                       this.quoteActions.setCustomerToQuote(customer, false),
+                                                       this.quoteActions.setCustomerToQuote(c, false),
                                                        this.quoteActions.updateQuoteItems(items, false)
                                                      ]);
                             }

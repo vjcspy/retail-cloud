@@ -66,6 +66,9 @@ import {ShiftDetailActions} from "./sales/shifts/detail/detail.actions";
 import {ShiftDetailEffects} from "./sales/shifts/detail/detail.effects";
 import {ShiftDetailService} from "./sales/shifts/detail/detail.service";
 import {ShiftActions} from "./sales/shifts/shift.actions";
+import {CheckoutPopupState} from "./sales/checkout/popup/popup.state";
+import {checkoutPopupReducer} from "./sales/checkout/popup/popup.reducer";
+import {CheckoutPopupActions} from "./sales/checkout/popup/popup.actions";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -116,6 +119,7 @@ export const R_POS_VIEW_PROVIDERS = [
   ProductOptionsActions,
   // ProductOptionsEffects,
   ProductOptionsService,
+  CheckoutPopupActions,
   
   /*Checkout Step*/
   PosStepActions,
@@ -162,6 +166,7 @@ export interface SalesState {
   cartItem: CartItemState;
   cartTotals: CartTotalsState;
   cartActionBar: CartActionBarState;
+  checkoutPopup: CheckoutPopupState;
   productOptions: ProductOptionsState;
   step: PosStepState;
   receipt: ReceiptState;
@@ -175,6 +180,7 @@ export const salesReducer = () => createReducer({
                                                   cartItem: cartItemReducer,
                                                   cartTotals: cartTotalsReducer,
                                                   cartActionBar: cartActionBarReducer,
+                                                  checkoutPopup: checkoutPopupReducer,
                                                   productOptions: productOptionsReducer,
                                                   step: posStepReducer,
                                                   receipt: receiptReducer,

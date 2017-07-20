@@ -2,3 +2,5 @@
                                                  [productOptionsState]="productOptionsState">
 
 </pos-default-sales-checkout-popup-product-detail>
+
+<pos-default-sales-checkout-popup-custom-sale *ngIf="isOpenCustomSalePopup()" [posQuoteState]="posQuoteState" [posConfigState]="posConfigState"></pos-default-sales-checkout-popup-custom-sale>

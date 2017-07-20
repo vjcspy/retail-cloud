@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {CartActionBarActions} from "./action-bar.actions";
-import {CartActionBarState} from "./action-bar.state";
+import {CartActionBarPopup, CartActionBarState} from "./action-bar.state";
 import {Observable} from "rxjs";
 import {CartActionBarService} from "./action-bar.service";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
@@ -24,11 +24,12 @@ export class CartActionBarEffects {
   
   @Effect() resolveOrderOnhold = this.actions$
                                      .ofType(
-                                       CartActionBarActions.ACTION_CHANGE_MODE_ACTIONS_ORDER_ONHOLD_POPUP,
+                                       CartActionBarActions.ACTION_CHANGE_MODE_POPUP,
                                        CartActionBarActions.SEARCH_ORDER_ONHOLD,
+                                       CartActionBarActions.ACTION_DELETE_ORDER_ONHOLD_SUCCESS
                                      )
                                      .withLatestFrom(this.store$.select('cartActionBar'))
-                                     .filter((z) => (z[1] as CartActionBarState).isOpenOrderOnhold)
+                                     .filter((z) => (z[1] as CartActionBarState).isOpeningPopup === CartActionBarPopup.POPUP_ORDER_ONHOLD)
                                      .flatMap((z) => {
                                        const searchString = (z[1] as CartActionBarState).orderOnholdSearchString;
                                        return Observable.fromPromise(this.cartActionBarService.getOrderOnhold())
@@ -61,11 +62,25 @@ export class CartActionBarEffects {
                                                      .catch((e) => Observable.of(this.rootActions.error("save_order_failed", null, false)));
                                   });
   
+  @Effect() deleteOrderOnhold = this.actions$
+                                    .ofType(
+                                      CartActionBarActions.ACTION_DELETE_ORDER_ONHOLD
+                                    )
+                                    .flatMap((action) => {
+                                      return Observable.fromPromise(this.cartActionBarService.deleteOnholdOrder(action.payload['order']))
+                                                       .map(() => {
+                                                         this.notify.success("delete_onhold_order_successfully");
+                                                         return this.cartActionBarActions.deleteOrderOnholdSuccess(null, false);
+                                                       })
+                                                       .catch((e) => Observable.of(this.rootActions.error("delete_order_onhold_failed", e, false)));
+                                    });
+  
   @Effect() retrieveOrderOnhold = this.actions$
                                       .ofType(
                                         CartActionBarActions.ACTION_RETRIEVE_ORDER_ONHOLD
                                       )
                                       .map((action: Action) => {
+                                        this.notify.info("please_wait_while_retrieving_order");
                                         const order = action.payload['order'];
                                         return this.quoteActions.reorder({
                                                                            customer: parseInt(order['customer']['id']),

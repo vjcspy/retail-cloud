@@ -1,0 +1,36 @@
+<div id="customSale" class="popup-wrapper open">
+  <div class="popup-content">
+    <div class="cashdrawer-form">
+      <h2 class="p-head">{{'Custom Sale' | translate}}</h2>
+      <div class="inner">
+        <form>
+          <ul class="fr-control">
+            <li>
+              <label>{{ 'Title' | translate }}</label>
+              <retail-text [(model)]="data.customSaleName"
+                           [formKey]="'pos_checkout_custom_sale_form'"
+                           [validation]="'required'"></retail-text>
+            </li>
+            <li class="f-left">
+              <label>{{ 'Quantity' | translate }}</label>
+              <retail-text [(model)]="data.customSaleQty"
+                           [formKey]="'pos_checkout_custom_sale_form'"
+                           [validation]="'required,p-number'"></retail-text>
+            </li>
+            <li class="f-right">
+              <label>{{ 'Price' | translate }}</label>
+              <retail-text [(model)]="data.customSalePrice"
+                           [formKey]="'pos_checkout_custom_sale_form'"
+                           [validation]="'required,i-number'"></retail-text>
+            </li>
+          </ul>
+        </form>
+      </div>
+      <div class="desc-bottom">
+        <button class="gray" (click)="cancelCustomSale()">{{ 'Cancel' | translate }}</button>
+        <button (click)="addCustomSaleToQuote()">{{ 'Add Cart' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>

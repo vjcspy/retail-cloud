@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {CartActionBarState} from "../../../R/sales/checkout/cart/action-bar.state";
+import {CartActionBarPopup, CartActionBarState} from "../../../R/sales/checkout/cart/action-bar.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 import {CartCustomerActions} from "../../../R/sales/checkout/cart/customer.actions";
@@ -27,13 +27,30 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   ngOnInit() { }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
-    if (target.className.indexOf('icon-more2') > -1)
+    if (target.className.indexOf('icon-more2') > -1) {
       return;
+    }
     
     if (this.actionsContainer && !this.actionsContainer.nativeElement.contains(target)) {
       if (this.cartActionBarState.isOpenActions === true) {
         this.cartActionBarActions.changeModeActionPopup(false);
       }
     }
+  }
+  
+  openOnholdPopup(isOpen: boolean = true) {
+    this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_ORDER_ONHOLD : null);
+  }
+  
+  isOpeningOnholdPopup() {
+    return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_ORDER_ONHOLD;
+  }
+  
+  openNotePopup(isOpen: boolean = true) {
+    this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_NOTE : null);
+  }
+  
+  isOpenNotePopup() {
+    return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_NOTE;
   }
 }

@@ -5,8 +5,6 @@ import {PosSyncWishlistActions} from "../../../../../R/sync/actions/wishlist.act
 
 export const cartActionBarReducer: ActionReducer<CartActionBarRecord> = (state = cartActionBarFactory(), action: Action) => {
   switch (action.type) {
-    case CartActionBarActions.CHANGE_STATE_NOTE_POPUP:
-      return state.set('isOpeningNote', action.payload['state']);
     
     case CartActionBarActions.ACTION_CHANGE_MODE_ACTIONS_POPUP:
       return state.set('isOpenActions', action.payload['isOpenActions']);
@@ -15,12 +13,12 @@ export const cartActionBarReducer: ActionReducer<CartActionBarRecord> = (state =
     case PosSyncWishlistActions.ACTION_PUSH_WISHLIST:
       return state.set('isOpenActions', false);
     
-    case CartActionBarActions.ACTION_CHANGE_MODE_ACTIONS_ORDER_ONHOLD_POPUP:
-      return state.set('isOpenOrderOnhold', action.payload['isOpenOrderOnhold'])
+    case CartActionBarActions.ACTION_CHANGE_MODE_POPUP:
+      return state.set('isOpeningPopup', action.payload['isOpeningPopup'])
                   .set('isOpenActions', false);
     
     case CartActionBarActions.ACTION_RETRIEVE_ORDER_ONHOLD:
-      return state.set('isOpenOrderOnhold', false)
+      return state.set('isOpeningPopup', null)
                   .set('isOpenActions', false);
     
     case CartActionBarActions.ACTION_RESOLVED_ORDER_ONHOLD:

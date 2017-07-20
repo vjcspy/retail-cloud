@@ -74,8 +74,7 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     const originImage = item.getProduct().getData('origin_image');
     if (_.isString(originImage)) {
       return originImage;
-    }
-    else {
+    } else {
       return '/assets/img/no-image.jpg';
     }
   }

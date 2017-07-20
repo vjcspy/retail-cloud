@@ -6,7 +6,7 @@ export class NumberHelper {
     return +(Math.round(parseFloat(parseFloat(price + "") + "e+" + places)) + "e-" + places);
   }
   
-  public static isInteger(number: any) {
+  public isInteger(number: any) {
     return Number.isInteger(number);
   }
 }
