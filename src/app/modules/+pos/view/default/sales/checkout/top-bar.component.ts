@@ -5,6 +5,8 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {FormControl} from "@angular/forms";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
+import {CheckoutPopupActions} from "../../../R/sales/checkout/popup/popup.actions";
+import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
 
 @Component({
              // moduleId: module.id,
@@ -17,7 +19,9 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() configState: PosConfigState;
   protected searchString = new FormControl();
   
-  constructor(private checkoutProductActions: CheckoutProductActions, public menuLeftActions: MenuLeftActions) {
+  constructor(private checkoutProductActions: CheckoutProductActions,
+              public menuLeftActions: MenuLeftActions,
+              protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
   
@@ -31,5 +35,9 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                                                                                                                     lastLuckySearchString: null
                                                                                                                                                   }))
     );
+  }
+  
+  openPopupCustomSale() {
+    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOM_SALE);
   }
 }

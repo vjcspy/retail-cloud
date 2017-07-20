@@ -19,7 +19,9 @@
 
 </div>
 <div class="checkout-popup">
-  <pos-default-sales-checkout-popup [productOptionsState]="productOptionsState$ | async"></pos-default-sales-checkout-popup>
+  <pos-default-sales-checkout-popup [productOptionsState]="productOptionsState$ | async" [posConfigState]="configState$ | async"
+                                    [checkoutPopupState]="checkoutPopupState$ | async" [posQuoteState]="quoteState$ | async">
+  </pos-default-sales-checkout-popup>
 </div>
 
 <div class="checkout-step">

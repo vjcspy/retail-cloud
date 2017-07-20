@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import {GeneralException} from "../General/Exception/GeneralException";
 
 export class ProductSetting {
   private static _selectElement = {};
@@ -32,5 +33,13 @@ export class ProductSetting {
       });
     }
     return this._selectElement['productAttributes'];
+  }
+  
+  public getCustomSaleProduct() {
+    if (typeof ProductSetting._config !== 'undefined') {
+      return ProductSetting._config['custom_sale_product'];
+    } else {
+      throw new GeneralException("Please init Product Setting before");
+    }
   }
 }

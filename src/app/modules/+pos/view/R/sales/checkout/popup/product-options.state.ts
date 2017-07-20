@@ -1,7 +1,6 @@
 import {Product} from "../../../../../core/framework/catalog/Model/Product";
 import {DataObject} from "../../../../../core/framework/General/DataObject";
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
-import {Map} from "immutable";
 
 export interface OptionData {
   options: {};

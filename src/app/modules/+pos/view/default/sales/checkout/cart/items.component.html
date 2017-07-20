@@ -50,6 +50,7 @@
       </div>
       <div class="c-name" *ngIf="item.getData('buy_request')['custom_sale']">
         <h3 class="product-name">{{item.getData('buy_request')['custom_sale']['name']}}</h3>
+        <p class="p-product-name">Custom Sale</p>
       </div>
     </div>
     <div class="cart-content">
@@ -81,7 +82,7 @@
             </label>
             <input inputSelectText
                    value="{{(item.getData('buy_request').getData('is_discount_value')? (item.getData('buy_request').getData('discount_per_item') || 0) : (item.getData('buy_request').getData('retail_discount_per_items_percent')|| 0))  |  number : '1.2-2'}}"
-                   (blur)="updateItemBuyRequest($event,item,'discount_per_item')"
+                   (blur)="updateItemBuyRequest($event,item,'discount_per_item')" enterBlur=""
                    type="text">
 
             <div class="dis-type">

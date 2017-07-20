@@ -1,5 +1,8 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ProductOptionsState} from "../../../R/sales/checkout/popup/product-options.state";
+import {CheckoutPopup, CheckoutPopupState} from "../../../R/sales/checkout/popup/popup.state";
+import {PosQuoteState} from "../../../../R/quote/quote.state";
+import {PosConfigState} from "../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -7,11 +10,13 @@ import {ProductOptionsState} from "../../../R/sales/checkout/popup/product-optio
              templateUrl: 'popup.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesCheckoutPopupComponent implements OnInit {
+export class PosDefaultSalesCheckoutPopupComponent {
   @Input() productOptionsState: ProductOptionsState;
+  @Input() checkoutPopupState: CheckoutPopupState;
+  @Input() posQuoteState: PosQuoteState;
+  @Input() posConfigState: PosConfigState;
   
-  constructor() { }
-  
-  ngOnInit() { }
-  
+  isOpenCustomSalePopup() {
+    return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOM_SALE;
+  }
 }
