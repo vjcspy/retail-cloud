@@ -18,6 +18,6 @@ export class PosDefaultSalesOrdersListItemComponent implements OnInit {
   ngOnInit() { }
   
   isActive() {
-    return this.order['id'] && this.order['id'] === this.ordersState.detail.order['id'];
+    return this.order['retail_id'] && this.order['retail_id'] === this.ordersState.detail.order['retail_id'];
   }
 }
