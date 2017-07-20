@@ -49,6 +49,8 @@ import {PosDefaultSalesShiftsPopupAdjustComponent} from "./sales/shifts/popup/ad
 import {PosDefaultSalesShiftsReportComponent} from "./sales/shifts/report.component";
 import {PosDefaultSalesCheckoutCartRefundItemsComponent} from "./sales/checkout/cart/refund-items.component";
 import {PosDefaultSalesCheckoutPopupCustomSaleComponent} from "./sales/checkout/popup/custom-sale.component";
+import {PosDefaultSalesCheckoutPopupCustomerDetailComponent} from "./sales/checkout/popup/customer-detail.component";
+import {PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent} from "./sales/checkout/popup/customer-detail/billing.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -82,6 +84,8 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutGrandTotalComponent,
   
   PosDefaultSalesCheckoutPopupComponent,
+  PosDefaultSalesCheckoutPopupCustomerDetailComponent,
+  PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent,
   PosDefaultSalesCheckoutPopupCustomSaleComponent,
   PosDefaultSalesCheckoutPopupProductDetailComponent,
   PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent,
