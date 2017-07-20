@@ -13,10 +13,6 @@
                                          [configState]="configState" [quoteState]="quoteState" [cartItemState]="cartItemState" [cartCustomerState]="cartCustomerState">
   </pos-default-sales-checkout-cart-items>
 
-  <pos-default-sales-checkout-cart-refund-items class="refund-items-comp" *ngIf="configState.isResolveSetting && quoteState.creditmemo"
-                                                [configState]="configState" [posQuoteState]="quoteState">
-  </pos-default-sales-checkout-cart-refund-items>
-
   <pos-default-sales-checkout-cart-totals id="cart-totals-comp" class="cart-totals-comp" [ngClass]="{'totals-collapse': !cartTotalsState.isOpenTotalBlock}" *ngIf="configState.isResolveSetting && quoteState.info.isShiftOpening && !quoteState.info.isRefunding && !cartCustomerState.inSearchCustomers"
                                           [cartTotalsState]="cartTotalsState" [quoteState]="quoteState" [configState]="configState"
   ></pos-default-sales-checkout-cart-totals>

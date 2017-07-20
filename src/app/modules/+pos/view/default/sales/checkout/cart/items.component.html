@@ -14,9 +14,10 @@
     </div>
   </div>
 
-  <!--<div *ngIf="posRefund.isRefunding">-->
-  <!--<pos-refund-item *ngFor="let item of posRefund.creditmemo['items']" [item]="item"></pos-refund-item>-->
-  <!--</div>-->
+
+  <pos-default-sales-checkout-cart-refund-items class="refund-items-comp" *ngIf="configState.isResolveSetting && quoteState.creditmemo"
+                                                [configState]="configState" [posQuoteState]="quoteState">
+  </pos-default-sales-checkout-cart-refund-items>
 
   <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
     <div class="cart-head"><!-- add "touch" class when device -->
@@ -52,7 +53,7 @@
                     </span>
       </div>
       <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close-thin2"></span></span>
-      
+
     </div>
     <div class="cart-content">
       <div class="inner">
