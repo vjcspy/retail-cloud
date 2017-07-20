@@ -16,9 +16,10 @@
           padding: 0 0 0 15px;
         }
       }
-      .check-box {
+      .checkbox-input {
         display: block; margin-bottom: 14px;
         font-family: $mainFont; color: $mainTxt;
+        label{width: 100%}
       }
       .file-type {float: right;}
       em, .file-type {margin-top: 11px;}

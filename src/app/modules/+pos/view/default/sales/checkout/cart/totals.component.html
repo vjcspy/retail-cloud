@@ -2,7 +2,100 @@
   <div class="btn-collapse"> <!-- add "c-hide" class when hidden gradien layer -->
     <span class="close-arr" (click)="cartTotalsActions.toggleBlockTotalState()"></span>
   </div>
-  <div class="total-row-content">
+
+  <!-- Total Refunded -->
+  <div class="total-row-content refunded">
+    <div class="refunded-total">
+      <div class="total-row has-popover total-head">
+        <div class="t-txt">
+          <span>Refunded Total</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Subtotal Incl.tax</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Discount Amount</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Tax</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Refund Shipping</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Adjustment</span>        
+        </div>
+        <div class="t-value">          
+          <div class="clickable"><span class="icon-pencil"></span>
+              <input type="text" value="0.00" >
+          </div>      
+        </div>
+      </div>
+    </div>
+    <div class="total-exchange-amount">
+      <div class="total-row has-popover total-head">
+        <div class="t-txt">
+          <span>Total Exchange Amount</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Subtotal Incl.tax</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Discount</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>
+      <div class="total-row has-popover">
+        <div class="t-txt">
+          <span>Tax</span>        
+        </div>
+        <div class="t-value">
+          $253.80
+        </div>
+      </div>      
+    </div>
+  </div>
+
+
+  <!-- Total cart -->
+  <div class="total-row-content hide">
     <div class="total-row has-popover hover">
       <div class="t-txt">
         <span class="click">{{ 'Subtotal' | translate }}</span>

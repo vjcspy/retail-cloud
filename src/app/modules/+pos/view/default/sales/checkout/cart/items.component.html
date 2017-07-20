@@ -31,6 +31,14 @@
            *ngIf="!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] != '1' || numberHelper.isInteger(item.getQty())">
         {{item.getQty()}}
       </div>
+      <div class="c-name" *ngIf="!item.getData('buy_request')['custom_sale']">
+        <h3 class="product-name">{{item.getProduct().getData('name')}}</h3>
+        <p class="p-product-name">{{getSKU(item)}}</p>
+      </div>
+      <div class="c-name" *ngIf="item.getData('buy_request')['custom_sale']">
+        <h3 class="product-name">{{item.getData('buy_request')['custom_sale']['name']}}</h3>
+        <p class="p-product-name">Custom Sale</p>
+      </div>
       <div class="c-price">
         <span class="regular-pr">
           {{(configState.setting.tax.displayCartPricesExclTax() ? item.getData('row_total') : item.getData('row_total_incl_tax'))| priceFormat}}
@@ -44,14 +52,7 @@
                     </span>
       </div>
       <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close-thin2"></span></span>
-      <div class="c-name" *ngIf="!item.getData('buy_request')['custom_sale']">
-        <h3 class="product-name">{{item.getProduct().getData('name')}}</h3>
-        <p class="p-product-name">{{getSKU(item)}}</p>
-      </div>
-      <div class="c-name" *ngIf="item.getData('buy_request')['custom_sale']">
-        <h3 class="product-name">{{item.getData('buy_request')['custom_sale']['name']}}</h3>
-        <p class="p-product-name">Custom Sale</p>
-      </div>
+      
     </div>
     <div class="cart-content">
       <div class="inner">

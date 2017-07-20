@@ -43,26 +43,26 @@
       </li>
       <li>
         <label>{{ 'Order Info' | translate }}</label>
-        <div class="check-box">
+        <div class="checkbox-input">
           <input type="checkbox"
-                 name="order-info-shipping-add"
+                 name="order-info-shipping-add" id="order-info-shipping-add"
                  [(ngModel)]="configurationsReceiptState.receipt['order_info']['shipping_address']"
                  [checked]="!!configurationsReceiptState.receipt['order_info']['shipping_address']"/>
-          <span></span>{{ 'Only show shipping address when order has shipment' | translate }}
+          <label for="order-info-shipping-add">{{ 'Only show shipping address when order has shipment' | translate }}</label>
         </div>
-        <div class="check-box">
+        <div class="checkbox-input">
           <input type="checkbox"
-                 name="order-info-sales-person"
+                 name="order-info-sales-person" id="order-info-sales-person"
                  [(ngModel)]="configurationsReceiptState.receipt['order_info']['sales_person']"
                  [checked]="!!configurationsReceiptState.receipt['order_info']['sales_person']"/>
-          <span></span>{{ 'Show sales person' | translate }}
+          <label for="order-info-sales-person">{{ 'Show sales person' | translate }}</label>
         </div>
-        <div class="check-box">
+        <div class="checkbox-input">
           <input type="checkbox"
-                 name="order-info-discount"
+                 name="order-info-discount" id="order-info-discount"
                  [(ngModel)]="configurationsReceiptState.receipt['order_info']['discount_shipment']"
                  [checked]="!!configurationsReceiptState.receipt['order_info']['discount_shipment']"/>
-          <span></span>{{ 'Show discount, shipment amount if they\'re zero' | translate }}
+          <label for="order-info-discount">{{ 'Show discount, shipment amount if they\'re zero' | translate }}</label>
         </div>
       </li>
       <li>
