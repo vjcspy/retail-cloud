@@ -1,0 +1,63 @@
+<div id="createCustomer" class="popup-wrapper open animated fadeIn">
+  <div class="popup-content">
+    <div class="create-customer">
+      <div class="tabs-blk">
+        <!--tabs header-->
+        <ul class="tabs-header">
+          <li [ngClass]="{active: tabState === 'accountInfo'}" (click)="tabState = 'accountInfo'">
+            {{ 'Account Information' | translate }}
+          </li>
+          <li [ngClass]="{active: tabState === 'address'}" (click)="tabState = 'address'">
+            {{ 'Address' | translate }}
+          </li>
+          <!-- <li>Others</li> -->
+          <li [ngClass]="{active: tabState === 'others'}" (click)="showCustomerInformation()()">
+            {{ 'Others' | translate }}
+          </li>
+        </ul>
+        <!--Acoount Information-->
+        <div id="accountInfo" class="tabs-content" [ngClass]="{'d-show': tabState ==='accountInfo','d-hide':tabState !=='accountInfo'}">
+          <div class="inner" #posPerfectScroll>
+            <form class="acc-info">
+              <ul class="fr-control">
+                <li>
+                  <label class="require">{{ 'First Name' | translate }}*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['first_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label class="require">{{ 'Last Name' | translate }}*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['last_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label class="require">Email*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['email']" [validation]="'required,email'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label>{{ 'Group' | translate }}*</label>
+                  <retail-select [elementData]="getCustomerGroupsSelect()" [(model)]="checkoutPopupState.customerPopup.customer['customer_group_id']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-select>
+                </li>
+                <li>
+                  <label class="require">{{ 'Telephone' | translate }}</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['telephone']" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="desc-bottom">
+        <button class="gray">{{ 'Cancel' | translate }}</button>
+        <button>
+          {{!checkoutPopupState.customerPopup.customer.getId() ? 'Create new' : 'Save'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>
