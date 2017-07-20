@@ -38,7 +38,7 @@ export class PosDefaultSalesCheckoutCartRefundItemsComponent implements OnInit {
     }
     
     if (needReload) {
-      this.refundActions.loadCreditmemo(this.posQuoteState.creditmemo['order_id'], this.posQuoteState.creditmemo);
+      this.refundActions.loadCreditmemo(this.posQuoteState.creditmemo['order_id']);
     }
   }
   

@@ -72,14 +72,19 @@ export class PosQuoteActions {
   
   static ACTION_SELECT_PRODUCT_TO_ADD = 'ACTION_SELECT_PRODUCT_TO_ADD';
   
-  selectProductToAdd(productEntity: Product, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null, showDetail: boolean = false) {
+  selectProductToAdd(productEntity: Product, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null, showDetail: boolean = false, dispath: boolean = true) {
     let product = new Product();
     product.mapWithParent(productEntity);
     
-    this.store$.dispatch({
-                           type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD,
-                           payload: {product, qty, forceProductCustomOptions, config, showDetail}
-                         });
+    const action = {
+      type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD,
+      payload: {product, qty, forceProductCustomOptions, config, showDetail}
+    };
+    if (dispath) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
   
   static ACTION_CLEAR_QUOTE = 'ACTION_CLEAR_QUOTE';
@@ -95,7 +100,7 @@ export class PosQuoteActions {
   }
   
   editProductOptionBuyRequest(product: Product, buyRequest: DataObject) {
-    this.store$.dispatch({type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest, currentProcessing: 'EDIT'}})
+    this.store$.dispatch({type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS, payload: {product, buyRequest, currentProcessing: 'EDIT'}});
   }
   
   /**

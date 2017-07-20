@@ -11,6 +11,7 @@ export interface CheckoutProductState {
   categoryBreadcrumb: List<any>;
   categoryList: List<any>;
   searchString: string;
+  lastLuckySearchString: string;
   searchStringPattern: string;
   
   productGridStyles: Object;
@@ -43,6 +44,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     categoryBreadcrumb: List.of(),
     categoryList: List.of(),
     searchString: null,
+    lastLuckySearchString: null,
     searchStringPattern: null, // Để kiểm tra xem nếu là search giống như parttern hiện tại hoặc là khác thì break;
     
     productGridStyles: {},

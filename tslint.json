@@ -63,6 +63,7 @@
     "radix": false,
     "no-trailing-whitespace": false,
     "object-literal-key-quotes": false,
-    "prefer-for-of": false
+    "prefer-for-of": false,
+    "jsdoc-format": false
   }
 }

@@ -55,11 +55,4 @@ export class PosQuoteService {
     }
     return {shippingAdd, billingAdd};
   }
-  
-  
-  loadCreditmemo(orderId: number, creditmemo: Object = null, isSave: boolean = false): Promise<GeneralMessage> {
-    return new Promise((resolve, reject) => {
-    
-    });
-  }
 }

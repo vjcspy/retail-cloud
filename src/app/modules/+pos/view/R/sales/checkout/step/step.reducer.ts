@@ -5,6 +5,7 @@ import {List} from "immutable";
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {tyroReducer} from "./payment/tyro.reducer";
 import {orderListAddPaymentReducer} from "./order-list-add-payment/add-payment.reducer";
+import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 
 const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord, action: Action) => {
   switch (action.type) {
@@ -68,6 +69,7 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepSta
         return _p;
       }));
     
+    case QuoteRefundActions.ACTION_LOAD_CREDITMEMO_FAILED:
     case PosStepActions.ACTION_SAVE_ORDER_FAILED:
     case PosStepActions.ACTION_PAYMENT_3RD_PAY_FAIL:
       return state.set('isChecking3rd', false)

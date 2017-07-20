@@ -65,8 +65,8 @@ export class PosSyncService {
         'isPercentMode': !quote.getData('is_value_discount_whole_order')
       };
     }
-    if (quote.getData('payment_data')) {
-      order['order']['payment_data'] = quote.getData('payment_data');
+    if (quote.getPaymentData()) {
+      order['order']['payment_data'] = quote.getPaymentData();
     }
     if (quote.getData('is_exchange')) {
       order['order']['is_exchange'] = quote.getData('is_exchange');

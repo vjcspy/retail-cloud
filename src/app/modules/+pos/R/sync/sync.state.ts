@@ -28,7 +28,7 @@ export interface PosOrderSync {
     };
     payment_data: Object;
     is_exchange: boolean;
-  }
+  };
   retail_addition_data: Object;
   reward_point: Object;
 }
@@ -69,7 +69,6 @@ export const posOrderSyncFactory = makeTypedFactory<PosOrderSync, PosOrderSyncRe
     retail_addition_data: {},
     reward_point: {}
   });
-
 
 export interface PosSyncState {
   isSyncing: boolean;

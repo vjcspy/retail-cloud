@@ -19,6 +19,7 @@ import {PosStepService} from "./step.service";
 import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
 import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 import {Router} from "@angular/router";
+import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 
 @Injectable()
 export class PosStepEffects {
@@ -30,11 +31,11 @@ export class PosStepEffects {
               private notify: NotifyManager,
               private router: Router,
               private offlineService: OfflineService,
-              private posQuoteService: PosQuoteService,
               private syncService: PosSyncService,
               private stepActions: PosStepActions,
               private stepService: PosStepService,
-              private entityOrderActions: EntityOrderActions) { }
+              private entityOrderActions: EntityOrderActions,
+              private refundActions: QuoteRefundActions) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -70,10 +71,8 @@ export class PosStepEffects {
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
                                            let totals            = this.stepService.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
                                            const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
-                                           return {
-                                             type: PosStepActions.ACTION_UPDATE_CHECKOUT_PAYMENT_DATA,
-                                             payload: {totals, moneySuggestion}
-                                           };
+                                           
+                                           return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                          }
     
                                          return {type: RootActions.ACTION_ERROR, payload: {mess: "can't init checkout step data"}};
@@ -174,7 +173,8 @@ export class PosStepEffects {
   @Effect() saveOrder = this.actions$
                             .ofType(
                               PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
-                              PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD)
+                              PosStepActions.ACTION_RESOLVE_ALL_PAYMENT_3RD,
+                              QuoteRefundActions.ACTION_SAVE_CREDITMEMO_SUCCESS)
                             .withLatestFrom(this.store$.select('step'))
                             .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
                             .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
@@ -199,13 +199,10 @@ export class PosStepEffects {
                                                                    created_at: Timezone.getCurrentStringTime()
                                                                  });
                               }
-                              posQuoteState.quote.setData('payment_data', paymentInUse.toJS());
+                              posQuoteState.quote.setPaymentData(paymentInUse.toJS());
     
                               if (posQuoteState.info.isRefunding) {
-                                return Observable.fromPromise(this.posQuoteService.loadCreditmemo(null, null, null))
-                                                 .map(() => {
-                                                   return {};
-                                                 });
+                                return Observable.of(this.refundActions.loadCreditmemo(posQuoteState.creditmemo['order_id'], true, false));
                               } else {
                                 if (posQuoteState.items.count() > 0 && (!posQuoteState.quote.getRewardPointData() || posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true)) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(<any>z[2], <any>z[3], <any>z[4]))
@@ -225,6 +222,8 @@ export class PosStepEffects {
                                                                             ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
+                                } else {
+                                  return Observable.of(this.stepActions.savedOrder(null, false, false));
                                 }
                               }
                             });

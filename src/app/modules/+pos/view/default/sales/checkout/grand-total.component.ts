@@ -16,7 +16,7 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
   constructor(public posSyncActions: PosSyncActions) {}
   
   goCheckoutStep() {
-    if (this.quoteState.items.count() > 0) {
+    if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
       this.posSyncActions.syncCurrentOrder();
     }
   }
