@@ -1,0 +1,139 @@
+.receipt-blk, .invoice {margin-top: 26px;}
+
+.receipt-blk {
+  float: left; width: 42.3572%;
+  margin-left: $hoztSpace;
+  .fr-control {
+    &:first-child {border-bottom: $border solid 1px; margin-bottom: 15px;}
+    li {
+      padding-left: 136px; margin-bottom: 34px;
+      label {width: 136px;}
+      .select-wrapper {width: 73.8461%;}
+      textarea {height: 87px; margin-bottom: 9px;}
+      button {
+        &.trans {
+          float: right;
+          padding: 0 0 0 15px;
+        }
+      }
+      .check-box {
+        display: block; margin-bottom: 14px;
+        font-family: $mainFont; color: $mainTxt;
+      }
+      .file-type {float: right;}
+      em, .file-type {margin-top: 11px;}
+    }
+    label {
+      @include no-pos;
+      left: 0; top: 8px;
+    }
+    em {
+      display: inline-block; padding: 7px 0;
+      font-size: $sizeS; color: #A0A8B4;
+    }
+  }
+}
+
+.invoice {
+  float: right; width: 38.7661%;
+  margin-right: $hoztSpace;
+  background: $white;
+  overflow: hidden;
+  @include border-radius(10px);
+  .top-br, .bottom-br {
+    text-align: center;
+  }
+  .top-br {
+    text-align: center;
+    img {max-width: 100%; height: auto}
+    
+  }
+  .bottom-br {
+    font-size: 16px; padding: 22px 0 16px;
+    p {margin: 0 0 22px;}
+    .footer-img {      
+      margin: 10px 0 15px;
+      text-align: center;
+      img {max-width: 100%; height: auto;}
+    }
+    .copy-right {font-size: $sizeS; color: $disTxt; margin: 0}
+  }
+  .inner {
+    padding: 20px 23px 0;
+    h2, h3 {color: $mainTxt; margin: 0;}
+    h2 {font-size: 23px; text-align: center; }
+    .client-info {
+      position: relative;
+      font-size: $sizeS; line-height: 22px;
+      padding-right: 115px; margin: 20px 0 31px;
+      h3 {font-size: $size;}
+      p {margin: 0;}
+      .name, .email {padding-right: 25px;}
+      .email {@include ellipsis;}
+      .timer {
+        position: absolute;
+        top: 0; right: 0;
+        text-align: right;
+        span {display: block; white-space: nowrap;}
+      }
+    }
+
+  }
+}
+
+.invoice-table {
+  border: $mainTxt solid 3px; border-width: 3px 0;
+  th, td, h4 {font-size: $size; color: $mainTxt; border: none;}
+  h4 {margin: 0;}
+  th, td {
+    padding: 0; text-align: center;
+  }
+  th {
+    font-family: $mainFont;
+    text-transform: none; padding-top: 9px; padding-bottom: 8px;
+    border-bottom: #A7A7A7 solid 1px;
+  }
+  tbody, tfoot {
+    td {padding-top: 2px; padding-bottom: 2px;}
+  }
+  tbody {
+    tr {
+      &:first-child {
+        td {padding-top: 15px;}
+      }
+      &:last-child {
+        td {padding-bottom: 15px;}
+      }
+    }
+    &.last {
+      tr {
+        &:last-child {
+          td {padding-bottom: 32px;}
+        }
+      }
+    }
+  }
+  tfoot {
+    &.grand-total {
+      tr {
+        &:first-child {
+          td {border-top: $mainTxt solid 3px;}
+        }
+        &:last-child {
+          td {
+            border-bottom: #A7A7A7 solid 1px;
+            &:first-child {border-bottom-color: transparent;}
+          }
+        }
+      }
+    }
+    tr {
+      &:first-child {
+        td {padding-top: 20px;}
+      }
+      &:last-child {
+        td {padding-bottom: 20px;}
+      }
+    }
+  }
+}

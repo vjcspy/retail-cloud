@@ -19,9 +19,15 @@
 
   <div class="top-field">
     <div class="date-input-wrap">
-      <input #dateSelectFrom type="text" class="calendar-picker"/>
-      <label>To</label>
-      <input #dateSelectTo class="calendar-picker" type="text"/>
+      <div class="date-input">
+        <i class="icon-date-time"></i>
+        <input #dateSelectFrom type="text" class="calendar-picker"/>
+      </div>
+        <label>To</label>
+      <div class="date-input">
+        <i class="icon-date-time"></i>
+        <input #dateSelectTo class="calendar-picker" type="text"/>
+      </div>
     </div>
     <div class="selectbox-wrap">
       <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getPaymentStatusElem()" [defaultText]="'Payment status'"

@@ -1,7 +1,23 @@
+ <!-- Change id="addNotePopup" when NOTE popup-->
 <div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">  
   <div class="popup-content">
+    <!-- Add note --> 
+    <div class="form-popup addNote-form">
+      <h2>Add note</h2>   
+      <div class="form-popup-content">   
+        <form>
+          <div class="form-group">            
+              <textarea class="form-control"  placeholder="Begin your message ..."></textarea>            
+          </div>
+          <div class="button-group">
+            <button class="gray">Cancel</button>
+            <button class="primary">Save</button>
+          </div>
+        </form>
+     </div>
+    </div>
     <!-- New address -->
-    <div class="form-popup new-address-popup hide">
+    <div class="form-popup new-address-popup  hide ">
         <div class="form-popup-top">
           <h2>New address</h2>             
         </div>
@@ -150,7 +166,7 @@
     </div>
 
     <!-- shipment-popup -->
-    <div class="list-mode-popup shipment-popup">
+    <div class="list-mode-popup shipment-list-popup  hide">
       <h2>Add shipment</h2>
       <div class="list-mode-content">        
         <div class="list-mode-top clearfix">
@@ -174,7 +190,7 @@
           <li class="item">
               <div class="col-item name">
                 <div class="radio-input">
-                  <input type="radio">
+                  <input type="radio" name="shipment-item">
                   <label></label>
                 </div>
                 <div class="info">
@@ -198,7 +214,31 @@
           <li class="item">
               <div class="col-item name">
                 <div class="radio-input">
-                  <input type="radio">
+                  <input type="radio" name="shipment-item">
+                  <label></label>
+                </div>
+                <div class="info">
+                  <h3>sydney Opera House</h3>
+                  <div class="phone">
+                    <strong>Phone:</strong> (+61) 2-950-7111
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-item address">
+                167 Bennelong Point, Sydney NSW 2000, Australia
+              </div>
+              <div class="col-item zipcode">
+                736-1610
+              </div>
+              <div class="col-item last edit">
+                <span class="icon-edit"></span>
+              </div>
+          </li>
+          <li class="item">
+              <div class="col-item name">
+                <div class="radio-input" >
+                  <input type="radio" name="shipment-item">
                   <label></label>
                 </div>
                 <div class="info">
@@ -222,32 +262,8 @@
           <li class="item">
               <div class="col-item name">
                 <div class="radio-input">
-                  <input type="radio">
-                  <label></label>
-                </div>
-                <div class="info">
-                  <h3>sydney Opera House</h3>
-                  <div class="phone">
-                    <strong>Phone:</strong> (+61) 2-950-7111
-                  </div>
-                </div>
-
-              </div>
-              <div class="col-item address">
-                167 Bennelong Point, Sydney NSW 2000, Australia
-              </div>
-              <div class="col-item zipcode">
-                736-1610
-              </div>
-              <div class="col-item last edit">
-                <span class="icon-edit"></span>
-              </div>
-          </li>
-          <li class="item">
-              <div class="col-item name">
-                <div class="radio-input">
-                  <input type="radio">
-                  <label></label>
+                  <input type="radio" name="shipment-item">
+                  <label ></label>
                 </div>
                 <div class="info">
                   <h3>sydney Opera House</h3>
