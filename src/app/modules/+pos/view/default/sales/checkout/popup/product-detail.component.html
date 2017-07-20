@@ -1,27 +1,11 @@
- <!-- Change id="addNotePopup" when NOTE popup-->
-<div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">  
+<div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">
   <div class="popup-content">
-    <!-- Add note --> 
-    <div class="form-popup addNote-form">
-      <h2>Add note</h2>   
-      <div class="form-popup-content">   
-        <form>
-          <div class="form-group">            
-              <textarea class="form-control"  placeholder="Begin your message ..."></textarea>            
-          </div>
-          <div class="button-group">
-            <button class="gray">Cancel</button>
-            <button class="primary">Save</button>
-          </div>
-        </form>
-     </div>
-    </div>
     <!-- New address -->
     <div class="form-popup new-address-popup  hide ">
         <div class="form-popup-top">
-          <h2>New address</h2>             
+          <h2>New address</h2>
         </div>
-        <div class="form-popup-content"> 
+        <div class="form-popup-content">
           <form>
             <div class="content-scroll" perfectScroll>
               <div class="row">
@@ -33,7 +17,7 @@
                   <label >Last name</label>
                   <input type="text" class="form-control"  placeholder="Last name">
                 </div>
-              </div>  
+              </div>
               <div class="row">
                 <div class="form-group col-sm-12">
                   <label >Stress</label>
@@ -42,7 +26,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-sm-4">
-                  <label >Country</label>                
+                  <label >Country</label>
                   <select  class="form-control">
                     <option>
                       United States
@@ -61,7 +45,7 @@
                   <label >City - <em>Optional</em></label>
                   <input type="text" class="form-control"  placeholder="Last name">
                 </div>
-              </div> 
+              </div>
               <div class="row">
                 <div class="form-group col-sm-6">
                   <label >Telephone</label>
@@ -85,19 +69,19 @@
               <button class="gray">Cancel</button>
               <button class="primary">Save</button>
             </div>
-          </form>        
-        </div>           
+          </form>
+        </div>
     </div>
     <!-- shipment-add -->
     <div class="form-popup add-shipment-popup hide">
         <div class="form-popup-top">
-          <h2>Add shipment</h2>   
+          <h2>Add shipment</h2>
           <div class="shipment-amount row">
             <label class="col-sm-6">Shipment Amount:</label>
             <input type="text"  class="col-sm-6">
           </div>
         </div>
-        <div class="form-popup-content"> 
+        <div class="form-popup-content">
           <form>
             <div class="content-scroll" perfectScroll>
               <div class="row">
@@ -109,7 +93,7 @@
                   <label >Last name</label>
                   <input type="text" class="form-control"  placeholder="Last name">
                 </div>
-              </div>  
+              </div>
               <div class="row">
                 <div class="form-group col-sm-12">
                   <label >Stress</label>
@@ -118,7 +102,7 @@
               </div>
               <div class="row">
                 <div class="form-group col-sm-4">
-                  <label >Country</label>                
+                  <label >Country</label>
                   <select  class="form-control">
                     <option>
                       United States
@@ -137,7 +121,7 @@
                   <label >City - <em>Optional</em></label>
                   <input type="text" class="form-control"  placeholder="Last name">
                 </div>
-              </div> 
+              </div>
               <div class="row">
                 <div class="form-group col-sm-6">
                   <label >Telephone</label>
@@ -161,14 +145,14 @@
               <button class="gray">Cancel</button>
               <button class="primary">Save</button>
             </div>
-          </form>        
-        </div>           
+          </form>
+        </div>
     </div>
 
     <!-- shipment-popup -->
     <div class="list-mode-popup shipment-list-popup  hide">
       <h2>Add shipment</h2>
-      <div class="list-mode-content">        
+      <div class="list-mode-content">
         <div class="list-mode-top clearfix">
           <div class="pull-left">
             <label>Shipment Amount:</label>
@@ -186,7 +170,7 @@
               <div class="col-item last edit">Edit</div>
           </li>
         </ul>
-        <ul class="list-mode-content scroll" perfectScroll>          
+        <ul class="list-mode-content scroll" perfectScroll>
           <li class="item">
               <div class="col-item name">
                 <div class="radio-input">
@@ -286,18 +270,18 @@
         </ul>
         <div class="list-mode-bot clearfix">
           <button class="primary pull-right">Add shipment</button>
-        </div>      
+        </div>
       </div>
-    </div>  
+    </div>
     <!-- onHold-popup   -->
     <div class="list-mode-popup onHold-popup hide">
       <h2>Onhold orders</h2>
-      <div class="list-mode-content">        
+      <div class="list-mode-content">
         <div class="list-mode-top clearfix">
           <div class="search-box">
             <span class="icon-search"></span>
             <input type="text" placeholder="Search by customer name, email and order’s note">
-          </div>          
+          </div>
         </div>
         <ul class="list-mode-content">
           <li class="item header">
@@ -307,9 +291,9 @@
               <div class="col-item last action">Action</div>
           </li>
         </ul>
-        <ul class="list-mode-content scroll" perfectScroll>          
+        <ul class="list-mode-content scroll" perfectScroll>
           <li class="item">
-              <div class="col-item customer">                
+              <div class="col-item customer">
                 <div class="info">
                   <h3>sydney Opera House</h3>
                   <div class="date-time">
@@ -348,7 +332,7 @@
               </div>
           </li>
           <li class="item">
-              <div class="col-item customer">                
+              <div class="col-item customer">
                 <div class="info">
                   <h3>sydney Opera House</h3>
                   <div class="date-time">
@@ -384,9 +368,9 @@
                 <button class="primary">Retrieve</button>
                 <span class="icon-trash"></span>
               </div>
-          </li> 
+          </li>
           <li class="item">
-              <div class="col-item customer">                
+              <div class="col-item customer">
                 <div class="info">
                   <h3>sydney Opera House</h3>
                   <div class="date-time">
@@ -422,9 +406,9 @@
                 <button class="primary">Retrieve</button>
                 <span class="icon-trash"></span>
               </div>
-          </li> 
+          </li>
           <li class="item">
-              <div class="col-item customer">                
+              <div class="col-item customer">
                 <div class="info">
                   <h3>sydney Opera House</h3>
                   <div class="date-time">
@@ -460,9 +444,9 @@
                 <button class="primary">Retrieve</button>
                 <span class="icon-trash"></span>
               </div>
-          </li> 
+          </li>
           <li class="item">
-              <div class="col-item customer">                
+              <div class="col-item customer">
                 <div class="info">
                   <h3>sydney Opera House</h3>
                   <div class="date-time">
@@ -498,15 +482,15 @@
                 <button class="primary">Retrieve</button>
                 <span class="icon-trash"></span>
               </div>
-          </li>           
+          </li>
         </ul>
         <div class="list-mode-bot clearfix">
           <button class="gray pull-right">Close</button>
-        </div>      
+        </div>
       </div>
-    </div> 
+    </div>
     <!-- product-information    -->
-    <div class="product-information hide">
+    <div class="product-information">
       <div class="media-blk">
         <div class="media-img"><img src="{{productOptionsState.product.media_gallery[indexImage]}}"/></div>
         <div class="media-thumb">

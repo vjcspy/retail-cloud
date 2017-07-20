@@ -76,4 +76,28 @@ export class CartActionBarActions {
     
     return action;
   }
+  
+  static ACTION_DELETE_ORDER_ONHOLD = 'ACTION_DELETE_ORDER_ONHOLD';
+  
+  deleteOrderOnhold(order, dispatch: boolean = true): Action {
+    const action = {type: CartActionBarActions.ACTION_DELETE_ORDER_ONHOLD, payload: {order}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_DELETE_ORDER_ONHOLD_SUCCESS = 'ACTION_DELETE_ORDER_ONHOLD_SUCCESS';
+  
+  deleteOrderOnholdSuccess(order, dispatch: boolean = true): Action {
+    const action = {type: CartActionBarActions.ACTION_DELETE_ORDER_ONHOLD_SUCCESS, payload: {order}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
