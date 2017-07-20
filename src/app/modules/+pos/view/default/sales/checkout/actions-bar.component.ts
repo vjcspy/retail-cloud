@@ -39,7 +39,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   }
   
   openOnholdPopup(isOpen: boolean = true) {
-    this.cartActionBarActions.changeModePopup(CartActionBarPopup.POPUP_ORDER_ONHOLD);
+    this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_ORDER_ONHOLD : null);
   }
   
   isOpeningOnholdPopup() {

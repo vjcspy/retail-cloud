@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CartActionBarState} from "../../../../R/sales/checkout/cart/action-bar.state";
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
@@ -21,7 +21,6 @@ export class PosDefaultSalesCheckoutActionsBarNoteComponent implements OnInit {
               private notify: NotifyManager) { }
   
   ngOnInit(): void {
-    console.log(this.quoteState.quote.getData('retail_note'));
     this.note = this.quoteState.quote.getData('retail_note');
   }
   

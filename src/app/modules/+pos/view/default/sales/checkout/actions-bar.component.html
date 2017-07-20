@@ -40,6 +40,6 @@
   </div>
 </div>
 
-<pos-default-sales-checkout-actions-bar-order-onhold *ngIf="isOpeningOnholdPopup()" [cartActionBarState]="cartActionBarState"></pos-default-sales-checkout-actions-bar-order-onhold>
+<pos-default-sales-checkout-actions-bar-order-onhold *ngIf="isOpeningOnholdPopup()" [cartActionBarState]="cartActionBarState" [clickOutSide]="isOpeningOnholdPopup()" (outside)="openOnholdPopup($event)" [checkType]="2"></pos-default-sales-checkout-actions-bar-order-onhold>
 <pos-default-sales-checkout-actions-bar-note *ngIf="isOpenNotePopup()" [cartActionBarState]="cartActionBarState" [quoteState]="quoteState" [clickOutSide]="isOpenNotePopup()" (outside)="openNotePopup($event)" [checkType]="2">
 </pos-default-sales-checkout-actions-bar-note>
