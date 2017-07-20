@@ -653,7 +653,7 @@
       }
 
       .c-price {
-        float: right; text-align: right; margin-left: 10px;
+        text-align: right; margin-left: 10px;
         span {display: block; margin-bottom: 4px;}
         .regular-pr, .spec-pr {color: $cgreen;}
         .old-pr {color: #999;}
@@ -661,9 +661,7 @@
         .old-pr {text-decoration: line-through;}
       }
       .c-name {
-        overflow: hidden;
-        font-size: 15px;
-        padding-top: 5px;              
+        font-size: 15px;        
         .product-name, p {margin: 0}
         .product-name {
           color: $gray40;
@@ -678,9 +676,11 @@
       }
 
       .delete-btn {
-        position: absolute; opacity: 0;
-        @include ver-pos; right: 13px;
-        z-index: -1;
+        // position: absolute; 
+        // @include ver-pos; 
+        opacity: 0;        
+        // right: 13px;
+        // z-index: -1;
         background: #dcdcdc;
         width: 26px; height: 26px;
         text-align: center; line-height: 26px;
@@ -911,15 +911,32 @@
   background: $white; 
 }
 .cart-table {  
-  position: relative;  
-   
+  position: relative; 
   .cart-row {
     .cart-head {
-      padding-right: 145px;
-      .c-price {
+      padding-right:20px;
+      display: flex;
+      align-items: center;      
+      > div{
+        flex: 1;
+      }
+      .c-price {  
+        width: 100px; 
+        flex: inherit;     
+      }
+      .c-name{
+        width: calc(100% - 220px);
+        flex: inherit;
+      }
+      .c-img{
+        flex: inherit;        
+      }
+      .delete-btn{
+        margin-left: 20px;
         position: absolute;
-        @include ver-pos; right: 50px;
-        margin: 2px 0 0;
+        right: 20px;
+        @include ver-pos;
+
       }
       &.touch{
         .delete-btn{
@@ -948,122 +965,77 @@
     }
   }
 }
-.cart-items-comp
-{
+.cart-items-comp{
   position: relative; 
   z-index: 1;
 }
-
-
   
-  .total-row {
-    position: relative;
-    font-family:$boldFont;
-    font-size: 15px;
-    padding-bottom: 13px;
-    @include clearfix;
-    p {margin: 0;}
-    .t-value, .t-txt {
-      float: left; margin: 0; width: 50%;
-    }
-    .discount-txt{
-      color:$gray60;
-      text-decoration: underline; 
-    }
-    .t-value {text-align: right;}
-    &.has-popover {
-      .t-txt {
-        position: relative;
-        .popover-wrapper {
-          //left: -286px;
-          //padding-right: 55px;
-          .p-outer {width: 238px;}
-          &.discount {
-            .p-outer {width: 330px;}
+.total-row {
+  position: relative;
+  font-family:$boldFont;
+  font-size: 15px;
+  padding-bottom: 13px;
+  @include clearfix;
+  p {margin: 0;}
+  .t-value, .t-txt {
+    float: left; margin: 0; width: 50%;
+  }
+  .discount-txt{
+    color:$gray60;
+    text-decoration: underline; 
+  }
+  .t-value {text-align: right;}
+  &.has-popover {
+    .t-txt {
+      position: relative;
+      .popover-wrapper {
+        //left: -286px;
+        //padding-right: 55px;
+        .p-outer {width: 238px;}
+        &.discount {
+          .p-outer {width: 330px;}
 
-          }
-          &.top {top: -12px;}
-          &.down {bottom: 30px; left: 0;}
-          &.bottom {/*bottom: 6px;*/ bottom: -12px; left: 60px;}
-          &.center {
-            @include ver-pos;
-            margin-top: -10px;
-          }
-          &.color.right.top {
-            .p-outer {
-              &:after {
-                border-left-color: $cgreen;
-              }
-            }
-          }
-          &.color.left.top {
-            .p-outer {
-              &:after {
-                border-right-color: $cgreen;
-              }
-            }
-          }
-          &.color.down {
-            .p-outer {
-              &:after {
-                border-top-color: #F8F9F9;
-              }
+        }
+        &.top {top: -12px;}
+        &.down {bottom: 30px; left: 0;}
+        &.bottom {/*bottom: 6px;*/ bottom: -12px; left: 60px;}
+        &.center {
+          @include ver-pos;
+          margin-top: -10px;
+        }
+        &.color.right.top {
+          .p-outer {
+            &:after {
+              border-left-color: $cgreen;
             }
           }
         }
-        &:hover {
-          //.popover-wrapper {opacity: 1; z-index: 999;}
+        &.color.left.top {
+          .p-outer {
+            &:after {
+              border-right-color: $cgreen;
+            }
+          }
+        }
+        &.color.down {
+          .p-outer {
+            &:after {
+              border-top-color: #F8F9F9;
+            }
+          }
         }
       }
-      &.open, &.hover .t-txt:hover  {
-        .popover-wrapper {opacity: 1; z-index: 999;}
+      &:hover {
+        //.popover-wrapper {opacity: 1; z-index: 999;}
       }
     }
-  }
-  .total-head {
-    position: relative;
-    border-top: $border solid 1px;
-    cursor: pointer;
-    .total-row {
-      font-family: $boldFont;
-      font-size: 15px;
-      padding-top: 20px; padding-bottom: 16px;
-    }
-    &:before {
-      font-family: $icomoon;
-      content: "\e91f";
-      position: absolute; top: 21px; right: -10px;
-      color: $grayDark; font-size: 18px;
-      @include rotate(180deg);
-      @include single-transition(all,.3s);
-    }
-    &.active {
-      &:before {
-        @include rotate(270deg);
-      }
-    }
-    &:first-child {
-      border-top: none;
-      .total-row {padding-top: 0;}
-      &:before {top: 1px;}
+    &.open, &.hover .t-txt:hover  {
+      .popover-wrapper {opacity: 1; z-index: 999;}
     }
   }
-  .total-content {
-    max-height: 0; overflow: hidden;
-    @include single-transition(all,.3s);
-    &.d-show {
-      max-height: 700px;
-      overflow: visible;
-    }
-    .total-row {
-      font-family: $mainFont;
-      font-size: $size; color: $mainTxt;
-      padding-bottom: 16px;
-      &:last-child {padding-bottom: 21px;}
-    }
-  }
+}  
   
-  .total-blk {
+.total-blk {
   padding: 20px $hozlSpace 0 20px;
   color: $gray40;
   .total-row-content{
@@ -1088,7 +1060,20 @@
       padding-top: 2px;      
     }
   }
-
+}
+//total for Refunded
+.total-row-content.refunded{
+  .total-row{
+    font-family:$mainFont;
+    &.total-head{
+      font-family: $boldFont;
+    }
+  }
+  .total-exchange-amount{
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid $border;
+  }
 }
 
 .cart-totals-comp{
@@ -3380,34 +3365,56 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .refund-blk {
-  .check-box {
-    input[type="checkbox"] {
-      &:checked + span {
-        background: $cred2;
-        border-color: $cred2;
-        &:before {color: $white;}
-      }
+  .cart-items-comp{//customer block
+    .cart-table.disabled{
+      height: auto !important;
     }
   }
+  .refund-items-comp{
+    &:before {
+      content: "";
+      position: fixed; 
+      right: 0;
+      top: 0;
+      background: white;
+      opacity: .7;
+      height: 133px;
+      width: 37.8%;
+      z-index: 1;
+    }
+    .cart-table .cart-row .cart-head .c-name{
+      width: calc(100% - 280px);
+    }
+    
+  }
+  .check-box {
+      position: absolute;
+      right: 20px;
+      @include ver-pos;
+      padding: 0;
+      input[type="checkbox"] {
+        &:checked + span {
+          background: $cred2;
+          border-color: $cred2;
+          &:before {color: $white;}
+        }
+      }
+    }
   .cart-table {
     .cart-row {
       .cart-head {
-        .check-box {
-          position: absolute;
-          @include ver-pos; right: 13px;
+        .check-box {         
           width: 17px; height: 17px;
           & + .delete-btn {display: none;}
         }
-        input.count-num {
-          position: absolute;
-          @include ver-pos; right: 135px;
-          font-family: $boldFont;
-          color: $cred2; display: none;
-          /*display: none;*/
+        input.count-num {          
+          font-family: $mainFont;
+          font-size: 14px;
+          border-color: $border;
+          display: none;
+          margin: 0 10px;
         }
-        &:hover {
-          //background: #ECEAEB;
-        }
+        
       }
       .cart-content {
         .cart-head {
@@ -3418,13 +3425,12 @@ h2.p-head {padding: 18px 20px;}
       &.checked {
         .cart-head {
           &, &.checked {
-            background: #ECEAEB; border-bottom-color: #CCC;
-            .c-num {background: #D4D4D4;}
-            input.count-num {display: block;}
+            background:$cbkg; border-bottom-color:$gray1;            
+            input.count-num {display: inline-block;}
           }
         }
         .cart-content {
-          background: #ECEBEB;
+          background:$cbkg;
           border-bottom: $cbkg solid 1px;
         }
       }
@@ -3463,7 +3469,6 @@ h2.p-head {padding: 18px 20px;}
   .total-blk {
     padding-right:50px;
     position: relative;
-    .total-head, .total-content {padding-right: $hozmSpace;}
   }
 }
 

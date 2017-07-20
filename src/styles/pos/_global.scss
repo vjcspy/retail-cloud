@@ -798,8 +798,6 @@ textarea[readonly="readonly"] {
     padding-left: 30px;
     margin-top: 4px;
     font-family: $mainFont;
-    font-size: 13px;
-    color: $gray60;
     font-weight: normal;
 
   &:before{
@@ -814,7 +812,7 @@ textarea[readonly="readonly"] {
       left: 0;
       top: 2px;
       color: $white;
-      padding-left: 4px;
+      padding-left: 3px;
       line-height: 17px;
     }
   }
@@ -942,4 +940,3 @@ textarea[readonly="readonly"] {
 }
 
 
-  
