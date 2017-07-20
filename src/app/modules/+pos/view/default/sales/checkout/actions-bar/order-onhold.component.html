@@ -1,4 +1,4 @@
-<div id="onholdOrder" class="popup-wrapper open" *ngIf=" cartActionBarState.isOpenOrderOnhold">
+<div id="onholdOrder" class="popup-wrapper open">
   <div class="popup-content">
     <div class="onhold-order">
       <h2 class="p-head">{{ 'Onhold Orders' | translate }}</h2>
@@ -37,9 +37,9 @@
         </table>
       </div>
       <div class="desc-bottom">
-        <button class="gray" (click)="cartActionBarActions.changeModeOrderOnholdPopup(false)">{{ 'Close' | translate }}</button>
+        <button class="gray" (click)="cartActionBarActions.changeModePopup(null)">{{ 'Close' | translate }}</button>
       </div>
     </div>
   </div>
 </div>
-<div class="popup-overlay open" *ngIf=" cartActionBarState.isOpenOrderOnhold"></div>
+<div class="popup-overlay open"></div>

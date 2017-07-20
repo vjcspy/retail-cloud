@@ -1,11 +1,20 @@
-<span class="icon-link snote-edit" [ngClass]="{open: cartActionBarState.isOpeningNote}" (click)="toggleNote($event)">
-            <span class="icon-edit"></span>
-            <span class="tooltiptext-bottom">{{"Take note" | translate}}</span>
-            <div class="popover-wrapper up right-pos add-note" *ngIf="cartActionBarState.isOpeningNote">
-                <div class="p-outer" #noteElem>
-                    <div class="p-inner">
-                        <textarea placeholder="{{ 'Add note here' | translate }}" [value]="quoteState.info.note"></textarea>
-                    </div>
-                </div>
-            </div>
-</span>
+<div id="addNotePopup" class="popup-wrapper animated fadeIn open">
+  <div class="popup-content">
+    <!-- Add note -->
+    <div class="form-popup addNote-form">
+      <h2>Add note</h2>
+      <div class="form-popup-content">
+        <form>
+          <div class="form-group">
+            <textarea class="form-control" placeholder="Begin your message ..." name="note" [(ngModel)]="note"></textarea>
+          </div>
+          <div class="button-group">
+            <button class="gray" (click)="cartActionBarActions.changeModePopup(null)">Cancel</button>
+            <button class="primary" (click)="saveNote()">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay open"></div>
