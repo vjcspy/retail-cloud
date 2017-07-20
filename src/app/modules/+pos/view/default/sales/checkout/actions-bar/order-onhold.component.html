@@ -32,9 +32,9 @@
 
             </div>
             <div class="col-item order">
-              <div class="icon-noted">
+              <div class="icon-noted" [ngClass]="{disabled: !order['note']}">
                   <span class="tooltiptext-right">
-                  {{order['retail_note']}}
+                  {{order['note']}}
                   </span>
               </div>
 
