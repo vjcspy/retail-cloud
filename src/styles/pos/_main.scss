@@ -1842,6 +1842,9 @@ input[type="text"] {float: right; width: 160px;}
     
   }
   .popup-content {height: 100%;}
+  .ps>.ps__scrollbar-y-rail{
+    @include single-transition-none;
+  }
 }
 
 .popup-overlay {
@@ -3403,12 +3406,18 @@ h2.p-head {padding: 18px 20px;}
       @include ver-pos;
       padding: 0;
       input[type="checkbox"] {
-        &:checked + label {
-          background: $cred2;
-          border-color: $cred2;
+        + label{
           margin: 0;
           min-height: 17px;
-          &:before {color: $white;}
+          &:before{
+            background: $cred2;
+            border-color: $cred2;
+          }
+        }
+        &:checked + label {
+          &:before {
+            color: $white;
+          }
         }
       }
     }
