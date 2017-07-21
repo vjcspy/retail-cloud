@@ -33,6 +33,7 @@ import {ProductDB} from "../../database/xretail/db/product";
 import {OfflineService} from "../../../share/provider/offline";
 import {PosGeneralState} from "../general/general.state";
 import {PosQuoteState} from "./quote.state";
+import {QuoteRefundActions} from "./refund/refund.actions";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -190,7 +191,8 @@ export class PosQuoteEffects {
                                  PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
                                  // After update quote items
                                  PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS,
-                                 QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST
+                                 QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST,
+                                 QuoteRefundActions.ACTION_LOAD_CREDITMEMO_SUCCESS
                                )
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),
@@ -275,16 +277,20 @@ export class PosQuoteEffects {
                               }
                             });
     
+                            let ob = [];
+                            if (items.count() > 0) {
+                              ob.push(this.quoteActions.updateQuoteItems(items, false));
+                            }
+    
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];
                             if (parseInt(configState.setting.customer.getDefaultCustomerId()) === parseInt(customer + '')) {
                               let c = new Customer();
                               c.mapWithParent(configState.setting.customer.getDefaultCustomer());
       
-                              return Observable.from([
-                                                       this.quoteActions.setCustomerToQuote(c, false),
-                                                       this.quoteActions.updateQuoteItems(items, false)
-                                                     ]);
+                              ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+      
+                              return Observable.from(ob);
                             } else if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
                               return <any>this.quoteCustomer.getCustomerOnline(customer, <any>z[3])
@@ -294,10 +300,9 @@ export class PosQuoteEffects {
                                                   let c    = new Customer();
                                                   c.mapWithParent(customer);
           
-                                                  return Observable.from([
-                                                                           this.quoteActions.setCustomerToQuote(c, false),
-                                                                           this.quoteActions.updateQuoteItems(items, false)
-                                                                         ]);
+                                                  ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+          
+                                                  return Observable.from(ob);
                                                 } else {
                                                   return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
                                                 }
@@ -319,10 +324,9 @@ export class PosQuoteEffects {
                               let c = new Customer();
                               c.mapWithParent(customer);
       
-                              return Observable.from([
-                                                       this.quoteActions.setCustomerToQuote(c, false),
-                                                       this.quoteActions.updateQuoteItems(items, false)
-                                                     ]);
+                              ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+      
+                              return Observable.from(ob);
                             }
                           });
   
