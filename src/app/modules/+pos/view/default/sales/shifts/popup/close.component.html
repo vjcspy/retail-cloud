@@ -1,6 +1,6 @@
 <div id="closeShift" class="popup-wrapper open">
   <div class="popup-content">
-    <div class="closeshift-table">
+    <div class="closeshift-table" perfectScroll>      
       <h2 class="p-head">
         {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
         <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
@@ -19,7 +19,7 @@
           <tr *ngFor="let payment of shiftState.detail.amounts.paymentUsed">
             <td>{{payment['title']}}</td>
             <td>{{getExpectedAmount(payment) | priceFormat}}</td>
-            <td class="c-center">
+            <td>
               <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]" inputSelectText [disabled]="shiftState.detail.waitingServer"
                            (modelChange)="getDiff(payment)"
                            [formKey]="'popup-close-shift'"

@@ -2036,7 +2036,7 @@ input[type="text"] {float: right; width: 160px;}
   top: 0; left: 0;
   width: 100%;
   font-family: $mediumFont;
-  font-size: $size; color: $mainTxt;
+  font-size: 17px; color: $mainTxt;
   text-transform: uppercase; text-align: center;
   margin: 0; @include ellipsis;
   span {
@@ -2225,13 +2225,13 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .closeshift-table {
-  padding-top: 104px;
+  padding-top: 104px;  
   table {
     th, td {
       border: none;
       vertical-align: top;
       padding: 10px 15px; text-align: left;
-      input[type="text"] {text-align: center; color: $mainTxt; margin-bottom: -10px;}
+      input[type="text"] {color: $mainTxt;}
       .cash-amount {
         input[type="text"] {
           font-family: $boldFont;
@@ -2759,19 +2759,23 @@ h2.p-head {padding: 18px 20px;}
     .setting-blk {
       .accordion-blk {
         max-width: $w-setting;
-        height: 100vh;
+        height: 100%;
+        position: relative;
       }
     }
   }
   .menu-toggle {position: absolute; left: 0; top: 14px;}
   .setting-blk {
     margin-left: 280px;
-    overflow: hidden; padding-bottom: 64px;
-    .bottom-bar {
-      bottom: 17px;
-      padding-left: $hoztSpace; padding-right: $hoztSpace;
-      text-align: right;
-      button {min-width: 117px; margin-left: 19px;}
+    overflow: hidden;;
+    .bottom-bar {             
+        text-align: right;
+        position: fixed;
+        width: 120px;
+        right: 30px;
+        bottom: 30px;
+        left: inherit;
+      button {min-width: 117px;}
     }
     .accordion-blk {
       padding-top: 19px;
@@ -3724,6 +3728,7 @@ ul.has-list {
 .order-list-leftside,
 .cashdrawer-leftside {
   float: left; width: 36.0907%;
+  border-right: 1px solid #E0E0E0; 
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -4225,6 +4230,9 @@ ul.has-list {
 }
 
 .cashdrawer-leftside {
+  .cashdrawer-inner{
+    background: $white;
+  }
   .items {
     position: relative;
     div.price {
@@ -4299,7 +4307,7 @@ ul.has-list {
     .bounder, h4 {font-family: $boldFont; color: $grayDark;}
     h4 {font-size: $size;}
   }
-  .date {margin-top: 20px;}
+  // .date {margin-top: 20px;}
   .items + .date {margin-top: 38px;}
   .price {color: $grayDark;}
 }
