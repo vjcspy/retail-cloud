@@ -44,24 +44,28 @@ export class PosDefaultMenuLeftComponent implements OnInit {
     }
   }
   
+  go(path: string) {
+    this.routerActions.go(path);
+  }
+  
   openCart() {
-    this.routerActions.go('pos/default/sales/checkout');
+    this.go('pos/default/sales/checkout');
   }
   
   openShift() {
-    this.routerActions.go('pos/default/sales/shifts');
+    this.go('pos/default/sales/shifts');
   }
   
   goPosSetting() {
-    this.routerActions.go('pos/configurations/default/general');
+    this.go('pos/configurations/default/general');
   }
   
   changeOutlet() {
-    this.routerActions.go('pos/default/outlet-register');
+    this.go('pos/default/outlet-register');
   }
   
   openOrders() {
-    this.routerActions.go('pos/default/sales/orders');
+    this.go('pos/default/sales/orders');
   }
   
   flushCache() {

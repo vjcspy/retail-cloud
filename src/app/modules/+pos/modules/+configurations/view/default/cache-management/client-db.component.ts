@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {ConfigurationsState} from "../../../R/index";
 import {Store} from "@ngrx/store";
+import {ConfigurationsState} from "../../../R/index";
 
 @Component({
              // moduleId: module.id,
-             selector: 'configurations-default-cache-management-magento-product',
-             templateUrl: 'magento-product.component.html',
+             selector: 'configurations-default-cache-management-client-db',
+             templateUrl: 'client-db.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
-export class ConfigurationsDefaultCacheManagementMagentoProductComponent implements OnInit {
+export class ConfigurationsDefaultCacheManagementClientDBComponent implements OnInit {
   configurationsState$: Observable<ConfigurationsState>;
   
   constructor(private store$: Store<any>) {

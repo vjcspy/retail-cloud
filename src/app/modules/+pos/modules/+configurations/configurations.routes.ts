@@ -17,6 +17,7 @@ import {ConfigurationsDefaultPosCheckoutComponent} from "./view/default/pos/chec
 import {ConfigurationsDefaultPosIntegrationComponent} from "./view/default/pos/integration.component";
 import {ConfigurationsDefaultPosReceiptComponent} from "./view/default/pos/receipt.component";
 import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./view/default/cache-management/magento-product.component";
+import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./view/default/cache-management/client-db.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -54,9 +55,10 @@ export const CONFIGURATIONS_ROUTES: Routes = [
           },
           
           {
-            path: 'cache-management', component: ConfigurationsDefaultCacheManagement,
+            path: 'advanced', component: ConfigurationsDefaultCacheManagement,
             children: [
-              {path: 'magento-product', component: ConfigurationsDefaultCacheManagementMagentoProductComponent}
+              {path: 'magento-product', component: ConfigurationsDefaultCacheManagementMagentoProductComponent},
+              {path: 'client-db', component: ConfigurationsDefaultCacheManagementClientDBComponent},
             ]
           },
         ]

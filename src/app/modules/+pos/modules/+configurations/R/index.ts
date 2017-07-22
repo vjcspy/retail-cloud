@@ -26,6 +26,9 @@ import {configurationsCacheReducer} from "./cache/cache.reducer";
 import {MagentoProductService} from "./cache/magento-product/magento-product.service";
 import {MagentoProductActions} from "./cache/magento-product/magento-product.actions";
 import {MagentoProductEffects} from "./cache/magento-product/magento-product.effects";
+import {ConfigurationsClientDbService} from "./cache/client-db/client-db.service";
+import {ConfigurationsClientDbActions} from "./cache/client-db/client-db.actions";
+import {ConfigurationsClientDbEffects} from "./cache/client-db/client-db.effects";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
@@ -33,6 +36,7 @@ export const R_IMPORT = [
   EffectsModule.run(ConfigurationsPaymentEffects),
   EffectsModule.run(ConfigurationsReceiptEffects),
   EffectsModule.run(MagentoProductEffects),
+  EffectsModule.run(ConfigurationsClientDbEffects),
 ];
 
 export const R_PROVIDER = [
@@ -53,7 +57,10 @@ export const R_PROVIDER = [
   // ConfigurationsReceiptEffects,
   
   MagentoProductService,
-  MagentoProductActions
+  MagentoProductActions,
+  
+  ConfigurationsClientDbService,
+  ConfigurationsClientDbActions,
 ];
 
 export interface ConfigurationsState {

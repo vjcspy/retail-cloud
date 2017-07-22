@@ -23,6 +23,8 @@ import {ConfigurationsDefaultPosReceiptTemplateComponent} from "./pos/receipt/te
 import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./cache-management/magento-product.component";
 import {ConfigurationsDefaultCacheManagementMagentoProductGridComponent} from "./cache-management/magento-product/grid.component";
 import {ConfigurationsDefaultCacheManagement} from "./cache-management.component";
+import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./cache-management/client-db.component";
+import {ConfigurationsDefaultCacheManagementClientDBGridComponent} from "./cache-management/client-db/grid.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -59,4 +61,7 @@ export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultCacheManagement,
   ConfigurationsDefaultCacheManagementMagentoProductComponent,
   ConfigurationsDefaultCacheManagementMagentoProductGridComponent,
+
+  ConfigurationsDefaultCacheManagementClientDBComponent,
+  ConfigurationsDefaultCacheManagementClientDBGridComponent,
 ];

@@ -7,6 +7,7 @@ import {MagentoProductService} from "./magento-product.service";
 import {MagentoProductActions} from "./magento-product.actions";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {Observable} from "rxjs/Observable";
+import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 
 @Injectable()
 export class MagentoProductEffects {
@@ -16,16 +17,19 @@ export class MagentoProductEffects {
               private router: Router,
               private magentoProductService: MagentoProductService,
               private magentoProductActions: MagentoProductActions,
-              private notify: NotifyManager) { }
+              private notify: NotifyManager,
+              private progressBar: ProgressBarService) { }
   
   @Effect() whenGoMagentoCache = this.actions$
                                      .ofType(routerActions.UPDATE_LOCATION)
-                                     .filter(() => this.router.isActive('pos/configurations/default/cache-management/magento-product', false))
+                                     .filter(() => this.router.isActive('pos/configurations/default/advanced/magento-product', false))
                                      .withLatestFrom(this.store$.select('general'))
                                      .switchMap((z: any) => {
+                                       this.progressBar.start();
                                        return this.magentoProductService.createPullCacheInstanceRequest(z[1])
                                                   .filter((data) => data.hasOwnProperty('items'))
                                                   .map((data) => {
+                                                    this.progressBar.done();
                                                     return this.magentoProductActions.pulledCacheInstance(data['items'], false);
                                                   });
                                      });

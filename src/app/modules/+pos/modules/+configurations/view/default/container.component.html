@@ -44,14 +44,19 @@
       <span class="click">{{ 'Translate' | translate }}</span>
     </li>
 
-    <li [ngClass]="{open: router.isActive('/pos/configurations/default/cache-management')}">
-            <span class="click" (click)="go('pos/configurations/default/cache-management/magento-product')">
-                {{ 'Cache Management' | translate }}
+    <li [ngClass]="{open: router.isActive('/pos/configurations/default/advanced')}">
+            <span class="click" (click)="go('pos/configurations/default/advanced/client-db')">
+                {{ 'Advanced' | translate }}
             </span>
       <ul class="sub-menu">
-        <li [ngClass]="{active: router.isActive('/pos/configurations/default/cache-management/magento-product')}">
-          <span class="click" (click)="go('pos/configurations/default/cache-management/magento-product')">
-            {{ 'Magento' | translate }}</span>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/advanced/client-db')}">
+          <span class="click" (click)="go('pos/configurations/default/advanced/client-db')">
+            {{ 'Client Database' | translate }}</span>
+        </li>
+
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/advanced/magento-product')}">
+          <span class="click" (click)="go('pos/configurations/default/advanced/magento-product')">
+            {{ 'Magento Cache' | translate }}</span>
         </li>
       </ul>
     </li>

@@ -27,6 +27,18 @@ export class PosEntitiesActions {
     return action;
   }
   
+  static ACTION_DELETE_ENTITY = 'ACTION_DELETE_ENTITY';
+  
+  deleteEntity(entityCode, dispatch: boolean = true): Action {
+    const action = {type: PosEntitiesActions.ACTION_DELETE_ENTITY, payload: {entityCode}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   /**
    ** @REDUCER:
    *
