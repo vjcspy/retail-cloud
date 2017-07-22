@@ -21,12 +21,18 @@ import {ConfigurationsReceiptState} from "./receipts/receipt.state";
 import {ConfigurationsReceiptActions} from "./receipts/receipt.actions";
 import {ConfigurationsReceiptService} from "./receipts/receipt.service";
 import {ConfigurationsReceiptEffects} from "./receipts/receipt.effects";
+import {ConfigurationsCacheState} from "./cache/cache.state";
+import {configurationsCacheReducer} from "./cache/cache.reducer";
+import {MagentoProductService} from "./cache/magento-product/magento-product.service";
+import {MagentoProductActions} from "./cache/magento-product/magento-product.actions";
+import {MagentoProductEffects} from "./cache/magento-product/magento-product.effects";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
   EffectsModule.run(ConfigurationsOutletEffects),
   EffectsModule.run(ConfigurationsPaymentEffects),
   EffectsModule.run(ConfigurationsReceiptEffects),
+  EffectsModule.run(MagentoProductEffects),
 ];
 
 export const R_PROVIDER = [
@@ -45,6 +51,9 @@ export const R_PROVIDER = [
   ConfigurationsReceiptActions,
   ConfigurationsReceiptService,
   // ConfigurationsReceiptEffects,
+  
+  MagentoProductService,
+  MagentoProductActions
 ];
 
 export interface ConfigurationsState {
@@ -52,6 +61,7 @@ export interface ConfigurationsState {
   outlets: ConfigurationsOutletState;
   payments: ConfigurationsPaymentState;
   receipt: ConfigurationsReceiptState;
+  cache: ConfigurationsCacheState;
 }
 
 export interface ConfigurationModuleState {
@@ -63,6 +73,7 @@ export const configurationsReducer = () => createReducer({
                                                                                              retailConfig: retailConfigReducer,
                                                                                              outlets: configurationsOutletReducer,
                                                                                              payments: paymentReducer,
-                                                                                             receipt: configurationsReceiptReducer
+                                                                                             receipt: configurationsReceiptReducer,
+                                                                                             cache: configurationsCacheReducer
                                                                                            })
                                                          });

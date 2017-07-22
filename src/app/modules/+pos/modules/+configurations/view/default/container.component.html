@@ -4,9 +4,11 @@
     <button style="width: 100%" type="button" (click)="go('pos/default/sales/checkout')">Back</button>
   </div>
   <ul class="left-menu">
+
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/general')}">
       <span class="click" (click)="go('pos/configurations/default/general')">{{ 'General' | translate }}</span>
     </li>
+
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos')}">
             <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
                 {{ 'X-POS Setting' | translate }}
@@ -37,11 +39,21 @@
         </li>
       </ul>
     </li>
+
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/translate')}">
       <span class="click">{{ 'Translate' | translate }}</span>
     </li>
-    <li>
-      <span class="click">{{ 'Cache Management' | translate }}</span>
+
+    <li [ngClass]="{open: router.isActive('/pos/configurations/default/cache-management')}">
+            <span class="click" (click)="go('pos/configurations/default/cache-management/magento-product')">
+                {{ 'Cache Management' | translate }}
+            </span>
+      <ul class="sub-menu">
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/cache-management/magento-product')}">
+          <span class="click" (click)="go('pos/configurations/default/cache-management/magento-product')">
+            {{ 'Magento' | translate }}</span>
+        </li>
+      </ul>
     </li>
   </ul>
 </div>

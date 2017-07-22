@@ -1,0 +1,10 @@
+<div class="acr-row outlet-management">
+  <div class="acr-head"><h2>{{ 'Magento Product Cache' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <configurations-default-cache-management-magento-product-grid
+        *ngIf="(configurationsState$ | async)?.cache.magentoProduct.pulledInstance === true"
+        [magentoProductSate]="(configurationsState$ | async)?.cache.magentoProduct"></configurations-default-cache-management-magento-product-grid>
+    </div>
+  </div>
+</div>

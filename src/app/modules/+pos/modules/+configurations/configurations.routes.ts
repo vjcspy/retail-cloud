@@ -16,6 +16,7 @@ import {ConfigurationsDefaultPosPaymentComponent} from "./view/default/pos/payme
 import {ConfigurationsDefaultPosCheckoutComponent} from "./view/default/pos/checkout.component";
 import {ConfigurationsDefaultPosIntegrationComponent} from "./view/default/pos/integration.component";
 import {ConfigurationsDefaultPosReceiptComponent} from "./view/default/pos/receipt.component";
+import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./view/default/cache-management/magento-product.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -29,6 +30,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
         canActivate: [BaseUrlGuard],
         children: [
           {path: 'general', component: ConfigurationsDefaultGeneralComponent},
+          
           {
             path: 'pos',
             component: ConfigurationsDefaultPosComponent,
@@ -50,7 +52,13 @@ export const CONFIGURATIONS_ROUTES: Routes = [
               {path: 'receipt', component: ConfigurationsDefaultPosReceiptComponent},
             ]
           },
-          {path: 'cache-management', component: ConfigurationsDefaultCacheManagement},
+          
+          {
+            path: 'cache-management', component: ConfigurationsDefaultCacheManagement,
+            children: [
+              {path: 'magento-product', component: ConfigurationsDefaultCacheManagementMagentoProductComponent}
+            ]
+          },
         ]
       }
     ],

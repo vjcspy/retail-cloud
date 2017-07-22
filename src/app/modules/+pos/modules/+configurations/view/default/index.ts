@@ -1,6 +1,5 @@
 import {ConfigurationsDefaultContainerComponent} from "./container.component";
 import {ConfigurationsDefaultPosComponent} from "./pos.component";
-import {ConfigurationsDefaultCacheManagement} from "./cache-management.component";
 import {PosConfigurationsDefaultPosProductCategoryComponent} from "./pos/product-category.component";
 import {PosConfigurationsDefaultPosProductCategorySettingsComponent} from "./pos/product-category/settings.component";
 import {ConfigurationsDefaultGeneralComponent} from "./general.component";
@@ -21,6 +20,9 @@ import {ConfigurationsDefaultPosIntegrationSettingComponent} from "./pos/integra
 import {ConfigurationsDefaultPosIntegrationComponent} from "./pos/integration.component";
 import {ConfigurationsDefaultPosReceiptComponent} from "./pos/receipt.component";
 import {ConfigurationsDefaultPosReceiptTemplateComponent} from "./pos/receipt/template.component";
+import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./cache-management/magento-product.component";
+import {ConfigurationsDefaultCacheManagementMagentoProductGridComponent} from "./cache-management/magento-product/grid.component";
+import {ConfigurationsDefaultCacheManagement} from "./cache-management.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -53,6 +55,8 @@ export const DEFAULT_COMPONENTS = [
 
   ConfigurationsDefaultPosReceiptComponent,
   ConfigurationsDefaultPosReceiptTemplateComponent,
-  
+
   ConfigurationsDefaultCacheManagement,
+  ConfigurationsDefaultCacheManagementMagentoProductComponent,
+  ConfigurationsDefaultCacheManagementMagentoProductGridComponent,
 ];
