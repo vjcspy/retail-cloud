@@ -79,7 +79,7 @@
   }
 }
 .left-menu-side {
-  position: fixed; top: 0; left: -280px;  
+  position: fixed; top: 0; left: -280px;
   width: 280px; height: 100%;
   font-family: $mediumFont;
   font-size: $sizeS; color: #D2D4DA;
@@ -126,7 +126,7 @@
   }
   &.mn-xpos {
     width: 313px; left: -313px;
-      background: $white; padding-top: 0;      
+      background: $white; padding-top: 0;
       .mn-close{
         position: absolute;
         right: 0;
@@ -147,7 +147,7 @@
         }
       }
     @include box-shadow(5px 0px 10px 0px rgba(135,149,162,0.28));
-    .left-menu-link {      
+    .left-menu-link {
       padding-top: .01em;
     }
   }
@@ -222,7 +222,7 @@
     li {
         font-family: $boldFont;
         font-size: 15px; color: $gray40;
-        text-transform: uppercase;         
+        text-transform: uppercase;
         padding: 18px 35px;
         position: relative;
          @include single-transition(all,0.3s);
@@ -230,9 +230,9 @@
             @include single-transition(all,0.3s);
         }
         .click {
-          position: relative;          
+          position: relative;
           display: flex;
-          align-items: center;                  
+          align-items: center;
             &:hover,
             &.active {color: $cgreen;}
         }
@@ -248,8 +248,8 @@
           width: calc(100% - 60px);
         }
         &:hover{
-          background: $cbkg;    
-          &:after{display: none;}      
+          background: $cbkg;
+          &:after{display: none;}
         }
     }
 }
@@ -269,7 +269,7 @@
         font-size: $sizeS;
         font-family: $mainFont;
     }
-    .icon-user-bold{        
+    .icon-user-bold{
         font-size: 50px; color: #b3b6bd;
         margin-right: 10px;
     }
@@ -342,7 +342,7 @@
   float: left;
   width: $w-precent;
   border-right: $border solid 1px;
-  
+
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -427,7 +427,7 @@
         position: static;
       }
     }
-    
+
     .show-label {
       right: 4px; bottom: 4px; left: 4px;
       height: 45px; padding: 5px;
@@ -455,7 +455,7 @@
     position: absolute;
     z-index: 2;
     display: inline-block;
-    width: 44px;  
+    width: 44px;
     left: 10px;
     top: 10px;
     @include tablet{
@@ -463,7 +463,7 @@
       left: 5px;
       top: 5px;
     }
-  
+
   }
 }
 
@@ -616,7 +616,7 @@
       cursor: pointer;
       @include clearfix;
       @include single-transition(all,.3s);
-      
+
       .click[class^="icon-"] {
         float: left; margin: 2px 16px 0 0;
         width: 41px; height: 41px; line-height: 39px;
@@ -635,9 +635,9 @@
         background: $white;
         border-radius: 5px;
         border: 1px solid $border;
-        padding: 1px; 
+        padding: 1px;
         float: left;
-        margin-right: 15px;       
+        margin-right: 15px;
       }
       .c-num {
         background: $corange;
@@ -661,14 +661,14 @@
         .old-pr {text-decoration: line-through;}
       }
       .c-name {
-        font-size: 15px;        
+        font-size: 15px;
         .product-name, p {margin: 0}
         .product-name {
           color: $gray40;
           white-space: nowrap;
-          text-overflow: ellipsis;  
+          text-overflow: ellipsis;
           overflow: hidden;
-          
+
         }
         .p-product-name{
           font-size: 13px;
@@ -676,9 +676,9 @@
       }
 
       .delete-btn {
-        // position: absolute; 
-        // @include ver-pos; 
-        opacity: 0;        
+        // position: absolute;
+        // @include ver-pos;
+        opacity: 0;
         // right: 13px;
         // z-index: -1;
         background: #dcdcdc;
@@ -709,7 +709,7 @@
       }
       .c-mail {
         //right: 20px; text-align: right;
-        font-size: $size; color: $disTxt;        
+        font-size: $size; color: $disTxt;
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -838,7 +838,7 @@
       }
       .cart-content {
         background: #e6e6e6;
-      }      
+      }
       .cart-content {max-height: 7000px;}
     }
   }
@@ -862,7 +862,7 @@
         line-height: 47px;
         margin-right: 10px;
     }
-    
+
     .customer-icon-action{
       position: relative;
       &:hover:before{
@@ -880,7 +880,7 @@
       @include  border-radius(50%);
       display: flex;
       align-items: center;
-      justify-content: center;      
+      justify-content: center;
     }
     .icon-change{
       font-size: 19px;
@@ -908,28 +908,28 @@
   }
 }
 .cart-product .cart-product-inner{
-  background: $white; 
+  background: $white;
 }
-.cart-table {  
-  position: relative; 
+.cart-table {
+  position: relative;
   .cart-row {
     .cart-head {
       padding-right:20px;
       display: flex;
-      align-items: center;      
+      align-items: center;
       > div{
         flex: 1;
       }
-      .c-price {  
-        width: 100px; 
-        flex: inherit;     
+      .c-price {
+        width: 100px;
+        flex: inherit;
       }
       .c-name{
         width: calc(100% - 220px);
         flex: inherit;
       }
       .c-img{
-        flex: inherit;        
+        flex: inherit;
       }
       .delete-btn{
         margin-left: 20px;
@@ -966,10 +966,10 @@
   }
 }
 .cart-items-comp{
-  position: relative; 
+  position: relative;
   z-index: 1;
 }
-  
+
 .total-row {
   position: relative;
   font-family:$boldFont;
@@ -981,8 +981,8 @@
     float: left; margin: 0; width: 50%;
   }
   .discount-txt{
-    color:$gray60;
-    text-decoration: underline; 
+    //color:$gray60;
+    text-decoration: underline;
   }
   .t-value {text-align: right;}
   &.has-popover {
@@ -1033,21 +1033,21 @@
       .popover-wrapper {opacity: 1; z-index: 999;}
     }
   }
-}  
-  
+}
+
 .total-blk {
   padding: 20px $hozlSpace 0 20px;
   color: $gray40;
   .total-row-content{
-    padding-bottom: 10px;
+    //padding-bottom: 10px;
   }
-  .btn-collapse{     
+  .btn-collapse{
     height: 20px;
     position: absolute;
     width: 100%;
     top: -20px;
-    left: 0;  
-    border-bottom: $border solid 1px;  
+    left: 0;
+    border-bottom: $border solid 1px;
     @include gradient-trans();
     &.c-hide{
       background: none !important;
@@ -1057,7 +1057,7 @@
       @include close-arr($cbkg,270deg);
       border-radius: 4px 4px 0 0;
       border-bottom: none;
-      padding-top: 2px;      
+      padding-top: 2px;
     }
   }
 }
@@ -1096,18 +1096,18 @@
     }
     .total-blk{
       padding-top: 0;
-      .btn-collapse{  
-        height: 30px;      
-        top: -30px;  
+      .btn-collapse{
+        height: 30px;
+        top: -30px;
         .close-arr{
           @include close-arr(#e6e6e6,90deg);
           padding-top: 4px;
           border-bottom: none;
           height: 30px;
-        }  
+        }
       }
-    } 
-    
+    }
+
   }
 }
 
@@ -1357,7 +1357,7 @@
           }
         }
       }
-      
+
       font-family: $mediumFont; padding-bottom: 7px;
       p {margin: 0}
     }
@@ -1370,7 +1370,7 @@
     .inner {
       position: relative;
       overflow: hidden;
-      padding-right: 13px;  
+      padding-right: 13px;
     }
     .fr-control {
       margin-top: 31px;
@@ -1839,7 +1839,7 @@ input[type="text"] {float: right; width: 160px;}
   @include center-pos;
   @include tablet {
     width: 73.5163%;
-    
+
   }
   .popup-content {height: 100%;}
   .ps>.ps__scrollbar-y-rail{
@@ -2234,7 +2234,7 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .closeshift-table {
-  padding-top: 104px;  
+  padding-top: 104px;
   table {
     th, td {
       border: none;
@@ -2369,18 +2369,18 @@ h2.p-head {padding: 18px 20px;}
   }
   .grid-item {
     padding: 10px 27px 0;
-    display: flex;    
+    display: flex;
     flex-wrap: wrap;
     li {
       position: relative;
-      float: left; 
+      float: left;
       width: calc(25% - 12px);
       margin: 6px;
       color: $disTxt; background: $cbkg;
       min-height: 165px; padding: 17px 27px 48px;
       @include tablet{
         width: calc(33.333% - 12px);
-      }      
+      }
 
       &:nth-of-type(4n+1) {clear: left}
       &, .click {@include single-transition(all,0.3s);}
@@ -2777,7 +2777,7 @@ h2.p-head {padding: 18px 20px;}
   .setting-blk {
     margin-left: 280px;
     overflow: hidden;;
-    .bottom-bar {             
+    .bottom-bar {
         text-align: right;
         position: fixed;
         width: 120px;
@@ -2793,7 +2793,7 @@ h2.p-head {padding: 18px 20px;}
           min-height: 26px;
           h3 {
             position: absolute; left: 22px;
-            width: calc(100% - 110px);            
+            width: calc(100% - 110px);
             @include ver-pos;
 
           }
@@ -2809,7 +2809,7 @@ h2.p-head {padding: 18px 20px;}
   float: left; padding-top: 26px; padding-left: $hoztSpace;
   .select-wrapper {
     @extend .select-small;
-    width: auto; margin-right: 25px;    
+    width: auto; margin-right: 25px;
   }
   .click {
     @extend .link-btn;
@@ -3204,7 +3204,7 @@ h2.p-head {padding: 18px 20px;}
 
   .checkout-completed {
     position: absolute;
-    // width: 61.3184%; 
+    // width: 61.3184%;
     width: 515px;
     padding: 60px 0;
     @include center-pos;
@@ -3215,7 +3215,7 @@ h2.p-head {padding: 18px 20px;}
       padding: 0; margin-bottom: 4.9% !important;
       @include user-select(none);
       > button {
-        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;      
+        width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;
         height: 45px; line-height: 43px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
@@ -3225,7 +3225,7 @@ h2.p-head {padding: 18px 20px;}
         margin-top: 30px;
         opacity: 0; z-index: -1;
         width: 370px;
-        padding-right: 0;        
+        padding-right: 0;
       }
     }
     .control-bar, .s-blk {
@@ -3235,10 +3235,10 @@ h2.p-head {padding: 18px 20px;}
     .s-blk {
       padding-right: 20px;
       @include clearfix;
-      @include single-transition(all,0.3s);  
+      @include single-transition(all,0.3s);
       input, button{
         float: left;
-      }    
+      }
       input[type="text"] {width: 250px;}
       button {
         width: 110px; margin: 0 0 0 10px;padding: 0;
@@ -3386,7 +3386,7 @@ h2.p-head {padding: 18px 20px;}
   .refund-items-comp{
     &:before {
       content: "";
-      position: fixed; 
+      position: fixed;
       right: 0;
       top: 59px;
       background: white;
@@ -3398,7 +3398,7 @@ h2.p-head {padding: 18px 20px;}
     .cart-row .cart-head .c-name{
       width: calc(100% - 280px);
     }
-    
+
   }
   .checkbox-input {
       position: absolute;
@@ -3424,18 +3424,18 @@ h2.p-head {padding: 18px 20px;}
   .cart-table {
     .cart-row {
       .cart-head {
-        .check-box {         
+        .check-box {
           width: 17px; height: 17px;
           & + .delete-btn {display: none;}
         }
-        input.count-num {          
+        input.count-num {
           font-family: $mainFont;
           font-size: 14px;
           border-color: $border;
           display: none;
           margin: 0 10px;
         }
-        
+
       }
       .cart-content {
         .cart-head {
@@ -3446,7 +3446,7 @@ h2.p-head {padding: 18px 20px;}
       &.checked {
         .cart-head {
           &, &.checked {
-            background:$cbkg; border-bottom-color:$gray1;            
+            background:$cbkg; border-bottom-color:$gray1;
             input.count-num {display: inline-block;}
           }
         }
@@ -3745,7 +3745,7 @@ ul.has-list {
 .order-list-leftside,
 .cashdrawer-leftside {
   float: left; width: 36.0907%;
-  border-right: 1px solid #E0E0E0; 
+  border-right: 1px solid #E0E0E0;
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -3763,7 +3763,7 @@ ul.has-list {
   .items {
     position: relative;
     background: $white;
-    padding: 14px $hozSpace 17px $hozcSpace; 
+    padding: 14px $hozSpace 17px $hozcSpace;
     border-bottom: 1px solid #e2e2e2;
     @include clearfix;
     @include single-transition(all,0.3s);
@@ -3805,7 +3805,7 @@ ul.has-list {
     position: absolute; top: 83px; left: 0;
     width: 100%; padding: 0 11px 5px ;
     &:before{
-      width: calc(100% - 44px);      
+      width: calc(100% - 44px);
       height: 1px;
       content: "";
       background: $border;
@@ -3828,7 +3828,7 @@ ul.has-list {
         float: left; width: calc(50% - 22px); margin: 0 11px;
         .calendar-picker{
           padding-left: 45px;
-        } 
+        }
         .icon-date-time{
           position: absolute;
           top: 10px;
@@ -3837,7 +3837,7 @@ ul.has-list {
           color: $gray60;
           pointer-events: none;
           cursor: pointer;
-        }       
+        }
       }
       label{
         color: $gray40;
@@ -3846,7 +3846,7 @@ ul.has-list {
         font-size: 13px;
       }
     }
-    
+
     .calendar-picker, .select-wrapper input[type="text"], .select-wrapper > ul {
       background: $white; color: $mainTxt;
       font-family: $mediumFont;
@@ -3985,9 +3985,9 @@ ul.has-list {
         content: "\e93f";
         position: absolute;
         top: 3px; right: 0;
-        font-size: 22px; color: $mainTxt;  
+        font-size: 22px; color: $mainTxt;
         font-weight: bold;
-        color:#B9B9B9    
+        color:#B9B9B9
       }
       &:hover{
         &:before{
@@ -3998,10 +3998,10 @@ ul.has-list {
         .f-left:not(:first-child){
           .txt,.value{
             margin-top: 14px;
-          }        
+          }
         }
       }
-      
+
     }
     .txt, .value {float: left; @include ellipsis; line-height: 22px;}
     .txt {
@@ -4299,7 +4299,7 @@ ul.has-list {
     }
     &.t-bar {
       background: $grayLight;
-      
+
 
       div.price, .timer > p {
         h3, strong, span {color: #019b93; font-family: $blackFont;}
