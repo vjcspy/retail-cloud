@@ -8,7 +8,7 @@
   </tr>
   <tr *ngFor="let item of magentoProductSate.instances">
     <td>{{ item['store_id']}}</td>
-    <td>{{ item['warehouse_id']}}</td>
+    <td>{{ item['warehouse_id'] ? item['warehouse_id'] : 'NULL'}}</td>
     <td>{{ item['is_over'] == 1 ? 'True' : 'False'}}</td>
     <td>{{ item['update_time'] | amCalendar}}</td>
     <td>
