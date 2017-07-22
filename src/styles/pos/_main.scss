@@ -1082,10 +1082,16 @@
   width: 100%;
   background: $cbkg;
   bottom: 0;
+  .total-row-content{
+    @include single-transition;
+  }
   &.totals-collapse{
     background: #e6e6e6;
     .total-row-content {
-      display: none;
+      height: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
       @include single-transition;
     }
     .total-blk{
@@ -1836,6 +1842,9 @@ input[type="text"] {float: right; width: 160px;}
     
   }
   .popup-content {height: 100%;}
+  .ps>.ps__scrollbar-y-rail{
+    @include single-transition-none;
+  }
 }
 
 .popup-overlay {
@@ -2036,7 +2045,7 @@ input[type="text"] {float: right; width: 160px;}
   top: 0; left: 0;
   width: 100%;
   font-family: $mediumFont;
-  font-size: $size; color: $mainTxt;
+  font-size: 17px; color: $mainTxt;
   text-transform: uppercase; text-align: center;
   margin: 0; @include ellipsis;
   span {
@@ -2225,13 +2234,13 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .closeshift-table {
-  padding-top: 104px;
+  padding-top: 104px;  
   table {
     th, td {
       border: none;
       vertical-align: top;
       padding: 10px 15px; text-align: left;
-      input[type="text"] {text-align: center; color: $mainTxt; margin-bottom: -10px;}
+      input[type="text"] {color: $mainTxt;}
       .cash-amount {
         input[type="text"] {
           font-family: $boldFont;
@@ -2759,19 +2768,23 @@ h2.p-head {padding: 18px 20px;}
     .setting-blk {
       .accordion-blk {
         max-width: $w-setting;
-        height: 100vh;
+        height: 100%;
+        position: relative;
       }
     }
   }
   .menu-toggle {position: absolute; left: 0; top: 14px;}
   .setting-blk {
     margin-left: 280px;
-    overflow: hidden; padding-bottom: 64px;
-    .bottom-bar {
-      bottom: 17px;
-      padding-left: $hoztSpace; padding-right: $hoztSpace;
-      text-align: right;
-      button {min-width: 117px; margin-left: 19px;}
+    overflow: hidden;;
+    .bottom-bar {             
+        text-align: right;
+        position: fixed;
+        width: 120px;
+        right: 30px;
+        bottom: 30px;
+        left: inherit;
+      button {min-width: 117px;}
     }
     .accordion-blk {
       padding-top: 19px;
@@ -3375,28 +3388,36 @@ h2.p-head {padding: 18px 20px;}
       content: "";
       position: fixed; 
       right: 0;
-      top: 0;
+      top: 59px;
       background: white;
-      opacity: .7;
-      height: 133px;
+      opacity: .5;
+      height: 74px;
       width: 37.8%;
       z-index: 1;
     }
-    .cart-table .cart-row .cart-head .c-name{
+    .cart-row .cart-head .c-name{
       width: calc(100% - 280px);
     }
     
   }
-  .check-box {
+  .checkbox-input {
       position: absolute;
       right: 20px;
       @include ver-pos;
       padding: 0;
       input[type="checkbox"] {
-        &:checked + span {
-          background: $cred2;
-          border-color: $cred2;
-          &:before {color: $white;}
+        + label{
+          margin: 0;
+          min-height: 17px;
+          &:before{
+            background: $cred2;
+            border-color: $cred2;
+          }
+        }
+        &:checked + label {
+          &:before {
+            color: $white;
+          }
         }
       }
     }
@@ -3724,6 +3745,7 @@ ul.has-list {
 .order-list-leftside,
 .cashdrawer-leftside {
   float: left; width: 36.0907%;
+  border-right: 1px solid #E0E0E0; 
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -4225,6 +4247,9 @@ ul.has-list {
 }
 
 .cashdrawer-leftside {
+  .cashdrawer-inner{
+    background: $white;
+  }
   .items {
     position: relative;
     div.price {
@@ -4299,7 +4324,7 @@ ul.has-list {
     .bounder, h4 {font-family: $boldFont; color: $grayDark;}
     h4 {font-size: $size;}
   }
-  .date {margin-top: 20px;}
+  // .date {margin-top: 20px;}
   .items + .date {margin-top: 38px;}
   .price {color: $grayDark;}
 }

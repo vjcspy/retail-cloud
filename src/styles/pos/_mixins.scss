@@ -58,6 +58,12 @@
   -o-transition: $property $duration ease-in-out;
   transition: $property $duration ease-in-out;
 }
+@mixin single-transition-none{
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
 
 //rotate
 @mixin rotate($deg) {

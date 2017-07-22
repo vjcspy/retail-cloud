@@ -4,12 +4,14 @@
   min-height: 3px;
   margin-bottom: 15px;
   border-bottom: $border solid 1px;
-  background: $white;   
+  background: $white;    
   .cateogries-inner{  
     @include clearfix;
     padding: 13px 20px 10px 20px;        
     align-items: center;    
-    position: relative;    
+    position: relative; 
+    height: auto;   
+    @include single-transition ;
     .cate-slider{
       margin: 0;
       padding: 0; 
@@ -189,10 +191,14 @@
     border-top: none;
   }
   &.cate-collapse{
-    background: #e6e6e6;    
+    background: #e6e6e6;      
     .cateogries-inner{
-      display: none;  
-          
+      // display: none;  
+      height: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
+      @include single-transition ;
     }
     .cate-close{
       background: #e6e6e6;
