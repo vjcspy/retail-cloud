@@ -8,34 +8,37 @@
     <div class="refunded-total" *ngIf="quoteState.info.isRefunding === true">
       <div class="total-row has-popover total-head">
         <div class="t-txt">
-          <span>Refunded Total</span>
+          <span>{{ 'Refunded Total' | translate }}</span>
         </div>
         <div class="t-value">
-          $253.80
+          {{quoteState.creditmemo['totals']['grand_total'] | priceFormat}}
         </div>
       </div>
       <div class="total-row has-popover">
         <div class="t-txt">
-          <span>Subtotal Incl.tax</span>
+          <span>
+            {{configState.setting.tax.displayCartSubtotalExclTax()? ("Subtotal"|translate) : ("Subtotal Incl.tax"|translate)}}
+          </span>
         </div>
         <div class="t-value">
-          $253.80
+          {{(configState.setting.tax.displayCartSubtotalExclTax() ?
+          quoteState.creditmemo['totals']['subtotal'] : quoteState.creditmemo['totals']['subtotal_incl_tax']) | priceFormat}}
         </div>
       </div>
       <div class="total-row has-popover">
         <div class="t-txt">
-          <span>Discount Amount</span>
+          <span>{{ 'Discount Amount' | translate }}</span>
         </div>
         <div class="t-value">
-          $253.80
+          {{quoteState.creditmemo['totals']['discount_amount'] | priceFormat}}
         </div>
       </div>
       <div class="total-row has-popover">
         <div class="t-txt">
-          <span>Tax</span>
+          <span>{{ 'Tax' | translate }}</span>
         </div>
         <div class="t-value">
-          $253.80
+          {{quoteState.creditmemo['totals']['tax_amount'] | priceFormat}}
         </div>
       </div>
       <div class="total-row has-popover">
@@ -43,7 +46,10 @@
           <span>Refund Shipping</span>
         </div>
         <div class="t-value">
-          $253.80
+          <div class="clickable"><span *ngIf="quoteState.creditmemo['retail_has_shipment'] == '1'" class="icon-pencil"></span>
+            <input type="text"
+                   [(ngModel)]="quoteState.creditmemo['shipping_amount']" [disabled]="quoteState.creditmemo['retail_has_shipment'] != '1'"/>
+          </div>
         </div>
       </div>
       <div class="total-row has-popover">
@@ -52,7 +58,7 @@
         </div>
         <div class="t-value">
           <div class="clickable"><span class="icon-pencil"></span>
-            <input type="text" value="0.00">
+            <input type="text" [(ngModel)]="quoteState.creditmemo['adjustment']">
           </div>
         </div>
       </div>
@@ -61,10 +67,10 @@
     <div [ngClass]="{'total-exchange-amount': quoteState.info.isRefunding === true}">
       <div class="total-row has-popover total-head" *ngIf="quoteState.info.isRefunding === true">
         <div class="t-txt">
-          <span>Total Exchange Amount</span>
+          <span>{{ 'Total Exchange Amount' | translate}}</span>
         </div>
         <div class="t-value">
-          $253.80
+          {{(quoteState.quote.getShippingAddress()['grand_total'] || 0) | priceFormat}}
         </div>
       </div>
 
