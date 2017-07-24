@@ -65,12 +65,16 @@ export class CountryHelper {
   
   static getRegionSelected(countryId, regionId) {
     if (!CountryHelper._data.hasOwnProperty(countryId + "|" + regionId)) {
-      let _region  = {};
+      let _region;
       let _country = _.find(CountryHelper.getCountries(), (country) => country['id'] === countryId);
       if (_country && _.size(_country['regions']) > 0) {
         _region = _.find(_country['regions'], (region) => region['region_id'] === regionId);
       }
-      CountryHelper._data[countryId + "|" + regionId] = _region['default_name'];
+      if (_region) {
+        CountryHelper._data[countryId + "|" + regionId] = _region['default_name'];
+      } else {
+        CountryHelper._data[countryId + "|" + regionId] = regionId;
+      }
     }
     return CountryHelper._data[countryId + "|" + regionId];
   }

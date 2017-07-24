@@ -1,0 +1,51 @@
+<div class="list-mode-popup shipment-list-popup">
+  <h2>Add shipment</h2>
+  <div class="list-mode-content">
+    <div class="list-mode-top clearfix">
+      <div class="pull-left">
+        <label>Shipment Amount:</label>
+        <input type="text">
+      </div>
+      <div class="pull-right">
+        <button class="orange">New Address</button>
+      </div>
+    </div>
+    <ul class="list-mode-content">
+      <li class="item header">
+        <div class="col-item name">Name</div>
+        <div class="col-item address">Address</div>
+        <div class="col-item zipcode">Zip code</div>
+        <div class="col-item last edit">Edit</div>
+      </li>
+    </ul>
+    <ul class="list-mode-content scroll" perfectScroll>
+      <li class="item" *ngFor="let address of checkoutPopupState.customerPopup.customer['address']">
+        <div class="col-item name">
+          <div class="radio-input">
+            <input type="radio" [(ngModel)]="currentShippingAddId" name="shipment-item" value="{{address['id']}}">
+            <label></label>
+          </div>
+          <div class="info">
+            <h3>{{address['first_name'] + '' + address['last_name']}}</h3>
+            <div class="phone">
+              <strong>Phone:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
+            </div>
+          </div>
+
+        </div>
+        <div class="col-item address">
+          {{getCustomerFullAddress(address)}}
+        </div>
+        <div class="col-item zipcode">
+          {{address['postcode']}}
+        </div>
+        <div class="col-item last edit">
+          <span class="icon-edit"></span>
+        </div>
+      </li>
+    </ul>
+    <div class="list-mode-bot clearfix">
+      <button class="primary pull-right">Add shipment</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="acr-row outlet-management">
+  <div class="acr-head"><h2>{{ 'Client Database' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <configurations-default-cache-management-client-db-grid [clientDbState]="(configurationsState$ | async)?.cache.clientDb">
+      </configurations-default-cache-management-client-db-grid>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,6 @@
                                                           [clickOutSide]="isOpenCustomerBilling()" [checkType]="2" (outside)="clickOutside($event)">
 </pos-default-sales-checkout-popup-customer-detail-billing>
 
-<pos-default-sales-checkout-popup-customer-detail-shipping *ngIf="isOpenCustomerShipping()"
+<pos-default-sales-checkout-popup-customer-detail-shipping *ngIf="isOpenCustomerShipping()" [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState"
                                                            [clickOutSide]="isOpenCustomerShipping()" [checkType]="2" (outside)="clickOutside($event)">
 </pos-default-sales-checkout-popup-customer-detail-shipping>

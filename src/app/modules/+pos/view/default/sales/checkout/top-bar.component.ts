@@ -7,6 +7,7 @@ import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.
 import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 import {CheckoutPopupActions} from "../../../R/sales/checkout/popup/popup.actions";
 import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
+import {PosQuoteState} from "../../../../R/quote/quote.state";
 
 @Component({
              // moduleId: module.id,
@@ -17,6 +18,8 @@ import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
 export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit {
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
+  @Input() quoteState: PosQuoteState;
+  
   protected searchString = new FormControl();
   
   constructor(private checkoutProductActions: CheckoutProductActions,
@@ -42,6 +45,12 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   }
   
   openPopupShipping() {
-    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_SHIPPING);
+    if (this.canAddShipment()) {
+      this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_SHIPPING, {customerPopup: {customer: this.quoteState.customer}});
+    }
+  }
+  
+  canAddShipment() {
+    return this.quoteState.items.count() > 0 && this.quoteState.customer && !!this.quoteState.customer['id'];
   }
 }

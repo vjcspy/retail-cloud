@@ -1,7 +1,7 @@
 <div class="top-bar">
   <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span class="text">X-Retail</span></span>
   <span class="icon-link" (click)="openPopupShipping()">
-        <span class="icon-truck">
+        <span class="icon-truck" [ngClass]="{disabled: !canAddShipment()}">
             <span class="tooltiptext-bottom">{{ 'Shipment' | translate }}</span>
         </span>
     </span>
