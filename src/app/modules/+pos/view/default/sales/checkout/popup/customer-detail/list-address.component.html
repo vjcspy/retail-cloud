@@ -1,10 +1,10 @@
-<div class="list-mode-popup shipment-list-popup">
-  <h2>Add shipment</h2>
+<div class="list-mode-popup" [ngClass]="{'shipment-list-popup': isShippingPopup()}">
+  <h2 *ngIf="isShippingPopup()">Add shipment</h2>
   <div class="list-mode-content">
     <div class="list-mode-top clearfix">
-      <div class="pull-left">
+      <div class="pull-left" *ngIf="isShippingPopup()">
         <label>Shipment Amount:</label>
-        <input type="text">
+        <input type="text" [(ngModel)]="shippingAmount" inputSelectText>
       </div>
       <div class="pull-right">
         <button class="orange">New Address</button>
@@ -12,10 +12,10 @@
     </div>
     <ul class="list-mode-content">
       <li class="item header">
-        <div class="col-item name">Name</div>
-        <div class="col-item address">Address</div>
-        <div class="col-item zipcode">Zip code</div>
-        <div class="col-item last edit">Edit</div>
+        <div class="col-item name">{{ 'Name' | translate}}</div>
+        <div class="col-item address">{{ 'Address' | translate}}</div>
+        <div class="col-item zipcode">{{ 'Zip code' | translate}}</div>
+        <div class="col-item last edit">{{ 'Edit' | translate}}</div>
       </li>
     </ul>
     <ul class="list-mode-content scroll" perfectScroll>
@@ -28,7 +28,7 @@
           <div class="info">
             <h3>{{address['first_name'] + '' + address['last_name']}}</h3>
             <div class="phone">
-              <strong>Phone:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
+              <strong>{{ 'telephone' | translate}}:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
             </div>
           </div>
 
@@ -44,8 +44,11 @@
         </div>
       </li>
     </ul>
-    <div class="list-mode-bot clearfix">
-      <button class="primary pull-right">Add shipment</button>
+    <div class="list-mode-bot clearfix" *ngIf="isShippingPopup()">
+      <button class="primary pull-right" (click)="addShipment()">
+        {{quoteState.hasShipment === true ? ('Update shipment' | translate) : ('Add shipment' | translate)}}
+      </button>
+      <button class="btn-danger pull-right" *ngIf="quoteState.hasShipment === true" (click)="removeShipping()">Remove shipment</button>
     </div>
   </div>
 </div>

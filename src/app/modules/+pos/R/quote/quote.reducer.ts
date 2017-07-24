@@ -10,7 +10,7 @@ import {PosStepActions} from "../../view/R/sales/checkout/step/step.actions";
 import {mergeSliceReducers} from "../../../../R/index";
 import {quoteItemReducer} from "./item/item.reducer";
 import {quoteRefundReducer} from "./refund/refund.reducer";
-
+import {Shipping} from "../../core/framework/quote/Model/Quote/Address/Total/Shipping";
 
 const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
   switch (action.type) {
@@ -61,6 +61,22 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .resetRetailAdditionData();
       
       return state.clear().set('info', {isShiftOpening}).set('quote', state.quote);
+    
+    case PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT:
+      Shipping.SHIPPING_AMOUNT = parseFloat(action.payload['shippingAmount']);
+      state                    = state.set('shippingAmount', parseFloat(action.payload['shippingAmount']))
+                                      .set('hasShipment', true);
+      
+      if (!!action.payload['shippingAdd']) {
+        state = state.set('shippingAdd', Object.assign({}, {...action.payload['shippingAdd']}));
+      }
+      
+      return state;
+    
+    case PosQuoteActions.ACTION_REMOVE_SHIPPING:
+      Shipping.SHIPPING_AMOUNT = 0;
+      return state.set('shippingAmount', 0)
+                  .set('hasShipment', false);
     
     case IntegrateRpActions.ACTION_USE_REWARD_POINT:
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {...q.getData('reward_point')}, {...action.payload['rpData']}, {use_reward_point: true})));

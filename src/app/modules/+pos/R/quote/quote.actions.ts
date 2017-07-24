@@ -156,4 +156,28 @@ export class PosQuoteActions {
     
     return action;
   }
+  
+  static ACTION_ADD_SHIPPING_AMOUNT = 'ACTION_ADD_SHIPPING_AMOUNT';
+  
+  addShippingAmount(shippingAmount, shippingAdd = null, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT, payload: {shippingAmount}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_REMOVE_SHIPPING = 'ACTION_REMOVE_SHIPPING';
+  
+  removeShipping(dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_REMOVE_SHIPPING, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

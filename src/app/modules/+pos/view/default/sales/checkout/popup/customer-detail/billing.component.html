@@ -51,13 +51,14 @@
             </form>
           </div>
         </div>
+
+
+        <div id="address" class="tabs-content" [ngClass]="{'d-show': tabState === 'address','d-hide':tabState !=='address'}">
+          <pos-default-sales-checkout-popup-customer-detail-list-address [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState">
+          </pos-default-sales-checkout-popup-customer-detail-list-address>
+        </div>
+
       </div>
-
-
-      <div id="address" class="tabs-content" [ngClass]="{'d-show': tabState === 'address','d-hide':tabState !=='address'}">
-        <pos-default-sales-checkout-popup-customer-detail-list-address></pos-default-sales-checkout-popup-customer-detail-list-address>
-      </div>
-
       <div class="desc-bottom">
         <button class="gray">{{ 'Cancel' | translate }}</button>
         <button>
