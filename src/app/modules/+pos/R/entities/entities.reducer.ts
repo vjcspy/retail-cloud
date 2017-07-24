@@ -4,7 +4,6 @@ import {PosEntitiesActions} from "./entities.actions";
 import * as _ from 'lodash';
 import {ProductDB} from "../../database/xretail/db/product";
 import {mergeSliceReducers} from "../../../../R/index";
-import {entityOrderReducer} from "./entity/order.reducer";
 import {orderCountReducer} from "./entity/order-count.reducer";
 import {List} from "immutable";
 import {AccountActions} from "../../../../R/account/account.actions";
@@ -73,4 +72,4 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
   }
 };
 
-export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, entityOrderReducer, orderCountReducer, realtimeReducer, entityReducer);
+export const entitiesReducer = mergeSliceReducers(posEntitiesStateFactory(), entitiesMainReducer, orderCountReducer, realtimeReducer, entityReducer);

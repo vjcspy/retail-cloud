@@ -15,7 +15,8 @@ import {PosGeneralState} from "../../../../../../R/general/general.state";
 import * as _ from 'lodash';
 import {Observable} from "rxjs";
 import {RootActions} from "../../../../../../../../R/root.actions";
-import {EntityOrderActions} from "../../../../../../R/entities/entity/order.actions";
+import {EntityActions} from "../../../../../../R/entities/entity/entity.actions";
+import {OrderDB} from "../../../../../../database/xretail/db/order";
 
 @Injectable()
 export class OrderListAddPaymentEffects {
@@ -31,7 +32,7 @@ export class OrderListAddPaymentEffects {
               private addPaymentService: OrderListAddPaymentService,
               private rootActions: RootActions,
               private addPaymentActions: OrderListAddPaymentActions,
-              private entityOrderActions: EntityOrderActions) { }
+              private entityActions: EntityActions) { }
   
   @Effect() prepareOrderDataToAdd = this.actions$
                                         .ofType(OrderListAddPaymentActions.ACTION_NEED_ADD_PAYMENT)
@@ -88,16 +89,17 @@ export class OrderListAddPaymentEffects {
                                 return this.addPaymentService
                                            .createAddPaymentRequest(data, generalState)
                                            .flatMap((res) => {
-                                                      if (res.hasOwnProperty("items") && _.size(res['items']) == 1) {
-                                                        const order = res['items'][0];
+                                                      if (res.hasOwnProperty("items") && _.size(res['items']) === 1) {
+                                                        let order = new OrderDB();
+                                                        order     = order.addData(res['items'][0]);
         
                                                         return Observable.fromPromise(this.addPaymentService.updateOrderToDB(order, 'order_id'))
                                                                          .flatMap(() => {
                                                                            return Observable.from([
-                                                                                                    this.entityOrderActions.putOrderEntity(order, 'order_id', false),
+                                                                                                    this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
                                                                                                     this.addPaymentActions.addPaymentSuccess(order, false)
                                                                                                   ]);
-                                                                         })
+                                                                         });
                                                       } else {
         
                                                         return Observable.of(this.rootActions.error('add_payment_error', null, false));

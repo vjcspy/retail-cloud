@@ -38,11 +38,9 @@ import {QuoteCustomerService} from "./quote/customer/customer.service";
 import {RealtimeActions} from "./entities/realtime/realtime.actions";
 import {RealtimeEffects} from "./entities/realtime/realtime.effects";
 import {RealtimeService} from "./entities/realtime/realtime.service";
-import {EntityOrderActions} from "./entities/entity/order.actions";
 import {PosSyncWishlistActions} from "./sync/actions/wishlist.actions";
 import {PosSyncWishlistEffects} from "./sync/actions/wishlist.effects";
 import {PosSyncWishlistService} from "./sync/actions/wishlist.service";
-import {EntityOrderEffects} from "./entities/entity/order.effects";
 import {AssignConfigCoreEffects} from "./config/assign/assign-core.effects";
 import {EntityActions} from "./entities/entity/entity.actions";
 import {QuoteRefundService} from "./quote/refund/refund.service";
@@ -55,7 +53,6 @@ export const R_POS_IMPORTS = [
   
   EffectsModule.run(PosEntitiesEffects),
   EffectsModule.run(RealtimeEffects),
-  EffectsModule.run(EntityOrderEffects),
   
   EffectsModule.run(PosPullEffects),
   EffectsModule.run(PosQuoteEffects),
@@ -82,8 +79,6 @@ export const R_POS_PROVIDERS = [
   // RealtimeEffects,
   RealtimeService,
   EntityActions,
-  EntityOrderActions,
-  // EntityOrderEffects,
   
   PosQuoteService,
   // PosQuoteEffects,

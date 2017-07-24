@@ -1,5 +1,5 @@
 <div class="form-popup new-address-popup">
-  <div class="form-popup-top">
+  <div class="form-popup-top" *ngIf="isShippingPopup()">
     <h2>New address</h2>
   </div>
   <div class="form-popup-content">
@@ -91,8 +91,8 @@
           </div>
         </div>
       </div>
-      <div class="button-group">
-        <button class="gray">Cancel</button>
+      <div class="button-group" *ngIf="isShippingPopup()">
+        <button class="gray" (click)="closePopup()">Cancel</button>
         <button class="primary">Save</button>
       </div>
     </form>

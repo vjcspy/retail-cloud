@@ -13,13 +13,13 @@ import {RootActions} from "../../../../../../../R/root.actions";
 import {CheckoutStep, PaymentMethod, PosStepState} from "./step.state";
 import {Timezone} from "../../../../../core/framework/General/DateTime/Timezone";
 import {Observable} from "rxjs";
-import {PosQuoteService} from "../../../../../R/quote/quote.service";
 import {PosSyncService} from "../../../../../R/sync/sync.service";
 import {PosStepService} from "./step.service";
 import {MoneySuggestion} from "../../../../../services/helper/money-suggestion";
-import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
 import {Router} from "@angular/router";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
+import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
+import {OrderDB} from "../../../../../database/xretail/db/order";
 
 @Injectable()
 export class PosStepEffects {
@@ -34,8 +34,8 @@ export class PosStepEffects {
               private syncService: PosSyncService,
               private stepActions: PosStepActions,
               private stepService: PosStepService,
-              private entityOrderActions: EntityOrderActions,
-              private refundActions: QuoteRefundActions) { }
+              private refundActions: QuoteRefundActions,
+              private entityActions: EntityActions) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -71,7 +71,7 @@ export class PosStepEffects {
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
                                            let totals            = this.stepService.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
                                            const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
-                                           
+      
                                            return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                          }
     
@@ -207,18 +207,24 @@ export class PosStepEffects {
                                 if (posQuoteState.items.count() > 0 && (!posQuoteState.quote.getRewardPointData() || posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true)) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
+                                                     let order = new OrderDB();
+                                                     order.addData(orderOffline);
+          
                                                      return Observable.from([
                                                                               this.stepActions.savedOrder(orderOffline, true, false),
-                                                                              this.entityOrderActions.putOrderEntity(orderOffline, null, false)
+                                                                              this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
                                                                             ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(<any>[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
+                                                     let order = new OrderDB();
+                                                     order.addData(orderOffline);
+          
                                                      return Observable.from([
                                                                               this.stepActions.savedOrder(orderOffline, false, false),
-                                                                              this.entityOrderActions.putOrderEntity(orderOffline, null, false)
+                                                                              this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
                                                                             ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));

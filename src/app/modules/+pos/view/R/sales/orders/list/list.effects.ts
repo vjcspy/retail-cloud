@@ -12,14 +12,12 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 import {ListActions} from "./list.actions";
 import {ListService} from "./list.service";
 import {PosGeneralState} from "../../../../../R/general/general.state";
-import {RootActions} from "../../../../../../../R/root.actions";
 import {Observable} from "rxjs";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
-import {EntityOrderActions} from "../../../../../R/entities/entity/order.actions";
-import {PosPullState} from "../../../../../R/entities/pull.state";
 import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 import {Router} from "@angular/router";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
+import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 
 @Injectable()
 export class ListEffects {
@@ -28,8 +26,6 @@ export class ListEffects {
               private actions$: Actions,
               private listActions: ListActions,
               private listService: ListService,
-              private rootActions: RootActions,
-              private entityOrderActions: EntityOrderActions,
               private progressBar: ProgressBarService,
               private router: Router) { }
   
@@ -38,7 +34,7 @@ export class ListEffects {
                                   PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                   ListActions.ACTION_CHANGE_SEARCH_DATA,
                                   RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
-                                  EntityOrderActions.ACTION_PUT_ORDER_ENTITY,
+                                  EntityActions.ACTION_PUSH_ENTITY,
                                   PosSyncActions.ACTION_SYNCED_OFFLINE_ORDER
                                 )
                                 .filter(() => this.router.isActive('/pos/default/sales/orders', false))
@@ -191,16 +187,4 @@ export class ListEffects {
                                                    .finally(() => this.progressBar.done(true));
     
                                       });
-  
-  @Effect() needPullMoreOrder = this.actions$
-                                    .ofType(
-                                      ListActions.ACTION_NEED_PULL_MORE_ORDER
-                                    )
-                                    .withLatestFrom(this.store$.select('pull'))
-                                    .withLatestFrom(this.store$.select('orders'), (z, z1) => [...z, z1])
-                                    .filter((z) => (z[1] as PosPullState).isPullingChain === false)
-                                    .filter((z) => (z[2] as OrdersState).list.isResolving === false)
-                                    .switchMap(() => {
-                                      return Observable.of(this.entityOrderActions.pullMoreOrderEntity(false));
-                                    });
 }
