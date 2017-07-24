@@ -12,6 +12,8 @@ import {QuoteItemActions} from "../../../../../R/quote/item/item.actions";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {CartCustomerActions} from "../../../../R/sales/checkout/cart/customer.actions";
 import {Customer} from "../../../../../core/framework/customer/Model/Customer";
+import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.actions";
+import {CheckoutPopup} from "../../../../R/sales/checkout/popup/popup.state";
 
 @Component({
              // moduleId: module.id,
@@ -32,7 +34,8 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
               protected posQuoteActions: PosQuoteActions,
               protected quoteItemActions: QuoteItemActions,
               protected notify: NotifyManager,
-              protected cartCustomerActions: CartCustomerActions) { }
+              protected cartCustomerActions: CartCustomerActions,
+              protected checkoutPopupActions: CheckoutPopupActions) { }
   
   toggleItemInCart(event, i): void {
     if (_.indexOf(["product-name", "c-num", "cart-head", "c-name", "old-pr", "cart-row", "c-price", "p-product-name", "regular-pr"],
@@ -85,6 +88,7 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     if (iconAction === false && $event.target.className.indexOf('customer-icon-action') === -1) {
       if (customer && customer['id'] && customer.getId() !== this.configState.setting.customer.getDefaultCustomerId()) {
         // show popup
+        this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_BILLING, {customerPopup: {customer}});
       } else {
         this.cartCustomerActions.updateActionCartState('inSearchCustomers', true);
       }
