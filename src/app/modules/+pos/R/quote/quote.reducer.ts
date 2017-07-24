@@ -64,8 +64,14 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT:
       Shipping.SHIPPING_AMOUNT = parseFloat(action.payload['shippingAmount']);
-      return state.set('shippingAmount', parseFloat(action.payload['shippingAmount']))
-                  .set('hasShipment', true);
+      state                    = state.set('shippingAmount', parseFloat(action.payload['shippingAmount']))
+                                      .set('hasShipment', true);
+      
+      if (!!action.payload['shippingAdd']) {
+        state = state.set('shippingAdd', Object.assign({}, {...action.payload['shippingAdd']}));
+      }
+      
+      return state;
     
     case PosQuoteActions.ACTION_REMOVE_SHIPPING:
       Shipping.SHIPPING_AMOUNT = 0;

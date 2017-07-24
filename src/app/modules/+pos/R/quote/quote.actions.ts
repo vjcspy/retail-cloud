@@ -159,7 +159,7 @@ export class PosQuoteActions {
   
   static ACTION_ADD_SHIPPING_AMOUNT = 'ACTION_ADD_SHIPPING_AMOUNT';
   
-  addShippingAmount(shippingAmount, dispatch: boolean = true): Action {
+  addShippingAmount(shippingAmount, shippingAdd = null, dispatch: boolean = true): Action {
     const action = {type: PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT, payload: {shippingAmount}};
     
     if (dispatch === true) {

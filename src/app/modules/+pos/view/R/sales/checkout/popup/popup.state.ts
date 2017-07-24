@@ -14,7 +14,7 @@ interface CheckoutPopupCustomerState {
 interface CheckoutPopupCustomerStateRecord extends TypedRecord<any>, CheckoutPopupCustomerState {}
 
 const checkoutPopupCustomerStateFactory = makeTypedFactory<CheckoutPopupCustomerState, CheckoutPopupCustomerStateRecord>({
-                                                                                                                           customer: null
+                                                                                                                           customer: null,
                                                                                                                          });
 
 export interface CheckoutPopupState {
