@@ -194,6 +194,7 @@ export class PosQuoteEffects {
                                  QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST,
                                  QuoteRefundActions.ACTION_LOAD_CREDITMEMO_SUCCESS,
                                  PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT,
+                                 PosQuoteActions.ACTION_REMOVE_SHIPPING,
                                )
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),

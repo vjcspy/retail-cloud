@@ -49,4 +49,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   changeShippingAmount($event) {
     this.posQuoteActions.addShippingAmount($event.target['value']);
   }
+  
+  removeShipping() {
+    this.posQuoteActions.removeShipping();
+  }
 }
