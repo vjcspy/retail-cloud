@@ -9,12 +9,18 @@ export enum CheckoutPopup {
 
 interface CheckoutPopupCustomerState {
   customer: Customer;
+  addressState: string;
+  
+  editAddress: Object;
 }
 
 interface CheckoutPopupCustomerStateRecord extends TypedRecord<any>, CheckoutPopupCustomerState {}
 
 const checkoutPopupCustomerStateFactory = makeTypedFactory<CheckoutPopupCustomerState, CheckoutPopupCustomerStateRecord>({
                                                                                                                            customer: null,
+                                                                                                                           addressState: 'list',
+  
+                                                                                                                           editAddress: {}
                                                                                                                          });
 
 export interface CheckoutPopupState {

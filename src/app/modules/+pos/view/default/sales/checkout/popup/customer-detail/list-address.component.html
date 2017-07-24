@@ -7,7 +7,7 @@
         <input type="text" [(ngModel)]="shippingAmount" inputSelectText>
       </div>
       <div class="pull-right">
-        <button class="orange">New Address</button>
+        <button class="orange" (click)="addEditAddress({})">New Address</button>
       </div>
     </div>
     <ul class="list-mode-content">
@@ -28,7 +28,7 @@
           <div class="info">
             <h3>{{address['first_name'] + '' + address['last_name']}}</h3>
             <div class="phone">
-              <strong>{{ 'telephone' | translate}}:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
+              <strong>{{ 'Tel' | translate}}:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
             </div>
           </div>
 
@@ -39,7 +39,7 @@
         <div class="col-item zipcode">
           {{address['postcode']}}
         </div>
-        <div class="col-item last edit">
+        <div class="col-item last edit click" (click)="addEditAddress(address)">
           <span class="icon-edit"></span>
         </div>
       </li>

@@ -4,6 +4,7 @@ import {CountryHelper} from "../../../../../../core/framework/directory/Helper/C
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
 import {PosQuoteActions} from "../../../../../../R/quote/quote.actions";
 import * as _ from 'lodash';
+import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   public currentShippingAddId;
   public shippingAmount;
   
-  constructor(protected posQuoteActions: PosQuoteActions) { }
+  constructor(protected posQuoteActions: PosQuoteActions,
+              protected checkoutPopupActions: CheckoutPopupActions) { }
   
   ngOnInit() {
     if (this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
@@ -61,5 +63,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   
   removeShipping() {
     this.posQuoteActions.removeShipping();
+  }
+  
+  addEditAddress(address = {}) {
+    this.checkoutPopupActions.addNewCustomerAddress(address);
   }
 }
