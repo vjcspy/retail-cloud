@@ -2234,14 +2234,15 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .closeshift-table {
-  padding-top: 104px;
+  padding-top: 104px;  
   table {
     th, td {
       border: none;
       vertical-align: top;
-      padding: 10px 15px; text-align: left;
+      padding: 20px 10px 0; text-align: left;
+      
       input[type="text"] {color: $mainTxt;}
-      .cash-amount {
+      .cash-amount { 
         input[type="text"] {
           font-family: $boldFont;
           font-size: 18px; color: $cgreen;
@@ -2260,32 +2261,31 @@ h2.p-head {padding: 18px 20px;}
     }
     th {
       border-top: $border solid 1px;
-      padding-top: 20px; padding-bottom: 0;
+      padding-top: 20px; padding-bottom: 20px;
       font-family: $mediumFont;
       font-size: $sizeS; color: #B0B0B0;
     }
   }
   thead {
     &:first-child {
-      th {border-top: none; padding-top: 0;}
+      th {border-top: none; }
     }
   }
   tbody {
     tr {
       &:first-child {
-        td {border-top: $border solid 1px; padding-top: 23px;}
+        td {border-top: $border solid 1px; }
       }
       &:last-child {
         td {padding-bottom: 40px;}
       }
+      .td-input{padding-top: 10px;}
     }
-    &.v-bot {
-      td {vertical-align: bottom;}
-    }
+   
     &.first {
       tr {
         &:first-child {
-          td {border: none; padding-top: 10px;}
+          td {border: none;}
         }
       }
     }
@@ -2760,30 +2760,37 @@ h2.p-head {padding: 18px 20px;}
       }
     }
   }
-  .left-menu-side {
-      //top: 80px;
+  .left-menu-side {    
       padding-top: 0;}
-  .xcontainer-inner {
-    //padding-top: 80px;
-    .setting-blk {
-      .accordion-blk {
-        max-width: $w-setting;
+  .xcontainer-inner {    
+    .setting-blk {  
+      padding-bottom: 65px;      
+      .accordion-blk {        
         height: 100%;
         position: relative;
+        padding-top: 30px;              
+      }
+      @include xlarge{
+        padding-bottom: 0;
+        .accordion-blk{
+          padding-left: 10%;
+          padding-right: 10%;
+        }
       }
     }
   }
   .menu-toggle {position: absolute; left: 0; top: 14px;}
   .setting-blk {
     margin-left: 280px;
-    overflow: hidden;;
+    overflow: hidden;   
     .bottom-bar {
         text-align: right;
         position: fixed;
         width: 120px;
-        right: 30px;
-        bottom: 30px;
+        right: 35px;
+        bottom: 15px;
         left: inherit;
+        
       button {min-width: 117px;}
     }
     .accordion-blk {
@@ -3745,7 +3752,7 @@ ul.has-list {
 .order-list-leftside,
 .cashdrawer-leftside {
   float: left; width: 36.0907%;
-  border-right: 1px solid #E0E0E0;
+  border-right: 1px solid #E0E0E0; 
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;

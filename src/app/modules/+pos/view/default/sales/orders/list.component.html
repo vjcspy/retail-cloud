@@ -47,7 +47,7 @@
   </div><!--end top-field-->
 
   <div class="order-list-inner"  perfectScroll>
-    <h2 *ngIf="ordersState.list.ordersGroped.count() === 0" class="text-center">{{ 'No orders found' | translate }}</h2>
+    <h3 *ngIf="ordersState.list.ordersGroped.count() === 0" class="text-center">{{ 'No orders found' | translate }}</h3>
     <div class="order-group">
       <div *ngFor="let orderGrouped of ordersState.list.ordersGroped;trackBy:trackByTimeStamp">
         <div *ngIf="orderGrouped['orders'].count() >0" class="date">

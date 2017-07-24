@@ -1,48 +1,35 @@
 <div id="closeShift" class="popup-wrapper open">
   <div class="popup-content">
-    <div class="closeshift-table" perfectScroll>      
+    <div class="closeshift-table" >      
       <h2 class="p-head">
         {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
         <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
       </h2>
-      <div class="inner" #posPerfectScroll>
+      <div class="inner" perfectScroll>
         <table>
           <thead>
           <tr>
             <th>&nbsp;</th>
             <th>{{ 'Expected' | translate }} ($)</th>
             <th class="c-center">{{ 'Counted' | translate }} ($)</th>
-            <th>{{ 'Differences' | translate }} ($)</th>
+            <th class="c-center">{{ 'Differences' | translate }} ($)</th>
           </tr>
           </thead>
           <tbody class="first v-bot">
           <tr *ngFor="let payment of shiftState.detail.amounts.paymentUsed">
             <td>{{payment['title']}}</td>
             <td>{{getExpectedAmount(payment) | priceFormat}}</td>
-            <td>
+            <td class="td-input">
               <retail-text class="fix-post-text" [(model)]="_data.counted[payment['id']]" inputSelectText [disabled]="shiftState.detail.waitingServer"
                            (modelChange)="getDiff(payment)"
                            [formKey]="'popup-close-shift'"
                            [validation]="'require,i-number'">
               </retail-text>
             </td>
-            <td><span class="un-expect">{{getDiff(payment) | priceFormat}}</span></td>
+            <td class="c-center"><span class="un-expect">{{getDiff(payment) | priceFormat}}</span></td>
           </tr>
           </tbody>
-          <!--<thead>-->
-          <!--<tr>-->
-          <!--<th><strong>Reward Points</strong></th>-->
-          <!--<th>Points Earned</th>-->
-          <!--<th>Points Spent</th>-->
-          <!--<th>Differences</th>-->
-          <!--</tr>-->
-          <!--<tr>-->
-          <!--<td>&nbsp;</td>-->
-          <!--<td>300</td>-->
-          <!--<td>400</td>-->
-          <!--<td><span class="un-expect">-100</span></td>-->
-          <!--</tr>-->
-          <!--</thead>-->
+          
           <tbody>
           <tr>
             <td><strong>{{ 'CASH AMOUNT TAKEOUT' | translate }}</strong></td>
