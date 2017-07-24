@@ -4,6 +4,7 @@ import {CheckoutPopup, CheckoutPopupState} from "../../../R/sales/checkout/popup
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {PosConfigState} from "../../../../R/config/config.state";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {CheckoutPopupActions} from "../../../R/sales/checkout/popup/popup.actions";
 
 @Component({
              // moduleId: module.id,
@@ -18,7 +19,15 @@ export class PosDefaultSalesCheckoutPopupComponent {
   @Input() posConfigState: PosConfigState;
   @Input() entitiesState: PosEntitiesState;
   
+  constructor(protected checkoutPopupActions: CheckoutPopupActions) {}
+  
   isOpenCustomSalePopup() {
     return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOM_SALE;
+  }
+  
+  clickOutside(event: boolean) {
+    if (event === false) {
+      this.checkoutPopupActions.checkoutOpenPopup(null);
+    }
   }
 }

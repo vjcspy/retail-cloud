@@ -40,4 +40,8 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   openPopupCustomSale() {
     this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOM_SALE);
   }
+  
+  openPopupShipping() {
+    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_SHIPPING);
+  }
 }
