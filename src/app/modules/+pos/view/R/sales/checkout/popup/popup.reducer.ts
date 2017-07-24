@@ -7,20 +7,24 @@ import * as _ from 'lodash';
 export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (state = checkoutPopupStateFactory(), action) => {
   switch (action.type) {
     case CheckoutPopupActions.ACTION_CHECKOUT_OPEN_POPUP:
-      state = state.set('popupOpening', action.payload['popupOpening']);
-      if (_.isObject(action.payload['data'])) {
-        _.forEach(action.payload['data'], (v, k) => {
-          if (k === 'customerPopup') {
-            state = openCustomerBillingAddress(state, v);
-          } else {
-            state = state.set(k, v);
-          }
-        });
+      if (!action.payload['popupOpening']) {
+        return checkoutPopupStateFactory();
+      } else {
+        state = state.set('popupOpening', action.payload['popupOpening']);
+        if (_.isObject(action.payload['data'])) {
+          _.forEach(action.payload['data'], (v, k) => {
+            if (k === 'customerPopup') {
+              state = openCustomerBillingAddress(state, v);
+            } else {
+              state = state.set(k, v);
+            }
+          });
+        }
+        return state;
       }
-      return state;
     
     case PosQuoteActions.ACTION_RESOLVE_QUOTE:
-      return state.set('popupOpening', null);
+      return checkoutPopupStateFactory();
     
     case CheckoutPopupActions.ACTION_ADD_EDIT_CUSTOMER_ADDRESS:
       return state.setIn(['customerPopup', 'editAddress'], Object.assign({}, {...action.payload['editAddress']}))

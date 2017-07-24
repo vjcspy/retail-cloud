@@ -3,6 +3,7 @@ import {CheckoutPopup, CheckoutPopupState} from "../../../../../R/sales/checkout
 import * as _ from 'lodash';
 import {CountryHelper} from "../../../../../../core/framework/directory/Helper/CountryHelper";
 import {PosConfigState} from "../../../../../../R/config/config.state";
+import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,11 +20,19 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
   public type;
   public hasRegion = false;
   
-  constructor() { }
+  constructor(protected checkoutPopupActions: CheckoutPopupActions) { }
   
   ngOnInit() {
     this.address = _.clone(this.checkoutPopupState.customerPopup.editAddress);
     this.type    = this.isShippingPopup() ? 'shipping' : 'billing';
+    
+    if (!!this.address['id']) {
+      this.address['isSaveToAddressBook'] = true;
+    }
+    
+    if (!this.address['street'] || !_.isArray(this.address['street'])) {
+      this.address['street'] = [];
+    }
   }
   
   isShippingPopup() {
@@ -43,5 +52,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
   
   getRegionSelect(countryId): Object {
     return CountryHelper.getRegionSelect(countryId);
+  }
+  
+  closePopup() {
+    this.checkoutPopupActions.checkoutOpenPopup(null);
   }
 }
