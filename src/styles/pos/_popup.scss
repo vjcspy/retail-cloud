@@ -1,3 +1,252 @@
+
+// ================ LISTING POPUP ==========================================
+.list-mode-popup{
+    
+  h2{
+    color: $grayDark;
+    font-size: 17px; 
+    font-family: $boldFont;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+
+  }
+  .list-mode-top{
+    padding: 10px 30px 10px;
+  }
+  .list-mode-content{
+    &.scroll{
+      height: 280px;
+      position: relative;
+    }    
+    li.item{
+      display: flex;      
+      padding:20px;
+      color: $grayDark;
+      font-family: $mediumFont;
+      font-size: 13px;
+      align-items: center;
+      border-bottom: 1px solid $cbkg;
+      position: relative;
+      &.active{
+        background: $cbkg;
+        &:before{
+          content: "";
+          width: 6px;
+          height:calc(100% + 2px);
+          background:$cgreen; 
+          position: absolute;
+          left: -1px;
+          top: -1px;
+        }
+      }
+      &.header{
+        background: $gray1;
+        text-transform: uppercase;
+        color: $gray60;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border: none;
+      }
+      > div{
+        flex: auto;
+        padding: 0 10px; 
+        font-family: $mediumFont;
+        font-size: 13px; 
+        color: $gray40;
+        &.last{
+            justify-content: center;            
+            text-align: center;
+        }
+        &.edit{            
+          width: 80px;   
+          flex: inherit;          
+          .icon-edit{
+            width: 58px;
+            height: 38px;
+            border-radius: 3px;
+            background: $gray1;
+            display: inline-block;
+            text-align: center;
+            font-size: 35px;
+            padding-top: 2px;
+            color:$gray60;
+          }         
+        }
+        &.name{
+            width: 30%;
+            display: flex;
+            align-items: center;
+            .radio-box{
+              float: left;
+              width: 20px;
+              height: 20px;
+              margin-right: 15px;            
+            }
+          }
+          &.address{width: 50%;}
+          &.zipcode{width: 150px;}
+        .info{          
+          color: $gray40;
+          h3{
+            color: $cgreen;
+            text-transform: uppercase;              
+            margin: 0;
+            font-size: 15px;
+          }
+        }
+
+      }
+    }
+  }
+  .list-mode-bot{
+    padding: 20px 30px;
+    button{
+      width: 140px;
+    }
+  }
+
+  // shipment --------------------------------------
+  &.shipment-list-popup{
+    padding: 30px 0 20px;
+    .list-mode-top{
+      label{
+        color: $cgreen;
+        font-size: 15px;
+        font-family: $mediumFont;
+        padding-right: 10px;
+      }
+      input[type="text"]{
+        background:$gray1;
+        color: $cgreen;
+        font-size: 15px;
+        font-family: $boldFont;
+        width: 140px;
+      }
+      button{
+        width: 140px;
+      }
+    }
+    
+  }
+  //onHold-popup--------------------------------------
+  &.onHold-popup{
+    .list-mode-top{
+      .search-box{
+        width: 550px;
+        margin: 0 auto;
+        position: relative;
+        .icon-search{
+          position: absolute;          
+          font-size: 27px;
+          left: 20px;
+          top: 8px;
+          color: $gray60;          
+        }       
+        input{
+          background: $gray1;
+          padding-left: 50px;
+        }
+      }
+    }
+    .list-mode-content {
+      li.item{
+        > div{
+          flex: 1;  
+          display: flex;
+          align-items: center;        
+          &.order{
+            width:37%;
+            flex: inherit;                     
+            .icon-noted{
+              font-size: 30px;
+              margin-right: 15px;
+              color: $gray60;
+              position: relative;               
+              .tooltiptext-right{
+                min-width: 280px;
+                font-size: 13px;
+                text-align: left;
+                &:after{
+                  top: 20px;
+                }
+              }
+              &.disabled{
+                opacity: .3;
+                &:hover{
+                  color: $gray60;
+                  .tooltiptext-right{
+                    visibility: hidden;
+                  }
+                }
+              }
+              &:hover{
+                cursor: pointer;
+                color: $cgreen;
+
+              }
+            }
+            ul.product-list{
+              width: calc(100% - 45px);
+              li{
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              }
+            } 
+            
+          }
+          &.total{
+            width:170px;
+            flex: inherit;            
+            .cart-num{
+              background: $corange;
+              border-radius: 20px;
+              color: $white;
+              font-size: 13px;
+              font-family: $mediumFont;              
+              padding: 1px 6px;
+              margin-right: 15px;
+            }
+            .price{
+              font-family: $mediumFont;
+              font-size: 15px;
+              color: $grayDark;
+            }
+          }
+          &.action{
+            button{
+              width: 120px;
+              height: 38px;
+              line-height: 38px;
+              margin-right: 15px;
+            }
+            .icon-trash{
+              width: 58px;
+              height: 38px;
+              border-radius: 3px;
+              background: $gray1;
+              display: inline-block;
+              text-align: center;
+              font-size: 21px;
+              padding-top: 7px;
+              color:$gray60;
+            }
+          }
+          
+          
+        }
+      }
+    }
+   .list-mode-bot{
+      button{
+        width: 120px;
+      }
+    }
+  }
+}
+
+
 //================ FORM POPUP ==========================================
 .form-popup{
   padding: 20px 0;
@@ -49,6 +298,14 @@
         background: $cbkg;
         height: 40px;
 
+      }
+      .select2-container .select2-selection--single{
+        height: 40px;
+        .select2-selection__rendered{
+          font-size: 14px;
+          color: $disTxt;
+          line-height: 34px;
+        }
       }
     }
     .button-group{
