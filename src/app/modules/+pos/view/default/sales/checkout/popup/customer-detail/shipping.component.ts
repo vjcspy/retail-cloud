@@ -13,8 +13,6 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailShippingComponent impleme
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() quoteState: PosQuoteState;
   
-  state = 'list';
-  
   constructor() { }
   
   ngOnInit() { }
