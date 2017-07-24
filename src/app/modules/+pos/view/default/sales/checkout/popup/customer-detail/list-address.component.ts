@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {CheckoutPopupState} from "../../../../../R/sales/checkout/popup/popup.state";
+import {CheckoutPopup, CheckoutPopupState} from "../../../../../R/sales/checkout/popup/popup.state";
 import {CountryHelper} from "../../../../../../core/framework/directory/Helper/CountryHelper";
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
+import {PosQuoteActions} from "../../../../../../R/quote/quote.actions";
 
 @Component({
              // moduleId: module.id,
@@ -15,7 +16,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   @Input() quoteState: PosQuoteState;
   public currentShippingAddId;
   
-  constructor() { }
+  constructor(protected posQuoteActions: PosQuoteActions) { }
   
   ngOnInit() {
     if (this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
@@ -39,5 +40,13 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
       
       return _add;
     }
+  }
+  
+  isShippingPopup() {
+    return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOMER_SHIPPING;
+  }
+  
+  changeShippingAmount($event) {
+    this.posQuoteActions.addShippingAmount($event.target['value']);
   }
 }

@@ -2,9 +2,9 @@
   <h2>Add shipment</h2>
   <div class="list-mode-content">
     <div class="list-mode-top clearfix">
-      <div class="pull-left">
+      <div class="pull-left" *ngIf="isShippingPopup()">
         <label>Shipment Amount:</label>
-        <input type="text">
+        <input type="text" [value]="quoteState.shippingAmount" (blur)="changeShippingAmount($event)" enterBlur inputSelectText>
       </div>
       <div class="pull-right">
         <button class="orange">New Address</button>
