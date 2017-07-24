@@ -88,16 +88,4 @@ export class ListActions {
     
     return action;
   }
-  
-  static ACTION_NEED_PULL_MORE_ORDER = 'ACTION_NEED_PULL_MORE_ORDER';
-  
-  needPullMoreOrder(dispatch: boolean = true): Action {
-    const action = {type: ListActions.ACTION_NEED_PULL_MORE_ORDER, payload: {}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
 }

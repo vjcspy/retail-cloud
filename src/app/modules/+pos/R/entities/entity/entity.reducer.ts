@@ -11,7 +11,10 @@ export const entityReducer: ActionReducer<PosEntitiesStateRecord> = (state, acti
     const primaryKey = action.payload['key'];
     
     return state.updateIn([entityCode, 'items'], (items) => {
-      const itemIndex = items.findIndex((c) => c[primaryKey] === action.payload['item'][primaryKey]);
+      let itemIndex;
+      if (primaryKey) {
+        itemIndex = items.findIndex((c) => c[primaryKey] === action.payload['item'][primaryKey]);
+      }
       
       return itemIndex > -1 ?
         items.set(itemIndex, Object.assign({}, action.payload['item'])) :
@@ -25,7 +28,10 @@ export const entityReducer: ActionReducer<PosEntitiesStateRecord> = (state, acti
     
     _.forEach(action.payload['items'], (item) => {
       state = state.updateIn([entityCode, 'items'], (items) => {
-        const itemIndex = items.findIndex((c) => c[primaryKey] === item[primaryKey]);
+        let itemIndex;
+        if (primaryKey) {
+          itemIndex = items.findIndex((c) => c[primaryKey] === item[primaryKey]);
+        }
         
         return itemIndex > -1 ?
           items.set(itemIndex, Object.assign({}, item)) :
