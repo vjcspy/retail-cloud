@@ -2760,30 +2760,37 @@ h2.p-head {padding: 18px 20px;}
       }
     }
   }
-  .left-menu-side {
-      //top: 80px;
+  .left-menu-side {    
       padding-top: 0;}
-  .xcontainer-inner {
-    //padding-top: 80px;
-    .setting-blk {
-      .accordion-blk {
-        max-width: $w-setting;
+  .xcontainer-inner {    
+    .setting-blk {  
+      padding-bottom: 65px;      
+      .accordion-blk {        
         height: 100%;
         position: relative;
+        padding-top: 30px;              
+      }
+      @include xlarge{
+        padding-bottom: 0;
+        .accordion-blk{
+          padding-left: 10%;
+          padding-right: 10%;
+        }
       }
     }
   }
   .menu-toggle {position: absolute; left: 0; top: 14px;}
   .setting-blk {
     margin-left: 280px;
-    overflow: hidden;
+    overflow: hidden;   
     .bottom-bar {
         text-align: right;
         position: fixed;
         width: 120px;
-        right: 30px;
-        bottom: 30px;
+        right: 35px;
+        bottom: 15px;
         left: inherit;
+        
       button {min-width: 117px;}
     }
     .accordion-blk {
