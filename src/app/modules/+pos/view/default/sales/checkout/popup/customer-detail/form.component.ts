@@ -1,4 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit, Input} from '@angular/core';
+import {CheckoutPopup, CheckoutPopupState} from "../../../../../R/sales/checkout/popup/popup.state";
+import * as _ from 'lodash';
+import {CountryHelper} from "../../../../../../core/framework/directory/Helper/CountryHelper";
+import {PosConfigState} from "../../../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -8,8 +12,36 @@ import {ChangeDetectionStrategy, Component, OnInit, Input} from '@angular/core';
            })
 
 export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements OnInit {
+  @Input() checkoutPopupState: CheckoutPopupState;
+  @Input() posConfigState: PosConfigState;
+  
+  public address;
+  public type;
+  public hasRegion = false;
   
   constructor() { }
   
-  ngOnInit() { }
+  ngOnInit() {
+    this.address = _.clone(this.checkoutPopupState.customerPopup.editAddress);
+    this.type    = this.isShippingPopup() ? 'shipping' : 'billing';
+  }
+  
+  isShippingPopup() {
+    return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOMER_SHIPPING;
+  }
+  
+  getCountrySelectElem() {
+    return CountryHelper.getCountrySelect();
+  }
+  
+  changeCountry(countryId): void {
+    if (typeof countryId !== 'undefined') {
+      let country: any = _.find(CountryHelper.getCountries(), (v) => v['id'] === countryId);
+      this.hasRegion   = !!(country && country.regions.length > 0);
+    }
+  }
+  
+  getRegionSelect(countryId): Object {
+    return CountryHelper.getRegionSelect(countryId);
+  }
 }

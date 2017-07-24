@@ -12,8 +12,9 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
         _.forEach(action.payload['data'], (v, k) => {
           if (k === 'customerPopup') {
             state = openCustomerBillingAddress(state, v);
+          } else {
+            state = state.set(k, v);
           }
-          state = state.set(k, v);
         });
       }
       return state;
@@ -21,11 +22,19 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
     case PosQuoteActions.ACTION_RESOLVE_QUOTE:
       return state.set('popupOpening', null);
     
+    case CheckoutPopupActions.ACTION_ADD_EDIT_CUSTOMER_ADDRESS:
+      return state.setIn(['customerPopup', 'editAddress'], Object.assign({}, {...action.payload['editAddress']}))
+                  .setIn(['customerPopup', 'addressState'], 'edit');
+    
     default:
       return state;
   }
 };
 
 function openCustomerBillingAddress(state: CheckoutPopupStateRecord, data): CheckoutPopupStateRecord {
-  return state.set('customerPopup', Object.assign({}, {...data}));
+  _.forEach(data, (v, k) => {
+    state = state.setIn(['customerPopup', k], v);
+  });
+  
+  return state;
 }

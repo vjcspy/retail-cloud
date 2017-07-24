@@ -1,4 +1,4 @@
-<pos-default-sales-checkout-popup-customer-detail-list-address *ngIf="state === 'list'" [quoteState]="quoteState" [checkoutPopupState]="checkoutPopupState">
+<pos-default-sales-checkout-popup-customer-detail-list-address *ngIf="checkoutPopupState.customerPopup.addressState === 'list'" [quoteState]="quoteState" [checkoutPopupState]="checkoutPopupState">
 </pos-default-sales-checkout-popup-customer-detail-list-address>
 
-<pos-default-sales-checkout-popup-customer-detail-form *ngIf="state === 'edit'"></pos-default-sales-checkout-popup-customer-detail-form>
+<pos-default-sales-checkout-popup-customer-detail-form *ngIf="checkoutPopupState.customerPopup.addressState === 'edit'" [checkoutPopupState]="checkoutPopupState" [posConfigState]="posConfigState"></pos-default-sales-checkout-popup-customer-detail-form>

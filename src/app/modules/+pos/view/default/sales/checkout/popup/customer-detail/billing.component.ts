@@ -3,6 +3,7 @@ import {CheckoutPopupState} from "../../../../../R/sales/checkout/popup/popup.st
 import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {CustomerHelper} from "../../../../../../core/framework/customer/Helper/CustomerHelper";
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
+import {PosConfigState} from "../../../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -18,6 +19,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() entitiesState: PosEntitiesState;
   @Input() quoteState: PosQuoteState;
+  @Input() posConfigState: PosConfigState;
   
   constructor() { }
   

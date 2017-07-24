@@ -18,4 +18,16 @@ export class CheckoutPopupActions {
     
     return action;
   }
+  
+  static ACTION_ADD_EDIT_CUSTOMER_ADDRESS = 'ACTION_ADD_NEW_CUSTOMER_ADDRESS';
+  
+  addNewCustomerAddress(editAddress = {}, dispatch: boolean = true): Action {
+    const action = {type: CheckoutPopupActions.ACTION_ADD_EDIT_CUSTOMER_ADDRESS, payload: {editAddress}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

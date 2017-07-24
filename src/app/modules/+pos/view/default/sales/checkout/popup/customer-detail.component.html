@@ -1,7 +1,7 @@
-<pos-default-sales-checkout-popup-customer-detail-billing *ngIf="isOpenCustomerBilling()" [entitiesState]="entitiesState" [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState"
+<pos-default-sales-checkout-popup-customer-detail-billing *ngIf="isOpenCustomerBilling()" [entitiesState]="entitiesState" [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState" [posConfigState]="posConfigState"
                                                           [clickOutSide]="isOpenCustomerBilling()" [checkType]="2" (outside)="clickOutside($event)">
 </pos-default-sales-checkout-popup-customer-detail-billing>
 
-<pos-default-sales-checkout-popup-customer-detail-shipping *ngIf="isOpenCustomerShipping()" [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState"
+<pos-default-sales-checkout-popup-customer-detail-shipping *ngIf="isOpenCustomerShipping()" [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState" [posConfigState]="posConfigState"
                                                            [clickOutSide]="isOpenCustomerShipping()" [checkType]="2" (outside)="clickOutside($event)">
 </pos-default-sales-checkout-popup-customer-detail-shipping>
