@@ -19,97 +19,25 @@
       </li>
     </ul>
     <ul class="list-mode-content scroll" perfectScroll>
-      <li class="item">
+      <li class="item" *ngFor="let address of checkoutPopupState.customerPopup.customer['address']">
         <div class="col-item name">
           <div class="radio-input">
-            <input type="radio" name="shipment-item">
+            <input type="radio" [(ngModel)]="currentShippingAddId" name="shipment-item" value="{{address['id']}}">
             <label></label>
           </div>
           <div class="info">
-            <h3>sydney Opera House</h3>
+            <h3>{{address['first_name'] + '' + address['last_name']}}</h3>
             <div class="phone">
-              <strong>Phone:</strong> (+61) 2-950-7111
+              <strong>Phone:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
             </div>
           </div>
 
         </div>
         <div class="col-item address">
-          167 Bennelong Point, Sydney NSW 2000, Australia
+          {{getCustomerFullAddress(address)}}
         </div>
         <div class="col-item zipcode">
-          736-1610
-        </div>
-        <div class="col-item last edit">
-          <span class="icon-edit"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="col-item name">
-          <div class="radio-input">
-            <input type="radio" name="shipment-item">
-            <label></label>
-          </div>
-          <div class="info">
-            <h3>sydney Opera House</h3>
-            <div class="phone">
-              <strong>Phone:</strong> (+61) 2-950-7111
-            </div>
-          </div>
-
-        </div>
-        <div class="col-item address">
-          167 Bennelong Point, Sydney NSW 2000, Australia
-        </div>
-        <div class="col-item zipcode">
-          736-1610
-        </div>
-        <div class="col-item last edit">
-          <span class="icon-edit"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="col-item name">
-          <div class="radio-input">
-            <input type="radio" name="shipment-item">
-            <label></label>
-          </div>
-          <div class="info">
-            <h3>sydney Opera House</h3>
-            <div class="phone">
-              <strong>Phone:</strong> (+61) 2-950-7111
-            </div>
-          </div>
-
-        </div>
-        <div class="col-item address">
-          167 Bennelong Point, Sydney NSW 2000, Australia
-        </div>
-        <div class="col-item zipcode">
-          736-1610
-        </div>
-        <div class="col-item last edit">
-          <span class="icon-edit"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="col-item name">
-          <div class="radio-input">
-            <input type="radio" name="shipment-item">
-            <label></label>
-          </div>
-          <div class="info">
-            <h3>sydney Opera House</h3>
-            <div class="phone">
-              <strong>Phone:</strong> (+61) 2-950-7111
-            </div>
-          </div>
-
-        </div>
-        <div class="col-item address">
-          167 Bennelong Point, Sydney NSW 2000, Australia
-        </div>
-        <div class="col-item zipcode">
-          736-1610
+          {{address['postcode']}}
         </div>
         <div class="col-item last edit">
           <span class="icon-edit"></span>
