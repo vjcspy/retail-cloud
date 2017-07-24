@@ -15,9 +15,11 @@
             {{ 'Others' | translate }}
           </li>
         </ul>
+
+
         <!--Acoount Information-->
         <div id="accountInfo" class="tabs-content" [ngClass]="{'d-show': tabState ==='accountInfo','d-hide':tabState !=='accountInfo'}">
-          <div class="inner" #posPerfectScroll>
+          <div class="inner" #perfect>
             <form class="acc-info">
               <ul class="fr-control">
                 <li>
@@ -49,6 +51,11 @@
             </form>
           </div>
         </div>
+      </div>
+
+
+      <div id="address" class="tabs-content" [ngClass]="{'d-show': tabState === 'address','d-hide':tabState !=='address'}">
+        <pos-default-sales-checkout-popup-customer-detail-list-address></pos-default-sales-checkout-popup-customer-detail-list-address>
       </div>
 
       <div class="desc-bottom">

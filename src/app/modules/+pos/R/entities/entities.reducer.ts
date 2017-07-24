@@ -53,6 +53,7 @@ const entitiesMainReducer = (state: PosEntitiesStateRecord, action: Action) => {
       return state.setIn([action.payload['entityCode'], 'query'], action.payload['query']);
     
     case PosEntitiesActions.ACTION_ENTITY_IN_DB_NOT_VALID:
+    case PosEntitiesActions.ACTION_DELETE_ENTITY:
       return state.update(action.payload['entityCode'], (entity: EntityRecord) => {
         return entity.set('items', List.of())
                      .set('currentPage', 0)

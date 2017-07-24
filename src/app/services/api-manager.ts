@@ -44,6 +44,7 @@ export class ApiManager {
     "permission": "permission",
     customerDetail: "customer-detail",
     updateCustomerWishlist: "update-wishlist",
+    'product-cache': 'product-cache'
   };
   
   get(apiKey, baseUrl: string): string {

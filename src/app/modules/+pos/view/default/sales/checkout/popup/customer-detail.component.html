@@ -1,2 +1,7 @@
-<pos-default-sales-checkout-popup-customer-detail-billing *ngIf="isOpenCustomerBilling()" [entitiesState]="entitiesState" [checkoutPopupState]="checkoutPopupState">
+<pos-default-sales-checkout-popup-customer-detail-billing *ngIf="isOpenCustomerBilling()" [entitiesState]="entitiesState" [checkoutPopupState]="checkoutPopupState"
+                                                          [clickOutSide]="isOpenCustomerBilling()" [checkType]="2" (outside)="clickOutside($event)">
 </pos-default-sales-checkout-popup-customer-detail-billing>
+
+<pos-default-sales-checkout-popup-customer-detail-shipping *ngIf="isOpenCustomerShipping()"
+                                                           [clickOutSide]="isOpenCustomerShipping()" [checkType]="2" (outside)="clickOutside($event)">
+</pos-default-sales-checkout-popup-customer-detail-shipping>

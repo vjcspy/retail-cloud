@@ -10,7 +10,6 @@ import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {ProductDB} from "../../database/xretail/db/product";
-import {ShiftDB} from "../../database/xretail/db/shift";
 
 @Injectable()
 export class PosEntitiesService {
@@ -26,8 +25,7 @@ export class PosEntitiesService {
         let entityInfo = await db['entityInformation'].where('id').equals(entity).first();
         
         return resolve(entityInfo);
-      }
-      catch (e) {
+      } catch (e) {
         reject(e);
       }
     });
@@ -77,7 +75,10 @@ export class PosEntitiesService {
   }
   
   protected async whenNotValidDb(entity: string): Promise<any> {
-    console.log("DB note valid: " + entity);
+    await this.deleteEntityInfo(entity);
+  }
+  
+  async deleteEntityInfo(entity: string): Promise<any> {
     let db: RetailDB = this.databaseManager.getDbInstance();
     await db[entity].clear();
     await db.entityInformation.where('id').equals(entity).delete();

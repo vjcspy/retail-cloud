@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CheckoutPopup, CheckoutPopupState} from "../../../../R/sales/checkout/popup/popup.state";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
+import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.actions";
 
 @Component({
              // moduleId: module.id,
@@ -13,7 +14,19 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailComponent {
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() entitiesState: PosEntitiesState;
   
+  constructor(protected checkoutPopupActions: CheckoutPopupActions) {}
+  
   isOpenCustomerBilling() {
     return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOMER_BILLING;
+  }
+  
+  isOpenCustomerShipping() {
+    return this.checkoutPopupState.popupOpening === CheckoutPopup.CUSTOMER_SHIPPING;
+  }
+  
+  clickOutside(event: boolean) {
+    if (event === false) {
+      this.checkoutPopupActions.checkoutOpenPopup(null);
+    }
   }
 }

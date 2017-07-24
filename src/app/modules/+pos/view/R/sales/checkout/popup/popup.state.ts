@@ -4,6 +4,7 @@ import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 export enum CheckoutPopup {
   CUSTOM_SALE = 1,
   CUSTOMER_BILLING,
+  CUSTOMER_SHIPPING,
 }
 
 interface CheckoutPopupCustomerState {

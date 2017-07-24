@@ -8,7 +8,6 @@ import {SHARE_DIRECTIVES} from "./directives/index";
 import {LaddaModule} from "angular2-ladda";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {ByPassSecurityPipe} from "./pipes/by-pass-security";
 import {SHARE_PIPES} from "./pipes/index";
 
 export function retailTranslateLoader(http: Http) {
