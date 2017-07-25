@@ -67,10 +67,7 @@ export class PosQuoteEffects {
     
                                        let {shippingAdd, billingAdd} = this.quoteService.getDefaultAddressOfCustomer(customer, (generalState as PosGeneralState).outlet);
     
-                                       return {
-                                         type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
-                                         payload: {shippingAdd, billingAdd, needResolveBilling, needResolveShipping}
-                                       };
+                                       return this.quoteActions.setAddressToQuote(shippingAdd, billingAdd, needResolveBilling, needResolveShipping, false);
                                      });
   
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
