@@ -46,6 +46,9 @@ import {EntityActions} from "./entities/entity/entity.actions";
 import {QuoteRefundService} from "./quote/refund/refund.service";
 import {QuoteRefundEffects} from "./quote/refund/refund.effects";
 import {QuoteRefundActions} from "./quote/refund/refund.actions";
+import {EntityCustomerEffects} from "./entities/entity/customer.effects";
+import {EntityCustomerActions} from "./entities/entity/customer.actions";
+import {EntityCustomerService} from "./entities/entity/customer.service";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -53,6 +56,7 @@ export const R_POS_IMPORTS = [
   
   EffectsModule.run(PosEntitiesEffects),
   EffectsModule.run(RealtimeEffects),
+  EffectsModule.run(EntityCustomerEffects),
   
   EffectsModule.run(PosPullEffects),
   EffectsModule.run(PosQuoteEffects),
@@ -79,6 +83,8 @@ export const R_POS_PROVIDERS = [
   // RealtimeEffects,
   RealtimeService,
   EntityActions,
+  EntityCustomerActions,
+  EntityCustomerService,
   
   PosQuoteService,
   // PosQuoteEffects,
