@@ -54,6 +54,8 @@ export class PosQuoteEffects {
                                                      ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                      .map(([action, generalState, entitiesState]) => {
                                        const customer                              = (action as Action).payload.customer;
+                                       const needResolveBilling                    = (action as Action).payload.needResolveBilling;
+                                       const needResolveShipping                   = (action as Action).payload.needResolveShipping;
                                        const customerGroups: List<CustomerGroupDB> = (entitiesState as PosEntitiesState).customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
     
@@ -63,9 +65,11 @@ export class PosQuoteEffects {
     
                                        this.quoteService.setCustomerToQuote(customer);
     
+                                       let {shippingAdd, billingAdd} = this.quoteService.getDefaultAddressOfCustomer(customer, (generalState as PosGeneralState).outlet);
+    
                                        return {
                                          type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
-                                         payload: this.quoteService.getDefaultAddressOfCustomer(customer, (generalState as PosGeneralState).outlet)
+                                         payload: {shippingAdd, billingAdd, needResolveBilling, needResolveShipping}
                                        };
                                      });
   
@@ -238,7 +242,7 @@ export class PosQuoteEffects {
                                    Object.assign(customer, (configState as PosConfigState).setting.customer.getDefaultCustomer());
                                    quote.setUseDefaultCustomer(true);
       
-                                   return Observable.of(this.quoteActions.setCustomerToQuote(customer, false));
+                                   return Observable.of(this.quoteActions.setCustomerToQuote(customer, true, true, false));
                                  } else {
                                    return Observable.of({type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}});
                                  }
@@ -290,7 +294,7 @@ export class PosQuoteEffects {
                               let c = new Customer();
                               c.mapWithParent(configState.setting.customer.getDefaultCustomer());
       
-                              ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+                              ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
       
                               return Observable.from(ob);
                             } else if (configState.posRetailConfig.useCustomerOnlineMode) {
@@ -302,7 +306,7 @@ export class PosQuoteEffects {
                                                   let c    = new Customer();
                                                   c.mapWithParent(customer);
           
-                                                  ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+                                                  ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
           
                                                   return Observable.from(ob);
                                                 } else {
@@ -326,7 +330,7 @@ export class PosQuoteEffects {
                               let c = new Customer();
                               c.mapWithParent(customer);
       
-                              ob.unshift(this.quoteActions.setCustomerToQuote(c, false));
+                              ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
       
                               return Observable.from(ob);
                             }

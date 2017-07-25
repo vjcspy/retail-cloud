@@ -4,6 +4,8 @@ import * as _ from 'lodash';
 import {CountryHelper} from "../../../../../../core/framework/directory/Helper/CountryHelper";
 import {PosConfigState} from "../../../../../../R/config/config.state";
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
+import {FormValidationService} from "../../../../../../../share/provider/form-validation";
+import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
 
 @Component({
              // moduleId: module.id,
@@ -20,7 +22,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
   public type;
   public hasRegion = false;
   
-  constructor(protected checkoutPopupActions: CheckoutPopupActions) { }
+  constructor(protected checkoutPopupActions: CheckoutPopupActions,
+              protected formValidation: FormValidationService,
+              protected entityCustomerActions: EntityCustomerActions) { }
   
   ngOnInit() {
     this.address = _.clone(this.checkoutPopupState.customerPopup.editAddress);
@@ -55,6 +59,14 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
   }
   
   closePopup() {
-    this.checkoutPopupActions.checkoutOpenPopup(null);
+    this.formValidation.cancel('pos-address-form-' + this.type, () => {
+      this.checkoutPopupActions.checkoutOpenPopup(null);
+    });
+  }
+  
+  save() {
+    this.formValidation.submit('pos-address-form-' + this.type, () => {
+      this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer, this.address, this.type);
+    }, true);
   }
 }

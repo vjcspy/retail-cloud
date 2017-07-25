@@ -9,15 +9,13 @@ export class EntityCustomerService {
   
   constructor(private apiUrlManager: ApiManager, private request: RequestService) { }
   
-  createSaveCustomerRequest(customer, generalState: PosGeneralState) {
-    customer['store_id'] = generalState.store['id'];
-    
+  createSaveCustomerAddressRequest(customer, address, addressType = 'billing', generalState: PosGeneralState) {
     return this.request
-               .makePost(this.apiUrlManager.get(CustomerDB.getCode(), generalState.baseUrl), customer);
-  }
-  
-  createSaveAddressRequest(address, generalState: PosGeneralState) {
-    return this.request
-               .makePost(this.apiUrlManager.get('customer-address', generalState.baseUrl), address);
+               .makePost(this.apiUrlManager.get(CustomerDB.getCode(), generalState.baseUrl), {
+                 customer,
+                 address,
+                 addressType,
+                 storeId: generalState.store['id']
+               });
   }
 }

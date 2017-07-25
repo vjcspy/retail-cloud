@@ -3,6 +3,7 @@ import {CheckoutPopupActions} from "./popup.actions";
 import {checkoutPopupStateFactory, CheckoutPopupStateRecord} from "./popup.state";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import * as _ from 'lodash';
+import {EntityCustomerActions} from "../../../../../R/entities/entity/customer.actions";
 
 export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (state = checkoutPopupStateFactory(), action) => {
   switch (action.type) {
@@ -29,6 +30,13 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
     case CheckoutPopupActions.ACTION_ADD_EDIT_CUSTOMER_ADDRESS:
       return state.setIn(['customerPopup', 'editAddress'], Object.assign({}, {...action.payload['editAddress']}))
                   .setIn(['customerPopup', 'addressState'], 'edit');
+    
+    case EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS:
+      return state.setIn(['customerPopup', 'isSaving'], true);
+    
+    case EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_FAILED:
+    case EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY:
+      return state.setIn(['customerPopup', 'isSaving'], false);
     
     default:
       return state;

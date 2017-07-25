@@ -45,7 +45,7 @@ export class PosQuoteActions {
    */
   static ACTION_SET_CUSTOMER_TO_QUOTE = 'ACTION_SET_CUSTOMER_TO_QUOTE';
   
-  setCustomerToQuote(customerEntity: Customer | CustomerDB, dispatch: boolean = false): Action {
+  setCustomerToQuote(customerEntity: Customer | CustomerDB, needResolveBilling = true, needResolveShipping = true, dispatch: boolean = true): Action {
     let customer = new Customer();
     if (customerEntity instanceof CustomerDB) {
       Object.assign(customer, customerEntity);
@@ -53,7 +53,7 @@ export class PosQuoteActions {
     } else {
       customer = customerEntity;
     }
-    let action = {type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer}};
+    let action = {type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer, needResolveBilling, needResolveShipping}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -160,7 +160,7 @@ export class PosQuoteActions {
   static ACTION_ADD_SHIPPING_AMOUNT = 'ACTION_ADD_SHIPPING_AMOUNT';
   
   addShippingAmount(shippingAmount, shippingAdd = null, dispatch: boolean = true): Action {
-    const action = {type: PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT, payload: {shippingAmount}};
+    const action = {type: PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT, payload: {shippingAmount, shippingAdd}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
