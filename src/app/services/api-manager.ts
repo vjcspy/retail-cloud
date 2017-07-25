@@ -23,7 +23,7 @@ export class ApiManager {
     customerGroup: "customer-group",
     loadOrderData: "load-order-data",
     saveOrder: "save-order",
-    customerAddress: "customer-address",
+    'customer-address': "customer-address",
     creditmemo: "creditmemo",
     wishlist: "wishlist",
     orders: "order",
