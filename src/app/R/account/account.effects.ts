@@ -41,16 +41,19 @@ export class AccountEffects {
       
                                               return this.accountActions.loginSuccess(user, false);
                                             })
-                                            .catch((e) => Observable.of(this.accountActions.loginFailed(false)))
+                                            .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                          });
   @Effect() logout = this.actions$.ofType(AccountActions.ACTION_LOGOUT)
                          .switchMap(() => {
                            return Observable.fromPromise(this.authService.signOut())
                                             .map(() => {
                                               this.accountService.removeUserFromStorage();
-                                              return this.accountActions.goLoginPage(false,false);
+                                              setTimeout(() => {
+                                                location.reload(true);
+                                              }, 200);
+                                              return this.accountActions.goLoginPage(false, false);
                                             })
-                                            .catch((e) => Observable.of(this.accountActions.logoutFailed(false)))
+                                            .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
                          });
   
   @Effect() goLoginPage = this.actions$.ofType(AccountActions.ACTION_GO_LOGIN_PAGE)
