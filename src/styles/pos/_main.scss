@@ -60,14 +60,7 @@
     .cart-product {
       .cart-product-inner {overflow: visible;}
       .bottom-bar {
-        background: $cbkg; bottom: 0;
-        padding: 10px 10px 20px;
-        .pay-info {
-          &, &:hover {
-            background: none;
-            color: $grayDark;
-          }
-        }
+        background: $cbkg; bottom: 0;                
       }
       .total-blk {
         //position: fixed; width: 36.0907%; bottom: 75px;
@@ -503,16 +496,17 @@
   background: $cgreen;
   padding: 9px 16px 10px 16px;
   height: 55px;
-  line-height: inherit;
+  line-height: 36px;
+
   @include border-radius(6px);
   @include single-transition(all,.3s);
   @include clearfix;
-  &:hover {background: $cgreen2;}
+  // &:hover {background: $cgreen2;}
   .value {
     float: left;
     width: 150px;
     opacity: .8;
-    margin-top: 6px;
+    margin-top: 0;
     text-align: left;
   }
   .grand-total {
@@ -1046,7 +1040,7 @@
     position: absolute;
     width: 100%;
     top: -20px;
-    left: 0;
+    left: 0;    
     border-bottom: $border solid 1px;
     @include gradient-trans();
     &.c-hide{
@@ -1089,18 +1083,14 @@
   position: absolute;
   width: 100%;
   background: $cbkg;
-  bottom: 0;
-  .total-row-content{
-    @include single-transition;
-  }
+  bottom: 0;  
   &.totals-collapse{
     background: #e6e6e6;
     .total-row-content {
-      height: 0;
-      overflow: hidden;
-      padding-top: 0;
-      padding-bottom: 0;
-      @include single-transition;
+    height: 0;  
+     overflow: hidden;
+  padding-top: 0;
+    padding-bottom: 0;    
     }
     .total-blk{
       padding-top: 0;
@@ -1274,7 +1264,7 @@
 }
 .btn-bottom {
   position: absolute; width: 100%; bottom: 0;
-  height: 66px; text-align: right; padding-right: 33px;
+  padding-bottom: 30px; padding-top: 20px; text-align: right; padding-right: 33px;
   button {
     @extend .db-button;
   }
@@ -2083,7 +2073,7 @@ h2.p-head {padding: 18px 20px;}
 .closeshift-table {
   position: relative;
   height: 100%;
-  padding: 27px 0 78px;
+  padding: 27px 0 89px;
   .inner {
     position: relative;
     height: 100%; overflow: hidden;
@@ -3068,7 +3058,7 @@ h2.p-head {padding: 18px 20px;}
     background: $cbkg;
     @include clearfix;
     button {
-      float: right; width: 308px; margin-top: 13px; padding: 0 15px; background: $cgreen;
+      float: right; width: 308px; margin-top: 13px; padding: 0 15px; 
       @include tablet{
         width: 48%;
       }

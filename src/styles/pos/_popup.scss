@@ -1,7 +1,6 @@
 
 // ================ LISTING POPUP ==========================================
-.list-mode-popup{
-    
+.list-mode-popup{    
   h2{
     color: $grayDark;
     font-size: 17px; 
@@ -100,7 +99,7 @@
     }
   }
   .list-mode-bot{
-    padding: 20px 30px;
+    padding: 20px 30px 0;
     button{
       width: 140px;
     }
@@ -108,7 +107,7 @@
 
   // shipment --------------------------------------
   &.shipment-list-popup{
-    padding: 30px 0 20px;
+    padding: 30px 0 30px;
     .list-mode-top{
       label{
         color: $cgreen;
@@ -249,7 +248,8 @@
 
 //================ FORM POPUP ==========================================
 .form-popup{
-  padding: 20px 0;
+  padding: 20px 0 0;
+  height: 100%;
   .form-popup-top{
     border-bottom: 1px solid $border;
     padding-bottom: 15px;
@@ -279,11 +279,14 @@
       margin: 0 0 15px;      
     }
   .form-popup-content{
-    // width: 550px;
-    margin: 20px auto 0;      
+    height: 100%;
+    margin: 10px auto 0;   
+    form{
+      height: 100%;
+    }   
     .content-scroll{
       position: relative;
-      max-height: 300px;
+      height:100%;
       padding: 0 200px;
     }
     .form-group{
@@ -316,6 +319,9 @@
         margin-right: 10px;
       }
     }
+  }
+  &.new-address-shipment{
+    padding-bottom: 30px;
   }
 
 }
