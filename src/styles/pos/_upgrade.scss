@@ -3,24 +3,23 @@
   position: relative;
   min-height: 3px;
   margin-bottom: 15px;
-  border-bottom: $border solid 1px;
+  border-bottom: #e6e6e6 solid 1px;
   background: $white;    
   .cateogries-inner{  
-    @include clearfix;
-    padding: 13px 20px 10px 20px;        
+    @include clearfix;          
     align-items: center;    
     position: relative; 
-    height: auto;   
-    @include single-transition ;
+    height: auto; 
+    overflow: hidden;  
+   @include single-transition;
     .cate-slider{
-      margin: 0;
-      padding: 0; 
+      padding: 13px 20px 10px 20px;  
+      margin: 0;      
       text-align: left;
       white-space: nowrap;            
       height:auto;
       position: relative;
-      -webkit-overflow-scrolling: touch;    
-     
+      -webkit-overflow-scrolling: touch;   
            
       .item{
         list-style: none;
@@ -148,8 +147,7 @@
       cursor: pointer;
       font-size: 0;
       float: left;
-      margin-top: 10px;
-      margin-right: 10px;
+      margin: 20px 0 20px 20px;
       @include tablet{
         margin-top: 3px;
       }
@@ -170,7 +168,8 @@
         color: $cgreen;
         width: auto;
         padding: 0 20px 0 15px;
-        margin-top: 0;
+        margin-top:10px;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -191,14 +190,15 @@
     border-top: none;
   }
   &.cate-collapse{
-    background: #e6e6e6;      
-    .cateogries-inner{
-      // display: none;  
+    // background: #e6e6e6;  
+    border-bottom-width: 3px;    
+    .cateogries-inner{        
       height: 0;
       overflow: hidden;
-      padding-top: 0;
-      padding-bottom: 0;
-      @include single-transition ;
+      @include single-transition;
+      .cate-slider, .back-cate{
+       opacity: 1;       
+      }
     }
     .cate-close{
       background: #e6e6e6;

@@ -1,4 +1,4 @@
-<div class="form-popup new-address-popup">
+<div class="form-popup" [ngClass]="{'new-address-shipment': isShippingPopup()}">
   <div class="form-popup-top" *ngIf="isShippingPopup()">
     <h2>New address</h2>
   </div>
