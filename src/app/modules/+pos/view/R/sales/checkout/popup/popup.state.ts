@@ -12,6 +12,7 @@ interface CheckoutPopupCustomerState {
   addressState: string;
   
   editAddress: Object;
+  isSaving: boolean;
 }
 
 interface CheckoutPopupCustomerStateRecord extends TypedRecord<any>, CheckoutPopupCustomerState {}
@@ -20,7 +21,8 @@ const checkoutPopupCustomerStateFactory = makeTypedFactory<CheckoutPopupCustomer
                                                                                                                            customer: null,
                                                                                                                            addressState: 'list',
   
-                                                                                                                           editAddress: {}
+                                                                                                                           editAddress: {},
+                                                                                                                           isSaving: false
                                                                                                                          });
 
 export interface CheckoutPopupState {

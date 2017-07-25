@@ -4,6 +4,9 @@ import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {CustomerHelper} from "../../../../../../core/framework/customer/Helper/CustomerHelper";
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
 import {PosConfigState} from "../../../../../../R/config/config.state";
+import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
+import {FormValidationService} from "../../../../../../../share/provider/form-validation";
+import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
 
 @Component({
              // moduleId: module.id,
@@ -21,13 +24,29 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
   @Input() quoteState: PosQuoteState;
   @Input() posConfigState: PosConfigState;
   
-  constructor() { }
+  constructor(protected checkoutPopupActions: CheckoutPopupActions,
+              protected entityCustomerActions: EntityCustomerActions,
+              protected formValidation: FormValidationService) { }
   
-  ngOnInit() { }
+  ngOnInit() {
+  
+  }
   
   showCustomerInformation() {}
   
   getCustomerGroupsSelect() {
     return CustomerHelper.getCustomerGroupSelectElem(this.entitiesState.customerGroup.items.toArray());
+  }
+  
+  cancelForm() {
+    this.formValidation.cancel('pos-address-form-' + this.type, () => {
+      this.checkoutPopupActions.checkoutOpenPopup(null);
+    });
+  }
+  
+  save() {
+    this.formValidation.submit('pos-address-form-' + this.type, () => {
+      this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer, this.checkoutPopupState.customerPopup.editAddress);
+    }, true);
   }
 }

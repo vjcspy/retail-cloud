@@ -91,9 +91,9 @@
           </div>
         </div>
       </div>
-      <div class="button-group" *ngIf="isShippingPopup()">
-        <button class="gray" (click)="closePopup()">Cancel</button>
-        <button class="primary">Save</button>
+      <div class="button-group">
+        <button class="gray" (click)="closePopup()" [ladda]="checkoutPopupState.customerPopup.isSaving">Cancel</button>
+        <button class="primary" (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">Save</button>
       </div>
     </form>
   </div>

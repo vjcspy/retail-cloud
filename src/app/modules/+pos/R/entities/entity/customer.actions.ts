@@ -8,8 +8,8 @@ export class EntityCustomerActions {
   
   static ACTION_SAVE_CUSTOMER_ADDRESS = 'ACTION_SAVE_CUSTOMER_ADDRESS';
   
-  saveCustomerAddress(customer, address, dispatch: boolean = true): Action {
-    const action = {type: EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS, payload: {customer, address}};
+  saveCustomerAddress(customer, address, addressType = 'billing', dispatch: boolean = true): Action {
+    const action = {type: EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS, payload: {customer, address, addressType}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -20,8 +20,20 @@ export class EntityCustomerActions {
   
   static ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY = 'ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY';
   
-  saveCustomerAddressSuccessfully(customer, address, dispatch: boolean = true): Action {
-    const action = {type: EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY, payload: {customer, address}};
+  saveCustomerAddressSuccessfully(customer, addressType = 'billing', dispatch: boolean = true): Action {
+    const action = {type: EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY, payload: {customer, addressType}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_CUSTOMER_ADDRESS_FAILED = 'ACTION_SAVE_CUSTOMER_ADDRESS_FAILED';
+  
+  saveCustomerAddressFailed(mess, e, dispatch: boolean = true): Action {
+    const action = {type: EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_FAILED, payload: {mess, e}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

@@ -14,15 +14,15 @@ export class CustomerDB extends DataObject {
   website_id: number;
   telephone: string;
   address: Object[]; // save another table
-
+  
   static getFields(): string {
     return "id,customer_group_id,default_billing,default_shipping,email,first_name,last_name,gender,store_id,website_id,address,telephone";
   }
-
+  
   static getCode(): string {
     return "customers";
   }
-
+  
   mapWithParent(entityData: any = null): any {
     _.forEach(
       CustomerDB.getFields().split(","), (key) => {
@@ -38,7 +38,7 @@ export class CustomerDB extends DataObject {
       });
     return this;
   }
-
+  
   async getById(id: number | string): Promise<any> {
     if (id) {
       let productData = await window['retailDB'][CustomerDB.getCode()].where("id").equals(id + "").first();
@@ -46,7 +46,17 @@ export class CustomerDB extends DataObject {
     }
     return false;
   }
-
+  
+  save(customer: any = null): Promise<any> {
+    return new Promise((resolve, reject) => {
+      window['retailDB'].outlet.put(customer === null ? this : customer).then((result) => {
+        return resolve();
+      }).catch((error) => {
+        return reject(error);
+      });
+    });
+  }
+  
   getCustomerGroupId(): number {
     return this.getData("customer_group_id");
   }

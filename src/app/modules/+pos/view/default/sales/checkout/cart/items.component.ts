@@ -95,7 +95,7 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     } else if (iconAction === true && $event.target.className.indexOf('customer-icon-action') > -1) {
       if (customer && customer['id'] && customer.getId() !== this.configState.setting.customer.getDefaultCustomerId()) {
         // remove customer
-        this.posQuoteActions.setCustomerToQuote(new Customer(), true);
+        this.posQuoteActions.setCustomerToQuote(new Customer());
       } else {
         this.cartCustomerActions.updateActionCartState('inSearchCustomers', true);
       }

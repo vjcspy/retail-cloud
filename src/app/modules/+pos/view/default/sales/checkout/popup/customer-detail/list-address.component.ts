@@ -17,16 +17,19 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() quoteState: PosQuoteState;
   
-  public currentShippingAddId;
+  public currentAddressId;
   public shippingAmount;
   
   constructor(protected posQuoteActions: PosQuoteActions,
               protected checkoutPopupActions: CheckoutPopupActions) { }
   
   ngOnInit() {
-    if (this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
-      this.currentShippingAddId = this.quoteState.shippingAdd['id'];
+    if (this.isShippingPopup() && this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
+      this.currentAddressId = this.quoteState.shippingAdd['id'];
+    } else if (!this.isShippingPopup() && this.quoteState.billingAdd && this.quoteState.billingAdd.hasOwnProperty('id')) {
+      this.currentAddressId = this.quoteState.billingAdd['id'];
     }
+    
     this.shippingAmount = this.quoteState.shippingAmount;
   }
   
@@ -57,7 +60,10 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   }
   
   addShipment() {
-    let shippingAdd = _.find(this.checkoutPopupState.customerPopup.customer['address'], (_add) => parseInt(_add['id']) === parseInt(this.currentShippingAddId));
+    let shippingAdd = _.find(this.checkoutPopupState.customerPopup.customer['address'], (_add) => parseInt(_add['id']) === parseInt(this.currentAddressId));
+    if (!shippingAdd) {
+      shippingAdd = null;
+    }
     this.posQuoteActions.addShippingAmount(this.shippingAmount, shippingAdd);
   }
   

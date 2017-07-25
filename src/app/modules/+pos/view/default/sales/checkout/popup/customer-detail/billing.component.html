@@ -59,9 +59,9 @@
         </div>
 
       </div>
-      <div class="desc-bottom">
-        <button class="gray">{{ 'Cancel' | translate }}</button>
-        <button>
+      <div class="desc-bottom" *ngIf="tabState === 'accountInfo'">
+        <button class="gray" (click)="cancelForm()" [ladda]="checkoutPopupState.customerPopup.isSaving">{{ 'Cancel' | translate }}</button>
+        <button (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">
           {{!checkoutPopupState.customerPopup.customer.getId() ? 'Create new' : 'Save'}}
         </button>
       </div>

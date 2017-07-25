@@ -37,7 +37,7 @@ export class PosQuoteService {
     let shippingAdd = new Address();
     let billingAdd  = new Address();
     if (customer.hasOwnProperty('default_billing') && customer['default_billing']) {
-      const _billingAdd = _.find(customer.address, (add) => add['id'] == customer['default_billing']);
+      const _billingAdd = _.find(customer.address, (add) => parseInt(add['id']) === parseInt(customer['default_billing'] + ''));
       if (_billingAdd) {
         Object.assign(billingAdd, _billingAdd);
       }
@@ -46,7 +46,7 @@ export class PosQuoteService {
     }
     
     if (customer.hasOwnProperty('default_shipping') && customer['default_shipping']) {
-      const _shippingAdd = _.find(customer.address, (add) => add['id'] == customer['default_shipping']);
+      const _shippingAdd = _.find(customer.address, (add) => parseInt(add['id']) === parseInt(customer['default_shipping'] + ''));
       if (_shippingAdd) {
         Object.assign(shippingAdd, _shippingAdd);
       }

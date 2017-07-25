@@ -18,13 +18,13 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state.set('customer', action.payload['customer']);
     
     case PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER:
-      let newState = state;
-      _.forEach(action.payload, (v, k) => {
-        if (!!v) {
-          newState = newState.set(k, v);
-        }
-      });
-      return newState;
+      if (action.payload['needResolveBilling'] === true) {
+        state = state.set('billingAdd', action.payload['billingAdd']);
+      }
+      if (action.payload['needResolveShipping'] === true) {
+        state = state.set('shippingAdd', action.payload['shippingAdd']);
+      }
+      return state;
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
       let items: List<DataObject> = action.payload['items'];

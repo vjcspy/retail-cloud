@@ -22,11 +22,11 @@
       <li class="item" *ngFor="let address of checkoutPopupState.customerPopup.customer['address']">
         <div class="col-item name">
           <div class="radio-input">
-            <input type="radio" [(ngModel)]="currentShippingAddId" name="shipment-item" value="{{address['id']}}">
+            <input type="radio" [(ngModel)]="currentAddressId" name="address-item" value="{{address['id']}}">
             <label></label>
           </div>
           <div class="info">
-            <h3>{{address['first_name'] + '' + address['last_name']}}</h3>
+            <h3>{{address['first_name'] + ' ' + address['last_name']}}</h3>
             <div class="phone">
               <strong>{{ 'Tel' | translate}}:</strong> {{address['telephone'] ? address['telephone'] : 'NULL'}}
             </div>

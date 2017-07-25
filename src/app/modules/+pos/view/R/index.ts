@@ -69,6 +69,7 @@ import {ShiftActions} from "./sales/shifts/shift.actions";
 import {CheckoutPopupState} from "./sales/checkout/popup/popup.state";
 import {checkoutPopupReducer} from "./sales/checkout/popup/popup.reducer";
 import {CheckoutPopupActions} from "./sales/checkout/popup/popup.actions";
+import {CheckoutPopupEffects} from "./sales/checkout/popup/popup.effects";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -85,6 +86,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(ListEffects),
   EffectsModule.run(ShiftListEffects),
   EffectsModule.run(ShiftDetailEffects),
+  EffectsModule.run(CheckoutPopupEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
