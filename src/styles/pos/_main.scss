@@ -981,7 +981,7 @@
     float: left; margin: 0; width: 50%;
   }
   .discount-txt{
-    //color:$gray60;
+    color:$gray60;
     text-decoration: underline;
   }
   .t-value {text-align: right;}
@@ -1062,13 +1062,21 @@
   }
 }
 //total for Refunded
-.total-row-content.refunded{
-  .total-row{
-    font-family:$mainFont;
-    &.total-head{
-      font-family: $boldFont;
+.total-row-content{
+  .total-exchange-amount,
+  .refunded-total{
+    .total-row{
+      font-family:$mainFont;
+      &.total-head{
+        font-family: $boldFont;
+      }
+      .discount-txt{
+        color: $gray40;
+        text-decoration: none;
+      }
     }
-  }
+  }     
+  
   .total-exchange-amount{
     margin-top: 10px;
     padding-top: 20px;
@@ -2098,6 +2106,7 @@ h2.p-head {padding: 18px 20px;}
     }
     .tabs-content {
       padding-left: 0; padding-right: 0; padding-bottom: 0;
+      padding-top: 0;
     }
   }
   .wishlist {
@@ -2166,7 +2175,7 @@ h2.p-head {padding: 18px 20px;}
   }
   .acc-info {
     .fr-control {
-      width: 78.2038%; margin: 68px auto 0;
+      width: 78.2038%; margin: 40px auto 0;
       > li {
         float: left; width: 46.8387%;
         &:nth-of-type(even) {float: right; width: 48.7741%;}
@@ -3393,13 +3402,13 @@ h2.p-head {padding: 18px 20px;}
   .refund-items-comp{
     &:before {
       content: "";
-      position: fixed;
+      position: absolute;
       right: 0;
-      top: 59px;
+      top: 0;
       background: white;
       opacity: .5;
       height: 74px;
-      width: 37.8%;
+      width:100%;
       z-index: 1;
     }
     .cart-row .cart-head .c-name{
@@ -3495,7 +3504,7 @@ h2.p-head {padding: 18px 20px;}
     }
   }
   .total-blk {
-    padding-right:50px;
+    padding-right:70px;
     position: relative;
   }
 }
