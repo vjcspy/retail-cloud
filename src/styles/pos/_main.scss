@@ -2180,8 +2180,7 @@ h2.p-head {padding: 18px 20px;}
   }
   .item-row {
     margin-bottom: 34px;
-    @include clearfix;
-    input[type="text"] {float: right; width: 55.7692%;}
+    @include clearfix;    
   }
   .radio-box {
     &.huge {margin-right: 27px;}
@@ -2220,6 +2219,19 @@ h2.p-head {padding: 18px 20px;}
           font-size: 46px; color: #A5A5A5;
         }
       }
+    }
+  }
+}
+.adjust-cash{
+  .item-row{
+    display: flex;
+    align-items: center;
+    .radio-input{
+      margin-right: 20px;
+      margin-top: 4px;
+    }
+    .input-text{
+      width: calc(100% - 165px);
     }
   }
 }
@@ -2291,7 +2303,13 @@ h2.p-head {padding: 18px 20px;}
   }
   tr {
     th, td {
-      &:first-child {padding-left: 124px; width: 345px;}
+      &:first-child {
+        padding-left: 124px; width: 345px;
+        @include tablet{
+          padding-left: 50px;
+          width: 245px;
+        }
+      }
       &:last-child {padding-right: 124px;}
     }
   }
