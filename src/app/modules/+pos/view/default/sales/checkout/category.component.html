@@ -1,8 +1,8 @@
 <div class="product-category" id="product-category" #productCategory>
   <div class="categories-list" [ngClass]="{'cate-collapse': !checkoutProductState.isCategoryMode}">
 
-    <div class="cateogries-inner">
-      <a class="back-cate" [ngClass]="{'disabled': !checkoutProductState.currentCategory || checkoutProductState.currentCategory['level'] == 1,'last-cate': checkoutProductState.categoryList.count()==0}" (click)="checkoutProductCategoryActions.backCategory()">
+    <div class="cateogries-inner" [ngClass]="{'disabled': !checkoutProductState.currentCategory || checkoutProductState.currentCategory['level'] == 1,'last-cate': checkoutProductState.categoryList.count()==0}">
+      <a class="back-cate" (click)="checkoutProductCategoryActions.backCategory()">
         <i class="icon-back-btn"></i>Back
         <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
       </a>
