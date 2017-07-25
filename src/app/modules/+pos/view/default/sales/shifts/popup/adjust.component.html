@@ -1,6 +1,6 @@
 <div id="makeAdjust" class="popup-wrapper open">
   <div class="popup-content">
-    <div class="cashdrawer-form">
+    <div class="cashdrawer-form adjust-cash">
       <h2 class="p-head">
         {{ 'Make Adjustment Cash' | translate }}
         <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
@@ -8,15 +8,15 @@
       <div class="inner" perfectScroll>
         <form>
           <div class="item-row">
-            <div class="radio-box huge">
-              <input type="radio" name="name" [checked]="_data.isIn" (click)="_data.isIn = true" [disabled]="shiftState.detail.waitingServer"/>
-              <span></span>{{ 'Add' | translate }}
+            <div class="radio-input huge">
+              <input type="radio" name="name" id="radio-adjust-add"/>
+              <label for="radio-adjust-add">{{ 'Add' | translate }}</label>
             </div>
-            <div class="radio-box huge">
-              <input type="radio" name="name" [checked]="!_data.isIn" (click)="_data.isIn = false" [disabled]="shiftState.detail.waitingServer"/>
-              <span></span>{{ 'Remove' | translate }}
+            <div class="radio-input huge">
+              <input type="radio" name="name" id="radio-adjust-remove"/>
+              <label for="radio-adjust-remove">{{ 'Remove' | translate }}</label>
             </div>
-            <retail-text [(model)]="_data.amount" [disabled]="shiftState.detail.waitingServer"
+            <retail-text class="input-text" [(model)]="_data.amount" [disabled]="shiftState.detail.waitingServer"
                          [formKey]="'popup-adjust-shift'"
                          [validation]="'require,p-number'"></retail-text>
           </div>

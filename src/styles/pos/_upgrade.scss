@@ -149,7 +149,8 @@
       float: left;
       margin: 20px 0 20px 20px;
       @include tablet{
-        margin-top: 3px;
+        margin-top: 16px;
+        margin-bottom: 0;
       }
       i:before{
         color: $cgreen;
