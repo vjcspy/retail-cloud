@@ -12,7 +12,7 @@
             {{ 'Address' | translate }}
           </li>
           <!-- <li>Others</li> -->
-          <li [ngClass]="{active: checkoutPopupState.customerPopup.billingTabState === 'others'}" (click)="changeBillingState('others')">
+          <li [ngClass]="{active: checkoutPopupState.customerPopup.billingTabState === 'others',disabled: !checkoutPopupState.customerPopup.customer || !checkoutPopupState.customerPopup.customer['id']}" (click)="changeBillingState('others')">
             {{ 'Others' | translate }}
           </li>
         </ul>

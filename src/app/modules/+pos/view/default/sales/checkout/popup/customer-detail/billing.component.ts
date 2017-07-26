@@ -36,7 +36,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
     if (state !== 'others') {
       this.checkoutPopupActions.changeBillingTabView(state);
     } else {
-      this.checkoutPopupActions.viewCustomerOtherInfo(this.checkoutPopupState.customerPopup.customer);
+      if (!!this.checkoutPopupState.customerPopup.customer && !!this.checkoutPopupState.customerPopup.customer['id']) {
+        this.checkoutPopupActions.viewCustomerOtherInfo(this.checkoutPopupState.customerPopup.customer);
+      }
     }
   }
   
