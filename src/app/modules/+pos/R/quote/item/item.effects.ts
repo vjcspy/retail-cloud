@@ -11,20 +11,22 @@ import {Product} from "../../../core/framework/catalog/Model/Product";
 @Injectable()
 export class QuoteItemEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private quoteActions: PosQuoteActions) { }
   
   @Effect() updateItemBuyRequest = this.actions$
                                        .ofType(QuoteItemActions.ACTION_UPDATE_ITEM_BUY_REQUEST)
                                        .withLatestFrom(this.store$.select('config'))
                                        .map((z) => {
-                                         const action: Action = <any>z[0];
+                                         const action: Action              = <any>z[0];
                                          const configState: PosConfigState = <any>z[1];
-                                         const item: Item = action.payload['item'];
-                                         let value = action.payload['value'];
+                                         const item: Item                  = action.payload['item'];
+                                         let value                         = action.payload['value'];
     
                                          switch (action.payload['key']) {
                                            case 'qty':
-                                             if (!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] != '1') {
+                                             if (!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] !== '1') {
                                                value = Math.round(value);
                                              }
                                              item.getBuyRequest().setData('qty', value);
@@ -70,10 +72,7 @@ export class QuoteItemEffects {
                                                newItemBuyRequest.setData('options', item.getBuyRequest().getData('options'));
                                              }
         
-                                             return {
-                                               type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
-                                               payload: {buyRequest: newItemBuyRequest, skipCheckExisted: true}
-                                             };
+                                             return this.quoteActions.addItemBuyRequestToQuote(newItemBuyRequest, true, false);
       
                                            default:
                                              item.getBuyRequest().setData(action.payload['key'], value);

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {ShareModule} from "../share/share.module";
 import {RouterModule} from "@angular/router";
 import {POS_ROUTES} from "./pos.routes";
@@ -13,6 +13,8 @@ import {POS_DIRECTIVES} from "./view/directives/index";
 import {DragScrollModule} from "angular2-drag-scroll";
 
 import "../../../styles/pos.scss";
+import {PosErrorHandler} from "./services/pos-error-handler";
+
 @NgModule({
             imports: [
               ShareModule,
@@ -30,6 +32,7 @@ import "../../../styles/pos.scss";
               ...POS_PIPES
             ],
             providers: [
+              {provide: ErrorHandler, useClass: PosErrorHandler},
               ...POS_SERVICES,
               ...R_POS_PROVIDERS,
               ...R_POS_VIEW_PROVIDERS

@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {ErrorHandler, NgModule} from "@angular/core";
 import {
   RouterModule,
 } from "@angular/router";
@@ -30,6 +30,7 @@ import {Ng2Webstorage} from "ngx-webstorage";
 import {AppStorage} from "./services/storage";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 import {DialogModule} from "./modules/dialog/dialog.module";
+import {AppService} from "./app.service";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -58,6 +59,7 @@ import {DialogModule} from "./modules/dialog/dialog.module";
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
+              AppService,
               {provide: ToastsManager, useClass: CustomToastOptions},
               SelectivePreloadingStrategy,
               LocalStorageService, SessionStorageService,

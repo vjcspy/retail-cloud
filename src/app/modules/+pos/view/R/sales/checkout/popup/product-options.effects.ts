@@ -17,7 +17,7 @@ import {PosSyncState} from "../../../../../R/sync/sync.state";
 @Injectable()
 export class ProductOptionsEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService) { }
+  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService, private quoteActions: PosQuoteActions) { }
   
   @Effect() retrieveProductDataForPopup = this.actions$.ofType(PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS)
                                               .withLatestFrom(this.store$.select('productOptions'))
@@ -98,7 +98,7 @@ export class ProductOptionsEffects {
                                                   product.setData('attributeSelectData', attributeSelectData);
                                                 }
     
-                                                return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}}
+                                                return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}};
                                               });
   
   @Effect() handleWhenChangeOptionConfigurable = this.actions$.ofType(ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA)
@@ -151,7 +151,7 @@ export class ProductOptionsEffects {
                                                        return {
                                                          type: ProductOptionsActions.ACTION_RE_INIT_SUPER_ATTRIBUTE_SELECT_DATA,
                                                          payload: {product, super_attribute}
-                                                       }
+                                                       };
                                                      });
   
   @Effect() confirmProductOptions = this.actions$.ofType(ProductOptionsActions.ACTION_CONFIRM_PRODUCT_OPTIONS)
@@ -167,24 +167,21 @@ export class ProductOptionsEffects {
                                                              if (!_.isEmpty(productOptionsState['product'].customizable_options)) {
                                                                productOptionsState.buyRequest.setData('options', {...productOptionsState.optionData.options});
                                                              }
-                                                             if (productOptionsState.product.getTypeId() == "configurable") {
+                                                             if (productOptionsState.product.getTypeId() === "configurable") {
                                                                productOptionsState.buyRequest.setData('super_attribute', {...productOptionsState.optionData.super_attribute});
                                                              }
-                                                             if (productOptionsState.product.getTypeId() == "grouped") {
+                                                             if (productOptionsState.product.getTypeId() === "grouped") {
                                                                productOptionsState.buyRequest
                                                                                   .setData('super_group', {...productOptionsState.optionData.super_group})
                                                                                   .setData('associatedProducts', productOptionsState.product.getData('associatedProducts'));
                                                              }
-                                                             if (productOptionsState.product.getTypeId() == "bundle") {
+                                                             if (productOptionsState.product.getTypeId() === "bundle") {
                                                                productOptionsState.buyRequest
                                                                                   .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
                                                              if (productOptionsState.currentProcessing === 'ADD_NEW') {
-                                                               return {
-                                                                 type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
-                                                                 payload: {buyRequest: productOptionsState.buyRequest}
-                                                               };
+                                                               return this.quoteActions.addItemBuyRequestToQuote(productOptionsState.buyRequest, false, false);
                                                              } else {
                                                                return {
                                                                  type: PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE

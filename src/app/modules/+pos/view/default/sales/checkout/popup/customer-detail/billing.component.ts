@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {CheckoutPopupState} from "../../../../../R/sales/checkout/popup/popup.state";
 import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 import {CustomerHelper} from "../../../../../../core/framework/customer/Helper/CustomerHelper";
@@ -7,7 +7,6 @@ import {PosConfigState} from "../../../../../../R/config/config.state";
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
-import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +15,7 @@ import * as _ from 'lodash';
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
-export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implements OnInit {
+export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   public type = 'billing';
   
   @Input() checkoutPopupState: CheckoutPopupState;
@@ -27,10 +26,6 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
   constructor(protected checkoutPopupActions: CheckoutPopupActions,
               protected entityCustomerActions: EntityCustomerActions,
               protected formValidation: FormValidationService) { }
-  
-  ngOnInit() {
-  
-  }
   
   changeBillingState(state) {
     if (state !== 'others') {
@@ -50,6 +45,18 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
     this.formValidation.cancel('pos-address-form-' + this.type, () => {
       this.checkoutPopupActions.checkoutOpenPopup(null);
     });
+  }
+  
+  isSelectedWishlist(wishlist) {
+    return this.checkoutPopupState.customerPopup.wishlistItemSelected.findIndex((v) => parseInt(v['wishlist_item_id']) === parseInt(wishlist['wishlist_item_id'])) > -1;
+  }
+  
+  selectedWishlistItem(wishlist) {
+    this.checkoutPopupActions.selectedWishlistItem(wishlist);
+  }
+  
+  addSelectedWishlistToCart() {
+    this.checkoutPopupActions.addSelectedWishlistItemToCart();
   }
   
   save() {

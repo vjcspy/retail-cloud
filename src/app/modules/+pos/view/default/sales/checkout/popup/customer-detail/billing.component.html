@@ -20,52 +20,35 @@
 
         <div id="accountInfo" class="tabs-content d-show" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'accountInfo'">
           <div class="inner" #perfect>
-            <div class="form-popup acc-info">
-              <div class="form-popup-content">
-                <form>
-                  <div class="content-scroll" perfectScroll>
-                    <div class="row">
-                      <div class="form-group col-sm-6">
-                        <label class="require">{{ 'First Name' | translate }}*</label>
-                        <retail-text [(model)]="checkoutPopupState.customerPopup.customer['first_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
-                        </retail-text>
-                      </div>
-                    
-                      <div class="form-group col-sm-6">
-                        <label class="require">{{ 'Last Name' | translate }}*</label>
-                        <retail-text [(model)]="checkoutPopupState.customerPopup.customer['last_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
-                        </retail-text>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="form-group col-sm-12">
-                        <label class="require">Email*</label>
-                        <retail-text [(model)]="checkoutPopupState.customerPopup.customer['email']" [validation]="'required,email'" [formKey]="'pos-address-form-' + type">
-                        </retail-text>
-                      </div>
-                    </div>
-                    
-                    <div class="row">
-                      <div class="form-group col-sm-12">
-                        <label>{{ 'Group' | translate }}*</label>
-                        <retail-select [elementData]="getCustomerGroupsSelect()" [(model)]="checkoutPopupState.customerPopup.customer['customer_group_id']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
-                        </retail-select>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="form-group col-sm-12">
-                        <label class="require">{{ 'Telephone' | translate }}</label>
-                        <retail-text [(model)]="checkoutPopupState.customerPopup.customer['telephone']" [formKey]="'pos-address-form-' + type">
-                        </retail-text>
-                      </div>
-                    </div>
-
-                  </div>
-                </form>
-              </div>
-            </div>            
+            <form class="acc-info">
+              <ul class="fr-control">
+                <li>
+                  <label class="require">{{ 'First Name' | translate }}*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['first_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label class="require">{{ 'Last Name' | translate }}*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['last_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label class="require">Email*</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['email']" [validation]="'required,email'" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+                <li>
+                  <label>{{ 'Group' | translate }}*</label>
+                  <retail-select [elementData]="getCustomerGroupsSelect()" [(model)]="checkoutPopupState.customerPopup.customer['customer_group_id']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
+                  </retail-select>
+                </li>
+                <li>
+                  <label class="require">{{ 'Telephone' | translate }}</label>
+                  <retail-text [(model)]="checkoutPopupState.customerPopup.customer['telephone']" [formKey]="'pos-address-form-' + type">
+                  </retail-text>
+                </li>
+              </ul>
+            </form>
           </div>
         </div>
 
@@ -82,53 +65,50 @@
               <div class="badge-ico">
                 <p>{{ 'Lifetime Sales' | translate }}: <span class="txt-green">${{checkoutPopupState.customerPopup.customerOtherInfo['life_time_sales']}}</span>
                 </p>
-                <p>{{ 'Available Points Balance' | translate}}: <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance']}} {{ 'points' | translate }}</span>
+                <p>{{ 'Available Points Balance' | translate}}: <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance'] ? checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance'] : 0}} {{ 'points' | translate }}</span>
                 </p>
               </div>
             </div>
-            <div class="wishlist" >
+            <div class="wishlist">
               <div class="wl-title">
                 <h6>{{ 'Wish list' | translate }}</h6>
                 <div class="number-item">
-                  <span>{{checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems'].count()}}</span>
+                  <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems'].count()}}</span>
                   {{ 'item(s)' | translate }} {{ 'in' | translate }} {{ 'Wish list' | translate }}
                 </div>
               </div>
-              
+              <div class="desc-bottom">
+                <button [ngClass]="{'orange' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}" (click)="addSelectedWishlistToCart()">
+                  {{ "Add To Cart" | translate }}
+                </button>
+              </div>
             </div>
             <div class="wl-table" perfectScroll>
-              <table cellspacing="0" cellpadding="0" border="1">
+              <table>
                 <thead>
                 <tr>
                   <th>
-                    <div class="checkbox-input">
-                      <input type="checkbox" id="name-index">
-                      <label for="name-index">{{ "Item Name" | translate }}</label>
+                    <div>
+                      <span></span>{{ "Item Name" | translate }}
                     </div>
                   </th>
                   <th>{{ 'Price' | translate }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr 
+                <tr class="graybg"
                     *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
                   <td>
-                    <div class="checkbox-input">
-                      <input type="checkbox"/>
-                      <label >{{wishlist['name']}}</label>
+                    <div class="check-box" (click)="selectedWishlistItem(wishlist)">
+                      <input type="checkbox" [checked]="isSelectedWishlist(wishlist)"/>
+                      <span></span>{{wishlist['product']['name']}}
                     </div>
                   </td>
-                  <td>{{wishlist['price']}}</td>
+                  <td>{{wishlist['product']['price'] | priceFormat}}</td>
                 </tr>
                 </tbody>
               </table>
             </div>
-            <div class="button-wishlist c-center">
-                <button class="gray">Close</button>
-                <button  [ngClass]="{'primary' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}">
-                  {{ "Add to Cart" | translate }}
-                </button>
-              </div>
           </div>
         </div>
 
