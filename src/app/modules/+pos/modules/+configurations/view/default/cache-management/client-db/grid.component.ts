@@ -16,4 +16,8 @@ export class ConfigurationsDefaultCacheManagementClientDBGridComponent implement
   constructor(public clientDbActions: ConfigurationsClientDbActions) { }
   
   ngOnInit() { }
+  
+  getDateTimeString(time) {
+    return new Date(time);
+  }
 }

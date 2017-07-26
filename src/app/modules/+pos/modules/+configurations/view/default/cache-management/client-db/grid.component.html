@@ -16,7 +16,7 @@
       <p>Total Item: {{item['additionData']['totalCount']}}</p>
       <p>From Cache: {{item['additionData']['isLoadFromCache']}}</p>
     </td>
-    <td>{{ item['updatedAt'] | amCalendar}}</td>
+    <td>{{ getDateTimeString(item['updatedAt']) | amCalendar}}</td>
     <td>
       <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Delete</button>
     </td>
