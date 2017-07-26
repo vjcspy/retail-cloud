@@ -47,12 +47,8 @@ export class PosQuoteActions {
   
   setCustomerToQuote(customerEntity: Customer | CustomerDB, needResolveBilling = true, needResolveShipping = true, dispatch: boolean = true): Action {
     let customer = new Customer();
-    if (customerEntity instanceof CustomerDB) {
-      Object.assign(customer, customerEntity);
-      customer.mapWithParent();
-    } else {
-      customer = customerEntity;
-    }
+    customer.mapWithParent(customerEntity);
+    
     let action = {type: PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE, payload: {customer, needResolveBilling, needResolveShipping}};
     
     if (dispatch === true) {
@@ -70,7 +66,10 @@ export class PosQuoteActions {
   static ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER = 'ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER';
   
   setAddressToQuote(shippingAdd, billingAdd, needResolveBilling, needResolveShipping, dispatch: boolean = true): Action {
-    const action = {type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER, payload: {shippingAdd, billingAdd, needResolveBilling, needResolveShipping}};
+    const action = {
+      type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER,
+      payload: {shippingAdd, billingAdd, needResolveBilling, needResolveShipping}
+    };
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -81,7 +80,7 @@ export class PosQuoteActions {
   
   static ACTION_SELECT_PRODUCT_TO_ADD = 'ACTION_SELECT_PRODUCT_TO_ADD';
   
-  selectProductToAdd(productEntity: Product, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null, showDetail: boolean = false, dispath: boolean = true) {
+  selectProductToAdd(productEntity: Product, qty: number = 1, forceProductCustomOptions: boolean = false, config: Object = null, showDetail: boolean = false, dispatch: boolean = true) {
     let product = new Product();
     product.mapWithParent(productEntity);
     
@@ -89,7 +88,7 @@ export class PosQuoteActions {
       type: PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD,
       payload: {product, qty, forceProductCustomOptions, config, showDetail}
     };
-    if (dispath) {
+    if (dispatch) {
       this.store$.dispatch(action);
     }
     
