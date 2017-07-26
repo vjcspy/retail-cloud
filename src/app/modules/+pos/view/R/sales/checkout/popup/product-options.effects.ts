@@ -17,7 +17,7 @@ import {PosSyncState} from "../../../../../R/sync/sync.state";
 @Injectable()
 export class ProductOptionsEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService) { }
+  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService, private quoteActions: PosQuoteActions) { }
   
   @Effect() retrieveProductDataForPopup = this.actions$.ofType(PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS)
                                               .withLatestFrom(this.store$.select('productOptions'))
@@ -181,10 +181,7 @@ export class ProductOptionsEffects {
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
                                                              if (productOptionsState.currentProcessing === 'ADD_NEW') {
-                                                               return {
-                                                                 type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE,
-                                                                 payload: {buyRequest: productOptionsState.buyRequest}
-                                                               };
+                                                               return this.quoteActions.addItemBuyRequestToQuote(productOptionsState.buyRequest, false, false);
                                                              } else {
                                                                return {
                                                                  type: PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE

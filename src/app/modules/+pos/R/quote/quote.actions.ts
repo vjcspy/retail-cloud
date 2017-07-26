@@ -35,8 +35,8 @@ export class PosQuoteActions {
    */
   static ACTION_UPDATE_QUOTE_ITEMS = 'ACTION_UPDATE_QUOTE_ITEMS';
   
-  updateQuoteItems(items, dispatch: boolean = true): Action {
-    const action = {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+  updateQuoteItems(items, replace = true, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items, replace}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

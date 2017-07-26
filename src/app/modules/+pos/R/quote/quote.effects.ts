@@ -151,7 +151,7 @@ export class PosQuoteEffects {
                                         }
                                       }
     
-                                      return {type: PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS, payload: {items}};
+                                      return this.quoteActions.updateQuoteItems(items, true, false);
                                     });
   
   @Effect() checkShiftOpening = this.actions$
@@ -282,7 +282,7 @@ export class PosQuoteEffects {
     
                             let ob = [];
                             if (items.count() > 0) {
-                              ob.push(this.quoteActions.updateQuoteItems(items, false));
+                              ob.push(this.quoteActions.updateQuoteItems(items, true, false));
                             }
     
                             // Resolve customer
