@@ -10,8 +10,19 @@ export class PosQuoteActions {
   
   // push item buy request
   static ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE = 'ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE';
+  
+  addItemBuyRequestToQuote(buyRequest, skipCheckExisted = false, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest, skipCheckExisted}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   // when product has options, we will wait options has been selected
-  static ACTION_WAIT_GET_PRODUCT_OPTIONS      = 'ACTION_WAIT_GET_PRODUCT_OPTIONS';
+  static ACTION_WAIT_GET_PRODUCT_OPTIONS = 'ACTION_WAIT_GET_PRODUCT_OPTIONS';
   
   /**
    ** @REDUCER:

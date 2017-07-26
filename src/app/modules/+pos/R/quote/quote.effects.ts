@@ -108,7 +108,7 @@ export class PosQuoteEffects {
                                       default:
                                     }
     
-                                    return {type: PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE, payload: {buyRequest}};
+                                    return this.quoteActions.addItemBuyRequestToQuote(buyRequest, false, false);
                                   });
   
   @Effect() addItemBuyRequest = this.actions$
