@@ -18,4 +18,11 @@ export class EntityCustomerService {
                  storeId: generalState.store['id']
                });
   }
+  
+  createGetCustomerOtherInfoRequest(customer, generalState: PosGeneralState) {
+    let url = this.apiUrlManager.get('customerDetail', generalState.baseUrl);
+    url += url.indexOf("?") > -1 ? "&" : "?" + `searchCriteria[storeId]=${generalState.store['id']}&searchCriteria[customerId]=${customer['id']}`;
+    
+    return this.request.makeGet(url);
+  }
 }

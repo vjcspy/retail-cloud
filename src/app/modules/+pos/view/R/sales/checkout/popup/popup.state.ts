@@ -1,5 +1,6 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 import {Customer} from "../../../../../core/framework/customer/Model/Customer";
+import {List} from "immutable";
 
 export enum CheckoutPopup {
   CUSTOM_SALE = 1,
@@ -13,6 +14,10 @@ interface CheckoutPopupCustomerState {
   
   editAddress: Object;
   isSaving: boolean;
+  
+  billingTabState: string;
+  customerOtherInfo: Object;
+  wishlistItemSelected: List<any>;
 }
 
 interface CheckoutPopupCustomerStateRecord extends TypedRecord<any>, CheckoutPopupCustomerState {}
@@ -22,7 +27,11 @@ const checkoutPopupCustomerStateFactory = makeTypedFactory<CheckoutPopupCustomer
                                                                                                                            addressState: 'list',
   
                                                                                                                            editAddress: {},
-                                                                                                                           isSaving: false
+                                                                                                                           isSaving: false,
+  
+                                                                                                                           billingTabState: 'accountInfo',
+                                                                                                                           customerOtherInfo: {},
+                                                                                                                           wishlistItemSelected: List.of()
                                                                                                                          });
 
 export interface CheckoutPopupState {

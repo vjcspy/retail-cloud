@@ -2,23 +2,23 @@
   <div class="popup-content">
     <div class="create-customer">
       <div class="tabs-blk">
-        <!--tabs header-->
+
+
         <ul class="tabs-header">
-          <li [ngClass]="{active: tabState === 'accountInfo'}" (click)="tabState = 'accountInfo'">
+          <li [ngClass]="{active: checkoutPopupState.customerPopup.billingTabState === 'accountInfo'}" (click)="changeBillingState('accountInfo')">
             {{ 'Account Information' | translate }}
           </li>
-          <li [ngClass]="{active: tabState === 'address'}" (click)="tabState = 'address'">
+          <li [ngClass]="{active: checkoutPopupState.customerPopup.billingTabState === 'address'}" (click)="changeBillingState('address')">
             {{ 'Address' | translate }}
           </li>
           <!-- <li>Others</li> -->
-          <li [ngClass]="{active: tabState === 'others'}" (click)="showCustomerInformation()">
+          <li [ngClass]="{active: checkoutPopupState.customerPopup.billingTabState === 'others',disabled: !checkoutPopupState.customerPopup.customer || !checkoutPopupState.customerPopup.customer['id']}" (click)="changeBillingState('others')">
             {{ 'Others' | translate }}
           </li>
         </ul>
 
 
-        <!--Acoount Information-->
-        <div id="accountInfo" class="tabs-content" [ngClass]="{'d-show': tabState ==='accountInfo','d-hide':tabState !=='accountInfo'}">
+        <div id="accountInfo" class="tabs-content d-show" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'accountInfo'">
           <div class="inner" #perfect>
             <form class="acc-info">
               <ul class="fr-control">
@@ -53,13 +53,68 @@
         </div>
 
 
-        <div id="address" class="tabs-content" [ngClass]="{'d-show': tabState === 'address','d-hide':tabState !=='address'}">
+        <div id="address" class="tabs-content d-show" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'address'">
           <pos-default-sales-checkout-popup-customer-detail-address [checkoutPopupState]="checkoutPopupState" [quoteState]="quoteState" [posConfigState]="posConfigState">
           </pos-default-sales-checkout-popup-customer-detail-address>
         </div>
 
+
+        <div id="others" class="tabs-content d-show" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'others'">
+          <div class="inner">
+            <div class="badge-note">
+              <div class="badge-ico">
+                <p>{{ 'Lifetime Sales' | translate }}: <span class="txt-green">${{checkoutPopupState.customerPopup.customerOtherInfo['life_time_sales']}}</span>
+                </p>
+                <p>{{ 'Available Points Balance' | translate}}: <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance']}} {{ 'points' | translate }}</span>
+                </p>
+              </div>
+            </div>
+            <div class="wishlist">
+              <div class="wl-title">
+                <h6>{{ 'Wish list' | translate }}</h6>
+                <div class="number-item">
+                  <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems'].count()}}</span>
+                  {{ 'item(s)' | translate }} {{ 'in' | translate }} {{ 'Wish list' | translate }}
+                </div>
+              </div>
+              <div class="desc-bottom">
+                <button [ngClass]="{'orange' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}">
+                  {{ "Add Cart" | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="wl-table" perfectScroll>
+              <table>
+                <thead>
+                <tr>
+                  <th>
+                    <div class="check-box">
+                      <input type="checkbox">
+                      <span></span>{{ "Item Name" | translate }}
+                    </div>
+                  </th>
+                  <th>{{ 'Price' | translate }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="graybg"
+                    *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
+                  <td>
+                    <div class="check-box">
+                      <input type="checkbox"/>
+                      <span></span>{{wishlist['name']}}
+                    </div>
+                  </td>
+                  <td>{{wishlist['price']}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="desc-bottom" *ngIf="tabState === 'accountInfo'">
+      <div class="desc-bottom" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'accountInfo'">
         <button class="gray" (click)="cancelForm()" [ladda]="checkoutPopupState.customerPopup.isSaving">{{ 'Cancel' | translate }}</button>
         <button (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">
           {{!checkoutPopupState.customerPopup.customer.getId() ? 'Create new' : 'Save'}}

@@ -14,7 +14,7 @@ export class AppStorage {
     return this.storage.retrieve(key);
   }
   
-  localClear(key: string) {
+  localClear(key?: string) {
     this.storage.clear(key);
   }
 }
