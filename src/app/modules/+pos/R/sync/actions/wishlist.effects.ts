@@ -50,7 +50,7 @@ export class PosSyncWishlistEffects {
                                            return false;
                                          }
     
-                                         const hasCustomSales = posQuoteState.items.find((item) => parseInt(item.getData('product_id')) === parseInt(configState.setting.customer.getDefaultCustomerId()));
+                                         const hasCustomSales = posQuoteState.items.find((item) => parseInt(item.getData('product_id')) === parseInt(configState.setting.product.getCustomSaleProduct()['id']));
     
                                          if (hasCustomSales) {
                                            this.notifyManager.error('can_not_add_customsale_to_wishlist');
