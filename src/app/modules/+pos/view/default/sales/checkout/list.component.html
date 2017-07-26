@@ -31,8 +31,8 @@
           <div class="product-img">
             <img src="{{product['origin_image']}}" alt="">
             <!-- sale - soldout label -->
-            <span class="tags sale">Sale</span>
-            <span class="tags soldout">Sold out</span>   
+            <span class="tags sale" *ngIf="isSales(product)">Sale</span>
+            <span class="tags soldout" *ngIf="isOutOfStock(product)">Sold out</span>
           </div>
           <div class="product-name">
             {{product['name']}}
