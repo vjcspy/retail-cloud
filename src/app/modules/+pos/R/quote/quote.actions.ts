@@ -62,13 +62,22 @@ export class PosQuoteActions {
     return action;
   }
   
-  // after customer added, we will resolve and save address
-  static ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER = 'ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER';
-  
   static ACTION_NEED_RESOLVE_QUOTE = 'ACTION_NEED_RESOLVE_QUOTE';
   static ACTION_RESOLVE_QUOTE      = 'ACTION_RESOLVE_QUOTE'; // after resolve quote, we will save total and update some data
   
   constructor(private store$: Store<any>) {}
+  
+  static ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER = 'ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER';
+  
+  setAddressToQuote(shippingAdd, billingAdd, needResolveBilling, needResolveShipping, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER, payload: {shippingAdd, billingAdd, needResolveBilling, needResolveShipping}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
   
   static ACTION_SELECT_PRODUCT_TO_ADD = 'ACTION_SELECT_PRODUCT_TO_ADD';
   
