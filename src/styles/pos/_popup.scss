@@ -12,10 +12,21 @@
   }
   .list-mode-top{
     padding: 10px 30px 10px;
+    background: $cbkg;    
+    .title{
+      font-family: $boldFont;
+      font-size: 15px; 
+      text-transform: uppercase;
+      color: $corange;
+      margin: 7px 0 0;
+    }
+    button{
+      min-width: 130px;
+    }
   }
   .list-mode-content{
     &.scroll{
-      height: 280px;
+      height: 308px;
       position: relative;
     }    
     li.item{
@@ -28,7 +39,7 @@
       border-bottom: 1px solid $cbkg;
       position: relative;
       &.active{
-        background: $cbkg;
+        background: #fafafa;
         &:before{
           content: "";
           width: 6px;
@@ -60,15 +71,15 @@
         &.edit{            
           width: 80px;   
           flex: inherit;          
-          .icon-edit{
+          .icon-edit-1{
             width: 58px;
             height: 38px;
             border-radius: 3px;
             background: $gray1;
             display: inline-block;
             text-align: center;
-            font-size: 35px;
-            padding-top: 2px;
+            font-size: 18px;
+            padding-top: 9px;
             color:$gray60;
           }         
         }
@@ -109,6 +120,9 @@
   &.shipment-list-popup{
     padding: 30px 0 30px;
     .list-mode-top{
+      background: none;
+      padding: 27px 30px 10px;
+      border-bottom: 1px solid $cbkg;
       label{
         color: $cgreen;
         font-size: 15px;
@@ -124,6 +138,11 @@
       }
       button{
         width: 140px;
+      }
+    }
+    .list-mode-bot{
+      button{
+        margin-right: 10px;
       }
     }
     
@@ -315,7 +334,7 @@
       }
     }
     .button-group{
-      margin-top: 10px;
+      margin-top: 20px;
       text-align: center;
       button{
         width: 110px;
@@ -329,6 +348,143 @@
 
 }
 
+
+.create-customer{
+  padding-bottom: 80px;
+  .form-popup .form-popup-content .content-scroll{
+    height: calc(100% - 67px);
+  }
+  .desc-bottom{
+    @include hoz-pos;
+    width: auto;
+  }
+
+  .tabs-blk {
+    position: relative;
+    .tabs-header {      
+      li {width: calc(100% / 3 - 4px);}
+    }
+    .tabs-content {
+      padding-left: 0; padding-right: 0; padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+  .wishlist {
+    position: relative;
+    .desc-bottom {
+      // top: 0;
+      //   bottom: auto;
+      button {
+        background-color: $corange;
+        opacity: 0.5;
+        &.orange {
+          opacity: 1;
+        }
+      }
+    }
+    h6 {
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      font-size: 17px;
+    }
+    .wl-title {
+      margin-left: 33px;
+
+      .number-item{
+        color: $text-gray;
+        font-size: 14px;
+        span{
+          color: $corange;
+          font-family: $boldFont;
+        }
+      } 
+    }
+  }
+  .wl-table {
+    padding: 0 30px;
+    overflow: auto;
+    max-height: 217px;
+    position: relative;
+    margin: 20px 0;
+    
+    td, th {
+      padding: 7px 20px;
+      border: 1px solid $border; 
+      text-align: left;
+      .checkbox-input{
+        label{
+          font-family: $mediumFont;
+          font-size: 13px;
+        }
+        input:not(:checked){
+          ~ label{
+            &:before{
+            background: none;
+            border: 1px solid $grayDark;
+          }
+        }
+        }
+      } 
+    }
+    th {      
+      color: $text-gray;
+      font-size: 14px;
+      font-family: $boldFont;
+      .checkbox-input{
+        label{                    
+          color: $text-gray;
+          font-size: 14px;
+          font-family: $boldFont;
+        }
+      }
+
+    }
+
+    td{
+      font-family: $mediumFont;
+      font-size: 13px;
+      &:last-of-type{
+        color: $cgreen;
+      }
+    }
+    tr.active {
+      background: $cbkg;
+    }
+    
+  }
+  .badge-note, .wishlist {
+    .txt-green {
+      color: $cgreen;
+    }
+  }
+  .badge-note {
+    margin: 0px 0 18px;
+    font-size: 13px;
+    padding: 11px 30px;
+    line-height: 1.5;
+    font-family: $mediumFont;
+    background: $cbkg;
+    @include border-radius(5px);
+    .badge-ico {
+      background: url('../assets/img/badge-ico.png') no-repeat left top;    
+      background-size: 35px auto;
+      padding-left: 50px;
+      height: 40px;
+    
+    }
+
+    p {
+      margin: 0;
+      text-transform: capitalize;
+    }
+  }
+  .button-wishlist{
+    button{
+      min-width: 130px;
+      margin:0 10px;
+    }
+  }
+}
 // add note form
 #addNotePopup{
   height: auto !important;
