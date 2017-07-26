@@ -12,6 +12,9 @@ import {ProductDB} from "../../../../../database/xretail/db/product";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 import {List} from "immutable";
 import {CheckoutPopupService} from "./popup.service";
+import {CheckoutPopupState} from "./popup.state";
+import {DataObject} from "../../../../../core/framework/General/DataObject";
+import {Product} from "../../../../../core/framework/catalog/Model/Product";
 
 @Injectable()
 export class CheckoutPopupEffects {
@@ -21,9 +24,9 @@ export class CheckoutPopupEffects {
               private quoteActions: PosQuoteActions,
               private entityCustomerService: EntityCustomerService,
               private checkoutPopupActions: CheckoutPopupActions,
-              private progessBar: ProgressBarService,
+              private progressBar: ProgressBarService,
               private checkoutPopupService: CheckoutPopupService,
-              private onlineOflline: OfflineService) { }
+              private onlineOffline: OfflineService) { }
   
   @Effect() afterSaveCustomerAddress = this.actions$
                                            .ofType(
@@ -40,18 +43,18 @@ export class CheckoutPopupEffects {
                                         .ofType(
                                           CheckoutPopupActions.ACTION_VIEW_CUSTOMER_OTHER_INFO
                                         )
-                                        .filter(() => this.onlineOflline.online)
+                                        .filter(() => this.onlineOffline.online)
                                         .withLatestFrom(this.store$.select('general'))
                                         .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
                                         .switchMap((z: any) => {
                                           const generalState: PosGeneralState = z[1];
                                           const action: Action                = z[0];
                                           const products: List<ProductDB>     = (z[2] as PosEntitiesState).products.items;
-                                          this.progessBar.start();
+                                          this.progressBar.start();
     
                                           return this.entityCustomerService.createGetCustomerOtherInfoRequest(action.payload['customer'], generalState)
                                                      .map((data) => {
-                                                       this.progessBar.done();
+                                                       this.progressBar.done();
                                                        return this.checkoutPopupActions.getCustomerOtherInfoSuccess({
                                                                                                                       rp_point_balance: data['rp_point_balance'],
                                                                                                                       life_time_sales: data['life_time_sales'],
@@ -59,4 +62,30 @@ export class CheckoutPopupEffects {
                                                                                                                     }, false);
                                                      });
                                         });
+  
+  @Effect() addSelectedWishlistItemToCart = this.actions$
+                                                .ofType(
+                                                  CheckoutPopupActions.ACTION_ADD_SELECTED_WISHLIST_ITEMS_TO_CART
+                                                )
+                                                .withLatestFrom(this.store$.select('checkoutPopup'))
+                                                .map((z: any) => {
+                                                  const checkoutPopupState: CheckoutPopupState = z[1];
+                                                  let items                                    = checkoutPopupState.customerPopup.wishlistItemSelected.map((w) => {
+                                                    let item       = new DataObject();
+                                                    let buyRequest = new DataObject();
+                                                    let product    = new Product();
+                                                    product.addData(w['product']);
+                                                    buyRequest.addData(w['buyRequest']);
+                                                    item.addData({
+                                                                   product_id: product.getData('id'),
+                                                                   buyRequest,
+                                                                   product,
+                                                                   qty: w['qty']
+                                                                 });
+      
+                                                    return item;
+                                                  });
+    
+                                                  return this.quoteActions.updateQuoteItems(items, false, false);
+                                                });
 }

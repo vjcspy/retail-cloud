@@ -65,7 +65,7 @@
               <div class="badge-ico">
                 <p>{{ 'Lifetime Sales' | translate }}: <span class="txt-green">${{checkoutPopupState.customerPopup.customerOtherInfo['life_time_sales']}}</span>
                 </p>
-                <p>{{ 'Available Points Balance' | translate}}: <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance']}} {{ 'points' | translate }}</span>
+                <p>{{ 'Available Points Balance' | translate}}: <span class="txt-green">{{checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance'] ? checkoutPopupState.customerPopup.customerOtherInfo['rp_point_balance'] : 0}} {{ 'points' | translate }}</span>
                 </p>
               </div>
             </div>
@@ -78,8 +78,8 @@
                 </div>
               </div>
               <div class="desc-bottom">
-                <button [ngClass]="{'orange' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}">
-                  {{ "Add Cart" | translate }}
+                <button [ngClass]="{'orange' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}" (click)="addSelectedWishlistToCart()">
+                  {{ "Add To Cart" | translate }}
                 </button>
               </div>
             </div>
@@ -88,8 +88,7 @@
                 <thead>
                 <tr>
                   <th>
-                    <div class="check-box">
-                      <input type="checkbox">
+                    <div>
                       <span></span>{{ "Item Name" | translate }}
                     </div>
                   </th>
@@ -100,12 +99,12 @@
                 <tr class="graybg"
                     *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
                   <td>
-                    <div class="check-box">
-                      <input type="checkbox"/>
-                      <span></span>{{wishlist['name']}}
+                    <div class="check-box" (click)="selectedWishlistItem(wishlist)">
+                      <input type="checkbox" [checked]="isSelectedWishlist(wishlist)"/>
+                      <span></span>{{wishlist['product']['name']}}
                     </div>
                   </td>
-                  <td>{{wishlist['price']}}</td>
+                  <td>{{wishlist['product']['price'] | priceFormat}}</td>
                 </tr>
                 </tbody>
               </table>

@@ -4,6 +4,7 @@ import {checkoutPopupStateFactory, CheckoutPopupStateRecord} from "./popup.state
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import * as _ from 'lodash';
 import {EntityCustomerActions} from "../../../../../R/entities/entity/customer.actions";
+import {List} from "immutable";
 
 export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (state = checkoutPopupStateFactory(), action) => {
   switch (action.type) {
@@ -44,6 +45,14 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
     
     case CheckoutPopupActions.ACTION_CHANGE_BILLING_TAB_VIEW:
       return state.setIn(['customerPopup', 'billingTabState'], action.payload['billingTabState']);
+    
+    case CheckoutPopupActions.ACTION_SELECTED_WISHLIST_ITEM:
+      let itemIndex = state.customerPopup.wishlistItemSelected.findIndex((w) => parseInt(w['wishlist_item_id']) === parseInt(action.payload['wishlist']['wishlist_item_id']));
+      if (itemIndex > -1) {
+        return state.updateIn(['customerPopup', 'wishlistItemSelected'], (l: List<any>) => l.remove(itemIndex));
+      } else {
+        return state.updateIn(['customerPopup', 'wishlistItemSelected'], (l: List<any>) => l.push(action.payload['wishlist']));
+      }
     
     default:
       return state;

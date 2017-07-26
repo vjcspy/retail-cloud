@@ -66,4 +66,28 @@ export class CheckoutPopupActions {
     
     return action;
   }
+  
+  static ACTION_SELECTED_WISHLIST_ITEM = 'ACTION_SELECTED_WISHLIST_ITEM';
+  
+  selectedWishlistItem(wishlist, dispatch: boolean = true): Action {
+    const action = {type: CheckoutPopupActions.ACTION_SELECTED_WISHLIST_ITEM, payload: {wishlist}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_ADD_SELECTED_WISHLIST_ITEMS_TO_CART = 'ACTION_ADD_SELECTED_WISHLIST_ITEMS_TO_CART';
+  
+  addSelectedWishlistItemToCart(dispatch: boolean = true): Action {
+    const action = {type: CheckoutPopupActions.ACTION_ADD_SELECTED_WISHLIST_ITEMS_TO_CART, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
