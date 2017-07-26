@@ -38,6 +38,13 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
     case EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS_SUCCESSFULLY:
       return state.setIn(['customerPopup', 'isSaving'], false);
     
+    case CheckoutPopupActions.ACTION_GET_CUSTOMER_OTHER_INFO_SUCCESS:
+      return state.setIn(['customerPopup', 'customerOtherInfo'], action.payload['customerOtherInfo'])
+                  .setIn(['customerPopup', 'billingTabState'], 'others');
+    
+    case CheckoutPopupActions.ACTION_CHANGE_BILLING_TAB_VIEW:
+      return state.setIn(['customerPopup', 'billingTabState'], action.payload['billingTabState']);
+    
     default:
       return state;
   }

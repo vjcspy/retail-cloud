@@ -70,6 +70,7 @@ import {CheckoutPopupState} from "./sales/checkout/popup/popup.state";
 import {checkoutPopupReducer} from "./sales/checkout/popup/popup.reducer";
 import {CheckoutPopupActions} from "./sales/checkout/popup/popup.actions";
 import {CheckoutPopupEffects} from "./sales/checkout/popup/popup.effects";
+import {CheckoutPopupService} from "./sales/checkout/popup/popup.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -122,6 +123,7 @@ export const R_POS_VIEW_PROVIDERS = [
   // ProductOptionsEffects,
   ProductOptionsService,
   CheckoutPopupActions,
+  CheckoutPopupService,
   
   /*Checkout Step*/
   PosStepActions,

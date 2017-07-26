@@ -7,6 +7,7 @@ import {PosConfigState} from "../../../../../../R/config/config.state";
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -16,8 +17,7 @@ import {EntityCustomerActions} from "../../../../../../R/entities/entity/custome
            })
 
 export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implements OnInit {
-  public tabState = 'accountInfo';
-  public type     = 'billing';
+  public type = 'billing';
   
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() entitiesState: PosEntitiesState;
@@ -32,7 +32,13 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent implemen
   
   }
   
-  showCustomerInformation() {}
+  changeBillingState(state) {
+    if (state !== 'others') {
+      this.checkoutPopupActions.changeBillingTabView(state);
+    } else {
+      this.checkoutPopupActions.viewCustomerOtherInfo(this.checkoutPopupState.customerPopup.customer);
+    }
+  }
   
   getCustomerGroupsSelect() {
     return CustomerHelper.getCustomerGroupSelectElem(this.entitiesState.customerGroup.items.toArray());
