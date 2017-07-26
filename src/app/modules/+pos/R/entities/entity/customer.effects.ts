@@ -25,7 +25,7 @@ export class EntityCustomerEffects {
                                         EntityCustomerActions.ACTION_SAVE_CUSTOMER_ADDRESS
                                       )
                                       .filter((action) => {
-                                        if (!!action.payload['customer'] && !!action.payload['customer']['id']) {
+                                        if (!!action.payload['customer']) {
                                           return true;
                                         } else {
                                           this.notify.error("Please select customer when save address");

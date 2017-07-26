@@ -37,6 +37,20 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
     if (!this.address['street'] || !_.isArray(this.address['street'])) {
       this.address['street'] = [];
     }
+    
+    this.initDefaultValueForAddressBaseOnCustomer();
+  }
+  
+  protected initDefaultValueForAddressBaseOnCustomer() {
+    if (this.checkoutPopupState.customerPopup.customer['first_name'] && !this.checkoutPopupState.customerPopup.editAddress['first_name']) {
+      this.address['first_name'] = this.checkoutPopupState.customerPopup.customer['first_name'];
+    }
+    if (this.checkoutPopupState.customerPopup.customer['last_name'] && !this.checkoutPopupState.customerPopup.editAddress['last_name']) {
+      this.address['last_name'] = this.checkoutPopupState.customerPopup.customer['last_name'];
+    }
+    if (this.checkoutPopupState.customerPopup.customer['telephone'] && !this.checkoutPopupState.customerPopup.editAddress['telephone']) {
+      this.address['telephone'] = this.checkoutPopupState.customerPopup.customer['telephone'];
+    }
   }
   
   isShippingPopup() {

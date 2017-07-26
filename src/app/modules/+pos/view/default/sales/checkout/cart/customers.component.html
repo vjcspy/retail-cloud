@@ -15,6 +15,6 @@
   </div>
   <div class="c-bottom">
     <button class="gray" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
-    <button>{{ 'Create New' | translate }}</button>
+    <button (click)="createNewCustomer()">{{ 'Create New' | translate }}</button>
   </div>
 </div>

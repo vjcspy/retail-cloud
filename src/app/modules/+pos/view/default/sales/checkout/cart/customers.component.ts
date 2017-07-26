@@ -5,6 +5,9 @@ import {FormControl} from "@angular/forms";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import {CartCustomerActions} from "../../../../R/sales/checkout/cart/customer.actions";
 import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
+import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.actions";
+import {CheckoutPopup} from "../../../../R/sales/checkout/popup/popup.state";
+import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 
 @Component({
              // moduleId: module.id,
@@ -17,7 +20,9 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   @Input() cartCustomerState: CartCustomerState;
   protected cartCustomerSearchString = new FormControl();
   
-  constructor(protected cartCustomerActions: CartCustomerActions, protected quoteActions: PosQuoteActions) {
+  constructor(protected cartCustomerActions: CartCustomerActions,
+              protected quoteActions: PosQuoteActions,
+              protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
   
@@ -34,5 +39,9 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   
   protected customerTrackBy(index, customer: any) {
     return customer['id'];
+  }
+  
+  createNewCustomer() {
+    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_BILLING, {customerPopup: {customer: new Customer(), addressState: 'edit'}});
   }
 }
