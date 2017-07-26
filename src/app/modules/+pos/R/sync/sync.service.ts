@@ -47,8 +47,8 @@ export class PosSyncService {
     order['customer_id']          = quote.getCustomer().getId();
     order['store_id']             = generalState.store['id'];
     order['order']                = {
-      'billing_address': quote.getShippingAddress().toJS(),
-      'shipping_address': quote.getBillingAddress().toJS(),
+      'billing_address': quote.getBillingAddress().toJS(),
+      'shipping_address': quote.getShippingAddress().toJS(),
       'payment_method': 'retailmultiple',
       'shipping_method': 'retailshipping_retailshipping',
       'shipping_amount': quoteState.shippingAmount
