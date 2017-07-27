@@ -53,7 +53,8 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:
-      const isShiftOpening = state.info.isShiftOpening;
+      Shipping.SHIPPING_AMOUNT = 0;
+      const isShiftOpening     = state.info.isShiftOpening;
       state.quote.removeCustomer().removeAllItems().removeAllAddresses()
            .unsetData('discount_whole_order')
            .unsetData('is_exchange')
