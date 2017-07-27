@@ -21,6 +21,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   
   openEmailSender: boolean = false;
   customerEmail: string    = '';
+  public isRefundExchange  = false;
   
   constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager) { }
   
@@ -34,14 +35,28 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
     }
   }
   
-  printReceipt(typePrint: string = 'receipt') {
-    let customerReceipt: any = null, merchantReceipt: any = null;
-    if (this.posStepState.listPayment3rdData.count() > 0) {
-      const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
-      customerReceipt              = payment3rd.customerReceipt;
-      merchantReceipt              = payment3rd.merchantReceipt;
+  print() {
+    if (!!this.posStepState.orderOffline) {
+      this.isRefundExchange = true;
+    } else {
+      this.printReceipt();
     }
-    this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
+  }
+  
+  printReceipt(typePrint: string = 'receipt') {
+    if (typePrint === 'receipt') {
+      let customerReceipt: any = null;
+      let merchantReceipt: any = null;
+      if (this.posStepState.listPayment3rdData.count() > 0) {
+        const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
+        customerReceipt              = payment3rd.customerReceipt;
+        merchantReceipt              = payment3rd.merchantReceipt;
+      }
+      this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
+    } else if (typePrint === 'refund') {
+      this.isRefundExchange = false;
+      this.receiptActions.printSalesReceipt(this.posStepState.orderRefund, 'receipt');
+    }
   }
   
   sendEmailReceipt() {
