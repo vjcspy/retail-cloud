@@ -3153,18 +3153,35 @@ h2.p-head {padding: 18px 20px;}
       display: block; height: 121px;
       padding: 0; margin-bottom: 4.9% !important;
       @include user-select(none);
-      > button {
+      button {
         width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;
-        height: 45px; line-height: 43px;
+        height: 40px; line-height: 40px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
         &.active, &:hover {background: $cgreen; border-color: $cgreen; color: $white;}
+      }
+      .button-group{
+        display: inline-block;
+        .inner{
+          position: absolute;
+          height: 0;
+          bottom: -87px;
+          button{margin-bottom: 2px}
+        }
+        button{min-width: 115px;}
+        &.active{
+          .inner {height: 84px;}
+        }
       }
       .s-blk {
         margin-top: 30px;
         opacity: 0; z-index: -1;
         width: 370px;
         padding-right: 0;
+        button{
+          color: $white;
+          border: none;
+        }
       }
     }
     .control-bar, .s-blk {
@@ -3860,24 +3877,8 @@ ul.has-list {
     button, .button-group {
       display: inline-block; min-width: 114px;
     }
-    button {
-      line-height: 14px; margin: 0 6px;
-    }
-    .button-group {
-      position: relative;
-      .inner {
-        position: absolute;
-        bottom: 40px;
-        width: 100%; height: 0;
-        overflow: hidden;
-        @include single-transition(all,0.3s);
-      }
-      button {width: 100%; margin: 0 0 1px; padding: 0 5px;}
-      &.active {
-        > button {background: $cblueDark;}
-        .inner {height: 160px;}
-      }
-    }
+    
+    
   }
   .order-list-inner,
   .cashdrawer-inner {padding: 0 $hozcSpace;}

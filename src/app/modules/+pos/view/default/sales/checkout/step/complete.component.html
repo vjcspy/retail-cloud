@@ -9,7 +9,15 @@
   <div class="sign-icon"><span class="icon-tick"></span></div>
 
   <div class="control-bar">
-    <button (click)="printReceipt()">{{ 'Print Receipt' | translate }}</button>
+    
+    <div class="button-group">
+      <button (click)="printReceipt()">{{ 'Print Receipt' | translate }}</button>
+      <div class="inner">
+        <button>Print order</button>
+        <button>Print refund</button>
+      </div>
+    </div>
+
     <button [ngClass]="{active: openEmailSender}"
             (click)=" openEmailSender = !openEmailSender">
       Email
