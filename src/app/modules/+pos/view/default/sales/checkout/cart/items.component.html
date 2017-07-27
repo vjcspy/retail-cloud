@@ -1,4 +1,4 @@
-<div class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" perfectScroll [ngStyle]="cartItemState.cartItemsStyle" *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
+<div class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" perfectScroll *ngIf="!cartCustomerState.inSearchCustomers && quoteState.info.isShiftOpening">
   <div class="customer-row">
     <div class="customer-head" (click)="customerAction($event)">
       <span class="icon-user click"></span>
