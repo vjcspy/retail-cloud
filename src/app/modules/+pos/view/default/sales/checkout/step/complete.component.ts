@@ -21,6 +21,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   
   openEmailSender: boolean = false;
   customerEmail: string    = '';
+  public isRefundExchange  = false;
   
   constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager) { }
   
@@ -30,18 +31,41 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
     }
     
     if (parseInt(this.posGeneralState.register['is_print_receipt']) === 1) {
+      this.printReceipt(!!this.posStepState.orderRefund ? 'refund' : 'receipt');
+    }
+  }
+  
+  print() {
+    if (this.isRefundExchange === true) {
+      return this.closeAllAdditionButton();
+    }
+    
+    if (!!this.posStepState.orderRefund) {
+      this.isRefundExchange = true;
+    } else {
       this.printReceipt();
     }
   }
   
+  protected closeAllAdditionButton() {
+    this.openEmailSender  = false;
+    this.isRefundExchange = false;
+  }
+  
   printReceipt(typePrint: string = 'receipt') {
-    let customerReceipt: any = null, merchantReceipt: any = null;
-    if (this.posStepState.listPayment3rdData.count() > 0) {
-      const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
-      customerReceipt              = payment3rd.customerReceipt;
-      merchantReceipt              = payment3rd.merchantReceipt;
+    this.closeAllAdditionButton();
+    if (typePrint === 'receipt' || typePrint === 'gift') {
+      let customerReceipt: any = null;
+      let merchantReceipt: any = null;
+      if (this.posStepState.listPayment3rdData.count() > 0) {
+        const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
+        customerReceipt              = payment3rd.customerReceipt;
+        merchantReceipt              = payment3rd.merchantReceipt;
+      }
+      this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
+    } else if (typePrint === 'refund') {
+      this.receiptActions.printSalesReceipt(this.posStepState.orderRefund, 'receipt');
     }
-    this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
   }
   
   sendEmailReceipt() {

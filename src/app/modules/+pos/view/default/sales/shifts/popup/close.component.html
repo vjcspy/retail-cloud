@@ -1,6 +1,6 @@
 <div id="closeShift" class="popup-wrapper open">
   <div class="popup-content">
-    <div class="closeshift-table" >      
+    <div class="closeshift-table">
       <h2 class="p-head">
         {{ ('Close Shift' | translate) + ' #' + shiftState.detail.shift['id'] }}
         <span>{{ 'Logged in as' | translate }} {{authenticate.getUserName()}}</span>
@@ -26,10 +26,11 @@
                            [validation]="'require,i-number'">
               </retail-text>
             </td>
-            <td class="c-center"><span class="un-expect">{{getDiff(payment) | priceFormat}}</span></td>
+            <td class="c-center">
+              <span [ngClass]="{'un-expect': getDiff(payment)<0,'expect': getDiff(payment) >=0}">{{getDiff(payment) | priceFormat}}</span></td>
           </tr>
           </tbody>
-          
+
           <tbody>
           <tr>
             <td><strong>{{ 'CASH AMOUNT TAKEOUT' | translate }}</strong></td>
