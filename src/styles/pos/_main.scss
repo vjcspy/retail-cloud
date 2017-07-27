@@ -170,7 +170,8 @@
     position: relative;
     font-family: $mediumFont; text-transform: uppercase;
     margin-top: 30px; padding: 0 0 0 30px;
-    .click {
+    &.active .click{color: $cgreen2;}
+    .click {     
       &:hover {color: $cgreen2;}
     }
     li {
