@@ -31,7 +31,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
     }
     
     if (parseInt(this.posGeneralState.register['is_print_receipt']) === 1) {
-      this.printReceipt();
+      this.printReceipt(!!this.posStepState.orderRefund ? 'refund' : 'receipt');
     }
   }
   

@@ -11,10 +11,10 @@
   <div class="control-bar">
 
     <div class="button-group" [ngClass]="{active: isRefundExchange}">
-      <button (click)="print()">{{ 'Print Receipt' | translate }}</button>
+      <button (click)="print()">{{ 'Receipt' | translate }}</button>
       <div class="inner">
-        <button (click)="printReceipt()">Print order</button>
-        <button (click)="printReceipt('refund')">Print refund</button>
+        <button (click)="printReceipt()">Exchange</button>
+        <button (click)="printReceipt('refund')">Refund</button>
       </div>
     </div>
 
