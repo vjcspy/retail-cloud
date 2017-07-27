@@ -20,6 +20,6 @@
   </pos-default-sales-checkout-cart-refund-items>
 
   <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;trackBy:trackByProduct">
-    <pos-default-sales-checkout-cart-items-item [configState]="configState" [cartItemState]="cartItemState" [item]="item"></pos-default-sales-checkout-cart-items-item>
+    <pos-default-sales-checkout-cart-items-item [configState]="configState" [cartItemState]="cartItemState" [item]="item" [i]="i"></pos-default-sales-checkout-cart-items-item>
   </div>
 </div>
