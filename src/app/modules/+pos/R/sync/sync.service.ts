@@ -280,7 +280,7 @@ export class PosSyncService {
       "row_total": item.getData('row_total'),
       "row_total_incl_tax": item.getData('row_total_incl_tax'),
       "product_options": item.getData('product_options'),
-      "buy_request": item.getData('buy_request'),
+      "buy_request": item.getData('buy_request').unsetData('product'),
       "origin_image": item.getProduct().getData('origin_image'),
       "children": []
     };
