@@ -56,6 +56,7 @@ import {PosDefaultSalesCheckoutPopupCustomerDetailShippingComponent} from "./sal
 import {PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent} from "./sales/checkout/popup/customer-detail/list-address.component";
 import {PosDefaultSalesCheckoutPopupCustomerDetailFormComponent} from "./sales/checkout/popup/customer-detail/form.component";
 import {PosDefaultSalesCheckoutCartItemsItemComponent} from "./sales/checkout/cart/items/item.component";
+import {PosDefaultSalesCheckoutCartRefundItemsItemComponent} from "./sales/checkout/cart/refund-items/item.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -86,6 +87,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesCheckoutCartItemsComponent,
   PosDefaultSalesCheckoutCartItemsItemComponent,
   PosDefaultSalesCheckoutCartRefundItemsComponent,
+  PosDefaultSalesCheckoutCartRefundItemsItemComponent,
   PosDefaultSalesCheckoutCartTotalsComponent,
   PosDefaultSalesCheckoutGrandTotalComponent,
   
