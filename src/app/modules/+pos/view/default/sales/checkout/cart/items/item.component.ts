@@ -18,6 +18,7 @@ import {CartItemState} from "../../../../../R/sales/checkout/cart/item.state";
 
 export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit {
   @Input() item;
+  @Input() i;
   @Input() configState: PosConfigState;
   @Input() cartItemState: CartItemState;
   @ViewChild('itemElem') itemElem: ElementRef;
