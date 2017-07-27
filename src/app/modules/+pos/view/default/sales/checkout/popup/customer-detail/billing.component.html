@@ -30,7 +30,7 @@
                         <retail-text [(model)]="checkoutPopupState.customerPopup.customer['first_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
                         </retail-text>
                       </div>
-                    
+
                       <div class="form-group col-sm-6">
                         <label class="require">{{ 'Last Name' | translate }}*</label>
                         <retail-text [(model)]="checkoutPopupState.customerPopup.customer['last_name']" [validation]="'required'" [formKey]="'pos-address-form-' + type">
@@ -45,7 +45,7 @@
                         </retail-text>
                       </div>
                     </div>
-                    
+
                     <div class="row">
                       <div class="form-group col-sm-12">
                         <label>{{ 'Group' | translate }}*</label>
@@ -65,7 +65,7 @@
                   </div>
                 </form>
               </div>
-            </div>            
+            </div>
           </div>
         </div>
 
@@ -94,7 +94,7 @@
                   {{ 'item(s)' | translate }} {{ 'in' | translate }} {{ 'Wish list' | translate }}
                 </div>
               </div>
-              
+
             </div>
             <div class="wl-table" perfectScroll>
               <table>
@@ -110,11 +110,11 @@
                 </thead>
                 <tbody>
                 <tr
-                    *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
+                  *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
                   <td>
                     <div class="checkbox-input" (click)="selectedWishlistItem(wishlist)">
                       <input type="checkbox" [checked]="isSelectedWishlist(wishlist)"/>
-                      <label >{{wishlist['product']['name']}}</label>
+                      <label>{{wishlist['product']['name']}}</label>
                     </div>
                   </td>
                   <td>{{wishlist['product']['price'] | priceFormat}}</td>
@@ -123,10 +123,10 @@
               </table>
             </div>
             <div class="button-wishlist c-center">
-                <button class="gray">Close</button>
-                <button  [ngClass]="{'primary' : checkoutPopupState.customerPopup.wishlistItemSelected.count()> 0}">
-                  {{ "Add to Cart" | translate }}
-                </button>
+              <button class="gray" (click)="cancelForm()">Close</button>
+              <button class="" [ngClass]="{'disabled' : checkoutPopupState.customerPopup.wishlistItemSelected.count() === 0}" (click)="addSelectedWishlistToCart()">
+                {{ "Add to Cart" | translate }}
+              </button>
             </div>
           </div>
         </div>

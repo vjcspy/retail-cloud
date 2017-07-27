@@ -12,12 +12,12 @@
       <div class="pull-right">
         <button class="orange" (click)="addEditAddress({})">New Address</button>
       </div>
-    </div>    
+    </div>
     <ul class="list-mode-content scroll" perfectScroll>
       <li class="item" *ngFor="let address of checkoutPopupState.customerPopup.customer['address']">
         <div class="col-item name">
           <div class="radio-input">
-            <input type="radio" [(ngModel)]="currentAddressId" name="address-item" value="{{address['id']}}" (change)="updateAddress()">
+            <input type="radio" [(ngModel)]="currentAddressId" name="address-item" value="{{address['id']}}">
             <label></label>
           </div>
           <div class="info">
@@ -30,21 +30,21 @@
         </div>
         <div class="col-item address">
           {{getCustomerFullAddress(address)}}
-        </div>        
+        </div>
         <div class="col-item last edit click" (click)="addEditAddress(address)">
           <span class="icon-edit-1"></span>
         </div>
       </li>
     </ul>
     <div class="list-mode-bot c-center" *ngIf="isShippingPopup()">
-        <button class="gray" *ngIf="quoteState.hasShipment === true" (click)="removeShipping()">Remove shipment</button>     
-        <button class="primary" (click)="addShipment()">
-          {{quoteState.hasShipment === true ? ('Update shipment' | translate) : ('Add shipment' | translate)}}
-        </button>
+      <button class="gray" *ngIf="quoteState.hasShipment === true" (click)="removeShipping()">Remove shipment</button>
+      <button class="primary" (click)="addShipment()">
+        {{quoteState.hasShipment === true ? ('Update shipment' | translate) : ('Add shipment' | translate)}}
+      </button>
 
     </div>
-    <div class="list-mode-bot c-center"  *ngIf="!isShippingPopup()">
-      <button class="primary">Close</button>
+    <div class="list-mode-bot c-center" *ngIf="!isShippingPopup()">
+      <button class="primary" (click)="updateAddress()">Close</button>
     </div>
   </div>
 </div>
