@@ -355,7 +355,7 @@ export class PosQuoteEffects {
     }
     
     items = <any>items.map((itemBuyRequest: DataObject) => {
-      if (this._representBuyRequest(itemBuyRequest, buyRequest)) {
+      if (this._representBuyRequest(itemBuyRequest, buyRequest) && !isMatching) {
         isMatching = true;
         itemBuyRequest.setData('product', buyRequest.getData('product'));
         switch (itemBuyRequest.getData('product').getTypeId()) {
