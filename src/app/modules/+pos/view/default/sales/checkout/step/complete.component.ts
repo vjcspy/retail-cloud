@@ -36,16 +36,25 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   }
   
   print() {
-    if (!!this.posStepState.orderOffline) {
+    if (this.isRefundExchange === true) {
+      return this.closeAllAdditionButton();
+    }
+    
+    if (!!this.posStepState.orderRefund) {
       this.isRefundExchange = true;
     } else {
       this.printReceipt();
     }
   }
   
-  printReceipt(typePrint: string = 'receipt') {
+  protected closeAllAdditionButton() {
+    this.openEmailSender  = false;
     this.isRefundExchange = false;
-    if (typePrint === 'receipt') {
+  }
+  
+  printReceipt(typePrint: string = 'receipt') {
+    this.closeAllAdditionButton();
+    if (typePrint === 'receipt' || typePrint === 'gift') {
       let customerReceipt: any = null;
       let merchantReceipt: any = null;
       if (this.posStepState.listPayment3rdData.count() > 0) {
@@ -60,9 +69,8 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   }
   
   sendEmailReceipt() {
-    this.isRefundExchange = false;
-    const email           = this.customerEmail;
-    let re                = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const email = this.customerEmail;
+    let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(email) === false) {
       return this.notify.warning("Email not valid");
     }

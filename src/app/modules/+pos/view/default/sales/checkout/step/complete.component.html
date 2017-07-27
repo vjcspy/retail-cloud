@@ -19,7 +19,7 @@
     </div>
 
     <button [ngClass]="{active: openEmailSender}"
-            (click)=" openEmailSender = !openEmailSender">
+            (click)=" openEmailSender = !openEmailSender;isRefundExchange = false">
       Email
     </button>
     <button (click)="printReceipt('gift')">{{ 'Print' | translate }} {{ 'Gift Receipt' | translate }}</button>
