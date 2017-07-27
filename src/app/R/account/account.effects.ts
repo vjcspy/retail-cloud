@@ -9,6 +9,7 @@ import {RootActions} from "../root.actions";
 import {AccountState} from "./account.state";
 import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
+import {AppStorage} from "../../services/storage";
 
 @Injectable()
 export class AccountEffects {
@@ -18,6 +19,7 @@ export class AccountEffects {
               protected authService: AuthenticateService,
               protected accountActions: AccountActions,
               protected accountService: AccountService,
+              protected appStorage: AppStorage,
               protected rootActions: RootActions,
               protected routerActions: RouterActions) { }
   
@@ -47,7 +49,7 @@ export class AccountEffects {
                          .switchMap(() => {
                            return Observable.fromPromise(this.authService.signOut())
                                             .map(() => {
-                                              this.accountService.removeUserFromStorage();
+                                              this.appStorage.localClear();
                                               setTimeout(() => {
                                                 location.reload(true);
                                               }, 200);
