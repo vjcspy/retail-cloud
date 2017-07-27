@@ -688,22 +688,16 @@
         &.disabled {background: $grayLight;}
       }
       .c-user, .c-mail {
-        /*position: absolute;
-        display: block; width: calc(50% - 55px);
-        @include ver-pos;*/
         line-height: normal;
         display: block;
       }
       .c-user {
-        //left: 77px;
         font-family: $boldFont;
         font-size: 17px; color:$cgreen2;
         line-height: 19px;
         text-transform: uppercase;
-        //@include ellipsis;
       }
       .c-mail {
-        //right: 20px; text-align: right;
         font-size: $size; color: $disTxt;
       }
       .c-mail,
@@ -819,10 +813,10 @@
           font-family: $mediumFont;
           text-transform: none;
         }
-        .c-num {
-          border: none; background: transparent!important;
-          margin-right: 0;
-        }
+        // .c-num {
+        //   border: none; background: transparent!important;
+        //   margin-right: 0;
+        // }
         .c-price {right: 38px;}
       }
     }
@@ -3372,12 +3366,12 @@ h2.p-head {padding: 18px 20px;}
           opacity: .7;
           width: 100%;
           height: 100%;
-          z-index: 10;
+          z-index: 1;
         }
       }      
       .count-num{
         position: relative;
-        z-index: 11;
+        z-index: 2;
       }
       .c-name{
           width: calc(100% - 280px);
@@ -3389,7 +3383,6 @@ h2.p-head {padding: 18px 20px;}
           right: 40px;
           top: -10px;
         }
-
       }
     } 
 
@@ -3404,10 +3397,6 @@ h2.p-head {padding: 18px 20px;}
         + label{
           margin: 0;
           min-height: 17px;
-          // &:before{
-          //   background: $cred2;
-          //   border-color: $cred2;
-          // }
         }
         &:checked + label {
           &:before {
@@ -3427,7 +3416,6 @@ h2.p-head {padding: 18px 20px;}
           font-family: $mainFont;
           font-size: 14px;
           border-color: $border;
-          display: none;
           margin: 0 10px;
           font-family: $boldFont;
         }
@@ -3435,8 +3423,7 @@ h2.p-head {padding: 18px 20px;}
       }
       .cart-content {
         .cart-head {
-          .check-box {right: 0; padding-left: 17px;}
-          input.count-num {right: 115px;}
+          .check-box {right: 0; padding-left: 17px;}          
         }
       }
       &.checked {
@@ -3452,34 +3439,17 @@ h2.p-head {padding: 18px 20px;}
         }
       }
       &.bundle {
-        .cart-head {
-          .c-num {right: 135px;}
-          .c-price {right: 58px;}
-          .check-box {right: 20px;}
-          input.count-num, .check-box {display: none;}
-        }
         .cart-content {
           max-height: 7000px;
-          .inner {padding: 0;}
-          .cart-head {padding-left: 64px; padding-right: 195px;}
-        }
-        &, &.checked {
-          > .cart-head {
-            border-bottom-color: $cbkg;
-            .c-num {background: $white;}
-          }
-          .cart-head {
-            background: $white;
-            &.checked {
-              background: #ECEAEB;
-              input.count-num, .check-box {display: block;}
+          .inner {padding: 0;}   
+          .cart-head{
+            .c-num{
+              left: 80px;
             }
           }
-          .cart-content {
-            background: transparent;
-            border-bottom-color: transparent;
-          }
         }
+
+        
       }
     }
   }

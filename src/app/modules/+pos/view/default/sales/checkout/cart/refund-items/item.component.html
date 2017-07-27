@@ -3,26 +3,33 @@
     <div class="c-img">
       <img [src]="getItemImage(item)" alt="no-image"/>
     </div>
-    <div class="c-num">{{item['qty_ordered']}}</div>
-    <input [disabled]="!item['can_edit_qty'] || item['qty_to_refund'] == 0" class="count-num" type="text" [(ngModel)]="item['qty']" enterBlur inputNumber
-           inputSelectText [isDecimal]="item['is_qty_decimal']" (blur)="reloadCreditmemo()"/>
+    <div class="c-num">{{item['qty_ordered']}}</div>    
     <div class="c-name">
       <h3 class="product-name">{{item['name']}}</h3>
       <p class="p-product-name">{{item['sku']}}</p>
     </div>
+    <input [disabled]="!item['can_edit_qty'] || item['qty_to_refund'] == 0" class="count-num" type="text" [(ngModel)]="item['qty']" enterBlur inputNumber
+           inputSelectText [isDecimal]="item['is_qty_decimal']" (blur)="reloadCreditmemo()"/>
   </div>
   <div class="cart-content">
     <div class="inner">
       <div class="cart-head" *ngFor="let childItem of getChildrenBundle(item)"
            (click)="activeRefundItem($event,childItem)"
            [ngClass]="{disabled: !childItem ['qty']}">
-        <div class="c-num">{{childItem['qty_to_refund']}}</div>
+         <div class="c-img">
+          <img [src]="getItemImage(item)" alt="no-image"/>
+        </div>
+        <div class="c-num">{{childItem['qty_to_refund']}}</div> 
+        <div class="c-name">
+          <h3 class="product-name">{{childItem['name']}}</h3>
+          <p class="p-product-name">{{childItem['sku']}}</p>
+        </div>  
         <input [disabled]="!childItem['can_edit_qty'] || childItem['qty_to_refund'] == 0"
                class="count-num" type="text"
                [(ngModel)]="childItem['qty']" inputNumber
                inputSelectText enterBlur
                [isDecimal]="childItem['is_qty_decimal']"
-               (blur)="reloadCreditmemo()"/>
+               (blur)="reloadCreditmemo()"/>     
         <div class="c-price">
                 <span class="refund-pr" *ngIf="childItem['qty']>0">
                     -{{(configState.setting.tax.displayCartPricesExclTax() ? childItem['row_total'] : childItem['row_total_incl_tax'])| priceFormat}}
@@ -35,10 +42,8 @@
           <label></label>
           <span class="tooltiptext-left">{{'Restock' | translate}}</span>
         </div>
-        <div class="c-name">
-          <h3 class="product-name">{{childItem['name']}}</h3>
-          <p class="p-product-name">{{childItem['sku']}}</p>
-        </div>
+        
+        
       </div>
     </div>
   </div>
