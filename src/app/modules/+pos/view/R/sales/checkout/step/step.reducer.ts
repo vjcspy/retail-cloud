@@ -80,6 +80,9 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepSta
                   .set('isSavingOrder', false)
                   .set('orderOffline', action.payload['orderOffline']);
     
+    case QuoteRefundActions.ACTION_SAVE_CREDITMEMO_SUCCESS:
+      return state.set('orderRefund', action.payload['orderRefunded']);
+    
     default:
       return state;
   }
@@ -93,6 +96,7 @@ export function removeDataStep(state: PosStepStateRecord) {
               .delete('paymentMethodUsed')
               .delete('moneySuggestion')
               .delete('isSavingOrder')
+              .delete('orderRefund')
               .delete('orderOffline')
               .delete('listPayment3rdData')
               .delete('isChecking3rd');

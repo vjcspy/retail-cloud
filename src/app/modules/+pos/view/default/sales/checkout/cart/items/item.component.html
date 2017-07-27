@@ -1,0 +1,84 @@
+<div #itemElem class="cart-row animated fadeInLeft" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
+  <div class="cart-head"><!-- add "touch" class when device -->
+    <div class="c-img">
+      <img src="{{getItemImage(item)}}" alt="no-image"/>
+    </div>
+    <div class="c-num"
+         *ngIf="item.getProduct()['stock_items'] && item.getProduct()['stock_items']['is_qty_decimal'] == '1' && !numberHelper.isInteger(item.getQty())">
+      {{item.getQty() | number : '1.2-2'}}
+    </div>
+    <div class="c-num"
+         *ngIf="!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] != '1' || numberHelper.isInteger(item.getQty())">
+      {{item.getQty()}}
+    </div>
+    <div class="c-name" *ngIf="!item.getData('buy_request')['custom_sale']">
+      <h3 class="product-name">{{item.getProduct().getData('name')}}</h3>
+      <p class="p-product-name">{{getSKU(item)}}</p>
+    </div>
+    <div class="c-name" *ngIf="item.getData('buy_request')['custom_sale']">
+      <h3 class="product-name">{{item.getData('buy_request')['custom_sale']['name']}}</h3>
+      <p class="p-product-name">Custom Sale</p>
+    </div>
+    <div class="c-price">
+        <span class="regular-pr">
+          {{(configState.setting.tax.displayCartPricesExclTax() ? item.getData('row_total') : item.getData('row_total_incl_tax'))| priceFormat}}
+          <span class="tooltiptext-left">
+            {{!configState.setting.tax.displayCartPricesExclTax() ? "Excl.tax: " + (item.getData('row_total')| priceFormat) : "Incl.tax: " +(item.getData('row_total_incl_tax')| priceFormat)}}
+          </span>
+        </span>
+      <span class="old-pr"
+            *ngIf="!item.getData('buy_request')['custom_sale'] && (item.getData('posIsSales') || item.hasData('original_custom_price'))">
+                        {{(item.getOriginalPrice() * item.getQty()) | priceFormat}}
+                    </span>
+    </div>
+    <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close-thin2"></span></span>
+
+  </div>
+  <div class="cart-content">
+    <div class="inner">
+      <ul class="fr-control">
+        <li>
+          <label>{{ 'Quantity' | translate }}</label>
+          <input inputSelectText value="{{item.getQty() | number : '1.2-2'}}"
+                 (blur)="updateItemBuyRequest($event,item,'qty')" enterBlur
+                 type="text">
+        </li>
+        <li>
+          <label>{{ 'Price' | translate }}</label>
+          <input [disabled]="item.isChildrenCalculated()" inputSelectText enterBlur
+                 value="{{(item.getData('is_price_incl_tax') ? item.getData('price_incl_tax'): item.getCalculationPriceOriginal())| number : '1.2-2'}}"
+                 (blur)="updateItemBuyRequest($event,item,'custom_price')"
+                 type="text">
+        </li>
+        <li>
+          <label>{{ 'Split' | translate }}</label>
+          <input [disabled]="item.getProduct().getTypeId() == 'configurable' || item.getProduct().getTypeId() == 'bundle'"
+                 inputSelectText enterBlur
+                 (blur)="updateItemBuyRequest($event,item,'add_split_item')"
+                 type="text">
+        </li>
+        <li class="discount-field">
+          <label>
+            {{ 'Discount' | translate }}
+          </label>
+          <input inputSelectText
+                 value="{{(item.getData('buy_request').getData('is_discount_value')? (item.getData('buy_request').getData('discount_per_item') || 0) : (item.getData('buy_request').getData('retail_discount_per_items_percent')|| 0))  |  number : '1.2-2'}}"
+                 (blur)="updateItemBuyRequest($event,item,'discount_per_item')" enterBlur=""
+                 type="text">
+
+          <div class="dis-type">
+              <span class="click"
+                    [ngClass]="{currency: !item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item,false)">%</span>
+            <span class="click"
+                  [ngClass]="{currency: item.getData('buy_request').getData('is_discount_value')}" (click)="switchDiscountPerItemType(item)">$</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <p *ngIf="!item.getData('buy_request')['custom_sale']" class="c-bot">
+        <span class="click" (click)="posQuoteActions.editProductOptionBuyRequest(item.getProduct(),item.getData('buy_request'))">
+          {{ 'Product Information' | translate }}
+        </span>
+    </p>
+  </div>
+</div>
