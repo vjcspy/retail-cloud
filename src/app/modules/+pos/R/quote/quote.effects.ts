@@ -83,7 +83,7 @@ export class PosQuoteEffects {
                                   })
                                   .filter(([action, syncState]) => (syncState as PosSyncState).isSyncing === false)
                                   .map(([action]) => {
-                                    const product: Product         = action.payload['product'];
+                                    const product: Product         = _.clone(action.payload['product']);
                                     const forceProductCustomOption = action.payload['forceProductCustomOptions'];
                                     let buyRequest                 = new DataObject();
     
@@ -355,12 +355,9 @@ export class PosQuoteEffects {
     }
     
     items = <any>items.map((itemBuyRequest: DataObject) => {
-      if (this._representBuyRequest(itemBuyRequest, buyRequest)) {
+      if (this._representBuyRequest(itemBuyRequest, buyRequest) && !isMatching) {
         isMatching = true;
-        // Sau khi apply sync thì sẽ mất product trong items.
-        if (!itemBuyRequest.getData('product')) {
-          itemBuyRequest.setData('product', buyRequest.getData('product'));
-        }
+        itemBuyRequest.setData('product', buyRequest.getData('product'));
         switch (itemBuyRequest.getData('product').getTypeId()) {
           case 'virtual':
           case 'simple':
