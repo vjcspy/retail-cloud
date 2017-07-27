@@ -56,7 +56,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   }
   
   addSelectedWishlistToCart() {
-    this.checkoutPopupActions.addSelectedWishlistItemToCart();
+    if (this.checkoutPopupState.customerPopup.wishlistItemSelected.count() > 0) {
+      this.checkoutPopupActions.addSelectedWishlistItemToCart();
+    }
   }
   
   save() {
