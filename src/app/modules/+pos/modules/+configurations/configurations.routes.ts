@@ -18,6 +18,7 @@ import {ConfigurationsDefaultPosIntegrationComponent} from "./view/default/pos/i
 import {ConfigurationsDefaultPosReceiptComponent} from "./view/default/pos/receipt.component";
 import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./view/default/cache-management/magento-product.component";
 import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./view/default/cache-management/client-db.component";
+import {ConfigurationsDefaultTranslateComponent} from "./view/default/translate.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -61,6 +62,8 @@ export const CONFIGURATIONS_ROUTES: Routes = [
               {path: 'client-db', component: ConfigurationsDefaultCacheManagementClientDBComponent},
             ]
           },
+          
+          {path: 'translate', component: ConfigurationsDefaultTranslateComponent},
         ]
       }
     ],
