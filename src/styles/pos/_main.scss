@@ -3155,7 +3155,7 @@ h2.p-head {padding: 18px 20px;}
       @include user-select(none);
       button {
         width:auto; margin: 0 5px;min-width: 100px;max-width: inherit;
-        height: 45px; line-height: 43px;
+        height: 40px; line-height: 40px;
         color: $grayDark;
         background: $white; border: #919292 solid 1px;
         &.active, &:hover {background: $cgreen; border-color: $cgreen; color: $white;}
@@ -3165,12 +3165,12 @@ h2.p-head {padding: 18px 20px;}
         .inner{
           position: absolute;
           height: 0;
-          bottom: 45px;
+          bottom: -87px;
           button{margin-bottom: 2px}
         }
         button{min-width: 115px;}
         &.active{
-          .inner {height: 94px;}
+          .inner {height: 84px;}
         }
       }
       .s-blk {
@@ -3178,6 +3178,10 @@ h2.p-head {padding: 18px 20px;}
         opacity: 0; z-index: -1;
         width: 370px;
         padding-right: 0;
+        button{
+          color: $white;
+          border: none;
+        }
       }
     }
     .control-bar, .s-blk {
