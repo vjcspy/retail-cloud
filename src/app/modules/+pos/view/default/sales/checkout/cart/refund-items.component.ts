@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosQuoteState} from "../../../../../R/quote/quote.state";
-import * as _ from 'lodash';
-import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {PosConfigState} from "../../../../../R/config/config.state";
+import {Store} from "@ngrx/store";
+import {PosEntitiesState} from "../../../../../R/entities/entities.state";
+import {Observable} from "rxjs/Observable";
 
 @Component({
              // moduleId: module.id,
@@ -11,47 +12,13 @@ import {PosConfigState} from "../../../../../R/config/config.state";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class PosDefaultSalesCheckoutCartRefundItemsComponent implements OnInit {
+export class PosDefaultSalesCheckoutCartRefundItemsComponent {
   @Input() posQuoteState: PosQuoteState;
   @Input() configState: PosConfigState;
-  protected data = {};
   
-  constructor(private refundActions: QuoteRefundActions) { }
+  public entitiesState$: Observable<PosEntitiesState>;
   
-  ngOnInit() { }
-  
-  activeRefundItem($event, item) {
-    if ($event.target.className.indexOf("count-num") > -1) {
-      return;
-    }
-    if ($event.target.className.indexOf("return_stock") > -1) {
-      return;
-    }
-    
-    let needReload: boolean = false;
-    if (item['qty'] > 0) {
-      item['qty'] = 0;
-      needReload  = true;
-    } else if (parseInt(item['qty']) === 0 && item['qty_to_refund'] > 0) {
-      item['qty'] = item['qty_to_refund'];
-      needReload  = true;
-    }
-    
-    if (needReload) {
-      this.refundActions.loadCreditmemo(this.posQuoteState.creditmemo['order_id']);
-    }
-  }
-  
-  getChildrenBundle(item) {
-    if (!this.data.hasOwnProperty('children')) {
-      this.data['children'] = [];
-      
-      _.forEach(this.posQuoteState.creditmemo['items'], (_item) => {
-        if (parseInt(_item['parent_id']) === parseInt(item['item_id'])) {
-          this.data['children'].push(_item);
-        }
-      });
-    }
-    return this.data['children'];
+  constructor(protected store$: Store<any>) {
+    this.entitiesState$ = this.store$.select('entities');
   }
 }

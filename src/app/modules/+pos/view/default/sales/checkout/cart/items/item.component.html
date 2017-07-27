@@ -1,4 +1,4 @@
-<div #itemElem class="cart-row animated fadeInLeft" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
+<div #itemElem class="cart-row animated flipInX" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
   <div class="cart-head"><!-- add "touch" class when device -->
     <div class="c-img">
       <img src="{{getItemImage(item)}}" alt="no-image"/>
