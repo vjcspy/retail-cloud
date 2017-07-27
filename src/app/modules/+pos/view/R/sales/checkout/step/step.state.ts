@@ -43,6 +43,7 @@ export interface PosStepState {
   moneySuggestion: number[];
   isSavingOrder: boolean;
   orderOffline: Object;
+  orderRefund: Object;
   
   listPayment3rdData: List<Payment3rd>;
   isChecking3rd: boolean;
@@ -60,6 +61,7 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     moneySuggestion: [],
     isSavingOrder: false,
     orderOffline: null,
+    orderRefund: null,
     
     listPayment3rdData: <any>List.of(),
     isChecking3rd: false,
