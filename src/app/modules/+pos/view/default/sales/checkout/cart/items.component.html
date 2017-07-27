@@ -19,7 +19,7 @@
                                                 [configState]="configState" [posQuoteState]="quoteState">
   </pos-default-sales-checkout-cart-refund-items>
 
-  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;" class="cart-row" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
+  <div *ngFor="let item of quoteState.quote.getAllVisibleItems(); let i = index;trackBy:trackByProduct" class="cart-row animated fadeInLeft" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
     <div class="cart-head"><!-- add "touch" class when device -->
       <div class="c-img">
         <img src="{{getItemImage(item)}}" alt="no-image"/>

@@ -81,6 +81,9 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
       return '/assets/img/no-image.jpg';
     }
   }
+  trackByProduct(index,item){
+    return item.getData('product');
+  }
   
   customerAction($event, iconAction: boolean = false) {
     const customer = this.quoteState.customer;
@@ -105,7 +108,8 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
   getCustomerInfo(force: boolean = false) {
     if (typeof this.customerInfo === 'undefined' || force) {
       const customer = this.quoteState.customer;
-      let customerName, customerEmail;
+      let customerName;
+      let customerEmail;
       if (customer && customer['id'] && parseInt(customer['id'] + '') !== parseInt(this.configState.setting.customer.getDefaultCustomerId())) {
         customerName  = customer['first_name'] + " " + customer['last_name'];
         customerEmail = customer['email'];
