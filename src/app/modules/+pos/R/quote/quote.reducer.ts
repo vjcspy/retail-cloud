@@ -64,7 +64,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('reward_point')
            .resetRetailAdditionData();
       
-      return state.clear().set('info', {isShiftOpening}).set('quote', state.quote);
+      return state.clear().set('creditmemo', null).set('info', {isShiftOpening}).set('quote', state.quote);
     
     case PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT:
       Shipping.SHIPPING_AMOUNT = parseFloat(action.payload['shippingAmount']);
