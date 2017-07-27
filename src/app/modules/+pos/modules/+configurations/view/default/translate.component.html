@@ -1,0 +1,15 @@
+<div class="acr-row checkout">
+  <div class="acr-head"><h2>{{ 'Translate' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row two-column">
+        <div class="box-content">
+          <h3>{{ 'Barcode fields' | translate }}</h3>
+          <retail-select2 [elementData]="getLanguagesElemData()" (modelChange)="updateLanguage($event)"
+                          [(model)]="currentLanguage">
+          </retail-select2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -59,7 +59,7 @@ export class RetailTranslate {
   }
   
   getListLanguageSupport() {
-    if (typeof this.languageElementData == "undefined") {
+    if (typeof this.languageElementData === "undefined") {
       this.languageElementData = {data: []};
       _.forEach(this.getLanguagesSupported(), (optionType: Object) => {
         this.languageElementData.data.push({

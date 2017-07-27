@@ -25,6 +25,7 @@ import {ConfigurationsDefaultCacheManagementMagentoProductGridComponent} from ".
 import {ConfigurationsDefaultCacheManagement} from "./cache-management.component";
 import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./cache-management/client-db.component";
 import {ConfigurationsDefaultCacheManagementClientDBGridComponent} from "./cache-management/client-db/grid.component";
+import {ConfigurationsDefaultTranslateComponent} from "./translate.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -64,4 +65,6 @@ export const DEFAULT_COMPONENTS = [
 
   ConfigurationsDefaultCacheManagementClientDBComponent,
   ConfigurationsDefaultCacheManagementClientDBGridComponent,
+
+  ConfigurationsDefaultTranslateComponent,
 ];
