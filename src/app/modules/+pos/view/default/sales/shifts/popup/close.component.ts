@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ShiftState} from "../../../../R/sales/shifts/shift.state";
 import {AuthenticateService} from "../../../../../../../services/authenticate";
 import {ShiftDetailActions} from "../../../../R/sales/shifts/detail/detail.actions";
@@ -12,7 +12,7 @@ import {FormValidationService} from "../../../../../../share/provider/form-valid
              templateUrl: 'close.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesShiftsPopupCloseComponent implements OnInit {
+export class PosDefaultSalesShiftsPopupCloseComponent {
   @Input() shiftState: ShiftState;
   
   protected _data = {
@@ -22,20 +22,17 @@ export class PosDefaultSalesShiftsPopupCloseComponent implements OnInit {
     takeOut: 0,
   };
   
-  constructor(private authenticate: AuthenticateService,
-              protected shiftDetailActions: ShiftDetailActions,
-              private notify: NotifyManager,
+  constructor(public authenticate: AuthenticateService,
+              public shiftDetailActions: ShiftDetailActions,
+              public notify: NotifyManager,
               public shiftActions: ShiftActions,
-              private formValidation: FormValidationService) { }
-  
-  ngOnInit() {
-  }
+              public formValidation: FormValidationService) { }
   
   getExpectedAmount(paymentData) {
     if (!this._data.expected.hasOwnProperty(paymentData['id'])) {
       let expected = 0;
       expected += paymentData.sales + paymentData.refund;
-      if (paymentData['type'] == 'cash') {
+      if (paymentData['type'] === 'cash') {
         expected += this.shiftState.detail.amounts.totals.inOut;
         expected += parseFloat(this.shiftState.detail.shift['start_amount']);
       }
@@ -45,14 +42,14 @@ export class PosDefaultSalesShiftsPopupCloseComponent implements OnInit {
   }
   
   getDiff(paymentData) {
-    return this.getExpectedAmount(paymentData) - this._data.counted[paymentData['id']];
+    return parseFloat(this._data.counted[paymentData['id']]) - this.getExpectedAmount(paymentData);
   }
   
   closeShift() {
     if (this.authenticate.userCan('open_and_close_register')) {
       this.formValidation.submit('popup-close-shift', () => {
         this.shiftDetailActions.closeShift(this.shiftState.detail.shift, this._data);
-      },true)
+      }, true);
     } else {
       this.notify.warning("not_have_permession_to_close_shift");
     }
@@ -61,10 +58,6 @@ export class PosDefaultSalesShiftsPopupCloseComponent implements OnInit {
   cancel() {
     this.formValidation.cancel('popup-close-shift', () => {
       this.shiftActions.changeStatePopup(null);
-    })
-  }
-  
-  protected getUserName() {
-    return this.authenticate.getUserName();
+    });
   }
 }
