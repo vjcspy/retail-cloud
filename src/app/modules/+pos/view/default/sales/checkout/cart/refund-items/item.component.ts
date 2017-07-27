@@ -19,7 +19,6 @@ export class PosDefaultSalesCheckoutCartRefundItemsItemComponent {
   @Input() item;
   
   protected data = {
-    children: [],
     images: {}
   };
   
