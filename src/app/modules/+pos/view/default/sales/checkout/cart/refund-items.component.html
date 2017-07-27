@@ -29,11 +29,12 @@
                     -{{(configState.setting.tax.displayCartPricesExclTax() ? childItem['row_total'] : childItem['row_total_incl_tax'])| priceFormat}}
                 </span>
           </div>
-          <div class="check-box" *ngIf="childItem['qty']>0">
+          <div class="checkbox-input checkbox-restock" *ngIf="childItem['qty']>0">
             <input type="checkbox" class="return_stock" [(ngModel)]="childItem['back_to_stock']" #tooltip checked data-toggle="tooltip"
                    data-placement="left"
                    title="Return to Stock">
-            <span></span>
+            <label></label>
+            <span class="tooltiptext-left">{{'Restock' | translate}}</span>
           </div>
           <div class="c-name">
             <h3 class="product-name">{{childItem['name']}}</h3>
@@ -68,11 +69,12 @@
                     -{{(configState.setting.tax.displayCartPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
                 </span>
       </div>
-      <div class="checkbox-input" *ngIf="item['qty']>0">
+      <div class="checkbox-input checkbox-restock" *ngIf="item['qty']>0">
         <input type="checkbox" class="return_stock" [(ngModel)]="item['back_to_stock']" #tooltip checked data-toggle="tooltip"
                data-placement="left"
                title="Return to Stock">
         <label></label>
+        <span class="tooltiptext-left">{{'Restock' | translate}}</span>
       </div>
 
     </div>

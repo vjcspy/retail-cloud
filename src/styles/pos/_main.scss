@@ -3351,9 +3351,41 @@ h2.p-head {padding: 18px 20px;}
       width:100%;
       z-index: 1;
     }
-    .cart-row .cart-head .c-name{
-      width: calc(100% - 280px);
-    }
+
+    .cart-row .cart-head{
+      position: relative;
+      &.disabled{
+        background: none !important;
+        &:before{
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: $white;
+          opacity: .7;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+        }
+      }      
+      .count-num{
+        position: relative;
+        z-index: 11;
+      }
+      .c-name{
+          width: calc(100% - 280px);
+      }
+      .checkbox-input {
+        .tooltiptext-left{
+          min-width: 70px;
+          min-height: 40px;
+          right: 40px;
+          top: -10px;
+        }
+
+      }
+    } 
+
 
   }
   .checkbox-input {
@@ -3365,10 +3397,10 @@ h2.p-head {padding: 18px 20px;}
         + label{
           margin: 0;
           min-height: 17px;
-          &:before{
-            background: $cred2;
-            border-color: $cred2;
-          }
+          // &:before{
+          //   background: $cred2;
+          //   border-color: $cred2;
+          // }
         }
         &:checked + label {
           &:before {
@@ -3390,6 +3422,7 @@ h2.p-head {padding: 18px 20px;}
           border-color: $border;
           display: none;
           margin: 0 10px;
+          font-family: $boldFont;
         }
 
       }
@@ -4588,6 +4621,10 @@ ul.has-list {
     z-index: 1;
     line-height: 20px;
     padding: 3px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
     @include single-transition;
 }
 
@@ -4616,8 +4653,8 @@ ul.has-list {
     top: -5px;
     left: 110%;
     z-index: 1;
-    line-height: 20px;
-    padding: 3px;
+    line-height: 16px;
+    padding: 7px 3px;
     margin-left: 10px;
     @include single-transition;
 }
@@ -4647,7 +4684,8 @@ ul.has-list {
 
 .regular-pr,
 .customer-icon-action,
-.icon-noted{
+.icon-noted,
+.checkbox-restock{
   &:hover{
     .tooltiptext-left,
     .tooltiptext-right {
