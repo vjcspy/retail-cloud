@@ -10,7 +10,7 @@ import {ToastsManager} from "ng2-toastr";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 import {DialogService} from "./modules/dialog/dialog.service";
 import {TranslateService} from "@ngx-translate/core";
-import {AppStorage} from "./services/storage";
+import {RetailTranslate} from "./services/retail-translate";
 
 /**
  * App Component
@@ -40,8 +40,8 @@ export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,
               vcr: ViewContainerRef,
               protected translate: TranslateService,
-              protected appStorage: AppStorage,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private retailTranslate: RetailTranslate) {
     super();
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
@@ -49,14 +49,14 @@ export class AppComponent extends AbstractSubscriptionComponent {
   }
   
   protected resolveLanguage() {
-    this.translate.setDefaultLang('en');
-    if (this.appStorage.localRetrieve('currentLanguage')) {
-      let usedLang = this.appStorage.localRetrieve('currentLanguage');
+    if (this.retailTranslate.getCurrentLanguage()) {
+      let usedLang = this.retailTranslate.getCurrentLanguage();
       if (usedLang) {
         this.translate.use(usedLang);
       } else {
         this.translate.use('en');
       }
+      this.translate.setDefaultLang('en');
     }
   }
 }

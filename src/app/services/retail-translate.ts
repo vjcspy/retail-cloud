@@ -76,4 +76,7 @@ export class RetailTranslate {
     this.storage.localStorage('currentLanguage', lang);
   }
   
+  getCurrentLanguage() {
+    return this.storage.localRetrieve('currentLanguage');
+  }
 }
