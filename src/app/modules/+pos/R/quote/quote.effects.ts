@@ -72,6 +72,15 @@ export class PosQuoteEffects {
   
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
                                   .withLatestFrom(this.store$.select('sync'))
+                                  .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
+                                  .filter((z: any) => {
+                                    if ((z[2] as PosQuoteState).info.isShiftOpening === false) {
+                                      this.notify.warning("Please Open Shift");
+                                      return false;
+                                    }
+    
+                                    return true;
+                                  })
                                   .filter(([action, syncState]) => (syncState as PosSyncState).isSyncing === false)
                                   .map(([action]) => {
                                     const product: Product         = action.payload['product'];
