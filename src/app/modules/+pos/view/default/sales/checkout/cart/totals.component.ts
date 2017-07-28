@@ -59,23 +59,23 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
         .unsetData('discount_whole_order')
         .unsetData('coupon_code');
     
-    this.syncOrder();
+    this.syncOrder(true);
   }
   
-  syncOrder() {
+  syncOrder(isRemove = false) {
     if (this.quoteState.items.count() > 0) {
       
       // validate discount whole order
       const discountWholeOrder = this.quoteState.quote.getData('discount_whole_order');
       const couponCode         = this.quoteState.quote.getData('coupon_code');
       
-      if (isNaN(discountWholeOrder) || parseFloat(discountWholeOrder) < 0) {
+      if (!isRemove && (isNaN(discountWholeOrder) || parseFloat(discountWholeOrder) < 0)) {
         this.notify.warning("check_discount_whole_order");
         
         return;
       }
       
-      if ((discountWholeOrder === '' || discountWholeOrder === null) && !couponCode) {
+      if (!isRemove && ((discountWholeOrder === '' || discountWholeOrder === null) && !couponCode)) {
         return;
       }
       
