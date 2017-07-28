@@ -108,6 +108,9 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   markAsReSynnc() {
+    if (!this.getOrder()['id']) {
+      delete this.getOrder()['id'];
+    }
     this.detailActions.markAsReSync(this.getOrder());
   }
 }
