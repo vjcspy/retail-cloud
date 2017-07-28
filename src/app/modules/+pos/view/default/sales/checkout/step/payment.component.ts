@@ -40,4 +40,9 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
            || (!this.posConfigState.posRetailConfig.allowPartialPayment && this.posStepState.totals.remain >= 0.01 && !this.posQuoteState.info.isRefunding)
            || (this.posQuoteState.info.isRefunding && Math.abs(this.posStepState.totals.remain) > 0.01);
   }
+  
+  getRewardPointDetail() {
+    const rpData = this.posQuoteState.quote.getRewardPointData();
+    return !!rpData ? rpData : {};
+  }
 }
