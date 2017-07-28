@@ -133,6 +133,7 @@
     </div><!--end payment-info-->
   </div><!--end order-list-inner-->
   <div class="bottom-bar">
+    <button (click)="markAsReSynnc()" *ngIf="getOrder()['pushed'] == 3">{{ 'Mark As ReSync' | translate }}</button>
     <button (click)="reorder()">{{ 'Duplicate' | translate }}</button>
     <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>

@@ -71,6 +71,9 @@ import {checkoutPopupReducer} from "./sales/checkout/popup/popup.reducer";
 import {CheckoutPopupActions} from "./sales/checkout/popup/popup.actions";
 import {CheckoutPopupEffects} from "./sales/checkout/popup/popup.effects";
 import {CheckoutPopupService} from "./sales/checkout/popup/popup.service";
+import {OrderDetailActions} from "./sales/orders/detail/detail.actions";
+import {OrderDetailEffects} from "./sales/orders/detail/detail.effects";
+import {OrderDetailService} from "./sales/orders/detail/detail.service";
 
 export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(PosViewRouterEffects),
@@ -88,6 +91,7 @@ export const R_POS_VIEW_IMPORTS = [
   EffectsModule.run(ShiftListEffects),
   EffectsModule.run(ShiftDetailEffects),
   EffectsModule.run(CheckoutPopupEffects),
+  EffectsModule.run(OrderDetailEffects),
 ];
 
 export const R_POS_VIEW_PROVIDERS = [
@@ -132,6 +136,8 @@ export const R_POS_VIEW_PROVIDERS = [
   OrderListAddPaymentActions,
   OrderListAddPaymentService,
   // OrderListAddPaymentEffects,
+  OrderDetailActions,
+  OrderDetailService,
   
   // 3RD payment
   TyroActions,

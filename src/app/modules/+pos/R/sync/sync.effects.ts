@@ -86,8 +86,10 @@ export class PosSyncEffects {
                             });
   
   @Effect() autoSyncOfflineOrder = this.actions$
-                                       .ofType(PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER,
-                                               PosStepActions.ACTION_SAVED_ORDER)
+                                       .ofType(
+                                         PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER,
+                                         PosStepActions.ACTION_SAVED_ORDER
+                                       )
                                        .withLatestFrom(this.store$.select('step'))
                                        .withLatestFrom(this.store$.select('sync'), (z, z1) => [...z, z1])
                                        .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])

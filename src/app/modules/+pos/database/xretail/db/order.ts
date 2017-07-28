@@ -26,4 +26,14 @@ export class OrderDB extends DataObject {
   static getCode(): string {
     return 'orders';
   }
+  
+  save(order: any = null): Promise<any> {
+    return new Promise((resolve, reject) => {
+      window['retailDB'].orders.put(order === null ? this : order).then((result) => {
+        return resolve();
+      }).catch((error) => {
+        return reject(error);
+      });
+    });
+  }
 }
