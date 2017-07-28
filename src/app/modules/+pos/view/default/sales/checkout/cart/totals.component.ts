@@ -7,6 +7,7 @@ import {NumberHelper} from "../../../../../services/helper/number-helper";
 import {CartTotalsActions} from "../../../../R/sales/checkout/cart/totals.actions";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
+import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,10 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   @Input() configState: PosConfigState;
   @Input() cartTotalsState: CartTotalsState;
   
-  constructor(protected cartTotalsActions: CartTotalsActions, private notify: NotifyManager, private syncActions: PosSyncActions) { }
+  constructor(protected cartTotalsActions: CartTotalsActions,
+              private notify: NotifyManager,
+              private syncActions: PosSyncActions,
+              private refundActions: QuoteRefundActions) { }
   
   ngOnInit() { }
   
@@ -79,13 +83,17 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
         if (discountWholeOrder > 100) {
           this.quoteState
               .quote
-              .setData('discount_whole_order', 100)
+              .setData('discount_whole_order', 100);
         }
       }
       
       this.syncActions.syncCurrentOrder();
-    }else{
+    } else {
       this.notify.warning("no_item_in_cart");
     }
+  }
+  
+  reloadCreditmemo() {
+    this.refundActions.loadCreditmemo(this.quoteState.creditmemo['order_id']);
   }
 }
