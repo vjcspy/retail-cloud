@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from "@ngrx/store";
-import {Payment3rd, PaymentMethod} from "./step.state";
+import  {PaymentMethod} from "./step.state";
 
 @Injectable()
 export class PosStepActions {
@@ -40,7 +40,7 @@ export class PosStepActions {
   static ACTION_BACK_CHECKOUT_PAGE = 'ACTION_BACK_CHECKOUT_PAGE';
   
   back() {
-    this.store$.dispatch({type: PosStepActions.ACTION_BACK_CHECKOUT_PAGE})
+    this.store$.dispatch({type: PosStepActions.ACTION_BACK_CHECKOUT_PAGE});
   }
   
   /**
