@@ -56,14 +56,16 @@ export class ListEffects {
                                       return false;
                                     }
       
-                                    if (!!ordersState.list.searchOrderPaymentStatus) {
-                                      if (order['retail_status'] && parseInt(order['retail_status'].slice(0, 1)) !== parseInt(ordersState.list.searchOrderPaymentStatus)) {
-                                        return false;
+                                    if (_.isString(order['retail_status'])) {
+                                      if (!!ordersState.list.searchOrderPaymentStatus) {
+                                        if (parseInt(order['retail_status'].slice(0, 1)) !== parseInt(ordersState.list.searchOrderPaymentStatus)) {
+                                          return false;
+                                        }
                                       }
-                                    }
-                                    if (!!ordersState.list.searchOrderShipmentStatus) {
-                                      if (order['retail_status'] && parseInt(order['retail_status'].slice(-1)) !== parseInt(ordersState.list.searchOrderShipmentStatus)) {
-                                        return false;
+                                      if (!!ordersState.list.searchOrderShipmentStatus) {
+                                        if (parseInt(order['retail_status'].slice(-1)) !== parseInt(ordersState.list.searchOrderShipmentStatus)) {
+                                          return false;
+                                        }
                                       }
                                     }
       
