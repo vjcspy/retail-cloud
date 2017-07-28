@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef, OnInit, Renderer2} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef, OnInit, Renderer2, AfterViewInit} from '@angular/core';
 import {NumberHelper} from "../../../../../../services/helper/number-helper";
 import {PosConfigState} from "../../../../../../R/config/config.state";
 import {QuoteItemActions} from "../../../../../../R/quote/item/item.actions";
@@ -16,7 +16,7 @@ import {CartItemState} from "../../../../../R/sales/checkout/cart/item.state";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit {
+export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, AfterViewInit {
   @Input() item;
   @Input() i;
   @Input() configState: PosConfigState;
@@ -34,6 +34,14 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit {
     setTimeout(() => {
       this.render2.removeClass(this.itemElem.nativeElement, 'animated');
     }, 2000);
+  }
+  
+  ngAfterViewInit(): void {
+    this.scrollToThisElem();
+  }
+  
+  protected scrollToThisElem() {
+    document.getElementById('cart-table-items').scrollTop = this.itemElem.nativeElement.offsetTop - 10;
   }
   
   toggleItemInCart(event, i): void {
