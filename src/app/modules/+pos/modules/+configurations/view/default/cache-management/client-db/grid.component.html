@@ -1,5 +1,5 @@
-<div class="row" style="margin-bottom: 20px">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="row client-db" style="margin-bottom: 20px">
+  <div class="col-xs-12">
     <div class="btn-group pull-right">
       <button type="button" class="btn btn-danger" (click)="flushAll()" [ladda]="clientDbState.syncing">Flush Client DB</button>
       <button type="button" class="btn btn-danger" (click)="flushStorage()" [ladda]="clientDbState.syncing">Flush Local Storage</button>
@@ -7,30 +7,34 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="col-xs-12">
     <table class="outlet-table client-db-table">
-      <tr>
-        <th>{{ 'ID' | translate }}</th>
-        <th>{{ 'Store Id' | translate }}</th>
-        <th>{{ 'Addition Data' | translate }}</th>
-        <th>{{ 'Updated' | translate }}</th>
-        <th>{{ 'Action' | translate }}</th>
-      </tr>
-      <tr *ngFor="let item of clientDbState.entities" class="animated fadeIn">
-        <td style="font-weight: 800;text-transform: uppercase">{{ item['id']}}</td>
-        <td>{{ item['storeId'] ? item['storeId'] : 'NULL' }}</td>
-        <td class="addition-data">
-          <p>Current page: {{item['currentPage']}}</p>
-          <p>Total page: {{item['additionData']['lastPageNumber']}}</p>
-          <p>Finished: {{ item['isFinished'] == true ? 'True' : 'False'}}</p>
-          <p>Total Item: {{item['additionData']['totalCount']}}</p>
-          <p>From Cache: {{item['additionData']['isLoadFromCache']}}</p>
-        </td>
-        <td>{{ getDateTimeString(item['updatedAt']) | amCalendar}}</td>
-        <td>
-          <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Delete</button>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th>{{ 'ID' | translate }}</th>
+          <th>{{ 'Store Id' | translate }}</th>
+          <th>{{ 'Addition Data' | translate }}</th>
+          <th>{{ 'Updated' | translate }}</th>
+          <th>{{ 'Action' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of clientDbState.entities" class="animated fadeIn">
+          <td style="font-weight: 800;text-transform: uppercase">{{ item['id']}}</td>
+          <td>{{ item['storeId'] ? item['storeId'] : 'NULL' }}</td>
+          <td class="addition-data">
+            <p>Current page: {{item['currentPage']}}</p>
+            <p>Total page: {{item['additionData']['lastPageNumber']}}</p>
+            <p>Finished: {{ item['isFinished'] == true ? 'True' : 'False'}}</p>
+            <p>Total Item: {{item['additionData']['totalCount']}}</p>
+            <p>From Cache: {{item['additionData']['isLoadFromCache']}}</p>
+          </td>
+          <td>{{ getDateTimeString(item['updatedAt']) | amCalendar}}</td>
+          <td>
+            <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Delete</button>
+          </td>
+        </tr>
+      <tbody>
     </table>
   </div>
 </div>

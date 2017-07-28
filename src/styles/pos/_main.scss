@@ -5,19 +5,7 @@
   height: 100%;
   padding-top: 0.01em;
   @include clearfix;
-  &.open {
-    .menu-toggle {
-      /*color: #D2D4DA;
-      background: $cblueDeep;
-      z-index: 9997;
-      .text {
-        position: absolute;
-        @include ver-pos; left: 58px;
-        display: inline; white-space: nowrap;
-        font-family: $boldFont;
-        font-size: $size; text-transform: uppercase;
-      }*/
-    }
+  &.open {   
     .left-menu-side {
       left: 0;
       .mn-close{
@@ -71,96 +59,7 @@
     }
   }
 }
-.left-menu-side {
-  position: fixed; top: 0; left: -280px;
-  width: 280px; height: 100%;
-  font-family: $mediumFont;
-  font-size: $sizeS; color: #D2D4DA;
-  background: $cblueDeep;
-  z-index: 9997;
-  @include single-transition(all,0.3s);
-  @include tablet {
-    @include single-transition(all,0);
-  }
-  .search {
-    padding: 31px 20px 10px;
-    input[type="text"] {
-      color: #D2D4DA; font-size: 13px;
-      background: transparent;
-      border: #2F384A solid 1px;
-      height: 33px; line-height: 31px; padding: 0 30px;
-      @include border-radius(16px);
-      &:focus:not([readonly]) {
-        border: #7C8089 solid 1px;
-        background: transparent;
-        @include box-shadow(none);
-      }
-      &::-webkit-input-placeholder {color: #353E4D;}
-      &:-moz-placeholder {color: #353E4D;}
-      &::-moz-placeholder {color: #353E4D;}
-      &:-ms-input-placeholder {color: #353E4D;}
-    }
-      button {
-          color: #D2D4DA; font-size: 13px;
-          background: transparent;
-          border: #2F384A solid 1px;
-          height: 33px; line-height: 31px; padding: 0 30px;
-          @include border-radius(16px);
-          &:focus:not([readonly]) {
-              border: #7C8089 solid 1px;
-              background: transparent;
-              @include box-shadow(none);
-          }
-          &::-webkit-input-placeholder {color: #353E4D;}
-          &:-moz-placeholder {color: #353E4D;}
-          &::-moz-placeholder {color: #353E4D;}
-          &:-ms-input-placeholder {color: #353E4D;}
-      }
-  }
-  &.mn-xpos {
-    width: 313px; left: -313px;
-      background: $white; padding-top: 0;
-      .mn-close{
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 58px;
-        height: 58px;
-        background: $cgreen;
-        color: $white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 23px;
-        opacity: 0;
-        cursor: pointer;
-        @include single-transition(opacity,0.3s);
-        &:hover{
-          background: $cgreen2;
-        }
-      }
-    @include box-shadow(5px 0px 10px 0px rgba(135,149,162,0.28));
-    .left-menu-link {
-      padding-top: .01em;
-    }
-  }
-  .bot-bar {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; padding: 22px 20px;
-    text-align: center;
-  }
-  button {
-    min-width: 160px;
-    font-family: $boldFont;
-    height: 33px; line-height: 33px;
-    font-size: 12px; padding: 0;
-    @include border-radius(15px);
-    &.red {
-      @include box-shadow(0px 0px 16px 0px rgba(241,115,114,0.28));
-    }
-  }
-}
+
 .left-menu {
   margin: 0 37px 0 24px;
   li {
@@ -2498,34 +2397,7 @@ h2.p-head {padding: 18px 20px;}
   }
 }
 
-.accordion-blk {
-  margin: 0 auto;
-  .acr-head, .acr-content {
-    padding-left: $hoztSpace;
-    padding-right: $hoztSpace;
-  }
-  .acr-head, .acr-head h2, .acr-content {
-    @include single-transition(all,0.3s);
-  }
-  .acr-head {
-    position: relative;
-    padding-top: 15px;
-    &, h2 {
-      font-family: $mediumFont;
-      font-size: $size; color: #A0A8B4;
-      text-transform: uppercase; margin: 0;
-    }
-    [class^="icon-"] {
-      position: absolute; top: auto; left: 16px; margin: -1px;
-      color: $cgreen2; font-size: 23px;
-    }
-  }
-  .acr-content {
-    position: relative;
-    @include clearfix;
-    .inner {padding-top: 15px; padding-bottom: 31px;}
-  }
-}
+
 
 .box-content {
   position: relative; background: $white;
@@ -2670,81 +2542,7 @@ h2.p-head {padding: 18px 20px;}
 .d-hide {display: none!important;}
 
 
-/*X-retail layout*/
-.xcontainer-wrapper {
-  background: $cbkg2;
-  .top-bar {
-    height: 80px; border-bottom: none;
-    padding-left: $hozSpace; padding-right: $hoztSpace;
-    font-size: $sizeS; overflow: visible; z-index: 999;
-    .icon-link {
-      float: left; height: 80px; line-height: 80px;
-      em {
-        position: relative; top: 3px;
-        font-family: $boldFont;
-      }
-      &.dashboard {
-        margin-right: 0;
-        width: 260px; text-align: left;
-        @include ellipsis;
-        [class^="icon-"] {
-          color: $cgreen2; margin-right: 8px; margin-left: 3px;
-        }
-      }
-    }
-  }
-  .left-menu-side {    
-      padding-top: 0;}
-  .xcontainer-inner {    
-    .setting-blk {  
-      padding-bottom: 65px;      
-      .accordion-blk {        
-        height: 100%;
-        position: relative;
-        padding-top: 30px;              
-      }
-      @include xlarge{
-        padding-bottom: 0;
-        .accordion-blk{
-          padding-left: 10%;
-          padding-right: 10%;
-        }
-      }
-    }
-  }
-  .menu-toggle {position: absolute; left: 0; top: 14px;}
-  .setting-blk {
-    margin-left: 280px;
-    overflow: hidden;   
-    .bottom-bar {
-        text-align: right;
-        position: fixed;
-        width: 120px;
-        right: 35px;
-        bottom: 15px;
-        left: inherit;
-        
-      button {min-width: 117px;}
-    }
-    .accordion-blk {
-      padding-top: 19px;
-      .box-content {
-        &.color {
-          min-height: 26px;
-          h3 {
-            position: absolute; left: 22px;
-            width: calc(100% - 110px);
-            @include ver-pos;
 
-          }
-        }
-        .search-option input[type="text"]{
-          width: 100%;
-        }
-      }
-    }
-  }
-}
 .options-bar {
   float: left; padding-top: 26px; padding-left: $hoztSpace;
   .select-wrapper {
@@ -2892,41 +2690,7 @@ h2.p-head {padding: 18px 20px;}
   }
 }
 
-.outlet-table {
-  background: $white;
-  @include border-radius(6px);
-  th, td {position: relative; padding: 15px; border-right-color: $cbkg2;}
-  tr {
-    &:hover {
-      td {
-        &:after {opacity: 1;}
-      }
-    }
-    &:nth-of-type(2) {
-      td {
-        &:after {display: none;}
-      }
-    }
-  }
-  th {
-    background: $cinput; font-size: $sizeS; border-right: none;
-    &:first-child {@include border-radius(6px 0 0 0);}
-    &:last-child {@include border-radius(0 6px 0 0);}
-  }
-  td {
-    &, input {text-align: center;}
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: 0; left: 0; right: -1px;
-      display: block; height: 1px;
-      background: $corange2; opacity: 0;
-      @include single-transition(all,0.3s);
-    }
-  }
-  input[type="text"],
-  input[type="search"] {background: #E7EDF7;}
-}
+
 
 .payment {
   .fr-control {
