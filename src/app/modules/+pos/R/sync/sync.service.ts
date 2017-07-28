@@ -32,7 +32,7 @@ export class PosSyncService {
     order['register_id']         = generalState.register['id'];
     order['retail_note']         = quote.getData('retail_note');
     order['user_id']             = generalState.user['id'];
-    order['retail_has_shipment'] = quote.getData('retail_has_shipment');
+    order['retail_has_shipment'] = quoteState.hasShipment;
     order['is_offline']          = !this.onlineOffline.online;
     
     order['items'] = [];

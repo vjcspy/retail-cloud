@@ -17,6 +17,7 @@ import {Observable} from "rxjs";
 import {RootActions} from "../../../../../../../../R/root.actions";
 import {EntityActions} from "../../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../../database/xretail/db/order";
+import {ListActions} from "../../../orders/list/list.actions";
 
 @Injectable()
 export class OrderListAddPaymentEffects {
@@ -32,7 +33,8 @@ export class OrderListAddPaymentEffects {
               private addPaymentService: OrderListAddPaymentService,
               private rootActions: RootActions,
               private addPaymentActions: OrderListAddPaymentActions,
-              private entityActions: EntityActions) { }
+              private entityActions: EntityActions,
+              private orderListActions: ListActions) { }
   
   @Effect() prepareOrderDataToAdd = this.actions$
                                         .ofType(OrderListAddPaymentActions.ACTION_NEED_ADD_PAYMENT)
@@ -83,6 +85,7 @@ export class OrderListAddPaymentEffects {
                                 let data             = {};
                                 data['payment_data'] = paymentInUse.toJS();
                                 data['order_id']     = posStepState.orderOffline['order_id'];
+                                data['store_id']     = generalState.store['id'];
                                 data['outlet_id']    = generalState.outlet['id'];
                                 data['register_id']  = generalState.register['id'];
     
@@ -95,9 +98,11 @@ export class OrderListAddPaymentEffects {
         
                                                         return Observable.fromPromise(this.addPaymentService.updateOrderToDB(order, 'order_id'))
                                                                          .flatMap(() => {
+                                                                           this.notify.success("take_payment_success");
                                                                            return Observable.from([
                                                                                                     this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
-                                                                                                    this.addPaymentActions.addPaymentSuccess(order, false)
+                                                                                                    this.addPaymentActions.addPaymentSuccess(order, false),
+                                                                                                    this.orderListActions.selectOrderDetail(order, false)
                                                                                                   ]);
                                                                          });
                                                       } else {

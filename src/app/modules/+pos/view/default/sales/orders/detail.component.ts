@@ -11,6 +11,7 @@ import {OrderListAddPaymentActions} from "../../../R/sales/checkout/step/order-l
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
+import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
 
 @Component({
              // moduleId: module.id,
@@ -32,6 +33,7 @@ export class PosDefaultSalesOrdersDetailComponent {
               protected routerActions: RouterActions,
               protected authService: AuthenticateService,
               private notify: NotifyManager,
+              private detailActions: OrderDetailActions,
               protected receiptActions: ReceiptActions,
               protected refundActions: QuoteRefundActions,
               protected addPaymentActions: OrderListAddPaymentActions) { }
@@ -57,16 +59,14 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   getTotalPaidBaseOnPayment() {
-    if (!this._data.totalPaid.hasOwnProperty(this.getOrder()['retail_id'])) {
-      let paid = 0;
-      _.forEach(this.getPayment(), (p) => {
-        if (parseInt(p['is_purchase']) === 1) {
-          paid += parseFloat(p['amount']);
-        }
-      });
-      this._data.totalPaid[this.getOrder()['retail_id']] = paid;
-    }
-    return this._data.totalPaid[this.getOrder()['retail_id']];
+    let paid = 0;
+    _.forEach(this.getPayment(), (p) => {
+      if (parseInt(p['is_purchase']) === 1) {
+        paid += parseFloat(p['amount']);
+      }
+    });
+    
+    return paid;
   }
   
   getCountryNameFromId(country_id: string) {
@@ -105,5 +105,12 @@ export class PosDefaultSalesOrdersDetailComponent {
     } else {
       this.notify.error("you don't have permission to perform this action");
     }
+  }
+  
+  markAsReSynnc() {
+    if (!this.getOrder()['id']) {
+      delete this.getOrder()['id'];
+    }
+    this.detailActions.markAsReSync(this.getOrder());
   }
 }

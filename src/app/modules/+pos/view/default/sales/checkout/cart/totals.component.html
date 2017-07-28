@@ -48,7 +48,7 @@
         <div class="t-value">
           <div class="clickable"><span *ngIf="quoteState.creditmemo['retail_has_shipment'] == '1'" class="icon-pencil"></span>
             <input type="text"
-                   [(ngModel)]="quoteState.creditmemo['shipping_amount']" [disabled]="quoteState.creditmemo['retail_has_shipment'] != '1'"/>
+                   [(ngModel)]="quoteState.creditmemo['shipping_amount']" (blur)="reloadCreditmemo()" enterBlur [disabled]="quoteState.creditmemo['retail_has_shipment'] != '1'"/>
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="t-value">
           <div class="clickable"><span class="icon-pencil"></span>
-            <input type="text" [(ngModel)]="quoteState.creditmemo['adjustment']">
+            <input type="text" [(ngModel)]="quoteState.creditmemo['adjustment']" (blur)="reloadCreditmemo()" enterBlur>
           </div>
         </div>
       </div>

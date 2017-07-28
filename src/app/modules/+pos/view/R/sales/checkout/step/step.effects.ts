@@ -39,7 +39,6 @@ export class PosStepEffects {
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
-                                   .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                    .withLatestFrom(this.store$.select('entities'))
                                    .map(([action, entitiesState]) => {
                                      const payments: List<PaymentDB> = entitiesState[PaymentDB.getCode()].items;

@@ -1,9 +1,12 @@
 import {ActionReducer} from "@ngrx/store";
-import {OrderDetailRecord} from "./detail.state";
 import {ListActions} from "../list/list.actions";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import {OrderDB} from "../../../../../database/xretail/db/order";
+import {OrdersStateRecord} from "../order.state";
+import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
+import * as _ from 'lodash';
 
-export const orderDetailReducer: ActionReducer<OrderDetailRecord> = (state, action) => {
+export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: OrdersStateRecord, action) => {
   switch (action.type) {
     
     case ListActions.ACTION_SELECT_ORDER_DETAIL:
@@ -19,6 +22,22 @@ export const orderDetailReducer: ActionReducer<OrderDetailRecord> = (state, acti
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', false);
       });
+    
+    case RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB:
+      if (action.payload['entityCode'] === OrderDB.getCode()) {
+        const itemsData = action.payload['itemsData']['items'];
+        _.forEach(itemsData, (updateOrder) => {
+          if (parseInt(updateOrder['retail_id']) === parseInt(state.detail.order['retail_id'])) {
+            state = state.update('detail', (detail) => {
+              return detail.set('order', updateOrder);
+            });
+            
+            return false;
+          }
+        });
+      }
+      return state;
+    
     default:
       return state;
   }

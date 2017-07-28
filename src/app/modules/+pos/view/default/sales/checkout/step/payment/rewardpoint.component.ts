@@ -33,5 +33,4 @@ export class CheckoutRewardPointComponent {
     const rpData = this.posQuoteState.quote.getRewardPointData();
     return !!rpData ? rpData : {};
   }
-  
 }

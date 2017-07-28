@@ -17,7 +17,7 @@
     <li>
       <span class="click" [ngClass]="{disabled: !offline.online}" (click)="openShift()">
           <span class="icon-nav-shift"></span>
-          <span>{{'shift' | translate}}</span>
+          <span>{{'shifts' | translate}}</span>
       </span>
     </li>
     <li *ngIf="authenticateService.userCan('view_order_list')">
@@ -29,7 +29,7 @@
     <li>
             <span class="click" [ngClass]="{disabled: !offline.online}" (click)="goPosSetting()">
                 <span class="icon-nav-setting"></span>
-               <span>{{'setting' | translate}}</span>
+               <span>{{'settings' | translate}}</span>
             </span>
     </li>
     <li>

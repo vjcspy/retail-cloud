@@ -102,8 +102,14 @@ export class PosSyncActions {
    */
   static ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER = 'ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER';
   
-  autoSyncOfflineOrder() {
-    this.store$.dispatch({type: PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER});
+  autoSyncOfflineOrder(dispatch: boolean = true): Action {
+    const action = {type: PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
   
   /**

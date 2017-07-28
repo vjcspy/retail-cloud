@@ -37,8 +37,8 @@
                             {{(posStepState.totals.remain | priceFormat)}}</span>
         <span class="txt">{{checkActionOrder() ?  ('Change'|translate) : ('Remain'|translate)}}</span>
       </div>
-      <div class="info-row disabled">
-        <span class="value">0</span>
+      <div class="info-row" [ngClass]="{disabled: !showRewardPointPayment()}">
+        <span class="value">{{getRewardPointDetail()['reward_point_earn']}}</span>
         <span class="txt">{{ 'Points earned' | translate }}</span>
       </div>
     </div>
