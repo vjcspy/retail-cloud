@@ -6,7 +6,7 @@ export class CustomToastOptions extends ToastsManager {
   constructor(componentFactoryResolver: ComponentFactoryResolver, ngZone: NgZone, appRef: ApplicationRef, options: ToastOptions) {
     super(componentFactoryResolver, ngZone, appRef, Object.assign(options, {
       positionClass: "toast-top-center",
-      toastLife: 3456,
+      toastLife: 2345,
       animate: 'fade',
       // dismiss: 'click',
       tapToDismiss: true,
