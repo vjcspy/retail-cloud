@@ -21,8 +21,9 @@ export class CartCustomerService {
       if (_.isString(cartCustomerState.cartCustomerSearchString)) {
         let reString: string = "";
         _.forEach(cartCustomerState.cartCustomerSearchString.split(" "), (v) => {
-          if (!_.isString(v))
+          if (!_.isString(v)) {
             return true;
+          }
           //noinspection TypeScriptUnresolvedFunction
           v = _.toLower(v);
           // escape regular expression special characters
@@ -34,13 +35,15 @@ export class CartCustomerService {
         let _result = 0;
         customers.forEach((customer: CustomerDB) => {
           let re = new RegExp(reString, "gi");
-          if (_result > configState.posRetailConfig.numberOfSearchCustomerResult)
+          if (_result > configState.posRetailConfig.numberOfSearchCustomerResult) {
             return false;
+          }
           
           let fullStringSearch: string = "";
           _.forEach(configState.posRetailConfig.fieldSearchCustomer, (field: string) => {
-            if (customer.hasOwnProperty(field) && _.isString(customer[field]))
+            if (customer.hasOwnProperty(field) && _.isString(customer[field])) {
               fullStringSearch += " " + (customer[field]);
+            }
           });
           //noinspection TypeScriptUnresolvedFunction
           if (re.test(fullStringSearch)) {
@@ -49,7 +52,7 @@ export class CartCustomerService {
           }
         });
       }
-      return resolve({data: {cartCustomers}})
+      return resolve({data: {cartCustomers}});
     });
   }
   
@@ -64,7 +67,7 @@ export class CartCustomerService {
           .subscribe((data) => {
             this.progress.done(true);
             let cartCustomers = List.of();
-            _.forEach(data['items'], c => {
+            _.forEach(data['items'], (c) => {
               cartCustomers = cartCustomers.push((new CustomerDB()).addData(c));
             });
             return resolve({data: {cartCustomers}});
