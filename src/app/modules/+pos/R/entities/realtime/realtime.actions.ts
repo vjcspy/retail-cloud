@@ -5,7 +5,6 @@ import {List} from "immutable";
 @Injectable()
 export class RealtimeActions {
   
-  
   constructor(private store$: Store<any>) { }
   
   static ACTION_REALTIME_NEED_REMOVE = 'ACTION_REALTIME_NEED_REMOVE';
