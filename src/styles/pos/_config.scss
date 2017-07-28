@@ -119,6 +119,12 @@
   input[type="search"] {background: #E7EDF7;}
 }
 
+.outlet-management .outlet-table{
+  th,td{
+    &:first-of-type{padding-left: 10px;}
+  }
+}
+
 .accordion-blk {
   margin: 0 auto;
   .acr-head, .acr-content {
@@ -147,6 +153,78 @@
     .inner {padding-top: 15px; padding-bottom: 31px;}
   }
 }
+
+.new-outlet {
+  .outlet-address {
+    .fr-control {
+      margin: 8px 10.8267% 0 6.4960%;
+      li {
+        float: left; width: 45%;
+        padding-left: 138px;
+        label {width: 138px;}
+        &:nth-of-type(odd) {
+          margin-right: 10%;
+          label {padding-left: 35px;}
+        }
+      }
+    }
+  }
+  .outlet-info {
+    .fr-control {
+      margin: 8px 4.1338% 0 3.4448%;
+      > li {
+        float: left; width: 48.5074%;
+        padding-left: 215px;
+
+        label {width: 215px;}
+        &:nth-of-type(odd) {
+          margin-right: 2.9850%;
+          padding-left: 136px; padding-right: 79px;
+          label {width: 136px;}
+        }
+        &.ctrl-spec {
+          label {
+            @include no-pos;
+            top: 6px; left: 0;
+          }
+        }
+        .groups {
+          margin-left: -14px;
+          button {
+            float: left; margin: 0 0 14px 14px;
+            width: 113px;
+            &.orange {clear: both;}
+          }
+        }
+        .select2 ul li{padding-left: 5px;}
+      }
+    }
+  }
+  .tabs-blk {
+    .tabs-header {
+      li {width: 298px;}
+    }
+    .tabs-content {padding-left: 0; padding-right: 0;}
+  }
+}
+
+#newOutletInfo {
+  width: 500px;
+  .popup-content {
+    text-align: center;
+    color: $disTxt; padding: 54px 27px 59px;
+    h3, p {margin: 0;}
+    h3 {
+      font-family: $boldFont;  margin-bottom: 5px;
+      color: $mainTxt; font-size: 15px;
+    }
+    .button-bar {
+      margin-top: 40px;
+      button {min-width: 117px; margin: 0 10px;}
+    }
+  }
+}
+
 
 /*X-retail layout*/
 .xcontainer-wrapper {

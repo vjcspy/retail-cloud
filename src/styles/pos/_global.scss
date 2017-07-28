@@ -968,6 +968,7 @@ textarea[readonly="readonly"] {
   }
   &.select2-container--default .select2-search--inline .select2-search__field{    
     border: none !important;    
+    padding-left: 5px; padding-right: 5px;
   }
 }
 
@@ -975,6 +976,9 @@ textarea[readonly="readonly"] {
 //button group active animation
 .button-group {
   position: relative;
+  [class^="icon-"]{
+    margin-left: 5px;
+  }
   .inner {
     position: absolute;
     bottom: 40px;
