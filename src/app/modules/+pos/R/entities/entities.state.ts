@@ -93,7 +93,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               isDependStore: true,
                               query: "",
                               propertyFilter: {},
-                              needRealTime: false
+                              needRealTime: true
                             }),
     outlet: outletEntityFactory(),
     payment: entityFactory({

@@ -10,6 +10,7 @@ import {PosEntitiesActions} from "../../../../../../R/entities/entities.actions"
 import * as _ from 'lodash';
 import {PosConfigState} from "../../../../../../R/config/config.state";
 import {Router} from "@angular/router";
+import {RealtimeActions} from "../../../../../../R/entities/realtime/realtime.actions";
 
 @Injectable()
 export class CheckoutProductCategoryEffects {
@@ -22,7 +23,8 @@ export class CheckoutProductCategoryEffects {
   @Effect() resolveCategory = this.actions$
                                   .ofType(
                                     CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY,
-                                    PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                    PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                    RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
                                   )
                                   .filter((action) => {
                                     return !!action.payload['entityCode'] ? action.payload['entityCode'] === CategoryDB.getCode() : true;
