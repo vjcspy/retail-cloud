@@ -11,14 +11,15 @@ export class PosErrorHandler extends ErrorHandler {
   }
   
   handleError(error: any): void {
-    // delegate to the default handler
+    console.log('here');
+    const notify = AppService.$Injector.get(NotifyManager);
     if (error instanceof GeneralException) {
-      const notify = AppService.$Injector.get(NotifyManager);
       if (notify) {
         notify.error(error.getMessage());
         notify.info('Please manually F5 if app not responding');
       }
     } else {
+      notify.error('app_has_crashed,please_manually_refresh_if_app_not_responding');
       super.handleError(error);
     }
   }

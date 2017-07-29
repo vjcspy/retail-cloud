@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {Store as CoreStore} from "../../core/framework/store/Model/Store";
 import {StoreManager} from "../../core/framework/store/Model/StoreManager";
 import {TaxDB} from "../../database/xretail/db/tax";
+import {RealtimeActions} from "../entities/realtime/realtime.actions";
 
 @Injectable()
 export class PosAssignEffects {
@@ -40,12 +41,17 @@ export class PosAssignEffects {
                                              return this.assignActions.saveAssignedDataToCore(SettingDB.getCode(), false);
                                            });
   
-  @Effect() assignTaxesToCore = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+  @Effect() assignTaxesToCore = this.actions$
+                                    .ofType(
+                                      PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                      // use must f5 to re calculate tax
+                                      // RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
+                                    )
                                     .filter((action: Action) => action.payload['entityCode'] === TaxDB.getCode())
                                     .withLatestFrom(this.store$.select('entities'))
                                     .map(([action, entitiesState]) => {
                                       const taxes: List<TaxDB> = entitiesState[TaxDB.getCode()].items;
-                                      TaxDB._RATES             = taxes.toJS();
+                                      TaxDB.RATES              = taxes.toJS();
     
                                       return this.assignActions.saveAssignedDataToCore(SettingDB.getCode(), false);
                                     });

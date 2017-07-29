@@ -1,7 +1,8 @@
 import * as _ from "lodash";
 import {GeneralException} from "../../../core/framework/General/Exception/GeneralException";
+import {DataObject} from "../../../core/framework/General/DataObject";
 
-export class TaxDB {
+export class TaxDB extends DataObject {
   id: number;
   "tax_calculation_id": number;
   "tax_calculation_rate_id": number;
@@ -20,8 +21,14 @@ export class TaxDB {
   "position": number;
   "calculate_subtotal": string;
   "product_tax_class_id": number;
+  
   static _ratesCache = {};
-  static _RATES: TaxDB[];
+  private static _RATES: TaxDB[];
+  
+  static set RATES(value: TaxDB[]) {
+    TaxDB._ratesCache = {};
+    this._RATES       = value;
+  }
   
   static getFields(): string {
     return "id,tax_calculation_id,tax_calculation_rate_id,customer_tax_class_id,tax_class_id,tax_calculation_rule_id,tax_country_id,tax_region_id,tax_postcode,code,rate,zip_is_range,zip_from,zipto,priority,position,calculate_subtotal,product_tax_class_id";
@@ -31,43 +38,43 @@ export class TaxDB {
     return 'taxes';
   }
   
-  static async retrieveAllRates(force: boolean = false) {
-    if (force || typeof TaxDB._RATES == "undefined")
-      TaxDB._RATES = await window['retailDB'].taxes.toArray();
-  }
-  
   getRateAsync(customerClassId: number, productClassId: number[], countryId: string, regionId: number | string, postcode?: any): TaxDB[] {
-    if (typeof  TaxDB._RATES == "undefined")
-      throw new GeneralException("Must run retrieveAllRates() before get RateAsync");
+    if (typeof  TaxDB._RATES === "undefined") {
+      throw new GeneralException("Please assign data taxes to core");
+    }
     
     let cacheKey: string = customerClassId + "|" + productClassId.join(",") + "|" + countryId + "|" + regionId + "|" + postcode;
     if (!TaxDB._ratesCache.hasOwnProperty(cacheKey)) {
       TaxDB._ratesCache[cacheKey] =
         _.filter(TaxDB._RATES,
                  (tax: TaxDB) => {
-                   if (!regionId)
+                   if (!regionId) {
                      regionId = 0;
-                   if (!tax.tax_region_id)
+                   }
+                   if (!tax.tax_region_id) {
                      tax.tax_region_id = 0;
-                   if (_.findIndex(productClassId, (e: number) => parseInt(e + "") == parseInt(tax.product_tax_class_id + "")) > -1
-                       && parseInt(tax.customer_tax_class_id + "") == parseInt(customerClassId + "")
-                       && tax.tax_country_id == countryId
+                   }
+                   if (_.findIndex(productClassId, (e: number) => parseInt(e + "") === parseInt(tax.product_tax_class_id + "")) > -1
+                       && parseInt(tax.customer_tax_class_id + "") === parseInt(customerClassId + "")
+                       && tax.tax_country_id === countryId
                        && _.indexOf([0, parseInt(regionId + "")], parseInt(tax.tax_region_id + "")) > -1
                    ) {
-                   } else
+                     // nothing
+                   } else {
                      return false;
-          
-                   if (tax.tax_postcode == "*" || tax.tax_postcode == "" || tax.tax_postcode == null) {
-                     return true;
                    }
-                   else if (postcode != "*" && postcode != "" && postcode != null) {
+                   if (tax.tax_postcode === "*" || tax.tax_postcode === "" || tax.tax_postcode === null) {
+                     return true;
+                   } else if (postcode !== "*" && postcode !== "" && postcode !== null) {
                      let postcodeIsNumeric = _.isNumber(parseInt(postcode + ""));
                      let postcodeIsRange   = false;
                      let originalPostcode  = null;
                      let matches: any;
-                     let zipFrom, zipTo;
-                     if (!postcodeIsNumeric && (matches = postcode.match('/^(.+)-(.+)$/'))) {
-                       if (countryId == "US" && _.isNumber(parseInt(matches[2])) && matches[2].length == 4) {
+                     let zipFrom;
+                     let zipTo;
+                     matches               = postcode.match('/^(.+)-(.+)$/');
+                     if (!postcodeIsNumeric && matches) {
+                       if (countryId === "US" && _.isNumber(parseInt(matches[2])) && matches[2].length === 4) {
                          postcodeIsNumeric = true;
                          originalPostcode  = parseInt(postcode + "");
                          postcode          = parseInt(matches[1] + "");
@@ -78,7 +85,7 @@ export class TaxDB {
                        }
                      }
             
-                     if (tax.zip_is_range == null) {
+                     if (tax.zip_is_range === null) {
                        if (postcodeIsRange && (parseInt(tax.tax_postcode) < zipFrom || parseInt(tax.tax_postcode) > zipTo)) {
                          return false;
                        }
@@ -103,6 +110,4 @@ export class TaxDB {
     }
     return TaxDB._ratesCache[cacheKey];
   }
-  
-  
 }

@@ -34,6 +34,8 @@ import {OfflineService} from "../../../share/provider/offline";
 import {PosGeneralState} from "../general/general.state";
 import {PosQuoteState} from "./quote.state";
 import {QuoteRefundActions} from "./refund/refund.actions";
+import {RealtimeActions} from "../entities/realtime/realtime.actions";
+import {TaxDB} from "../../database/xretail/db/tax";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -205,7 +207,19 @@ export class PosQuoteEffects {
                                  QuoteRefundActions.ACTION_LOAD_CREDITMEMO_SUCCESS,
                                  PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT,
                                  PosQuoteActions.ACTION_REMOVE_SHIPPING,
+                                 RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
                                )
+                               .filter((action: Action) => {
+                                 if (action.type === RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB) {
+                                   if ([TaxDB.getCode()].indexOf(action.payload['entityCode']) === -1) {
+                                     return false;
+                                   }
+      
+                                   return true;
+                                 }
+    
+                                 return true;
+                               })
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),
                                                ([action, quoteState], configState) => [action, quoteState, configState])
