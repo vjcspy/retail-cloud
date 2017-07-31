@@ -45,7 +45,7 @@
         <tr>
           <th class="c-left">{{ 'Product' | translate }}</th>
           <th>{{ 'Quantity' | translate }}</th>
-          <th class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">{{ 'Price' | translate }}</th>
+          <th class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">{{ 'Price' | translate }}</th>
         </tr>
         </thead>
         <tbody *ngFor="let item of getOrder()['items'];trackBy:trackById;let last = last;let index = index"
@@ -58,7 +58,7 @@
         <tr *ngIf="checkIsCustomSales(item)">
           <td class="c-left"><h4>{{item['buy_request']['custom_sale']['name']}}</h4></td>
           <td>{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
-          <td class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">
+          <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
               {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) | priceFormat}}
             </h4>
@@ -67,7 +67,7 @@
         <tr *ngIf="!checkIsCustomSales(item)">
           <td class="c-left">SKU: {{item['sku']}}</td>
           <td>{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
-          <td class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">
+          <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
               {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) | priceFormat}}
             </h4>
@@ -80,7 +80,7 @@
             </div>
           </td>
           <td>&nbsp;</td>
-          <td class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">&nbsp;</td>
+          <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">&nbsp;</td>
         </tr>
         <tr *ngIf="getConfigurableOption(item)">
           <td class="c-left">
@@ -89,13 +89,13 @@
             </div>
           </td>
           <td>&nbsp;</td>
-          <td class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">&nbsp;</td>
+          <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">&nbsp;</td>
         </tr>
         <tr *ngFor="let child of getBundleChildren(item)">
           <td class="c-left">{{child['name']}}<h4>{{!!item['is_children_calculated'] && child['qty_refunded'] > 0 ? "(" +
             (!checkDecimalsQtyItems(child, true) ? child['qty_refunded'] : child['qty_refunded'] | number :'1.2-2') +" refunded)" : ""}}</h4></td>
           <td>{{!checkDecimalsQtyItems(child) ? child['qty_ordered'] : child['qty_ordered'] | number :'1.2-2'}}</td>
-          <td class="c-right" *ngIf="getOrder()['type_print'] == 'receipt'">
+          <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? child['row_total_incl_tax'] : child['row_total']) | priceFormat}}
           </td>
         </tr>
@@ -106,15 +106,14 @@
           </td>
         </tr>
         </tbody>
-        <tfoot *ngIf="getOrder()['type_print'] == 'receipt'">
+        <tfoot *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
         <tr *ngFor="let payment of getOrder()['payment']">
-        <tr *ngFor="let payment of receiptData['payment']">
           <td>&nbsp;</td>
           <td class="c-left">{{getPaymentTitle(payment)}}</td>
           <td class="c-right">{{payment['amount'] | priceFormat}}</td>
         </tr>
         </tfoot>
-        <tfoot class="grand-total" *ngIf="getOrder()['type_print'] == 'receipt'">
+        <tfoot class="grand-total" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
         <tr>
           <td>&nbsp;</td>
           <td class="c-left">{{ 'Subtotal' | translate }}</td>
