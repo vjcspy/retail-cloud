@@ -29,6 +29,8 @@ import {MagentoProductEffects} from "./cache/magento-product/magento-product.eff
 import {ConfigurationsClientDbService} from "./cache/client-db/client-db.service";
 import {ConfigurationsClientDbActions} from "./cache/client-db/client-db.actions";
 import {ConfigurationsClientDbEffects} from "./cache/client-db/client-db.effects";
+import {PullPerformanceEffects} from "./cache/pull-performance/pull-performance.effects";
+import {PullPerformanceActions} from "./cache/pull-performance/pull-performance.actions";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
@@ -37,6 +39,7 @@ export const R_IMPORT = [
   EffectsModule.run(ConfigurationsReceiptEffects),
   EffectsModule.run(MagentoProductEffects),
   EffectsModule.run(ConfigurationsClientDbEffects),
+  EffectsModule.run(PullPerformanceEffects),
 ];
 
 export const R_PROVIDER = [
@@ -61,6 +64,8 @@ export const R_PROVIDER = [
   
   ConfigurationsClientDbService,
   ConfigurationsClientDbActions,
+
+  PullPerformanceActions,
 ];
 
 export interface ConfigurationsState {

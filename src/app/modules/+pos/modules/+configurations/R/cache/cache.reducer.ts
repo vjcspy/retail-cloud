@@ -3,6 +3,7 @@ import {configurationsCacheStateFactory, ConfigurationsCacheStateRecord} from ".
 import {mergeSliceReducers} from "../../../../../../R/index";
 import {magentoProductReducer} from "./magento-product/magento-product.reducer";
 import {configurationsClientDbReducer} from "./client-db/client-db.reducer";
+import {pullPerformanceReducer} from "./pull-performance/pull-performance.reducer";
 
 const configurationsCacheMainReduer: ActionReducer<ConfigurationsCacheStateRecord> = (state, action) => {
   switch (action.type) {
@@ -11,4 +12,4 @@ const configurationsCacheMainReduer: ActionReducer<ConfigurationsCacheStateRecor
   }
 };
 
-export const configurationsCacheReducer = mergeSliceReducers(configurationsCacheStateFactory(), configurationsCacheMainReduer, magentoProductReducer, configurationsClientDbReducer);
+export const configurationsCacheReducer = mergeSliceReducers(configurationsCacheStateFactory(), configurationsCacheMainReduer, magentoProductReducer, configurationsClientDbReducer, pullPerformanceReducer);

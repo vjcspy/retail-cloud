@@ -11,7 +11,6 @@ export class PosErrorHandler extends ErrorHandler {
   }
   
   handleError(error: any): void {
-    console.log('here');
     const notify = AppService.$Injector.get(NotifyManager);
     if (error instanceof GeneralException) {
       if (notify) {

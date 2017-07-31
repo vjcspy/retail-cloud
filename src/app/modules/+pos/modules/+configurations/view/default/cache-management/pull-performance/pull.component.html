@@ -1,0 +1,89 @@
+<div class="row" style="margin-top: 100px;">
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-lg-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Input</h3>
+      </div>
+      <div class="panel-body">
+        <form action="" method="post" role="form">
+          <div class="form-group">
+            <label for="store-id">Store ID</label>
+            <input type="number" class="form-control" [(ngModel)]="pullData.storeId" name="store-id" id="store-id" placeholder="Enter Store ID..." [disabled]="pullPerformanceState.isPulling">
+          </div>
+          <div class="form-group">
+            <label for="entity" class="control-label">Entity</label>
+            <select class="form-control" name="entity" id="entity" [(ngModel)]="pullData.entity" [disabled]="pullPerformanceState.isPulling">
+              <option value="products">Product</option>
+              <option value="customers">Customer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="page-size">Page Size</label>
+            <input type="number" class="form-control" [(ngModel)]="pullData['pageSize']" name="page-size" id="page-size" placeholder="Enter number of entity per page..." [disabled]="pullPerformanceState.isPulling">
+          </div>
+          <div class="pull-right">
+            <button (click)="pullPerformanceActions.cancelPull()" *ngIf="pullPerformanceState.isPulling" class="gray">
+              Cancel
+            </button>
+            <button (click)="pullPerformanceActions.startPull( pullData['entity'],pullData['storeId'],pullData['pageSize'])" [ladda]="pullPerformanceState.isPulling">
+              Pull
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-lg-offset-2">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Output</h3>
+      </div>
+      <div class="panel-body panel">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th width="20%"></th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>Is Pull From Cache</td>
+                <td style="text-align: center">{{pullPerformanceState['isPullFromCache']}}</td>
+              </tr>
+              <tr>
+                <td>Total Time</td>
+                <td style="text-align: center">{{getTotalTime(pullPerformanceState['performanceData'])}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Page</th>
+              <th>Start time</th>
+              <th>End time</th>
+              <th>Entities</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let page of pullPerformanceState['performanceData']">
+              <td>{{page['page']}}</td>
+              <td>{{page['startTime'] | amDateFormat: 'HH:mm:ss'}}</td>
+              <td>{{page['endTime'] | amDateFormat: 'HH:mm:ss'}}</td>
+              <td>{{page['entities']}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

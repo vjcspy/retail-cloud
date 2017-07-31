@@ -75,10 +75,10 @@ export class RealtimeEffects {
                                    )
                                    .flatMap((action: Action) => {
                                      const entity: Entity        = action.payload['realtimeData']['entity'];
-                                     const needRemove: List<any> = action.payload['needRemove'];
+                                     const needRemove: List<any> = action.payload['realtimeData']['needRemove'];
                                      return Observable.fromPromise(this.realtimeService.handleDBNeedRemoveEntity(entity.entityCode, needRemove))
                                                       .flatMap(() => {
-                                                        return Observable.fromPromise(this.realtimeService.updateEntityInfo(action.payload['entityInfo'], action.payload['realtimeData']['newCacheTime']));
+                                                        return Observable.fromPromise(this.realtimeService.updateEntityInfo(action.payload['realtimeData']['entityInfo'], action.payload['realtimeData']['newCacheTime']));
                                                       })
                                                       .map(() => this.realtimeActions.realtimeRemovedEntityDB(entity.entityCode, needRemove, false));
                                    });

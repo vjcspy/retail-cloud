@@ -19,6 +19,7 @@ import {ConfigurationsDefaultPosReceiptComponent} from "./view/default/pos/recei
 import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./view/default/cache-management/magento-product.component";
 import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./view/default/cache-management/client-db.component";
 import {ConfigurationsDefaultTranslateComponent} from "./view/default/translate.component";
+import {ConfigurationsDefaultCacheManagementPullPerformanceComponent} from "./view/default/cache-management/pull-performance.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -60,6 +61,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
             children: [
               {path: 'magento-product', component: ConfigurationsDefaultCacheManagementMagentoProductComponent},
               {path: 'client-db', component: ConfigurationsDefaultCacheManagementClientDBComponent},
+              {path: 'pull-performance', component: ConfigurationsDefaultCacheManagementPullPerformanceComponent},
             ]
           },
           
