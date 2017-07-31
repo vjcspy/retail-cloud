@@ -123,6 +123,9 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
     
     if (receipt) {
       this.configurationsReceiptActions.selectReceipt(receipt);
+      setTimeout(() => {
+        this.initBarcode();
+      }, 250);
     }
   }
   
