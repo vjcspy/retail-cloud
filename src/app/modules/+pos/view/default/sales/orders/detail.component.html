@@ -138,7 +138,7 @@
     <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()">{{ 'Refund' | translate }}</button>
     <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
     <button *ngIf="getOrder()['can_invoice']" (click)="addPayments()">{{ 'Add Payment' | translate }}</button>
-    <div class="button-group" [ngClass]="{active:getOrder()['isActiveReceiptInner']}">
+    <div class="button-group has-icon-drop" [ngClass]="{active:getOrder()['isActiveReceiptInner']}">
       <button (click)="getOrder()['isActiveReceiptInner'] = !getOrder()['isActiveReceiptInner']">{{ 'Receipt' | translate }}<i class="icon-up"></i></button>
       <div class="inner">
         <button (click)="printReceipt()">{{ 'Receipt' | translate }}</button>
