@@ -111,7 +111,7 @@ export class PosEntitiesActions {
    *
    * Pull next page entity
    */
-  static ACTION_PULL_ENTITY_NEXT_PAGE = 'ACTION_PULL_NEXT_PAGE';
+  static ACTION_PULL_ENTITY_NEXT_PAGE = 'ACTION_PULL_ENTITY_NEXT_PAGE';
   
   pullEntityNextPage(entityCode, query, dispatch: boolean = true): Action {
     const action = {type: PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE, payload: {entityCode, query}};
@@ -132,7 +132,7 @@ export class PosEntitiesActions {
    *
    * Pull next page entity
    */
-  static ACTION_PULL_ENTITY_PAGE_SUCCESS = 'ACTION_PULL_PAGE_SUCCESS';
+  static ACTION_PULL_ENTITY_PAGE_SUCCESS = 'ACTION_PULL_ENTITY_PAGE_SUCCESS';
   
   pullEntityPageSuccess(entityCode, items, additionData, dispatch: boolean = true): Action {
     const action = {type: PosEntitiesActions.ACTION_PULL_ENTITY_PAGE_SUCCESS, payload: {entityCode, items, additionData}};

@@ -26,6 +26,8 @@ import {ConfigurationsDefaultCacheManagement} from "./cache-management.component
 import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./cache-management/client-db.component";
 import {ConfigurationsDefaultCacheManagementClientDBGridComponent} from "./cache-management/client-db/grid.component";
 import {ConfigurationsDefaultTranslateComponent} from "./translate.component";
+import {ConfigurationsDefaultCacheManagementPullPerformancePullComponent} from "./cache-management/pull-performance/pull.component";
+import {ConfigurationsDefaultCacheManagementPullPerformanceComponent} from "./cache-management/pull-performance.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -52,19 +54,22 @@ export const DEFAULT_COMPONENTS = [
   
   ConfigurationsDefaultPosCheckoutComponent,
   ConfigurationsDEfaultPosCheckoutSettingComponent,
-
+  
   ConfigurationsDefaultPosIntegrationComponent,
   ConfigurationsDefaultPosIntegrationSettingComponent,
-
+  
   ConfigurationsDefaultPosReceiptComponent,
   ConfigurationsDefaultPosReceiptTemplateComponent,
-
+  
   ConfigurationsDefaultCacheManagement,
   ConfigurationsDefaultCacheManagementMagentoProductComponent,
   ConfigurationsDefaultCacheManagementMagentoProductGridComponent,
-
+  
   ConfigurationsDefaultCacheManagementClientDBComponent,
   ConfigurationsDefaultCacheManagementClientDBGridComponent,
-
+  
   ConfigurationsDefaultTranslateComponent,
+  
+  ConfigurationsDefaultCacheManagementPullPerformanceComponent,
+  ConfigurationsDefaultCacheManagementPullPerformancePullComponent,
 ];
