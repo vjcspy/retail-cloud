@@ -19,7 +19,7 @@ export const pullPerformanceReducer: ActionReducer<ConfigurationsCacheStateRecor
       });
     
     case PullPerformanceActions.ACTION_PULL_NEXT_PAGE:
-      let nextPage = _.isNumber(state['currentPage']) ? (state['currentPage'] + 1) : 1;
+      let nextPage = _.isNumber(state.pullPerformance.currentPage) ? (state.pullPerformance.currentPage + 1) : 1;
       return state.update('pullPerformance', (pullPerformance) => {
         return pullPerformance.update('performanceData', (list: List<any>) => {
           return list.push({startTime: moment(), page: nextPage});
@@ -27,7 +27,7 @@ export const pullPerformanceReducer: ActionReducer<ConfigurationsCacheStateRecor
       });
     
     case PullPerformanceActions.ACTION_PULL_PAGE_SUCCESS:
-      let pagePullSuccess = _.isNumber(state['currentPage']) ? (state['currentPage'] + 1) : 1;
+      let pagePullSuccess = _.isNumber(state.pullPerformance.currentPage) ? (state.pullPerformance.currentPage + 1) : 1;
       return state.update('pullPerformance', (pullPerformance) => {
         return pullPerformance
           .set('currentPage', pagePullSuccess)

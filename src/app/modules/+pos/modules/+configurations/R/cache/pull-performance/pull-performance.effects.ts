@@ -12,6 +12,7 @@ import {PosGeneralState} from "../../../../../R/general/general.state";
 import {PullPerformanceState} from "./pull-performance.state";
 import {RequestService} from "../../../../../../../services/request";
 import {ApiManager} from "../../../../../../../services/api-manager";
+import {RootActions} from "../../../../../../../R/root.actions";
 
 @Injectable()
 export class PullPerformanceEffects {
@@ -21,6 +22,7 @@ export class PullPerformanceEffects {
               private store$: Store<any>,
               private request: RequestService,
               private apiUrl: ApiManager,
+              private rootActions: RootActions,
               private notify: NotifyManager) { }
   
   @Effect() startPull$ = this.actions$
@@ -49,6 +51,10 @@ export class PullPerformanceEffects {
                             .switchMap((z: any) => {
                                          const generalState: PosGeneralState              = z[2];
                                          const pullPerformanceState: PullPerformanceState = (z[1] as ConfigurationsState).cache.pullPerformance;
+    
+                                         if (pullPerformanceState.isPulling === false) {
+                                           return Observable.of(this.rootActions.nothing("cancel_pull", false));
+                                         }
     
                                          let url = this.apiUrl.get(pullPerformanceState.entity, generalState.baseUrl);
                                          url += (url.indexOf("?") > -1 ? "&" : "?")
