@@ -10,7 +10,7 @@
 
   <div class="control-bar">
 
-    <div class="button-group" [ngClass]="{active: isRefundExchange}">
+    <div class="button-group" [ngClass]="{active: isRefundExchange,'has-icon-drop':!!posStepState.orderRefund}">
       <button (click)="print()">{{ 'Receipt' | translate }}<i class="icon-down"></i></button>
       <div class="inner">
         <button (click)="printReceipt()">Exchange</button>
