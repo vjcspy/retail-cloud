@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {GeneralException} from "../modules/+pos/core/framework/General/Exception/GeneralException";
+import * as _ from 'lodash';
 
 @Injectable()
 export class ApiManager {
@@ -48,6 +49,10 @@ export class ApiManager {
   };
   
   get(apiKey, baseUrl: string): string {
+    if (!_.isString(baseUrl)) {
+      throw new GeneralException("can_get_base_url");
+    }
+    
     if (this._apiUrl.hasOwnProperty(apiKey)) {
       if (baseUrl.indexOf("http") === -1) {
         baseUrl = this._isSecureHttp ?
@@ -66,6 +71,10 @@ export class ApiManager {
   }
   
   getUploaderUrl(baseUrl: string) {
+    if (!_.isString(baseUrl)) {
+      throw new GeneralException("can_get_base_url");
+    }
+    
     if (baseUrl.indexOf("http") > -1) {
       return baseUrl + "/xrest/v1/uploader";
     } else {

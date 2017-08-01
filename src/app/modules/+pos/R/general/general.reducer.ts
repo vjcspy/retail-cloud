@@ -2,9 +2,6 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {PosGeneralActions} from "./general.actions";
 import {posGeneralStateFactory, PosGeneralStateRecord} from "./general.state";
 import * as _ from 'lodash';
-import {StoreManager} from "../../core/framework/store/Model/StoreManager";
-import {Store} from "../../core/framework/store/Model/Store";
-import {List} from "immutable";
 import {AccountActions} from "../../../../R/account/account.actions";
 
 export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosGeneralStateRecord = posGeneralStateFactory(), action: Action) => {
