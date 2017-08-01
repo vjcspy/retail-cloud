@@ -55,10 +55,10 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       myWindow.document.write(this.getHtml());
       myWindow.document.close();
       myWindow.focus();
-      //setTimeout(() => {
-        //myWindow.print();
-        //myWindow.close();
-      //}, 1000);
+      setTimeout(() => {
+      myWindow.print();
+        myWindow.close();
+      }, 1000);
     } else {
       this.notify.info("allow_new_page_print_receipt");
     }
