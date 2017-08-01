@@ -911,7 +911,7 @@ textarea[readonly="readonly"] {
           ~ label{
             &:after{                    
               height: 17px;
-              width: 17px;
+              width: 17px;  
               top: 7px;
               left: 5px; 
             }
@@ -976,9 +976,16 @@ textarea[readonly="readonly"] {
 //button group active animation
 .button-group {
   position: relative;
-  [class^="icon-"]{
-    margin-left: 5px;
+    [class^="icon-"]{
+      margin-left: 5px;
+      display: none;
+    }
+  &.has-icon-drop{
+      [class*="icon-"]{
+        display: inline-block;
+      }
   }
+
   .inner {
     position: absolute;
     bottom: 40px;

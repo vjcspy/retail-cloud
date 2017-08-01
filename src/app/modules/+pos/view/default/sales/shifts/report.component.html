@@ -1,5 +1,6 @@
 <div #receiptElem class="invoice" *ngIf="shiftState.detail.shift">
-  <h1>{{ 'Register Summary' | translate }}</h1>
+<div class="invoice-print">
+  <h1 class="title">{{ 'Register Summary' | translate }}</h1>
   <div class="star-line">&nbsp;</div>
   <table>
     <tbody>
@@ -163,6 +164,7 @@
       </tr>
       </tbody>
     </table>
-    <div class="dot-line">&nbsp;</div>
+    <!-- <div class="dot-line">&nbsp;</div> -->
   </div>
+</div>
 </div>

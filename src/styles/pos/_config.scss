@@ -89,6 +89,286 @@
   }
 }
 
+
+
+.box-content {
+  position: relative; background: $white;
+  margin: 0 0 38px; padding: 29px 22px 20px;
+  min-height: 145px;
+  @include clearfix;
+  @include border-radius(11px);
+  @include box-shadow(0 0 2px 0 rgba(204,208,213,0.75));
+  h3, h4 {
+    font-family: $boldFont; overflow: hidden;
+    font-size: $sizeS; color: $mainTxt;
+    text-transform: uppercase;
+    margin: 0 0 13px;
+  }
+  h4 {text-transform: none;}
+  &.color {
+    background: #D2E0EC; min-height: inherit;
+    @include box-shadow(none);
+  }
+  .f-left {width: 175px; padding-right: 20px; margin: 0; padding-bottom: 10px;}
+  .option-list {float: none; width: auto; overflow: hidden;clear: both;}
+}
+
+.th-row {
+  @include clearfix;
+  &.one-column, &.two-column {
+    > div {width: calc(50% - 18px);}
+    &:last-child {
+      > div {margin-bottom: 0;}
+    }
+  }
+  &.two-column {
+    > div {
+      float: left;
+      &:nth-of-type(2n) {float: right;}
+      &:nth-of-type(2n+1) {clear: left;}
+    }
+  }
+}
+.accordion-blk {
+  margin: 0 auto;
+  .acr-head, .acr-content {
+    padding-left: $hoztSpace;
+    padding-right: $hoztSpace;
+  }
+  .acr-head, .acr-head h2, .acr-content {
+    @include single-transition(all,0.3s);
+  }
+  .acr-head {
+    position: relative;
+    padding-top: 15px;
+    &, h2 {
+      font-family: $mediumFont;
+      font-size: $size; color: $gray20;
+      text-transform: uppercase; margin: 0;
+    }
+    [class^="icon-"] {
+      position: absolute; top: auto; left: 16px; margin: -1px;
+      color: $cgreen2; font-size: 23px;
+    }
+  }
+  .acr-content {
+    position: relative;
+    @include clearfix;
+    .inner {padding-top: 15px; padding-bottom: 31px;}
+  }
+}
+
+.search-option {
+  input[type="text"],
+  input[type="search"] {
+    color: $mainTxt; text-align: center;
+    background: #CFDAE5; border: #B7C3CF solid 1px;
+    width: 90px; height: 32px; line-height: 30px;
+  }
+}
+
+.option-list {
+  @include clearfix;
+  li {
+    float: left; width: 50%;
+    padding-right: 12px; margin-bottom: 12px;
+    &:nth-of-type(2n+1) {clear: left;}
+  }
+}
+
+.single-choice {
+  .f-left {
+    position: relative; width: auto; max-width: 175px;text-align: center;min-width: 145px;
+    padding-right: 30px; margin-right: 13px; overflow: hidden;
+    &:after {
+      font-family: $icomoon;
+      content: "\e907"; font-size: 27px;
+      position: absolute; top: -4px; right: -6px;
+    }
+  }
+  .option-list {
+    li {padding-right: 0;}
+  }
+  .single-list {
+    // span {opacity: 0;}
+  }
+}
+
+.filter-product {
+  .box-content {
+    .f-left {width: 120px;}
+    &:first-child {
+      .option-list li {
+        width: 45%;
+        &:nth-of-type(odd) {width: 55%;}
+      }
+    }
+    &:last-child {
+      .f-left {width: 155px;}
+    }
+  }
+}
+.sort-product, .sort-category {
+  .box-content {
+    &:first-child {
+      .option-list li {
+        width: 45%;
+        &:nth-of-type(odd) {width: 55%;}
+      }
+    }
+  }
+}
+
+
+.search-customer, .new-customer,
+.integrate-inventories, .integrate-extension {
+  float: left;
+  width: calc(50% - 18px);
+  .box-content {margin-bottom: 0;}
+}
+
+.search-customer,
+.integrate-inventories {
+  .acr-content {padding-right: 0;}
+}
+
+.search-customer {
+  .box-content {
+    .f-left {width: 180px;}
+    &:first-child {
+      .option-list li {
+        width: 55%;
+        &:nth-of-type(odd) {width: 45%;}
+      }
+    }
+  }
+}
+
+.new-customer,
+.integrate-extension {
+  float: right;
+  .acr-content {padding-left: 0;}
+}
+.search-order {
+  clear: both;
+  .box-content {
+    .f-left {width: 125px;}
+  }
+}
+
+.f-left {float: left;}
+.f-right {float: right;}
+
+.d-show {display: block!important;}
+.d-hide {display: none!important;}
+
+
+
+.options-bar {
+  float: left; padding-top: 26px; padding-left: $hoztSpace;
+  .select-wrapper {
+    @extend .select-small;
+    width: auto; margin-right: 25px;
+  }
+  .click {
+    @extend .link-btn;
+    min-width: 135px; margin-right: 22px;
+  }
+}
+.account-blk {
+  position: relative;
+  float: right; min-height: 30px;
+  padding-right: 36px; margin-top: 29px;
+  .sign-in, .acc-drown {
+    position: relative;
+    display: inline-block; white-space: nowrap;
+    padding-bottom: 8px; margin-top: 5px;
+  }
+  &, .acc-name {
+    &:after {
+      position: absolute;
+      font-family: $icomoon;
+    }
+  }
+  &:after {
+    top: -4px; right: 0;
+    content: "\e91d";
+    color: #B5B9BF; font-size: 36px;
+  }
+  .acc-name {
+    padding-right: 16px;
+    em {
+      color: #9F9E9E; font-size: 12px;
+    }
+    &:after {
+      top: 3px; right: 0;
+      content: "\e90a";
+      font-size: 11px;
+    }
+  }
+  .drown-blk {
+    right: 0; min-width: 141px;
+    display: none; z-index: 9;
+    @include box-shadow(0 0 8px 5px rgba(101,182,177,0.18));
+    /*opacity: 0; z-index: -1;*/
+  }
+  .acc-drown {
+    cursor: pointer;
+    &:hover {
+      .drown-blk {display: block; /*opacity: 1;*/}
+    }
+  }
+}
+
+.slink {
+  color: #FFE1BD;
+  [class^="icon-"] {
+    position: relative; top: 6px;
+    font-size: 20px; margin-left: 3px;
+  }
+}
+.add-register {
+  .fr-control {
+    width: 40.9448%; margin: 35px 0 0 3.4448%;
+    li {padding-left: 175px;}
+    label {width: 175px; padding-right: 25px;}
+  }
+}
+
+.button-bar {
+  text-align: center; margin: 27px 0 0;
+  button {
+    min-width: 134px;
+    &.orange {height: 39px; line-height: 35px;}
+  }
+}
+
+
+
+.payment {
+  .fr-control {
+    label {width: 200px;}
+    li {padding-left: 200px; margin-bottom: 18px;}
+  }
+  .button-bar {margin: 0;}
+}
+
+.back-btn {
+  font-family: $mediumFont;
+  font-size: $size; color: #A5A5A5; padding-left: 22px;
+  em {
+    font-family: Times New Roman, Times, serif;
+    font-size: 16px;
+    font-style: italic; font-weight: bold;
+  }
+  [class^="icon-"] {
+    position: absolute;
+    @include ver-pos; left: -2px;
+    font-size: 22px;
+  }
+}
+
+
 .outlet-table {
   background: $white;  
   @include border-radius(6px);
@@ -125,34 +405,6 @@
   }
 }
 
-.accordion-blk {
-  margin: 0 auto;
-  .acr-head, .acr-content {
-    padding-left: $hoztSpace;
-    padding-right: $hoztSpace;
-  }
-  .acr-head, .acr-head h2, .acr-content {
-    @include single-transition(all,0.3s);
-  }
-  .acr-head {
-    position: relative;
-    padding-top: 15px;
-    &, h2 {
-      font-family: $mediumFont;
-      font-size: $size; color: $gray20;
-      text-transform: uppercase; margin: 0;
-    }
-    [class^="icon-"] {
-      position: absolute; top: auto; left: 16px; margin: -1px;
-      color: $cgreen2; font-size: 23px;
-    }
-  }
-  .acr-content {
-    position: relative;
-    @include clearfix;
-    .inner {padding-top: 15px; padding-bottom: 31px;}
-  }
-}
 
 .new-outlet {
   .outlet-address {
