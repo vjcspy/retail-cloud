@@ -13,6 +13,10 @@ import {PullPerformanceState} from "./pull-performance.state";
 import {RequestService} from "../../../../../../../services/request";
 import {ApiManager} from "../../../../../../../services/api-manager";
 import {RootActions} from "../../../../../../../R/root.actions";
+import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
+import {Router} from "@angular/router";
+import {StoreDB} from "../../../../../database/xretail/db/store";
+import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 
 @Injectable()
 export class PullPerformanceEffects {
@@ -22,8 +26,34 @@ export class PullPerformanceEffects {
               private store$: Store<any>,
               private request: RequestService,
               private apiUrl: ApiManager,
+              private pullPerformanceActions: PullPerformanceActions,
               private rootActions: RootActions,
+              private router: Router,
               private notify: NotifyManager) { }
+  
+  @Effect() isLoadedEditFormDepend = this.actions$
+                                         .ofType(
+                                           PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                         )
+                                         .filter(() => this.router.isActive('pos/configurations/default/advanced/pull-performance', false))
+                                         .filter((action: Action) => {
+                                           return !!action.payload['entityCode'] ?
+                                             [
+                                               StoreDB.getCode(),
+                                             ]
+                                               .indexOf(action.payload['entityCode']) > -1 : true;
+                                         })
+                                         .withLatestFrom(this.store$.select('entities'))
+                                         .map((z) => {
+                                           let isLoaded                          = false;
+                                           const entitiesState: PosEntitiesState = <any>z[1];
+    
+                                           if (entitiesState.stores.isFinished === true) {
+                                             isLoaded = true;
+                                           }
+    
+                                           return this.pullPerformanceActions.loadedDependencyEntity(isLoaded, false);
+                                         });
   
   @Effect() startPull$ = this.actions$
                              .ofType(PullPerformanceActions.ACTION_START_PULL)

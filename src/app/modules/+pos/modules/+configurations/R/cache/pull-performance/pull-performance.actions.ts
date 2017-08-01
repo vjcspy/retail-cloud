@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {PerformanceModuleState} from "../index";
 
 @Injectable()
@@ -13,6 +13,18 @@ export class PullPerformanceActions {
   static ACTION_PULL_PAGE_SUCCESS = 'ACTION_PULL_PAGE_SUCCESS';
   
   constructor(protected store$: Store<any>) { }
+  
+  static ACTION_LOADED_PULL_DEPENDENCY_ENTITY = 'ACTION_LOADED_PULL_DEPENDENCY_ENTITY';
+  
+  loadedDependencyEntity(isLoadedDepend, dispatch: boolean = true): Action {
+    const action = {type: PullPerformanceActions.ACTION_LOADED_PULL_DEPENDENCY_ENTITY, payload: {isLoadedDepend}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
   
   startPull(entity: string = 'product', storeId: number = 1, pageSize: number = 100): void {
     this.store$.dispatch({

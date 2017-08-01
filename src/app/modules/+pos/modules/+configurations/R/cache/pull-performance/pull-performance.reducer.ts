@@ -8,11 +8,14 @@ import {pullPerformanceStateFactory} from "./pull-performance.state";
 
 export const pullPerformanceReducer: ActionReducer<ConfigurationsCacheStateRecord> = (state: ConfigurationsCacheStateRecord, action: Action) => {
   switch (action.type) {
+    case PullPerformanceActions.ACTION_LOADED_PULL_DEPENDENCY_ENTITY:
+      return state.update('pullPerformance', (pullPerformance) => pullPerformance.set('isLoadedDepend', action.payload['isLoadedDepend']));
     
     case PullPerformanceActions.ACTION_START_PULL:
       return state.update('pullPerformance', () => {
         return pullPerformanceStateFactory()
           .set('isPulling', true)
+          .set('isLoadedDepend', true)
           .set('pageSize', action.payload['pageSize'])
           .set('storeId', action.payload['storeId'])
           .set('entity', action.payload['entity']);
