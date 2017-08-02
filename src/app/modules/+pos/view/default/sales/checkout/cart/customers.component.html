@@ -4,12 +4,14 @@
            [formControl]="cartCustomerSearchString"
            [value]="cartCustomerState.cartCustomerSearchString">
   </div>
-  <div class="customer-row animated fadeIn" *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer)">
-    <div class="customer-head">
-      <span class="icon-user-solid click"></span>
-      <div class="c-name">
-        <span class="c-user">{{customer['first_name'] +" "+ customer['last_name']}}</span>
-        <span class="c-mail">{{customer['email']}}</span>
+  <div class="customer-row-wrap" perfectScroll>
+    <div class="customer-row animated fadeIn" *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy" (click)="quoteActions.setCustomerToQuote(customer)">
+      <div class="customer-head">
+        <span class="icon-user click"></span>
+        <div class="c-name">
+          <span class="c-user">{{customer['first_name'] +" "+ customer['last_name']}}</span>
+          <span class="c-mail">{{customer['email']}}</span>
+        </div>
       </div>
     </div>
   </div>
