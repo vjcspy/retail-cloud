@@ -1,7 +1,7 @@
 <div id="cart-table-items" class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" perfectScroll [hidden]="cartCustomerState.inSearchCustomers || !quoteState.info.isShiftOpening">
   <div class="customer-row">
     <div class="customer-head" (click)="customerAction($event)">
-      <span class="icon-user click"></span>
+      <span class="icon-user-solid click"></span>
       <div class="c-name">
         <span class="c-user">{{getCustomerInfo(true)['customerName']}}</span>
         <span class="c-mail">{{getCustomerInfo()['customerEmail']}}</span>

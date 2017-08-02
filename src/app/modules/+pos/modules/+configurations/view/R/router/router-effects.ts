@@ -81,4 +81,13 @@ export class ConfigurationsViewRouterEffects {
                                                                          'receipts'
                                                                        ], false);
                                 });
+  
+  @Effect() whenGoPullPerformance = this.actions$
+                                        .ofType(routerActions.UPDATE_LOCATION)
+                                        .filter((action: Action) => this.router.isActive('pos/configurations/default/advanced/pull-performance', false))
+                                        .map(() => {
+                                          return this.pullActions.pullEntities([
+                                                                                 'stores'
+                                                                               ], false);
+                                        });
 }

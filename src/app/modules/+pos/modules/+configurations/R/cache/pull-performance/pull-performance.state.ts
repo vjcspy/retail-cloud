@@ -3,6 +3,7 @@ import {ProductDB} from "../../../../../database/xretail/db/product";
 import {List} from "immutable";
 
 export interface PullPerformanceState {
+  isLoadedDepend: boolean;
   pageSize: number;
   entity: string;
   storeId: number;
@@ -17,6 +18,7 @@ export interface PullPerformanceStateRecord extends TypedRecord<any>, PullPerfor
 
 export const pullPerformanceStateFactory = makeTypedFactory<PullPerformanceState, PullPerformanceStateRecord>(
   {
+    isLoadedDepend: false,
     pageSize: 100,
     entity: ProductDB.getCode(),
     storeId: 1,

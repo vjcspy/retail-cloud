@@ -3,6 +3,7 @@ import {PullPerformanceState} from "../../../../R/cache/pull-performance/pull-pe
 import * as _ from 'lodash';
 import {PullPerformanceActions} from "../../../../R/cache/pull-performance/pull-performance.actions";
 import {List} from "immutable";
+import {StoreHelper} from "../../../../../../core/framework/store/Helper/StoreHelper";
 
 @Component({
              // moduleId: module.id,
@@ -19,6 +20,10 @@ export class ConfigurationsDefaultCacheManagementPullPerformancePullComponent im
   
   ngOnInit() {
     this.pullData = (this.pullPerformanceState as any).toJS();
+  }
+  
+  getStoreElementData() {
+    return StoreHelper.getStoreElementData()['data'];
   }
   
   getTotalTime(performancePages: List<any>) {

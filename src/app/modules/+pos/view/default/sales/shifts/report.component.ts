@@ -56,7 +56,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       myWindow.document.close();
       myWindow.focus();
       setTimeout(() => {
-      myWindow.print();
+        myWindow.print();
         myWindow.close();
       }, 1000);
     } else {
