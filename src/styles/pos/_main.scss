@@ -438,12 +438,12 @@
       }
       .c-user {
         font-family: $boldFont;
-        font-size: 17px; color:$cgreen2;
+        font-size: 15px; color:$cgreen2;
         line-height: 19px;
         text-transform: uppercase;
       }
       .c-mail {
-        font-size: $size; color: $disTxt;
+        font-size: 13px; color: $disTxt;
       }
       .c-mail,
       .p-product-name {width: 100%; @include ellipsis;}
@@ -591,15 +591,16 @@
       flex: 1;
     }
     .icon-user.click[class^="icon-"]{
-        font-size: 60px;
-        margin-right: 10px;
+        font-size: 60px;       
         width: auto;
         color: #aaa;
         margin: 0;
         padding: 0;
         height: auto;
         line-height: 47px;
-        margin-right: 10px;
+        margin-right: 17px;
+
+        
     }
 
     .customer-icon-action{
@@ -697,12 +698,34 @@
   }
 }
 .customer-table {
+  height: 100%;
+  position: relative;
   .c-search {
+    background: $grayLight;
+    padding: 15px 20px;
     input[type="text"],
-    input[type="search"] {
-      background: transparent;
+    input[type="search"] {     
+      height: 42px; 
     }
   }
+  .c-bottom{
+    position: absolute;
+    bottom: 10px;
+    @include hoz-pos;
+  }
+  .customer-row-wrap{
+    position: relative;
+    height: calc(100% - 167px);
+    .customer-row{
+      .customer-head{
+        &:hover{
+          background: $cbkg;
+        }      
+      }
+    } 
+  }
+  
+
 }
 .cart-items-comp{
   position: relative;
