@@ -191,8 +191,12 @@
 $w-tablet: 1366px;
 @mixin tablet {
   //@media only screen and (max-width: $w-tablet - 1) {@content;}
-  @media only screen and (min-device-pixel-ratio: 1.5) and (max-width: $w-tablet),
-  only screen and (min-resolution: 144dpi) and (max-width: $w-tablet) {@content;}
+  @media only screen 
+  // and (min-device-pixel-ratio: 1.5) 
+  and (max-width: $w-tablet),
+  only screen 
+  // and (min-resolution: 144dpi) 
+  and (max-width: $w-tablet) {@content;}
 }
 @mixin xlarge {  
   @media screen and (min-width: $w-tablet + 1) {@content;}
