@@ -712,6 +712,7 @@
     position: absolute;
     bottom: 10px;
     @include hoz-pos;
+    width: 252px;
   }
   .customer-row-wrap{
     position: relative;
@@ -1036,7 +1037,7 @@
 
 /*Popup - Product information*/
 .db-button {
-  min-width: 114px; margin-left: 10px;
+  min-width: 114px; margin:0 5px;
 }
 .btn-bottom {
   position: absolute; width: 100%; bottom: 0;
@@ -3121,6 +3122,10 @@ ul.has-list {
       .date-input {
         position: relative;
         float: left; width: calc(50% - 22px); margin: 0 11px;
+        @include tablet{
+          margin: 0 5px;
+          width: calc(50% - 10px);
+        }
         .calendar-picker{
           padding-left: 45px;
         }

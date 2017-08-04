@@ -458,13 +458,13 @@
     ul.items{
       display: flex;
       flex-direction: row;
-      align-items: center;
+      // align-items: center;
       position: relative;
 
       li{
         flex: 1;
         border-right: $border 1px solid;
-        padding: 0 10px;
+        padding: 10px;
         text-align: center;
         display: flex;
         flex-direction: row;
@@ -636,6 +636,12 @@
             ~.btn-addcart{
               opacity: 0.5;              
             }
+          }
+          @include tablet{
+            width: 100px;
+            height: 30px;              
+            line-height: 30px;
+            right: 10px;
           }
         }
 
