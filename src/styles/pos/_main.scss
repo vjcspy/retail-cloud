@@ -3055,11 +3055,11 @@ ul.has-list {
       font-size: $size; padding-right: 15px;
     }
   }
-  .date {color: #7D7D7D; padding: 15px 0 15px $hozcSpace; margin-top: 0; font-family: $boldFont;background: #e2e2e2}
+  .date {color: #7D7D7D; padding: 15px 0 15px 22px; margin-top: 0; font-family: $boldFont;background: #e2e2e2}
   .items {
     position: relative;
     background: $white;
-    padding: 14px $hozSpace 17px $hozcSpace;
+    padding: 14px $hozSpace 17px 22px;
     border-bottom: 1px solid #e2e2e2;
     @include clearfix;
     @include single-transition(all,0.3s);
@@ -3155,6 +3155,10 @@ ul.has-list {
     }
     .select-wrapper {
       float: left; width: calc(33.3333% - 22px); margin: 0 11px;
+      @include tablet{
+        margin: 0 5px;
+        width: calc(33.3333% - 10px);
+      }
     }
   }
   .order-list-inner {
@@ -3219,7 +3223,7 @@ ul.has-list {
     padding: 0 $hozcSpace;
     text-align: center;
     button, .button-group {
-      display: inline-block; min-width: 114px;
+      display: inline-block; min-width: 114px; line-height: inherit;
     }
     
     

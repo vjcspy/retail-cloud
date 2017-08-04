@@ -779,9 +779,6 @@ textarea[readonly="readonly"] {
 // Checkbox input
 .checkbox-input{
   position: relative;
-  &:hover{
-    cursor: pointer;
-  }
    input[type="checkbox"]{              
     position: absolute;
     z-index: 10;
@@ -791,6 +788,7 @@ textarea[readonly="readonly"] {
     margin: 0;
     left: 0;
     top: 0;
+    cursor: pointer;
   }
   label{
     position: relative;    
@@ -856,6 +854,7 @@ textarea[readonly="readonly"] {
       color: $white;      
       line-height: 17px;
     }
+
   }
    input[type="radio"]{              
     position: absolute;
@@ -866,6 +865,7 @@ textarea[readonly="readonly"] {
     margin: 0;
     left: 0;
     top: 3px;
+    cursor: pointer;
     &:checked{
       ~ label{
         &:before{

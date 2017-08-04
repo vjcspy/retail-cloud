@@ -31,7 +31,7 @@
     }    
     li.item{
       display: flex;      
-      padding:20px;
+      padding:10px 20px;
       color: $grayDark;
       font-family: $mediumFont;
       font-size: 13px;
@@ -150,6 +150,8 @@
   //onHold-popup--------------------------------------
   &.onHold-popup{
     .list-mode-top{
+      background: none;
+      padding-bottom: 15px;
       .search-box{
         width: 550px;
         margin: 0 auto;
@@ -166,6 +168,9 @@
           padding-left: 50px;
         }
       }
+    }
+    h2{
+      padding: 30px 0 0;
     }
     .list-mode-content {
       li.item{
@@ -212,6 +217,9 @@
                 overflow: hidden;
               }
             } 
+            @include tablet{
+              width: 25%;
+            }
             
           }
           &.total{
@@ -237,8 +245,17 @@
               width: 120px;
               height: 38px;
               line-height: 38px;
-              margin-right: 15px;
+              margin-right: 15px;              
             }
+            @include tablet{
+              margin-right: 0;
+              flex: 0 0 150px;
+              button{
+                width: 80px;
+                margin-right: 10px;
+              }
+                
+            } 
             .icon-trash{
               width: 58px;
               height: 38px;
@@ -248,12 +265,19 @@
               text-align: center;
               font-size: 21px;
               padding-top: 7px;
-              color:$gray60;
+              color:$gray60;              
+              &:hover{
+                color: $cgreen;
+                cursor: pointer;
+              }
             }
           }
           
           
         }
+      }
+      &.scroll{
+        height: 288px;
       }
     }
    .list-mode-bot{
