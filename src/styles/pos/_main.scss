@@ -598,9 +598,13 @@
         padding: 0;
         height: auto;
         line-height: 47px;
-        margin-right: 17px;
-
-        
+        margin-right: 17px;       
+    }
+    .avatar-img{
+      width: 44px;
+      height: 44px;
+      display: inline-block;  
+      margin-right: 15px;    
     }
 
     .customer-icon-action{
@@ -1208,10 +1212,10 @@
       }
       &.unselected {
         .b-head {
-          color: $mainTxt;
-          h3 {
-            span {display: none;}
-          }
+          // color: $mainTxt;
+          // h3 {
+          //   span {display: none;}
+          // }
           [class^="icon-"] {
             @include rotate(90deg);
           }
@@ -3300,6 +3304,7 @@ ul.has-list {
     .value {
       width: 57.9545%;
       color: $disTxt;
+      padding-right: 30px;
     }
     .f-left {width: 50%; margin: 0;}
     .i-content {
