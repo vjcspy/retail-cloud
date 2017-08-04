@@ -36,6 +36,7 @@ import {PosQuoteState} from "./quote.state";
 import {QuoteRefundActions} from "./refund/refund.actions";
 import {RealtimeActions} from "../entities/realtime/realtime.actions";
 import {TaxDB} from "../../database/xretail/db/tax";
+import {SettingDB} from "../../database/xretail/db/setting";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -211,7 +212,7 @@ export class PosQuoteEffects {
                                )
                                .filter((action: Action) => {
                                  if (action.type === RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB) {
-                                   if ([TaxDB.getCode()].indexOf(action.payload['entityCode']) === -1) {
+                                   if ([TaxDB.getCode(), SettingDB.getCode()].indexOf(action.payload['entityCode']) === -1) {
                                      return false;
                                    }
       

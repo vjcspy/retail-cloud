@@ -6,6 +6,7 @@ import {List} from "immutable";
 import * as _ from 'lodash';
 import {OrderDB} from "../../../database/xretail/db/order";
 import {TaxDB} from "../../../database/xretail/db/tax";
+import {SettingDB} from "../../../database/xretail/db/setting";
 
 export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: PosEntitiesStateRecord, action: Action) => {
   const type = action.type;
@@ -44,6 +45,14 @@ export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: Po
               items = items.push(newOrder);
             }
           });
+        } else if (entity.entityCode === SettingDB.getCode()) {
+          items = List.of();
+          _.forEach(itemsData['items'], (item: string) => {
+            let settingDB = new SettingDB();
+            settingDB.addData(item);
+            items = items.push(settingDB);
+          });
+          
         } else {
           items = <any>items.filter((item) => {
             return needUpdate.indexOf(item[entity.entityPrimaryKey]) === -1;

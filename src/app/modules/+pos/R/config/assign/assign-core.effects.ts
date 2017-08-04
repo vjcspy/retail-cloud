@@ -18,6 +18,7 @@ import {ProductSetting} from "../../../core/framework/setting/ProductSetting";
 import {ShippingSetting} from "../../../core/framework/setting/ShippingSetting";
 import {StoreDB} from "../../../database/xretail/db/store";
 import {StoreHelper} from "../../../core/framework/store/Helper/StoreHelper";
+import {RealtimeActions} from "../../entities/realtime/realtime.actions";
 
 @Injectable()
 export class AssignConfigCoreEffects {
@@ -27,7 +28,11 @@ export class AssignConfigCoreEffects {
               private rootActions: RootActions,
               private actions$: Actions) { }
   
-  @Effect() initPosSettings = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+  @Effect() initPosSettings = this.actions$
+                                  .ofType(
+                                    PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
+                                    RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
+                                  )
                                   .filter((action: Action) => action.payload['entityCode'] === SettingDB.getCode())
                                   .withLatestFrom(this.store$.select('entities'))
                                   .map(([action, entitiesState]) => {

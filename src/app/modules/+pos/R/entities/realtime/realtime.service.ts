@@ -13,6 +13,7 @@ import {ApiManager} from "../../../../../services/api-manager";
 import {RequestService} from "../../../../../services/request";
 import {EntityInformation} from "../../../database/xretail/db/entity-information";
 import {OrderDB} from "../../../database/xretail/db/order";
+import {SettingDB} from "../../../database/xretail/db/setting";
 
 @Injectable()
 export class RealtimeService {
@@ -92,6 +93,8 @@ export class RealtimeService {
                                      .anyOf(retailIdNeedRemove)
                                      .delete();
           
+          await db[entity.entityCode].bulkPut(data['items']);
+        } else if (entity.entityCode === SettingDB.getCode()) {
           await db[entity.entityCode].bulkPut(data['items']);
         } else {
           

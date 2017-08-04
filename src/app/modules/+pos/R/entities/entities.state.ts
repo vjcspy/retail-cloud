@@ -127,7 +127,9 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               isFinished: false,
                               isDependStore: false,
                               query: "",
-                              propertyFilter: {}
+                              propertyFilter: {},
+                              entityPrimaryKey: 'key',
+                              needRealTime: true
                             }),
     countries: entityFactory({
                                entityCode: CountryDB.getCode(),
@@ -151,7 +153,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                    isFinished: false,
                                    isDependStore: false,
                                    query: "",
-                                   propertyFilter: {}
+                                   propertyFilter: {},
                                  }),
     taxClass: entityFactory({
                               entityCode: TaxClassDB.getCode(),
