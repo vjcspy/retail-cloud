@@ -29,7 +29,7 @@
   </div>
 </div>
 <div class="acr-row new-customer">
-  <div class="acr-head"><h2>{{ 'New Customer' | translate }}</h2></div>
+  <div class="acr-head acr-head-right"><h2>{{ 'New Customer' | translate }}</h2></div>
   <div class="acr-content">
     <div class="inner">
       <div class="th-row">
@@ -53,7 +53,7 @@
                                    [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/search_order']">
           </retail-setting-checkbox>
         </div>
-        <div class="box-content color">
+        <div class="box-content input-text color">
           <div class="search-option f-right">
             <retail-text [formKey]="'customer_edit_setting'"
                          [validation]="'p-not-decimal-num'"
