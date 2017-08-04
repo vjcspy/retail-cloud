@@ -32,7 +32,10 @@
           + (getOrder()['shipping_address']['region'] ? ", " : "")
           + (getOrder()['shipping_address']['postcode'] || "") + ", "
           + getCountryNameFromId(getOrder()['shipping_address']['country_id'])
-          + ".T: " + getOrder()['shipping_address']['telephone']
+          }}
+          <br/>
+          {{
+          + "T: " + getOrder()['shipping_address']['telephone']
           }}
         </p>
         <p>{{ 'OrderID' | translate }}: #{{getOrder()['retail_id']}}</p>

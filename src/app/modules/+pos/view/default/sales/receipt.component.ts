@@ -297,7 +297,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .client-info {
                 position: relative;
                 font-size: 10px; line-height: normal;
-                margin: 20px 0 31px;
+                margin: 20px 0 20px;
 
             }
             .client-info h3 {font-size: 10px;}

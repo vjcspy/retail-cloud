@@ -150,6 +150,10 @@
       position: absolute; top: auto; left: 16px; margin: -1px;
       color: $cgreen2; font-size: 23px;
     }
+    &.acr-head-right{
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
   .acr-content {
     position: relative;
@@ -209,13 +213,12 @@
   }
 }
 .sort-product, .sort-category {
-  .box-content {
-    &:first-child {
+  .box-content {    
       .option-list li {
-        width: 45%;
-        &:nth-of-type(odd) {width: 55%;}
+        width: 48%;
+        &:nth-of-type(odd) {width: 52%;padding-right: 4%}
       }
-    }
+    
   }
 }
 
@@ -407,32 +410,17 @@
 
 
 .new-outlet {
+  .outlet-info, 
   .outlet-address {
     .fr-control {
-      margin: 8px 10.8267% 0 6.4960%;
-      li {
-        float: left; width: 45%;
-        padding-left: 138px;
-        label {width: 138px;}
-        &:nth-of-type(odd) {
-          margin-right: 10%;
-          label {padding-left: 35px;}
-        }
-      }
-    }
-  }
-  .outlet-info {
-    .fr-control {
-      margin: 8px 4.1338% 0 3.4448%;
+      margin: 8px 0 0;
       > li {
-        float: left; width: 48.5074%;
-        padding-left: 215px;
+        float: left; width: 45%;
+        padding-left: 120px;
 
-        label {width: 215px;}
+        label {width: 120px; padding-right: 10px;}
         &:nth-of-type(odd) {
-          margin-right: 2.9850%;
-          padding-left: 136px; padding-right: 79px;
-          label {width: 136px;}
+          margin-right: 10%;          
         }
         &.ctrl-spec {
           label {
@@ -546,10 +534,19 @@
 
           }
         }
+        &.input-text{
+          h3{
+            width: calc(100% - 200px);
+          }
+          .search-option{
+            width: 150px;
+          }
+        }
         .search-option input[type="text"]{
           width: 100%;
         }
       }
+      
     }
   }
   button{
@@ -568,4 +565,9 @@
   top: -30px;
   right: 30px;
 }
+
+.general-info{
+  padding: 20px 35px;
+}
+
 

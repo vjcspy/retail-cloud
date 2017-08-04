@@ -4,11 +4,10 @@
   float: left; width: 42.3572%;
   margin-left: $hoztSpace;
   .fr-control {
-    &:first-child {border-bottom: $border solid 1px; margin-bottom: 15px;}
+    // &:first-child {border-bottom: $border solid 1px; margin-bottom: 15px;}
     li {
       padding-left: 136px; margin-bottom: 34px;
-      label {width: 136px;}
-      .select-wrapper {width: 73.8461%;}
+      label {width: 136px;}      
       textarea {height: 87px; margin-bottom: 9px;}
       button {
         &.trans {
@@ -66,7 +65,7 @@
     .client-info {
       position: relative;
       font-size: $sizeS; line-height: 22px;
-      padding-right: 115px; margin: 20px 0 31px;
+      padding-right: 115px; margin: 20px 0 20px;
       h3 {font-size: $size;}
       p {margin: 0;}
       .name, .email {padding-right: 25px;}
