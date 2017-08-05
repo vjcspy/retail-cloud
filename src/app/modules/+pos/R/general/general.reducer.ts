@@ -22,6 +22,7 @@ export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosG
       return state.set('urls', action.payload['urls']);
     
     case AccountActions.ACTION_LOGOUT:
+    case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
       return posGeneralStateFactory();
     
     default:

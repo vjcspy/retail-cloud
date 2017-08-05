@@ -16,6 +16,7 @@ import {StoreDB} from "../../database/xretail/db/store";
 import {RouterActions} from "../../../../R/router/router.actions";
 import {PosGeneralState} from "./general.state";
 import {Router} from "@angular/router";
+import {routerActions} from "@ngrx/router-store";
 
 @Injectable()
 export class PosGeneralEffects {
@@ -25,7 +26,7 @@ export class PosGeneralEffects {
               private generalActions: PosGeneralActions,
               private generalService: PosGeneralService,
               private pullActions: PosPullActions,
-              private routerActions: RouterActions,
+              private routerAction: RouterActions,
               private rootActions: RootActions,
               private router: Router) { }
   
@@ -104,7 +105,7 @@ export class PosGeneralEffects {
                                                  const generalState: PosGeneralState = <any>z[1];
     
                                                  if ((z[0] as Action).payload['needRedirect'] === true) {
-                                                   this.routerActions.go(generalState.redirect);
+                                                   this.routerAction.go(generalState.redirect);
                                                  }
     
                                                  return this.rootActions.nothing("Redirect after save state: " + (z[0] as Action).payload['needRedirect']);
@@ -113,14 +114,24 @@ export class PosGeneralEffects {
   @Effect() goOutletRegister = this.actions$
                                    .ofType(PosGeneralActions.ACTION_GO_OUTLET_REGISTER_PAGE)
                                    .map(() => {
-                                     this.routerActions.go('pos/default/outlet-register');
+                                     this.routerAction.go('pos/default/outlet-register');
                                      return this.rootActions.nothing("Go to outlet and register page");
                                    });
   
   @Effect() clearGeneralDataWhenLogout = this.actions$
-                                             .ofType(AccountActions.ACTION_LOGOUT)
+                                             .ofType(
+                                               AccountActions.ACTION_LOGOUT,
+                                               routerActions.UPDATE_LOCATION
+                                             )
+                                             .filter((action: Action) => {
+                                               if (action.type === routerActions.UPDATE_LOCATION) {
+                                                 return this.router.isActive('pos/default/outlet-register', false);
+                                               }
+                                               return true;
+                                             })
                                              .map(() => {
                                                this.generalService.removeGeneralDataInStorage();
-                                               return this.rootActions.nothing("Cleared general data in storage");
+    
+                                               return this.generalActions.clearGeneralData(false);
                                              })
 }

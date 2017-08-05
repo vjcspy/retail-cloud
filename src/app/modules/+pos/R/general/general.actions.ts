@@ -77,4 +77,16 @@ export class PosGeneralActions {
     
     return action;
   }
+  
+  static ACTION_CLEAR_GENERAL_DATA = 'ACTION_CLEAR_GENERAL_DATA';
+  
+  clearGeneralData(dispatch: boolean = true): Action {
+    const action = {type: PosGeneralActions.ACTION_CLEAR_GENERAL_DATA, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
