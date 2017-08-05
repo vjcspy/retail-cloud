@@ -11,6 +11,7 @@ import {mergeSliceReducers} from "../../../../R/index";
 import {quoteItemReducer} from "./item/item.reducer";
 import {quoteRefundReducer} from "./refund/refund.reducer";
 import {Shipping} from "../../core/framework/quote/Model/Quote/Address/Total/Shipping";
+import {PosGeneralActions} from "../general/general.actions";
 
 const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
   switch (action.type) {
@@ -54,6 +55,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     case PosQuoteActions.ACTION_UPDATE_QUOTE_INFO:
       return state.update('info', (info: Object) => Object.assign({}, {...info}, {...action.payload['info']}));
     
+    case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
     case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:
       Shipping.SHIPPING_AMOUNT = 0;
