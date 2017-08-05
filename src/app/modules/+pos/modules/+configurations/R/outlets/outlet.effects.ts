@@ -117,23 +117,16 @@ export class ConfigurationsOutletEffects {
                                ConfigurationsOutletActions.ACTION_SAVE_OUTLET
                              )
                              .withLatestFrom(this.store$.select('general'))
-                             .filter((z: any) => {
-                               const action: Action                = z[0];
-                               const generalState: PosGeneralState = z[1];
-                               let outletData                      = action.payload['outlet'];
-    
-                               if (!!outletData['id'] && !!generalState.outlet && parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
-                                 this.notify.error("outlet_in_use_can_not_save");
-                                 return false;
-                               }
-    
-                               return true;
-                             })
                              .switchMap((z: any) => {
                                const action: Action                = z[0];
                                const generalState: PosGeneralState = z[1];
                                let outletData                      = action.payload['outlet'];
                                outletData['registers']             = action.payload['registers'];
+    
+                               if (!!outletData['id'] && !!generalState.outlet && parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
+                                 this.notify.error("outlet_in_use_can_not_save");
+                                 return Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', null, false));
+                               }
     
                                return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
                                           .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
