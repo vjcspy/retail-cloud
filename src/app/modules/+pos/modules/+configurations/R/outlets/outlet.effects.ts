@@ -122,7 +122,7 @@ export class ConfigurationsOutletEffects {
                                const generalState: PosGeneralState = z[1];
                                let outletData                      = action.payload['outlet'];
     
-                               if (parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
+                               if (!!outletData['id'] && !!generalState.outlet && parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
                                  this.notify.error("outlet_in_use_can_not_save");
                                  return false;
                                }
@@ -134,10 +134,6 @@ export class ConfigurationsOutletEffects {
                                const generalState: PosGeneralState = z[1];
                                let outletData                      = action.payload['outlet'];
                                outletData['registers']             = action.payload['registers'];
-    
-                               if (parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
-      
-                               }
     
                                return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
                                           .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)

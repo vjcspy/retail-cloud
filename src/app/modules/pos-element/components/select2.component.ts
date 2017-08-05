@@ -74,7 +74,9 @@ export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy 
         .on('change', function () {
           vm.model = <any>jQuery(this).val();
         });
-      _e.val(this.model).trigger("change");
+      if (this.multiple === true) {
+        _e.val(this.model).trigger("change");
+      }
     } else {
       throw new GeneralException("Can't create retail-select2 component");
     }
