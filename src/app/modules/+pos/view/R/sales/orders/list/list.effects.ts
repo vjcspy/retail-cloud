@@ -18,6 +18,8 @@ import {ProgressBarService} from "../../../../../../share/provider/progess-bar";
 import {Router} from "@angular/router";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
+import {routerActions} from "@ngrx/router-store";
+import {PosEntitiesService} from "../../../../../R/entities/entities.service";
 
 @Injectable()
 export class ListEffects {
@@ -26,6 +28,8 @@ export class ListEffects {
               private actions$: Actions,
               private listActions: ListActions,
               private listService: ListService,
+              private entityService: PosEntitiesService,
+              private entityActions: PosEntitiesActions,
               private progressBar: ProgressBarService,
               private router: Router) { }
   
@@ -189,4 +193,14 @@ export class ListEffects {
                                                    .finally(() => this.progressBar.done(true));
     
                                       });
+  
+  @Effect() whenChangeOutlet = this.actions$
+                                   .ofType(routerActions.UPDATE_LOCATION)
+                                   .filter(() => this.router.isActive('pos/default/outlet-register', false))
+                                   .switchMap(() => {
+                                     return Observable.fromPromise(this.entityService.deleteEntityInfo(OrderDB.getCode()))
+                                                      .map(() => {
+                                                        return this.entityActions.deleteEntity(OrderDB.getCode(), false);
+                                                      });
+                                   });
 }
