@@ -236,9 +236,14 @@ export class PosQuoteEffects {
                                                     .switchMap(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
-                                                           .setUseDefaultCustomer(false)
                                                            .setShippingAddress((quoteState as PosQuoteState).shippingAdd)
                                                            .setBillingAddress((quoteState as PosQuoteState).billingAdd);
+        
+                                                      if (quote.getCustomer()['id'] == (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
+                                                        quote.setUseDefaultCustomer(true);
+                                                      } else {
+                                                        quote.setUseDefaultCustomer(false);
+                                                      }
         
                                                       let errorActions = [];
         
