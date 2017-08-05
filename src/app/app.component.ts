@@ -27,9 +27,7 @@ import {RetailTranslate} from "./services/retail-translate";
                "../../node_modules/ng2-toastr/ng2-toastr.css",
                '../../node_modules/select2/dist/css/select2.css',
                '../../node_modules/froala-editor/css/froala_editor.pkgd.min.css',
-               '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css',
-               '../assets/css/animate.css',
-               '../assets/css/bootstrap-datetimepicker-standalone.css',
+               '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css'
              ],
              template: `
                <router-outlet></router-outlet>

@@ -35,3 +35,5 @@ import "screenfull/dist/screenfull.js";
 // import "slick-carousel/slick/slick.min.js";
 
 // import 'dragscroll/dragscroll.js';
+
+import 'styles/css/animate.css';
