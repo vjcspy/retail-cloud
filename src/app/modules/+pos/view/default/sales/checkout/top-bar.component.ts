@@ -8,6 +8,7 @@ import {MenuLeftActions} from "../../../R/sales/menu/left/left.actions";
 import {CheckoutPopupActions} from "../../../R/sales/checkout/popup/popup.actions";
 import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -24,6 +25,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
+              protected notify: NotifyManager,
               protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
@@ -41,6 +43,10 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   }
   
   openPopupCustomSale() {
+    if (!this.configState.posRetailConfig.enableCustomSale) {
+      this.notify.error("do_not_allow_checkout_with_custom_sale");
+      return false;
+    }
     this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOM_SALE);
   }
   
