@@ -63,11 +63,14 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
   }
   
   updateItemBuyRequest(event: Event, item: Item, key: string) {
-    const value = event.target['value'];
+    let value = <any>event.target['value'];
+    if (_.isString(value)) {
+      value = <any>_.replace(value, new RegExp(",", 'g'), "");
+    }
     if (isNaN(value) || parseFloat(value) < 0) {
       this.notify.warning("check_item_buy_request");
     } else {
-      this.quoteItemActions.updateItemBuyRequest(key, event.target['value'], item);
+      this.quoteItemActions.updateItemBuyRequest(key, value, item);
     }
   }
   
