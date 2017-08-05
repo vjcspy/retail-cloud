@@ -25,6 +25,7 @@ export class CheckoutProductCategoryEffects {
                                     CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY,
                                     PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
                                     RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
+                                    RealtimeActions.ACTION_REALTIME_REMOVED_ENTITY_DB,
                                   )
                                   .filter((action) => {
                                     return !!action.payload['entityCode'] ? action.payload['entityCode'] === CategoryDB.getCode() : true;
