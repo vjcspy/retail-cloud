@@ -95,7 +95,7 @@ export class ShiftDetailService {
         totals.inOut -= parseFloat(inOut['amount']);
       }
     });
-    
+    paymentUsed = paymentUsed.sortBy((p) => p['title']);
     return {totals, paymentUsed};
   }
   
