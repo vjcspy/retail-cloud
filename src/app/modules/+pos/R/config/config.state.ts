@@ -17,6 +17,8 @@ export interface PosConfigState {
     fieldSearchOrderOffline: string[];
     supportUnicodeInSearch: boolean;
     waitTimeEachSearch: number;
+    enableCustomSale: boolean,
+    customSaleTaxClassId: number,
     displayRealTax: boolean;
     allowSplitPayment: boolean;
     allowPartialPayment: boolean;
@@ -58,6 +60,8 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
       supportUnicodeInSearch: false,
       waitTimeEachSearch: 177,
+      enableCustomSale: true,
+      customSaleTaxClassId: 0,
       displayRealTax: true,
       allowSplitPayment: true,
       allowPartialPayment: true,

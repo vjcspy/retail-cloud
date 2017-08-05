@@ -86,7 +86,12 @@ function resolveConfig(posSetting) {
   if (posSetting.hasOwnProperty('xretail/pos/sort_category_base_on')) {
     configData.sortCategoryBaseOn = posSetting['xretail/pos/sort_category_base_on'];
   }
-  
+  if (posSetting.hasOwnProperty('xretail/pos/custom_sale_tax_class')) {
+    configData.customSaleTaxClassId = posSetting['xretail/pos/custom_sale_tax_class'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/enable_custom_sale')) {
+    configData.enableCustomSale = posSetting['xretail/pos/enable_custom_sale'];
+  }
   if (posSetting.hasOwnProperty('xretail/pos/sort_category_sorting')) {
     configData.sortCategorySorting = posSetting['xretail/pos/sort_category_sorting'];
   }

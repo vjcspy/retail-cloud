@@ -34,7 +34,8 @@ export class PosDefaultSalesCheckoutPopupCustomSaleComponent {
   
   addCustomSaleToQuote() {
     this.formValidation.submit('pos_checkout_custom_sale_form', async () => {
-      let customSaleProduct = this.posConfigState.setting.product.getCustomSaleProduct();
+      let customSaleProduct             = this.posConfigState.setting.product.getCustomSaleProduct();
+      customSaleProduct['tax_class_id'] = this.posConfigState.posRetailConfig.customSaleTaxClassId;
       if (!customSaleProduct || !customSaleProduct['id']) {
         this.notify.error("can_not_find_custom_sale_product");
         return;
