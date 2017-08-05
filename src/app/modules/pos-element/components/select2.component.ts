@@ -4,6 +4,7 @@ import {
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 import {GeneralException} from "../../+pos/core/framework/General/Exception/GeneralException";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -68,11 +69,12 @@ export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy 
   ngAfterViewInit(): void {
     let vm = this;
     if (this.selectElem.nativeElement) {
-      jQuery(this.selectElem.nativeElement)
-        ['select2']()
+      let _e = jQuery(this.selectElem.nativeElement);
+      _e['select2']()
         .on('change', function () {
           vm.model = <any>jQuery(this).val();
         });
+      _e.val(this.model).trigger("change");
     } else {
       throw new GeneralException("Can't create retail-select2 component");
     }
@@ -90,6 +92,18 @@ export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy 
       return this._validProperty.isValid;
     }
     
+  }
+  
+  isSelected(value) {
+    if (this.multiple === true) {
+      if (_.isArray(this.model)) {
+        return _.indexOf(this.model, value) > -1;
+      } else {
+        return false;
+      }
+    } else {
+      return this.model == value;
+    }
   }
   
   protected trackOption(index: number, option: Object) {
