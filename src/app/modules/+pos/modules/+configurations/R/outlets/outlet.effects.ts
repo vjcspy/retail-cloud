@@ -18,6 +18,7 @@ import {EntityActions} from "../../../../R/entities/entity/entity.actions";
 import {routerActions} from "@ngrx/router-store";
 import {RouterActions} from "../../../../../../R/router/router.actions";
 import {ConfigurationsState} from "../index";
+import {PosGeneralState} from "../../../../R/general/general.state";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
@@ -116,10 +117,27 @@ export class ConfigurationsOutletEffects {
                                ConfigurationsOutletActions.ACTION_SAVE_OUTLET
                              )
                              .withLatestFrom(this.store$.select('general'))
-                             .switchMap((z) => {
-                               const action: Action    = z[0];
-                               let outletData          = action.payload['outlet'];
-                               outletData['registers'] = action.payload['registers'];
+                             .filter((z: any) => {
+                               const action: Action                = z[0];
+                               const generalState: PosGeneralState = z[1];
+                               let outletData                      = action.payload['outlet'];
+    
+                               if (parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
+                                 this.notify.error("outlet_in_use_can_not_save");
+                                 return false;
+                               }
+    
+                               return true;
+                             })
+                             .switchMap((z: any) => {
+                               const action: Action                = z[0];
+                               const generalState: PosGeneralState = z[1];
+                               let outletData                      = action.payload['outlet'];
+                               outletData['registers']             = action.payload['registers'];
+    
+                               if (parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
+      
+                               }
     
                                return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
                                           .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
