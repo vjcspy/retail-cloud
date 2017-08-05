@@ -134,8 +134,7 @@
         <div class="total-row">
           <p class="t-txt">{{ 'Differences' | translate }}</p>
           <p class="t-value">
-            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['total_expected_amount']) |
-            priceFormat}}
+            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['total_expected_amount']) | priceFormat}}
           </p>
         </div>
         <div class="total-row grand">
@@ -145,8 +144,7 @@
         <div class="total-row grand">
           <p class="t-txt">{{ 'Amount Left In' | translate }}</p>
           <p class="t-value">
-            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) |
-            priceFormat}}
+            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) | priceFormat}}
           </p>
         </div>
       </div>
