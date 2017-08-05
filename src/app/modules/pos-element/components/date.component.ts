@@ -57,6 +57,7 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.model.day       = start.date();
         this.model.year      = start.year();
         this.model.data_date = start.format("MM/DD/YYYY");
+        this.changeDetector.detectChanges();
       });
     } else {
       jQuery(this.elementData.nativeElement)['daterangepicker']({
@@ -77,7 +78,7 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
         //     year: start.year(),
         //     data_date: start.format("MM/DD/YYYY"),
         // };
-        
+        this.changeDetector.detectChanges();
       });
     }
   }
