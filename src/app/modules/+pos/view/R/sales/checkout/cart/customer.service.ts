@@ -51,6 +51,8 @@ export class CartCustomerService {
             cartCustomers = cartCustomers.push(customer);
           }
         });
+      } else {
+        cartCustomers = <any>customers.take(configState.posRetailConfig.numberOfSearchCustomerResult);
       }
       return resolve({data: {cartCustomers}});
     });
