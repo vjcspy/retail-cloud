@@ -11,7 +11,7 @@ import {ProductOptionsActions} from "../../../../../R/sales/checkout/popup/produ
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-popup-product-detail-customizable-options',
              templateUrl: 'customizable-options.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsComponent implements OnInit {
   @Input() option: Object;
@@ -37,7 +37,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
     this.options = Object.assign({}, this.productOptionsState.optionData.options);
     
     if (this.option['type'] == "date" || this.option['type'] == "date_time" || this.option['type'] == "time") {
-      if (this.options[this.option['option_id']] == null) {
+      if (!this.options[this.option['option_id']]) {
         this.options[this.option['option_id']] = {};
         if (this.option['type'] == "date" || this.option['type'] == "date_time") {
           this.options[this.option['option_id']]['data_date'] = null;

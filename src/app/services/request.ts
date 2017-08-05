@@ -14,8 +14,7 @@ export class RequestService {
   getRequestOptions() {
     if (typeof this.header === 'undefined') {
       this.header = new Headers();
-      // it can be error
-      // this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
+      this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
       this.header.append("Content-Type", "text/plain");
     }
     

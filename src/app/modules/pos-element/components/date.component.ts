@@ -1,4 +1,6 @@
-import {Component, OnInit, Input, Output, EventEmitter, ElementRef, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef
+} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 
@@ -37,7 +39,7 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
     mess: ""
   };
   
-  constructor(protected formValidationService: FormValidationService) {
+  constructor(protected formValidationService: FormValidationService, protected changeDetector: ChangeDetectorRef) {
   }
   
   ngAfterViewInit(): void {
@@ -101,12 +103,13 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
         isValid: true,
         mess: ""
       };
+      this.changeDetector.detectChanges();
       return true;
     } else {
       this._validProperty = <any>this.formValidationService.validate(this.validation, this.model.data_date);
+      this.changeDetector.detectChanges();
       return this._validProperty.isValid;
     }
-    
   }
   
   getOutputTime() {
