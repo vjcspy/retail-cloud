@@ -7,6 +7,18 @@ export class CheckoutProductActions {
   
   constructor(private store$: Store<any>) { }
   
+  static ACTION_RESOLVE_CATALOG_PRODUCT = 'ACTION_RESOLVE_CATALOG_PRODUCT';
+  
+  resolveCatalogProduct(catalogProducts, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductActions.ACTION_RESOLVE_CATALOG_PRODUCT, payload: {catalogProducts}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   // Sau khi resolve product trong grid
   static ACTION_RESOLVE_GRID_PRODUCT = 'ACTION_RESOLVE_GRID_PRODUCT';
   

@@ -11,16 +11,23 @@ import {CheckoutProductState} from "./product.state";
 @Injectable()
 export class CheckoutProductService {
   
-  async resolveSearchProduct(checkoutProductsState: CheckoutProductState, products: List<any>, config: PosConfigState): Promise<GeneralMessage> {
-    return new Promise((resolve, reject) => {
-      // integrate with category
+  resolveCatalogProduct(checkoutProductsState: CheckoutProductState, products: List<any>): Promise<GeneralMessage> {
+    return new Promise((resolve) => {
+      let catalogProducts = products;
+      
       if (!!checkoutProductsState.currentCategory
           && parseInt(checkoutProductsState.currentCategory['level']) > 1
           && _.isArray(checkoutProductsState.currentCategory['product_ids'])) {
         const productAllow = checkoutProductsState.currentCategory['product_ids'];
-        products           = <any> (products.filter((p) => _.indexOf(productAllow, p['id']) > -1));
+        catalogProducts    = <any> (products.filter((p) => _.indexOf(productAllow, p['id']) > -1));
       }
       
+      return resolve({data: {catalogProducts}});
+    });
+  }
+  
+  async resolveSearchProduct(checkoutProductsState: CheckoutProductState, products: List<any>, config: PosConfigState): Promise<GeneralMessage> {
+    return new Promise((resolve) => {
       let totalsPage: number;
       let totalsProduct: number;
       let currentPage: number;

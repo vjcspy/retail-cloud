@@ -8,6 +8,10 @@ import {checkoutProductCategoryReducer} from "./category/category.reducer";
 
 const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
+    
+    case CheckoutProductActions.ACTION_RESOLVE_CATALOG_PRODUCT:
+      return state.set('catalogProducts', action.payload['catalogProducts']);
+    
     case CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT:
       let baseWidthProductGrid: number;
       if (action.payload['gridWidth'] < 800) {

@@ -8,6 +8,7 @@ export interface CheckoutProductState {
   
   isGridMode: boolean;
   currentCategory: Object;
+  catalogProducts: List<any>;
   categoryBreadcrumb: List<any>;
   categoryList: List<any>;
   searchString: string;
@@ -41,6 +42,7 @@ export const checkoutProductStateFactory = makeTypedFactory<CheckoutProductState
     
     isGridMode: true,
     currentCategory: null,
+    catalogProducts: List.of(),
     categoryBreadcrumb: List.of(),
     categoryList: List.of(),
     searchString: null,

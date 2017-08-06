@@ -10,6 +10,7 @@ import {CheckoutProductCategoryActions} from "./category/category.actions";
 import {Router} from "@angular/router";
 import {CheckoutProductState} from "./product.state";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 
 @Injectable()
 export class CheckoutProductEffects {
@@ -28,14 +29,28 @@ export class CheckoutProductEffects {
                                                                .debounceTime(750);
                                             });
   
+  @Effect() resolveProductInCategory = this.actions$
+                                           .ofType(
+                                             PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
+                                             CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY,
+                                           )
+                                           .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
+                                           .withLatestFrom(this.store$.select('checkoutProduct'))
+                                           .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
+                                           .switchMap((z: any) => {
+                                             const productFiltered = (z[2] as PosEntitiesState).products.itemFiltered;
+    
+                                             return Observable.fromPromise(this.checkoutProductsService.resolveCatalogProduct(z[1], productFiltered))
+                                                              .map((mess) => this.checkoutProductActions.resolveCatalogProduct(mess['data']['catalogProducts'], false));
+                                           });
+  
   @Effect() resolveProductInGrid = this.actions$
                                        .ofType(
                                          CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE,
-                                         PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
                                          CheckoutProductActions.ACTION_UPDATE_GRID_STATE,
                                          CheckoutProductActions.ACTION_LOAD_MORE_PAGE,
                                          CheckoutProductActions.ACTION_CHANGE_VIEW_MODE,
-                                         CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY
+                                         CheckoutProductActions.ACTION_RESOLVE_CATALOG_PRODUCT
                                        )
                                        .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                        .debounceTime(150)
@@ -50,7 +65,7 @@ export class CheckoutProductEffects {
                                          return (checkoutProductState as any).productGridNumOfProductPerPage > 0;
                                        })
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
-                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (entitiesState as any).products.itemFiltered, <any>configState))
+                                         return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (checkoutProductState as CheckoutProductState).catalogProducts, <any>configState))
                                                           .map((data: GeneralMessage) => {
                                                             return this.checkoutProductActions.resolvedGridProduct(data.data, false);
                                                           });
