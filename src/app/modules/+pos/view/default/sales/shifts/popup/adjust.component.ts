@@ -15,7 +15,7 @@ import {ShiftState} from "../../../../R/sales/shifts/shift.state";
 export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
   @Input() shiftState: ShiftState;
   protected _data = {
-    isIn: true,
+    isIn: 1,
     amount: 0,
     note: ''
   };
