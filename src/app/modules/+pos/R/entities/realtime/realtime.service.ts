@@ -14,6 +14,7 @@ import {RequestService} from "../../../../../services/request";
 import {EntityInformation} from "../../../database/xretail/db/entity-information";
 import {OrderDB} from "../../../database/xretail/db/order";
 import {SettingDB} from "../../../database/xretail/db/setting";
+import {TaxDB} from "../../../database/xretail/db/tax";
 
 @Injectable()
 export class RealtimeService {
@@ -96,6 +97,9 @@ export class RealtimeService {
           
           await db[entity.entityCode].bulkPut(data['items']);
         } else if (entity.entityCode === SettingDB.getCode()) {
+          await db[entity.entityCode].bulkPut(data['items']);
+        } else if (entity.entityCode === TaxDB.getCode()) {
+          await db[entity.entityCode].clear();
           await db[entity.entityCode].bulkPut(data['items']);
         } else {
           

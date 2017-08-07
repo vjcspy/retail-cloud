@@ -52,7 +52,13 @@ export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: Po
             settingDB.addData(item);
             items = items.push(settingDB);
           });
-          
+        } else if (entity.entityCode === TaxDB.getCode()) {
+          items = List.of();
+          _.forEach(itemsData['items'], (item: string) => {
+            let taxDb = new TaxDB();
+            taxDb.addData(item);
+            items = items.push(taxDb);
+          });
         } else {
           items = <any>items.filter((item) => {
             return needUpdate.indexOf(item[entity.entityPrimaryKey]) === -1;
