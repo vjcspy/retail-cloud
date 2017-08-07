@@ -8,8 +8,8 @@
       </a>
       <!-- class of preview/next button is "hidden" when lastest categories  -->
       <div class="cate-slider" drag-scroll perfectScroll>
-        <div class="item animated fadeIn" *ngFor="let category of checkoutProductState.categoryList">
-          <a (click)="checkoutProductCategoryActions.selectCategory(category)">
+        <div class="item animated fadeIn" *ngFor="let category of checkoutProductState.categoryList" (click)="checkoutProductCategoryActions.selectCategory(category)">
+          <a >
             <img src="{{category['image_url']? category['image_url'] :'assets/img/cate-no-image.png'}}">
             <span class="cat-name">{{category['name']}}</span>
           </a>

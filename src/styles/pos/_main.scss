@@ -3065,6 +3065,7 @@ ul.has-list {
     background: $white;
     padding: 14px $hozSpace 17px 22px;
     border-bottom: 1px solid #e2e2e2;
+    cursor: pointer;
     @include clearfix;
     @include single-transition(all,0.3s);
     &:hover, &.active {background:$cbkg;}
@@ -3088,11 +3089,10 @@ ul.has-list {
       .price {font-family: $mainFont; font-size: $size;}
     }
     .offline, .unsync {
-      position: absolute; left: 13px;
+      position: absolute; left: 0;
       @include ver-pos;
       background: #F5A623;
-      display: block; width: 11px; height: 11px;
-      @include border-radius(100%);
+      display: block; width: 6px; height: 100%;      
     }
     .unsync {background: #F56363;}
   }
