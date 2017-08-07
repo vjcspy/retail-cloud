@@ -40,8 +40,8 @@
 
               <ul class="product-list">
                 <li *ngFor="let item of cartActionBarService.getOrderOnholdItems(order['items'])">
-                  <span *ngIf="item['name'] != 'Custom Sale'">{{item['name']}}</span>
-                  <span *ngIf="item['name'] == 'Custom Sale'">{{item['custom_sale']['name']}}</span>
+                  <span *ngIf="!item['buy_request']['custom_sale']">{{item['name']}}</span>
+                  <span *ngIf="!!item['buy_request']['custom_sale']">{{!item['buy_request']['custom_sale']['name']}}</span>
                 </li>
               </ul>
             </div>

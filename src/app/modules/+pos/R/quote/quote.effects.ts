@@ -298,14 +298,21 @@ export class PosQuoteEffects {
                               if (_buyRequest.hasOwnProperty('custom_price')) {
                                 _buyRequest.setData("custom_price", null);
                               }
-                              const product = allItems.find((i) => parseInt(i['id'] + '') === parseInt(_buyRequest.getData('product_id')));
+      
+                              let product;
+                              if (parseInt(_buyRequest.getData('product_id')) !== parseInt(configState.setting.product.getCustomSaleProduct()['id'])) {
+                                product = allItems.find((i) => parseInt(i['id'] + '') === parseInt(_buyRequest.getData('product_id')));
+                              } else {
+                                product = configState.setting.product.getCustomSaleProduct();
+                              }
+                              
                               if (product) {
                                 let p = new Product();
                                 p.mapWithParent(product);
                                 _buyRequest.setData('product', p);
                                 items = items.push(_buyRequest);
                               } else {
-                                return Observable.of(this.rootActions.error("we_can't_not_find_product_with_id_" + _buyRequest.getData('product_id')));
+                                return Observable.of(this.rootActions.error("we_can_not_find_product_with_id_" + _buyRequest.getData('product_id')));
                               }
                             });
     
