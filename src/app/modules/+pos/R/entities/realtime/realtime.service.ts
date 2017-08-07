@@ -30,6 +30,7 @@ export class RealtimeService {
                .debounceTime(1500)
                .flatMap((collection) => {
                  return Observable.fromPromise(this.entitiesService.getEntityDataInformation(entityCode))
+                                  .filter((entityInfo) => !!entityInfo)
                                   .map((entityInfo) => {
                                     const changes  = collection.collection.find({
                                                                                   cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},

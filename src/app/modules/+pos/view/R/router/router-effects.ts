@@ -19,7 +19,7 @@ export class PosViewRouterEffects {
                                                 .ofType(
                                                   routerActions.UPDATE_LOCATION
                                                 )
-                                                .filter((action: Action) => action.payload['path'] === '/pos/default/sales/checkout')
+                                                .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                                 .map((z: any) => {
                                                   return this.pullActions.pullEntities([
                                                                                          'retailConfig',
