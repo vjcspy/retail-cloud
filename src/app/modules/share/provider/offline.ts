@@ -35,12 +35,12 @@ export class OfflineService {
   init() {
     if (!this._inited) {
       Offline.on('up', () => {
-        this.notify.warning("Online");
+        this.notify.success("Online");
         this._online = true;
       });
       
       Offline.on('down', () => {
-        this.notify.success("Offline");
+        this.notify.warning("Offline");
         this._online = false;
       });
       
