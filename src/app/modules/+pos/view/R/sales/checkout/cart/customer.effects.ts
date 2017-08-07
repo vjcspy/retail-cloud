@@ -11,11 +11,19 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 import {CartCustomerState} from "./customer.state";
 import {Router} from "@angular/router";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
+import {OfflineService} from "../../../../../../share/provider/offline";
+import {NotifyManager} from "../../../../../../../services/notify-manager";
+import {List} from "immutable";
 
 @Injectable()
 export class CartCustomEffects {
   
-  constructor(private store$: Store<any>, private actions$: Actions, private cartCustomerService: CartCustomerService, private router: Router) { }
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private cartCustomerService: CartCustomerService,
+              private router: Router,
+              private notify: NotifyManager,
+              private offlineService: OfflineService) { }
   
   @Effect() resolveCartCustomers = this.actions$
                                        .ofType(
@@ -46,11 +54,21 @@ export class CartCustomEffects {
                                                             .map((data: GeneralMessage) => {
                                                               return {type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
                                                             });
+      
                                          } else {
-                                           return Observable.fromPromise(this.cartCustomerService.searchCustomerOnline(<any>cartCustomerState, <any>configState, <any>generalState))
-                                                            .map((data) => {
-                                                              return {type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
-                                                            });
+                                           if (this.offlineService.online) {
+                                             return Observable.fromPromise(this.cartCustomerService.searchCustomerOnline(<any>cartCustomerState, <any>configState, <any>generalState))
+                                                              .map((data) => {
+                                                                return {type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS, payload: data.data};
+                                                              });
+                                           } else {
+                                             this.notify.warning("Can_not_search_online_customer_in_offline_mode");
+        
+                                             return Observable.of({
+                                                                    type: CartCustomerActions.ACTION_RESOLVE_CART_CUSTOMERS,
+                                                                    payload: {cartCustomers: List.of()}
+                                                                  });
+                                           }
                                          }
                                        });
 }

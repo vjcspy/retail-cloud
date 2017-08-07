@@ -8,6 +8,7 @@ import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractS
 import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.actions";
 import {CheckoutPopup} from "../../../../R/sales/checkout/popup/popup.state";
 import {Customer} from "../../../../../core/framework/customer/Model/Customer";
+import {OfflineService} from "../../../../../../share/provider/offline";
 
 @Component({
              // moduleId: module.id,
@@ -22,6 +23,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   
   constructor(protected cartCustomerActions: CartCustomerActions,
               protected quoteActions: PosQuoteActions,
+              protected offline: OfflineService,
               protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
