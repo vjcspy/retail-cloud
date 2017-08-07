@@ -35,6 +35,8 @@
             <label>{{ 'Street2' | translate }}</label>
             <retail-text [(model)]="address['street'][1]"></retail-text>
           </div>
+        </div>
+        <div class="row">
           <div class="form-group col-sm-6" *ngIf="posConfigState.setting.customer.getStreetLines() >= 3">
             <label>{{ 'Street3' | translate }}</label>
             <retail-text [(model)]="address['street'][2]"></retail-text>
