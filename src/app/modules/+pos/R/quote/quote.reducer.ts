@@ -57,6 +57,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
     case PosStepActions.ACTION_STEP_NEW_ORDER:
+    case PosQuoteActions.ACTION_REORDER:
     case PosQuoteActions.ACTION_CLEAR_QUOTE:
       Shipping.SHIPPING_AMOUNT = 0;
       const isShiftOpening     = state.info.isShiftOpening;
