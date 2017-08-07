@@ -84,7 +84,8 @@ export class ShiftDetailService {
     
     // Counted:
     if (shift.data && shift['data']['counted']) {
-      totals.counted = _.sum(shift['data']['counted']);
+      totals.counted = 0;
+      _.forEach(shift['data']['counted'], (_c) => totals.counted += parseFloat(_c));
     }
     
     totals.inOut = 0;
