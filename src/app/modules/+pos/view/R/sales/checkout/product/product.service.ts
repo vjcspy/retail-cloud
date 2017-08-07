@@ -76,6 +76,8 @@ export class CheckoutProductService {
                   fullStringSearch += " " + product[field];
                 }
               }
+              
+              fullStringSearch += " " + product['addition_search_fields'];
             }
           });
           //noinspection TypeScriptUnresolvedFunction
