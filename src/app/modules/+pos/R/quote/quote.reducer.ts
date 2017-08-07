@@ -19,10 +19,10 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state.set('customer', action.payload['customer']);
     
     case PosQuoteActions.ACTION_INIT_DEFAULT_ADDRESS_OF_CUSTOMER:
-      if (action.payload['needResolveBilling'] === true) {
+      if (action.payload['needResolveBilling'] === true || !state.billingAdd) {
         state = state.set('billingAdd', action.payload['billingAdd']);
       }
-      if (action.payload['needResolveShipping'] === true) {
+      if (action.payload['needResolveShipping'] === true || !state.shippingAdd) {
         state = state.set('shippingAdd', action.payload['shippingAdd']);
       }
       return state;
