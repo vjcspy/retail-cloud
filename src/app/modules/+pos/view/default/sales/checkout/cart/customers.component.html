@@ -1,7 +1,7 @@
 <div class="customer-table">
   <div class="c-search">
     <input placeholder="{{ 'Type email, phone, name' | translate }} ..." type="text" name="cartCustomerSearchString"
-           [formControl]="cartCustomerSearchString"
+           [formControl]="cartCustomerSearchString" inputSelectText
            [value]="cartCustomerState.cartCustomerSearchString">
   </div>
   <div class="customer-row-wrap" perfectScroll>
