@@ -3489,6 +3489,7 @@ ul.has-list {
         padding-bottom: 13px;
         & + div.grand {padding-top: 14px;}
         &:last-child {padding-bottom: 0!important;}
+        
       }
       .t-txt {font-family: $boldFont; color: $mainTxt;}
       .grand, .refunded {
@@ -3552,6 +3553,7 @@ ul.has-list {
         font-family: $mediumFont;
         font-size: $size; text-transform: uppercase;
         margin-left: 55px;
+        margin-top: 0;
       }
       th, td {
         vertical-align: top;
@@ -3687,18 +3689,29 @@ ul.has-list {
             color: $cgreen; text-transform: uppercase;
           }
         }
+        .t-value{width: 200px}
         .t-txt {
           font-family: $mainFont;
+          position: relative;
+          width: calc(100% - 200px);
           em {margin-top: 2px;}
         }
+
         &:last-child {padding-bottom: 22px;}
+        @include tablet{
+          font-size: 13px;
+          .t-value{width: 150px}
+          .t-txt{
+            width: calc(100% - 150px);
+          }
+        }
       }
       &.progress-tree {
         float: none; width: 100%;
         padding: 0;
         &:after {
           display: block;
-          top: auto; height: 120px;
+          top: auto; height: 85px;
           bottom: 0;
           background: $white;
         }
@@ -3713,6 +3726,9 @@ ul.has-list {
       }
       &:first-child {
         .total-row {padding-top: 0;}
+      }
+      @include tablet{
+        font-size: 13px;
       }
     }
   }
