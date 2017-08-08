@@ -216,7 +216,7 @@ export class PosStepEffects {
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
-                                  return Observable.fromPromise(this.syncService.saveOrderOnline(<any>[2], <any>z[3], <any>z[4]))
+                                  return Observable.fromPromise(this.syncService.saveOrderOnline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
                                                      order.addData(orderOffline);
