@@ -3063,7 +3063,7 @@ ul.has-list {
   .items {
     position: relative;
     background: $white;
-    padding: 14px $hozSpace 17px 22px;
+    padding: 14px $hozSpace 14px 22px;
     border-bottom: 1px solid #e2e2e2;
     cursor: pointer;
     @include clearfix;
@@ -3074,6 +3074,9 @@ ul.has-list {
       font-family: $boldFont;
       font-size: 15px; color: $grayDark;
       text-transform: uppercase; margin-bottom: 3px;
+      @include tablet{
+        font-size: 13px;
+      }
     }
     p {color: $disTxt;}
     .info {
@@ -3086,7 +3089,12 @@ ul.has-list {
     .value {
       float: right; width: 32.5581%;
       text-align: right;
-      .price {font-family: $mainFont; font-size: $size;}
+      .price {
+        font-family: $mainFont; font-size: $size;
+        @include tablet{
+          font-size: 13px;
+        }
+      }
     }
     .offline, .unsync {
       position: absolute; left: 0;
@@ -3209,7 +3217,7 @@ ul.has-list {
 }
 
 .order-list-detail,
-.cashdrawer-detail {
+.cashdrawer-detail{
   overflow: hidden; background: $white;
   padding-bottom: 81px;
   @include box-shadow(-4px 0px 8px 0px rgba(149, 153, 167, 0.15));
@@ -3229,11 +3237,12 @@ ul.has-list {
     button, .button-group {
       display: inline-block; min-width: 114px; line-height: inherit;
     }
-    
-    
   }
   .order-list-inner,
   .cashdrawer-inner {padding: 0 $hozcSpace;}
+}
+.order-list-detail{
+
   .order-list-inner {
     .ps-scrollbar-y[style="top: 0px"] {top: 59px!important;}
   }
@@ -3318,70 +3327,85 @@ ul.has-list {
 
   .notification {/*float: right; margin: 14px 0 13px;*/}
   .order-info {
-    margin: 22px 0 17px;
+    margin:0 0 17px;
+    .order-row {
+      > .items, .sup-item{
+        display: flex;
+        align-items: center;
+        > *{
+          flex: 1;
+          padding: 0 10px;
+        }
+      }
+    }
     .items {
       position: relative;
       color: $grayDark;
-      padding: 15px 0;
+      padding: 10px 0;
+      border-bottom: 1px solid $border;
       @include clearfix;
       p, h3 {margin: 0;}
-      .img, .qty {float: left;}
+      
       .img {
-        width: 40px; height: 40px;
+        width: 60px;
         overflow: hidden;
+        flex: 0 0 60px;
         @include border-radius(4px);
-        img {width: 130%; height: auto; max-width: none;}
+        // img {width: 130%; height: auto; max-width: none;}
       }
       .qty {
-        width: 40px;
+        width: 60px;
+        flex: 0 0 60px;
         font-family: $mediumFont;
         font-size: 15px; color: inherit;
         opacity: 1; cursor: default;
         text-align: center;
-        padding: 0; margin: 0 0 0 3.2%;
+        padding: 0;
         background: transparent;
-      }
-      .product, .h-pos {
-        position: absolute;
-        @include ver-pos;
-      }
+      }      
       h3 {
-        font-family: $mediumFont; font-size: $size;
-        width: 100%; margin-bottom: 8px; @include ellipsis;
+        font-family: $mediumFont; font-size: 14px;
+        width: 100%;  @include ellipsis;
       }
-      .product {
-        left: 154px; width: 50.5689%;
-        padding-right: 5px;
+      p{
+        font-size: 13px;
+      }
+      .product { 
+        overflow: hidden;
         p {
-          color: $disTxt;
-          width: 100%; margin-bottom: 8px; @include ellipsis;
+          color: $disTxt;          
+          @include ellipsis;
+
           &:last-child {margin-bottom: 0;}
+
         }
       }
       .h-pos {
-        /*right: 0;*/ right: 56px;
-        text-align: center;
-        //width: calc(49.4311% - 154px);
-        width: calc(49.4311% - 210px);
+        width: 110px;
+        flex: 0 0 110px;
       }
       .click-btn {
         display: block;
-        width: 97px; max-width: 120px;
-        margin: 0 auto;
         font-family: $boldFont;
         font-size: 11px; color: $grayDark;
-        text-transform: uppercase; text-align: center;
-        min-width: 97px;
+        text-transform: uppercase; text-align: center;        
         height: 27px; line-height: 25px;
         background: $white; border: $border solid 1px;
-        cursor: pointer; padding: 0 5px;
+        cursor: pointer;
         vertical-align: middle;
+        
         @include border-radius(5px);
-        @include ellipsis;
+        
       }
       .price {
-        float: right; margin-top: 11px;
+        min-width: 150px;
+        flex: 0 0 150px;
+        text-align: right;
         color: inherit; font-size: inherit;
+        @include tablet{
+          min-width: 120px;
+          flex: 0 0 120px
+        }
       }
       .click {
         position: relative;
@@ -3399,36 +3423,12 @@ ul.has-list {
       }
     }
     .more-option {
+      background: #f8f8f8;
       max-height: 0; overflow: hidden;
       @include single-transition(all,0.3s);
-      .items {
-        padding: 0 0 25px;
-        > h3, .product {
-          position: relative;
-          width: 43.6156%; margin-left: 208px;
-          overflow: hidden;
-        }
-        h3 {margin-bottom: 3px;}
-        .product {
-          @include no-pos;
-          p {margin-bottom: 0; padding: 5px 0;}
-        }
-        .sup-item {
-          position: relative;
-          @include clearfix;
-          .price {
-            font-family: $mainFont;
-            color: $disTxt;
-          }
-        }
-        &.o-txt {
-          .product {
-            width: 61.3147%;
-            h3, p {white-space: normal;}
-          }
-        }
-        .price {margin-top: 5px;}
-      }
+      .items .product{
+        padding-left: 150px;         
+      }      
     }
     .order-row {
       &.active {
@@ -3444,7 +3444,7 @@ ul.has-list {
   }
   .payment-info {
     position: relative;
-    border: $border solid 1px;
+    border-bottom: $border solid 1px;
     border-width: 1px 0;
     padding: 37px 0; margin: 0 0 31px;
     @include clearfix;
@@ -3538,93 +3538,8 @@ ul.has-list {
   ::-moz-placeholder {/*Firefox 19+*/ color: inherit; opacity: .6;}
   :-ms-input-placeholder {color: inherit; opacity: .6;}
 }
-
-.cashdrawer-leftside {
-  .cashdrawer-inner{
-    background: $white;
-  }
-  .items {
-    position: relative;
-    div.price {
-      position: absolute;
-      left: auto; @include ver-pos;
-      font-size: 15px;
-    }
-    .timer {
-      position: relative;
-      float: left; width: 47.9069%;
-      text-transform: uppercase; min-height: 42px;
-      padding-left: 9px; margin-left: 47.9069%;
-      @include clearfix;
-      @include tablet{
-        width: 67%;
-        margin-left: 33%;
-      }
-      &:before {
-        content: "";
-        position: absolute;
-        left: -1px; @include ver-pos;
-        display: block;
-        width: 1px; height: 30px;
-        background: $border;
-      }
-      > p, h4 {margin: 0 0 0 10px; padding: 0 0 0 16px;}
-      > p {
-        position: relative;
-        display: inline-block; min-width: 82px;
-
-        &:after {
-          content: "";
-          position: absolute;
-          right: -12px;
-          @include ver-pos;
-          display: block;
-          width: 10px; height: 1px;
-          background: $disTxt;
-        }
-        &:last-child {
-          &:after {display: none;}
-        }
-        strong, span {display: block; color: $disTxt;}
-        strong {color: $grayDark; margin-bottom: 4px;}
-      }
-      h4 {margin-top: 14px;}
-    }
-    &.t-bar {
-      background: $grayLight;
-
-
-      div.price, .timer > p {
-        h3, strong, span {color: #019b93; font-family: $blackFont;}
-        h3 {font-size: 20px;}
-      }
-      .timer {
-        > p {margin-top: 12px;}
-        &:before {
-          background: rgba(255,255,255,.4);
-        }
-      }
-    }
-    &.no-line {
-      .timer {
-        &:before {display: none;}
-      }
-    }
-    .bounder {
-      font-size: 18px;
-      min-width: 147px;
-      @include tablet{
-        min-width: auto;
-      }
-    }
-    .bounder, h4 {font-family: $boldFont; color: $grayDark;}
-    h4 {font-size: $size;}
-  }
-  // .date {margin-top: 20px;}
-  .items + .date {margin-top: 38px;}
-  .price {color: $grayDark;}
-}
 .cashdrawer-detail {
+  
   .table-total, .progress-total, .reward-points, .cashdrawer-total {
     border-bottom: $border solid 1px;
     @include clearfix;
@@ -3802,6 +3717,92 @@ ul.has-list {
     }
   }
 }
+.cashdrawer-leftside {
+  .cashdrawer-inner{
+    background: $white;
+  }
+  .items {
+    position: relative;
+    div.price {
+      position: absolute;
+      left: auto; @include ver-pos;
+      font-size: 15px;
+    }
+    .timer {
+      position: relative;
+      float: left; width: 47.9069%;
+      text-transform: uppercase; min-height: 42px;
+      padding-left: 9px; margin-left: 47.9069%;
+      @include clearfix;
+      @include tablet{
+        width: 67%;
+        margin-left: 33%;
+      }
+      &:before {
+        content: "";
+        position: absolute;
+        left: -1px; @include ver-pos;
+        display: block;
+        width: 1px; height: 30px;
+        background: $border;
+      }
+      > p, h4 {margin: 0 0 0 10px; padding: 0 0 0 16px;}
+      > p {
+        position: relative;
+        display: inline-block; min-width: 82px;
+
+        &:after {
+          content: "";
+          position: absolute;
+          right: -12px;
+          @include ver-pos;
+          display: block;
+          width: 10px; height: 1px;
+          background: $disTxt;
+        }
+        &:last-child {
+          &:after {display: none;}
+        }
+        strong, span {display: block; color: $disTxt;}
+        strong {color: $grayDark; margin-bottom: 4px;}
+      }
+      h4 {margin-top: 14px;}
+    }
+    &.t-bar {
+      background: $grayLight;
+
+
+      div.price, .timer > p {
+        h3, strong, span {color: #019b93; font-family: $blackFont;}
+        h3 {font-size: 20px;}
+      }
+      .timer {
+        > p {margin-top: 12px;}
+        &:before {
+          background: rgba(255,255,255,.4);
+        }
+      }
+    }
+    &.no-line {
+      .timer {
+        &:before {display: none;}
+      }
+    }
+    .bounder {
+      font-size: 18px;
+      min-width: 147px;
+      @include tablet{
+        min-width: auto;
+      }
+    }
+    .bounder, h4 {font-family: $boldFont; color: $grayDark;}
+    h4 {font-size: $size;}
+  }
+  // .date {margin-top: 20px;}
+  .items + .date {margin-top: 38px;}
+  .price {color: $grayDark;}
+}
+
 .cashdrawer-leftside,
 .cashdrawer-detail {
   .price, .total-blk .total-row .t-value {
@@ -3819,7 +3820,7 @@ ul.has-list {
   .icon-noted .tooltiptext-left{
     min-width: 75px;
     top: 2px;
-  }
+  }  
 }
 
 .expect {color: $cgreen!important;}

@@ -3,9 +3,7 @@
     <p class="img"><img src="{{!item['origin_image'] ? 'assets/img/no-image1.png' : item['origin_image']}}" alt=""/></p>
     <input class="qty" type="text" *ngIf="!!checkDecimalsQtyItems()" value="{{item['qty_ordered'] | number :'1.2-2'}}" disabled/>
     <input class="qty" type="text" *ngIf="!checkDecimalsQtyItems()" value="{{item['qty_ordered']}}" disabled/>
-    <p class="price">
-      {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
-    </p>
+    
     <div class="product">
       <!--FIX XRT-517 display custom sale in order detail-->
       <h3 *ngIf="!item['buy_request']['custom_sale']">{{item['name']}}</h3>
@@ -19,6 +17,9 @@
       <span class="click-btn" *ngIf="item['qty_refunded']">{{item['qty_refunded'] | number}} {{ 'refunded' | translate }}</span>
       <span class="click" *ngIf="isHaveOption()" (click)="item['active_options'] = !item['active_options']">{{ 'See Option' | translate }}</span>
     </div>
+    <p class="price">
+      {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
+    </p>
     <!--div class="h-pos"><span class="click" *ngIf="isHaveOption()" (click)="item['active_options'] = !item['active_options']">See Option</span></div-->
   </div>
   <div class="more-option" *ngIf="isHaveOption()">
@@ -32,12 +33,10 @@
     </div>
     <div *ngIf="item['children']">
       <div class="items" *ngFor="let group of getBundleChildren()">
-        <h3>{{group['label']}}</h3>
+       
         <div class="sup-item" *ngFor="let item of group['items']">
-          <p class="price">
-            {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
-          </p>
           <div class="product">
+           <h3>{{group['label']}}</h3>
             <p>
               {{item['qty_ordered'] +" x " +item['name']}}
             </p>
@@ -47,6 +46,9 @@
                             {{item['qty_refunded']}} {{ 'refunded' | translate }}
                     </span>
           </div>
+          <p class="price">
+            {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
+          </p>
         </div>
       </div>
     </div>
