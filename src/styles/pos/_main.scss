@@ -2374,11 +2374,12 @@ h2.p-head {padding: 18px 20px;}
         }
         .c-other {
           position: absolute;
-          max-width: 292px; width: 227px; padding-right: 17px;
+          padding-right: 17px;
+          width: 300px;
           @include hoz-pos;
           @include clearfix;
           input[type="text"] {
-            width: 100%; margin: 0 auto;
+            width:90%; margin: 0 auto;
           }
           .irs {
             width: 210px; margin: 21px 0 0;
@@ -2418,7 +2419,7 @@ h2.p-head {padding: 18px 20px;}
       color: $disTxt;
       @include clearfix;
       span {
-        float: left; width: 33.3333%; text-align: left;
+        float: left; width: 33.3333%; text-align: left; padding: 0 5px;
         &:nth-of-type(2) {text-align: center;}
         &:nth-of-type(3) {text-align: right}
       }
