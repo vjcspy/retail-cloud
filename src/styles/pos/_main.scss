@@ -1153,6 +1153,21 @@
     }
     .fr-control {
       margin-top: 31px;
+      li{
+        .time-select,
+        .date-select{
+          float: left;
+          width: 47%;          
+          .select-wrapper{
+            width: 100%;
+            float: none;
+          }
+        }
+        .date-select{
+          float: right;
+
+        }
+      }
     }
     .bundle-item, .group-item {
       background: $cbkg;

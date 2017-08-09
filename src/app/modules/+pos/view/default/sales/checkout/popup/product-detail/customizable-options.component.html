@@ -17,7 +17,7 @@
 
 <li *ngIf="option['type'] =='date'">
   <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
-  <date-select [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <date-select class="date-select" [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </date-select>
@@ -25,7 +25,7 @@
 
 <li *ngIf="option['type'] == 'time'">
   <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
-  <time-select [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <time-select class="time-select" [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </time-select>
@@ -33,11 +33,11 @@
 
 <li *ngIf="option['type'] =='date_time'">
   <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
-  <time-select [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <time-select  class="time-select"  [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </time-select>
-  <date-select [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <date-select  class="date-select" [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </date-select>
