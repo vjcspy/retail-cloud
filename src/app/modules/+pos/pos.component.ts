@@ -19,5 +19,6 @@ export class PosComponent {
               private notify: NotifyManager) {
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
+    console.log('%c POS v1.0.1.891633 ', 'background: #222; color: #bada55');
   }
 }
