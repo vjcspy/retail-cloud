@@ -5,6 +5,7 @@ import {PosQuoteState} from "../../../../../../R/quote/quote.state";
 import {PosQuoteActions} from "../../../../../../R/quote/quote.actions";
 import * as _ from 'lodash';
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
+import {NotifyManager} from "../../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -21,7 +22,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   public shippingAmount;
   
   constructor(protected posQuoteActions: PosQuoteActions,
-              protected checkoutPopupActions: CheckoutPopupActions) { }
+              protected checkoutPopupActions: CheckoutPopupActions,
+              protected toastr:NotifyManager) { }
   
   ngOnInit() {
     if (this.isShippingPopup() && this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
@@ -60,6 +62,10 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   }
   
   addShipment() {
+    if (isNaN(this.shippingAmount) || parseFloat(<any>this.shippingAmount) < 0) {
+      this.toastr.warning("Shipping amount must be positive number");
+      return;
+    }
     let shippingAdd = _.find(this.checkoutPopupState.customerPopup.customer['address'], (_add) => parseInt(_add['id']) === parseInt(this.currentAddressId));
     if (!shippingAdd) {
       shippingAdd = null;

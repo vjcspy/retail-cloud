@@ -23,10 +23,12 @@ export class StoreHelper {
                                                        value: 'AllStore'
                                                      });
       _.forEach(StoreHelper._stores, (store) => {
-        StoreHelper._elementData['store']['data'].push({
-                                                         label: store['name'],
-                                                         value: store['id']
-                                                       });
+        if (store['id'] != "0") {
+          StoreHelper._elementData['store']['data'].push({
+                                                           label: store['name'],
+                                                           value: store['id']
+                                                         });
+        }
       });
     }
     return StoreHelper._elementData['store'];
