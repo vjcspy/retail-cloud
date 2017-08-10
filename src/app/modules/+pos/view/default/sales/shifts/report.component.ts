@@ -52,7 +52,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
           margin: 0;
           padding: 0;
           background: none !important;
-          font-size: 7pt;
+          font-size: 12px;
           line-height: 1.2;
           -webkit-print-color-adjust: exact;
           print-color-adjust: exact;
@@ -90,7 +90,11 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
 
       table {
           width: 100%;
+
       }
+      .open-store td{
+            font-size: 10px;
+          }
 
       strong {
           font-weight: 700;
@@ -102,6 +106,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       h4 {
           text-align: center;
           text-transform: uppercase;
+          font-size: 12px;
       }
 
       h1,
@@ -111,33 +116,32 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       }
 
       h1 {
-          font-size: 160%;
+          font-size: 14px;
           margin: 6pt 0;
           font-weight: 800;
       }
 
       h2 {
-          font-size: 166%;
+          font-size: 14px;
           margin: 6pt 0;
       }
 
       h3 {
-          font-size: 142%;
-          margin: 6pt 0;
-          font-weight: 400;
+          /*font-size: 142%;*/
+          margin: 6pt 0;          
       }
 
       h4 {
-          font-size: 133%;
+          /*font-size: 133%;*/
           margin: 6pt 0;
       }
 
 
       .invoice-print{
-        max-width: 288px;
+        max-width: 420px;
         background: white;
         margin: 0 auto;
-        padding: 0 20px;
+        padding:0 10px 0 0px;
 
 
       }
@@ -148,7 +152,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
           position: relative;
           overflow: hidden;
           color: #000 !important;
-          margin: 10px 0;
+          margin: 5px 0;
       }
 
       .star-line:after,
@@ -186,7 +190,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       }
 
       .payments .summary td {
-          font-size: 117%;
+          /*font-size: 117%;*/
       }
 
       .activities table {
@@ -194,7 +198,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       }
 
       .activities{
-        margin-top: 20px;
+        /*margin-top: 20px;*/
       }
       .activities .close-shift {
           font-size: 108%;
