@@ -118,20 +118,20 @@ export class PosGeneralEffects {
                                      return this.rootActions.nothing("Go to outlet and register page");
                                    });
   
-  @Effect() clearGeneralDataWhenLogout = this.actions$
-                                             .ofType(
-                                               AccountActions.ACTION_LOGOUT,
-                                               routerActions.UPDATE_LOCATION
-                                             )
-                                             .filter((action: Action) => {
-                                               if (action.type === routerActions.UPDATE_LOCATION) {
-                                                 return this.router.isActive('pos/default/outlet-register', false);
-                                               }
-                                               return true;
-                                             })
-                                             .map(() => {
-                                               this.generalService.removeGeneralDataInStorage();
+  @Effect() clearGeneralDataWhenLogoutOrChangeOutlet = this.actions$
+                                                           .ofType(
+                                                             AccountActions.ACTION_LOGOUT,
+                                                             routerActions.UPDATE_LOCATION
+                                                           )
+                                                           .filter((action: Action) => {
+                                                             if (action.type === routerActions.UPDATE_LOCATION) {
+                                                               return this.router.isActive('pos/default/outlet-register', false);
+                                                             }
+                                                             return true;
+                                                           })
+                                                           .map(() => {
+                                                             this.generalService.removeGeneralDataInStorage();
     
-                                               return this.generalActions.clearGeneralData(false);
-                                             })
+                                                             return this.generalActions.clearGeneralData(false);
+                                                           })
 }

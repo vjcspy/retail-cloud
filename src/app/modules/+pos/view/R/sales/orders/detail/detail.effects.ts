@@ -8,6 +8,8 @@ import {ListActions} from "../list/list.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
+import {OrderDetailService} from "./detail.service";
+import * as _ from 'lodash';
 
 @Injectable()
 export class OrderDetailEffects {
@@ -16,7 +18,9 @@ export class OrderDetailEffects {
               private actions$: Actions,
               private listActions: ListActions,
               private notify: NotifyManager,
+              private detailService: OrderDetailService,
               private syncActions: PosSyncActions,
+              private detailActions: OrderDetailActions,
               private entityActions: EntityActions) { }
   
   @Effect() markAsResync = this.actions$
@@ -43,4 +47,35 @@ export class OrderDetailEffects {
                                                                            ]);
                                                   });
                                });
+  
+  @Effect() shipOrder = this.actions$
+                            .ofType(
+                              OrderDetailActions.ACTION_SHIP_ORDER
+                            )
+                            .withLatestFrom(this.store$.select('general'))
+                            .switchMap((z: any) => {
+                              const orderToShip = z[0]['payload']['order'];
+    
+                              return this.detailService.createShipRequest(orderToShip['order_id'], z[1])
+                                         .filter((data) => data.hasOwnProperty("items") && _.size(data['items']) == 1)
+                                         .map((data) => {
+                                           return data['items'][0];
+                                         })
+                                         .switchMap((order) => {
+                                           let orderDB = new OrderDB();
+                                           orderDB.addData(order);
+                                           orderDB['id'] = orderToShip['id'];
+      
+                                           return Observable.fromPromise(orderDB.save(orderDB))
+                                                            .switchMap(() => {
+                                                              this.notify.success("ship_order_successfully");
+        
+                                                              return Observable.from([
+                                                                                       this.listActions.selectOrderDetail(orderDB, false),
+                                                                                       this.entityActions.pushEntity(orderDB, OrderDB.getCode(), 'id', false),
+                                                                                     ]);
+                                                            });
+                                         })
+                                         .catch((e) => Observable.of(this.detailActions.shipOrderFailed("ship_order_failed", e, false)));
+                            });
 }

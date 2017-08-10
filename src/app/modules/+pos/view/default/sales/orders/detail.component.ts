@@ -113,4 +113,8 @@ export class PosDefaultSalesOrdersDetailComponent {
     }
     this.detailActions.markAsReSync(this.getOrder());
   }
+  
+  ship() {
+    this.detailActions.shipOrder(this.getOrder());
+  }
 }

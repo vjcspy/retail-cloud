@@ -17,4 +17,28 @@ export class OrderDetailActions {
     
     return action;
   }
+  
+  static ACTION_SHIP_ORDER = 'ACTION_SHIP_ORDER';
+  
+  shipOrder(order, dispatch: boolean = true): Action {
+    const action = {type: OrderDetailActions.ACTION_SHIP_ORDER, payload: {order}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SHIP_ORDER_FAILED = 'ACTION_SHIP_ORDER_FAILED';
+  
+  shipOrderFailed(mess, e, dispatch: boolean = true): Action {
+    const action = {type: OrderDetailActions.ACTION_SHIP_ORDER_FAILED, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
