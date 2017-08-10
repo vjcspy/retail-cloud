@@ -42,6 +42,7 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
       return state;
     
     case OrderDetailActions.ACTION_SHIP_ORDER:
+    case OrderDetailActions.ACTION_SHIP_ORDER_FAILED:
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', true);
       });
