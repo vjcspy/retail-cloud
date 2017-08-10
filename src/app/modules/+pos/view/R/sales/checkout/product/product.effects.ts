@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {Observable} from "rxjs";
 import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 import {CheckoutProductState} from "./product.state";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
+import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
+import {CategoryDB} from "../../../../../database/xretail/db/category";
 
 @Injectable()
 export class CheckoutProductEffects {
@@ -33,7 +35,10 @@ export class CheckoutProductEffects {
                                            .ofType(
                                              PosEntitiesActions.ACTION_FILTERED_PRODUCTS,
                                              CheckoutProductCategoryActions.ACTION_SELECT_CATEGORY,
+                                             RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
                                            )
+                                           .filter((action: Action) => action.payload.hasOwnProperty('entityCode') ?
+                                             action.payload['entityCode'] === CategoryDB : true)
                                            .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                            .withLatestFrom(this.store$.select('checkoutProduct'))
                                            .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
