@@ -272,13 +272,15 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                 width: 100%;
                 max-width: 420px; margin: 0 auto;
                 background: #FFF; overflow: hidden;
-                border-radius: 10px;
+                /*border-radius: 10px;*/
+                padding-right: 10px;
             }
             .top-br, .bottom-br {text-align: center;}
             .top-br img {
 				max-width: 100%; height: auto;
+        border-radius: 10px 10px 0 0;
 			}
-            .bottom-br {font-size: 14px; padding: 22px 10px 16px;}
+            .bottom-br {font-size: 14px; padding: 12px 10px 10px;}
             .bottom-br p {margin: 0 0 12px; font-size: 11px;}
             .bottom-br .footer-img {
               background: #88E3A4;
@@ -291,33 +293,33 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
             .bottom-br .copy-right {font-size: 11px; color: #818181; margin: 0;}
 			.bottom-br .bar-code {width: 54.75%; height: auto;}
-            .inner {padding: 20px 23px 0;}
+            .inner {padding: 20px 0 0;}
             .inner h2, .inner h3 {margin: 0;}
             .inner h2 {font-weight: 800; font-size: 18px; text-align: center; margin-top: 0;}
             .client-info {
                 position: relative;
-                font-size: 10px; line-height: normal;
-                margin: 20px 0 20px;
+                font-size: 11px; line-height: normal;
+                margin: 20px 0 10px;
 
             }
-            .client-info h3 {font-size: 10px;}
+            .client-info h3 {font-size: 11px;}
             .client-info p {margin: 0;}
-            .name, .email {padding-right: 100px;}
+            /*.name, .email {padding-right: 100px;}*/
 			.name span {display: inline-block; width: 100%;}
 			.name span,
-            .email {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+            /*.email {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}*/
             .timer {
-                position: absolute;
-                top: 0; right: 0;
-                text-align: right;
-                font-size: 9px;
+                /*position: absolute;*/
+                /*top: 0; right: 0;*/
+                text-align: left;
+                
             }
-            .timer span {display: block; white-space: nowrap;}
+            /*.timer span {display: block; white-space: nowrap;}*/
 
-            .invoice-table {border: #4F4F4F solid 3px; border-width: 3px 0;}
+            .invoice-table {border: #4F4F4F solid 2px; border-width: 2px 0;}
             .invoice-table th, .invoice-table h4 {font-size: 12px;}
-            .invoice-table td {font-size: 11px;}
-            .invoice-table td.c-left {font-size: 10px;}
+            .invoice-table td {font-size: 12px;}
+            /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
                 padding: 0; text-align: center;
@@ -330,11 +332,12 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .invoice-table tbody tr:first-child td {padding-top: 5px;}
             .invoice-table tbody tr:last-child td {padding-bottom: 5px;}
             .invoice-table tbody.last tr:last-child td {padding-bottom: 12px;}
-            .invoice-table tfoot.grand-total tr:first-child td {border-top: #4F4F4F solid 3px;}
+            .invoice-table tfoot.grand-total tr:first-child td {border-top: #4F4F4F solid 2px;}
             .invoice-table tfoot.grand-total tr:last-child td {border-bottom: #A7A7A7 solid 1px;}
-            .invoice-table tfoot.grand-total tr:last-child td:first-child {border-bottom-color: transparent;}
-            .invoice-table tfoot tr:first-child td {padding-top: 10px;}
-            .invoice-table tfoot tr:last-child td {padding-bottom: 10px;}
+            /*.invoice-table tfoot.grand-total tr:last-child td:first-child {border-bottom-color: transparent;}*/
+            .invoice-table tfoot tr:first-child td {padding-top: 2px;}
+            .invoice-table tfoot tr:last-child td {padding-bottom: 2px;}
+            .invoice-table tfoot.grand-total tr:last-child td {padding: 5px 0;}
 
             .invoice-merchant{
               display: block;

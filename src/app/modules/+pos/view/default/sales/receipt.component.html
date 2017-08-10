@@ -7,10 +7,7 @@
     <div class="inner" *ngIf="getOrder() && getOrder()['customer']">
       <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
-        <div class="timer">
-          <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>
-          <span>{{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
-        </div>
+        
         <h3 class="name">{{ 'Customer' | translate }}: {{getOrder()['customer']['name']}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
@@ -42,6 +39,11 @@
         <p *ngIf="!!getReceiptSetting()['order_info']['sales_person']">
           {{ 'Served By' | translate }}:{{getUserNameById(getOrder()['user_id'])}}
         </p>
+        <div class="timer">
+          Date time: 
+          <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>
+          <span> --- {{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
+        </div>
       </div>
       <table class="invoice-table" width="100%" border="0" cellspacing="0" cellpadding="0">
         <thead>
@@ -78,7 +80,7 @@
         </tr>
         <tr *ngIf="getProductCustomOption(item)">
           <td class="c-left">
-            <div *ngFor="let option of item['product_options']['options'];trackBy:trackById;" style="margin-left: 10%">
+            <div *ngFor="let option of item['product_options']['options'];trackBy:trackById;">
               {{option['label'] + ": " + option['value']}}
             </div>
           </td>
@@ -87,7 +89,7 @@
         </tr>
         <tr *ngIf="getConfigurableOption(item)">
           <td class="c-left">
-            <div *ngFor="let option of item['product_options']['attributes_info']" style="margin-left: 10%">
+            <div *ngFor="let option of item['product_options']['attributes_info']">
               {{(option['label']|translate) + ": " + option['value']}}
             </div>
           </td>
@@ -111,55 +113,46 @@
         </tbody>
         <tfoot *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
         <tr *ngFor="let payment of getOrder()['payment']">
-          <td>&nbsp;</td>
-          <td class="c-left">{{getPaymentTitle(payment)}}</td>
+          <td colspan="2" class="c-left">{{getPaymentTitle(payment)}}</td>
           <td class="c-right">{{payment['amount'] | priceFormat}}</td>
         </tr>
         </tfoot>
         <tfoot class="grand-total" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
-        <tr>
-          <td>&nbsp;</td>
-          <td class="c-left">{{ 'Subtotal' | translate }}</td>
+        <tr>          
+          <td class="c-left" colspan="2">{{ 'Subtotal' | translate }}</td>
           <td class="c-right">
             {{(getReceiptSetting()['subtotal_incl_tax'] == '1' ? getOrder()['totals']['subtotal_incl_tax'] : getOrder()['totals']['subtotal'])
             | priceFormat}}
           </td>
         </tr>
         <tr *ngIf="showDiscountOrShipment(getOrder()['totals']['discount'] ? getOrder()['totals']['discount'] : 0 + (posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && getOrder()['totals']['retail_discount_pert_item']) ? getOrder()['totals']['retail_discount_pert_item'] : 0)">
-          <td>&nbsp;</td>
-          <td class="c-left">{{ 'Discount' | translate }}</td>
+          <td class="c-left" colspan="2">{{ 'Discount' | translate }}</td>
           <td class="c-right">
             {{getDiscount() | priceFormat}}
           </td>
         </tr>
         <tr *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">
-          <td>&nbsp;</td>
-          <td class="c-left">{{ 'Reward Point' | translate }}</td>
+          <td class="c-left" colspan="2">{{ 'Reward Point' | translate }}</td>
           <td class="c-right">{{getOrder()['totals']['reward_point_discount_amount'] | priceFormat}}</td>
         </tr>
         <tr *ngIf="showDiscountOrShipment(getOrder()['totals']['shipping'] )">
-          <td>&nbsp;</td>
-          <td class="c-left">{{ 'Ship Amount' | translate }}</td>
+          <td class="c-left" colspan="2">{{ 'Ship Amount' | translate }}</td>
           <td class="c-right">{{getOrder()['totals']['shipping'] | priceFormat}}</td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
-          <td class="c-left">{{ 'Tax' | translate }}</td>
+          <td class="c-left" colspan="2">{{ 'Tax' | translate }}</td>
           <td class="c-right">{{getOrder()['totals']['tax'] | priceFormat}}</td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
-          <td class="c-left"><h4>{{ 'Grand total' | translate }}</h4></td>
+          <td class="c-left" colspan="2"><h4>{{ 'Grand total' | translate }}</h4></td>
           <td class="c-right"><h4>{{getOrder()['totals']['grand_total'] | priceFormat}}</h4></td>
         </tr>
         <tr *ngIf="showRemaining()">
-          <td>&nbsp;</td>
-          <td class="c-left"><h4>{{ 'Remain' | translate }}</h4></td>
+          <td class="c-left" colspan="2"><h4>{{ 'Remain' | translate }}</h4></td>
           <td class="c-right"><h4>{{getRemainingData()| priceFormat}}</h4></td>
         </tr>
         <tr *ngIf="!!getOrder()['totals']['total_refunded']">
-          <td>&nbsp;</td>
-          <td class="c-left"><h4>{{ 'Total Refunded' | translate }}</h4></td>
+          <td class="c-left" colspan="2"><h4>{{ 'Total Refunded' | translate }}</h4></td>
           <td class="c-right"><h4>{{getOrder()['totals']['total_refunded']| priceFormat}}</h4></td>
         </tr>
         </tfoot>

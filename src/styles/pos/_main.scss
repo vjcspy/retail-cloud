@@ -1167,6 +1167,13 @@
           float: right;
 
         }
+        .time-select{
+          .dropdown-menu{
+            display: block !important;
+            left: 0;
+            bottom:0 ;
+          }
+        }
       }
     }
     .bundle-item, .group-item {
