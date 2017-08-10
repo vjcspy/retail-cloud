@@ -291,13 +291,15 @@ export class PosQuoteEffects {
                             _.forEach(action.payload['orderData']['items'], (item) => {
                               let _buyRequest = new DataObject();
                               _buyRequest.addData(item['buy_request']);
+      
                               if (_buyRequest.hasOwnProperty('discount_per_item') || _buyRequest.hasOwnProperty('retail_discount_per_items_percent')) {
                                 _buyRequest.setData("discount_per_item", 0);
                                 _buyRequest.setData("retail_discount_per_items_percent", 0);
                               }
-                              if (_buyRequest.hasOwnProperty('custom_price')) {
-                                _buyRequest.setData("custom_price", null);
-                              }
+      
+                              // if (_buyRequest.hasOwnProperty('custom_price')) {
+                              //   _buyRequest.setData("custom_price", null);
+                              // }
       
                               let product;
                               if (parseInt(_buyRequest.getData('product_id')) !== parseInt(configState.setting.product.getCustomSaleProduct()['id'])) {
@@ -305,7 +307,7 @@ export class PosQuoteEffects {
                               } else {
                                 product = configState.setting.product.getCustomSaleProduct();
                               }
-                              
+      
                               if (product) {
                                 let p = new Product();
                                 p.mapWithParent(product);
