@@ -15,7 +15,7 @@ import {ShiftState} from "../../../../R/sales/shifts/shift.state";
 export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
   @Input() shiftState: ShiftState;
   protected _data = {
-    isIn: 1,
+    isIn: null,
     amount: 0,
     note: ''
   };
@@ -36,6 +36,11 @@ export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
   
   adjustShift() {
     if (this.authenticate.userCan('open_and_close_register')) {
+      if (this._data.isIn === null) {
+        this.notify.warning("please_define_action_when_adjust_shift");
+        
+        return;
+      }
       this.formValidation.submit('popup-adjust-shift', () => {
         this.shiftDetailActions.adjustShift(this.shiftState.detail.shift, this._data);
       }, true)
