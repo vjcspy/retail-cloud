@@ -1,4 +1,4 @@
-<div class="checkout-row">
+<div class="checkout-row" *ngIf="offline.online">
   <div class="checkout-head">
     <div class="c-name"><span class="icon-diamond"></span> {{ 'Reward Point' | translate }}</div>
     <!--<div *ngIf="configData.configData['rpType'] != 'aheadWorld'">-->

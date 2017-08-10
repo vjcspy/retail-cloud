@@ -53,24 +53,38 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openShift() {
-    this.go('pos/default/sales/shifts');
+    if (this.offline.online) {
+      this.go('pos/default/sales/shifts');
+    }
   }
   
   goPosSetting() {
-    this.go('pos/configurations/default/general');
+    if (this.offline.online) {
+      this.go('pos/configurations/default/general');
+    }
   }
   
   changeOutlet() {
-    this.go('pos/default/outlet-register');
+    if (this.offline.online) {
+      this.go('pos/default/outlet-register');
+    }
   }
   
   openOrders() {
     this.go('pos/default/sales/orders');
   }
   
+  flushCache() {
+    if (this.offline.online) {
+      this.go('pos/configurations/default/advanced/client-db');
+    }
+  }
+  
   logOut() {
-    this.accountService.removeUserFromStorage();
-    this.accountActions.logout();
+    if (this.offline.online) {
+      this.accountService.removeUserFromStorage();
+      this.accountActions.logout();
+    }
   }
   
   @HostListener('document:click', ['$event.target']) onClick(target) {
