@@ -5,13 +5,16 @@ import {OrderDB} from "../../../../../database/xretail/db/order";
 import {OrdersStateRecord} from "../order.state";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import * as _ from 'lodash';
+import {OrderDetailActions} from "./detail.actions";
 
 export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: OrdersStateRecord, action) => {
   switch (action.type) {
     
     case ListActions.ACTION_SELECT_ORDER_DETAIL:
       return state.update('detail', (detail) => {
-        return detail.set('order', action.payload['order']);
+        return detail.set('order', action.payload['order'])
+                     .set('isResolvingReorder', false);
+        ;
       });
     
     case PosQuoteActions.ACTION_REORDER:
@@ -37,6 +40,11 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
         });
       }
       return state;
+    
+    case OrderDetailActions.ACTION_SHIP_ORDER:
+      return state.update('detail', (detail) => {
+        return detail.set('isResolvingReorder', true);
+      });
     
     default:
       return state;

@@ -133,13 +133,24 @@
     </div><!--end payment-info-->
   </div><!--end order-list-inner-->
   <div class="bottom-bar">
-    <button (click)="markAsReSynnc()" *ngIf="getOrder()['pushed'] == 3">{{ 'Mark As ReSync' | translate }}</button>
-    <button (click)="reorder()">{{ 'Duplicate' | translate }}</button>
-    <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()">{{ 'Refund' | translate }}</button>
-    <button *ngIf="getOrder()['can_ship']">{{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}</button>
-    <button *ngIf="getOrder()['can_invoice']" (click)="addPayments()">{{ 'Add Payment' | translate }}</button>
+    <button (click)="markAsReSynnc()" *ngIf="getOrder()['pushed'] == 3" [ladda]="ordersState.detail.isResolvingReorder">
+      {{ 'Mark As ReSync' | translate }}
+    </button>
+    <button (click)="reorder()" [ladda]="ordersState.detail.isResolvingReorder">
+      {{ 'Duplicate' | translate }}
+    </button>
+    <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()" [ladda]="ordersState.detail.isResolvingReorder">
+      {{ 'Refund' | translate }}
+    </button>
+    <button *ngIf="getOrder()['can_ship']" (click)="ship()" [ladda]="ordersState.detail.isResolvingReorder">
+      {{ 'Mark as' | translate }} <br/>{{ 'Fulfilled' | translate }}
+    </button>
+    <button *ngIf="getOrder()['can_invoice']" (click)="addPayments()" [ladda]="ordersState.detail.isResolvingReorder">
+      {{ 'Add Payment' | translate }}
+    </button>
     <div class="button-group has-icon-drop" [ngClass]="{active:getOrder()['isActiveReceiptInner']}">
-      <button (click)="getOrder()['isActiveReceiptInner'] = !getOrder()['isActiveReceiptInner']">{{ 'Receipt' | translate }}<i class="icon-up"></i></button>
+      <button (click)="getOrder()['isActiveReceiptInner'] = !getOrder()['isActiveReceiptInner']">{{ 'Receipt' | translate }}<i class="icon-up"></i>
+      </button>
       <div class="inner">
         <button (click)="printReceipt()">{{ 'Receipt' | translate }}</button>
         <button (click)="printReceipt('gift')">{{ 'Gift Receipt' | translate }}</button>
