@@ -170,7 +170,9 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       .dot-line:after {
           content: "------------------------------------------------------------------------------------------------";
       }
-
+      .info{
+      word-break: break-word;
+      }
       .total-net-btn div {
           background-color: #000000 !important;
           color: #ffffff !important;
