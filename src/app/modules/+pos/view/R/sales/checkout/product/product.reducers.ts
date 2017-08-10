@@ -5,6 +5,7 @@ import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from 'lodash';
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {checkoutProductCategoryReducer} from "./category/category.reducer";
+import {PosGeneralActions} from "../../../../../R/general/general.actions";
 
 const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
@@ -148,6 +149,9 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     case CheckoutProductActions.ACTION_CHANGE_VIEW_MODE:
       return state.set('isGridMode', action.payload['isGridMode'])
                   .set('productGridCurrentPage', 1);
+    
+    case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
+      return checkoutProductStateFactory();
     
     default:
       return state;
