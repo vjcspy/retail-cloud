@@ -12,6 +12,7 @@ import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
+import {OfflineService} from "../../../../../share/provider/offline";
 
 @Component({
              // moduleId: module.id,
@@ -33,6 +34,7 @@ export class PosDefaultSalesOrdersDetailComponent {
               protected routerActions: RouterActions,
               protected authService: AuthenticateService,
               private notify: NotifyManager,
+              private offline: OfflineService,
               private detailActions: OrderDetailActions,
               protected receiptActions: ReceiptActions,
               protected refundActions: QuoteRefundActions,
@@ -93,6 +95,10 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   refund() {
+    if (!this.offline.online) {
+      this.notify.warning("sorry_you_can_not_perform_this_action_in_offline");
+      return;
+    }
     if (this.authService.userCan('make_refund')) {
       if (this.getOrder()['can_creditmemo'] && this.getOrder()['order_id']) {
         const orderId = parseInt(this.getOrder()['order_id']);
@@ -115,6 +121,10 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   ship() {
+    if (!this.offline.online) {
+      this.notify.warning("sorry_you_can_not_perform_this_action_in_offline");
+      return;
+    }
     this.detailActions.shipOrder(this.getOrder());
   }
 }
