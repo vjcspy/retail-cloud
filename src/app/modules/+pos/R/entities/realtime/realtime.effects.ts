@@ -9,6 +9,7 @@ import {RealtimeActions} from "./realtime.actions";
 import {List} from "immutable";
 import {Entity} from "../entities.model";
 import {RootActions} from "../../../../../R/root.actions";
+import * as _ from 'lodash';
 
 @Injectable()
 export class RealtimeEffects {
@@ -48,25 +49,34 @@ export class RealtimeEffects {
     
                                             return this.realtimeService
                                                        .realtimeEntityObservable(entityCode, <any>generalState)
-                                                       .flatMap((realtimeData) => {
+                                                       .map((realtimeData) => {
                                                          const {needRemove, needUpdate, entityInfo, newCacheTime} = realtimeData;
-                                                         return Observable.from([
-                                                                                  this.realtimeActions.realtimeNeedRemove({
-                                                                                                                            needRemove,
-                                                                                                                            entityInfo,
-                                                                                                                            entity,
-                                                                                                                            newCacheTime
-                                                                                                                          }, false),
-                                                                                  this.realtimeActions.realtimeNeedUpdate({
-                                                                                                                            needUpdate,
-                                                                                                                            entityInfo,
-                                                                                                                            entity,
-                                                                                                                            newCacheTime
-                                                                                                                          }, false)
-                                                                                ]);
+      
+                                                         let ob = [];
+                                                         if (needRemove.count() > 0) {
+                                                           ob.push(this.realtimeActions.realtimeNeedRemove({
+                                                                                                             needRemove,
+                                                                                                             entityInfo,
+                                                                                                             entity,
+                                                                                                             newCacheTime
+                                                                                                           }, false));
+                                                         }
+      
+                                                         if (needUpdate.count() > 0) {
+                                                           ob.push(this.realtimeActions.realtimeNeedUpdate({
+                                                                                                             needUpdate,
+                                                                                                             entityInfo,
+                                                                                                             entity,
+                                                                                                             newCacheTime
+                                                                                                           }, false));
+                                                         }
+      
+                                                         return ob;
                                                        })
-                                                       .filter((_action: Action) => !_action.payload['realtimeData']['needRemove'] || (_action.payload['realtimeData']['needRemove'] as List<any>).count() > 0)
-                                                       .filter((_action: Action) => !_action.payload['realtimeData']['needUpdate'] || (_action.payload['realtimeData']['needUpdate'] as List<any>).count() > 0);
+                                                       .filter((ob) => _.size(ob) > 0)
+                                                       .flatMap((ob) => {
+                                                         return Observable.from(ob);
+                                                       })
                                           });
   
   @Effect() handleNeedRemove = this.actions$
