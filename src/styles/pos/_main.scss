@@ -1155,25 +1155,25 @@
       margin-top: 31px;
       li{
         .time-select,
-        .date-select{
+        .date-select,
+        .datetime-select{
           float: left;
           width: 47%;          
           .select-wrapper{
             width: 100%;
             float: none;
           }
-        }
-        .date-select{
-          float: right;
-
-        }
-        .time-select{
-          .dropdown-menu{
-            display: block !important;
-            left: 0;
-            bottom:0 ;
+          .input-group-addon{
+            border-color: transparent;
           }
         }
+        .datetime-select{
+          float: right;
+          &.time-select{
+            float: left;
+          }
+        }
+        
       }
     }
     .bundle-item, .group-item {

@@ -33,11 +33,11 @@
 
 <li *ngIf="option['type'] =='date_time'">
   <label>{{option['title']}}<span *ngIf="option['is_require'] == '1'" style="display: inline-block">*</span></label>
-  <time-select  class="time-select"  [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <time-select  class="time-select datetime-select"  [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </time-select>
-  <date-select  class="date-select" [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
+  <date-select  class="datetime-select" [model]="options[option['option_id']]" (modelChange)="updateProductCustomizableOptions(option['option_id'],$event)"
                [formKey]="'pos-product-detail'"
                [validation]="option['is_require']=='1'? 'require' :''">
   </date-select>
