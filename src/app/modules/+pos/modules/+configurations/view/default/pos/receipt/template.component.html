@@ -141,10 +141,7 @@
   <div class="inner">
     <div [innerHtml]="configurationsReceiptState.receipt['header'] | byPassSecurity"></div>
     <div class="client-info">
-      <div class="timer">
-        <span>22nd December 2016</span>
-        <span>09:45 AM</span>
-      </div>
+      
       <h3 class="name">{{ 'Customer' | translate }}: John Doe</h3>
       <p class="email" *ngIf="configurationsReceiptState.receipt['customer_info'] == '1' || configurationsReceiptState.receipt['customer_info'] == '2'">
         Email: johndoe@example.com
@@ -156,6 +153,11 @@
         States
       </p>
       <p *ngIf="!!configurationsReceiptState.receipt['order_info']['sales_person']">{{ 'Served By' | translate }}: Cashier</p>
+      <div class="timer">
+        {{ 'Date time' | translate }}:
+        <span>22nd December 2016</span>
+        <span> --- 09:45 AM</span>
+      </div>
     </div>
     <table class="invoice-table">
       <thead>
@@ -167,14 +169,14 @@
       </thead>
       <tbody>
       <tr>
-        <td colspan="2" class="c-left"><h4>Hyperion Elements Jacket</h4></td>
-        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$56.87</h4></td>
-        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$51.00</h4></td>
+        <td colspan="3" class="c-left"><h4>Hyperion Elements Jacket</h4></td>
+        
       </tr>
       <tr>
         <td class="c-left">SKU: M0021S</td>
         <td>02</td>
-        <td class="c-right"></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$56.87</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$51.00</h4></td>
       </tr>
       <tr>
         <td class="c-left" style="margin-left: 10%">{{ 'Color' | translate }}: {{ 'Green' | translate }}<br>{{ 'Size' | translate }}: S</td>
@@ -184,14 +186,14 @@
       </tbody>
       <tbody>
       <tr>
-        <td colspan="2" class="c-left"><h4>Decimal - Fusion Backpack</h4></td>
-        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$65.79</h4></td>
-        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$59.00</h4></td>
+        <td colspan="3" class="c-left"><h4>Decimal - Fusion Backpack</h4></td>
+        
       </tr>
       <tr>
         <td class="c-left">SKU: M0021S</td>
         <td>01</td>
-        <td class="c-right"></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '1'"><h4>$65.79</h4></td>
+        <td class="c-right" *ngIf="configurationsReceiptState.receipt['row_total_incl_tax'] == '2'"><h4>$59.00</h4></td>
       </tr>
       </tbody>
       <tbody class="last">
@@ -214,52 +216,43 @@
       </tr>
       </tbody>
       <tfoot>
-      <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">X-POS Cash</td>
+      <tr>        
+        <td class="c-left" colspan="2">X-POS Cash</td>
         <td class="c-right">$100.00</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">Credit Card</td>
+        <td class="c-left" colspan="2">Credit Card</td>
         <td class="c-right">$35.71</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">Paypal</td>
+        <td class="c-left" colspan="2">Paypal</td>
         <td class="c-right">$50.00</td>
       </tr>
       </tfoot>
       <tfoot class="grand-total">
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">{{ 'Subtotal' | translate }}</td>
+        <td class="c-left" colspan="2">{{ 'Subtotal' | translate }}</td>
         <td class="c-right" *ngIf="configurationsReceiptState.receipt['subtotal_incl_tax'] == '1'"><h4>$157.06</h4></td>
         <td class="c-right" *ngIf="configurationsReceiptState.receipt['subtotal_incl_tax'] == '2'"><h4>$142.50</h4></td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">{{ 'Discount' | translate }}</td>
+        <td class="c-left" colspan="2">{{ 'Discount' | translate }}</td>
         <td class="c-right">- $14.25</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">{{ 'Ship Amount' | translate }}</td>
+        <td class="c-left" colspan="2">{{ 'Ship Amount' | translate }}</td>
         <td class="c-right">$12.88</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left">{{ 'Tax' | translate }}</td>
+        <td class="c-left" colspan="2">{{ 'Tax' | translate }}</td>
         <td class="c-right">$14.58</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left"><h4>{{ 'Grand Total' | translate }}</h4></td>
+        <td class="c-left" colspan="2"><h4>{{ 'Grand Total' | translate }}</h4></td>
         <td class="c-right"><h4>$155.71</h4></td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
-        <td class="c-left"><h4>{{ 'Remain' | translate }}</h4></td>
+        <td class="c-left" colspan="2"><h4>{{ 'Remain' | translate }}</h4></td>
         <td class="c-right"><h4>$30.00</h4></td>
       </tr>
       </tfoot>

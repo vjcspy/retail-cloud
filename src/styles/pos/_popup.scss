@@ -278,6 +278,7 @@
       }
       &.scroll{
         height: 288px;
+        overflow: hidden !important;
       }
     }
    .list-mode-bot{
