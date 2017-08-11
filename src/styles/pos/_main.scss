@@ -3570,7 +3570,10 @@ ul.has-list {
     &:last-child {border-bottom: none;}
   }
   .table-total {
-    padding: 39px 0 25px;
+    padding: 39px 5% 25px;
+    @include tablet{
+      padding: 20px 0;
+    }
     table {
       h4 {
         font-family: $mediumFont;
@@ -3589,7 +3592,7 @@ ul.has-list {
         font-size: $sizeS; color: #B0B0B0;
         text-transform: uppercase; padding: 0 5px 11px 0;
       }
-      td {position: relative; padding: 7px 5px 6px 0;}
+      td {position: relative; padding: 7px 5px 6px 0;width: 20%}
       [class^="icon-"] {
         position: absolute;
         top: -5px; left: 0;
@@ -3716,7 +3719,7 @@ ul.has-list {
         .t-txt {
           font-family: $mainFont;
           position: relative;
-          width: calc(100% - 200px);
+          word-break: break-word;
           em {margin-top: 2px;}
         }
 

@@ -84,7 +84,8 @@ export class CartActionBarEffects {
                                         const order = action.payload['order'];
                                         return this.quoteActions.reorder({
                                                                            customer: parseInt(order['customer']['id']),
-                                                                           items: order['items']
+                                                                           items: order['items'],
+                                                                           retail_note: order['note']
                                                                          }, false);
                                       });
 }

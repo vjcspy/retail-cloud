@@ -3,6 +3,9 @@
 .receipt-blk {
   float: left; width: 42.3572%;
   margin-left: $hoztSpace;
+  @include tablet{
+    width: 45%;
+  }
   .fr-control {
     // &:first-child {border-bottom: $border solid 1px; margin-bottom: 15px;}
     li {
@@ -40,6 +43,9 @@
   background: $white;
   overflow: hidden;
   @include border-radius(10px);
+  @include tablet{
+    width: 41%;
+  }
   .top-br, .bottom-br {
     text-align: center;
   }
@@ -65,17 +71,9 @@
     .client-info {
       position: relative;
       font-size: $sizeS; line-height: 22px;
-      padding-right: 115px; margin: 20px 0 20px;
+      margin: 20px 0 20px;
       h3 {font-size: $size;}
       p {margin: 0;}
-      .name, .email {padding-right: 25px;}
-      .email {@include ellipsis;}
-      .timer {
-        position: absolute;
-        top: 0; right: 0;
-        text-align: right;
-        span {display: block; white-space: nowrap;}
-      }
     }
 
   }
@@ -117,22 +115,21 @@
     &.grand-total {
       tr {
         &:first-child {
-          td {border-top: $mainTxt solid 3px;}
+          td {border-top: $mainTxt solid 3px; padding-top: 20px}
         }
         &:last-child {
           td {
-            border-bottom: #A7A7A7 solid 1px;
-            &:first-child {border-bottom-color: transparent;}
+            border-bottom: #A7A7A7 solid 1px;            
           }
         }
       }
     }
     tr {
       &:first-child {
-        td {padding-top: 20px;}
+        td {padding-top: 10px;}
       }
       &:last-child {
-        td {padding-bottom: 20px;}
+        td {padding-bottom: 10px;}
       }
     }
   }
