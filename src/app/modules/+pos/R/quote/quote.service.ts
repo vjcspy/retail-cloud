@@ -28,6 +28,13 @@ export class PosQuoteService {
     return quote;
   }
   
+  setNoteToQuote(retail_note: string): Quote {
+    const quote = PosQuote.getQuote();
+    quote.setData('retail_note', retail_note);
+    
+    return quote;
+  }
+  
   checkShiftOpenInSV(generalState: PosGeneralState): Observable<any> {
     return this.request
                .makeGet(this.apiManger.get('check-open-shift', generalState.baseUrl) + `?outlet_id=${generalState.outlet['id']}&register_id=${generalState.register['id']}`)

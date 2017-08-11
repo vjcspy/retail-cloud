@@ -5,6 +5,7 @@ import {IntegrateRpActions} from "../../../../../../R/integrate/rp/integrate-rp.
 import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 import {PosConfigState} from "../../../../../../R/config/config.state";
 import {PosSyncState} from "../../../../../../R/sync/sync.state";
+import {OfflineService} from "../../../../../../../share/provider/offline";
 
 @Component({
              //moduleId: module.id,
@@ -18,7 +19,8 @@ export class CheckoutRewardPointComponent {
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
   
-  constructor(public integrateRpActions: IntegrateRpActions) {}
+  constructor(public integrateRpActions: IntegrateRpActions,
+              protected offline: OfflineService) {}
   
   isAheadWorldRp() {
     return this.posConfigState.posRetailConfig.rpType === 'aheadWorld';

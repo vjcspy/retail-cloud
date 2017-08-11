@@ -15,7 +15,7 @@
             <label>Start amount:</label>
             <retail-text [(model)]="_data.startMoney" [disabled]="shiftState.detail.waitingServer"
                          [formKey]="'popup-open-shift'"
-                         [validation]="'require,is-number'" [placeHolderText]="'Enter start amount' | translate"></retail-text>
+                         [validation]="'require,i-number'" [placeHolderText]="'Enter start amount' | translate"></retail-text>
           </div>
 
           <textarea placeholder="{{ 'Add note here' | translate }}" [(ngModel)]="_data.note" name="note"></textarea>

@@ -322,7 +322,13 @@ export class PosQuoteEffects {
                             if (items.count() > 0) {
                               ob.push(this.quoteActions.updateQuoteItems(items, true, false));
                             }
-    
+  
+                            // Resolve retail note
+                            let retail_note = action.payload['orderData']['retail_note'];
+                            if (retail_note) {
+                              this.quoteService.setNoteToQuote(retail_note);
+                            }
+                            
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];
                             if (parseInt(configState.setting.customer.getDefaultCustomerId()) === parseInt(customer + '')) {
