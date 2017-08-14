@@ -14,8 +14,6 @@ import * as _ from 'lodash';
 @Injectable()
 export class RealtimeEffects {
   
-  protected subscribedEntity = {};
-  
   constructor(private actions$: Actions,
               private store$: Store<any>,
               private realtimeService: RealtimeService,
@@ -31,7 +29,7 @@ export class RealtimeEffects {
                                                           ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
                                             const action: Action = <any>z[0];
-                                            return this.subscribedEntity[action.payload['entityCode']] !== true;
+                                            return this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== true;
                                           })
                                           .filter((z) => {
                                             const entitiesState: PosEntitiesState = z[2];
@@ -39,8 +37,9 @@ export class RealtimeEffects {
                                             return entitiesState[action.payload['entityCode']].needRealTime === true;
                                           })
                                           .map((z) => {
-                                            const action: Action                                = <any>z[0];
-                                            this.subscribedEntity[action.payload['entityCode']] = true;
+                                            const action: Action                                                       = <any>z[0];
+                                            this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] = true;
+    
                                             return z;
                                           })
                                           .flatMap(([action, generalState, entitiesState]) => {

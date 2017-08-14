@@ -17,6 +17,7 @@ import {RouterActions} from "../../../../R/router/router.actions";
 import {PosGeneralState} from "./general.state";
 import {Router} from "@angular/router";
 import {routerActions} from "@ngrx/router-store";
+import {RealtimeService} from "../entities/realtime/realtime.service";
 
 @Injectable()
 export class PosGeneralEffects {
@@ -28,6 +29,7 @@ export class PosGeneralEffects {
               private pullActions: PosPullActions,
               private routerAction: RouterActions,
               private rootActions: RootActions,
+              private realtimeService: RealtimeService,
               private router: Router) { }
   
   @Effect() pullGeneralDataFromSever = this.actions$
@@ -131,6 +133,7 @@ export class PosGeneralEffects {
                                                            })
                                                            .map(() => {
                                                              this.generalService.removeGeneralDataInStorage();
+                                                             this.realtimeService.resetSubscribeRealtimeEntity();
     
                                                              return this.generalActions.clearGeneralData(false);
                                                            })

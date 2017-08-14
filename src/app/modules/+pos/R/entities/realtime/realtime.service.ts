@@ -18,6 +18,19 @@ import {TaxDB} from "../../../database/xretail/db/tax";
 
 @Injectable()
 export class RealtimeService {
+  private _subscribeRealtimeEntity = {};
+  
+  get subscribeRealtimeEntity(): {} {
+    return this._subscribeRealtimeEntity;
+  }
+  
+  set subscribeRealtimeEntity(value: {}) {
+    this._subscribeRealtimeEntity = value;
+  }
+  
+  resetSubscribeRealtimeEntity() {
+    this._subscribeRealtimeEntity = {};
+  }
   
   constructor(private entitiesService: PosEntitiesService,
               private realtimeStorage: RealtimeStorage,
