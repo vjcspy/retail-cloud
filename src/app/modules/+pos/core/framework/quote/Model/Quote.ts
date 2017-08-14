@@ -424,4 +424,14 @@ export class Quote extends DataObject {
     
     return this;
   }
+  
+  setSyncedItems(items) {
+    this.setData('synced_items', items);
+    
+    return this;
+  }
+  
+  getSyncedItems() {
+    return this.getData('synced_items');
+  }
 }

@@ -125,7 +125,11 @@ export class PosSyncService {
     orderOffline['retail_status'] = this.getRetailStatus(quote);
     
     // init item data for order detail
-    orderOffline ['items'] = this.prepareOrderItem(quote.getShippingAddress().getItems());
+    if (quote.getSyncedItems()) {
+      orderOffline ['items'] = quote.getSyncedItems();
+    } else {
+      orderOffline ['items'] = this.prepareOrderItem(quote.getShippingAddress().getItems());
+    }
     
     return orderOffline;
   }

@@ -60,8 +60,8 @@ export class PosSyncActions {
    */
   static ACTION_SYNC_ORDER_SUCCESS = 'ACTION_SYNC_ORDER_SUCCESS';
   
-  syncOrderSuccess(quote, dispatch: boolean = true): Action {
-    const action = {type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote}};
+  syncOrderSuccess(quote, syncData: any, dispatch: boolean = true): Action {
+    const action = {type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote, syncData}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

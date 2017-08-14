@@ -46,13 +46,16 @@ export class PosSyncEffects {
                                        if (quoteState.items.count() > 0) {
                                          return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), false);
                                        } else if (quoteState.info.isRefunding) {
-                                         return this.syncActions.syncOrderSuccess(quoteState.quote, false);
+                                         return this.syncActions.syncOrderSuccess(quoteState.quote, null, false);
                                        } else {
                                          return this.rootActions.error("nothing_to_sync", null, false);
                                        }
                                      });
   
-  @Effect() syncOrder = this.actions$.ofType(PosSyncActions.ACTION_PREPARE_ORDER_SYNC)
+  @Effect() syncOrder = this.actions$
+                            .ofType(
+                              PosSyncActions.ACTION_PREPARE_ORDER_SYNC
+                            )
                             .withLatestFrom(this.store$.select('general'))
                             .withLatestFrom(this.store$.select('quote'),
                                             ([action, generalState], quoteState) => [action, generalState, quoteState])
@@ -77,11 +80,13 @@ export class PosSyncEffects {
                                                this.notify.success('coupon_code_accepted');
                                              }
         
-                                             return this.syncActions.syncOrderSuccess(quote, false);
+                                             quote.setSyncedItems(syncData['items']);
+        
+                                             return this.syncActions.syncOrderSuccess(quote, syncData, false);
                                            })
                                            .catch((e) => Observable.of(this.syncActions.syncOrderError(e, false)));
                               } else {
-                                return Observable.of(this.syncActions.syncOrderSuccess(quote, false));
+                                return Observable.of(this.syncActions.syncOrderSuccess(quote, null, false));
                               }
                             });
   

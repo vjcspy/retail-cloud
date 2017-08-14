@@ -65,6 +65,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('discount_whole_order')
            .unsetData('is_exchange')
            .unsetData('retail_note')
+           .unsetData('synced_items')
            .unsetData('coupon_code')
            .unsetData('payment_data')
            .unsetData('reward_point')
