@@ -67,6 +67,12 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
     if (_.isString(value)) {
       value = <any>_.replace(value, new RegExp(",", 'g'), "");
     }
+    if (key === 'qty') {
+      if (!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] !== '1') {
+        value = Math.round(value);
+        event.target['value'] = parseFloat(value).toFixed(2);
+      }
+    }
     if (isNaN(value) || parseFloat(value) < 0) {
       this.notify.warning("check_item_buy_request");
     } else {

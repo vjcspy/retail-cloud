@@ -45,11 +45,13 @@
               <span class="value">{{getOrder()['shipping_address']['telephone'] || "Unknown Telephone"}}</span>
 
               <span class="txt">{{ 'Address' | translate }}</span>
-              <span class="value" *ngIf="getOrder()['shipping_address']['region'] != '-'">{{getOrder()['shipping_address']['street'] + ", "+
+              <span class="value" *ngIf="getOrder()['shipping_address']['region'] != '-'">{{getOrder()['shipping_address']['first_name'] + " " +
+                                getOrder()['shipping_address']['last_name']}}<br/>{{getOrder()['shipping_address']['street'] + ", "+
                                 getOrder()['shipping_address']['city'] + ", "+
                                 (getOrder()['shipping_address']['region']|| "") + (getOrder()['shipping_address']['region'] ? ", " : "")+getOrder()['shipping_address']['postcode'] + ", "+
                                 getCountryNameFromId(getOrder()['shipping_address']['country_id'])}}</span>
-              <span class="value" *ngIf="getOrder()['shipping_address']['region'] == '-'">{{getOrder()['shipping_address']['street'] + ", "+
+              <span class="value" *ngIf="getOrder()['shipping_address']['region'] == '-'">{{getOrder()['shipping_address']['first_name'] + " " +
+                                getOrder()['shipping_address']['last_name']}}<br/>{{getOrder()['shipping_address']['street'] + ", "+
                                 getOrder()['shipping_address']['city'] + ", "+
                                 (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'], getOrder()['shipping_address']['region_id']) || "")
                                 + (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'], getOrder()['shipping_address']['region_id']) ? ", " : "") +
