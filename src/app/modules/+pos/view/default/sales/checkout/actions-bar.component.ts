@@ -6,6 +6,7 @@ import {CartCustomerActions} from "../../../R/sales/checkout/cart/customer.actio
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {CartActionBarActions} from "../../../R/sales/checkout/cart/action-bar.actions";
 import {PosSyncWishlistActions} from "../../../../R/sync/actions/wishlist.actions";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -22,7 +23,8 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   constructor(protected cartCustomerActions: CartCustomerActions,
               public posQuoteActions: PosQuoteActions,
               public cartActionBarActions: CartActionBarActions,
-              public posSyncWishlistActions: PosSyncWishlistActions) {}
+              public posSyncWishlistActions: PosSyncWishlistActions,
+              protected toastr:NotifyManager) {}
   
   ngOnInit() { }
   
@@ -45,12 +47,36 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   isOpeningOnholdPopup() {
     return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_ORDER_ONHOLD;
   }
-  
-  openNotePopup(isOpen: boolean = true) {
-    this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_NOTE : null);
+
+  openNotePopup(isOpen:boolean = true) {
+    if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true && this.quoteState.quote['_items'].length == 0) {
+      this.toastr.warning("Taking note is not available during refund");
+      this.cartActionBarActions.changeModeActionPopup(false);
+      return;
+    } else {
+      this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_NOTE : null);
+    }
   }
   
   isOpenNotePopup() {
     return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_NOTE;
+  }
+
+  pushWishlist() {
+    if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true) {
+      this.toastr.warning("Sending items to wish list is not available during refund");
+      return;
+    } else {
+      this.posSyncWishlistActions.pushWishlist();
+    }
+  }
+
+  saveCurrentCart(){
+    if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true) {
+      this.toastr.warning("Saving cart is not possible during refund");
+      return;
+    } else {
+      this.cartActionBarActions.saveOrderOnhold();
+    }
   }
 }
