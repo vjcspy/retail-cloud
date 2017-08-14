@@ -3,6 +3,7 @@ import {PosEntitiesState} from "../../../R/entities/entities.state";
 import {PosGeneralActions} from "../../../R/general/general.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -25,6 +26,15 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
       return;
     } else {
       this.generalActions.selectOutletRegister(outletId, registerId);
+    }
+  }
+  
+  getEnableOutletOrRegister(e: any, isList: boolean = true) {
+    if (isList) {
+      return e.filter((o) => o['is_active'] == 1);
+    }
+    else {
+      return _.filter(e, (o) => o['is_active'] == 1);
     }
   }
 }
