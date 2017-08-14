@@ -42,6 +42,6 @@ export class PosGeneralService {
     this.storage.localClear('outlet');
     this.storage.localClear('register');
     this.storage.localClear('store');
-    this.storage.localClear('baseUrl');
+    // this.storage.localClear('baseUrl');
   }
 }
