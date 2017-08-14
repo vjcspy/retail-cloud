@@ -273,7 +273,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                 max-width: 420px; margin: 0 auto;
                 background: #FFF; overflow: hidden;
                 /*border-radius: 10px;*/
-                padding-right: 10px;
+                padding-right: 13px;
+                padding-left: 3px;
             }
             .top-br, .bottom-br {text-align: center;}
             .top-br img {
