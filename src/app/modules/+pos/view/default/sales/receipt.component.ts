@@ -110,6 +110,14 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     return this._data['productOptions']['configurableOption'][item['id']];
   }
   
+  // FIX XRT 1318 : remove qty for bundle father row
+  isBundleProduct(item) {
+    if (item['type_id'] === 'bundle') {
+      return true;
+    }
+    return false;
+  }
+
   getBundleChildren(item) {
     if (item['type_id'] === 'bundle' && _.isArray(item['children'])) {
       this._data['productOptions']['bundleChildren'][item['id']] = item['children'];
