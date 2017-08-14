@@ -1,13 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {PosEntitiesState} from "../../../R/entities/entities.state";
 import {PosGeneralActions} from "../../../R/general/general.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-outlet-register-outlets',
-             templateUrl: 'outlets.component.html'
+             templateUrl: 'outlets.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
@@ -19,9 +21,20 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   
   selectOutletAndRegister(outletId: number, registerId: number): void {
     if (this.pullState.isPullingChain) {
-      this.notify.info('wait_until_data_pull_successfully')
+      this.notify.info('wait_until_data_pull_successfully');
+      
+      return;
     } else {
       this.generalActions.selectOutletRegister(outletId, registerId);
+    }
+  }
+  
+  getEnableOutletOrRegister(e: any, isList: boolean = true) {
+    if (isList) {
+      return e.filter((o) => o['is_active'] == 1);
+    }
+    else {
+      return _.filter(e, (o) => o['is_active'] == 1);
     }
   }
 }

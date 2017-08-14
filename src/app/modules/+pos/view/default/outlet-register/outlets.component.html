@@ -1,18 +1,20 @@
-<div class="outlets"  *ngIf="entitiesState.outlet.items.count()>0">
-  <div class="outlet-list" *ngFor="let outlet of entitiesState.outlet.items">
-    <div class="oulet-index">
-      <i class="icon-outlet"></i>
-      <span class="outlet-title">{{outlet['name']}}</span>
-    </div>
-    <ul>
-      <li class="item" *ngFor="let register of outlet['registers']">
-        <div class="click" (click)="selectOutletAndRegister(outlet['id'],register['id'])">
+<div class="outlets" *ngIf="entitiesState.outlet.items.count()>0">
+  <div *ngFor="let outlet of getEnableOutletOrRegister(entitiesState.outlet.items)">
+    <div class="outlet-list" *ngIf="getEnableOutletOrRegister(outlet['registers'],false).length > 0">
+      <div class="oulet-index">
+        <i class="icon-outlet"></i>
+        <span class="outlet-title">{{outlet['name']}}</span>
+      </div>
+      <ul>
+        <li class="item" *ngFor="let register of getEnableOutletOrRegister(outlet['registers'],false)">
+          <div class="click" (click)="selectOutletAndRegister(outlet['id'],register['id'])">
 									<span class="icon-reg-bg">
 									<i class="icon-reg"></i>
 									</span>
-                  <span class="title">{{register['name']}}</span>
-        </div>
-      </li>
-    </ul>
+            <span class="title">{{register['name']}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

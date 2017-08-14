@@ -4,12 +4,13 @@
       <label for="baseUrl">Website</label>
       <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
         <option value="null">Please select website</option>
-        <option *ngFor="let item of generalState.urls" [value]="item['url']">{{item['url']}}</option>
+        <option *ngFor="let item of generalState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>
       </select>
     </div>
   </div>
   <div class="pull-right button-group">
-    <button type="button" class="btn-setting" (click)="go('pos/configurations/default/pos/outlet/grid')">SETTING <i class="icon-nav-setting"></i> </button>
+    <button type="button" class="btn-setting" (click)="go('pos/configurations/default/pos/outlet/grid')">SETTING <i class="icon-nav-setting"></i>
+    </button>
     <button type="button" class="btn-logout" (click)="accountActions.logout()">LOGOUT <i class="fa fa-sign-out"></i></button>
   </div>
 </div>
