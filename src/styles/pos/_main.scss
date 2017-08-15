@@ -1123,6 +1123,11 @@
         float: left;  margin: 0;
         &:nth-of-type(2n+1) {clear: left; width: calc(100% - 170px);}
         &:nth-of-type(even) {text-align: right; width: 150px; float: right}
+        @include tablet{
+          font-size: 13px;
+          &:nth-of-type(2n+1){width: calc(100% - 110px);}
+          &:nth-of-type(even){width: 100px;}
+        }
       }
     }
     .info-row {
@@ -1171,6 +1176,31 @@
           float: right;
           &.time-select{
             float: left;
+          }
+        }
+        .time-select{
+          .dropdown-menu{
+            position: absolute;
+            background: $cblueDark;
+            &:before{
+              content: "";
+              position: absolute;
+              left: 10px; top: -6px;
+              border-right: 6px solid transparent;
+              border-bottom: 6px solid $cblueDark;
+              border-left: 6px solid transparent;
+            }
+            li{
+              padding: 0;
+              margin: 0;
+              .timepicker{
+                table tr td{
+                 color: #f3f5f4;
+                 text-align: center;
+                 .btn:hover{color:$cgreen; }
+                }
+              }
+            }
           }
         }
         
