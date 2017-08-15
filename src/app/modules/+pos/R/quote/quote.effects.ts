@@ -322,13 +322,13 @@ export class PosQuoteEffects {
                             if (items.count() > 0) {
                               ob.push(this.quoteActions.updateQuoteItems(items, true, false));
                             }
-  
+    
                             // Resolve retail note
                             let retail_note = action.payload['orderData']['retail_note'];
                             if (retail_note) {
                               this.quoteService.setNoteToQuote(retail_note);
                             }
-                            
+    
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];
                             if (parseInt(configState.setting.customer.getDefaultCustomerId()) === parseInt(customer + '')) {
@@ -379,7 +379,9 @@ export class PosQuoteEffects {
   
   private _getItemByBuyRequest(buyRequest: DataObject, items: List<DataObject>) {
     let isMatching = false;
-    if (buyRequest.getData('is_custom_sales') === true) {
+    
+    // Custom sale is always considered as a new product
+    if (buyRequest.getData('custom_sale')) {
       return {items, isMatching};
     }
     
