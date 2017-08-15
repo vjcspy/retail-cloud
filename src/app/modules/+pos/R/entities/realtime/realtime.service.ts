@@ -56,9 +56,9 @@ export class RealtimeService {
         
                                     _.forEach(changes, (change) => {
                                       if (_.indexOf(['remove', 'removed', 'delete'], change['data']['type_change']) > -1) {
-                                        needRemove = needRemove.push(change['data']['entity_id']);
+                                        needRemove = needRemove.push(..._.split(change['data']['entity_id'], ","));
                                       } else {
-                                        needUpdate = needUpdate.push(change['data']['entity_id']);
+                                        needUpdate = needUpdate.push(..._.split(change['data']['entity_id'], ','));
                                       }
                                     });
         

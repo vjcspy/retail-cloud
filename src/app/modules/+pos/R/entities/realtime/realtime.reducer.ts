@@ -67,13 +67,6 @@ export const realtimeReducer: ActionReducer<PosEntitiesStateRecord> = (state: Po
           _.forEach(itemsData['items'], (item: string) => {
             let cloneFist = _.clone(items.first());
             
-            if ([TaxDB.getCode()].indexOf(entity.entityCode) > -1) {
-              // Must filter in each item beacuse realtime pull all, not have id to filter
-              items = <any>items.filterNot((_e) => {
-                return item[entity.entityPrimaryKey] === _e[entity.entityPrimaryKey];
-              });
-            }
-            
             if (cloneFist) {
               items = items.push(cloneFist.addData(item));
             }
