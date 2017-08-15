@@ -75,6 +75,7 @@ export class PosEntitiesService {
   }
   
   protected async whenNotValidDb(entity: string): Promise<any> {
+    // console.log("Not valid db entity: " + entity);
     await this.deleteEntityInfo(entity);
   }
   

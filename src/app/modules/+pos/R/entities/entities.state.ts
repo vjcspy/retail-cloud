@@ -125,7 +125,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                               items: List.of(),
                               apiUrlCode: SettingDB.getCode(),
                               isFinished: false,
-                              isDependStore: false,
+                              isDependStore: true,
                               query: "",
                               propertyFilter: {},
                               entityPrimaryKey: 'key',
