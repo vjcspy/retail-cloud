@@ -62,36 +62,42 @@ export class Calculation extends TaxDB {
 
             row.rates.push(oneRate);
 
-            let ruleId = null;
-
-            if (typeof rates[i + 1] != "undefined" && rates[i + 1].hasOwnProperty('tax_calculation_rule_id')) {
-                ruleId = rate.tax_calculation_rule_id;
-            }
-
             let priority = rate.priority;
             ids.push(rate.code);
-
-            /*
-             * Đi đến rule cuối cùng. Vì 1 trường hợp có thể thỏa mãn nhiều tax cùng 1 rule.
-             * Ví dụ các rule khác nhau bởi tax_rate mà các tax rate này có post_code khác nhau nhưng đều thỏa mãn => Từ đó sẽ sinh ra nhiều rate
-             * trùng rule
-             * Chỉ lấy rate đầu tiên theo sự sắp xếp của api trả về
-             */
-
-            if (typeof rates[i + 1] != "undefined" && rates[i + 1].hasOwnProperty('tax_calculation_rule_id')) {
-                while (typeof rates[i + 1] != "undefined" && rates[i + 1]['tax_calculation_rule_id'] == ruleId) {
-                    i++;
-                }
+  
+          /*
+           * Đi đến rule cuối cùng. Vì 1 trường hợp có thể thỏa mãn nhiều tax NHƯNG LẠI CÙNG 1 rule.
+           * Lý do: các rule khác nhau bởi tax_rate mà các tax rate này có post_code khác nhau nhưng đều thỏa mãn => Từ đó sẽ sinh ra nhiều rate
+           * trùng rule.
+           * CHỈ LẤY RATES CỦA RULE ĐẦU TIÊN THEO SỰ SẮP XẾP CỦA API
+           */
+          let ruleId = null;
+  
+          if (typeof rates[i + 1] != "undefined" && rates[i + 1].hasOwnProperty('tax_calculation_rule_id')) {
+            ruleId = rate.tax_calculation_rule_id;
+          }
+          if (typeof rates[i + 1] != "undefined" && rates[i + 1].hasOwnProperty('tax_calculation_rule_id')) {
+            while (typeof rates[i + 1] != "undefined" && rates[i + 1]['tax_calculation_rule_id'] == ruleId) {
+              i++;
             }
+          }
+          
             currentRate += value;
-
+  
+          /*
+           *  Các rate cùng priority và khác rule thì sẽ được cộng dồn.(Tức là sẽ xét từng bậc priority và khác rule)
+           *  Còn khác priority thì sẽ xem xét xem setting là gì có phải là calculate_subtotal không. Nếu có thì + dồn không thì theo %
+           */
+  
+          /*
+           *  Giải thích được vấn đề tại sao có nhiều rule nhưng khi hiển thị ở tax detail nó lại 1 dòng => Là bởi vì nó cùng priority.
+           *  Mỗi một row là 1 mức priority và trong 1 row thì có thể có nhiều rates
+           */
             if (
                 typeof rates[i + 1] == "undefined"
                 || rates[i + 1]['priority'] != priority
-                || (typeof rates[i + 1]['process'] != "undefined")
-                   && rates[i + 1]['process'] != rate['process']) {
-                // Chỉ cần rate tiếp theo khác priority thì sẽ + dồn còn không thì bỏ qua
-                if (parseFloat(rates[i].calculate_subtotal + "") != 0) {
+                || (typeof rates[i + 1]['process'] != "undefined") && rates[i + 1]['process'] != rate['process']) {
+                if (parseFloat(rates[i].calculate_subtotal + "") !== 0) {
                     row['percent']   = parseFloat(currentRate + "");
                     let _currentRate = parseFloat(currentRate + "");
                     totalPercent     = totalPercent + _currentRate;
@@ -100,7 +106,7 @@ export class Calculation extends TaxDB {
                     let _currentPercent = parseFloat(row['percent'] + "");
                     totalPercent        = totalPercent + _currentPercent;
                 }
-                row['id'] = ids.join('');
+                row['id'] = ids.join(', ');
                 result.push(row);
                 row         = {rates: []};
                 ids         = [];
@@ -130,6 +136,11 @@ export class Calculation extends TaxDB {
             }
             currentRate += value;
 
+            /*
+            * Rate sau khi được tính cho các priority khác nhau sẽ được cộng dồn. Điều này chứng mình được. Đêu bằng giá ban đầu * với từng rate(giao hoán, kết hợp)
+            * Chỉ có việc khác priority thì rate sẽ bằng bao nhiêu mới cần phải để ý setting của rule có calculate_subtotal hay không.
+            */
+            
             if (typeof rates[i + 1] == "undefined" || rates[i + 1].priority != priority) {
                 if (rates[i].calculate_subtotal != "0") {
                     result += parseFloat(currentRate + "");
