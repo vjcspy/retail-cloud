@@ -29,26 +29,31 @@ export class RealtimeEffects {
                                                           ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
                                             const action: Action = <any>z[0];
-                                            return this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== true;
+                                            return this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== z[1]['baseUrl'];
                                           })
                                           .filter((z) => {
                                             const entitiesState: PosEntitiesState = z[2];
                                             const action: Action                  = <any>z[0];
                                             return entitiesState[action.payload['entityCode']].needRealTime === true;
                                           })
-                                          .map((z) => {
+                                          .map((z: any) => {
                                             const action: Action                                                       = <any>z[0];
-                                            this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] = true;
+                                            this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] = z[1]['baseUrl'];
     
                                             return z;
                                           })
                                           .flatMap(([action, generalState, entitiesState]) => {
-                                            const entityCode = (action as Action).payload['entityCode'];
-                                            const entity     = entitiesState[entityCode];
+                                            const entityCode     = (action as Action).payload['entityCode'];
+                                            const entity         = entitiesState[entityCode];
+                                            const currentBaseUrl = generalState['baseUrl'];
     
                                             return this.realtimeService
                                                        .realtimeEntityObservable(entityCode, <any>generalState)
-                                                       .map((realtimeData) => {
+                                                       .withLatestFrom(this.store$.select('general'))
+                                                       .filter((z: any) => {
+                                                         return generalState['baseUrl'] === z[1]['baseUrl'] && currentBaseUrl === z[1]['baseUrl'];
+                                                       })
+                                                       .map(([realtimeData]) => {
                                                          const {needRemove, needUpdate, entityInfo, newCacheTime} = realtimeData;
       
                                                          let ob = [];
