@@ -56,13 +56,10 @@
         <tbody *ngFor="let item of getOrder()['items'];trackBy:trackById;let last = last;let index = index"
                [ngClass]="{last: index == last}">
         <tr *ngIf="!checkIsCustomSales(item)">
-          <td colspan="2" class="c-left"><h4>{{item['name']}}</h4></td>
-          <td class="c-right">
+          <td class="c-left"><h4>{{item['name']}}</h4></td>
+          <td  *ngIf="!isBundleProduct(item)">{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
+          <td *ngIf="isBundleProduct(item)" class="c-right">
           </td>
-        </tr>
-        <tr *ngIf="checkIsCustomSales(item)">
-          <td class="c-left"><h4>{{item['buy_request']['custom_sale']['name']}}</h4></td>
-          <td>{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
               {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) | priceFormat}}
@@ -70,7 +67,12 @@
           </td>
         </tr>
         <tr *ngIf="!checkIsCustomSales(item)">
-          <td class="c-left">SKU: {{item['sku']}}</td>
+          <td colspan="2" class="c-left">SKU: {{item['sku']}}</td>
+          <td class="c-right">
+          </td>
+        </tr>
+        <tr *ngIf="checkIsCustomSales(item)">
+          <td class="c-left"><h4>{{item['buy_request']['custom_sale']['name']}}</h4></td>
           <td>{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
