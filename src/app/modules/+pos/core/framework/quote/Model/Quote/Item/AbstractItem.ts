@@ -46,7 +46,7 @@ export abstract class AbstractItem extends DataObject {
 
     /*
      * Giá này dùng để làm giá đầu vào tính toán.
-     * Ở quote_subtotal sẽ không quan tâm là giá có thuế hay không có thuế. Là giá mà user set vào backend lúc đầu.
+     * Ở quote_subtotal sẽ không quan tâm là giá có thuế hay không có thuế. Là giá mà user set vào backend lúc đầu và được convert sang store.
      * Giá này được set lại về null mỗi khi collect quote_subtotal
      *
      * Get item price used for quote calculation process.
@@ -68,8 +68,7 @@ export abstract class AbstractItem extends DataObject {
 
     /*
      * Khi tính thuế sẽ get giá calculation price original bởi vì đó là giá nhập vào.
-     * Còn giá này là giá đã bị tăng giảm bởi thuế rồi. Sử dụng trong discount.
-     *
+     * Còn giá này là giá ĐÃ BỊ TĂNG GIẢM BỞI THUẾ. Sử dụng trong discount.
      */
     getCalculationPrice(): number {
         let price = this.getData('calculation_price');
@@ -101,6 +100,9 @@ export abstract class AbstractItem extends DataObject {
         return this.getData('base_calculation_price');
     }
 
+    /*
+    * Tương tự như calculation_price nhưng là giá base, nếu có custom price thì sẽ chuyển về base theo rate
+    * */
     getBaseCalculationPriceOriginal(): number {
         if (!this.hasData('base_calculation_price')) {
             let price: number;

@@ -8,9 +8,10 @@ import {Product} from "../../../../../catalog/Model/Product";
 
 /*
  * Trong này chỉ Không biết tax là gì, không biết giá convert là gì.
+ *
  * Bản chất trong này chỉ:
  *  + set lại price của product chính là giá store đã apply các giá khuyến mại
- *  + set giá original price để so sánh sau n
+ *  + set giá original price để so sánh sau này
  */
 export class Subtotal extends AbstractTotal {
     // checkout order sort order
