@@ -268,7 +268,7 @@ export class Subtotal extends CommonTaxCollector {
          * - Muốn tính discount thì dùng giá: discount_calculation_price trong trường hợp là discount tax. Còn không thì sẽ không có giá này thì
          * phải lấy giá calculation_price. Mà khi lúc đó đã về null tính lại thì từ price để convert. Đó chính là lý dó tại sao ở đây lại set
          * price bằng base price.
-         * 
+         *
          * - IMPORTANCE: Ở đây sẽ mất hết giá calculation nhưng lúc log ra trên xretail có bởi vì trong quote items(view) có gọi lại function get
          * calculation price
          */
