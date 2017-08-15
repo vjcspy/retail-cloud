@@ -96,4 +96,9 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   reloadCreditmemo() {
     this.refundActions.loadCreditmemo(this.quoteState.creditmemo['order_id']);
   }
+  
+  changeDiscountType(isDiscountValue: boolean = true) {
+    this.quoteState.quote.setData('is_value_discount_whole_order',isDiscountValue);
+    this.cartTotalsActions.changeDiscountType(isDiscountValue);
+  }
 }

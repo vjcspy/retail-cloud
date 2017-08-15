@@ -85,6 +85,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
     let address = _.find(this.checkoutPopupState.customerPopup.customer['address'], (_add) => parseInt(_add['id']) === parseInt(this.currentAddressId));
     if (!!address) {
       this.posQuoteActions.setAddressToQuote(address, address, !this.isShippingPopup(), this.isShippingPopup());
+    } else {
+      this.posQuoteActions.setAddressToQuote(null, null, !this.isShippingPopup(), this.isShippingPopup());
     }
   }
 }

@@ -120,11 +120,11 @@
                   </div>
                   <div class="small-content">
                     <div class="stop-row">
-                <span class="click" (click)="cartTotalsActions.changeDiscountType(true)"
+                <span class="click" (click)="changeDiscountType()"
                       [ngClass]="{current: cartTotalsState.isDiscountWholeOrderValue}">
                                     $
                 </span>
-                      <span class="click" (click)="cartTotalsActions.changeDiscountType(false)"
+                      <span class="click" (click)="changeDiscountType(false)"
                             [ngClass]="{current: !cartTotalsState.isDiscountWholeOrderValue}">
                                     %
                 </span>

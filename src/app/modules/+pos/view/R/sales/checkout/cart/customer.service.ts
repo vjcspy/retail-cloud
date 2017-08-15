@@ -35,7 +35,7 @@ export class CartCustomerService {
         let _result = 0;
         customers.forEach((customer: CustomerDB) => {
           let re = new RegExp(reString, "gi");
-          if (_result > configState.posRetailConfig.numberOfSearchCustomerResult) {
+          if (_result >= configState.posRetailConfig.numberOfSearchCustomerResult) {
             return false;
           }
           
