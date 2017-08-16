@@ -76,6 +76,14 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
             return false;
           }
         });
+      } else {
+        // FIx 1560 : refactor status change QTY when view detail item in cart
+        _.forEach(this.option['selections'], (selection) => {
+          if (this._bundle_option_qty[this.option['option_id']] == parseFloat(selection['selection_qty'])
+              && this._bundle_option[this.option['option_id']] == selection['selection_id']) {
+            this._bundleProperty.canChangeQty = selection['selection_can_change_qty'] === '1';
+          }
+        });
       }
     }
     this.updateBundleData();
