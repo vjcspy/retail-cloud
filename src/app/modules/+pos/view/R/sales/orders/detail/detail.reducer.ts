@@ -14,7 +14,6 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
       return state.update('detail', (detail) => {
         return detail.set('order', action.payload['order'])
                      .set('isResolvingReorder', false);
-        ;
       });
     
     case PosQuoteActions.ACTION_REORDER:

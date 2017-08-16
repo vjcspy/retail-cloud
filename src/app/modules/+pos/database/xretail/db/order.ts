@@ -27,13 +27,22 @@ export class OrderDB extends DataObject {
     return 'orders';
   }
   
-  save(order: any = null): Promise<any> {
+  save(order: any = null, key = 'id'): Promise<any> {
+    let e = order === null ? this : order;
     return new Promise((resolve, reject) => {
-      window['retailDB'].orders.put(order === null ? this : order).then((result) => {
-        return resolve();
-      }).catch((error) => {
-        return reject(error);
-      });
+      if (key !== 'id') {
+        window['retailDB'].orders.where(key).aboveOrEqual(e[key]).modify(e).then(() => {
+          return resolve();
+        }, (e) => {
+          return reject(e);
+        });
+      } else {
+        window['retailDB'].orders.put(e).then((result) => {
+          return resolve();
+        }).catch((error) => {
+          return reject(error);
+        });
+      }
     });
   }
 }
