@@ -156,7 +156,7 @@
       <div class="inner">
         <button (click)="printReceipt()">{{ 'Receipt' | translate }}</button>
         <button (click)="printReceipt('gift')">{{ 'Gift Receipt' | translate }}</button>
-        <button>{{ 'Email Receipt' | translate }}</button>
+        <button (click)="sendEmailReceipt()">{{ 'Email Receipt' | translate }}</button>
       </div>
     </div>
   </div><!--end bottom-bar-->
