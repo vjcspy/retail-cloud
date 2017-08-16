@@ -1,7 +1,7 @@
 <table class="outlet-table">
   <thead>
       <tr>
-      <th>{{ 'Store ID' | translate }}</th>
+      <th>{{ 'Store' | translate }}</th>
       <th>{{ 'Warehouse Id' | translate }}</th>
       <th>{{ 'Over' | translate }}</th>
       <th>{{ 'Updated' | translate }}</th>
@@ -10,7 +10,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of magentoProductSate.instances">
-      <td>{{ item['store_id']}}</td>
+      <td>{{ getStoreName(item['store_id'])}}</td>
       <td>{{ item['warehouse_id'] ? item['warehouse_id'] : 'NULL'}}</td>
       <td>{{ item['is_over'] == 1 ? 'True' : 'False'}}</td>
       <td>{{ item['update_time'] | amCalendar}}</td>

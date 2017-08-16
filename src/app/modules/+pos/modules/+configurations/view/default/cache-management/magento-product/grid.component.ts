@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {MagentoProductState} from "../../../../R/cache/magento-product/magento-product.state";
 import {MagentoProductActions} from "../../../../R/cache/magento-product/magento-product.actions";
+import {StoreHelper} from "../../../../../../core/framework/store/Helper/StoreHelper";
 
 @Component({
              // moduleId: module.id,
@@ -15,4 +16,10 @@ export class ConfigurationsDefaultCacheManagementMagentoProductGridComponent imp
   constructor(public magentoProductActions: MagentoProductActions) { }
   
   ngOnInit() { }
+  
+  getStoreName(storeId) {
+    const name = StoreHelper.getStoreById(storeId);
+    
+    return !!name ? name['name'] : storeId;
+  }
 }

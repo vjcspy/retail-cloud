@@ -92,6 +92,6 @@ export class AssignConfigCoreEffects {
                                 .withLatestFrom(this.store$.select('entities'))
                                 .map((z) => {
                                   StoreHelper.stores = (z[1] as PosEntitiesState).stores.items.toJS();
-                                  return this.rootActions.nothing("Save taxClass to core");
+                                  return this.rootActions.nothing("Save store to core");
                                 });
 }
