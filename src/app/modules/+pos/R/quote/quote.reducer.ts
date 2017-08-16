@@ -87,8 +87,10 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     case PosQuoteActions.ACTION_REMOVE_SHIPPING:
       Shipping.SHIPPING_AMOUNT = 0;
       state.quote.setData('retail_has_shipment', false);
+      let defaultShippingAddress = state.quote.getShippingAddress();
       return state.set('shippingAmount', 0)
-                  .set('hasShipment', false);
+                  .set('hasShipment', false)
+                  .set('shippingAdd', Object.assign({}, {...defaultShippingAddress}));
     
     case IntegrateRpActions.ACTION_USE_REWARD_POINT:
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {...q.getData('reward_point')}, {...action.payload['rpData']}, {use_reward_point: true})));
