@@ -48,10 +48,10 @@ export class PosQuoteService {
       if (_billingAdd) {
         Object.assign(billingAdd, _billingAdd);
       } else {
-        Object.assign(billingAdd, Outlet.getAddress(outlet));
+        Object.assign(billingAdd, Outlet.getAddress(outlet), {first_name: customer.getData('first_name'), last_name: customer.getData('last_name')});
       }
     } else {
-      Object.assign(billingAdd, Outlet.getAddress(outlet));
+      Object.assign(billingAdd, Outlet.getAddress(outlet), {first_name: customer.getData('first_name'), last_name: customer.getData('last_name')});
     }
     
     if (customer.hasOwnProperty('default_shipping') && customer['default_shipping'] && parseInt(customer['default_shipping'] + '') !== 0) {
@@ -62,7 +62,7 @@ export class PosQuoteService {
         Object.assign(shippingAdd, Outlet.getAddress(outlet));
       }
     } else {
-      Object.assign(shippingAdd, Outlet.getAddress(outlet));
+      Object.assign(shippingAdd, Outlet.getAddress(outlet), {first_name: 'Store', last_name: 'Pickup'});
     }
     return {shippingAdd, billingAdd};
   }
