@@ -127,4 +127,18 @@ export class PosDefaultSalesOrdersDetailComponent {
     }
     this.detailActions.shipOrder(this.getOrder());
   }
+  
+  sendEmailReceipt() {
+    if (this.offline.online) {
+      const email = this.getOrder()['customer']['email'];
+      let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email) === false) {
+        return this.notify.warning("Email not valid");
+      }
+      let name = this.getOrder()['customer']['name'];
+      this.receiptActions.sendEmailReceipt(this.getOrder(), email, name);
+    } else {
+      this.notify.warning("sorry_you_can_not_send_email_in_offline");
+    }
+  }
 }
