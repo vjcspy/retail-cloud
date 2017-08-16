@@ -18,10 +18,10 @@ export class StoreHelper {
       StoreHelper._elementData['store'] = {
         data: []
       };
-      StoreHelper._elementData['store']['data'].push({
-                                                       label: "Choose your option",
-                                                       value: 'AllStore'
-                                                     });
+      // StoreHelper._elementData['store']['data'].push({
+      //                                                  label: "Choose your option",
+      //                                                  value: 'AllStore'
+      //                                                });
       _.forEach(StoreHelper._stores, (store) => {
         if (store['id'] != "0") {
           StoreHelper._elementData['store']['data'].push({

@@ -50,7 +50,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
 
   openNotePopup(isOpen:boolean = true) {
     if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true && this.quoteState.quote['_items'].length == 0) {
-      this.toastr.warning("Taking note is not available during refund");
+      this.toastr.warning("Taking_note_is_not_available_during_refund");
       this.cartActionBarActions.changeModeActionPopup(false);
       return;
     } else {
@@ -64,7 +64,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
 
   pushWishlist() {
     if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true) {
-      this.toastr.warning("Sending items to wish list is not available during refund");
+      this.toastr.warning("Sending_items_to_wish_list_is_not_available_during_refund");
       return;
     } else {
       this.posSyncWishlistActions.pushWishlist();
@@ -73,7 +73,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
 
   saveCurrentCart(){
     if (this.quoteState.quote.hasOwnProperty('is_exchange') && this.quoteState.quote['is_exchange'] == true) {
-      this.toastr.warning("Saving cart is not possible during refund");
+      this.toastr.warning("Saving_cart_is_not_possible_during_refund");
       return;
     } else {
       this.cartActionBarActions.saveOrderOnhold();
