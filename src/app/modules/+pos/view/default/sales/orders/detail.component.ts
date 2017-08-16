@@ -63,7 +63,7 @@ export class PosDefaultSalesOrdersDetailComponent {
   getTotalPaidBaseOnPayment() {
     let paid = 0;
     _.forEach(this.getPayment(), (p) => {
-      if (parseInt(p['is_purchase']) === 1) {
+      if (parseInt(p['is_purchase']) === 1 || p['is_purchase'] === true) {
         paid += parseFloat(p['amount']);
       }
     });

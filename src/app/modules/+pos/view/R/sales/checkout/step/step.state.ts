@@ -25,7 +25,7 @@ export interface PaymentMethod {
   isChanging: boolean; // If method is changing so we can edit input
   created_at: string;
   data?: Object;
-  is_purchase: boolean;
+  is_purchase: boolean | number;
   payment_data?: Object;
   allow_amount_tendered?: boolean;
 }

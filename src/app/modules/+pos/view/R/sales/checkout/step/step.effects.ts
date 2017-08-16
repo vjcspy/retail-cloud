@@ -192,7 +192,7 @@ export class PosStepEffects {
                                                                    type: "cash",
                                                                    title: "Change",
                                                                    // We save to payment data in order, not payment_transaction, so need this field
-                                                                   is_purchase: true,
+                                                                   is_purchase: 1,
                                                                    amount: posStepState.totals.remain,
                                                                    isChanging: false,
                                                                    created_at: Timezone.getCurrentStringTime()
