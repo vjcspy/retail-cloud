@@ -133,7 +133,6 @@ export class PosGeneralEffects {
                                                            })
                                                            .map(() => {
                                                              this.generalService.removeGeneralDataInStorage();
-                                                             this.realtimeService.resetSubscribeRealtimeEntity();
     
                                                              return this.generalActions.clearGeneralData(false);
                                                            })
