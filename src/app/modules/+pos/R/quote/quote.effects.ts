@@ -197,6 +197,19 @@ export class PosQuoteEffects {
                                       }
                                     }).catch((e) => Observable.of(this.rootActions.error("Check shift failed", e, false)));
   
+  @Effect() removeShipping = this.actions$
+                                 .ofType(
+                                   PosQuoteActions.ACTION_REMOVE_SHIPPING,
+                                 )
+                                 .withLatestFrom(this.store$.select('quote'))
+                                 .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
+                                 .map((z: any) => {
+                                   const customer                = (z[1] as PosQuoteState).quote.getCustomer();
+                                   let {shippingAdd, billingAdd} = this.quoteService.getDefaultAddressOfCustomer(customer, (z[2] as PosGeneralState).outlet);
+    
+                                   return this.quoteActions.setAddressToQuote(shippingAdd, billingAdd, false, true, false);
+                                 });
+  
   @Effect() resolveQuote = this.actions$
                                .ofType(
                                  PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE,
@@ -207,7 +220,6 @@ export class PosQuoteEffects {
                                  QuoteItemActions.ACTION_REMOVE_ITEM_BUY_REQUEST,
                                  QuoteRefundActions.ACTION_LOAD_CREDITMEMO_SUCCESS,
                                  PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT,
-                                 PosQuoteActions.ACTION_REMOVE_SHIPPING,
                                  RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB
                                )
                                .filter((action: Action) => {
@@ -292,10 +304,9 @@ export class PosQuoteEffects {
                               let _buyRequest = new DataObject();
                               _buyRequest.addData(item['buy_request']);
       
-                              // if (_buyRequest.hasOwnProperty('discount_per_item') || _buyRequest.hasOwnProperty('retail_discount_per_items_percent')) {
-                              //   _buyRequest.setData("discount_per_item", 0);
-                              //   _buyRequest.setData("retail_discount_per_items_percent", 0);
-                              // }
+                              // if (_buyRequest.hasOwnProperty('discount_per_item') ||
+                              // _buyRequest.hasOwnProperty('retail_discount_per_items_percent')) { _buyRequest.setData("discount_per_item", 0);
+                              // _buyRequest.setData("retail_discount_per_items_percent", 0); }
       
                               // if (_buyRequest.hasOwnProperty('custom_price')) {
                               //   _buyRequest.setData("custom_price", null);
