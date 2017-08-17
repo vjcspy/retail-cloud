@@ -102,6 +102,7 @@ export class RealtimeEffects {
                                      RealtimeActions.ACTION_REALTIME_NEED_UPDATE
                                    )
                                    .withLatestFrom(this.store$.select('general'))
+                                   .debounceTime(1500)
                                    .flatMap((z) => {
                                      const action: Action        = z[0];
                                      const entity: Entity        = action.payload['realtimeData']['entity'];

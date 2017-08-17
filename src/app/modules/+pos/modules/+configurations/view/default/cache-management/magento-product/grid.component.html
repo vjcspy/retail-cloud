@@ -1,23 +1,25 @@
 <table class="outlet-table">
   <thead>
-      <tr>
-      <th>{{ 'Store' | translate }}</th>
-      <th>{{ 'Warehouse Id' | translate }}</th>
-      <th>{{ 'Over' | translate }}</th>
-      <th>{{ 'Updated' | translate }}</th>
-      <th>{{ 'Action' | translate }}</th>
-    </tr>
+  <tr>
+    <th>{{ 'Store' | translate }}</th>
+    <th>{{ 'Warehouse Id' | translate }}</th>
+    <th>{{ 'Over' | translate }}</th>
+    <th>{{ 'Cache Time' | translate }}</th>
+    <th>{{ 'Updated' | translate }}</th>
+    <th>{{ 'Action' | translate }}</th>
+  </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of magentoProductSate.instances">
-      <td>{{ getStoreName(item['store_id'])}}</td>
-      <td>{{ item['warehouse_id'] ? item['warehouse_id'] : 'NULL'}}</td>
-      <td>{{ item['is_over'] == 1 ? 'True' : 'False'}}</td>
-      <td>{{ item['update_time'] | amCalendar}}</td>
-      <td>
-        <button type="button" (click)="magentoProductActions.deleteInstance(item['id'])" [ladda]="magentoProductSate.syncing">Delete</button>
-      </td>
-    </tr>
+  <tr *ngFor="let item of magentoProductSate.instances">
+    <td>{{ getStoreName(item['store_id'])}}</td>
+    <td>{{ item['warehouse_id'] ? item['warehouse_id'] : 'NULL'}}</td>
+    <td>{{ item['is_over'] == 1 ? 'True' : 'False'}}</td>
+    <td>{{ item['cache_time']}}</td>
+    <td>{{ item['update_time'] | amCalendar}}</td>
+    <td>
+      <button type="button" (click)="magentoProductActions.deleteInstance(item['id'])" [ladda]="magentoProductSate.syncing">Delete</button>
+    </td>
+  </tr>
   </tbody>
 
 </table>
