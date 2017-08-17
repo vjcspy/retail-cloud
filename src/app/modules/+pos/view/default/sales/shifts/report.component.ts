@@ -141,7 +141,7 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
         max-width: 420px;
         background: white;
         margin: 0 auto;
-        padding:0 10px 0 0px;
+        padding:0 15px 0 0px;
 
 
       }
@@ -187,9 +187,9 @@ export class PosDefaultSalesShiftsReportComponent extends AbstractSubscriptionCo
       .total-net-btn div strong{
         padding-left: 5px;
       }
-      .payments table td:nth-child(1) {
+/*      .payments table td:nth-child(1) {
           width: 68%;
-      }
+      }*/
 
       .payments .summary td {
           /*font-size: 117%;*/

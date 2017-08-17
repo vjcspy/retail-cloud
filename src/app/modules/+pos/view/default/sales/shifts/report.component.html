@@ -23,17 +23,17 @@
     <table *ngFor="let payment of shiftState.detail.amounts.paymentUsed" class="payment-tbl">
       <tbody>
       <tr>
-        <td rowspan="3" class="ttu"><strong>{{payment['title']}}</strong></td>
-        <td class="tal">{{ 'Sale' | translate }}:</td>
-        <td class="tar"><strong>{{payment.sales | priceFormat}}</strong></td>
+        <td rowspan="3" width="40%" class="ttu"><strong>{{payment['title']}}</strong></td>
+        <td class="tal" width="30%">{{ 'Sale' | translate }}:</td>
+        <td class="tar" width="30%"><strong>{{payment.sales | priceFormat}}</strong></td>
       </tr>
       <tr>
-        <td class="tal">{{ 'Refund' | translate }}:</td>
-        <td class="tar"><strong>{{payment.refund | priceFormat}}</strong></td>
+        <td class="tal" width="30%">{{ 'Refund' | translate }}:</td>
+        <td class="tar" width="30%"><strong>{{payment.refund | priceFormat}}</strong></td>
       </tr>
       <tr>
-        <td class="tal">{{ 'Net' | translate }}</td>
-        <td class="tar"><strong>{{(payment.sales + payment.refund) | priceFormat}}</strong></td>
+        <td class="tal" width="30%">{{ 'Net' | translate }}</td>
+        <td class="tar" width="30%"><strong>{{(payment.sales + payment.refund) | priceFormat}}</strong></td>
       </tr>
       </tbody>
       <div class="dot-line">&nbsp;</div>
