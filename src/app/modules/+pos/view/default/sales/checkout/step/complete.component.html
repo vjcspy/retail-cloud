@@ -13,7 +13,7 @@
     <div class="button-group" [ngClass]="{active: isRefundExchange,'has-icon-drop':!!posStepState.orderRefund}">
       <button (click)="print()">{{ 'Receipt' | translate }}<i class="icon-down"></i></button>
       <div class="inner">
-        <button (click)="printReceipt()">Exchange</button>
+        <button (click)="printReceipt()" [disabled]="posQuoteState.items.count() === 0">Exchange</button>
         <button (click)="printReceipt('refund')">Refund</button>
       </div>
     </div>
