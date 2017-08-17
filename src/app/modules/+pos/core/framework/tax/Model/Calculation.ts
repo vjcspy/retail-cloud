@@ -5,6 +5,8 @@ import {Customer} from "../../customer/Model/Customer";
 import {EventManager} from "../../General/Event/EventManager";
 import {Calculation as ResourceCalculation} from "./ResourceModel/Calculation";
 import {StoreManager} from "../../store/Model/StoreManager";
+import {Quote} from "../../quote/Model/Quote";
+import {SessionQuote} from "../../Backend/Model/Session/Quote";
 
 export class Calculation extends DataObject {
   /*
@@ -12,42 +14,42 @@ export class Calculation extends DataObject {
    */
   static CALC_TAX_BEFORE_DISCOUNT_ON_EXCL = '0_0';
   /***/
-
+  
   /**
    * Identifier constant for Tax calculation before discount including TAX
    */
   static CALC_TAX_BEFORE_DISCOUNT_ON_INCL = '0_1';
-
+  
   /**
    * Identifier constant for Tax calculation after discount excluding TAX
    */
   static CALC_TAX_AFTER_DISCOUNT_ON_EXCL = '1_0';
-
+  
   /**
    * Identifier constant for Tax calculation after discount including TAX
    */
   static CALC_TAX_AFTER_DISCOUNT_ON_INCL = '1_1';
-
+  
   /**
    * CALC_UNIT_BASE
    */
   static CALC_UNIT_BASE = 'UNIT_BASE_CALCULATION';
-
+  
   /**
    * CALC_ROW_BASE
    */
   static CALC_ROW_BASE = 'ROW_BASE_CALCULATION';
-
+  
   /**
    * CALC_TOTAL_BASE
    */
   static CALC_TOTAL_BASE = 'TOTAL_BASE_CALCULATION';
-
+  
   private _customer;
   static _rateCache: Object              = {};
   static _rateCalculationProcess: Object = {};
   private _resourceCalculation;
-
+  
   getRateRequest(shippingAddress: any  = null,
                  billingAddress: any   = null,
                  customerTaxClass: any = null,
@@ -58,7 +60,11 @@ export class Calculation extends DataObject {
     let address  = new DataObject();
     let customer = this.getCustomer();
     let baseOn   = this.getSetting().getConfig('tax', 'based_on');
-
+    
+    if (this.getQuote().isVirtual()) {
+      baseOn = 'billing';
+    }
+    
     if ((shippingAddress === false && baseOn === 'shipping')
         || (billingAddress === false && baseOn === 'billing')) {
       baseOn = 'default';
@@ -82,7 +88,7 @@ export class Calculation extends DataObject {
         }
       }
     }
-
+    
     switch (baseOn) {
       case 'billing':
         address = billingAddress;
@@ -101,23 +107,23 @@ export class Calculation extends DataObject {
       default:
         break;
     }
-
+    
     if (customerTaxClass == null && customer) {
       customerTaxClass = customer.getCustomerTaxClassId();
     } else if (customerTaxClass === false || !customer) {
       customerTaxClass = this.getSetting().getConfig('customer', 'not_logged_In_customer_tax_class');
     }
-
+    
     let request = new DataObject();
     request.setData('country_id', address.getData('country_id'));
     request.setData('region_id', address.getData('region_id'));
     request.setData('postcode', address.getData('postcode'));
     request.setData('store', store);
     request.setData('customer_class_id', customerTaxClass);
-
+    
     return request;
   }
-
+  
   getRateOriginRequest(store: any = null): DataObject {
     let request = new DataObject();
     request.setData('country_id', this.getSetting().getConfig('shipping', 'country_id'));
@@ -127,30 +133,30 @@ export class Calculation extends DataObject {
     request.setData('store', store);
     return request;
   }
-
+  
   getSetting(): SettingManagement {
     return ObjectManager.getInstance().get<SettingManagement>(SettingManagement.CODE_INSTANCE, SettingManagement);
   }
-
+  
   setCustomer(customer: Customer): Calculation {
     this._customer = customer;
     return this;
   }
-
+  
   getCustomer(): Customer {
     return this._customer;
   }
-
+  
   compareRequests(first: DataObject, second: DataObject) {
     // FIXME: phai compare 2 requset. Co the luc nao cung tra ve false cung dc. se check bang function  _sameRateAsStore
     return false;
   }
-
+  
   getRate(request: DataObject): number {
     if (!request.getData('country_id') || !request.getData('customer_class_id') || !request.getData('product_class_id')) {
       return 0;
     }
-
+    
     let cacheKey = this._getRequestCacheKey(request);
     if (!Calculation._rateCache.hasOwnProperty(cacheKey)) {
       this.unsetData('rate_value');
@@ -169,14 +175,14 @@ export class Calculation extends DataObject {
     }
     return Calculation._rateCache[cacheKey];
   }
-
+  
   getStoreRate(request: DataObject, store: any = null) {
     let storeRequest = this.getRateOriginRequest();
     storeRequest.setData('product_class_id', request.getData('product_class_id'));
-
+    
     return this.getRate(storeRequest);
   }
-
+  
   protected _getRequestCacheKey(request: DataObject): string {
     let key: string = request.getData('store') ? request.getData('store').getData('id') + '|' : '';
     key +=
@@ -191,29 +197,29 @@ export class Calculation extends DataObject {
       request.getData('postcode');
     return key;
   }
-
+  
   getResourceCalculation(): ResourceCalculation {
     if (typeof this._resourceCalculation === "undefined") {
       this._resourceCalculation = new ResourceCalculation();
     }
     return this._resourceCalculation;
   }
-
+  
   protected _formCalculationProcess() {
     let title: string = this.getData('rate_title');
     let value         = this.getData('rate_value');
     let id            = this.getData('rate_id');
-
+    
     let rate           = {code: title, title, percent: value, position: 1, priority: 1};
     let process        = {};
     process['percent'] = value;
     process['id']      = `${id}-${value}`;
     process['rates']   = [];
     process['rates'].push(rate);
-
+    
     return [process];
   }
-
+  
   calcTaxAmount(price: number, taxRate: number, priceIncludeTax = false, round = true): number {
     taxRate = parseFloat(taxRate + "") / 100;
     let amount: number;
@@ -225,14 +231,14 @@ export class Calculation extends DataObject {
     if (round) {
       return this.round(amount);
     }
-
+    
     return amount;
   }
-
+  
   round(price: number): number {
     return StoreManager.getStore().roundPrice(price);
   }
-
+  
   getAppliedRates(request: DataObject) {
     if (!request.getData('country_id') || !request.getData('customer_class_id') || !request.getData('product_class_id')) {
       return [];
@@ -242,5 +248,9 @@ export class Calculation extends DataObject {
       Calculation._rateCalculationProcess[cacheKey] = this.getResourceCalculation().getCalculationProcess(request);
     }
     return Calculation._rateCalculationProcess[cacheKey];
+  }
+  
+  getQuote(): Quote {
+    return ObjectManager.getInstance().get<SessionQuote>(SessionQuote.CODE_INSTANCE, SessionQuote).getQuote();
   }
 }

@@ -434,4 +434,20 @@ export class Quote extends DataObject {
   getSyncedItems() {
     return this.getData('synced_items');
   }
+  
+  isVirtual() {
+    let isVirtual  = true;
+    let countItems = 0;
+    _.forEach(this.getAllItems(), (item: Item) => {
+      if (item.getParentItem()) {
+        return true;
+      }
+      countItems++;
+      
+      if (item.getProduct().getTypeId() !== 'virtual') {
+        return isVirtual = false;
+      }
+    });
+    return countItems == 0 ? false : isVirtual;
+  }
 }

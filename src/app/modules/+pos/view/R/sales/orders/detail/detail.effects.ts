@@ -64,15 +64,14 @@ export class OrderDetailEffects {
                                          .switchMap((order) => {
                                            let orderDB = new OrderDB();
                                            orderDB.addData(order);
-                                           orderDB['id'] = orderToShip['id'];
       
-                                           return Observable.fromPromise(orderDB.save(orderDB))
+                                           return Observable.fromPromise(orderDB.save(orderDB, 'order_id'))
                                                             .switchMap(() => {
                                                               this.notify.success("ship_order_successfully");
         
                                                               return Observable.from([
                                                                                        this.listActions.selectOrderDetail(orderDB, false),
-                                                                                       this.entityActions.pushEntity(orderDB, OrderDB.getCode(), 'id', false),
+                                                                                       this.entityActions.pushEntity(orderDB, OrderDB.getCode(), 'order_id', false),
                                                                                      ]);
                                                             });
                                          })
