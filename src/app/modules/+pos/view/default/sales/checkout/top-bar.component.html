@@ -14,7 +14,7 @@
     <span class="icon-search"></span>
     <input id="pos_search_text" type="text"
            [value]="checkoutProductState.searchString"
-           [formControl]="searchString"
+           [formControl]="searchString" (keyup)="checkEnter($event)"
            placeholder="{{('Search by ' + configState.posRetailConfig.fieldSearchProduct) | translate }}" inputSelectText/>
   </div>
 </div>

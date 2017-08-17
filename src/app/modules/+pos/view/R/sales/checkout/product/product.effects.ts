@@ -86,7 +86,7 @@ export class CheckoutProductEffects {
                               .flatMap((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
                                 const product                                    = checkoutProductState.productGridProducts.first();
-                                jQuery('#pos_search_text').select();
+                                // jQuery('#pos_search_text').select();
                                 return Observable.from([
                                                          this.checkoutProductActions.updateGridState({lastLuckySearchString: checkoutProductState.searchString}, false),
                                                          this.quoteActions.selectProductToAdd(product, 1, false, null, false, false)

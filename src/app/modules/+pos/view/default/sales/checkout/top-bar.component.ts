@@ -22,6 +22,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() quoteState: PosQuoteState;
   
   protected searchString = new FormControl();
+  protected searchInputElem: any;
   
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
@@ -58,5 +59,16 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   canAddShipment() {
     return this.quoteState.items.count() > 0 && this.quoteState.customer && !!this.quoteState.customer['id'];
+  }
+  
+  checkEnter($event) {
+    if ($event && $event['keyCode'] === 13) {
+      if (typeof  this.searchInputElem === 'undefined') {
+        this.searchInputElem = jQuery('#pos_search_text');
+      }
+      
+      this.searchInputElem.select();
+      this.checkoutProductActions.updateGridState({lastLuckySearchString: null});
+    }
   }
 }
