@@ -2,28 +2,37 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
+import {CookieService} from "angular2-cookie/core";
 
 @Injectable()
 export class RequestService {
   protected header;
   
   constructor(protected http: Http,
+              protected cookie: CookieService,
               protected notify: NotifyManager) {
   }
   
   getRequestOptions() {
     if (typeof this.header === 'undefined') {
       this.header = new Headers();
-      this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
+      // this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
       this.header.append("Content-Type", "text/plain");
     }
     
     return {headers: this.header};
   }
   
+  _prepareUrl(url: string): string {
+    url += url.indexOf('?') > -1 ?
+      `&forceFullPageCache=${Date.now()}&token_key=${btoa('mr.vjcspy@gmail.com')}` :
+      `?forceFullPageCache=${Date.now()}&token_key=${btoa('mr.vjcspy@gmail.com')}`;
+    
+    return url;
+  }
+  
   makeGet(url, option?: any) {
-    // force full page cache magento 2:
-    url += url.indexOf('?') > -1 ? `&forceFullPageCache=${Date.now()}` : `?forceFullPageCache=${Date.now()}`;
+    url = this._prepareUrl(url);
     
     return this.http.get(url, Object.assign({}, this.getRequestOptions(), option))
                .map(
@@ -59,6 +68,8 @@ export class RequestService {
   }
   
   makePost(url, data: any, showError: boolean = true) {
+    url = this._prepareUrl(url);
+    
     return this.http
                .post(url, data, this.getRequestOptions())
                .map(
@@ -92,6 +103,8 @@ export class RequestService {
   }
   
   makeDelete(url) {
+    url = this._prepareUrl(url);
+    
     return this.http
                .delete(url, this.getRequestOptions())
                .map(
@@ -105,6 +118,8 @@ export class RequestService {
   }
   
   makePut(url, data: any) {
+    url = this._prepareUrl(url);
+    
     return this.http
                .put(url, data, this.getRequestOptions())
                .map(
