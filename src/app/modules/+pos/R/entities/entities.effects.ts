@@ -14,11 +14,13 @@ import {PosEntitiesState} from "./entities.state";
 import {PosGeneralState} from "../general/general.state";
 import * as _ from 'lodash';
 import {RealtimeActions} from "./realtime/realtime.actions";
+import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 
 @Injectable()
 export class PosEntitiesEffects {
   constructor(private action$: Actions,
               private store: Store<PosState>,
+              private rootActions: RootActions,
               private posEntityService: PosEntitiesService,
               private entitiesActions: PosEntitiesActions) {}
   
@@ -39,7 +41,10 @@ export class PosEntitiesEffects {
                                                                 .flatMap(() => Observable.fromPromise(this.posEntityService.getDataFromLocalDB([entityCode][Symbol.iterator]()))
                                                                                          .map((mes: GeneralMessage) => {
                                                                                            return this.entitiesActions.getEntityDataFromDB(entityCode, mes.data[entityCode], false);
-                                                                                         }));
+                                                                                         }))
+                                                                .catch((e: GeneralException) => {
+                                                                  return Observable.of(this.rootActions.error(e.getMessage(), e, false));
+                                                                });
                                              });
   
   @Effect() pullEntityDataFromServer$ = this.action$
@@ -75,6 +80,9 @@ export class PosEntitiesEffects {
                                                                        this.entitiesActions.pullEntitySuccess((action as Action).payload['entityCode'], false) :
                                                                        this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, <any>generalState), false);
                                                                    }
+                                                                 })
+                                                                 .catch((e: GeneralException) => {
+                                                                   return Observable.of(this.rootActions.error(e.getMessage(), e, false));
                                                                  });
                                               }
                                             });

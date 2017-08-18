@@ -37,8 +37,8 @@ export class PosEntitiesService {
     
     let entityDataInfo = await this.getEntityDataInformation(entity.entityCode);
     
-    if (entity.isDependStore === true && parseInt(generalState.store['id']) < 1) {
-      throw new GeneralException("Entity depend store, so we need select store before");
+    if (entity.isDependStore === true && (!generalState.store || parseInt(generalState.store['id']) < 1)) {
+      throw new GeneralException("please_select_outlet_before");
     }
     
     // if difference store id will flush
