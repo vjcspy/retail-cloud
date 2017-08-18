@@ -6,10 +6,11 @@ import {mergeSliceReducers} from "../../../../../../../R/index";
 import {tyroReducer} from "./payment/tyro.reducer";
 import {orderListAddPaymentReducer} from "./order-list-add-payment/add-payment.reducer";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
+import {routerActions} from "@ngrx/router-store";
 
 const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord, action: Action) => {
   switch (action.type) {
-    
+    case routerActions.UPDATE_LOCATION:
     case PosStepActions.ACTION_BACK_CHECKOUT_PAGE:
     case PosStepActions.ACTION_STEP_NEW_ORDER:
       return removeDataStep(state);
