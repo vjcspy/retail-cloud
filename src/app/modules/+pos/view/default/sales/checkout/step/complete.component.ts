@@ -6,6 +6,8 @@ import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
+import {UserCollection} from "../../../../../../../services/meteor-collections/users";
+import {PosConfigState} from "../../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -18,12 +20,13 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   @Input() posQuoteState: PosQuoteState;
   @Input() posGeneralState: PosGeneralState;
   @Input() receiptState: ReceiptState;
+  @Input() configState: PosConfigState;
   
   openEmailSender: boolean = false;
   customerEmail: string    = '';
   public isRefundExchange  = false;
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection) { }
   
   ngOnInit() {
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
@@ -75,6 +78,6 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       return this.notify.warning("Email not valid");
     }
     let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
-    this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name);
+    this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name, this.configState.receipt, this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']), this.configState.posRetailConfig.inclDiscountPerItemInDiscount);
   }
 }

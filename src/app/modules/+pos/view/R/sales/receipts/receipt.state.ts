@@ -9,7 +9,10 @@ export interface SalesReceipt {
     email: string;
     name: string;
     template: string;
-    isSending: boolean
+    isSending: boolean;
+    receiptSetting: Object,
+    username: string,
+    inclDiscountPerItemInDiscount: boolean
   };
 }
 
@@ -25,7 +28,10 @@ export const salesReceiptFactory = makeTypedFactory<SalesReceipt, SalesReceiptRe
       email: null,
       name: null,
       template: null,
-      isSending: false
+      isSending: false,
+      receiptSetting: null,
+      username: null,
+      inclDiscountPerItemInDiscount: null
     }
   }
 );

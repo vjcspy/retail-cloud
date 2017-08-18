@@ -40,8 +40,8 @@ export class ReceiptActions {
    */
   static ACTION_SEND_RECEIPT_EMAIL = 'ACTION_SEND_RECEIPT_EMAIL';
   
-  sendEmailReceipt(orderOffline: any, customerEmail: string, customerName: string) {
-    this.store$.dispatch({type: ReceiptActions.ACTION_SEND_RECEIPT_EMAIL, payload: {orderOffline, customerEmail, customerName}});
+  sendEmailReceipt(orderOffline: any, customerEmail: string, customerName: string, receiptSetting: Object, username: string, inclDiscountPerItemInDiscount: boolean) {
+    this.store$.dispatch({type: ReceiptActions.ACTION_SEND_RECEIPT_EMAIL, payload: {orderOffline, customerEmail, customerName, receiptSetting, username, inclDiscountPerItemInDiscount}});
   }
   
   /**
