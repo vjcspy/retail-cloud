@@ -10,6 +10,7 @@ import {CustomerDB} from "../../../database/xretail/db/customer";
 import {EntityActions} from "./entity.actions";
 import {OfflineService} from "../../../../share/provider/offline";
 import {PosEntitiesState} from "../entities.state";
+import {PosConfigState} from "../../config/config.state";
 
 @Injectable()
 export class EntityCustomerEffects {
@@ -37,14 +38,16 @@ export class EntityCustomerEffects {
                                       })
                                       .withLatestFrom(this.store$.select('general'))
                                       .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
+                                      .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
                                       .switchMap((z: any) => {
-                                        const action: Action = z[0];
-                                        const address        = _.isObject(action.payload['address']) && _.size(action.payload['address']) > 0 ?
+                                        const action: Action              = z[0];
+                                        const configState: PosConfigState = z[3];
+                                        const address                     = _.isObject(action.payload['address']) && _.size(action.payload['address']) > 0 ?
                                           action.payload['address'] : null;
-                                        const customer       = action.payload['customer'];
-                                        const addressType    = action.payload['addressType'];
+                                        const customer                    = action.payload['customer'];
+                                        const addressType                 = action.payload['addressType'];
     
-                                        if (this.offline.online) {
+                                        if (this.offline.online && customer['id'] != configState.setting.customer.getDefaultCustomerId()) {
                                           return this.entityCustomerService.createSaveCustomerAddressRequest(customer, address, addressType, z[1])
                                                      .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
                                                      .map((data) => data['items'][0])
@@ -88,12 +91,17 @@ export class EntityCustomerEffects {
                                               let index = _.findIndex(customer.address, {id: address['id']});
                                               customer.address.splice(index, 1, address);
                                             }
+                                            
+                                            if (addressType !== 'billing') {
+                                              customer['default_shipping'] = address['id'];
+                                            } else {
+                                              customer['default_billing'] = address['id'];
+                                            }
                                           }
       
       
                                           let customerDb = new CustomerDB();
                                           customerDb.addData(customer);
-      
       
                                           return Observable.fromPromise(customerDb.save(customerDb))
                                                            .switchMap(() => {

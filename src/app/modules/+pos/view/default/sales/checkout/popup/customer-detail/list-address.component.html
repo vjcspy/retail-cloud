@@ -17,7 +17,7 @@
       <li class="item" *ngFor="let address of checkoutPopupState.customerPopup.customer['address']">
         <div class="col-item name">
           <div class="radio-input">
-            <input type="radio" [(ngModel)]="currentAddressId" name="address-item" value="{{address['id']}}">
+            <input type="radio" [(ngModel)]="currentAddressId" name="address-item" [value]="address['id']">
             <label></label>
           </div>
           <div class="info">
