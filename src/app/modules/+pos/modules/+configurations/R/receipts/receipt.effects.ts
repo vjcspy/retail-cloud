@@ -56,7 +56,7 @@ export class ConfigurationsReceiptEffects {
                                              receipt.addData(data['items'][0]);
                                              return Observable.fromPromise(receipt.save(data['items'][0]))
                                                               .switchMap(() => {
-                                                                this.notify.success("pos_setting_updated");
+                                                                this.notify.success("receipt_setting_updated");
                                                                 return Observable.from([
                                                                                          this.configurationsReceiptActions.saveReceiptSuccess(receipt, false),
                                                                                          this.entityActions.pushEntity(receipt, ReceiptDB.getCode(), 'id', false)

@@ -140,7 +140,7 @@ export class RetailSelectComponent implements OnInit, OnDestroy {
       }
       return label ? label : this.defaultText;
     } else {
-      let _option = _.find(this.elementData.data, (option: Option) => option.value === this.model);
+      let _option = _.find(this.elementData.data, (option: Option) => option.value == this.model);
       return _option ? _option.label : this.defaultText;
     }
   }
