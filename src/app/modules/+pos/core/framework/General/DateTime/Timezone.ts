@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {SettingDB} from "../../../../database/xretail/db/setting";
 export class Timezone {
     isScopeDateInInterval(scope, dateFrom = null, dateTo = null): boolean {
         let _currentMoment = moment();
@@ -18,8 +19,16 @@ export class Timezone {
         return result;
     }
 
-    static getCurrentStringTime(): string {
-        return moment().format("YYYY-MM-DD HH:mm:s");
+    static getCurrentStringTime(data :boolean = false): string {
+        if (data == true){
+            if (SettingDB.getStoreConfigGroup("store")['time_zone'] < 0) {
+                return moment().utc().add(SettingDB.getStoreConfigGroup("store")['time_zone'], "s").format("YYYY-MM-DD HH:mm:s");
+            } else {
+                return moment().utc().subtract(SettingDB.getStoreConfigGroup("store")['time_zone'], "s").format("YYYY-MM-DD HH:mm:s");
+            }
+        }else{
+            return moment().format("YYYY-MM-DD HH:mm:s");
+        }
     }
 
 }
