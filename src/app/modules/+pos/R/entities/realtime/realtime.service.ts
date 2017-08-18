@@ -132,7 +132,7 @@ export class RealtimeService {
   
   createRequestPullUpdateEntity(entity: Entity, needUpdate: List<string>, newCacheTime, generalState: PosGeneralState): Observable<any> {
     let url = this.apiManager.get(entity.entityCode, generalState.baseUrl);
-    url += url.indexOf("?") > -1 ? "&" : "?" + entity.query
+    url += url.indexOf("?") > -1 ? "&" : "?"
                                          + "&searchCriteria[entity_id]=" + _.union(needUpdate.toArray()).join(",")
                                          + "&searchCriteria[currentPage]=1"
                                          + "&searchCriteria[pageSize]=500"
@@ -141,6 +141,7 @@ export class RealtimeService {
     
     if (generalState.store && !!generalState.store['id']) {
       url += "&searchCriteria[storeId]=" + generalState.store['id'];
+      url += "&searchCriteria[outletId]=" + generalState.outlet['id'];
     }
     
     return this.requestService
