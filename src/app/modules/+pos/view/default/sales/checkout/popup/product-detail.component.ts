@@ -55,4 +55,8 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
       }
     }
   }
+  
+  hasImageGallery() {
+    return _.isArray(this.productOptionsState.product.media_gallery)
+  }
 }

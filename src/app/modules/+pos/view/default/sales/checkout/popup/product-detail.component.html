@@ -3,7 +3,7 @@
     <div class="product-information">
       <div class="media-blk">
         <div class="media-img"><img src="{{productOptionsState.product.media_gallery[indexImage]}}"/></div>
-        <div class="media-thumb">
+        <div class="media-thumb" *ngIf="hasImageGallery()">
           <div class="inner">
             <ul>
               <li *ngFor="let image of productOptionsState.product.media_gallery;let i = index"
