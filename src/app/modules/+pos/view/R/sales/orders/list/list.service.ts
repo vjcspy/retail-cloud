@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import * as _ from 'lodash';
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {RequestService} from "../../../../../../../services/request";
 import {ApiManager} from "../../../../../../../services/api-manager";
