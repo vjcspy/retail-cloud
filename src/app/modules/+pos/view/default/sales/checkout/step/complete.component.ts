@@ -8,6 +8,7 @@ import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
 import {UserCollection} from "../../../../../../../services/meteor-collections/users";
 import {PosConfigState} from "../../../../../R/config/config.state";
+import {OfflineService} from "../../../../../../share/provider/offline";
 
 @Component({
              // moduleId: module.id,
@@ -26,7 +27,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   customerEmail: string    = '';
   public isRefundExchange  = false;
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection, private offline: OfflineService) { }
   
   ngOnInit() {
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
@@ -72,12 +73,21 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   }
   
   sendEmailReceipt() {
-    const email = this.customerEmail;
-    let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(email) === false) {
-      return this.notify.warning("Email not valid");
+    if (this.offline.online) {
+      const email = this.customerEmail;
+      let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email) === false) {
+        return this.notify.warning("Email not valid");
+      }
+      let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
+      let settingReceipt = {
+        receiptSetting: this.configState.receipt,
+        username: this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']),
+        inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
+      };
+      this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name, settingReceipt);
+    } else {
+      this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }
-    let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
-    this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name, this.configState.receipt, this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']), this.configState.posRetailConfig.inclDiscountPerItemInDiscount);
   }
 }

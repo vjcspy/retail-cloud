@@ -138,7 +138,12 @@ export class PosDefaultSalesOrdersDetailComponent {
         return this.notify.warning("Email not valid");
       }
       let name = this.getOrder()['customer']['name'];
-      this.receiptActions.sendEmailReceipt(this.getOrder(), email, name, this.configState.receipt, this.userCollection.getUserNameById(this.getOrder()['user_id']), this.configState.posRetailConfig.inclDiscountPerItemInDiscount);
+      let settingReceipt = {
+        receiptSetting: this.configState.receipt,
+        username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
+        inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
+      };
+      this.receiptActions.sendEmailReceipt(this.getOrder(), email, name, settingReceipt);
     } else {
       this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }

@@ -33,9 +33,7 @@ export class ReceiptEffects {
                                                                               receiptState.salesReceipt.emailReceipt.email,
                                                                               receiptState.salesReceipt.emailReceipt.name,
                                                                               receiptState.salesReceipt.orderOffline,
-                                                                              receiptState.salesReceipt.emailReceipt.receiptSetting,
-                                                                              receiptState.salesReceipt.emailReceipt.username,
-                                                                              receiptState.salesReceipt.emailReceipt.inclDiscountPerItemInDiscount,
+                                                                              receiptState.salesReceipt.settingReceipt,
                                                                               <any>z[2])
                                              .map(() => {
                                                this.notify.success("Send Email Success");
