@@ -4,6 +4,7 @@ import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import {CartCustomerActions} from "./customer.actions";
 import {List} from "immutable";
 import {PosGeneralActions} from "../../../../../R/general/general.actions";
+import {PosStepActions} from "../step/step.actions";
 
 export const cartCustomerReducer: ActionReducer<CartCustomerStateRecord> = (state: CartCustomerStateRecord = cartCustomerStateFactory(), action: Action) => {
   switch (action.type) {
@@ -20,6 +21,7 @@ export const cartCustomerReducer: ActionReducer<CartCustomerStateRecord> = (stat
     case PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE:
       return state.set('inSearchCustomers', false);
     
+    case PosStepActions.ACTION_STEP_NEW_ORDER:
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
       return cartCustomerStateFactory();
     
