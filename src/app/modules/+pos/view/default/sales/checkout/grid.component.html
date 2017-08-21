@@ -1,4 +1,4 @@
-<div class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
+<div id="grid-product-perfect-scroll" class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
   <div class="grid-mode">
     <div *ngFor="let product of checkoutProductState.productGridProducts" class="item animated fadeIn"
          [ngStyle]="checkoutProductState.productGridStyles">

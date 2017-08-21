@@ -91,4 +91,16 @@ export class CheckoutProductActions {
     
     return action;
   }
+  
+  static ACTION_UPDATE_LUCKY_SEARCH = 'ACTION_UPDATE_LUCKY_SEARCH';
+  
+  updateLuckySearch(searchString, dispatch: boolean = true): Action {
+    const action = {type: CheckoutProductActions.ACTION_UPDATE_LUCKY_SEARCH, payload: {searchString}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

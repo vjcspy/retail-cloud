@@ -68,7 +68,9 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
       }
       
       this.searchInputElem.select();
-      this.checkoutProductActions.updateGridState({lastLuckySearchString: null});
+      setTimeout(() => {
+        this.checkoutProductActions.updateLuckySearch(null);
+      }, 1000);
     }
   }
 }

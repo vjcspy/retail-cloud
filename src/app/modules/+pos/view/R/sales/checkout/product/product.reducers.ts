@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {checkoutProductCategoryReducer} from "./category/category.reducer";
 import {PosGeneralActions} from "../../../../../R/general/general.actions";
+import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 
 const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
@@ -152,6 +153,13 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
       return checkoutProductStateFactory();
+    
+    // case PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD:
+    //   return state.set('searchString', null)
+    //               .set('lastLuckySearchString', null);
+    
+    case CheckoutProductActions.ACTION_UPDATE_LUCKY_SEARCH:
+      return state.set('lastLuckySearchString', action.payload['searchString']);
     
     default:
       return state;

@@ -72,6 +72,15 @@ export class CheckoutProductEffects {
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (checkoutProductState as CheckoutProductState).catalogProducts, <any>configState))
                                                           .map((data: GeneralMessage) => {
+                                                            // update scroll behavior for customer
+                                                            // setTimeout(() => {
+                                                            //   if ((checkoutProductState as CheckoutProductState).isGridMode) {
+                                                            //     jQuery('#grid-product-perfect-scroll')['perfectScrollbar']('update');
+                                                            //   } else {
+                                                            //     jQuery('#list-product-perfect-scroll')['perfectScrollbar']('update');
+                                                            //   }
+                                                            // }, 500);
+      
                                                             return this.checkoutProductActions.resolvedGridProduct(data.data, false);
                                                           });
                                        });
@@ -88,7 +97,7 @@ export class CheckoutProductEffects {
                                 const product                                    = checkoutProductState.productGridProducts.first();
                                 // jQuery('#pos_search_text').select();
                                 return Observable.from([
-                                                         this.checkoutProductActions.updateGridState({lastLuckySearchString: checkoutProductState.searchString}, false),
+                                                         this.checkoutProductActions.updateLuckySearch(checkoutProductState.searchString, false),
                                                          this.quoteActions.selectProductToAdd(product, 1, false, null, false, false)
                                                        ]);
                               });
