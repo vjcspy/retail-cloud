@@ -119,7 +119,7 @@ export class PosSyncService {
       pushed: 0,
       has_shipment: order['retail_has_shipment'] === true,
       user_id: generalState.user['id'],
-      created_at: Timezone.getCurrentStringTime()
+      created_at: Timezone.getCurrentStringTime(true)
     };
     
     orderOffline['retail_status'] = this.getRetailStatus(quote);
