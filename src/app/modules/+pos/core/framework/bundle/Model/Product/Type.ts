@@ -226,9 +226,6 @@ export class Bundle extends AbstractType {
                 });
             });
             
-            /*
-             * Không thể dùng lodash với async nên phải dùng bộ đếm để biết lúc nào end
-             */
             let result   = [];
             _.forEach(selections, (_s: Object) => {
                 let _p = new Product();

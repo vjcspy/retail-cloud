@@ -39,6 +39,9 @@ export class ProductOptionsEffects {
                                                       const childProduct = products.find((p) => parseInt(p.id + '') === parseInt(selection['entity_id'] + ''));
                                                       if (childProduct) {
                                                         childBundleImages[selection['entity_id']] = childProduct['origin_image'];
+                                                        
+                                                        // add data of product to selection, because need tier_prices data when collect total.
+                                                        Object.assign(selection, {...childProduct});
                                                       } else {
                                                         childBundleImages[selection['entity_id']] = 'assets/img/no-image1.png';
                                                       }
