@@ -35,8 +35,11 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
               private route: ActivatedRoute) { }
   
   ngOnInit(): void {
-    this.route.paramMap
-        .switchMap((params: ParamMap) => params.get('id'))
+    this.route
+        .paramMap
+        .map((params: ParamMap) => {
+          return params.get('id');
+        })
         .subscribe((outletId: any) => {
           this.configurationsOutletActions.editOutlet(outletId);
         });
