@@ -164,9 +164,16 @@ export class ConfigurationsOutletEffects {
                                  ConfigurationsOutletActions.ACTION_SAVE_REGISTER
                                )
                                .withLatestFrom(this.store$.select('general'))
-                               .switchMap((z) => {
-                                 const action: Action = z[0];
-                                 const register       = action.payload['register'];
+                               .switchMap((z: any) => {
+                                 const action: Action                = z[0];
+                                 const register                      = action.payload['register'];
+                                 const generalState: PosGeneralState = z[1];
+    
+                                 if (!!register['id'] && !!generalState.register && parseInt(register['id']) === parseInt(generalState.register['id'])) {
+                                   this.notify.error("register_in_use_can_not_save");
+                                   return Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', null, false));
+                                 }
+    
                                  if (this.outletService.editOutletFormData.outlet && !!this.outletService.editOutletFormData.outlet['id']) {
                                    register['outlet_id'] = this.outletService.editOutletFormData.outlet['id'];
                                  }

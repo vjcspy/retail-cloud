@@ -40,9 +40,9 @@
   </div>
 </div>
 <div class="bottom-bar">
-  <button *ngIf="!!getRegister()['id']" class="red" (click)="confirmDeleteRegister()" [hidden]="getRegister()['id']==0">
-    {{ 'Delete' | translate }}
-  </button>
+  <!--<button *ngIf="!!getRegister()['id']" class="red" (click)="confirmDeleteRegister()" [hidden]="getRegister()['id']==0">-->
+    <!--{{ 'Delete' | translate }}-->
+  <!--</button>-->
   <button (click)="saveRegister()" [ladda]="configurationsState.outlets.editForm.isSaving">
     {{getRegister()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
   </button>
