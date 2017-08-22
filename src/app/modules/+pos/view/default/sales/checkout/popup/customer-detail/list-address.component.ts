@@ -6,6 +6,7 @@ import {PosQuoteActions} from "../../../../../../R/quote/quote.actions";
 import * as _ from 'lodash';
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 import {NotifyManager} from "../../../../../../../../services/notify-manager";
+import {AuthenticateService} from "../../../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -23,7 +24,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   
   constructor(protected posQuoteActions: PosQuoteActions,
               protected checkoutPopupActions: CheckoutPopupActions,
-              protected toastr:NotifyManager) { }
+              public authenticateService: AuthenticateService,
+              protected toastr: NotifyManager) { }
   
   ngOnInit() {
     if (this.isShippingPopup() && this.quoteState.shippingAdd && this.quoteState.shippingAdd.hasOwnProperty('id')) {
@@ -78,7 +80,11 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   }
   
   addEditAddress(address = {}) {
-    this.checkoutPopupActions.addNewCustomerAddress(address);
+    if (_.isEmpty(address) || this.authenticateService.userCan('change_customer_information')) {
+      this.checkoutPopupActions.addNewCustomerAddress(address);
+    } else {
+      this.toastr.error("not_have_permission_to_change_customer_information");
+    }
   }
   
   updateAddress() {

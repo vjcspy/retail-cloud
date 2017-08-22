@@ -7,6 +7,7 @@ import {PosConfigState} from "../../../../../../R/config/config.state";
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
+import {AuthenticateService} from "../../../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -25,6 +26,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   
   constructor(protected checkoutPopupActions: CheckoutPopupActions,
               protected entityCustomerActions: EntityCustomerActions,
+              protected authService: AuthenticateService,
               protected formValidation: FormValidationService) { }
   
   changeBillingState(state) {
