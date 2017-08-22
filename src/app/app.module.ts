@@ -31,7 +31,7 @@ import {AppStorage} from "./services/storage";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 import {DialogModule} from "./modules/dialog/dialog.module";
 import {AppService} from "./app.service";
-// import {CookieService} from "angular2-cookie/core";
+import {CookieService} from "angular2-cookie/core";
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -60,7 +60,7 @@ import {AppService} from "./app.service";
              * Expose our Services and Providers into Angular's dependency injection.
              */
             providers: [
-              // CookieService,
+              CookieService,
               AppService,
               {provide: ToastsManager, useClass: CustomToastOptions},
               SelectivePreloadingStrategy,
