@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
-import {CookieService} from "angular2-cookie/core";
+// import {CookieService} from "angular2-cookie/core";
 
 @Injectable()
 export class RequestService {
   protected header;
   
   constructor(protected http: Http,
-              protected cookie: CookieService,
+              // protected cookie: CookieService,
               protected notify: NotifyManager) {
   }
   

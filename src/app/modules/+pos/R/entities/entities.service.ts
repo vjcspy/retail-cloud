@@ -217,8 +217,8 @@ export class PosEntitiesService {
           }
         }
         // FiX XRT-187 : show out of stock product
-        if (parseInt(showOutOfStock) !== 1) {
-          if (product['stock_items']['is_in_stock'] === 0) {
+        if (parseInt(showOutOfStock) !== 1 || _.isNull(showOutOfStock)) {
+          if (parseInt(product['stock_items']['is_in_stock']) === 0) {
             return false;
           }
         }
