@@ -31,10 +31,14 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   
   getEnableOutletOrRegister(e: any, isList: boolean = true) {
     if (isList) {
-      return e.filter((o) => o['is_active'] == 1);
+      return e.filter((o) => o['is_active'] == 1)
+              .sort((a, b) => a['name'].localeCompare(b['name']));
     }
     else {
-      return _.filter(e, (o) => o['is_active'] == 1);
+      return _.chain(e)
+              .filter((o) => o['is_active'] == 1)
+              .sortBy('name')
+              .value();
     }
   }
 }
