@@ -45,4 +45,9 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
     const rpData = this.posQuoteState.quote.getRewardPointData();
     return !!rpData ? rpData : {};
   }
+  
+  back() {
+    this.posQuoteState.quote.setData('reward_point', Object.assign({}, {use_reward_point: false}));
+    this.posStepActions.back();
+  }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 
 @Injectable()
 export class IntegrateRpActions {
@@ -12,7 +12,13 @@ export class IntegrateRpActions {
     this.store$.dispatch({type: IntegrateRpActions.ACTION_USE_REWARD_POINT, payload: {rpData}});
   }
   
-  removePoint(): void {
-    this.store$.dispatch({type: IntegrateRpActions.ACTION_REMOVE_REWARD_POINT});
+  removePoint(dispatch: boolean = true): Action {
+    const action = {type: IntegrateRpActions.ACTION_REMOVE_REWARD_POINT, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
   }
 }
