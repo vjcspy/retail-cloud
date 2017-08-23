@@ -13,6 +13,7 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
 import {OfflineService} from "../../../../../share/provider/offline";
+import {UserCollection} from "../../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -38,6 +39,7 @@ export class PosDefaultSalesOrdersDetailComponent {
               private detailActions: OrderDetailActions,
               protected receiptActions: ReceiptActions,
               protected refundActions: QuoteRefundActions,
+              protected userCollection: UserCollection,
               protected addPaymentActions: OrderListAddPaymentActions) { }
   
   getPayment() {
@@ -136,7 +138,12 @@ export class PosDefaultSalesOrdersDetailComponent {
         return this.notify.warning("Email not valid");
       }
       let name = this.getOrder()['customer']['name'];
-      this.receiptActions.sendEmailReceipt(this.getOrder(), email, name);
+      let settingReceipt = {
+        receiptSetting: this.configState.receipt,
+        username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
+        inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
+      };
+      this.receiptActions.sendEmailReceipt(this.getOrder(), email, name, settingReceipt);
     } else {
       this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }

@@ -18,7 +18,7 @@ export class ReceiptService {
     return this.receiptSubject.asObservable().debounceTime(200).share();
   }
   
-  sendEmailReceipt(template: string, email: string, name: string, generalState: PosGeneralState) {
-    return this.request.makePost(this.apiManager.get("send-email", generalState.baseUrl), {template, email, name});
+  sendEmailReceipt(template: string, email: string, name: string, orderOffline: Object, settingReceipt: Object, generalState: PosGeneralState) {
+    return this.request.makePost(this.apiManager.get("send-email", generalState.baseUrl), {template, email, name, orderOffline, settingReceipt});
   }
 }
