@@ -11,6 +11,7 @@ import {AccountState} from "../../../../../R/account/account.state";
 import {DatabaseManager} from "../../../../../services/database-manager";
 import {PosGeneralState} from "../../../R/general/general.state";
 import {AccountService} from "../../../../../R/account/account.service";
+import {NotifyManager} from "../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -30,6 +31,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
               public menuLeftActions: MenuLeftActions,
               protected routerActions: RouterActions,
               public accountActions: AccountActions,
+              private notify: NotifyManager,
               protected accountService: AccountService) { }
   
   ngOnInit() { }
@@ -49,18 +51,30 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openCart() {
-    this.go('pos/default/sales/checkout');
+    if (this.authenticateService.userCan('access_to_connectpos')) {
+      this.go('pos/default/sales/checkout');
+    } else {
+      this.notify.error("not_have_permission_to_access_to_connectpos");
+    }
   }
   
   openShift() {
-    if (this.offline.online) {
-      this.go('pos/default/sales/shifts');
+    if (this.authenticateService.userCan('view_register')) {
+      if (this.offline.online) {
+        this.go('pos/default/sales/shifts');
+      }
+    } else {
+      this.notify.error("not_have_permission_to_view_register");
     }
   }
   
   goPosSetting() {
-    if (this.offline.online) {
-      this.go('pos/configurations/default/general');
+    if (this.authenticateService.userCan('access_to_connectpos_settings')) {
+      if (this.offline.online) {
+        this.go('pos/configurations/default/general');
+      }
+    } else {
+      this.notify.error("not_have_permission_to_access_to_connectpos_settings");
     }
   }
   
@@ -71,7 +85,11 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openOrders() {
-    this.go('pos/default/sales/orders');
+    if (this.authenticateService.userCan('view_order_list')) {
+      this.go('pos/default/sales/orders');
+    } else {
+      this.notify.error("not_have_permission_to_view_order_list");
+    }
   }
   
   flushCache() {

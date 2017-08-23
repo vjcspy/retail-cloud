@@ -8,6 +8,7 @@ import {CartTotalsActions} from "../../../../R/sales/checkout/cart/totals.action
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
+import {AuthenticateService} from "../../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -23,6 +24,7 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   constructor(protected cartTotalsActions: CartTotalsActions,
               private notify: NotifyManager,
               private syncActions: PosSyncActions,
+              protected authService: AuthenticateService,
               private refundActions: QuoteRefundActions) { }
   
   ngOnInit() { }

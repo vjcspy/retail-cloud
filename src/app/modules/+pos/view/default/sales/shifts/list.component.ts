@@ -4,6 +4,8 @@ import {SHIFT_POPUP, ShiftState} from "../../../R/sales/shifts/shift.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {ShiftActions} from "../../../R/sales/shifts/shift.actions";
 import {ShiftListActions} from "../../../R/sales/shifts/list/list.actions";
+import {AuthenticateService} from "../../../../../../services/authenticate";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -17,12 +19,18 @@ export class PosDefaultSalesShiftsListComponent implements OnInit {
   
   constructor(public menuLeftActions: MenuLeftActions,
               protected shiftActions: ShiftActions,
+              protected notify: NotifyManager,
+              public authenticateService: AuthenticateService,
               protected shiftListActions: ShiftListActions) { }
   
   ngOnInit() { }
   
   openShiftPopup() {
-    this.shiftActions.changeStatePopup(SHIFT_POPUP.OPEN_POPUP);
+    if (this.authenticateService.userCan('open_and_close_register')) {
+      this.shiftActions.changeStatePopup(SHIFT_POPUP.OPEN_POPUP);
+    } else {
+      this.notify.error("not_have_permission_to_open_shift");
+    }
   }
   
   loadMoreShift() {

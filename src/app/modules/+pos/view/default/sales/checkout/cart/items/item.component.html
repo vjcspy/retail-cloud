@@ -45,7 +45,7 @@
         </li>
         <li>
           <label>{{ 'Price' | translate }}</label>
-          <input [disabled]="item.isChildrenCalculated()" inputSelectText enterBlur
+          <input [disabled]="item.isChildrenCalculated() || !authService.userCan('custom_price')" inputSelectText enterBlur
                  value="{{(item.getData('is_price_incl_tax') ? item.getData('price_incl_tax'): item.getCalculationPriceOriginal())| number : '1.2-2'}}"
                  (blur)="updateItemBuyRequest($event,item,'custom_price')"
                  type="text">

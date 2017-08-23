@@ -9,6 +9,7 @@ import {CheckoutPopupActions} from "../../../R/sales/checkout/popup/popup.action
 import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {AuthenticateService} from "../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -27,6 +28,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
               protected notify: NotifyManager,
+              public authenticateService: AuthenticateService,
               protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
@@ -44,16 +46,24 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   }
   
   openPopupCustomSale() {
-    if (!this.configState.posRetailConfig.enableCustomSale) {
-      this.notify.error("do_not_allow_checkout_with_custom_sale");
-      return false;
+    if (this.authenticateService.userCan('allow_using_custom_sale')) {
+      if (!this.configState.posRetailConfig.enableCustomSale) {
+        this.notify.error("do_not_allow_checkout_with_custom_sale");
+        return false;
+      }
+      this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOM_SALE);
+    } else {
+      this.notify.error("not_have_permission_to_allow_using_custom_sale");
     }
-    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOM_SALE);
   }
   
   openPopupShipping() {
-    if (this.canAddShipment()) {
-      this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_SHIPPING, {customerPopup: {customer: this.quoteState.customer}});
+    if (this.authenticateService.userCan('make_shipment')) {
+      if (this.canAddShipment()) {
+        this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_SHIPPING, {customerPopup: {customer: this.quoteState.customer}});
+      }
+    } else {
+      this.notify.error("not_have_permission_to_make_shipment");
     }
   }
   

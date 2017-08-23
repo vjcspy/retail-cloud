@@ -20,7 +20,7 @@
           <span>{{'shifts' | translate}}</span>
       </span>
     </li>
-    <li *ngIf="authenticateService.userCan('view_order_list')">
+    <li>
             <span class="click" (click)="openOrders()">
                 <span class="icon-nav-orderlist"></span>
               <span>{{'order list' | translate}}</span>
