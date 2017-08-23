@@ -69,6 +69,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('coupon_code')
            .unsetData('payment_data')
            .unsetData('reward_point')
+           .unsetData('retail_has_shipment')
            .resetRetailAdditionData();
       
       return state.clear().set('creditmemo', null).set('info', {isShiftOpening}).set('quote', state.quote);
