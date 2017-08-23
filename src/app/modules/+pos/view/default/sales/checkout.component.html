@@ -13,7 +13,7 @@
   <pos-default-sales-checkout-actions-bar [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async" [cartActionBarState]="cartActionBarState$ | async">
   </pos-default-sales-checkout-actions-bar>
 
-  <pos-default-sales-checkout-cart [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async" [configState]="configState$ | async" [cartItemState]="cartItemState$ | async" [cartTotalsState]="cartTotalsState$ | async">
+  <pos-default-sales-checkout-cart [rootState]="rootState$ | async" [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async" [configState]="configState$ | async" [cartItemState]="cartItemState$ | async" [cartTotalsState]="cartTotalsState$ | async">
   </pos-default-sales-checkout-cart>
 
   <pos-default-sales-checkout-grand-total [quoteState]="quoteState$ | async" [posSyncState]="posSyncState$ | async"></pos-default-sales-checkout-grand-total>

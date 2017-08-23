@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {NotifyManager} from "../../../services/notify-manager";
+import {RootActions} from "../../../R/root.actions";
 
 @Injectable()
 export class OfflineService {
   private _inited: boolean = false;
   private _online: boolean = true;
   
-  constructor(protected notify: NotifyManager) {
+  constructor(protected notify: NotifyManager, private rootActions: RootActions) {
     Offline.options = {
       checks: {xhr: {url: '/assets/icon/favicon-16x16.png'}},
       // Should we check the connection status immediatly on page load.
@@ -35,11 +36,13 @@ export class OfflineService {
   init() {
     if (!this._inited) {
       Offline.on('up', () => {
+        this.rootActions.updateNetworkStatus(true);
         this.notify.success("Online");
         this._online = true;
       });
       
       Offline.on('down', () => {
+        this.rootActions.updateNetworkStatus(false);
         this.notify.warning("Offline");
         this._online = false;
       });

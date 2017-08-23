@@ -16,6 +16,7 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 export interface RootState {
   loading: boolean;
   additionData: Map<string, any>;
+  online: boolean;
 }
 
 // An Immutable.js Record implementation of the RootState interface.
@@ -28,5 +29,6 @@ export interface RootStateRecord extends TypedRecord<RootStateRecord>, RootState
 // See function to know more.
 export const rootStateFactory = makeTypedFactory<RootState, RootStateRecord>({
                                                                                loading: false,
-                                                                               additionData: Map.of()
+                                                                               additionData: Map.of(),
+                                                                               online: true
                                                                              });
