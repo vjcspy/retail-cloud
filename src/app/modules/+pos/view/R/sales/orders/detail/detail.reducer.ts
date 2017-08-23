@@ -6,6 +6,8 @@ import {OrdersStateRecord} from "../order.state";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import * as _ from 'lodash';
 import {OrderDetailActions} from "./detail.actions";
+import {orderDetailFactory} from "./detail.state";
+import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
 
 export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: OrdersStateRecord, action) => {
   switch (action.type) {
@@ -44,6 +46,11 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
     case OrderDetailActions.ACTION_SHIP_ORDER_FAILED:
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', true);
+      });
+    
+    case PosEntitiesActions.ACTION_DELETE_ENTITY:
+      return state.update('detail', (detail) => {
+        return orderDetailFactory();
       });
     
     default:
