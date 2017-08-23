@@ -3781,15 +3781,27 @@ ul.has-list {
       @include tablet{
         font-size: 13px;
       }
-      &:last-of-type:before{
-        content: "";
-        height: calc(100% - 37px);
-        width: 1px;
-        background:$white;
-        position: absolute;        
-        left: 109px;
-        top: 37px;
+
+      &:last-of-type,        
+      &.close-shift,      
+      &.total-adjustment{
+        &:before{          
+          height: calc(100% - 37px);          
+          top: 37px;
+          content: "";        
+          width: 1px;
+          background:white;
+          position: absolute;        
+          left: 109px;
+        }
       }
+      &.close-shift,
+      &.total-adjustment{
+        &:before{
+          height: 100%;            
+        }
+      }
+      
     }
   }
 }

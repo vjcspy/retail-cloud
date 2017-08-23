@@ -75,7 +75,7 @@
             </p>
           </div>
         </div>
-        <div class="merge-row" *ngIf="!shiftIsOpening()">
+        <div class="merge-row close-shift" *ngIf="!shiftIsOpening()">
           <div class="p-row close-shift">
             <span class="timer">{{shiftState.detail.shift['close_at'] | datetimeFormat : 'short-time'}}</span>
             <span class="value">{{ 'Close Shift' | translate }}</span>
@@ -90,7 +90,7 @@
             </p>
           </div>
         </div>
-        <div class="merge-row" *ngIf="!shiftIsOpening()">
+        <div class="merge-row total-adjustment" *ngIf="!shiftIsOpening()">
           <div class="total-row">
             <h3 class="t-txt">{{ 'Total Adjustment' | translate }}</h3>
             <h3 class="t-value">{{shiftState.detail.amounts.totals.inOut | priceFormat}}</h3>
