@@ -313,6 +313,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             }
             .client-info h3 {font-size: 11px;}
             .client-info p {margin: 0;}
+            .client-info p.email {word-wrap: break-word; }
             /*.name, .email {padding-right: 100px;}*/
 			.name span {display: inline-block; width: 100%;}
 			.name span,
