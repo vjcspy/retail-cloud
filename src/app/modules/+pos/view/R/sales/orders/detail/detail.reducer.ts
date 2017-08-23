@@ -49,7 +49,7 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
       });
     
     case PosEntitiesActions.ACTION_DELETE_ENTITY:
-      return state.update('detail', (detail) => {
+      return state.update('detail', () => {
         return orderDetailFactory();
       });
     
