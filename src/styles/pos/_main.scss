@@ -3904,12 +3904,13 @@ ul.has-list {
 
 .unopened-shift {
   position: absolute;
+  z-index: 9998;
   @include center-pos;
   max-width: 100%; max-height: 100%;
   text-align: center; margin-top: -50px;
   h3 {
     font-family: $lightFont;
-    font-size: 20px; color: #AAA;
+    font-size: 20px; color: black;
     margin: 0 0 25px;
   }
   button {
@@ -3923,7 +3924,7 @@ ul.has-list {
   width: 37.8%;
   height: 100%;
   background-color: black;
-  opacity: .6;
+  opacity: .3;
   z-index: 9997;
 }
 
