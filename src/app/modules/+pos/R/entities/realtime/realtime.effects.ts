@@ -10,12 +10,15 @@ import {List} from "immutable";
 import {Entity} from "../entities.model";
 import {RootActions} from "../../../../../R/root.actions";
 import * as _ from 'lodash';
+import {PosGeneralState} from "../../general/general.state";
+import {NotifyManager} from "../../../../../services/notify-manager";
 
 @Injectable()
 export class RealtimeEffects {
   
   constructor(private actions$: Actions,
               private store$: Store<any>,
+              private notify: NotifyManager,
               private realtimeService: RealtimeService,
               private realtimeActions: RealtimeActions,
               private rootActions: RootActions) { }
@@ -102,12 +105,19 @@ export class RealtimeEffects {
                                      RealtimeActions.ACTION_REALTIME_NEED_UPDATE
                                    )
                                    .withLatestFrom(this.store$.select('general'))
-                                   .flatMap((z) => {
-                                     const action: Action        = z[0];
-                                     const entity: Entity        = action.payload['realtimeData']['entity'];
-                                     const needUpdate: List<any> = action.payload['realtimeData']['needUpdate'];
+                                   .flatMap((z: any) => {
+                                     const action: Action                = z[0];
+                                     const generalState: PosGeneralState = z[1];
+                                     const entity: Entity                = action.payload['realtimeData']['entity'];
+                                     const needUpdate: List<any>         = action.payload['realtimeData']['needUpdate'];
+    
+                                     if (entity.isDependStore && (!generalState.store || isNaN(generalState.store['id']) || parseFloat(generalState.store['id']) < 1)) {
+                                       // this.notify.warning("will_not_update_realtime_beacause_not_yet_selected_store");
+                                       return Observable.of(this.rootActions.nothing('will_not_update_realtime_beacause_not_yet_selected_store', false));
+                                     }
+    
                                      return this.realtimeService
-                                                .createRequestPullUpdateEntity(entity, needUpdate, action.payload['realtimeData']['newCacheTime'], <any>z[1])
+                                                .createRequestPullUpdateEntity(entity, needUpdate, action.payload['realtimeData']['newCacheTime'], generalState)
                                                 .flatMap((itemsData) => {
                                                   return Observable.fromPromise(this.realtimeService.handleDBUpdateEntity(entity, needUpdate, itemsData))
                                                                    .flatMap(() => {
