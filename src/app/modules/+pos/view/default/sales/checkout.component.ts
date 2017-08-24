@@ -20,6 +20,7 @@ import {PosStepState} from "../../R/sales/checkout/step/step.state";
 import {PosSyncActions} from "../../../R/sync/sync.actions";
 import {ReceiptState} from "../../R/sales/receipts/receipt.state";
 import {CheckoutPopupState} from "../../R/sales/checkout/popup/popup.state";
+import {RootState} from "../../../../../R/root.state";
 
 @Component({
              // moduleId: module.id,
@@ -28,6 +29,7 @@ import {CheckoutPopupState} from "../../R/sales/checkout/popup/popup.state";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionComponent implements OnInit {
+  rootState$: Observable<RootState>;
   entitiesState$: Observable<PosEntitiesState>;
   configState$: Observable<PosConfigState>;
   quoteState$: Observable<PosQuoteState>;
@@ -62,6 +64,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
     this.posStepState$         = this.store$.select('step');
     this.receiptState$         = this.store$.select('receipt');
     this.checkoutPopupState$   = this.store$.select('checkoutPopup');
+    this.rootState$            = this.store$.select('rootState');
   }
   
   ngOnInit() {

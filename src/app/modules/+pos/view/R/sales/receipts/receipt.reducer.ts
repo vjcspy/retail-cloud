@@ -29,7 +29,12 @@ export const receiptReducer: ActionReducer<ReceiptStateRecord> = (state: Receipt
                            .set('emailReceipt', {
                              email: action.payload['customerEmail'],
                              name: action.payload['customerName'],
-                             isSending: true
+                             isSending: true,
+                           })
+                           .set('settingReceipt', {
+                             receiptSetting: action.payload['settingReceipt']['receiptSetting'],
+                             username: action.payload['settingReceipt']['username'],
+                             inclDiscountPerItemInDiscount: action.payload['settingReceipt']['inclDiscountPerItemInDiscount'],
                            });
       });
     

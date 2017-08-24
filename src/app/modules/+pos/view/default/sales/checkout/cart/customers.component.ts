@@ -9,6 +9,8 @@ import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.act
 import {CheckoutPopup} from "../../../../R/sales/checkout/popup/popup.state";
 import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 import {OfflineService} from "../../../../../../share/provider/offline";
+import {AuthenticateService} from "../../../../../../../services/authenticate";
+import {NotifyManager} from "../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -24,6 +26,8 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   constructor(protected cartCustomerActions: CartCustomerActions,
               protected quoteActions: PosQuoteActions,
               protected offline: OfflineService,
+              protected notify: NotifyManager,
+              public authenticateService: AuthenticateService,
               protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
@@ -44,6 +48,10 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   }
   
   createNewCustomer() {
-    this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_BILLING, {customerPopup: {customer: new Customer(), addressState: 'edit'}});
+    if (this.authenticateService.userCan('create_new_customer')) {
+      this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_BILLING, {customerPopup: {customer: new Customer(), addressState: 'edit'}});
+    } else {
+      this.notify.error("not_have_permission_to_create_new_customer");
+    }
   }
 }

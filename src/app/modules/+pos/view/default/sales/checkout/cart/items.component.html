@@ -1,4 +1,4 @@
-<div id="cart-table-items" class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" perfectScroll [hidden]="cartCustomerState.inSearchCustomers || !quoteState.info.isShiftOpening">
+<div id="cart-table-items" class="cart-table" [ngStyle]="cartItemState.cartItemsStyle" perfectScroll [hidden]="cartCustomerState.inSearchCustomers">
   <div class="customer-row">
     <div class="customer-head" (click)="customerAction($event)">
       <span class="avatar-img click">

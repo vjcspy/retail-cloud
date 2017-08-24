@@ -39,4 +39,25 @@ export class RootActions {
     
     return action;
   }
+  
+  /**
+   ** @REDUCER:
+   *
+   *
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static UPDATE_NETWORK_STATUS = 'UPDATE_NETWORK_STATUS';
+  
+  updateNetworkStatus(isOnline: boolean, dispatch: boolean = true): Action {
+    const action = {type: RootActions.UPDATE_NETWORK_STATUS, payload: {isOnline}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

@@ -129,7 +129,8 @@
                                     %
                 </span>
                       <input [value]="quoteState.quote.getData('discount_whole_order')" enterBlur inputSelectText
-                             (blur)="updateOrderDiscount('discount_whole_order',$event)" type="text"/>
+                             (blur)="updateOrderDiscount('discount_whole_order',$event)" type="text"
+                             [disabled]="!authService.userCan('add_discount')"/>
                     </div>
                     <div class="sbot-row">
                       <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')" enterBlur inputSelectText

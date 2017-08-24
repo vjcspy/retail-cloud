@@ -8,6 +8,7 @@ import {NotifyManager} from "../../../../../../../../services/notify-manager";
 import {Item} from "../../../../../../core/framework/quote/Model/Quote/Item";
 import * as _ from 'lodash';
 import {CartItemState} from "../../../../../R/sales/checkout/cart/item.state";
+import {AuthenticateService} from "../../../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -28,6 +29,7 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
               protected posQuoteActions: PosQuoteActions,
               protected quoteItemActions: QuoteItemActions,
               protected notify: NotifyManager,
+              protected authService: AuthenticateService,
               protected render2: Renderer2) { }
   
   ngOnInit(): void {

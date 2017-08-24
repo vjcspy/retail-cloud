@@ -5,7 +5,7 @@
   height: 100%;
   padding-top: 0.01em;
   @include clearfix;
-  &.open {   
+  &.open {
     .left-menu-side {
       left: 0;
       .mn-close{
@@ -48,7 +48,7 @@
     .cart-product {
       .cart-product-inner {overflow: visible;}
       .bottom-bar {
-        background: $cbkg; bottom: 0;                
+        background: $cbkg; bottom: 0;
       }
       .total-blk {
         //position: fixed; width: 36.0907%; bottom: 75px;
@@ -70,7 +70,7 @@
     font-family: $mediumFont; text-transform: uppercase;
     margin-top: 30px; padding: 0 0 0 30px;
     &.active .click{color: $cgreen2;}
-    .click {     
+    .click {
       &:hover {color: $cgreen2;}
     }
     li {
@@ -511,11 +511,11 @@
                 color: $white;
                 display: inline-block;
                 line-height: 38px;
-                text-align: center;                
+                text-align: center;
                 webkit-box-shadow: inset 0px 1px 3px 0px #b1b1b1;
                 -moz-box-shadow: inset 0px 1px 3px 0px #b1b1b1;
                 box-shadow: inset 0px 1px 3px 0px #b1b1b1;
-      
+
 
                 &:first-of-type{
                   border-radius: 4px 0 0 4px;
@@ -591,20 +591,20 @@
       flex: 1;
     }
     .icon-user.click[class^="icon-"]{
-        font-size: 60px;       
+        font-size: 60px;
         width: auto;
         color: #aaa;
         margin: 0;
         padding: 0;
         height: auto;
         line-height: 47px;
-        margin-right: 17px;       
+        margin-right: 17px;
     }
     .avatar-img{
       width: 44px;
       height: 44px;
-      display: inline-block;  
-      margin-right: 15px;    
+      display: inline-block;
+      margin-right: 15px;
     }
 
     .customer-icon-action{
@@ -708,8 +708,8 @@
     background: $grayLight;
     padding: 15px 20px;
     input[type="text"],
-    input[type="search"] {     
-      height: 42px; 
+    input[type="search"] {
+      height: 42px;
     }
   }
   .c-bottom{
@@ -725,11 +725,11 @@
       .customer-head{
         &:hover{
           background: $cbkg;
-        }      
+        }
       }
-    } 
+    }
   }
-  
+
 
 }
 .cart-items-comp{
@@ -813,7 +813,7 @@
     position: absolute;
     width: 100%;
     top: -20px;
-    left: 0;    
+    left: 0;
     border-bottom: $border solid 1px;
     @include gradient-trans();
     &.c-hide{
@@ -842,8 +842,8 @@
         text-decoration: none;
       }
     }
-  }     
-  
+  }
+
   .total-exchange-amount{
     margin-top: 10px;
     padding-top: 20px;
@@ -856,14 +856,14 @@
   position: absolute;
   width: 100%;
   background: $cbkg;
-  bottom: 0;  
+  bottom: 0;
   &.totals-collapse{
     background: #e6e6e6;
     .total-row-content {
-    height: 0;  
+    height: 0;
     overflow: hidden;
     padding-top: 0;
-    padding-bottom: 0;    
+    padding-bottom: 0;
     }
     .total-blk{
       padding-top: 0;
@@ -1163,7 +1163,7 @@
         .date-select,
         .datetime-select{
           float: left;
-          width: 47%;          
+          width: 47%;
           .select-wrapper{
             width: 100%;
             float: none;
@@ -1203,7 +1203,7 @@
             }
           }
         }
-        
+
       }
     }
     .bundle-item, .group-item {
@@ -1929,7 +1929,7 @@ h2.p-head {padding: 18px 20px;}
   }
   .item-row {
     margin-bottom: 34px;
-    @include clearfix;    
+    @include clearfix;
   }
   .radio-box {
     &.huge {margin-right: 27px;}
@@ -1953,9 +1953,9 @@ h2.p-head {padding: 18px 20px;}
       margin-bottom: 20px;
       input[type="text"] {
         font-family: $boldFont;
-        font-size: 18px; color: $cgreen;        
+        font-size: 18px; color: $cgreen;
       }
-      .user-item {        
+      .user-item {
         padding: 0; margin-top: 2px;
         display: flex;
         align-items: center;
@@ -1964,7 +1964,7 @@ h2.p-head {padding: 18px 20px;}
           font-family: $boldFont;
           font-size: 15px;
         }
-        .icon-user {          
+        .icon-user {
           font-size: 46px; color: #A5A5A5;
           padding-right: 10px;
         }
@@ -1974,7 +1974,7 @@ h2.p-head {padding: 18px 20px;}
 }
 .adjust-cash{
   .item-row{
-    display: flex;  
+    display: flex;
     .radio-input{
       margin-right: 20px;
       margin-top: 4px;
@@ -1994,15 +1994,15 @@ h2.p-head {padding: 18px 20px;}
 }
 
 .closeshift-table {
-  padding-top: 104px;  
+  padding-top: 104px;
   table {
     th, td {
       border: none;
       vertical-align: top;
       padding: 20px 10px 0; text-align: left;
-      
+
       input[type="text"] {color: $mainTxt;}
-      .cash-amount { 
+      .cash-amount {
         input[type="text"] {
           font-family: $boldFont;
           font-size: 18px; color: $cgreen;
@@ -2046,7 +2046,7 @@ h2.p-head {padding: 18px 20px;}
         }
       }
     }
-   
+
     &.first {
       tr {
         &:first-child {
@@ -2377,7 +2377,7 @@ h2.p-head {padding: 18px 20px;}
     background: $cbkg;
     @include clearfix;
     button {
-      float: right; width: 308px; margin-top: 13px; padding: 0 15px; 
+      float: right; width: 308px; margin-top: 13px; padding: 0 15px;
       @include tablet{
         width: 48%;
       }
@@ -2755,7 +2755,7 @@ h2.p-head {padding: 18px 20px;}
           height: 100%;
           z-index: 1;
         }
-      }      
+      }
       .count-num{
         position: relative;
         z-index: 2;
@@ -2771,7 +2771,7 @@ h2.p-head {padding: 18px 20px;}
           top: -10px;
         }
       }
-    } 
+    }
 
 
   }
@@ -2810,7 +2810,7 @@ h2.p-head {padding: 18px 20px;}
       }
       .cart-content {
         .cart-head {
-          .check-box {right: 0; padding-left: 17px;}          
+          .check-box {right: 0; padding-left: 17px;}
         }
       }
       &.checked {
@@ -2828,7 +2828,7 @@ h2.p-head {padding: 18px 20px;}
       &.bundle {
         .cart-content {
           max-height: 7000px;
-          .inner {padding: 0;}   
+          .inner {padding: 0;}
           .cart-head{
             .c-num{
               left: 80px;
@@ -2836,7 +2836,7 @@ h2.p-head {padding: 18px 20px;}
           }
         }
 
-        
+
       }
     }
   }
@@ -3098,7 +3098,7 @@ ul.has-list {
 .order-list-leftside,
 .cashdrawer-leftside {
   float: left; width: 36.0907%;
-  border-right: 1px solid #E0E0E0; 
+  border-right: 1px solid #E0E0E0;
   .top-bar {
     padding-right: $hozSpace;
     padding-left: $hozlSpace;
@@ -3153,7 +3153,7 @@ ul.has-list {
       position: absolute; left: 0;
       @include ver-pos;
       background: #F5A623;
-      display: block; width: 6px; height: 100%;      
+      display: block; width: 6px; height: 100%;
     }
     .unsync {background: #F56363;}
   }
@@ -3241,6 +3241,10 @@ ul.has-list {
 
 .daterangepicker.dropdown-menu {
   background: $cblueDark;
+}
+
+.refunded-color{
+  color: #F36362;
 }
 
 .notification {
@@ -3398,7 +3402,7 @@ ul.has-list {
       border-bottom: 1px solid $border;
       @include clearfix;
       p, h3 {margin: 0;}
-      
+
       .img {
         width: 60px;
         overflow: hidden;
@@ -3415,7 +3419,7 @@ ul.has-list {
         text-align: center;
         padding: 0;
         background: transparent;
-      }      
+      }
       h3 {
         font-family: $mediumFont; font-size: 14px;
         width: 100%;  @include ellipsis;
@@ -3423,10 +3427,10 @@ ul.has-list {
       p{
         font-size: 13px;
       }
-      .product { 
+      .product {
         overflow: hidden;
         p {
-          color: $disTxt;          
+          color: $disTxt;
           @include ellipsis;
 
           &:last-child {margin-bottom: 0;}
@@ -3441,14 +3445,14 @@ ul.has-list {
         display: block;
         font-family: $boldFont;
         font-size: 11px; color: $grayDark;
-        text-transform: uppercase; text-align: center;        
+        text-transform: uppercase; text-align: center;
         height: 27px; line-height: 25px;
         background: $white; border: $border solid 1px;
         cursor: pointer;
         vertical-align: middle;
-        
+
         @include border-radius(5px);
-        
+
       }
       .price {
         min-width: 150px;
@@ -3480,8 +3484,8 @@ ul.has-list {
       max-height: 0; overflow: hidden;
       @include single-transition(all,0.3s);
       .items .product{
-        padding-left: 150px;         
-      }      
+        padding-left: 150px;
+      }
     }
     .order-row {
       &.active {
@@ -3542,7 +3546,7 @@ ul.has-list {
         padding-bottom: 13px;
         & + div.grand {padding-top: 14px;}
         &:last-child {padding-bottom: 0!important;}
-        
+
       }
       .t-txt {font-family: $boldFont; color: $mainTxt;}
       .grand, .refunded {
@@ -3593,7 +3597,7 @@ ul.has-list {
   :-ms-input-placeholder {color: inherit; opacity: .6;}
 }
 .cashdrawer-detail {
-  
+
   .table-total, .progress-total, .reward-points, .cashdrawer-total {
     border-bottom: $border solid 1px;
     @include clearfix;
@@ -3764,7 +3768,7 @@ ul.has-list {
       }
       &.progress-tree {
         float: none; width: 100%;
-        padding: 0;        
+        padding: 0;
       }
     }
     .merge-row {
@@ -3781,15 +3785,27 @@ ul.has-list {
       @include tablet{
         font-size: 13px;
       }
-      &:last-of-type:before{
-        content: "";
-        height: calc(100% - 37px);
-        width: 1px;
-        background:$white;
-        position: absolute;        
-        left: 109px;
-        top: 37px;
+
+      &:last-of-type,
+      &.close-shift,
+      &.total-adjustment{
+        &:before{
+          height: calc(100% - 37px);
+          top: 37px;
+          content: "";
+          width: 1px;
+          background:white;
+          position: absolute;
+          left: 109px;
+        }
       }
+      &.close-shift,
+      &.total-adjustment{
+        &:before{
+          height: 100%;
+        }
+      }
+
     }
   }
 }
@@ -3896,7 +3912,7 @@ ul.has-list {
   .icon-noted .tooltiptext-left{
     min-width: 75px;
     top: 2px;
-  }  
+  }
 }
 
 .expect {color: $cgreen!important;}
@@ -3904,17 +3920,28 @@ ul.has-list {
 
 .unopened-shift {
   position: absolute;
+  z-index: 9998;
   @include center-pos;
   max-width: 100%; max-height: 100%;
   text-align: center; margin-top: -50px;
   h3 {
     font-family: $lightFont;
-    font-size: 20px; color: #AAA;
+    font-size: 20px; color: black;
     margin: 0 0 25px;
   }
   button {
     &.bounder {font-size: 18px; min-width: 147px;}
   }
+}
+.unopened-shift-overlay{
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 37.8%;
+  height: 100%;
+  background-color: black;
+  opacity: .3;
+  z-index: 9997;
 }
 
 .search-no-result {

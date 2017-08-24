@@ -29,7 +29,12 @@ export class ReceiptEffects {
                                 .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                                 .switchMap((z) => {
                                   const receiptState: ReceiptState = <any>z[1];
-                                  return this.receiptService.sendEmailReceipt(receiptState.salesReceipt.emailReceipt.template, receiptState.salesReceipt.emailReceipt.email, receiptState.salesReceipt.emailReceipt.name, <any>z[2])
+                                  return this.receiptService.sendEmailReceipt(receiptState.salesReceipt.emailReceipt.template,
+                                                                              receiptState.salesReceipt.emailReceipt.email,
+                                                                              receiptState.salesReceipt.emailReceipt.name,
+                                                                              receiptState.salesReceipt.orderOffline,
+                                                                              receiptState.salesReceipt.settingReceipt,
+                                                                              <any>z[2])
                                              .map(() => {
                                                this.notify.success("Send Email Success");
                                                return this.receiptActions.sentReceiptEmail(false);

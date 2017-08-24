@@ -11,7 +11,7 @@
         <h3 class="name">{{ 'Customer' | translate }}: {{getOrder()['customer']['name']}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
-          Email: {{getOrder()['customer']['email']}}
+          Email:&nbsp;{{getOrder()['customer']['email']}}
         </p>
         <p *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '3') && !checkoutAsGuest()">
           {{ 'Phone Number' | translate }}: {{getOrder()['customer']['phone']}}
