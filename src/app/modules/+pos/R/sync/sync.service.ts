@@ -122,6 +122,12 @@ export class PosSyncService {
       created_at: Timezone.getCurrentStringTime(true)
     };
     
+    // when exchange will fixed one payment method and amount
+    if (quote.getData('is_exchange') === true && _.isArray(orderOffline['payment']) && _.size(orderOffline['payment']) === 1) {
+      orderOffline['payment'][0]['amount']      = quote.getShippingAddress()['grand_total'];
+      orderOffline['payment'][0]['is_purchase'] = 1;
+    }
+    
     orderOffline['retail_status'] = this.getRetailStatus(quote);
     
     // init item data for order detail

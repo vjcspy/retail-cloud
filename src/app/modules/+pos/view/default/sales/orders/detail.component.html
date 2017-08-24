@@ -71,12 +71,9 @@
       <div class="info">
         <h3 class="title">{{ 'payment information' | translate }}</h3>
         <div *ngFor="let payment of getPayment()">
-          <div class="i-items" *ngIf="payment['amount'] != 0"><!--fix xrt-508 VietLQ-->
-            <span
-              [ngClass]="{'icon-wallet': payment['type'] == 'cash','icon-card': payment['type'] =='credit_card' ||  payment['type'] =='tyro'}">
-
-                        </span>
-            <h4>{{getPaymentTitle(payment)}}</h4>
+          <div class="i-items" *ngIf="payment['amount'] != 0">
+            <span [ngClass]="{'icon-wallet': payment['type'] == 'cash','icon-card': payment['type'] =='credit_card' ||  payment['type'] =='tyro'}"></span>
+            <h4 [ngClass]="{'refunded-color': payment['is_purchase'] != 1}">{{getPaymentTitle(payment)}}</h4>
             <div *ngIf="payment['type'] == 'tyro'" style="margin-left: 15px;font-style: italic">
               <p>{{ 'Authorisation Code' | translate }}: {{payment['data']['authorisationCode']}}</p>
               <p>{{ 'Card Type' | translate }}: {{payment['data']['authorisationCode']}}</p>
