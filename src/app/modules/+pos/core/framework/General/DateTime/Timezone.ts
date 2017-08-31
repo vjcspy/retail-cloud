@@ -21,10 +21,11 @@ export class Timezone {
   
   static getCurrentStringTime(useStoreTimezone: boolean = false): string {
     if (useStoreTimezone === true && SettingDB.getStoreConfigGroup("store")) {
+      let timezone = Math.abs(SettingDB.getStoreConfigGroup("store")['time_zone']);
       if (SettingDB.getStoreConfigGroup("store")['time_zone'] < 0) {
-        return moment().utc().add(SettingDB.getStoreConfigGroup("store")['time_zone'], "s").format("YYYY-MM-DD HH:mm:s");
+        return moment().utc().add(timezone, "s").format("YYYY-MM-DD HH:mm:s");
       } else {
-        return moment().utc().subtract(SettingDB.getStoreConfigGroup("store")['time_zone'], "s").format("YYYY-MM-DD HH:mm:s");
+        return moment().utc().subtract(timezone, "s").format("YYYY-MM-DD HH:mm:s");
       }
     } else {
       return moment().format("YYYY-MM-DD HH:mm:s");
