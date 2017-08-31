@@ -14,15 +14,15 @@ export class CheckoutPopupService {
     _.forEach(wishlist, (item) => {
                 let canAddToQuote = false;
                 let _item         = Object.assign({}, {...item});
-                
-                if (item['buyRequest'] && item['buyRequest']['product_id']) {
-                  let product = products.find((p) => parseInt(p['id'] + '') === parseInt(item['buyRequest']['product_id']));
+      
+                if (item['buyRequest'] && item['product_id']) {
+                  let product = products.find((p) => parseInt(p['id'] + '') === parseInt(item['product_id']));
                   if (product) {
                     canAddToQuote    = true;
                     _item['product'] = product;
                   }
                 }
-                
+      
                 wishlistItems = wishlistItems.push(Object.assign(_item, {canAddToQuote}));
               }
     );

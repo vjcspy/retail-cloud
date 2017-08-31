@@ -114,15 +114,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr
-                  *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
+                <tr *ngFor="let wishlist of checkoutPopupState.customerPopup.customerOtherInfo['wishlistItems']">
                   <td>
                     <div class="checkbox-input" (click)="selectedWishlistItem(wishlist)">
                       <input type="checkbox" [checked]="isSelectedWishlist(wishlist)"/>
-                      <label>{{wishlist['product']['name']}}</label>
+                      <label>{{wishlist['product'] ? wishlist['product']['name'] : 'Unknown'}}</label>
                     </div>
                   </td>
-                  <td>{{wishlist['product']['price'] | priceFormat}}</td>
+                  <td>{{(wishlist['product'] ? wishlist['product']['price']: '' )| priceFormat}}</td>
                 </tr>
                 </tbody>
               </table>
