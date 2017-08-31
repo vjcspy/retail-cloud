@@ -362,7 +362,17 @@ export class Subtotal extends CommonTaxCollector {
             .setData('base_row_total_incl_tax', baseRowTotalInclTax)
             .setData('row_tax', rowTax)
             .setData('base_row_tax', baseRowTax);
-
+  
+      // Fix get correct discount price include tax for bundle product.
+      if (this.getTaxConfig().discountTax()) {
+        /*
+         Tức là giá tính discount sẽ bằng giá inclTax. Lúc tính discount sẽ ưu tiên lấy giá này trước còn không có thì sẽ lấy calculation
+         price là giá không có thuể
+         */
+        item.setData('discount_calculation_price', rowTotalInclTax);
+        item.setData('base_discount_calculation_price', baseRowTotalInclTax);
+      }
+        
         return this;
 
     }
