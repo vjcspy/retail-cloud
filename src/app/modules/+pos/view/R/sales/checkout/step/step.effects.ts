@@ -101,7 +101,7 @@ export class PosStepEffects {
                                                   data: {},
                                                   isChanging: paymentToAdd.allow_amount_tendered && !quoteState.info.isRefunding,
                                                   allow_amount_tendered: paymentToAdd.allow_amount_tendered,
-                                                  created_at: Timezone.getCurrentStringTime(),
+                                                  created_at: Timezone.getCurrentStringTime(true),
                                                   is_purchase: quoteState.info.isRefunding ? 0 : 1,
                                                   payment_data: paymentToAdd['payment_data'] // config data of payment
                                                 };
@@ -195,7 +195,7 @@ export class PosStepEffects {
                                                                    is_purchase: 1,
                                                                    amount: posStepState.totals.remain,
                                                                    isChanging: false,
-                                                                   created_at: Timezone.getCurrentStringTime()
+                                                                   created_at: Timezone.getCurrentStringTime(true)
                                                                  });
                               }
                               posQuoteState.quote.setPaymentData(paymentInUse.toJS());
