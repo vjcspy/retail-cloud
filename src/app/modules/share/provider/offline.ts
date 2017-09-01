@@ -11,7 +11,7 @@ export class OfflineService {
     Offline.options = {
       checks: {xhr: {url: '/assets/icon/favicon-16x16.png'}},
       // Should we check the connection status immediatly on page load.
-      checkOnLoad: true,
+      checkOnLoad: false,
       
       // Should we monitor AJAX requests to help decide if we have a connection.
       interceptRequests: false,
@@ -24,7 +24,7 @@ export class OfflineService {
       },
       
       // Should we store and attempt to remake requests which fail while the connection is down.
-      requests: false,
+      requests: true,
       
       // Should we show a snake game while the connection is down to keep the user entertained?
       // It's not included in the normal build, you should bring in js/snake.js in addition to

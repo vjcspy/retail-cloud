@@ -118,17 +118,10 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
   }
   
   private _validateOption(needValidate: boolean) {
-    if (!needValidate || this.option['required'] != '1') {
-      this._validProperty = {
-        isValid: true,
-        mess: ""
-      };
-      return true;
-    } else {
-      this._validProperty =
-        <any>this.formValidationService.validate("require", this._bundle_option[this.option['option_id']]);
-      return this._validProperty.isValid;
-    }
+    this._validProperty =
+      <any>this.formValidationService.validate("require", this._bundle_option[this.option['option_id']]);
+    
+    return this._validProperty.isValid;
   }
   
   changeQtyOption(optionId, qty) {

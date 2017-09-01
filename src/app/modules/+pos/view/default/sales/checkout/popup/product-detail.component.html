@@ -186,8 +186,8 @@
           </div>
         </div>
         <div class="desc-bottom">
-          <button class="gray" (click)="productOptionsActions.cancelProductOptions()">{{ 'Cancel' | translate }}</button>
-          <button (click)="productOptionsActions.confirmProductOptions()">
+          <button class="gray" (click)="cancelProductOption()">{{ 'Cancel' | translate }}</button>
+          <button (click)="confirmProductOption()">
             {{productOptionsState.currentProcessing === 'ADD_NEW' ? 'Add to Cart' : 'Update Item'}}
           </button>
         </div>

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-options.actions";
 import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
 import * as _ from 'lodash';
+import {FormValidationService} from "../../../../../../share/provider/form-validation";
 
 @Component({
              // moduleId: module.id,
@@ -14,7 +15,8 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
   
   indexImage: number = 0;
   
-  constructor(public productOptionsActions: ProductOptionsActions) { }
+  constructor(public productOptionsActions: ProductOptionsActions,
+              protected formValidation: FormValidationService) { }
   
   ngOnInit() {
   }
@@ -58,5 +60,17 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
   
   hasImageGallery() {
     return _.isArray(this.productOptionsState.product.media_gallery)
+  }
+  
+  confirmProductOption() {
+    this.formValidation.submit('pos-product-detail', () => {
+      this.productOptionsActions.confirmProductOptions();
+    });
+  }
+  
+  cancelProductOption() {
+    this.formValidation.cancel('pos-product-detail', () => {
+      this.productOptionsActions.cancelProductOptions();
+    });
   }
 }
