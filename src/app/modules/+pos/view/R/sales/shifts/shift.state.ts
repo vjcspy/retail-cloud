@@ -12,6 +12,7 @@ export interface ShiftState {
   list: ShiftList;
   detail: ShiftDetail;
   popupOpening: SHIFT_POPUP;
+  lastShift: any;
 }
 
 export interface ShiftStateRecord extends TypedRecord<any>, ShiftState {}
@@ -19,5 +20,6 @@ export interface ShiftStateRecord extends TypedRecord<any>, ShiftState {}
 export const shiftStateFactory = makeTypedFactory<ShiftState, ShiftStateRecord>({
                                                                                   list: shiftListFactory(),
                                                                                   detail: shiftDetailFactory(),
-                                                                                  popupOpening: null
+                                                                                  popupOpening: null,
+                                                                                  lastShift: null
                                                                                 });

@@ -25,7 +25,11 @@ export class PosDefaultSalesShiftsPopupOpenComponent implements OnInit {
               protected notify: NotifyManager,
               protected shiftDetailActions: ShiftDetailActions) { }
   
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.shiftState.lastShift) {
+      this._data.startMoney = this.shiftState.lastShift['total_counted_amount'] - this.shiftState.lastShift['take_out_amount'];
+    }
+  }
   
   cancel() {
     this.formValidation.cancel('popup-open-shift', () => {
