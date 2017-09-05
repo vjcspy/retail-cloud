@@ -63,9 +63,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
   }
   
   confirmProductOption() {
-    this.formValidation.submit('pos-product-detail', () => {
       this.productOptionsActions.confirmProductOptions();
-    });
   }
   
   cancelProductOption() {
