@@ -75,13 +75,12 @@ export class CheckoutPopupEffects {
                                                     let buyRequest = new DataObject();
                                                     let product    = new Product();
                                                     product.addData(w['product']);
-                                                    buyRequest.addData(w['buyRequest']);
                                                     item.addData({
                                                                    product_id: product.getData('id'),
-                                                                   buyRequest,
-                                                                   product,
                                                                    qty: w['qty']
-                                                                 });
+                                                                 })
+                                                        .addData(w['buyRequest'])
+                                                        .setData('product', product);
       
                                                     return item;
                                                   });
