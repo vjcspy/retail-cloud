@@ -1,6 +1,7 @@
 /**
  * Angular bootstrapping
  */
+import 'vendor.lib';
 import { platformBrowser } from '@angular/platform-browser';
 import { decorateModuleRef } from './app/environment';
 /**

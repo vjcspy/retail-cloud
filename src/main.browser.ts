@@ -1,6 +1,7 @@
 /**
  * Angular bootstrapping
  */
+import 'vendor.lib';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { decorateModuleRef } from './app/environment';
 import { hmrModule  } from '@angularclass/hmr';

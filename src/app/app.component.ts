@@ -2,9 +2,13 @@
  * Angular 2 decorators and services
  */
 import {
-  Component,
+  Component, ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
+import {ToastsManager} from "ng2-toastr";
+import {TranslateService} from "@ngx-translate/core";
+import {RetailTranslate} from "./services/retail-translate";
+import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 
 /**
  * App Component
@@ -17,16 +21,28 @@ import {
                './app.component.css'
              ],
              template: `
-               hello
+               <router-outlet></router-outlet>
              `
            })
-export class AppComponent {
+export class AppComponent extends AbstractSubscriptionComponent {
+  constructor(private toastr: ToastsManager,
+              vcr: ViewContainerRef,
+              protected translate: TranslateService,
+              private retailTranslate: RetailTranslate) {
+    super();
+    this.resolveLanguage();
+    this.toastr.setRootViewContainerRef(vcr);
+  }
+  
+  protected resolveLanguage() {
+    if (this.retailTranslate.getCurrentLanguage()) {
+      let usedLang = this.retailTranslate.getCurrentLanguage();
+      if (usedLang) {
+        this.translate.use(usedLang);
+      } else {
+        this.translate.use('en');
+      }
+      this.translate.setDefaultLang('en');
+    }
+  }
 }
-
-/**
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */
