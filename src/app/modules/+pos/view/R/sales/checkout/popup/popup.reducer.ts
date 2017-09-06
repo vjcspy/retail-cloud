@@ -14,7 +14,7 @@ export const checkoutPopupReducer: ActionReducer<CheckoutPopupStateRecord> = (st
       } else {
         state = state.set('popupOpening', action.payload['popupOpening']);
         if (_.isObject(action.payload['data'])) {
-          _.forEach(action.payload['data'], (v, k) => {
+          _.forEach(action.payload['data'], (v, k: any) => {
             if (k === 'customerPopup') {
               state = openCustomerBillingAddress(state, v);
             } else {

@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {checkoutProductCategoryReducer} from "./category/category.reducer";
 import {PosGeneralActions} from "../../../../../R/general/general.actions";
-import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 
 const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
@@ -129,7 +128,7 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     
     case CheckoutProductActions.ACTION_UPDATE_GRID_STATE:
       let newState = state;
-      _.forEach(action.payload, (v, k) => {
+      _.forEach(action.payload, (v: any, k: string) => {
         if (k === 'productGridCurrentPage') {
           if (v <= state.productGridTotalsPage && v > 0) {
             newState = newState.set(k, v);

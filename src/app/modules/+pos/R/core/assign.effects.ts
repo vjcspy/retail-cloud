@@ -33,7 +33,7 @@ export class PosAssignEffects {
   
   @Effect() assignCurrentStoreToCore = this.actions$.ofType(PosGeneralActions.ACTION_SAVE_STATE)
                                            .map((action: Action) => {
-                                             _.forEach(action.payload['generalData'], (v, k) => {
+                                             _.forEach(action.payload['generalData'], (v, k:any) => {
                                                if (k === 'store') {
                                                  let store = new CoreStore();
                                                  StoreManager.setStore(store.mapWithParent(v));

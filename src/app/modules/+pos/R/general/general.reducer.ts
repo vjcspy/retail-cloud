@@ -7,7 +7,7 @@ import {AccountActions} from "../../../../R/account/account.actions";
 export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosGeneralStateRecord = posGeneralStateFactory(), action: Action) => {
   switch (action.type) {
     case PosGeneralActions.ACTION_SAVE_STATE:
-      _.forEach(action.payload['generalData'], (v, k) => {
+      _.forEach(action.payload['generalData'], (v, k: any) => {
         state = state.set(k, v);
       });
       return state;

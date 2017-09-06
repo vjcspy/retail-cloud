@@ -82,7 +82,7 @@ export abstract class AbstractType {
         let keysRemove = [];
         if (buyRequest.getData('options')) {
             let productOptionCustomOption = [];
-            _.forEach(buyRequest.getData('options'), (value, key) => {
+            _.forEach(buyRequest.getData('options'), (value: any, key: any) => {
 
                 if (typeof value === "undefined" || value === false || value === "" || value === null)
                     delete buyRequest.getData('options')[key];

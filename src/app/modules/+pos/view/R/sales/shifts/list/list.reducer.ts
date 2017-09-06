@@ -15,7 +15,7 @@ export const shiftListReducer: ActionReducer<ShiftStateRecord> = (state: ShiftSt
       if (action.payload['isFirstPage'] !== true) {
         newShifts = state.list.shifts;
       }
-      _.forEach(action.payload['shifts'], (shift) => {
+      _.forEach(action.payload['shifts'], (shift: Object) => {
         let findIndex = state.list.shifts.findIndex((v) => v['id'] === shift['id']);
         if (findIndex > -1) {
           newShifts = newShifts.update(findIndex, (u) => Object.assign({}, {...u}, {...shift}));

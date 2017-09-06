@@ -49,7 +49,7 @@ export class CountryHelper {
         CountryHelper._selectElement['region'][countryId] = {
           data: []
         };
-        _.forEach(_country['regions'], (region) => {
+        _.forEach(_country['regions'], (region: any) => {
           CountryHelper._selectElement['region'][countryId]['data']
             .push({
                     value: region.region_id,
