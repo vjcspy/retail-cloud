@@ -30,7 +30,7 @@ const ngcWebpack = require('ngc-webpack');
 const HMR = helpers.hasProcessFlag('hot');
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
 const METADATA = {
-  title: 'Angular2 Webpack Starter by @gdi2290 from @AngularClass',
+  title: 'Connect POS',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: HMR,
@@ -45,7 +45,7 @@ const METADATA = {
 module.exports = function (options) {
   isProd = options.env === 'production';
   return {
-
+    
     /**
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
      * This is enabled by default in watch mode.
@@ -54,7 +54,7 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
     //cache: false,
-
+    
     /**
      * The entry point for the bundle
      * Our Angular.js app
@@ -62,43 +62,45 @@ module.exports = function (options) {
      * See: http://webpack.github.io/docs/configuration.html#entry
      */
     entry: {
-
+      
       'polyfills': './src/polyfills.browser.ts',
       'main':      AOT ? './src/main.browser.aot.ts' :
-                  './src/main.browser.ts'
-
+                   './src/main.browser.ts'
+      
     },
-
+    
     /**
      * Options affecting the resolving of modules.
      *
      * See: http://webpack.github.io/docs/configuration.html#resolve
      */
     resolve: {
-
+      
       /**
        * An array of extensions that should be used to resolve modules.
        *
        * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
        */
       extensions: ['.ts', '.js', '.json'],
-
+      
       /**
        * An array of directory names to be resolved to the current directory
        */
       modules: [helpers.root('src'), helpers.root('node_modules')],
-
+      
     },
-
+    externals: [
+      resolveExternals
+    ],
     /**
      * Options affecting the normal modules.
      *
      * See: http://webpack.github.io/docs/configuration.html#module
      */
     module: {
-
+      
       rules: [
-
+        
         /**
          * Typescript loader support for .ts
          *
@@ -145,7 +147,7 @@ module.exports = function (options) {
           ],
           exclude: [/\.(spec|e2e)\.ts$/]
         },
-
+        
         /**
          * To string and css loader support for *.css files (from Angular components)
          * Returns file content as string
@@ -156,7 +158,7 @@ module.exports = function (options) {
           use: ['to-string-loader', 'css-loader'],
           exclude: [helpers.root('src', 'styles')]
         },
-
+        
         /**
          * To string and sass loader support for *.scss files (from Angular components)
          * Returns compiled css content as string
@@ -164,10 +166,10 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          loader: 'raw-loader!sass-loader', // FIX LOAD font
           exclude: [helpers.root('src', 'styles')]
         },
-
+        
         /**
          * Raw loader support for *.html
          * Returns file content as string
@@ -179,7 +181,7 @@ module.exports = function (options) {
           use: 'raw-loader',
           exclude: [helpers.root('src/index.html')]
         },
-
+        
         /**
          * File loader for supporting images, for example, in CSS files.
          */
@@ -187,18 +189,18 @@ module.exports = function (options) {
           test: /\.(jpg|png|gif)$/,
           use: 'file-loader'
         },
-
+        
         /* File loader for supporting fonts, for example, in CSS files.
-        */
+         */
         {
           test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
           use: 'file-loader'
         }
-
+      
       ],
-
+      
     },
-
+    
     /**
      * Add additional plugins to the compiler.
      *
@@ -211,7 +213,17 @@ module.exports = function (options) {
       //   filename: 'webpack-assets.json',
       //   prettyPrint: true
       // }),
-
+      
+      new webpack.ProvidePlugin({
+                                  jQuery: 'jquery',
+                                  $: 'jquery',
+                                  jquery: 'jquery',
+                                  "window.jquery": "jquery",
+                                  "window.jQuery": "jquery",
+                                  "Tether": 'tether',
+                                  "window.Tether": "tether"
+                                }),
+      
       /**
        * Plugin: ForkCheckerPlugin
        * Description: Do type checking in a separate process, so webpack doesn't need to wait.
@@ -228,9 +240,9 @@ module.exports = function (options) {
        * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
        */
       new CommonsChunkPlugin({
-        name: 'polyfills',
-        chunks: ['polyfills']
-      }),
+                               name: 'polyfills',
+                               chunks: ['polyfills']
+                             }),
       /**
        * This enables tree shaking of the vendor modules
        */
@@ -249,7 +261,7 @@ module.exports = function (options) {
       //   name: ['manifest'],
       //   minChunks: Infinity,
       // }),
-
+      
       /**
        * Plugin: ContextReplacementPlugin
        * Description: Provides context to Angular's use of System.import
@@ -269,7 +281,7 @@ module.exports = function (options) {
            */
         }
       ),
-
+      
       /**
        * Plugin: CopyWebpackPlugin
        * Description: Copy files and directories in webpack.
@@ -279,12 +291,12 @@ module.exports = function (options) {
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
       new CopyWebpackPlugin([
-        { from: 'src/assets', to: 'assets' },
-        { from: 'src/meta'}
-      ],
-        isProd ? { ignore: [ 'mock-data/**/*' ] } : undefined
+                              { from: 'src/assets', to: 'assets' },
+                              { from: 'src/meta'}
+                            ],
+                            isProd ? { ignore: [ 'mock-data/**/*' ] } : undefined
       ),
-
+      
       /*
        * Plugin: PreloadWebpackPlugin
        * Description: Preload is a web standard aimed at improving
@@ -303,27 +315,27 @@ module.exports = function (options) {
       //  as: 'script',
       //  include: 'asyncChunks'
       //}),
-
+      
       /*
-      * Plugin: HtmlWebpackPlugin
-      * Description: Simplifies creation of HTML files to serve your webpack bundles.
-      * This is especially useful for webpack bundles that include a hash in the filename
-      * which changes every compilation.
-      *
-      * See: https://github.com/ampedandwired/html-webpack-plugin
-      */
+       * Plugin: HtmlWebpackPlugin
+       * Description: Simplifies creation of HTML files to serve your webpack bundles.
+       * This is especially useful for webpack bundles that include a hash in the filename
+       * which changes every compilation.
+       *
+       * See: https://github.com/ampedandwired/html-webpack-plugin
+       */
       new HtmlWebpackPlugin({
-        template: 'src/index.html',
-        title: METADATA.title,
-        chunksSortMode: function (a, b) {
-          const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
-          return entryPoints.indexOf(a.names[0]) - entryPoints.indexOf(b.names[0]);
-        },
-        metadata: METADATA,
-        inject: 'body'
-      }),
-
-       /**
+                              template: 'src/index.html',
+                              title: METADATA.title,
+                              chunksSortMode: function (a, b) {
+                                const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
+                                return entryPoints.indexOf(a.names[0]) - entryPoints.indexOf(b.names[0]);
+                              },
+                              metadata: METADATA,
+                              inject: 'body'
+                            }),
+      
+      /**
        * Plugin: ScriptExtHtmlWebpackPlugin
        * Description: Enhances html-webpack-plugin functionality
        * with different deployment options for your scripts including:
@@ -331,12 +343,12 @@ module.exports = function (options) {
        * See: https://github.com/numical/script-ext-html-webpack-plugin
        */
       new ScriptExtHtmlWebpackPlugin({
-        sync: /polyfills|vendor/,
-        defaultAttribute: 'async',
-        preload: [/polyfills|vendor|main/],
-        prefetch: [/chunk/]
-      }),
-
+                                       sync: /polyfills|vendor/,
+                                       defaultAttribute: 'async',
+                                       preload: [/polyfills|vendor|main/],
+                                       prefetch: [/chunk/]
+                                     }),
+      
       /**
        * Plugin: HtmlElementsPlugin
        * Description: Generate html tags based on javascript maps.
@@ -360,28 +372,28 @@ module.exports = function (options) {
        * Dependencies: HtmlWebpackPlugin
        */
       new HtmlElementsPlugin({
-        headTags: require('./head-config.common')
-      }),
-
+                               headTags: require('./head-config.common')
+                             }),
+      
       /**
        * Plugin LoaderOptionsPlugin (experimental)
        *
        * See: https://gist.github.com/sokra/27b24881210b56bbaff7
        */
       new LoaderOptionsPlugin({}),
-
+      
       new ngcWebpack.NgcWebpackPlugin({
-        /**
-         * If false the plugin is a ghost, it will not perform any action.
-         * This property can be used to trigger AOT on/off depending on your build target (prod, staging etc...)
-         *
-         * The state can not change after initializing the plugin.
-         * @default true
-         */
-        disabled: !AOT,
-        tsConfig: helpers.root('tsconfig.webpack.json'),
-      }),
-
+                                        /**
+                                         * If false the plugin is a ghost, it will not perform any action.
+                                         * This property can be used to trigger AOT on/off depending on your build target (prod, staging etc...)
+                                         *
+                                         * The state can not change after initializing the plugin.
+                                         * @default true
+                                         */
+                                        disabled: !AOT,
+                                        tsConfig: helpers.root('tsconfig.webpack.json'),
+                                      }),
+      
       /**
        * Plugin: InlineManifestWebpackPlugin
        * Inline Webpack's manifest.js in index.html
@@ -390,7 +402,7 @@ module.exports = function (options) {
        */
       new InlineManifestWebpackPlugin(),
     ],
-
+    
     /**
      * Include polyfills or mocks for various node stuff
      * Description: Node configuration
@@ -405,6 +417,20 @@ module.exports = function (options) {
       clearImmediate: false,
       setImmediate: false
     }
-
+    
   };
+};
+function resolveExternals(context, request, callback) {
+  return resolveMeteor(request, callback) ||
+         callback();
+}
+
+function resolveMeteor(request, callback) {
+  var match = request.match(/^meteor\/(.+)$/);
+  var pack = match && match[1];
+  
+  if (pack) {
+    callback(null, 'Package["' + pack + '"]');
+    return true;
+  }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {GeneralException} from "../modules/+pos/core/framework/General/Exception/GeneralException";
 import * as _ from 'lodash';
+import {GeneralException} from "../code/GeneralException";
 
 @Injectable()
 export class ApiManager {

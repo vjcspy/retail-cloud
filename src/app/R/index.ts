@@ -37,11 +37,11 @@ export const R_IMPORTS = [
   EffectsModule.run(AccountEffects),
 ];
 
-// if ('production' !== ENV) {
-//   R_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
-//                                                                    maxAge: 5
-//                                                                  }));
-// }
+if ('production' !== ENV) {
+  R_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
+                                                                   maxAge: 5
+                                                                 }));
+}
 /*
  * Có thể bao gồm service, actions và effects.
  *  - service: Không được phụ thuộc vào action hoặc effects và cũng không được phụ thuộc vào service nằm trong R
@@ -58,10 +58,9 @@ export const R_PROVIDERS = [
   // AccountEffects
 ];
 
-
-export const mergeSliceReducers = (initialState: any, ...sliceReducer: ActionReducer<any>[]) => {
+export const mergeSliceReducers = (initialState: any, ...sliceReducer: Array<ActionReducer<any>>) => {
   return (state = initialState, action: Action) => {
-    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => {state = reducer(state, action)});
+    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => {state = reducer(state, action);});
     
     return state;
   };

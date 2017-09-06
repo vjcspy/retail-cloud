@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import * as _ from "lodash";
-import {GeneralException} from "../modules/+pos/core/framework/General/Exception/GeneralException";
 import {TranslateService} from "@ngx-translate/core";
 import {AppStorage} from "./storage";
+import {GeneralException} from "../code/GeneralException";
 
 @Injectable()
 export class RetailTranslate {
