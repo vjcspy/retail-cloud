@@ -44,7 +44,7 @@ export class PosSyncEffects {
                                        const quoteState: PosQuoteState     = z[2];
                                        const generalState: PosGeneralState = z[1];
                                        if (quoteState.items.count() > 0) {
-                                         return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), false);
+                                         return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), z[0]['payload']['goStep'] !== false, false);
                                        } else if (quoteState.info.isRefunding) {
                                          return this.syncActions.syncOrderSuccess(quoteState.quote, null, false);
                                        } else {
@@ -82,7 +82,7 @@ export class PosSyncEffects {
         
                                              quote.setSyncedItems(syncData['items']);
         
-                                             return this.syncActions.syncOrderSuccess(quote, syncData, false);
+                                             return this.syncActions.syncOrderSuccess(quote, syncData,action['payload']['goStep'], false);
                                            })
                                            .catch((e) => Observable.of(this.syncActions.syncOrderError(e, false)));
                               } else {

@@ -89,7 +89,7 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
         }
       }
       
-      this.syncActions.syncCurrentOrder();
+      this.syncActions.syncCurrentOrder(false);
     } else {
       this.notify.warning("no_item_in_cart");
     }

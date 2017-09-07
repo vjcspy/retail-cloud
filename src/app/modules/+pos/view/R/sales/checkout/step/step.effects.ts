@@ -58,6 +58,7 @@ export class PosStepEffects {
   
   @Effect() initCheckoutStepData = this.actions$.ofType(PosSyncActions.ACTION_SYNC_ORDER_SUCCESS)
                                        .withLatestFrom(this.store$.select('quote'))
+                                       .filter((z: any) => z[0]['payload']['goStep'] === true)
                                        .map((z) => {
                                          const posQuoteState: PosQuoteState = <any>z[1];
     

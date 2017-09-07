@@ -17,8 +17,8 @@ export class PosSyncActions {
    */
   static ACTION_START_SYNC_CURRENT_ORDER = 'ACTION_START_SYNC_CURRENT_ORDER';
   
-  syncCurrentOrder(dispatch: boolean = true): Action {
-    const action = {type: PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER, payload: {}};
+  syncCurrentOrder(goStep: boolean = true, dispatch: boolean = true): Action {
+    const action = {type: PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER, payload: {goStep}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -38,8 +38,8 @@ export class PosSyncActions {
    */
   static ACTION_PREPARE_ORDER_SYNC = 'ACTION_PREPARE_ORDER_SYNC';
   
-  saveOrderPreparedAndSync(order, dispatch: boolean = true): Action {
-    const action = {type: PosSyncActions.ACTION_PREPARE_ORDER_SYNC, payload: {order}};
+  saveOrderPreparedAndSync(order, goStep: boolean = true, dispatch: boolean = true): Action {
+    const action = {type: PosSyncActions.ACTION_PREPARE_ORDER_SYNC, payload: {order, goStep}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -60,8 +60,8 @@ export class PosSyncActions {
    */
   static ACTION_SYNC_ORDER_SUCCESS = 'ACTION_SYNC_ORDER_SUCCESS';
   
-  syncOrderSuccess(quote, syncData: any, dispatch: boolean = true): Action {
-    const action = {type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote, syncData}};
+  syncOrderSuccess(quote, syncData: any, goStep: boolean = true, dispatch: boolean = true): Action {
+    const action = {type: PosSyncActions.ACTION_SYNC_ORDER_SUCCESS, payload: {quote, syncData, goStep}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
