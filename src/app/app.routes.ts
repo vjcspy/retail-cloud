@@ -4,11 +4,11 @@ import {LoginComponent} from "./pages/account/login.component";
 import {AccountComponent} from "./pages/account/account.component";
 
 export const ROUTES: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/pos/default/sales/checkout',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: '/cloud',
+    pathMatch: 'full'
+  },
   {
     path: 'account',
     component: AccountComponent,
