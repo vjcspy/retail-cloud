@@ -78,6 +78,6 @@ export class PosSyncWishlistEffects {
                                                       this.notifyManager.success(data['message']);
                                                       return this.posQuoteActions.clearQuote(false);
                                                     })
-                                                    .catch((e) => Observable.of(this.rootActions.error("add_custom_sales_failed")));
+                                                    .catch((e) => Observable.of(this.rootActions.error("add_wishlist_error")));
                                        });
 }
