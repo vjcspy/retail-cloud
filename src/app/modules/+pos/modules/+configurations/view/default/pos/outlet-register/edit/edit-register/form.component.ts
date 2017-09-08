@@ -39,9 +39,9 @@ export class ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent imp
     this.routerActions.go('pos/configurations/default/pos/outlet/edit', id);
   }
   
-  async saveRegister() {
-    this.formValid.submit('register_edit_data', async () => {
-      await this.configurationsOutletActions.saveRegister(this.getRegister());
+  saveRegister() {
+    this.formValid.submit('register_edit_data', () => {
+      this.configurationsOutletActions.saveRegister(this.getRegister());
     }, true);
   }
   
