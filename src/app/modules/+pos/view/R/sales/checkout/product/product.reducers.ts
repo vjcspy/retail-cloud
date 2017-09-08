@@ -6,6 +6,9 @@ import * as _ from 'lodash';
 import {mergeSliceReducers} from "../../../../../../../R/index";
 import {checkoutProductCategoryReducer} from "./category/category.reducer";
 import {PosGeneralActions} from "../../../../../R/general/general.actions";
+import {routerActions} from "@ngrx/router-store";
+import {PosStepActions} from "../step/step.actions";
+import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 
 const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (state: CheckoutProductStateRecord, action: Action) => {
   switch (action.type) {
@@ -159,7 +162,11 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     
     case CheckoutProductActions.ACTION_UPDATE_LUCKY_SEARCH:
       return state.set('lastLuckySearchString', action.payload['searchString']);
-    
+  
+    case routerActions.UPDATE_LOCATION:
+      return state.set('lastLuckySearchString', null)
+                  .set('searchString', null);
+      
     default:
       return state;
   }

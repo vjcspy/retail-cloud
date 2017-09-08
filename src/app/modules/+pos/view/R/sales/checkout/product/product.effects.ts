@@ -90,7 +90,7 @@ export class CheckoutProductEffects {
                               .withLatestFrom(this.store$.select('checkoutProduct'))
                               .filter((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
-                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null && checkoutProductState.searchString !== checkoutProductState.lastLuckySearchString;
+                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null;
                               })
                               .flatMap((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];

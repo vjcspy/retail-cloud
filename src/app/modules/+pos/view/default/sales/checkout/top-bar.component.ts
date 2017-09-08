@@ -37,7 +37,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
     this.subscribeObservable('subscribe_input_search', () => this.searchString
                                                                  .valueChanges
                                                                  .debounceTime(this.configState.constrain['debounceTimeSearch'])
-                                                                 .distinctUntilChanged()
+                                                                 // .distinctUntilChanged()
                                                                  .subscribe((searchString: string) => this.checkoutProductActions.updateGridState({
                                                                                                                                                     searchString,
                                                                                                                                                     lastLuckySearchString: null
@@ -78,9 +78,9 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
       }
       
       this.searchInputElem.select();
-      setTimeout(() => {
-        this.checkoutProductActions.updateLuckySearch(null);
-      }, 1000);
+      // setTimeout(() => {
+      //   this.checkoutProductActions.updateLuckySearch(null);
+      // }, 1000);
     }
   }
 }
