@@ -139,7 +139,7 @@ export class ConfigurationsOutletEffects {
                                                                this.outletService.editOutletFormData = <any>{outlet, registers: outlet['registers']};
                                                                return Observable.from([
                                                                                         this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
-                                                                                        this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
+                                                                                        this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
                                                                                       ]);
                                                              })
                                                              .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', e, false)));
@@ -185,9 +185,11 @@ export class ConfigurationsOutletEffects {
                                               return Observable.fromPromise(outlet.save(data['items'][0]))
                                                                .switchMap(() => {
                                                                  this.notify.success("save_register_data_successfully");
+                                                                 this._routerActions.go('pos/configurations/default/pos/outlet/edit', outlet['id']);
                                                                  return Observable.from([
                                                                                           this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
-                                                                                          this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
+                                                                                          this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
+                                                                                          
                                                                                         ]);
                                                                })
                                                                .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_register_outlet_failed', e, false)));
