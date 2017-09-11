@@ -33,7 +33,7 @@
         </td>
         <td>{{ getDateTimeString(item['updatedAt']) | amCalendar}}</td>
         <td>
-          <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Delete</button>
+          <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Clear</button>
         </td>
       </tr>
       <tbody>
