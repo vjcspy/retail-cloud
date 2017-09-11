@@ -17,6 +17,8 @@ import {CategoryDB} from "../../../../../database/xretail/db/category";
 @Injectable()
 export class CheckoutProductEffects {
   
+  private _gridProductScroll;
+  
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private checkoutProductsService: CheckoutProductService,
@@ -25,8 +27,16 @@ export class CheckoutProductEffects {
               private quoteActions: PosQuoteActions) { }
   
   @Effect() triggerCalculateGridStyle = this.actions$
-                                            .ofType(CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT)
+                                            .ofType(
+                                              CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT,
+                                              PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS
+                                            )
                                             .switchMap(() => {
+                                              if (typeof this._gridProductScroll === 'undefined') {
+                                                this._gridProductScroll = document.getElementById('grid-product-perfect-scroll');
+                                              }
+                                              this._gridProductScroll.scrollTop = 0;
+    
                                               return Observable.of({type: CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE})
                                                                .debounceTime(750);
                                             });

@@ -156,9 +156,9 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
       return checkoutProductStateFactory();
     
-    // case PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD:
-    //   return state.set('searchString', null)
-    //               .set('lastLuckySearchString', null);
+    case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
+      return state.set('searchString', null)
+                  .set('lastLuckySearchString', null);
     
     case CheckoutProductActions.ACTION_UPDATE_LUCKY_SEARCH:
       return state.set('lastLuckySearchString', action.payload['searchString']);
