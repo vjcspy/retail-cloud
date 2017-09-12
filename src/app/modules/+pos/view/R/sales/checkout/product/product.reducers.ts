@@ -137,6 +137,9 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
             newState = newState.set(k, v);
           }
         } else {
+          if (k === 'searchString') {
+            newState.set('lastLuckySearchString', null);
+          }
           newState = newState.set(k, v);
         }
       });
@@ -156,17 +159,16 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:
       return checkoutProductStateFactory();
     
-    case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
-      return state.set('searchString', null)
-                  .set('lastLuckySearchString', null);
-    
     case CheckoutProductActions.ACTION_UPDATE_LUCKY_SEARCH:
       return state.set('lastLuckySearchString', action.payload['searchString']);
-  
+    
     case routerActions.UPDATE_LOCATION:
+    case PosStepActions.ACTION_STEP_NEW_ORDER:
+    case PosQuoteActions.ACTION_REORDER:
+    case PosQuoteActions.ACTION_CLEAR_QUOTE:
       return state.set('lastLuckySearchString', null)
                   .set('searchString', null);
-      
+    
     default:
       return state;
   }

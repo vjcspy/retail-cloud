@@ -13,6 +13,8 @@ import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actions";
 import {CategoryDB} from "../../../../../database/xretail/db/category";
+import {PosStepActions} from "../step/step.actions";
+import {routerActions} from "@ngrx/router-store";
 
 @Injectable()
 export class CheckoutProductEffects {
@@ -29,13 +31,14 @@ export class CheckoutProductEffects {
   @Effect() triggerCalculateGridStyle = this.actions$
                                             .ofType(
                                               CheckoutProductActions.ACTION_SAVE_GRID_WIDTH_HEIGHT,
-                                              PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS
+                                              PosStepActions.ACTION_STEP_NEW_ORDER,
+                                              PosQuoteActions.ACTION_REORDER,
+                                              PosQuoteActions.ACTION_CLEAR_QUOTE,
+                                              routerActions.UPDATE_LOCATION
                                             )
+                                            .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
                                             .switchMap(() => {
-                                              if (typeof this._gridProductScroll === 'undefined') {
-                                                this._gridProductScroll = document.getElementById('grid-product-perfect-scroll');
-                                              }
-                                              this._gridProductScroll.scrollTop = 0;
+                                              this.scrollGridProductToTop();
     
                                               return Observable.of({type: CheckoutProductActions.ACTION_CALCULATE_GRID_STYLE})
                                                                .debounceTime(750);
@@ -100,15 +103,25 @@ export class CheckoutProductEffects {
                               .withLatestFrom(this.store$.select('checkoutProduct'))
                               .filter((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
-                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null;
+                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null && checkoutProductState.searchString !== checkoutProductState.lastLuckySearchString;
                               })
                               .flatMap((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
                                 const product                                    = checkoutProductState.productGridProducts.first();
-                                // jQuery('#pos_search_text').select();
+                                this.scrollGridProductToTop();
                                 return Observable.from([
                                                          this.checkoutProductActions.updateLuckySearch(checkoutProductState.searchString, false),
                                                          this.quoteActions.selectProductToAdd(product, 1, false, null, false, false)
                                                        ]);
                               });
+  
+  private scrollGridProductToTop() {
+    if (!this._gridProductScroll) {
+      this._gridProductScroll = document.getElementById('grid-product-perfect-scroll');
+    }
+    
+    if (!!this._gridProductScroll) {
+      this._gridProductScroll.scrollTop = 0;
+    }
+  }
 }
