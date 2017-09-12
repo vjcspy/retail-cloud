@@ -110,6 +110,8 @@ export class PosGeneralEffects {
                                                    this.routerAction.go(generalState.redirect);
                                                  }
     
+                                                 this.realtimeService.triggerCheckRealtime();
+    
                                                  return this.rootActions.nothing("Redirect after save state: " + (z[0] as Action).payload['needRedirect']);
                                                });
   

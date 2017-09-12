@@ -15,21 +15,17 @@ import {EntityInformation} from "../../../database/xretail/db/entity-information
 import {OrderDB} from "../../../database/xretail/db/order";
 import {SettingDB} from "../../../database/xretail/db/setting";
 import {TaxDB} from "../../../database/xretail/db/tax";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class RealtimeService {
+  
+  private _triggerRealtime = new Subject();
+  
   private _subscribeRealtimeEntity = {};
   
   get subscribeRealtimeEntity(): {} {
     return this._subscribeRealtimeEntity;
-  }
-  
-  set subscribeRealtimeEntity(value: {}) {
-    this._subscribeRealtimeEntity = value;
-  }
-  
-  resetSubscribeRealtimeEntity() {
-    this._subscribeRealtimeEntity = {};
   }
   
   constructor(private entitiesService: PosEntitiesService,
@@ -38,39 +34,51 @@ export class RealtimeService {
               private apiManager: ApiManager,
               private requestService: RequestService) { }
   
+  getTriggerRealtimeObservable() {
+    return this._triggerRealtime.asObservable().startWith(null);
+  }
+  
   realtimeEntityObservable(entityCode: string, generalState: PosGeneralState): Observable<any> {
-    return this.realtimeStorage
-               .getCollectionObservable()
-               .debounceTime(1500)
-               .flatMap((collection) => {
-                 return Observable.fromPromise(this.entitiesService.getEntityDataInformation(entityCode))
-                                  .filter((entityInfo) => !!entityInfo)
-                                  .map((entityInfo) => {
-                                    const changes  = collection.collection.find({
-                                                                                  cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
-                                                                                  "data.entity": entityCode,
-                                                                                  base_url: {'$regex': generalState.baseUrl}
-                                                                                }).fetch();
-                                    let needRemove = List.of();
-                                    let needUpdate = List.of();
-        
-                                    _.forEach(changes, (change) => {
-                                      if (_.indexOf(['remove', 'removed', 'delete'], change['data']['type_change']) > -1) {
-                                        needRemove = needRemove.push(..._.split(change['data']['entity_id'], ","));
-                                      } else {
-                                        needUpdate = needUpdate.push(..._.split(change['data']['entity_id'], ','));
-                                      }
-                                    });
-        
-                                    const lastChange = _.last(changes);
-                                    let newCacheTime;
-                                    if (lastChange) {
-                                      newCacheTime = lastChange['cache_time'];
-                                    }
-        
-                                    return {needRemove, needUpdate, entityInfo, newCacheTime};
-                                  });
-               });
+    return Observable
+      .combineLatest(
+        this.realtimeStorage.getCollectionObservable(),
+        this.getTriggerRealtimeObservable()
+      )
+      .debounceTime(1500)
+      .flatMap((z) => {
+        const collection = z[0];
+        return Observable.fromPromise(this.entitiesService.getEntityDataInformation(entityCode))
+                         .filter((entityInfo) => !!entityInfo)
+                         .map((entityInfo) => {
+                           const changes  = collection.collection.find({
+                                                                         cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
+                                                                         "data.entity": entityCode,
+                                                                         base_url: {'$regex': generalState.baseUrl}
+                                                                       }).fetch();
+                           let needRemove = List.of();
+                           let needUpdate = List.of();
+          
+                           _.forEach(changes, (change) => {
+                             if (_.indexOf(['remove', 'removed', 'delete'], change['data']['type_change']) > -1) {
+                               needRemove = needRemove.push(..._.split(change['data']['entity_id'], ","));
+                             } else {
+                               needUpdate = needUpdate.push(..._.split(change['data']['entity_id'], ','));
+                             }
+                           });
+          
+                           const lastChange = _.last(changes);
+                           let newCacheTime;
+                           if (lastChange) {
+                             newCacheTime = lastChange['cache_time'];
+                           }
+          
+                           return {needRemove, needUpdate, entityInfo, newCacheTime};
+                         });
+      });
+  }
+  
+  triggerCheckRealtime() {
+    this._triggerRealtime.next();
   }
   
   handleDBNeedRemoveEntity(entityCode: string, needRemove: List<string>): Promise<GeneralMessage> {
