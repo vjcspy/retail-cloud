@@ -32,7 +32,14 @@ export class RealtimeEffects {
                                                           ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
                                             const action: Action = <any>z[0];
-                                            return this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== z[1]['baseUrl'];
+    
+                                            if (this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== z[1]['baseUrl']) {
+                                              return true;
+                                            } else {
+                                              // if this already checked realtime, will trigger check realtime mannualy.
+                                              this.realtimeService.triggerCheckRealtime();
+                                              return false;
+                                            }
                                           })
                                           .filter((z) => {
                                             const entitiesState: PosEntitiesState = z[2];
