@@ -1,7 +1,7 @@
-<div class='input-group date' [ngClass]="{'error-valid':!_validProperty['isValid']}">
-    <input #timeSelect id='time_pos' type='text' class="form-control"/>
+<div class="input-group date">
+    <input #timeSelect id='time_pos' type='text' class="form-control" [ngClass]="{'error-valid':!_validProperty['isValid']}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                     </span>
 </div>
-<span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>
+<span class="error-message" [hidden]="_validProperty['isValid']">{{_validProperty['mess']}}</span>

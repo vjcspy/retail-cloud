@@ -9,7 +9,7 @@ import {FormValidationService} from "../../share/provider/form-validation";
              //moduleId: module.id,
              selector: 'time-select',
              templateUrl: 'time.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailTimeSelectComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() validation: string = "";
