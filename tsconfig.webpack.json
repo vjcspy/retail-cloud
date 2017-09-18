@@ -24,7 +24,8 @@
     ],
     "types": [
       "hammerjs",
-      "node"
+      "node",
+      "meteor-typings"
     ]
   },
   "exclude": [
