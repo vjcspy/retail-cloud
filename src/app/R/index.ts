@@ -16,7 +16,7 @@ import {AccountService} from "./account/account.service";
 export interface AppState {
   rootState: RootState;
   router: RouterState;
-  
+
   [propName: string]: any;
 }
 
@@ -52,17 +52,16 @@ export const R_PROVIDERS = [
   RootActions,
   // RootEffects,
   RouterActions,
-  
+
   AccountActions,
   AccountService,
   // AccountEffects
 ];
 
-
 export const mergeSliceReducers = (initialState: any, ...sliceReducer: ActionReducer<any>[]) => {
   return (state = initialState, action: Action) => {
-    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => {state = reducer(state, action)});
-    
+    _.forEach(sliceReducer, (reducer: ActionReducer<any>) => {state = reducer(state, action);});
+
     return state;
   };
 };
