@@ -107,6 +107,17 @@ export class TaxDB extends DataObject {
                    }
           
                  });
+      
+      let _rateIds                = [];
+      TaxDB._ratesCache[cacheKey] = _.filter(TaxDB._ratesCache[cacheKey], (_rate) => {
+        if (_.indexOf(_rateIds, _rate['tax_calculation_rate_id']) > -1) {
+          return false;
+        } else {
+          _rateIds.push(_rate['tax_calculation_rate_id']);
+          
+          return true;
+        }
+      });
     }
     return TaxDB._ratesCache[cacheKey];
   }
