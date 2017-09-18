@@ -20,7 +20,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   @ViewChild('receiptElem') receiptElem: ElementRef;
   @Input() posConfigState: PosConfigState;
   @Input() receiptState: ReceiptState;
-  
+
   protected _data = {
     productOptions: {
       customOptions: {},
@@ -28,11 +28,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       bundleChildren: {}
     }
   };
-  
+
   constructor(private userCollection: UserCollection, private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
     super();
   }
-  
+
   ngOnInit() {
     this.subscribeObservable('print_receipt', () => {
       return this.receiptService.getReceiptObservable()
@@ -47,7 +47,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                  });
     });
   }
-  
+
   protected print() {
     let myWindow = window.open('', '', 'width=600,height=800');
     if (myWindow) {
@@ -62,15 +62,15 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       this.notify.info("allow_new_page_print_receipt");
     }
   }
-  
+
   getReceiptSetting(): Object {
     return this.posConfigState.receipt;
   }
-  
+
   getOrder(): Object {
     return this.receiptState.salesReceipt.orderOffline;
   }
-  
+
   checkoutAsGuest(): boolean {
     if (this.getOrder().hasOwnProperty('customer')) {
       return parseInt(this.getOrder()['customer']['id']) === parseInt(this.posConfigState.setting.customer.getDefaultCustomerId());
@@ -78,22 +78,22 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       return false;
     }
   }
-  
+
   getUserNameById(id) {
     return this.userCollection.getUserNameById(id);
   }
-  
+
   checkIsCustomSales(item) {
     return !!item['buy_request']['custom_sale'];
   }
-  
+
   checkDecimalsQtyItems(item, isRefund = false) {
     if (!!isRefund) {
       return !Number.isInteger(item['qty_refunded'] || 0);
     }
     return !Number.isInteger(item['qty_ordered'] || 0);
   }
-  
+
   getConfigurableOption(item) {
     if (!this._data['productOptions']['configurableOption'].hasOwnProperty(item['id'])) {
       if (item['product_options'].hasOwnProperty('attributes_info')) {
@@ -109,7 +109,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this._data['productOptions']['configurableOption'][item['id']];
   }
-  
+
   // FIX XRT 1318 : remove qty for bundle father row
   isBundleProduct(item) {
     if (item['type_id'] === 'bundle') {
@@ -126,7 +126,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this._data['productOptions']['bundleChildren'][item['id']];
   }
-  
+
   getProductCustomOption(item) {
     if (item['product_options'].hasOwnProperty('options')) {
       this._data['productOptions']['customOptions'][item['id']] = "";
@@ -140,11 +140,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this._data['productOptions']['customOptions'][item['id']];
   }
-  
+
   showDiscountOrShipment(value) {
     return !!this.getReceiptSetting()['order_info']['discount_shipment'] || parseFloat(value) !== 0;
   }
-  
+
   getPaymentTitle(payment) {
     if (payment['type'] === 'credit_card') {
       return payment['title'] + (parseInt(payment['is_purchase']) === 0 ? " Refund" : "") + (payment['data'] && !!payment['data']['ref'] ?
@@ -154,7 +154,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       return payment['title'] + (parseInt(payment['is_purchase']) === 0 ? " Refund" : "");
     }
   }
-  
+
   getDiscount() {
     return (this.getOrder()['totals']['discount'] ?
         parseFloat(this.getOrder()['totals']['discount']) :
@@ -162,12 +162,12 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
         parseFloat(this.getOrder()['totals']['retail_discount_pert_item']) :
         0);
   }
-  
+
   protected getRemainingData() {
     if (!this.getOrder().hasOwnProperty('remain')) {
       let paid = 0;
       _.forEach(this.getOrder()['payment'], (p) => {
-        if (parseInt(p['is_purchase']) === 1) {
+        if (parseInt(p['is_purchase']) === 1 || p['is_purchase'] === true) {
           paid += parseFloat(p['amount']);
         }
       });
@@ -175,22 +175,22 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this.getOrder()['totals']['grand_total'] - this.getOrder()['remain'];
   }
-  
+
   showRemaining() {
     let remainData = this.getRemainingData();
     return !!remainData && (remainData <= -0.01 || remainData >= 0.01);
-    
+
   }
-  
+
   getRegionSelectedByCountryId(countryId, regionId) {
     return CountryHelper.getRegionSelected(countryId, regionId);
   }
-  
+
   getCountryNameFromId(country_id: string) {
     if (!this.getOrder().hasOwnProperty(country_id)) {
       let arr = _.filter(CountryHelper.getCountrySelect()['data'], (value, key) => {
         return value['value'] == country_id;
-        
+
       });
       if (arr) {
         this.getOrder()[country_id] = arr[0]['label'];
@@ -200,12 +200,12 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this.getOrder()[country_id];
   }
-  
+
   protected initBarcode() {
     if (!this.getReceiptSetting()['enable_barcode']) {
       return;
     }
-    
+
     if (this.getReceiptSetting()['barcode_symbology']) {
       let defaultWidth  = 2;
       let defaultHeight = 75;
@@ -234,7 +234,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       });
     }
   }
-  
+
   protected getHtml() {
     return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
