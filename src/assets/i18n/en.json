@@ -426,5 +426,5 @@
     "not_have_permission_to_allow_using_custom_sale" : "You do not have permission to use custom sale",
     "not_have_permission_to_make_shipment" : "You do not have permission to make shipment",
     "sorry_we_can_not_select_base_url" : "Based URL is invalid",
-    "please_select_outlet_before": "Some settings are separated by outlet. Please select register of an outlet in this screen first, then switch back to product settings"
+    "please_select_outlet_before": "Some settings are separated by outlet. Please select register of an outlet in previous screen first, then switch back to product settings"
 }
