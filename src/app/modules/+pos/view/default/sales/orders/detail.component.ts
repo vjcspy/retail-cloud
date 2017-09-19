@@ -111,7 +111,7 @@ export class PosDefaultSalesOrdersDetailComponent {
         }, 250);
       }
     } else {
-      this.notify.error("you don't have permission to perform this action");
+      this.notify.error("you_do_not_have_permission_to_perform_this_action");
     }
   }
   
@@ -135,7 +135,7 @@ export class PosDefaultSalesOrdersDetailComponent {
       const email = this.getOrder()['customer']['email'];
       let re      = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (re.test(email) === false) {
-        return this.notify.warning("Email not valid");
+        return this.notify.warning("email_not_valid");
       }
       let name = this.getOrder()['customer']['name'];
       let settingReceipt = {

@@ -31,7 +31,7 @@ export class EntityCustomerEffects {
                                         if (!!action.payload['customer']) {
                                           return true;
                                         } else {
-                                          this.notify.error("Please select customer when save address");
+                                          this.notify.error("please_select_customer_when_save_address");
       
                                           return false;
                                         }

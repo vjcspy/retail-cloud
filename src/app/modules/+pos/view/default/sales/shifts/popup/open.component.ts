@@ -43,7 +43,7 @@ export class PosDefaultSalesShiftsPopupOpenComponent implements OnInit {
         this.shiftDetailActions.openShift(this._data);
       }, true)
     } else {
-      this.notify.warning("not_have_permession_to_close_shift");
+      this.notify.warning("not_have_permission_to_close_shift");
     }
   }
 }

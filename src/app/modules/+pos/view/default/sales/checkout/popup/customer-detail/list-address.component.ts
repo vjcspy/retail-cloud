@@ -65,7 +65,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   
   addShipment() {
     if (isNaN(this.shippingAmount) || parseFloat(<any>this.shippingAmount) < 0) {
-      this.toastr.warning("Shipping amount must be positive number");
+      this.toastr.warning("shipping_amount_must_be_positive_number");
       return;
     }
     let shippingAdd = _.find(this.checkoutPopupState.customerPopup.customer['address'], (_add) => parseInt(_add['id']) === parseInt(this.currentAddressId));

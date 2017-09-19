@@ -36,7 +36,7 @@ export class ReceiptEffects {
                                                                               receiptState.salesReceipt.settingReceipt,
                                                                               <any>z[2])
                                              .map(() => {
-                                               this.notify.success("Send Email Success");
+                                               this.notify.success("send_email_success");
                                                return this.receiptActions.sentReceiptEmail(false);
                                              })
                                              .catch((e) => {
