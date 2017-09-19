@@ -58,12 +58,6 @@ export class RealtimeService {
                                                                         "data.entity": entityCode,
                                                                         base_url: {'$regex': generalState.baseUrl}
                                                                       }).fetch();
-          
-                           if (entityCode === 'products') {
-                             console.log('cacheTime: ' + entityInfo['cache_time']);
-                             console.log(changes);
-                           }
-          
                            let needRemove = List.of();
                            let needUpdate = List.of();
           
