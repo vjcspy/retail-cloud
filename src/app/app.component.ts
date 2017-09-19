@@ -56,5 +56,7 @@ export class AppComponent extends AbstractSubscriptionComponent {
       }
       this.translate.setDefaultLang('en');
     }
+    // set default lang when client have not save translate in pos setting
+    this.translate.setDefaultLang('en');
   }
 }
