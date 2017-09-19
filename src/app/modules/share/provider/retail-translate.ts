@@ -21,7 +21,7 @@ export class RetailTranslate {
         this.translate.setDefaultLang(usedLang);
         this.translate.use(usedLang);
       } else {
-        this.translate.setDefaultLang(usedLang);
+        this.translate.setDefaultLang('en');
         this.translate.use('en');
       }
     }

@@ -40,8 +40,7 @@ export class RetailConfigEffects {
                                       const entitiesState: PosEntitiesState = <any>z[1];
     
                                       if (entitiesState.retailConfig.isFinished === true
-                                          && entitiesState.taxClass.isFinished === true
-                                          && entitiesState.settings.isFinished === true) {
+                                          && entitiesState.taxClass.isFinished === true) {
                                         productCategory = true;
                                       }
                                       if (entitiesState.retailConfig.isFinished === true
