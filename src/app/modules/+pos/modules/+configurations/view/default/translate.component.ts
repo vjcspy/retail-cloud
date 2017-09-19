@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {RetailTranslate} from "../../../../../../services/retail-translate";
+import {RetailTranslate} from "../../../../../share/provider/retail-translate";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -11,7 +12,7 @@ import {RetailTranslate} from "../../../../../../services/retail-translate";
 export class ConfigurationsDefaultTranslateComponent implements OnInit {
   public currentLanguage;
   
-  constructor(protected retailTranslate: RetailTranslate) { }
+  constructor(protected retailTranslate: RetailTranslate, protected notify: NotifyManager) { }
   
   ngOnInit(): void {
     if (this.retailTranslate.getCurrentLanguage()) {
@@ -24,7 +25,9 @@ export class ConfigurationsDefaultTranslateComponent implements OnInit {
   }
   
   updateLanguage(event) {
-    console.log(event);
-    this.retailTranslate.updateLanguage(event);
+    if (event !== this.retailTranslate.getCurrentLanguage()) {
+      this.retailTranslate.updateLanguage(event);
+      this.notify.info("language_will_update_after_refresh_page");
+    }
   }
 }
