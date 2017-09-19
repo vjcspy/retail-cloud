@@ -131,7 +131,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
   
   selectSelection(selection: Object) {
     // Khi chọn thì remove validate đi
-    this._validateOption(false);
+    // this._validateOption(false);
     
     if (typeof this._bundle_option[this.option['option_id']] == "undefined"
         || !this._bundle_option[this.option['option_id']]) {
@@ -154,6 +154,9 @@ export class PosDefaultSalesCheckoutPopupProductDetailBundleOptionsComponent ext
       this._bundle_option_qty[this.option['option_id']] = parseFloat(selection['selection_qty']);
       this._bundleProperty.canChangeQty                 = selection['selection_can_change_qty'] == '1';
     }
+    // validate after select option and after all bundle option updated
+    this._validateOption(false);
+    
     this.updateBundleData();
   }
   
