@@ -121,8 +121,28 @@
       </div>
     </div>
 
+    <div class="cashdrawer-total" *ngIf="shiftState.detail.shift['is_open']!=0">
+      <div class="total-blk">
+        <div class="total-row">
+          <p class="t-txt">{{ 'Total Tax' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
+        </div>
+        <div class="total-row" *ngFor="let taxDetail of convertTaxDetal()">
+          <p class="t-txt">{{ taxDetail['label']}}</p>
+          <p class="t-value">{{taxDetail['value'] | priceFormat}}</p>
+        </div>
+      </div>
+    </div>
     <div class="cashdrawer-total" *ngIf="shiftState.detail.shift['is_open']==0">
       <div class="total-blk">
+        <div class="total-row">
+          <p class="t-txt">{{ 'Total Tax' | translate }}</p>
+          <p class="t-value">{{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
+        </div>
+        <div class="total-row" *ngFor="let taxDetail of convertTaxDetal()">
+          <p class="t-txt">{{ taxDetail['label']}}</p>
+          <p class="t-value">{{taxDetail['value'] | priceFormat}}</p>
+        </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Total Expected Cash In Drawer' | translate }}</p>
           <p class="t-value">{{shiftState.detail.shift['total_expected_amount'] | priceFormat}}</p>
