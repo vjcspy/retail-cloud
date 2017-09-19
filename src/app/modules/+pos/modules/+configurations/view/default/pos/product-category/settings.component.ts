@@ -4,6 +4,7 @@ import {RetailConfigService} from "../../../../R/retail-config/retail-config.ser
 import {RetailConfigState} from "../../../../R/retail-config/retail-config.state";
 import {ProductSetting} from "../../../../../../core/framework/setting/ProductSetting";
 import {TaxClassHelper} from "../../../../../../core/framework/tax/Helper/TaxClass";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -159,8 +160,28 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
     };
   }
   
+  protected _productAttributes;
+  
   getProductAttributesSelect() {
-    return ProductSetting.getProductAttributesSelect();
+    if (typeof this._productAttributes === 'undefined') {
+      let attributes = ProductSetting.getProductAttributesSelect();
+      if (_.size(attributes['data']) > 0) {
+        return this._productAttributes = attributes;
+      } else {
+        this._productAttributes = {
+          data: []
+        };
+        
+        _.forEach(this.getRetailConfigSnapshot()['pos']['productAttributes'], (attr) => {
+          this._productAttributes['data']
+            .push({
+                    value: attr['value'],
+                    label: attr['label']
+                  });
+        });
+      }
+    }
+    return this._productAttributes;
   }
   
   getRetailConfigSnapshot() {

@@ -19,7 +19,7 @@ export class ProductSetting {
   }
   
   static getProductAttributesSelect() {
-    if (!ProductSetting._selectElement.hasOwnProperty('country')) {
+    if (!ProductSetting._selectElement.hasOwnProperty('productAttributes')) {
       ProductSetting._selectElement['productAttributes'] = {
         data: []
       };
