@@ -78,7 +78,7 @@ export class PosQuoteEffects {
                                   .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
                                   .filter((z: any) => {
                                     if ((z[2] as PosQuoteState).info.isShiftOpening === false && this.offlineService.online) {
-                                      this.notify.warning("Please Open Shift");
+                                      this.notify.warning("please_open_shift");
                                       return false;
                                     }
     

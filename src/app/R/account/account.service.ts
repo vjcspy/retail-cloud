@@ -44,7 +44,7 @@ export class AccountService {
                                                    if (licenseHasPos) {
                                                      this.accountActions.saveLicenseData({licenseHasPos});
                                                    } else {
-                                                     this.notify.error("Sorry, we can't find your license");
+                                                     this.notify.error("we_can_not_find_your_license");
                                                    }
                                                  } else {
                                                    // this.toasts.error("Can't get license information");
