@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
 import {PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
+import {NumberHelper} from "../../../../../../services/helper/number-helper";
 
 @Component({
              //moduleId: module.id,
@@ -20,7 +21,9 @@ export class CheckoutCreditCardComponent {
     }
     value += '';
     if (value.indexOf(".") === (value.length - 1) || value.indexOf(",") === (value.length - 1)) {
-      return;
+      value                 = NumberHelper.round(value);
+      event.target['value'] = value;
+      // return;
     }
     
     this.posStepActions.changeAmountPayment(this.method, parseFloat(value));
