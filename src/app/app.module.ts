@@ -31,6 +31,13 @@ import {AppStorage} from "./services/storage";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 import {DialogModule} from "./modules/dialog/dialog.module";
 import {AppService} from "./app.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+
+export function retailTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -46,6 +53,14 @@ import {AppService} from "./app.service";
              */
             imports: [
               ShareModule,
+              HttpClientModule,
+              TranslateModule.forRoot({
+                                        loader: {
+                                          provide: TranslateLoader,
+                                          useFactory: (retailTranslateLoader),
+                                          deps: [HttpClient]
+                                        }
+                                      }),
               Ng2Webstorage.forRoot({prefix: 'mr.vjcspy@gmail.com', separator: '|', caseSensitive: true}),
               ToastModule.forRoot(),
               R_IMPORTS,

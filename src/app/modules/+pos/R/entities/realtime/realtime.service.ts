@@ -35,26 +35,29 @@ export class RealtimeService {
               private requestService: RequestService) { }
   
   getTriggerRealtimeObservable() {
-    return this._triggerRealtime.asObservable().startWith(null);
+    return this._triggerRealtime.asObservable().startWith('all');
   }
   
   realtimeEntityObservable(entityCode: string, generalState: PosGeneralState): Observable<any> {
     return Observable
-      .combineLatest(
+      .merge(
         this.realtimeStorage.getCollectionObservable(),
         this.getTriggerRealtimeObservable()
       )
+      .filter((z) => {
+        return _.isString(z) ? z === 'all' || z === entityCode : true;
+      })
       .debounceTime(1500)
-      .flatMap((z) => {
-        const collection = z[0];
+      .flatMap(() => {
+        const collection = this.realtimeStorage.getCollection();
         return Observable.fromPromise(this.entitiesService.getEntityDataInformation(entityCode))
                          .filter((entityInfo) => !!entityInfo)
                          .map((entityInfo) => {
-                           const changes  = collection.collection.find({
-                                                                         cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
-                                                                         "data.entity": entityCode,
-                                                                         base_url: {'$regex': generalState.baseUrl}
-                                                                       }).fetch();
+                           const changes = collection.collection.find({
+                                                                        cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
+                                                                        "data.entity": entityCode,
+                                                                        base_url: {'$regex': generalState.baseUrl}
+                                                                      }).fetch();
                            let needRemove = List.of();
                            let needUpdate = List.of();
           
@@ -77,8 +80,8 @@ export class RealtimeService {
       });
   }
   
-  triggerCheckRealtime() {
-    this._triggerRealtime.next();
+  triggerCheckRealtime(entityCode: String) {
+    this._triggerRealtime.next(entityCode);
   }
   
   handleDBNeedRemoveEntity(entityCode: string, needRemove: List<string>): Promise<GeneralMessage> {

@@ -2,13 +2,11 @@ import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnI
 import {AuthenticateService} from "../../../../../services/authenticate";
 import {OfflineService} from "../../../../share/provider/offline";
 import {MenuState} from "../../R/sales/menu/menu.state";
-import {RetailTranslate} from "../../../../../services/retail-translate";
 import {MenuLeftActions} from "../../R/sales/menu/left/left.actions";
 import {TranslateService} from "@ngx-translate/core";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {AccountActions} from "../../../../../R/account/account.actions";
 import {AccountState} from "../../../../../R/account/account.state";
-import {DatabaseManager} from "../../../../../services/database-manager";
 import {PosGeneralState} from "../../../R/general/general.state";
 import {AccountService} from "../../../../../R/account/account.service";
 import {NotifyManager} from "../../../../../services/notify-manager";

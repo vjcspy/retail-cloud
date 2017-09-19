@@ -32,12 +32,14 @@ export class RealtimeEffects {
                                                           ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
                                             const action: Action = <any>z[0];
-    
-                                            if (this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] !== z[1]['baseUrl']) {
+                                            const entityCode     = action.payload['entityCode'];
+                                            if (this.realtimeService.subscribeRealtimeEntity[entityCode] !== z[1]['baseUrl']) {
                                               return true;
                                             } else {
-                                              // if this already checked realtime, will trigger check realtime mannualy.
-                                              this.realtimeService.triggerCheckRealtime();
+                                              setTimeout(() => {
+                                                // if this already checked realtime, will trigger check realtime mannualy.
+                                                this.realtimeService.triggerCheckRealtime(entityCode);
+                                              });
                                               return false;
                                             }
                                           })

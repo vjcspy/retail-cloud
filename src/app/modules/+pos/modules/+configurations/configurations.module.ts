@@ -10,10 +10,12 @@ import {R_IMPORT, R_PROVIDER} from "./R/index";
 import {CONFIGURATIONS_SERVICES} from "./services/index";
 import {FileUploadModule} from "ng2-file-upload";
 import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
             imports: [
               ShareModule,
+              TranslateModule.forChild(),
               PosElementModule,
               FileUploadModule,
               FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),

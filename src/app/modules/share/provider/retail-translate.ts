@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import * as _ from "lodash";
-import {GeneralException} from "../modules/+pos/core/framework/General/Exception/GeneralException";
+import {GeneralException} from "../../+pos/core/framework/General/Exception/GeneralException";
 import {TranslateService} from "@ngx-translate/core";
-import {AppStorage} from "./storage";
+import {AppStorage} from "../../../services/storage";
 
 @Injectable()
 export class RetailTranslate {
@@ -15,13 +15,14 @@ export class RetailTranslate {
   resolveLanguages() {
     if (_.size(this.translate.getLangs()) === 0) {
       this.translate.addLangs(this.getLanguagesCodeSupported());
-      this.translate.setDefaultLang('en');
-      
+     
       let usedLang = this.storage.localRetrieve('currentLanguage');
       if (usedLang) {
+        this.translate.setDefaultLang(usedLang);
         this.translate.use(usedLang);
       } else {
-        this.translate.use('vi');
+        this.translate.setDefaultLang(usedLang);
+        this.translate.use('en');
       }
     }
   }
@@ -72,7 +73,6 @@ export class RetailTranslate {
   }
   
   updateLanguage(lang: string) {
-    this.translate.use(lang);
     this.storage.localStorage('currentLanguage', lang);
   }
   

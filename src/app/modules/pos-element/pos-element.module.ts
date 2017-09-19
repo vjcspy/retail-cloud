@@ -8,7 +8,6 @@ import {ShareModule} from "../share/share.module";
 import {RetailDateSelectComponent} from "./components/date.component";
 import {RetailTimeSelectComponent} from "./components/time.component";
 
-
 @NgModule({
             imports: [
               ShareModule

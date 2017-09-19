@@ -33,8 +33,12 @@ export class CartCustomerService {
         reString += ".*";
         
         let _result = 0;
+        const re = new RegExp(reString, "gi");
         customers.forEach((customer: CustomerDB) => {
-          let re = new RegExp(reString, "gi");
+          if (customer['email'] === 'guest@xretail.smartosc.com' || customer['email'] === 'guest@sales.connectpos.com') {
+            return true;
+          }
+          
           if (_result >= configState.posRetailConfig.numberOfSearchCustomerResult) {
             return false;
           }
