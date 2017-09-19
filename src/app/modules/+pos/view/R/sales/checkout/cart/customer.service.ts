@@ -35,7 +35,7 @@ export class CartCustomerService {
         let _result = 0;
         const re = new RegExp(reString, "gi");
         customers.forEach((customer: CustomerDB) => {
-          if (customer['email'] === 'guest@retail.smartosc.com' || customer['email'] === 'guest@sales.connectpos.com') {
+          if (customer['email'] === 'guest@xretail.smartosc.com' || customer['email'] === 'guest@sales.connectpos.com') {
             return true;
           }
           
