@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngAfterViewInit(): void {
-    if (!this.email) {
+    if (!this.email || this.email === 'cashier') {
       this.email    = 'cashier';
       this.password = 'cashier123';
     }
