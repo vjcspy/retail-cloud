@@ -29,7 +29,8 @@
 
         <li class="product-item">
           <div class="product-img">
-            <img src="{{product['origin_image']}}" alt="">
+            <!--<img src="{{product['origin_image']}}" alt="">-->
+            <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
             <!-- sale - soldout label -->
             <span class="tags sale" *ngIf="isSales(product)">Sale</span>
             <span class="tags soldout" *ngIf="isOutOfStock(product)">Sold out</span>
