@@ -77,8 +77,8 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
     } else {
       if (key === 'qty') {
         if (!item.getProduct()['stock_items'] || item.getProduct()['stock_items']['is_qty_decimal'] !== '1') {
-          value                 = NumberHelper.round(value);
-          event.target['value'] = value;
+          value                 = NumberHelper.round(value, 0);
+          event.target['value'] = parseFloat(value).toFixed(2);
         }
       }
       this.quoteItemActions.updateItemBuyRequest(key, value, item);
