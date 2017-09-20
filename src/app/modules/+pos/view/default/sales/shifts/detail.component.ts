@@ -42,4 +42,5 @@ export class PosDefaultSalesShiftDetailComponent {
   printShiftReport() {
     this.shiftDetailService.printShiftReport();
   }
+
 }
