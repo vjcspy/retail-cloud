@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import {PosStepActions} from "../../../../../R/sales/checkout/step/step.actions";
 import {Payment3rd, PaymentMethod, PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 import {TyroActions} from "../../../../../R/sales/checkout/step/payment/tyro.actions";
+import {NumberHelper} from "../../../../../../services/helper/number-helper";
 
 @Component({
              //moduleId: module.id,
@@ -30,7 +31,9 @@ export class CheckoutTyroComponent implements OnInit {
     }
     value += '';
     if (value.indexOf(".") === (value.length - 1) || value.indexOf(",") === (value.length - 1)) {
-      return;
+      value                 = NumberHelper.round(value);
+      event.target['value'] = value;
+      // return;
     }
     
     this.posStepActions.changeAmountPayment(this.method, parseFloat(value));

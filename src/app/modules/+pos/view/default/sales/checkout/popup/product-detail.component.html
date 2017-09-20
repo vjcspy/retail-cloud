@@ -87,7 +87,7 @@
                 <table class="table">
                   <tr>
                     <td>{{ 'Qty' | translate }}</td>
-                    <td>{{productOptionsState.product.stock_items['qty']}}</td>
+                    <td>{{productOptionsState.product.stock_items['qty'] | number:'1.2-2'}}</td>
                   </tr>
                   <tr>
                     <td>{{ 'In stock' | translate }}</td>
