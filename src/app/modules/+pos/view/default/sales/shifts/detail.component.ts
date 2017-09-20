@@ -43,15 +43,4 @@ export class PosDefaultSalesShiftDetailComponent {
     this.shiftDetailService.printShiftReport();
   }
 
-  convertTaxDetal() {
-    let listObject = this.shiftState.detail.shift['detail_tax'];
-    let arr        = [];
-    Object.entries(listObject).map(function (key) {
-      arr.push({
-                 label: key[0],
-                 value: key[1]
-               });
-    });
-    return arr;
-  }
 }

@@ -127,7 +127,7 @@
           <p class="t-txt">{{ 'Total Tax' | translate }}</p>
           <p class="t-value">{{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
         </div>
-        <div class="total-row" *ngFor="let taxDetail of convertTaxDetal()">
+        <div class="total-row" *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
           <p class="t-txt">{{ taxDetail['label']}}</p>
           <p class="t-value">{{taxDetail['value'] | priceFormat}}</p>
         </div>
@@ -139,7 +139,7 @@
           <p class="t-txt">{{ 'Total Tax' | translate }}</p>
           <p class="t-value">{{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
         </div>
-        <div class="total-row" *ngFor="let taxDetail of convertTaxDetal()">
+        <div class="total-row" *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
           <p class="t-txt">{{ taxDetail['label']}}</p>
           <p class="t-value">{{taxDetail['value'] | priceFormat}}</p>
         </div>
