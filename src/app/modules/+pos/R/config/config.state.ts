@@ -27,6 +27,7 @@ export interface PosConfigState {
     inclDiscountPerItemInDiscount: boolean
     sortCategoryBaseOn: string;
     sortCategorySorting: string;
+    newCustomerDefaultCountry: string;
   };
   constrain: {
     debounceTimeUpdateItemBuyRequest: number;
@@ -69,7 +70,8 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       rpType: 'aheadWorld',
       inclDiscountPerItemInDiscount: false,
       sortCategoryBaseOn: 'name',
-      sortCategorySorting: 'asc'
+      sortCategorySorting: 'asc',
+      newCustomerDefaultCountry: 'US'
     },
     constrain: {
       debounceTimeUpdateItemBuyRequest: 1234,

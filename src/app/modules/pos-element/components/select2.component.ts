@@ -12,7 +12,7 @@ import * as _ from 'lodash';
              selector: 'retail-select2',
              templateUrl: 'select2.component.html',
              styleUrls: ['select2.component.scss'],
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailSelect2Component implements OnInit, AfterViewInit, OnDestroy {
   @Input('elementData') elementData: any;

@@ -51,6 +51,9 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailFormComponent implements 
     if (this.checkoutPopupState.customerPopup.customer['telephone'] && !this.checkoutPopupState.customerPopup.editAddress['telephone']) {
       this.address['telephone'] = this.checkoutPopupState.customerPopup.customer['telephone'];
     }
+    if (this.posConfigState.posRetailConfig.newCustomerDefaultCountry) {
+      this.address['country_id'] = this.posConfigState.posRetailConfig.newCustomerDefaultCountry;
+    }
   }
   
   isShippingPopup() {
