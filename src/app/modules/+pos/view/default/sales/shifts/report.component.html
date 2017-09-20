@@ -56,6 +56,14 @@
           <td class="ttu tal">{{ 'Total net' | translate }}:</td>
           <td class="tar"><strong>{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) | priceFormat}}</strong></td>
         </tr>
+        <tr>
+          <td class="ttu tal">{{ 'Total tax' | translate }}:</td>
+          <td class="tar"><strong>{{shiftState.detail.shift['total_order_tax'] | priceFormat}}</strong></td>
+        </tr>
+        <tr *ngFor="let taxDetail of convertTaxDetal()">
+          <td class="ttu tal">{{ taxDetail['label']}}:</td>
+          <td class="tar"><strong>{{taxDetail['value'] | priceFormat}}</strong></td>
+        </tr>
         </tbody>
       </table>
       <div class="dot-line">&nbsp;</div>
