@@ -39,9 +39,9 @@ export const listReducer: ActionReducer<OrdersStateRecord> = (state, action) => 
       });
 
     case routerActions.UPDATE_LOCATION:
-          return state.update('list', (list)=>{
-            return list.set('isSearchOnline',false);
-          });
+      return state.update('list', (list)=> {
+        return list.set('isSearchOnline', false);
+      });
 
     default:
       return state;
