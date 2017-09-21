@@ -40,7 +40,8 @@ function resolveConfig(posSetting) {
     rpType: 'aheadWorld',
     inclDiscountPerItemInDiscount: false,
     sortCategoryBaseOn: 'name',
-    sortCategorySorting: 'asc'
+    sortCategorySorting: 'asc',
+    newCustomerDefaultCountry: 'US'
   };
   
   if (posSetting.hasOwnProperty('xretail/pos/search_product_attribute') && _.size(posSetting['xretail/pos/search_product_attribute']) > 0) {
@@ -62,6 +63,9 @@ function resolveConfig(posSetting) {
   }
   if (posSetting.hasOwnProperty('xretail/pos/customer_search_max_result') && posSetting['xretail/pos/customer_search_max_result'] > 0) {
     configData.numberOfSearchCustomerResult = posSetting['xretail/pos/customer_search_max_result'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/new_customer_default_country')) {
+    configData.newCustomerDefaultCountry = posSetting['xretail/pos/new_customer_default_country'];
   }
   if (posSetting.hasOwnProperty('xretail/pos/search_max_result') && posSetting['xretail/pos/search_max_result'] > 0) {
     configData.numberOfSearchProductResult = posSetting['xretail/pos/search_max_result'];

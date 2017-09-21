@@ -134,4 +134,17 @@ export class ShiftDetailService {
       is_in: data['isIn']
     });
   }
+
+  convertTaxDetail(detail_tax) {
+    let listObject = detail_tax;
+    let arr        = [];
+    _.map(listObject, function (key, value) {
+
+      arr.push({
+                 label: value,
+                 value: key
+               })
+    });
+    return arr;
+  }
 }
