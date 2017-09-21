@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
 import {TranslateService} from "@ngx-translate/core";
-import {RetailTranslate} from "./services/retail-translate";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
+import {RetailTranslate} from "./modules/share/provider/retail-translate";
 
 /**
  * App Component
@@ -35,14 +35,6 @@ export class AppComponent extends AbstractSubscriptionComponent {
   }
   
   protected resolveLanguage() {
-    if (this.retailTranslate.getCurrentLanguage()) {
-      let usedLang = this.retailTranslate.getCurrentLanguage();
-      if (usedLang) {
-        this.translate.use(usedLang);
-      } else {
-        this.translate.use('en');
-      }
-      this.translate.setDefaultLang('en');
-    }
+    this.retailTranslate.resolveLanguages();
   }
 }

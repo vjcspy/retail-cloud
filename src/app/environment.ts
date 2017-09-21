@@ -26,33 +26,33 @@ let _decorateModuleRef = <T>(value: T): T => { return value; };
 
 if ('production' === ENV) {
   enableProdMode();
-
+  
   /**
    * Production
    */
   _decorateModuleRef = (modRef: any) => {
     disableDebugTools();
-
+    
     return modRef;
   };
-
+  
   PROVIDERS = [
     ...PROVIDERS,
     /**
      * Custom providers in production.
      */
   ];
-
+  
 } else {
-
+  
   _decorateModuleRef = (modRef: any) => {
     const appRef = modRef.injector.get(ApplicationRef);
     const cmpRef = appRef.components[0];
-
+    
     enableDebugTools(cmpRef);
     return modRef;
   };
-
+  
   /**
    * Development
    */
@@ -62,7 +62,7 @@ if ('production' === ENV) {
      * Custom providers in development.
      */
   ];
-
+  
 }
 
 export const decorateModuleRef = _decorateModuleRef;

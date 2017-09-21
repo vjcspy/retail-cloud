@@ -11,8 +11,6 @@ import {ROUTES} from "./app.routes";
 // App is our top level component
 import {AppComponent} from "./app.component";
 
-// import'../styles/font-awesome.scss';
-// import '../styles/daterangepicker.scss';
 import {ShareModule} from "./modules/share/share.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -28,6 +26,13 @@ import {Ng2Webstorage} from "ngx-webstorage";
 import {AppStorage} from "./services/storage";
 import {LocalStorageService, SessionStorageService} from "ngx-webstorage";
 import {AppService} from "./app.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+
+export function retailTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -43,6 +48,14 @@ import {AppService} from "./app.service";
              */
             imports: [
               ShareModule,
+              HttpClientModule,
+              TranslateModule.forRoot({
+                                        loader: {
+                                          provide: TranslateLoader,
+                                          useFactory: (retailTranslateLoader),
+                                          deps: [HttpClient]
+                                        }
+                                      }),
               Ng2Webstorage.forRoot({prefix: 'mr.vjcspy@gmail.com', separator: '|', caseSensitive: true}),
               ToastModule.forRoot(),
               R_IMPORTS,
