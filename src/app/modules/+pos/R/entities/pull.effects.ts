@@ -25,11 +25,16 @@ export class PosPullEffects {
                                   return pullState['isPullingChain'] === true || pullState['pullingChain'].count() > 0;
                                 })
                                 .switchMap(([action, pullState, entitiesState]) => {
+                                  const pullEntitySuccess: List<string> = pullState['pullingChainSuccess'];
                                   if (pullState['pullingChain'].count() === 0) {
-                                    this.progressBar.done(true);
+                                    if (pullEntitySuccess.count() === 1 && pullEntitySuccess.first() === RetailConfigDB.getCode()) {
+        
+                                    } else {
+                                      this.progressBar.done(true);
+                                    }
+                                    
                                     return Observable.of({type: PosPullActions.ACTION_PULL_ENTITIES_FULL});
                                   } else {
-                                    const pullEntitySuccess: List<string> = pullState['pullingChainSuccess'];
                                     let pullingChain: List<string>        = pullState['pullingChain'];
                                     let pullingChainStarted: List<string> = pullState['pullingChainStarted'];
       
