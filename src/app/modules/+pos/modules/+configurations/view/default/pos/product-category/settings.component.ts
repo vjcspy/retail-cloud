@@ -118,11 +118,11 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         title: "SORTING",
         data: [
           {
-            label: "Increment",
+            label: "Ascending",
             value: 'asc'
           },
           {
-            label: "Decrement",
+            label: "Descending",
             value: 'desc'
           }
         ]
@@ -144,11 +144,11 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         title: "SORTING",
         data: [
           {
-            label: "Increment",
+            label: "Ascending",
             value: 'asc'
           },
           {
-            label: "Decrement",
+            label: "Descending",
             value: 'desc'
           }
         ]
