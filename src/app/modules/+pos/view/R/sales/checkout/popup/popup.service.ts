@@ -43,8 +43,7 @@ export class CheckoutPopupService {
                           }
                       }
                       wishlistItems = wishlistItems.push(Object.assign(_item, {canAddToQuote}));
-                  }
-        );
+                  });
         return wishlistItems;
     }
 }
