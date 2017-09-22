@@ -2,6 +2,7 @@
  * Angular bootstrapping
  */
 import 'vendor.lib';
+import 'meteor-client';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { decorateModuleRef } from './app/environment';
 import { hmrModule  } from '@angularclass/hmr';
