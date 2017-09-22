@@ -6,8 +6,9 @@ import {List} from "immutable";
 export const accountReducer: ActionReducer<AccountStateRecord> = (state = accountStateFactory(), action) => {
   switch (action.type) {
     case AccountActions.ACTION_LOGIN:
+    case AccountActions.ACTION_USER_REGISTER:
     case AccountActions.ACTION_LOGOUT:
-      return state.set('isLogging', true)
+      return state.set('isProcessing', true)
                   .set('license', {
                     licenseHasPos: null,
                   })
@@ -19,10 +20,12 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     
     case AccountActions.ACTION_LOGIN_SUCCESS:
     case AccountActions.ACTION_LOGIN_FAILED:
-      return state.set('isLogging', false);
+    case AccountActions.ACTION_USER_REGISTER_FAILED:
+    case AccountActions.ACTiON_USER_REGISTER_SUCCESS:
+      return state.set('isProcessing', false);
     
     case AccountActions.ACTION_GO_LOGIN_PAGE:
-      state = state.set('isLogging', false);
+      state = state.set('isProcessing', false);
       if (action.payload['redirect']) {
         state = state.set('redirect', action.payload['redirect']);
       }

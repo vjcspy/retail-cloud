@@ -1,0 +1,60 @@
+<div class="auth-page signup-page">
+  <div class="log-img"></div>
+  <div class="log-content">
+    <div class="inner">
+      <h1 class="logo"><img src="assets/img/new_logo.png"/></h1>
+
+      <!-- Sign In -->
+      <form class="js-validation-register form-signin">
+        <div class="page-title"><h1>Register</h1></div>
+        <ul class="fr-control">
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="text" id="register-username" name="register-username" placeholder="Please enter a username"
+                       [(ngModel)]="user['username']"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="email" id="register-email" name="register-email" [(ngModel)]="user['email']" placeholder="Please provide your email"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="password" id="register-password" name="register-password" [(ngModel)]="user['password']"
+                       placeholder="Choose a strong password.."/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="password" type="password" id="register-password2" name="register-password2" placeholder="..and confirm it"/>
+              </div>
+            </div>
+          </li>
+          <li class="col-xs-12">
+            <input type="checkbox" [checked]="user['acceptTerm']" [(ngModel)]="user['acceptTerm']" id="register-terms"
+                   name="register-terms">
+            <label for="register-terms">
+              I agree with <a href="#" class="term-link" data-toggle="modal" data-target="#modal-terms">terms</a> &amp; conditions
+            </label>
+          </li>
+          <li class="button-group col-xs-12">
+            <button type="submit" [ladda]="(accountState$ |async)?.isProcessing">Create Account</button>
+          </li>
+          <li>
+            <a class="link-text" (click)="routerActions.go('account/login')">Login?</a>
+          </li>
+        </ul>
+      </form>
+
+    </div>
+    <a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>Contact Us</a>
+  </div>
+</div>

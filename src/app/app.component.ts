@@ -2,6 +2,7 @@
  * Angular 2 decorators and services
  */
 import {
+  ChangeDetectionStrategy,
   Component, ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
@@ -18,11 +19,14 @@ import {RetailTranslate} from "./modules/share/provider/retail-translate";
              selector: 'app',
              encapsulation: ViewEncapsulation.None,
              styleUrls: [
-               './app.component.css'
+               './app.component.css',
+               '../../node_modules/font-awesome/css/font-awesome.min.css',
+               '../../node_modules/ng2-toastr/ng2-toastr.css'
              ],
              template: `
                <router-outlet></router-outlet>
-             `
+             `,
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,

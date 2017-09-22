@@ -53,14 +53,32 @@ export class AuthenticateService {
   
   signIn(user: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      
       Meteor.loginWithPassword(user.username, user.password, (e: Error) => {
-        
         if (e && e['reason']) {
           this.notify.error(e['reason'], e['error']);
-          return reject(e);
+          reject(e);
         }
         resolve();
+      });
+    });
+  }
+  
+  signUp(user: any) {
+    return new Promise<void>((resolve, reject) => {
+      Accounts.createUser({
+                            username: user.username,
+                            email: user.email,
+                            password: user.password,
+                            profile: {
+                              status: 1
+                            }
+                          }, (err: any) => {
+        if (err && err.error) {
+          this.notify.error(err.reason, err.error);
+          reject(err);
+        } else {
+          resolve();
+        }
       });
     });
   }

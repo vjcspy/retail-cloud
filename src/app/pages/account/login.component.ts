@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy,
   Component, OnDestroy,
   OnInit
 } from '@angular/core';
@@ -14,7 +14,8 @@ import {AccountState} from "../../R/account/account.state";
 @Component({
              selector: 'sign-in',
              templateUrl: 'login.component.html',
-             styleUrls: ['css/signin.scss']
+             styleUrls: ['css/signin.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()

@@ -2,6 +2,7 @@
  * Angular bootstrapping
  */
 import 'vendor.lib';
+import 'meteor-client';
 import { platformBrowser } from '@angular/platform-browser';
 import { decorateModuleRef } from './app/environment';
 /**
