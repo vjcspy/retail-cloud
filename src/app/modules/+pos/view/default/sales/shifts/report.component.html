@@ -62,8 +62,8 @@
           <td class="tar" *ngIf="!shiftState.detail.shift['total_order_tax']"><strong>-</strong></td>
         </tr>
         <tr *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
-          <td class="ttu tal">{{ taxDetail['label']}}:</td>
-          <td class="tar"><strong>{{taxDetail['value'] | priceFormat}}</strong></td>
+          <td class="ttu tal" style="font-size: 9px; padding-left: 3%;">{{ taxDetail['label']}}:</td>
+          <td class="tar" style="float: right; font-size: 9px"><strong>{{taxDetail['value'] | priceFormat}}</strong></td>
         </tr>
         </tbody>
       </table>
