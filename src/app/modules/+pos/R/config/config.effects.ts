@@ -48,8 +48,14 @@ export class PosConfigEffects {
                                      .withLatestFrom(this.store$.select('general'),
                                                      ([action, entitiesState], generalState) => [action, entitiesState, generalState])
                                      .flatMap(([action, configState, generalState]) => {
-                                       const orderCount  = (configState as PosConfigState).orderCount;
+                                       const orderCount   = (configState as PosConfigState).orderCount;
+                                       const saveOffline  = (action as Action).payload['saveOffline'];
+                                       const orderOffline = (action as Action).payload['orderOffline'];
+                                       
                                        let newOrderCount = Object.assign({}, {...orderCount}, {order_count: parseInt(orderCount['order_count']) + 1});
+                                       if (orderOffline === null && saveOffline === false) {
+                                        newOrderCount = Object.assign({}, {...orderCount}, {order_count: parseInt(orderCount['order_count'])});
+                                       }
     
                                        return Observable.fromPromise(this.configService.createNewOrderCount(<any>generalState, newOrderCount))
                                                         .map((_count) => {
