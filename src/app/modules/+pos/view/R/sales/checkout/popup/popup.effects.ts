@@ -72,7 +72,7 @@ export class CheckoutPopupEffects {
                                                 .map((z:any) => {
                                                     const checkoutPopupState:CheckoutPopupState = z[1];
                                                     let items                               = [];
-                                                    checkoutPopupState.customerPopup.wishlistItemSelected.map((w):void => {
+                                                    checkoutPopupState.customerPopup.wishlistItemSelected.forEach((w) => {
                                                         let item       = new DataObject();
                                                         let buyRequest = new DataObject();
                                                         let product    = new Product();
