@@ -20,6 +20,7 @@ import {Router} from "@angular/router";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
+import {TrackingService} from "../../../../../services/tracking/tracking-service";
 
 @Injectable()
 export class PosStepEffects {
@@ -35,7 +36,8 @@ export class PosStepEffects {
               private stepActions: PosStepActions,
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
-              private entityActions: EntityActions) { }
+              private entityActions: EntityActions,
+              private trackingService: TrackingService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -182,6 +184,8 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).checkoutStep === CheckoutStep.PAYMENT)
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
+                              this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER);
+                              
                               const posStepState: PosStepState      = <any>z[1];
                               const posQuoteState: PosQuoteState    = <any>z[2];
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;

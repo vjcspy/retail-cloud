@@ -17,6 +17,7 @@ import {PosQuoteState} from "../quote/quote.state";
 import {EntityActions} from "../entities/entity/entity.actions";
 import {OrderDB} from "../../database/xretail/db/order";
 import {PosGeneralState} from "../general/general.state";
+import {TrackingService} from "../../services/tracking/tracking-service";
 
 @Injectable()
 export class PosSyncEffects {
@@ -28,7 +29,8 @@ export class PosSyncEffects {
               private offline: OfflineService,
               private syncActions: PosSyncActions,
               private entityActions: EntityActions,
-              private rootActions: RootActions) { }
+              private rootActions: RootActions,
+              private trackingService: TrackingService) { }
   
   @Effect() prepareOrderToSync = this.actions$
                                      .ofType(
@@ -46,7 +48,7 @@ export class PosSyncEffects {
                                        if (quoteState.items.count() > 0) {
                                          return this.syncActions.saveOrderPreparedAndSync(this.posSyncService.prepareOrder(<any>quoteState, <any>generalState), z[0]['payload']['goStep'] !== false, false);
                                        } else if (quoteState.info.isRefunding) {
-                                         return this.syncActions.syncOrderSuccess(quoteState.quote, null, true,false);
+                                         return this.syncActions.syncOrderSuccess(quoteState.quote, null, true, false);
                                        } else {
                                          return this.rootActions.error("nothing_to_sync", null, false);
                                        }
@@ -61,6 +63,7 @@ export class PosSyncEffects {
                                             ([action, generalState], quoteState) => [action, generalState, quoteState])
                             .switchMap(([action, generalState, quoteState]) => {
                               const quote = (quoteState as PosQuoteState).quote;
+                              this.trackingService.tracking(TrackingService.EVENT_SYNC_ORDER, {'user': generalState['user']});
                               if (this.offline.online) {
                                 return this.posSyncService.syncOrderOnline((action as Action).payload['order'], <any>generalState)
                                            .map((syncData) => {
@@ -82,11 +85,11 @@ export class PosSyncEffects {
         
                                              quote.setSyncedItems(syncData['items']);
         
-                                             return this.syncActions.syncOrderSuccess(quote, syncData,action['payload']['goStep'], false);
+                                             return this.syncActions.syncOrderSuccess(quote, syncData, action['payload']['goStep'], false);
                                            })
                                            .catch((e) => Observable.of(this.syncActions.syncOrderError(e, false)));
                               } else {
-                                return Observable.of(this.syncActions.syncOrderSuccess(quote, null,true, false));
+                                return Observable.of(this.syncActions.syncOrderSuccess(quote, null, true, false));
                               }
                             });
   

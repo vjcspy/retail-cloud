@@ -17,7 +17,6 @@ import {RouterActions} from "../../../../R/router/router.actions";
 import {PosGeneralState} from "./general.state";
 import {Router} from "@angular/router";
 import {routerActions} from "@ngrx/router-store";
-import {RealtimeService} from "../entities/realtime/realtime.service";
 
 @Injectable()
 export class PosGeneralEffects {
@@ -29,7 +28,6 @@ export class PosGeneralEffects {
               private pullActions: PosPullActions,
               private routerAction: RouterActions,
               private rootActions: RootActions,
-              private realtimeService: RealtimeService,
               private router: Router) { }
   
   @Effect() pullGeneralDataFromSever = this.actions$
@@ -54,7 +52,7 @@ export class PosGeneralEffects {
                                 let listUrl                      = List.of();
                                 const urls                       = accountState.license.licenseHasPos['base_url'];
                                 _.forEach(urls, (url) => {
-                                  if (url['status'] == 1) {
+                                  if (parseInt(url['status']) === 1) {
                                     listUrl = listUrl.push({
                                                              url: url['url'],
                                                              is_default: false,
@@ -135,5 +133,5 @@ export class PosGeneralEffects {
                                                              this.generalService.removeGeneralDataInStorage();
     
                                                              return this.generalActions.clearGeneralData(false);
-                                                           })
+                                                           });
 }

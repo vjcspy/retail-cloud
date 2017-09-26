@@ -36,13 +36,19 @@ export class AccountService {
                                            .subscribe(([licenseCollection, productCollection]) => {
                                              const products = productCollection.collection.find({}).fetch();
                                              if (products) {
-                                               const posProduct = _.find(products, p => p['code'] == 'xpos');
+                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
                                                if (posProduct) {
                                                  const licenses = licenseCollection.collection.find({}).fetch();
-                                                 if (_.size(licenses) == 1) {
-                                                   const licenseHasPos = _.find(licenses[0]['has_product'], p => p['_id'] = posProduct['_id']);
+                                                 if (_.size(licenses) === 1) {
+                                                   console.log(_.first(licenses));
+                                                   this.storage.localStorage('license', _.first(licenses));
+              
+                                                   const licenseHasPos = _.find(licenses[0]['has_product'], p => {
+                                                     return p['product_id'] === posProduct['_id'];
+                                                   });
+              
                                                    if (licenseHasPos) {
-                                                     this.accountActions.saveLicenseData({licenseHasPos});
+                                                     this.accountActions.saveLicenseData({licenseHasPos, licenses});
                                                    } else {
                                                      this.notify.error("we_can_not_find_your_license");
                                                    }
@@ -51,8 +57,9 @@ export class AccountService {
                                                    // throw new GeneralException("Can't find license");
                                                  }
                                                }
-                                             } else
+                                             } else {
                                                return;
+                                             }
                                            });
     }
     
