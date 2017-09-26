@@ -11,6 +11,7 @@ import {OfflineService} from "../../../../../../share/provider/offline";
 import {ProductDB} from "../../../../../database/xretail/db/product";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 import {List} from "immutable";
+import * as _ from 'lodash';
 import {CheckoutPopupService} from "./popup.service";
 import {CheckoutPopupState} from "./popup.state";
 import {DataObject} from "../../../../../core/framework/General/DataObject";
@@ -68,23 +69,43 @@ export class CheckoutPopupEffects {
                                                   CheckoutPopupActions.ACTION_ADD_SELECTED_WISHLIST_ITEMS_TO_CART
                                                 )
                                                 .withLatestFrom(this.store$.select('checkoutPopup'))
-                                                .map((z: any) => {
-                                                  const checkoutPopupState: CheckoutPopupState = z[1];
-                                                  let items                                    = checkoutPopupState.customerPopup.wishlistItemSelected.map((w) => {
-                                                    let item       = new DataObject();
-                                                    let buyRequest = new DataObject();
-                                                    let product    = new Product();
-                                                    product.addData(w['product']);
-                                                    item.addData({
-                                                                   product_id: product.getData('id'),
-                                                                   qty: w['qty']
-                                                                 })
-                                                        .addData(w['buyRequest'])
-                                                        .setData('product', product);
-      
-                                                    return item;
-                                                  });
-    
-                                                  return this.quoteActions.updateQuoteItems(items, false, false);
+                                                .map((z:any) => {
+                                                    const checkoutPopupState:CheckoutPopupState = z[1];
+                                                    let items                               = [];
+                                                    checkoutPopupState.customerPopup.wishlistItemSelected.forEach((w) => {
+                                                        let item       = new DataObject();
+                                                        let buyRequest = new DataObject();
+                                                        let product    = new Product();
+                                                        buyRequest.addData(w["buyRequest"]);
+                                                        product.addData(w['product']);
+                                                        if (buyRequest.getData('super_group')) {
+                                                            _.forEach(buyRequest.getData('super_group'), async(qty, productId) => {
+                                                                if (qty !== '' && _.isNumber(parseFloat(qty))) {
+                                                                    let _p           = _.find(w['associatedProducts'],
+                                                                                              (pr) => parseInt(pr['id'] + '') ===
+                                                                                                      parseInt(productId + ''));
+                                                                    let childProduct = new Product();
+                                                                    childProduct.mapWithParent(_p);
+
+                                                                    let childBuyRequest = new DataObject();
+                                                                    childBuyRequest.setData('qty', qty)
+                                                                                   .setData('product_id', productId)
+                                                                                   .setData('product', childProduct);
+                                                                    items.push(childBuyRequest)
+
+                                                                }
+                                                            });
+                                                        } else {
+                                                            item.addData({
+                                                                             product_id: product.getData('id'),
+                                                                             qty: w['qty']
+                                                                         })
+                                                                .addData(w['buyRequest'])
+                                                                .setData('product', product);
+                                                            items.push(item);
+                                                        }
+
+                                                    });
+                                                    return this.quoteActions.updateQuoteItems(items, false, false);
                                                 });
 }
