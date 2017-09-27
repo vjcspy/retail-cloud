@@ -40,7 +40,7 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   
   getOutletRegisterData() {
     if (this.generalState.register && this.generalState.outlet) {
-      return this.generalState.register['name'] + ' - ' + this.generalState.outlet['name'];
+      return this.generalState.outlet['name'] + ' - ' + this.generalState.register['name'];
     }
   }
   
