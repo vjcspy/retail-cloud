@@ -6,7 +6,11 @@ import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 export const cartTotalsReducer: ActionReducer<CartTotalsStateRecord> = (state = cartTotalsStateFactory(), action: Action) => {
   switch (action.type) {
     case CartTotalsActions.ACTION_CHANGE_DISCOUNT_POPUP_STATE:
-      return state.set('isOpeningPopupDiscount', action.payload['isOpeningPopupDiscount']);
+      let isOpeningPopupDiscount = action.payload['isOpeningPopupDiscount'];
+      if (action.payload['useDiscountOrCoupon'] === true) {
+        isOpeningPopupDiscount = true;
+      }
+      return state.set('isOpeningPopupDiscount', isOpeningPopupDiscount);
     
     case CartTotalsActions.ACTION_CHANGE_DISCOUNT_TYPE:
       return state.set('isDiscountWholeOrderValue', action.payload['isDiscountWholeOrderValue']);

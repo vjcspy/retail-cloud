@@ -8,8 +8,8 @@ export class CartTotalsActions {
   
   constructor(private store$: Store<any>) { }
   
-  changeDiscountPopupState(isOpeningPopupDiscount: boolean) {
-    this.store$.dispatch({type: CartTotalsActions.ACTION_CHANGE_DISCOUNT_POPUP_STATE, payload: {isOpeningPopupDiscount}});
+  changeDiscountPopupState(isOpeningPopupDiscount: boolean, useDiscountOrCoupon: boolean = false) {
+    this.store$.dispatch({type: CartTotalsActions.ACTION_CHANGE_DISCOUNT_POPUP_STATE, payload: {isOpeningPopupDiscount, useDiscountOrCoupon}});
   }
   
   changeDiscountType(isDiscountWholeOrderValue: boolean) {

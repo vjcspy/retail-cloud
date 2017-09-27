@@ -46,12 +46,25 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
       this.quoteState
           .quote
           .setData('discount_whole_order', value)
-          .setData('is_value_discount_whole_order', this.cartTotalsState.isDiscountWholeOrderValue);
+          .setData('is_value_discount_whole_order', this.cartTotalsState.isDiscountWholeOrderValue)
+          .setData('use_discount_coupon', true);
     } else if (type === 'coupon_code') {
-      this.quoteState.quote.setData('coupon_code', value);
+      this.quoteState.quote
+          .setData('coupon_code', value)
+          .setData('use_discount_coupon', true);
     }
     
-    this.syncOrder();
+    // this.syncOrder();
+  }
+  
+  useDiscountOrCoupon() {
+    const discountWholeOrder = this.quoteState.quote.getData('discount_whole_order');
+    const couponCode         = this.quoteState.quote.getData('coupon_code');
+  
+    if ((discountWholeOrder === '' || discountWholeOrder === null) && !couponCode) {
+      return false;
+    }
+    return true;
   }
   
   removeOrderDiscount() {
@@ -59,13 +72,16 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
     this.quoteState
         .quote
         .unsetData('discount_whole_order')
-        .unsetData('coupon_code');
+        .unsetData('coupon_code')
+        .unsetData('use_discount_coupon');
     
     this.syncOrder(true);
   }
   
   syncOrder(isRemove = false) {
     if (this.quoteState.items.count() > 0) {
+  
+      this.quoteState.quote.unsetData('use_discount_coupon');
       
       // validate discount whole order
       const discountWholeOrder = this.quoteState.quote.getData('discount_whole_order');
@@ -102,5 +118,14 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   changeDiscountType(isDiscountValue: boolean = true) {
     this.quoteState.quote.setData('is_value_discount_whole_order',isDiscountValue);
     this.cartTotalsActions.changeDiscountType(isDiscountValue);
+  }
+  
+  changeDiscountPopupState(isOpeningPopupDiscount: boolean, useDiscountOrCoupon: boolean = false) {
+    this.cartTotalsActions.changeDiscountPopupState(isOpeningPopupDiscount, useDiscountOrCoupon);
+    if (useDiscountOrCoupon === true && isOpeningPopupDiscount === false) {
+      this.notify.warning("check_discount_enter");
+    } else {
+      this.quoteState.quote.unsetData('use_discount_coupon');
+    }
   }
 }

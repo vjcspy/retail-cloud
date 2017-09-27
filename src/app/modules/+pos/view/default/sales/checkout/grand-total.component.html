@@ -1,5 +1,6 @@
 <div id="bottom-bar" class="bottom-bar"><!-- add "totals-collapse" class when hide total cart -->
-  <div class="pay-info" [ladda]="posSyncState.isSyncing" (click)="goCheckoutStep()" [ngClass]="{refund: quoteState.grandTotal < 0, disable: !quoteState.info.isRefunding && quoteState.items.count() === 0}">
+  <div class="pay-info" [ladda]="posSyncState.isSyncing" (click)="goCheckoutStep()"
+       [ngClass]="{refund: quoteState.grandTotal < 0, disable: (!quoteState.info.isRefunding && quoteState.items.count() === 0) || quoteState.quote.getData('use_discount_coupon') === true}">
     <!-- add "disable" class when cart is empty -->
     <span class="value">{{ 'pay' | translate }}</span>
     <span class="grand-total">{{quoteState.grandTotal | priceFormat}}</span>

@@ -107,7 +107,8 @@
         </div>
 
 
-        <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" [clickOutSide]="cartTotalsState.isOpeningPopupDiscount" (outside)="cartTotalsActions.changeDiscountPopupState($event)">
+        <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}"
+             [clickOutSide]="cartTotalsState.isOpeningPopupDiscount" (outside)="changeDiscountPopupState($event, useDiscountOrCoupon())">
           <div class="t-txt discount-txt">
       <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
         {{ 'Discount' | translate }}

@@ -9,7 +9,7 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
              // moduleId: module.id,
              selector: 'pos-default-sales-checkout-grand-total',
              templateUrl: 'grand-total.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
