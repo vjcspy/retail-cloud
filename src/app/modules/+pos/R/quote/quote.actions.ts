@@ -199,4 +199,16 @@ export class PosQuoteActions {
     
     return action;
   }
+  
+  static ACTION_ADD_REFERENCE_NUMBER = 'ACTION_ADD_REFERENCE_NUMBER';
+  
+  addReferenceNumber(referenceNumber, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER, payload: {referenceNumber}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

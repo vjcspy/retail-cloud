@@ -4,6 +4,7 @@ import {PosSyncActions} from "../../../../R/sync/sync.actions";
 import {PosSyncState} from "../../../../R/sync/sync.state";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -22,7 +23,11 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
   goCheckoutStep() {
     if (this.authService.userCan('create_orders')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
-        this.posSyncActions.syncCurrentOrder();
+        if (_.isEmpty(this.quoteState.referenceNumber)) {
+          this.notify.warning("mes_missing_applicant_ref");
+        } else {
+          this.posSyncActions.syncCurrentOrder();
+        }
       }
     } else {
       this.notify.error("not_have_permission_to_create_orders");

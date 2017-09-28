@@ -9,6 +9,7 @@ import {List} from "immutable";
 export interface PosQuoteState {
   quote: Quote;
   customer: Customer;
+  referenceNumber: string;
   shippingAdd: Address;
   billingAdd: Address;
   items: List<DataObject>;
@@ -31,6 +32,7 @@ export interface PosQuoteStateRecord extends TypedRecord<any>, PosQuoteState {}
 export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStateRecord>({
                                                                                            quote: PosQuote.getQuote(),
                                                                                            customer: null,
+                                                                                           referenceNumber: "",
                                                                                            shippingAdd: null,
                                                                                            billingAdd: null,
                                                                                            items: <any>List.of(),
