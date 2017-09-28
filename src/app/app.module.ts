@@ -34,8 +34,6 @@ export function retailTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
 
-import "../styles/styles.scss";
-
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
