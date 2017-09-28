@@ -1,0 +1,59 @@
+.acc-info {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    
+    h2 {
+        font-weight: 700;
+        text-align: center;
+        margin: 25px 0 0;
+    }
+    hr {
+        width: 100%;
+        border: none;
+        margin-top: 12px;
+        margin-bottom: 27px;
+        background: $border-color;
+        font-size: 0;
+        height: 2px;
+    }
+    form {
+        
+        .user-id {
+            display: block;
+            margin-top: 5px;
+        }
+        hr {
+            width: calc(100% + 30px);
+            margin: 33px 0 40px;
+        }
+    }
+    .group-btn {
+        
+    }
+}
+// payment method
+.payment-method{
+    .tbl-payment{
+        th{text-transform: none;height: 65px;}
+        td{text-transform: uppercase;height: 45px}
+    }
+    .modal .form-horizontal{
+        margin: 10px 60px;
+    }
+    .payment-bottom{
+        .notice{
+            width: calc(100% - 285px);
+            margin-top: 5px;
+            color: $gray;
+            padding-left: 15px;
+            .ionicon{
+                font-size: 18px;
+                margin-right: 5px;
+            }        
+        }
+        .btn{
+            margin-right: 0
+        }
+    }
+}
+

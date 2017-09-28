@@ -1,0 +1,141 @@
+/* left side bar */
+
+#sidebar {
+    position: fixed;
+    width: 212px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    @include transition(.28s);
+    @include translate3D(-185px, 0, 0);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: $dark-blue;
+    &:hover {
+        width: 280px;
+        @include translate3D(0, 0, 0);
+        .sidebar-pull {
+            @include translate3D(0, 0, 0);
+        }
+        .search-form {
+            visibility: visible;
+        }
+        .nav-main a{            
+            &:hover{
+                cursor: pointer;
+            }           
+        } 
+    }
+    .sidebar-header {
+        padding: 25px 20px;
+    }
+    li {
+        border-top: 1px solid $boder-color-light;
+        &.has-child {
+            .nav-submenu {
+                position: relative;
+                &:after {
+                    content: "\f489";
+                    position: absolute;
+                    right: 27px;
+                    top: 6px;
+                    font-family: "Ionicons";
+                    font-size: 25px;
+                    font-weight: 900;
+                }
+            }
+            ul {
+                margin-bottom: 14px;
+                display: none;
+            }
+            li {
+                border: none;
+                a {
+                    padding: 8px 70px 8px;
+                    text-transform: none;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                &:focus{
+                    outline: none !important;
+                    border: none!important;
+                }
+            }
+            &.open {
+                .nav-submenu {
+                    //color: $aqua;
+                    &:after {
+                        content: "\f462";
+                    }
+                }
+                ul {
+                    display: block;
+                    @include transition(.8s);
+                    .active a {
+                        //color: $aqua;
+                        &:focus{
+                            outline: none;
+                        }
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .nav-main a {
+        color: $color-menu;
+        text-transform: uppercase;
+        display: block;
+        padding: 14px 22px;
+        &:hover {
+            color: $aqua;
+        }
+        i {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        &.nav-submenu{
+            white-space: nowrap;
+        }
+        
+    }
+    .sidebar-pull {
+        @include translate3D(170px, 0, 0);
+        @include transition(.28s);
+    }
+    .search-form {
+        margin: 32px 0 16px;
+        visibility: hidden;
+        .form-control {
+            @include box-shadow(none);
+            background-color: transparent;
+            border: 1px solid $boder-color-light;
+            @include border-radius(20px);
+            height: 38px;
+            padding-left: 30px;
+            padding-right: 30px;
+            &::-webkit-input-placeholder {
+                color: #576378;
+                font-size: $font-size-base - 1;
+            }
+            &:-moz-placeholder {
+                color: #576378;
+                opacity: 1;
+                font-size: $font-size-base - 1;
+            }
+            &::-moz-placeholder {
+                color: #576378;
+                opacity: 1;
+                font-size: $font-size-base - 1;
+            }
+            &:-ms-input-placeholder {
+                color: #576378;
+                font-size: $font-size-base - 1;
+            }
+        }
+    }
+}

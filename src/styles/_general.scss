@@ -1,0 +1,55 @@
+.general {
+    h1 {
+        margin: 90px 0 35px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: normal;
+        text-transform: none;
+    }
+    .step {
+        position: relative;
+        padding: 37px 150px 43px;
+        margin-bottom: 50px;
+    }
+    .number {
+        font-family: 'Roboto Slab';
+        font-size: 58px;
+        font-weight: 400;
+        color: $aqua;
+        position: absolute;
+        left: 65px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .content {
+        border-left: 1px solid $border-color;
+        padding-left: 28px;
+        h2 {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .desc {
+            margin-top: 5px;
+            a {
+                color: $aqua;
+                font-weight: 700;
+            }
+        }
+    }
+    .ico {
+        position: absolute;
+        right: 52px;
+        top: 50%;
+        @include translateY(-50%);
+        .state-ico {
+            position: relative;            
+            font-size: 72px;
+            color: #dbdde2;
+            
+        }
+        .state-ico.ico-success {
+            color: $aqua;           
+        }
+    }
+}

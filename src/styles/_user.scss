@@ -1,0 +1,73 @@
+.list-page {
+    .table.table-bordered th{
+        white-space: nowrap;
+    }
+    
+}
+.role-list{
+    td.action{
+        width: 180px;
+    }
+}
+
+
+// Permission
+.permission-page {
+	.tabs-wraper{
+		max-width: 680px;
+		margin: 0 auto;
+	}
+}
+.tabs-permission{
+    .nav-tabs > li > a{
+        padding-left: 25px
+    }
+    .tab-content{
+        .row{
+            border-bottom: 2px solid $light-gray;
+            padding:0 50px 30px;
+            margin:0 0 30px;    
+            &.last, &:last-of-type{
+                border-bottom: none;
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }        
+        }
+        .col-left{
+            width: 200px; 
+            float: left;
+            text-align: right;
+            margin-right: 50px;
+            label{
+                font-size: 16px;
+                font-weight: 600;
+                margin-top: 5px;
+            }
+        } 
+        .col-right{
+            float: right;
+            text-align: left;
+            width: calc(100% - 250px);
+            .bootstrap-switch{
+                float: right;
+            }
+        }
+
+    }
+}
+
+// Product management
+.add-product-page{
+    .add-version{
+        margin: 0;    
+    }
+    .tbl-version{
+        th{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .btn{
+            min-width: 40px;
+        }
+    }
+}

@@ -1,1 +1,41 @@
-$nav-button-color: #00838F;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700');
+
+$color-text: 			#4f4f4f;
+$white: 				#fff;
+$navy: 					#232e42;
+$dark-gray: 			#808792;
+$light-gray: 			#f5f5f5;
+$gray: 					#818181;
+$dark-blue: 			#0a162c;
+$light-blue: 			#ecf0f3;
+$aqua: 					#11b4a8;
+$aqua-light: 			#3cbfae;
+$orange: 				#f4a522;
+$yellow: 				#ffecb3;
+
+$link-action: 			#0072bc;
+
+$color-menu: 			$dark-gray;
+$color-heading: 		$gray;
+
+$border-color: 			#e6eaed;
+$boder-color-light: 	#3b4556;
+
+//button
+$btn-primary-bg: 		$aqua-light;
+$btn-primary-bg-hover: 	$aqua;
+//table
+$table-border: 			#ececec;
+$table-color: 			$gray;
+
+$form-gray: 			#ebebeb;
+
+$title-page-color: 		$gray;
+
+
+// Font
+$font-family-sans-serif: 'Open Sans', sans-serif !default;
+$font-size-base: 14px !default;
+
+$font-roboto:  'Roboto', sans-serif;
