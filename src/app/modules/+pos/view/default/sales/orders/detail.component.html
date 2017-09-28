@@ -42,7 +42,7 @@
             </p>
             <p class="f-left" *ngIf="!getOrder()['is_order_virtual']">
               <span class="txt">{{ 'Telephone' | translate }}</span>
-              <span class="value">{{getOrder()['shipping_address']['telephone'] || "Unknown Telephone"}}</span>
+              <span class="value">{{getOrder()['customer']['phone'] || ""}}</span>
 
               <span class="txt">{{ 'Address' | translate }}</span>
               <span class="value" *ngIf="getOrder()['shipping_address']['region'] != '-'">{{getOrder()['shipping_address']['first_name'] + " " +
