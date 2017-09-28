@@ -1,10 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 @Component({
              //moduleId: module.id,
              selector: 'account',
              templateUrl: 'account.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             styleUrls: ['css/signin.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush,
+             encapsulation: ViewEncapsulation.None,
            })
 export class AccountComponent implements OnInit {
   constructor() { }

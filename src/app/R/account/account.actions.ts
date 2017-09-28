@@ -125,4 +125,28 @@ export class AccountActions {
     
     return action;
   }
+  
+  static ACTION_USER_SEND_RESET_PASSWORD = 'ACTION_USER_SEND_RESET_PASSWORD';
+  
+  sendResetPassword(user, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_USER_SEND_RESET_PASSWORD, payload: {user}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_USER_RESET_PASSWORD = 'ACTION_USER_RESET_PASSWORD';
+  
+  resetPasswrod(token: string, newPassword: string, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_USER_RESET_PASSWORD, payload: {token, newPassword}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

@@ -10,11 +10,11 @@ import {AccountActions} from "../../R/account/account.actions";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AccountState} from "../../R/account/account.state";
+import {AuthenticateService} from "../../services/authenticate";
 
 @Component({
              selector: 'sign-in',
              templateUrl: 'login.component.html',
-             styleUrls: ['css/signin.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -24,12 +24,19 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   
   accountState$: Observable<AccountState>;
   
-  constructor(protected accountActions: AccountActions, protected routerActions: RouterActions, protected store$: Store<any>) {
+  constructor(protected accountActions: AccountActions,
+              protected routerActions: RouterActions,
+              protected store$: Store<any>,
+              protected authService: AuthenticateService) {
     this.accountState$ = this.store$.select('account');
   }
   
   ngOnInit() {
-    this.initPageJs();
+    if (this.authService.user) {
+      this.routerActions.go('');
+    } else {
+      this.initPageJs();
+    }
   }
   
   ngAfterViewInit(): void {
@@ -47,21 +54,21 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     this.validate = this.jForm['validate']({
                                              errorClass: 'help-block text-right animated fadeInDown',
                                              errorElement: 'div',
-                                             errorPlacement: function (error, e) {
+                                             errorPlacement: (error, e) => {
                                                jQuery(e).parents('.form-group > div').append(error);
                                              },
-                                             highlight: function (e) {
+                                             highlight: e => {
                                                jQuery(e).closest('.form-group').removeClass('has-error').addClass('has-error');
                                                jQuery(e).closest('.help-block').remove();
                                              },
-                                             success: function (e) {
+                                             success: e => {
                                                jQuery(e).closest('.form-group').removeClass('has-error');
                                                jQuery(e).closest('.help-block').remove();
                                              },
                                              rules: {
                                                'login-username': {
                                                  required: true,
-                                                 //minlength: 6
+                                                 minlength: 6
                                                },
                                                'login-password': {
                                                  required: true,
@@ -92,6 +99,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    this.validate.destroy();
+    if (this.validate) {
+      this.validate.destroy();
+    }
   }
 }

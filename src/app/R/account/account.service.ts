@@ -36,10 +36,10 @@ export class AccountService {
                                            .subscribe(([licenseCollection, productCollection]) => {
                                              const products = productCollection.collection.find({}).fetch();
                                              if (products) {
-                                               const posProduct = _.find(products, p => p['code'] == 'xpos');
+                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
                                                if (posProduct) {
                                                  const licenses = licenseCollection.collection.find({}).fetch();
-                                                 if (_.size(licenses) == 1) {
+                                                 if (_.size(licenses) === 1) {
                                                    const licenseHasPos = _.find(licenses[0]['has_product'], p => p['_id'] = posProduct['_id']);
                                                    if (licenseHasPos) {
                                                      this.accountActions.saveLicenseData({licenseHasPos});
@@ -51,11 +51,94 @@ export class AccountService {
                                                    // throw new GeneralException("Can't find license");
                                                  }
                                                }
-                                             } else
+                                             } else {
                                                return;
+                                             }
                                            });
     }
     
     return this.subscriptionLicense;
+  }
+  
+  register(user: any) {
+    return new Promise<void>((resolve, reject) => {
+      Accounts.createUser({
+                            username: user.username,
+                            email: user.email,
+                            password: user.password,
+                            profile: {
+                              status: 1
+                            }
+                          }, (err: any) => {
+        if (err) {
+          if (err['reason']) {
+            this.notify.error(err['reason'], err['error']);
+          }
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+  
+  login(user: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      Meteor.loginWithPassword(user.username, user.password, (e: Error) => {
+        if (!!e) {
+          if (e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+          }
+          return reject(e);
+        }
+        resolve();
+      });
+    });
+  }
+  
+  logout() {
+    return new Promise<void>((resolve, reject) => {
+      Meteor.logout((e: Error) => {
+        if (!!e) {
+          if (e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+          }
+          return reject(e);
+        }
+        resolve();
+      });
+    });
+  }
+  
+  requestSendForgotPassword(email: string) {
+    return new Promise<void>((resolve, reject) => {
+      Accounts.forgotPassword({email}, (e) => {
+        if (!e) {
+          this.notify.info("A message was sent to your email");
+          resolve();
+        } else {
+          if (e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+          }
+          return reject(e);
+        }
+      });
+    });
+  }
+  
+  resetPassword(token: string, newPassword: string) {
+    return new Promise((resolve, reject) => {
+      Accounts.resetPassword(token, newPassword, (err) => {
+        if (!!err) {
+          if (err['reason']) {
+            this.notify.error(err['reason'], err['error']);
+          }
+          return reject(err);
+        } else {
+          this.notify.success('Password reset successfully');
+          resolve();
+        }
+      });
+    });
   }
 }

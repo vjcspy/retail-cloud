@@ -4,6 +4,7 @@ import {LoginComponent} from "./pages/account/login.component";
 import {AccountComponent} from "./pages/account/account.component";
 import {RegisterComponent} from "./pages/account/register.component";
 import {LogoutComponent} from "./pages/account/logout.component";
+import {ResetComponent} from "./pages/account/reset.component";
 
 export const ROUTES: Routes = [
   {
@@ -21,6 +22,14 @@ export const ROUTES: Routes = [
       {
         path: 'register',
         component: RegisterComponent
+      },
+      {
+        path: 'reset',
+        component: ResetComponent
+      },
+      {
+        path: 'reset/:token',
+        component: ResetComponent
       }
     ]
   },

@@ -8,6 +8,8 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     case AccountActions.ACTION_LOGIN:
     case AccountActions.ACTION_USER_REGISTER:
     case AccountActions.ACTION_LOGOUT:
+    case AccountActions.ACTION_USER_SEND_RESET_PASSWORD:
+    case AccountActions.ACTION_USER_RESET_PASSWORD:
       return state.set('isProcessing', true)
                   .set('license', {
                     licenseHasPos: null,

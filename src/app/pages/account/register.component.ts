@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, OnDestroy,
   OnInit
 } from '@angular/core';
 import {AuthService} from "../../services/ddp/auth.service";
@@ -10,28 +10,37 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs/Observable";
 import {AccountState} from "../../R/account/account.state";
 import {NotifyManager} from "../../services/notify-manager";
+import {AuthenticateService} from "../../services/authenticate";
 
 @Component({
              selector: 'sign-up',
              templateUrl: 'register.component.html',
-             styleUrls: ['css/signin.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   protected user = {username: "vjcspy1", email: "khoild@smartosc.com", password: "admin123", acceptTerm: false};
   private accountState$: Observable<AccountState>;
+  private validate: any;
   
-  constructor(protected routerActions: RouterActions, protected accountAction: AccountActions, protected store$: Store<any>, protected notify: NotifyManager) {
+  constructor(protected routerActions: RouterActions,
+              protected accountAction: AccountActions,
+              protected store$: Store<any>,
+              protected notify: NotifyManager,
+              protected authService: AuthenticateService) {
     this.accountState$ = this.store$.select('account');
   }
   
   ngOnInit() {
-    this.initPageJs();
+    if (this.authService.user) {
+      this.routerActions.go('');
+    } else {
+      this.initPageJs();
+    }
   }
   
   private initPageJs() {
-    let vm                     = this;
-    let initValidationRegister = () => {
+    let vm        = this;
+    this.validate =
       jQuery('.js-validation-register')['validate']({
                                                       errorClass: 'help-block text-right animated fadeInDown',
                                                       errorElement: 'div',
@@ -95,7 +104,11 @@ export class RegisterComponent implements OnInit {
                                                         }
                                                       }
                                                     });
-    };
-    initValidationRegister();
+  }
+  
+  ngOnDestroy(): void {
+    if (this.validate) {
+      this.validate.destroy();
+    }
   }
 }
