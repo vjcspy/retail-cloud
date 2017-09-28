@@ -22,14 +22,9 @@ export class AuthenticateService {
     }
     
     if (!this._user) {
-      let localUser = this.storage.localRetrieve('user');
-      if (localUser) {
-        this._user = localUser;
-      } else {
-        let meteorUser = Meteor.user();
-        if (meteorUser) {
-          this._user = meteorUser;
-        }
+      let meteorUser = Meteor.user();
+      if (meteorUser) {
+        this._user = meteorUser;
       }
     }
     
