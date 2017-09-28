@@ -1,63 +1,23 @@
 import {Injectable} from '@angular/core';
-import {AppStorage} from "../../services/storage";
-import {Observable, Subscription} from "rxjs";
-import {LicenseCollection} from "../../services/meteor-collections/licenses";
-import {ProductCollection} from "../../services/meteor-collections/products";
+import {Subscription} from "rxjs";
 import {NotifyManager} from "../../services/notify-manager";
-import * as _ from 'lodash';
-import {AccountActions} from "./account.actions";
+import {MeteorObservable} from "meteor-rxjs";
+import {AuthenticateService} from "../../services/authenticate";
 
 @Injectable()
 export class AccountService {
   
-  protected subscriptionLicense: Subscription;
+  private _subscribeAccount: Subscription;
   
-  constructor(protected storage: AppStorage,
-              protected licenseCollection: LicenseCollection,
-              protected productCollection: ProductCollection,
-              protected notify: NotifyManager,
-              protected accountActions: AccountActions) { }
+  constructor(protected authenticate: AuthenticateService,
+              protected notify: NotifyManager,) { }
   
-  saveUserToStorage(user: any): void {
-    this.storage.localStorage('user', user);
-  }
-  
-  removeUserFromStorage() {
-    this.storage.localClear('user');
-  }
-  
-  subscribeLicense(resubscribe: boolean = false) {
-    if (typeof this.subscriptionLicense === 'undefined' || resubscribe === true) {
-      if (this.subscriptionLicense) {
-        this.subscriptionLicense.unsubscribe();
-      }
-      
-      this.subscriptionLicense = Observable.combineLatest(this.licenseCollection.getCollectionObservable(), this.productCollection.getCollectionObservable())
-                                           .subscribe(([licenseCollection, productCollection]) => {
-                                             const products = productCollection.collection.find({}).fetch();
-                                             if (products) {
-                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
-                                               if (posProduct) {
-                                                 const licenses = licenseCollection.collection.find({}).fetch();
-                                                 if (_.size(licenses) === 1) {
-                                                   const licenseHasPos = _.find(licenses[0]['has_product'], p => p['_id'] = posProduct['_id']);
-                                                   if (licenseHasPos) {
-                                                     this.accountActions.saveLicenseData({licenseHasPos});
-                                                   } else {
-                                                     this.notify.error("Sorry, we can't find your license");
-                                                   }
-                                                 } else {
-                                                   // this.toasts.error("Can't get license information");
-                                                   // throw new GeneralException("Can't find license");
-                                                 }
-                                               }
-                                             } else {
-                                               return;
-                                             }
-                                           });
+  subscribeAccountChange() {
+    if (typeof this._subscribeAccount === 'undefined') {
+      MeteorObservable.autorun().subscribe(() => {
+        this.authenticate.user = Meteor.user();
+      });
     }
-    
-    return this.subscriptionLicense;
   }
   
   register(user: any) {

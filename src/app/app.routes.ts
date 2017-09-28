@@ -5,15 +5,22 @@ import {AccountComponent} from "./pages/account/account.component";
 import {RegisterComponent} from "./pages/account/register.component";
 import {LogoutComponent} from "./pages/account/logout.component";
 import {ResetComponent} from "./pages/account/reset.component";
+import {NotLoggedGuard} from "./services/router-guard/not-logged-guard";
 
 export const ROUTES: Routes = [
+  {
+    path: '',
+    redirectTo: '/cloud/default/',
+    pathMatch: 'full'
+  },
   {
     path: 'account',
     component: AccountComponent,
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [NotLoggedGuard],
       },
       {
         path: 'logout',
@@ -21,15 +28,18 @@ export const ROUTES: Routes = [
       },
       {
         path: 'register',
-        component: RegisterComponent
+        component: RegisterComponent,
+        canActivate: [NotLoggedGuard],
       },
       {
         path: 'reset',
-        component: ResetComponent
+        component: ResetComponent,
+        canActivate: [NotLoggedGuard],
       },
       {
         path: 'reset/:token',
-        component: ResetComponent
+        component: ResetComponent,
+        canActivate: [NotLoggedGuard],
       }
     ]
   },
