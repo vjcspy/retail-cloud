@@ -40,7 +40,6 @@ export class AccountService {
                                                if (posProduct) {
                                                  const licenses = licenseCollection.collection.find({}).fetch();
                                                  if (_.size(licenses) === 1) {
-                                                   console.log(_.first(licenses));
                                                    this.storage.localStorage('license', _.first(licenses));
               
                                                    const licenseHasPos = _.find(licenses[0]['has_product'], p => {

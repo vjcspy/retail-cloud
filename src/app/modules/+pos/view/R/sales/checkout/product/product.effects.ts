@@ -109,6 +109,7 @@ export class CheckoutProductEffects {
                                 const checkoutProductState: CheckoutProductState = z[1];
                                 const product                                    = checkoutProductState.productGridProducts.first();
                                 this.scrollGridProductToTop();
+                                this.checkoutProductsService.playSuccessLuckySearch();
                                 return Observable.from([
                                                          this.checkoutProductActions.updateLuckySearch(checkoutProductState.searchString, false),
                                                          this.quoteActions.selectProductToAdd(product, 1, false, null, false, false)
