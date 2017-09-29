@@ -34,6 +34,10 @@ export class ConfigurationsDefaultPosCustomerSettingsComponent {
         {
           label: "Telephone",
           value: 'telephone'
+        },
+        {
+          label: "Postcode",
+          value: 'postcode'
         }
       ]
     },
