@@ -120,6 +120,9 @@ export class ListEffects {
                                           case 'customer_id':
                                             orderStringData += " " + order['customer']['id'];
                                             break;
+                                          case 'reference_number':
+                                            orderStringData += " " + (order['reference_number'] ? order['reference_number'] : "");
+                                            break;
                                           default:
                                             break;
                                         }

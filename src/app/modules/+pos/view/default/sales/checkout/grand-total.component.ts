@@ -23,7 +23,7 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
   goCheckoutStep() {
     if (this.authService.userCan('create_orders')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
-        if (_.isEmpty(this.quoteState.referenceNumber)) {
+        if (_.isEmpty(this.quoteState.quote.getData('reference_number'))) {
           this.notify.warning("mes_missing_applicant_ref");
         } else {
           this.posSyncActions.syncCurrentOrder();

@@ -72,6 +72,10 @@ export class ConfigurationsDefaultPosCustomerSettingsComponent {
           label: "Magento Order ID",
           value: 'magento_order_id'
         },
+        {
+          label: "Applicant Reference Number",
+          value: 'reference_number'
+        },
       ]
     },
   };

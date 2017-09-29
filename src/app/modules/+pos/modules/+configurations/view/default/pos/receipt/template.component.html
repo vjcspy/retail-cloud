@@ -64,6 +64,13 @@
                  [checked]="!!configurationsReceiptState.receipt['order_info']['discount_shipment']"/>
           <label for="order-info-discount">{{ 'Show discount, shipment amount if they\'re zero' | translate }}</label>
         </div>
+        <div class="checkbox-input">
+          <input type="checkbox"
+                 name="order-info-reference-number" id="order-info-reference-number"
+                 [(ngModel)]="configurationsReceiptState.receipt['order_info']['reference_number']"
+                 [checked]="!!configurationsReceiptState.receipt['order_info']['reference_number']"/>
+          <label for="order-info-reference-number">{{ 'Show Applicant Reference Number' | translate }}</label>
+        </div>
       </li>
       <li>
         <label>{{ 'Show row total' | translate }}</label>
@@ -143,6 +150,7 @@
     <div class="client-info">
 
       <h3 class="name">{{ 'Customer' | translate }}: John Doe</h3>
+      <h3 class="reference-number" *ngIf="!!configurationsReceiptState.receipt['order_info']['reference_number']">{{ 'APPLICANT RE. NB. ' | translate}}A1B2ND3CAE</h3>
       <p class="email" *ngIf="configurationsReceiptState.receipt['customer_info'] == '1' || configurationsReceiptState.receipt['customer_info'] == '2'">
         Email: johndoe@example.com
       </p>

@@ -72,6 +72,7 @@ export class CartActionBarService {
           current_shipping: quote.getShippingAddress().toJS(),
           current_billing: quote.getBillingAddress().toJS(),
           note: quote.getData('retail_note'),
+          reference_number: quote.getData('reference_number'),
           items: this.posSyncService.prepareOrderItem(quote.getShippingAddress().getItems()),
           shipping_amount: posQuoteState.shippingAmount,
           data: {

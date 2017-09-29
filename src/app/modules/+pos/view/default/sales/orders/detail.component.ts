@@ -148,4 +148,12 @@ export class PosDefaultSalesOrdersDetailComponent {
       this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }
   }
+  
+  checkoutAsGuest(): boolean {
+    if (this.ordersState.detail.order.hasOwnProperty('customer')) {
+      return parseInt(this.ordersState.detail.order['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId());
+    } else {
+      return false;
+    }
+  }
 }

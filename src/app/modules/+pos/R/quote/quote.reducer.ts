@@ -73,7 +73,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('reference_number')
            .resetRetailAdditionData();
       
-      return state.clear().set('creditmemo', null).set('info', {isShiftOpening}).set('quote', state.quote).set('referenceNumber', null);
+      return state.clear().set('creditmemo', null).set('info', {isShiftOpening}).set('quote', state.quote);
     
     case PosQuoteActions.ACTION_ADD_SHIPPING_AMOUNT:
       Shipping.SHIPPING_AMOUNT = parseFloat(action.payload['shippingAmount']);
@@ -99,7 +99,8 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {use_reward_point: false})));
   
     case PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER:
-      return state.set('referenceNumber', action.payload['referenceNumber']);
+      state.quote.setData('reference_number', action.payload['reference_number']);
+      return state;
     
     default:
       return state;

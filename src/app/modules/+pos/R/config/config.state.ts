@@ -58,7 +58,7 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       fieldSearchProduct: ["name", "sku", "type_id"],
       fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
       useCustomerOnlineMode: true,
-      fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
+      fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id", "reference_number"],
       supportUnicodeInSearch: false,
       waitTimeEachSearch: 177,
       enableCustomSale: true,

@@ -105,6 +105,7 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
           shipping_address: true,
           sales_person: false,
           discount_shipment: false,
+          reference_number: true,
         },
         row_total_incl_tax: true,
         logo_image_status: true,

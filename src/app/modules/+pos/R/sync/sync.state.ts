@@ -4,6 +4,7 @@ export interface PosOrderSync {
   outlet_id: number;
   register_id: number;
   retail_note: string;
+  reference_number: string;
   user_id: string;
   retail_has_shipment: boolean;
   created_in_offline: boolean;
@@ -40,6 +41,7 @@ export const posOrderSyncFactory = makeTypedFactory<PosOrderSync, PosOrderSyncRe
     outlet_id: null,
     register_id: null,
     retail_note: null,
+    reference_number: null,
     user_id: null,
     retail_has_shipment: false,
     created_in_offline: false,

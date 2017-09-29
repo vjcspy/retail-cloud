@@ -1,6 +1,6 @@
 <div class="c-reference-number">
-  <input placeholder="{{'Enter Applicant Reference Number...'}}" type="text" name="referenceNumber"
+  <input placeholder="{{'Enter Applicant Reference Number...'}}" type="text" name="reference_number"
          enterBlur inputSelectText
-         [ngModel]="posQuoteState.referenceNumber"
+         [ngModel]="posQuoteState.quote['reference_number']"
          (blur)="addReferenceNumber($event)">
 </div>

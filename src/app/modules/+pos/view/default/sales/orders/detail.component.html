@@ -23,9 +23,16 @@
             <span class="txt">{{ 'Client Order' | translate }}</span>
             <span class="value">#{{getOrder()['retail_id']}}</span>
           </p>
-          <p class="f-left">
+          <p class="f-left" *ngIf="!checkoutAsGuest()">
             <span class="txt">{{getOrder()['customer']['name']}}</span>
             <span class="value">{{getOrder()['customer']['email']}}</span>
+            <br/>
+            <span class="txt">{{'Applicant Ref. Nb.'}}</span>
+            <span class="value">{{getOrder()['reference_number'] || ""}}</span>
+          </p>
+          <p class="f-left" *ngIf="checkoutAsGuest()">
+            <span class="txt">{{'Applicant Ref. Nb.'}}</span>
+            <span class="value">{{getOrder()['reference_number'] || ""}}</span>
           </p>
         </div>
         <div class="i-content">

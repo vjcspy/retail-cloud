@@ -8,6 +8,10 @@
     <h3 class="name">{{order['customer']['name']}}</h3>
     <p class="id">#{{order['retail_id']}}</p>
   </div>
+  <div class="reference_number">
+    <h3 class="title">{{'Applicant Ref. Nb. '}}</h3>
+    <p class="reference_number_value">{{ order['reference_number'] || ""}}</p>
+  </div>
   <span class="offline" *ngIf="!order['order_id']">&nbsp;</span>
   <span class="unsync" *ngIf="order['pushed'] === 3">&nbsp;</span>
 </div>

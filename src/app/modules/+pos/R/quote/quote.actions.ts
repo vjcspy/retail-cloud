@@ -202,8 +202,8 @@ export class PosQuoteActions {
   
   static ACTION_ADD_REFERENCE_NUMBER = 'ACTION_ADD_REFERENCE_NUMBER';
   
-  addReferenceNumber(referenceNumber, dispatch: boolean = true): Action {
-    const action = {type: PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER, payload: {referenceNumber}};
+  addReferenceNumber(reference_number, dispatch: boolean = true): Action {
+    const action = {type: PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER, payload: {reference_number}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

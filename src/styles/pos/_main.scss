@@ -4137,3 +4137,18 @@ ul.has-list {
   }
 }
 
+.reference_number{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+}
+
+.reference_number{
+  .title,
+  .reference_number_value{
+    display: inline-block;
+  }
+}
+
+
