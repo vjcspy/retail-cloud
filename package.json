@@ -109,6 +109,7 @@
     "ie-shim": "^0.1.0",
     "immutable": "^3.8.1",
     "ion-rangeslider": "^2.1.7",
+    "jQuery-Scanner-Detection": "^1.2.1",
     "jquery": "^3.2.1",
     "jquery-validation": "^1.16.0",
     "jsbarcode": "^3.8.0",

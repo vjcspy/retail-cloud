@@ -34,3 +34,6 @@ import "screenfull/dist/screenfull.js";
 // import 'dragscroll/dragscroll.js';
 
 import 'styles/css/animate.css';
+
+// jQuery-Scanner-Detection
+import 'jQuery-Scanner-Detection';

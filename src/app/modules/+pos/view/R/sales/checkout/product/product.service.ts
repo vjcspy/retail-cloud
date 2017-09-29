@@ -10,6 +10,8 @@ import {CheckoutProductState} from "./product.state";
 
 @Injectable()
 export class CheckoutProductService {
+  private _handleScanner;
+  private _luckySearchSuccessElem: any;
   
   resolveCatalogProduct(checkoutProductsState: CheckoutProductState, products: List<any>): Promise<GeneralMessage> {
     return new Promise((resolve) => {
@@ -112,4 +114,30 @@ export class CheckoutProductService {
     });
   }
   
+  handleScanner(callback: (barcode: string) => void, forceChange: boolean = false) {
+    if (typeof this._handleScanner === 'undefined' || forceChange) {
+      console.log('init handle scanner');
+      this._handleScanner = $(document)['scannerDetection']({
+                                                              timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+                                                              endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+                                                              avgTimeByChar: 80, // it's not a barcode if a character takes longer than 40ms
+                                                              onComplete: (barcode, qty) => {
+                                                                callback(barcode);
+                                                              } // main callback function
+                                                            });
+    }
+  }
+  
+  disableHandleScanner() {
+    console.log('destroy scanner handle');
+    $(document)["scannerDetection"](false);
+  }
+  
+  playSuccessLuckySearch() {
+    if (typeof this._luckySearchSuccessElem === 'undefined') {
+      this._luckySearchSuccessElem = document.getElementById("luckySearchSuccess");
+    }
+    
+    this._luckySearchSuccessElem.play();
+  }
 }
