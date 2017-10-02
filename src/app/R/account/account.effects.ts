@@ -8,6 +8,7 @@ import {RootActions} from "../root.actions";
 import {AccountState} from "./account.state";
 import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
+import {AuthenticateService} from "../../services/authenticate";
 
 @Injectable()
 export class AccountEffects {
@@ -16,6 +17,7 @@ export class AccountEffects {
               protected actions$: Actions,
               protected accountActions: AccountActions,
               protected accountService: AccountService,
+              protected authenticate: AuthenticateService,
               protected rootActions: RootActions,
               protected routerActions: RouterActions) { }
   
@@ -30,24 +32,24 @@ export class AccountEffects {
                                            .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                         });
   
-  @Effect() loginSuccess = this.actions$
-                               .ofType(
-                                 AccountActions.ACTION_LOGIN_SUCCESS,
-                                 AccountActions.ACTiON_USER_REGISTER_SUCCESS,
-                               )
-                               .withLatestFrom(this.store$.select('account'))
-                               .map((z: any) => {
-                                 const redirect = (z[1] as AccountState).redirect;
-                                 if (_.isString(redirect)) {
-                                   if (redirect.indexOf("http") > -1) {
-                                     window.location.replace(redirect);
-                                   } else {
-                                     this.routerActions.go(redirect);
-                                   }
-                                 }
+  @Effect() loginOrRegisterSuccess = this.actions$
+                                         .ofType(
+                                           AccountActions.ACTION_LOGIN_SUCCESS,
+                                           AccountActions.ACTiON_USER_REGISTER_SUCCESS,
+                                         )
+                                         .withLatestFrom(this.store$.select('account'))
+                                         .map((z: any) => {
+                                           const redirect = (z[1] as AccountState).redirect;
+                                           if (_.isString(redirect)) {
+                                             if (redirect.indexOf("http") > -1) {
+                                               window.location.replace(redirect);
+                                             } else {
+                                               this.routerActions.go(redirect);
+                                             }
+                                           }
     
-                                 return this.rootActions.nothing("", false);
-                               });
+                                           return this.accountActions.saveAccount(this.authenticate.user, false);
+                                         });
   
   @Effect() register = this.actions$
                            .ofType(AccountActions.ACTION_USER_REGISTER)
@@ -67,9 +69,7 @@ export class AccountEffects {
                          .switchMap(() => {
                            return Observable.fromPromise(this.accountService.logout())
                                             .map(() => {
-                                              setTimeout(() => {
-                                                location.reload(true);
-                                              }, 200);
+                                              location.reload(true);
                                               return this.accountActions.goLoginPage(false, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
@@ -102,5 +102,5 @@ export class AccountEffects {
                                                      return this.accountActions.goLoginPage(false, false);
                                                    })
                                                    .catch((e) => Observable.of(this.rootActions.error("", false)));
-                                })
+                                });
 }

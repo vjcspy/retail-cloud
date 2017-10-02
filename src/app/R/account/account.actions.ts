@@ -78,18 +78,6 @@ export class AccountActions {
     return action;
   }
   
-  static SAVE_LICENSE_DATA = 'SAVE_LICENSE_DATA';
-  
-  saveLicenseData(license, dispatch: boolean = true): Action {
-    const action = {type: AccountActions.SAVE_LICENSE_DATA, payload: {license}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
-  
   static ACTION_USER_REGISTER = 'ACTION_REGISTER';
   
   register(user, dispatch: boolean = true): Action {
@@ -142,6 +130,18 @@ export class AccountActions {
   
   resetPasswrod(token: string, newPassword: string, dispatch: boolean = true): Action {
     const action = {type: AccountActions.ACTION_USER_RESET_PASSWORD, payload: {token, newPassword}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_ACCOUNT = 'ACTION_SAVE_ACCOUNT';
+  
+  saveAccount(user, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_SAVE_ACCOUNT, payload: {user}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

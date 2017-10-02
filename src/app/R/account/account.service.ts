@@ -1,24 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Subscription} from "rxjs";
 import {NotifyManager} from "../../services/notify-manager";
-import {MeteorObservable} from "meteor-rxjs";
-import {AuthenticateService} from "../../services/authenticate";
 
 @Injectable()
 export class AccountService {
   
-  private _subscribeAccount: Subscription;
-  
-  constructor(protected authenticate: AuthenticateService,
-              protected notify: NotifyManager,) { }
-  
-  subscribeAccountChange() {
-    if (typeof this._subscribeAccount === 'undefined') {
-      MeteorObservable.autorun().subscribe(() => {
-        this.authenticate.user = Meteor.user();
-      });
-    }
-  }
+  constructor(protected notify: NotifyManager) { }
   
   register(user: any) {
     return new Promise<void>((resolve, reject) => {

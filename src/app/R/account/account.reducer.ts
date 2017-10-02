@@ -1,7 +1,6 @@
 import {ActionReducer} from "@ngrx/store";
 import {accountStateFactory, AccountStateRecord} from "./account.state";
 import {AccountActions} from "./account.actions";
-import {List} from "immutable";
 
 export const accountReducer: ActionReducer<AccountStateRecord> = (state = accountStateFactory(), action) => {
   switch (action.type) {
@@ -25,8 +24,8 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
       }
       return state;
     
-    case AccountActions.SAVE_LICENSE_DATA:
-      return state.set('license', {licenseHasPos: action.payload['license']['licenseHasPos']});
+    case AccountActions.ACTION_SAVE_ACCOUNT:
+      return state.set('user', action.payload['user']);
     
     default:
       return state;
