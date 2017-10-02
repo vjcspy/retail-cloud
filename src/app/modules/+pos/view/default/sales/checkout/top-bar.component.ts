@@ -11,7 +11,7 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {CheckoutProductService} from "../../../R/sales/checkout/product/product.service";
-import {Subject} from "rxjs/Subject";
+import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 
 @Component({
              // moduleId: module.id,
@@ -23,6 +23,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   @Input() quoteState: PosQuoteState;
+  @Input() cartCustomerState: CartCustomerState;
   
   protected searchString        = new FormControl();
   protected searchInputElem: any;
@@ -39,35 +40,27 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   ngAfterViewInit(): void {
     this.checkoutProductService.handleScanner((searchString) => {
-      this.isScanning = true;
-      this.searchString.setValue(searchString, {emitEvent: true});
+      if (!this.cartCustomerState.inSearchCustomers) {
+        this.checkoutProductActions.updateGridState({
+                                                      searchString,
+                                                      lastLuckySearchString: null
+                                                    });
+        this.isScanning = true;
+        setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
+      }
     }, true);
-    
-    let _searchSubject = new Subject();
-    this.subscribeObservable('subscript_scanner', () => _searchSubject.asObservable()
-                                                                      .debounceTime(this.configState.constrain['debounceTimeSearch'])
-                                                                      .subscribe((searchString) => {
-                                                                        this.checkoutProductActions.updateGridState({
-                                                                                                                      searchString,
-                                                                                                                      lastLuckySearchString: null
-                                                                                                                    });
-                                                                      }));
     
     this.subscribeObservable('subscribe_input_search', () => this.searchString
                                                                  .valueChanges
+                                                                 .debounceTime(this.configState.constrain['debounceTimeSearch'])
+                                                                 .filter(() => !this.isScanning)
                                                                  // .distinctUntilChanged()
                                                                  .subscribe((searchString: string) => {
-                                                                   if (this.isScanning) {
-                                                                     this.checkoutProductActions.updateGridState({
-                                                                                                                   searchString,
-                                                                                                                   lastLuckySearchString: null
-                                                                                                                 });
-                                                                   } else {
-                                                                     _searchSubject.next(searchString);
-                                                                   }
-                                                                   this.isScanning = false;
-                                                                 })
-    );
+                                                                   this.checkoutProductActions.updateGridState({
+                                                                                                                 searchString,
+                                                                                                                 lastLuckySearchString: null
+                                                                                                               });
+                                                                 }));
   }
   
   openPopupCustomSale() {
