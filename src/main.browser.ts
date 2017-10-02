@@ -3,15 +3,16 @@
  */
 import 'vendor.lib';
 import 'meteor-client';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { decorateModuleRef } from './app/environment';
-import { hmrModule  } from '@angularclass/hmr';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {decorateModuleRef} from './app/environment';
+import {hmrModule} from '@angularclass/hmr';
 
 /**
  * App Module
  * our top level module that holds all of our components
  */
-import { AppModule } from './app';
+import {AppModule} from './app';
+import {MeteorObservable} from "meteor-rxjs";
 
 /**
  * Bootstrap our Angular app with a top level NgModule
@@ -39,10 +40,24 @@ switch (document.readyState) {
   case 'interactive':
   case 'complete':
   default:
-    main();
+    loadDepenMeteor();
 }
 
 function _domReadyHandler() {
- document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
- main();
+  document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
+  loadDepenMeteor();
+}
+
+function loadDepenMeteor() {
+  Meteor.startup(() => {
+    const subscription = MeteorObservable.autorun().subscribe(() => {
+      
+      if (Meteor.loggingIn()) {
+        return;
+      }
+      
+      setTimeout(() => subscription.unsubscribe());
+      main();
+    });
+  });
 }

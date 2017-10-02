@@ -1,0 +1,56 @@
+<header>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="http://sales.connectpos.com" title="connectpos">
+            <i class="ion-ios-monitor-outline"></i>Connectpos
+          </a>
+        </li>
+        <!--<li *ngIf="data.isUser">-->
+        <li>
+          <a href="http://reports.connectpos.com" title="c-report">
+            <i class="ion-ios-paper-outline"></i>C-report
+          </a>
+        </li>
+      </ul>
+      <div class="nav navbar-nav navbar-right">
+        <div class="user">
+          <div class="img"><img src="assets/img/default-avatar.png" alt="Avatar"></div>
+          <div class="personal-info">
+            <span class="name">{{accountState.user['username']}}</span>
+            <span class="role">({{accountState.user['roles']['cloud_group']}})</span>
+          </div>
+          <div class="logout-btn" (click)="accountActions.logout()">
+            Logout
+            <i class="ion-log-out"></i>
+          </div>
+          <!--<select class="form-control" id="sepicker" (change)="changePage($event)" *ngIf="canDisplayBaseUrl()">-->
+          <!--<option *ngFor="let option of baseUrls"-->
+          <!--[value]="option.url" [selected]="option.url == currentUrl">-->
+          <!--{{option.url}}-->
+          <!--</option>-->
+          <!--<option class="logout" value="logout">Logout <i class="ion-log-out"></i></option>-->
+          <!--</select>-->
+          <!--<form action="">-->
+          <!--<div *ngIf="data.canAccessAdmin" (click)="authService.signOut()">Logout</div>-->
+          <!--<select class="sepicker form-control" (change)="changePage($event)" *ngIf="data.isUser">-->
+          <!--<option>www.smartosc.com</option>-->
+          <!--<option>www.abc.smartosc.com</option>-->
+          <!--<option>www.xyz.smartosc.com</option>-->
+          <!--<option class="logout" value="logout">Logout</option>-->
+          <!--</select>-->
+          <!--</form>-->
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

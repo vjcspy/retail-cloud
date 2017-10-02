@@ -6,6 +6,7 @@ import {CLOUD_ROUTES} from "./cloud.routes";
 
 import "../../../styles/styles.scss";
 import {CLOUD_DEFAULT_COMPONENTS} from "./view/default/index";
+import {DefaultContainerComponent} from "./view/default-container.component";
 
 @NgModule({
             imports: [
@@ -15,7 +16,10 @@ import {CLOUD_DEFAULT_COMPONENTS} from "./view/default/index";
             exports: [],
             declarations: [
               CloudComponent,
-              ...CLOUD_DEFAULT_COMPONENTS
+              
+              DefaultContainerComponent,
+              ...CLOUD_DEFAULT_COMPONENTS,
+              
             ],
             providers: [],
           })

@@ -21,8 +21,11 @@ import {AuthenticateService} from "./services/authenticate";
              encapsulation: ViewEncapsulation.None,
              styleUrls: [
                './app.component.css',
+               '../../node_modules/bootstrap/dist/css/bootstrap.css',
                '../../node_modules/font-awesome/css/font-awesome.min.css',
-               '../../node_modules/ng2-toastr/ng2-toastr.css'
+               '../../node_modules/ionicons/css/ionicons.css',
+               '../../node_modules/ng2-toastr/ng2-toastr.css',
+               '../assets/icon/icomoon/style.css',
              ],
              template: `
                <router-outlet></router-outlet>

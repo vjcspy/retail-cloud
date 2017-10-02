@@ -8,11 +8,18 @@ export class AuthenticateService {
   private _user;
   private _subscribeAccount: Subscription;
   
+  static SUPERADMIN = "super_admin";
+  static ADMIN      = "admin";
+  static SALES      = "sales";
+  static AGENCY     = "agency";
+  static USER       = "user";
+  
   constructor(protected accountActions: AccountActions) {}
   
   get user() {
     if (typeof this._user === 'undefined') {
-      this._user = Meteor.user();
+      const user = Meteor.user() || null;
+      this._user = user;
       this._whenAccountUpdate();
     }
     
@@ -21,6 +28,18 @@ export class AuthenticateService {
   
   set user(value) {
     this._user = value;
+  }
+  
+  isAdmin(user: Object): boolean {
+    return true;
+  }
+  
+  isUser(user: Object): boolean {
+    return true;
+  }
+  
+  userCan(permission: string) {
+    return true;
   }
   
   subscribeAccountChange() {
