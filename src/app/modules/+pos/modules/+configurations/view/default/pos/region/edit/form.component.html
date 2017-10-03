@@ -1,0 +1,29 @@
+<div class="acr-row add-register">
+  <div class="acr-head">
+  </div>
+  <div class="acr-content">
+    <div class="inner">
+      <ul class="fr-control">
+        <li>
+          <label class="require">{{ 'Region Name' | translate }}</label>
+          <retail-text [(model)]="getRegion()['region_name']"
+                       [formKey]="'region_edit_data'"
+                       [validation]="'required'"></retail-text>
+        </li>
+        <li>
+          <label>{{ 'Register Status' | translate }}</label>
+          <retail-select2 [elementData]="getOutletSelect()" [multiple]="true"
+                          [(model)]="getRegion()['assigned_outlets']"></retail-select2>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button (click)="back()">
+    {{ 'Back' | translate }}
+  </button>
+  <button (click)="saveRegion()">
+    {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
+  </button>
+</div>

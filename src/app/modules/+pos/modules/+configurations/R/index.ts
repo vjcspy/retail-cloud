@@ -31,6 +31,11 @@ import {ConfigurationsClientDbActions} from "./cache/client-db/client-db.actions
 import {ConfigurationsClientDbEffects} from "./cache/client-db/client-db.effects";
 import {PullPerformanceEffects} from "./cache/pull-performance/pull-performance.effects";
 import {PullPerformanceActions} from "./cache/pull-performance/pull-performance.actions";
+import {ConfigurationsRegionState} from "./region/region.state";
+import {ConfigurationsRegionEffects} from "./region/region.effects";
+import {ConfigurationsRegionService} from "./region/region.service";
+import {ConfigurationsRegionActions} from "./region/region.actions";
+import {configurationsRegionReducer} from "./region/regions.reducer";
 
 export const R_IMPORT = [
   EffectsModule.run(RetailConfigEffects),
@@ -40,6 +45,7 @@ export const R_IMPORT = [
   EffectsModule.run(MagentoProductEffects),
   EffectsModule.run(ConfigurationsClientDbEffects),
   EffectsModule.run(PullPerformanceEffects),
+  EffectsModule.run(ConfigurationsRegionEffects),
 ];
 
 export const R_PROVIDER = [
@@ -66,6 +72,9 @@ export const R_PROVIDER = [
   ConfigurationsClientDbActions,
 
   PullPerformanceActions,
+
+  ConfigurationsRegionService,
+  ConfigurationsRegionActions,
 ];
 
 export interface ConfigurationsState {
@@ -74,6 +83,7 @@ export interface ConfigurationsState {
   payments: ConfigurationsPaymentState;
   receipt: ConfigurationsReceiptState;
   cache: ConfigurationsCacheState;
+  regions: ConfigurationsRegionState;
 }
 
 export interface ConfigurationModuleState {
@@ -86,6 +96,7 @@ export const configurationsReducer = () => createReducer({
                                                                                              outlets: configurationsOutletReducer,
                                                                                              payments: paymentReducer,
                                                                                              receipt: configurationsReceiptReducer,
-                                                                                             cache: configurationsCacheReducer
+                                                                                             cache: configurationsCacheReducer,
+                                                                                             regions : configurationsRegionReducer
                                                                                            })
                                                          });

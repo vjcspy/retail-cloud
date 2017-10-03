@@ -3,6 +3,7 @@ import {List} from "immutable";
 import {OutletDB} from "../../database/xretail/db/outlet";
 import {StoreDB} from "../../database/xretail/db/store";
 import {RetailConfigDB} from "../../database/xretail/db/retail-config";
+import {RegionDB} from "../../database/xretail/db/region";
 
 export interface Entity {
   items: List<any>;
@@ -82,3 +83,14 @@ export const retailConfigEntityFactory = () => entityFactory({
                                                                  group: "pos,warehouse"
                                                                }
                                                              });
+export const regionEntityFactory = () => entityFactory({
+                                                         entityCode: RegionDB.getCode(),
+                                                         currentPage: 0,
+                                                         pageSize: 100,
+                                                         items: List.of(),
+                                                         apiUrlCode: RegionDB.getCode(),
+                                                         isFinished: false,
+                                                         isDependStore: false,
+                                                         query: "",
+                                                         propertyFilter: {}
+                                                       });
