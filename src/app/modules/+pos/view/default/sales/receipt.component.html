@@ -9,7 +9,7 @@
       <div class="client-info">
 
         <h3 class="name" *ngIf="!checkoutAsGuest() || !getReceiptSetting()['order_info']['reference_number']">{{ 'Customer' | translate }}: {{getOrder()['customer']['name']}}<br/></h3>
-        <h3 class="reference-number" *ngIf="!!getReceiptSetting()['order_info']['reference_number']">{{ 'APPLICANT RE. NB. ' | translate}}{{getOrder()['reference_number']}}</h3>
+        <h3 class="reference-number" *ngIf="!!getReceiptSetting()['order_info']['reference_number']">{{ 'APPLICANT REF. NB. ' | translate}}{{getOrder()['reference_number']}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
           Email:&nbsp;{{getOrder()['customer']['email']}}
