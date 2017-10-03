@@ -276,12 +276,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .c-left {text-align: left!important;}
             .c-right {text-align: right!important;}
             .c-center {text-align: center!important;}
-            .invoice {
-                width: 100%;
+            .invoice {                
                 max-width: 420px; margin: 0 auto;
-                background: #FFF; overflow: hidden;
+                background: #FFF;
                 /*border-radius: 10px;*/
-                padding-right: 13px;
+                padding-right: 15px;
                 padding-left: 3px;
             }
             .top-br, .bottom-br {text-align: center;}
@@ -328,11 +327,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
             .invoice-table {border: #4F4F4F solid 2px; border-width: 2px 0;}
             .invoice-table th, .invoice-table h4 {font-size: 12px;}
-            .invoice-table td {font-size: 12px;}
+            .invoice-table td {font-size: 12px; }
             /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
-                padding: 0; text-align: center;
+                padding: 0; text-align: center;                
             }
             .invoice-table th {
                 font-weight: 400;
