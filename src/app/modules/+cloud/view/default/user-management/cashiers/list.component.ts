@@ -88,7 +88,7 @@ export class CashierListComponent implements OnInit {
           className: "status",
           targets: [6],
           render(data) {
-            if (!!data && ((data.hasOwnProperty('status') && data['status'] == 1) || (data.hasOwnProperty('is_disabled') && data['is_disabled'] == 0))) {
+            if (!!data && ((data.hasOwnProperty('status') && parseInt(data['status']) === 1) || (data.hasOwnProperty('is_disabled') && parseInt(data['is_disabled']) === 0))) {
               return `Enabled`;
             } else {
               return `Disabled`;
