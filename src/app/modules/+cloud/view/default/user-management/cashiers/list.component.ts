@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {UserCollection} from "../../../../../../services/meteor-collections/users";
 import * as _ from 'lodash';
 
@@ -9,14 +9,12 @@ import * as _ from 'lodash';
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class CashierListComponent implements OnInit {
+export class CashierListComponent {
   constructor(public userCollection: UserCollection) { }
-  
-  ngOnInit() { }
   
   getTableConfig() {
     return {
-      actionsColumn: {edit: true, remove: false},
+      actionsColumn: {edit: true, remove: true},
       columns: [
         {data: "profile", title: "First Name", searchable: true},
         {data: "profile", title: "Last Name", searchable: true},
@@ -100,4 +98,9 @@ export class CashierListComponent implements OnInit {
       sDom: 'ltp'
     };
   }
+  
+  handleTableEvent($event) {
+    console.log($event);
+  }
+  
 }

@@ -1,33 +1,43 @@
-import {
-  MongoObservable
-} from "meteor-rxjs";
-import {
-  Observable,
-  Subscription,
-  Subject
-} from "rxjs";
+import {MongoObservable} from "meteor-rxjs";
+import {Observable, Subscription, Subject} from "rxjs";
 import * as _ from "lodash";
-import {GeneralException} from "../../../../code/GeneralException";
+import {EventEmitter} from "@angular/core";
 
 export class MeteorDataTable {
   protected collection: MongoObservable.Collection<any>;
   protected _dtTable: any;
-  protected _meteorDataTableSubscription: Subscription; // subscription automaticlly change data from server
+  protected _meteorDataTableSubscription: Subscription;
   
   constructor(protected elementSelector: any,
               protected dataTableOptions: Object,
               protected collectionObservable: Observable<MongoObservable.Collection<any>>,
-              protected callBackSubject: Subject<any>,
+              protected callBackSubject: EventEmitter<any>,
               protected collectionSelector = {}) {
     if (this.collectionObservable) {
       this._meteorDataTableSubscription = this.collectionObservable.subscribe((collection) => {
         this.collection = collection;
-        let data        = this.collection.collection.find().fetch();
-        if (data.length === 0) {
-          window.location.reload();
-        }
         this.resolve();
       });
+    }
+  }
+  
+  protected resolve() {
+    if (typeof this._dtTable !== "undefined") {
+      this._dtTable.draw();
+      this.callBackSubject.next({type: "reDraw"});
+    } else {
+      this.initDataTable();
+      let vm = this;
+      setTimeout(() => {
+        this.elementSelector.on('click', '.meteor-table-bt-edit', function () {
+          vm.callBackSubject.emit({type: 'clickEdit', data: jQuery(this).attr('data-id')});
+        });
+      }, 100);
+      setTimeout(() => {
+        this.elementSelector.on('click', '.meteor-table-bt-remove', function () {
+          vm.callBackSubject.emit({type: 'clickRemove', data: jQuery(this).attr('data-id')});
+        });
+      }, 100);
     }
   }
   
@@ -65,28 +75,16 @@ export class MeteorDataTable {
                                      return _html;
           
                                    },
-                                   "targets": [_numOfColumn]
+                                   targets: [_numOfColumn]
                                  });
     }
     this._dtTable = this.elementSelector.DataTable(options);
-    this._dtTable.columns().every(function () {
-      let that = this;
-      jQuery('input', this.header()).on('keyup change', () => {
-        that
-          .search(this.value, true, false)
-          .draw();
-      });
-    });
   }
   
   private getDefaultOption() {
     return {
       ajax: (request, drawCallback, settings) => {
-        let json                = {};
-        json['recordsTotal']    = this.collection.collection.find(this.collectionSelector).count();
-        json['recordsFiltered'] = this.collection.collection.find(this.collectionSelector).count();
-        json['draw']            = request.draw; // Update the echo for each response
-        
+        let json      = {};
         // searching
         let _selector = {};
         _.forEach(request['columns'], (v, index) => {
@@ -95,16 +93,25 @@ export class MeteorDataTable {
           }
         });
         // sort
-        let sort = {};
+        let options = {};
         if (_.size(request['order']) === 1) {
           let _columnName = request['columns'][request['order'][0]['column']]['data'];
           if (_columnName) {
-            sort['sort']              = {};
-            sort['sort'][_columnName] = request['order'][0]['dir'] === 'asc' ? 1 : -1;
+            options['sort']              = {};
+            options['sort'][_columnName] = request['order'][0]['dir'] === 'asc' ? 1 : -1;
           }
         }
-        _selector    = _.merge(_selector, this.collectionSelector);
-        json['data'] = _.slice(this.collection.collection.find(_selector, sort).fetch(), request['start'], request['length'] + request['start']);
+        _selector = _.merge(_selector, this.collectionSelector);
+        
+        // output data
+        json['recordsTotal']    = this.collection.collection.find(_selector).count();
+        json['recordsFiltered'] = this.collection.collection.find(_selector).count();
+        json['draw']            = request.draw; // Update the echo for each response
+        
+        options['skip']  = request['start'];
+        options['limit'] = request['length'];
+        
+        json['data'] = this.collection.collection.find(_selector, options).fetch();
         drawCallback(json);
       },
       processing: true,
@@ -113,38 +120,13 @@ export class MeteorDataTable {
       paging: true,
       scrollCollapse: true,
       responsive: true,
-      bSort: false
+      bSort: false,
+      bFilter: true
     };
-  }
-  
-  getDtTableInstance(): any {
-    if (this._dtTable) {
-      return this._dtTable;
-    }
-    throw new GeneralException('DtTable not yet created');
   }
   
   getMeteorDtTableSubscription(): Subscription {
     return this._meteorDataTableSubscription;
   }
   
-  resolve() {
-    if (typeof this._dtTable !== "undefined") {
-      this._dtTable.draw();
-      this.callBackSubject.next({event: "reDraw"});
-    } else {
-      this.initDataTable();
-      let vm = this;
-      setTimeout(() => {
-        this.elementSelector.on('click', '.meteor-table-bt-edit', function () {
-          vm.callBackSubject.next({event: 'clickEdit', data: jQuery(this).attr('data-id')});
-        });
-      }, 100);
-      setTimeout(() => {
-        this.elementSelector.on('click', '.meteor-table-bt-remove', function () {
-          vm.callBackSubject.next({event: 'clickRemove', data: jQuery(this).attr('data-id')});
-        });
-      }, 100);
-    }
-  }
 }

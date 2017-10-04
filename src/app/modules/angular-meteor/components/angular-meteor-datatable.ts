@@ -1,15 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  ElementRef,
-  ViewEncapsulation
-} from '@angular/core';
-import {
-  Observable,
-  Subject
-} from "rxjs";
+import {Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation, Output, EventEmitter} from '@angular/core';
+import {Observable,} from "rxjs";
 import {MongoObservable} from "meteor-rxjs";
 import {AbstractSubscriptionComponent} from "../../../code/AbstractSubscriptionComponent";
 import {MeteorDataTable} from "../code/meteor-datatable/MeteorDataTable";
@@ -21,18 +11,17 @@ import {MeteorDataTable} from "../code/meteor-datatable/MeteorDataTable";
              styleUrls: ['angular-meteor-datatable.scss']
            })
 export class AngularMeteorDataTableComponent extends AbstractSubscriptionComponent implements OnInit {
-  protected data = {
-    openFilter: false
-  };
+  public data = {};
   
   @Input('collectionObservable') private collectionObservable: Observable<MongoObservable.Collection<any>>;
   @Input('tableConfig') private tableConfig: any;
   @Input('defaultCollectionSelector') private defaultCollectionSelector = {}; // Default selector for collection
   
-  @ViewChild('dataTable') dataTable: ElementRef;
+  @ViewChild('dataTable') protected dataTable: ElementRef;
   
-  meteorDataTable: MeteorDataTable;
-  protected callBackSubject: Subject<any> = new Subject(); // call back from data table
+  protected meteorDataTable: MeteorDataTable;
+  
+  @Output() event = new EventEmitter();
   
   constructor() {
     super();
@@ -43,17 +32,13 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
   }
   
   private _initTable() {
-    jQuery(this.dataTable.nativeElement).find('thead th').each(() => {
-      let title = $(this).text();
-      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-    });
     this.meteorDataTable =
-      new MeteorDataTable(jQuery(this.dataTable.nativeElement), this.tableConfig, this.collectionObservable, this.callBackSubject, this.defaultCollectionSelector);
+      new MeteorDataTable(jQuery(this.dataTable.nativeElement), this.tableConfig, this.collectionObservable, this.event, this.defaultCollectionSelector);
     
     this.subscribeObservable('dataTable', () => this.meteorDataTable.getMeteorDtTableSubscription());
-    this.subscribeObservable('click_remove_button', () => this.callBackSubject
+    this.subscribeObservable('click_remove_button', () => this.event
                                                               .asObservable()
-                                                              .filter(x => x['event'] === "clickRemove")
+                                                              .filter(x => x['type'] === "clickRemove")
                                                               .subscribe(data => {
                                                                 if (data['data']) {
                                                                   this.data['removeId'] = data['data'];
@@ -64,14 +49,10 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
   }
   
   newRecord() {
-    this.callBackSubject.next({event: "newRecord"});
+    this.event.emit({type: "newRecord"});
   }
   
   removeRecord() {
-    this.callBackSubject.next({event: "removeRecord", data: this.data['removeId']});
-  }
-  
-  getCallBackObservable(): Observable<any> {
-    return this.callBackSubject.asObservable().share();
+    this.event.emit({type: "removeRecord", data: this.data['removeId']});
   }
 }
