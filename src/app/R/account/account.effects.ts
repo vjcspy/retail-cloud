@@ -39,14 +39,7 @@ export class AccountEffects {
                                          )
                                          .withLatestFrom(this.store$.select('account'))
                                          .map((z: any) => {
-                                           const redirect = (z[1] as AccountState).redirect;
-                                           if (_.isString(redirect)) {
-                                             if (redirect.indexOf("http") > -1) {
-                                               window.location.replace(redirect);
-                                             } else {
-                                               this.routerActions.go(redirect);
-                                             }
-                                           }
+                                           window.location.reload(true);
     
                                            return this.accountActions.saveAccount(this.authenticate.user, false);
                                          });

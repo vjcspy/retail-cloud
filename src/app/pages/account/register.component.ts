@@ -60,6 +60,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
                                                           required: true,
                                                           minlength: 6
                                                         },
+                                                        'register-first-name': {
+                                                          required: true,
+                                                        },
+                                                        'register-last-name': {
+                                                          required: true,
+                                                        },
                                                         'register-email': {
                                                           required: true,
                                                           email: true

@@ -19,9 +19,6 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     
     case AccountActions.ACTION_GO_LOGIN_PAGE:
       state = state.set('isProcessing', false);
-      if (action.payload['redirect']) {
-        state = state.set('redirect', action.payload['redirect']);
-      }
       return state;
     
     case AccountActions.ACTION_SAVE_ACCOUNT:

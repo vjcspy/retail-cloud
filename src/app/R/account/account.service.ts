@@ -13,7 +13,9 @@ export class AccountService {
                             email: user.email,
                             password: user.password,
                             profile: {
-                              status: 1
+                              status: 1,
+                              first_name: user['firstName'],
+                              last_name: user['lastName']
                             }
                           }, (err: any) => {
         if (err) {

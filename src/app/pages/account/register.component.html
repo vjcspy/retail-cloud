@@ -11,6 +11,22 @@
           <li>
             <div class="form-group">
               <div class="col-xs-12">
+                <input type="text" id="register-first-name" name="register-first-name" placeholder="Please enter your first name"
+                       [(ngModel)]="user['firstName']"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <input type="text" id="register-last-name" name="register-last-name" placeholder="Please enter your last name"
+                       [(ngModel)]="user['lastName']"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <div class="col-xs-12">
                 <input type="text" id="register-username" name="register-username" placeholder="Please enter a username"
                        [(ngModel)]="user['username']"/>
               </div>
