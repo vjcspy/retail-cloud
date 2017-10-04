@@ -16,11 +16,9 @@ export class CashierListComponent {
     return {
       actionsColumn: {edit: true, remove: true},
       columns: [
-        {data: "profile", title: "First Name", searchable: true},
-        {data: "profile", title: "Last Name", searchable: true},
+        {data: "profile", title: "Name", searchable: true},
         {data: "username", title: "Username", searchable: true},
         {data: "emails", title: "Emails", searchable: true},
-        {data: "profile", title: "Phone Number"},
         {data: "roles", title: "Roles"},
         {data: "profile", title: "Status"},
       ],
@@ -29,28 +27,17 @@ export class CashierListComponent {
           className: "first-name",
           targets: [0],
           render(data) {
-            if (data && data.hasOwnProperty('first_name')) {
-              return data['first_name'];
+            if (_.isObject(data)) {
+              return (data['first_name'] || '') + ' ' + (data['last_name'] || '');
             } else {
-              return ``;
-            }
-          }
-        },
-        {
-          className: "last-name",
-          targets: [1],
-          render(data) {
-            if (data && data.hasOwnProperty('last_name')) {
-              return data['last_name'];
-            } else {
-              return ``;
+              return "";
             }
           }
         },
         {
           className: "email",
           orderable: false,
-          targets: [3],
+          targets: [2],
           render(data, type, row) {
             if (_.isArray(data)) {
               return data[0]['address'];
@@ -60,20 +47,9 @@ export class CashierListComponent {
           }
         },
         {
-          className: "phone-number",
-          targets: [4],
-          render(data) {
-            if (data && data.hasOwnProperty('phone')) {
-              return data['phone'];
-            } else {
-              return ``;
-            }
-          }
-        },
-        {
           className: "role",
           orderable: false,
-          targets: [5],
+          targets: [3],
           render(roles, type, row) {
             if (_.isObject(roles) && roles.hasOwnProperty("cloud_group")) {
               return roles['cloud_group'];
@@ -84,7 +60,7 @@ export class CashierListComponent {
         },
         {
           className: "status",
-          targets: [6],
+          targets: [4],
           render(data) {
             if (!!data && ((data.hasOwnProperty('status') && parseInt(data['status']) === 1) || (data.hasOwnProperty('is_disabled') && parseInt(data['is_disabled']) === 0))) {
               return `Enabled`;
