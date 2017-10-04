@@ -43,14 +43,14 @@
           </a>
         </li>
         <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management') || authenticate.userCan('view_edit_create_delete_role')" class="has-child"
-            [ngClass]="{openz: router.isActive('/cloud/user-management',false)}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openMenu($event)">
+            [ngClass]="{open: router.isActive('/cloud/default/user-management',false)}">
+          <a class="nav-submenu" data-toggle="nav-submenu" (click)="routerActions.go('/cloud/default/user-management/cashier/list')">
             <i class="ion-android-options"></i>
             <span class="sidebar-mini-hide">User management</span>
           </a>
           <ul class="list-unstyled">
-            <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management')" routerLink="/cloud/user-management/users" routerLinkActive="active">
-              <a>User</a>
+            <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management')" (click)="routerActions.go('/cloud/default/user-management/cashier/list')" [ngClass]="{active: router.isActive('/cloud/default/user-management/cashier/list',false)}">
+              <a>Users</a>
             </li>
             <li *ngIf="authenticate.isAdmin(accountState.user)" routerLinkActive="active">
               <a href="#/cloud/user-management/admins">Admins</a>

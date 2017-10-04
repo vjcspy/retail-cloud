@@ -1,0 +1,21 @@
+<div class="list-page min-page">
+  <div class="title-conent">
+    <div class="row">
+      <div class="col-xs-6">
+        <h1>List of users</h1>
+      </div>
+      <div class="col-xs-6">
+        <div class="tar">
+          <button class="btn btn-primary" type="button" routerLink="./create">Add new user</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <angular-meteor-datatable [collectionObservable]="userCollection.getCollectionObservable()"
+                            [tableConfig]="getTableConfig()">
+  </angular-meteor-datatable>
+
+</div>
+

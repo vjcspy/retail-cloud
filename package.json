@@ -102,6 +102,8 @@
     "bootstrap-daterangepicker": "^2.1.25",
     "bootstrap3": "^3.3.5",
     "core-js": "^2.4.1",
+    "datatables.net": "^1.10.16",
+    "datatables.net-bs": "^1.10.16",
     "dexie": "^1.5.1",
     "font-awesome": "^4.7.0",
     "froala-editor": "2.6.2",
