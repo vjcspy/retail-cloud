@@ -43,7 +43,7 @@
       </div>
       <div class="total-row has-popover">
         <div class="t-txt">
-          <span>Refund Shipping</span>
+          <span>{{'Refund Shipping' | translate}}</span>
         </div>
         <div class="t-value">
           <div class="clickable"><span *ngIf="quoteState.creditmemo['retail_has_shipment'] == '1'" class="icon-pencil"></span>
@@ -54,7 +54,7 @@
       </div>
       <div class="total-row has-popover">
         <div class="t-txt">
-          <span>Adjustment</span>
+          <span>{{'Adjustment' | translate}}</span>
         </div>
         <div class="t-value">
           <div class="clickable"><span class="icon-pencil"></span>
@@ -135,15 +135,15 @@
                     <div class="sbot-row">
                       <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')" enterBlur inputSelectText
                              (blur)="updateOrderDiscount('coupon_code',$event)"
-                             placeholder="Coupon Code"/>
+                             placeholder="{{'Coupon Code' | translate}}"/>
                     </div>
                   </div>
                   <div class="small-botbar">
               <span class="click gray" (click)="removeOrderDiscount()">
-                Remove
+                {{'Remove' | translate}}
               </span>
                     <span class="click" (click)="syncOrder()">
-                Apply
+                {{'Apply' | translate}}
               </span>
                   </div>
                 </div>
@@ -159,7 +159,7 @@
 
         <div class="total-row" *ngIf="quoteState.hasShipment">
           <div class="t-txt">
-            <span class="">{{configState.setting.tax.displayCartShippingExclTax() ? "Shipping" : "Shipping Incl.tax"}}</span>
+            <span class="">{{configState.setting.tax.displayCartShippingExclTax() ? ("Shipping" | translate) : ("Shipping Incl.tax" | translate)}}</span>
           </div>
           <div class="t-value">
             {{(configState.setting.tax.displayCartShippingExclTax() ? quoteState.quote.getShippingAddress()['shipping'] :

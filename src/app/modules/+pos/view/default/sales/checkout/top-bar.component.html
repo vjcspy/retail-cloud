@@ -15,6 +15,6 @@
     <input id="pos_search_text" type="text"
            [value]="checkoutProductState.searchString"
            [formControl]="searchString" (keyup)="checkEnter($event)"
-           placeholder="{{('Search by ' + configState.posRetailConfig.fieldSearchProduct) | translate }}" inputSelectText/>
+           placeholder="{{'Search by' | translate}} {{configState.posRetailConfig.fieldSearchProduct}}" inputSelectText/>
   </div>
 </div>
