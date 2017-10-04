@@ -3,6 +3,7 @@ import {HeaderComponent} from "./header.component";
 import {UserManagementContainerComponent} from "./user-management/user-management-container.component";
 import {CashiersComponent} from "./user-management/cashiers.component";
 import {CashierListComponent} from "./user-management/cashiers/list.component";
+import {CashierFormComponent} from "./user-management/cashiers/form.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -11,4 +12,5 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   UserManagementContainerComponent,
   CashiersComponent,
   CashierListComponent,
+  CashierFormComponent
 ];

@@ -38,7 +38,7 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
     this.subscribeObservable('dataTable', () => this.meteorDataTable.getMeteorDtTableSubscription());
     this.subscribeObservable('click_remove_button', () => this.event
                                                               .asObservable()
-                                                              .filter(x => x['type'] === "clickRemove")
+                                                              .filter(x => x['type'] === "CLICK_REMOVE")
                                                               .subscribe(data => {
                                                                 if (data['data']) {
                                                                   this.data['removeId'] = data['data'];
@@ -49,10 +49,10 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
   }
   
   newRecord() {
-    this.event.emit({type: "newRecord"});
+    this.event.emit({type: "NEW_RECORD"});
   }
   
   removeRecord() {
-    this.event.emit({type: "removeRecord", data: this.data['removeId']});
+    this.event.emit({type: "APPROVE_REMOVE_RECORD", data: this.data['removeId']});
   }
 }

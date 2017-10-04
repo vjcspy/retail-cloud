@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {UserCollection} from "../../../../../../services/meteor-collections/users";
 import * as _ from 'lodash';
+import {RouterActions} from "../../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -10,7 +11,8 @@ import * as _ from 'lodash';
            })
 
 export class CashierListComponent {
-  constructor(public userCollection: UserCollection) { }
+  constructor(public userCollection: UserCollection,
+              public routerActions: RouterActions) { }
   
   getTableConfig() {
     return {
@@ -76,7 +78,14 @@ export class CashierListComponent {
   }
   
   handleTableEvent($event) {
-    console.log($event);
+    switch ($event['type']) {
+      case "NEW_RECORD":
+        return this.routerActions.go('cloud/default/user-management/cashier/create');
+      
+      case "CLICK_EDIT":
+        return this.routerActions.go('cloud/default/user-management/cashier/edit', $event['data']);
+      
+      default:
+    }
   }
-  
 }

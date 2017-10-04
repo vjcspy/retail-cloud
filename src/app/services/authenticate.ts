@@ -38,6 +38,10 @@ export class AuthenticateService {
     return true;
   }
   
+  isShopOwner(user: Object): boolean {
+    return false;
+  }
+  
   userCan(permission: string) {
     return true;
   }

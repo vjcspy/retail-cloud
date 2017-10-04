@@ -5,6 +5,7 @@ import {AuthGuard} from "../../services/router-guard/auth-guard";
 import {UserManagementContainerComponent} from "./view/default/user-management/user-management-container.component";
 import {CashiersComponent} from "./view/default/user-management/cashiers.component";
 import {CashierListComponent} from "./view/default/user-management/cashiers/list.component";
+import {CashierFormComponent} from "./view/default/user-management/cashiers/form.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -27,6 +28,14 @@ export const CLOUD_ROUTES: Routes = [
                   {
                     path: 'list',
                     component: CashierListComponent
+                  },
+                  {
+                    path: 'edit/:id',
+                    component: CashierFormComponent
+                  },
+                  {
+                    path: 'create',
+                    component: CashierFormComponent
                   }
                 ]
               }
