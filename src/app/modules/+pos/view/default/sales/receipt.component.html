@@ -7,8 +7,8 @@
     <div class="inner" *ngIf="getOrder() && getOrder()['customer']">
       <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
-        
-        <h3 class="name">{{ 'Customer' | translate }}: {{getOrder()['customer']['name']}}</h3>
+
+        <h3 class="name">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] | translate) : (getOrder()['customer']['name'])}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
           Email:&nbsp;{{getOrder()['customer']['email']}}
@@ -40,7 +40,7 @@
           {{ 'Served By' | translate }}:{{getUserNameById(getOrder()['user_id'])}}
         </p>
         <div class="timer">
-          Date time: 
+          {{ 'Date' | translate }} &amp; {{ 'Time' | translate }}:
           <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>
           <span> --- {{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
         </div>
@@ -120,7 +120,7 @@
         </tr>
         </tfoot>
         <tfoot class="grand-total" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
-        <tr>          
+        <tr>
           <td class="c-left" colspan="2">{{ 'Subtotal' | translate }}</td>
           <td class="c-right">
             {{(getReceiptSetting()['subtotal_incl_tax'] == '1' ? getOrder()['totals']['subtotal_incl_tax'] : getOrder()['totals']['subtotal'])

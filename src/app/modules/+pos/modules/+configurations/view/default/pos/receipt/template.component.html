@@ -24,7 +24,7 @@
                        [elementData]="getStatusImageSelectElem()"></retail-select>
       </li>
       <li *ngIf="configurationsReceiptState.receipt['logo_image_status'] == 1">
-        <label>Logo</label>
+        <label>{{'Logo' | translate}}</label>
         <img *ngIf="!configurationsReceiptState.receipt['logo_url']" src="assets/img/img-header-default.png"/>
         <img *ngIf="configurationsReceiptState.receipt['logo_url']" [src]="configurationsReceiptState.receipt['logo_url']"/>
         <em>{{ 'Allows JPG PNG GIF' | translate }}</em>
@@ -154,7 +154,7 @@
       </p>
       <p *ngIf="!!configurationsReceiptState.receipt['order_info']['sales_person']">{{ 'Served By' | translate }}: Cashier</p>
       <div class="timer">
-        {{ 'Date time' | translate }}:
+        {{ 'Date' | translate }} &amp; {{ 'Time' | translate }}:
         <span>22nd December 2016</span>
         <span> --- 09:45 AM</span>
       </div>

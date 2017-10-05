@@ -5,7 +5,7 @@
         <img src="assets/img/avatar.png">
       </span>
       <div class="c-name">
-        <span class="c-user">{{getCustomerInfo(true)['customerName']}}</span>
+        <span class="c-user">{{!!checkoutAsGuest() ? (getCustomerInfo(true)['customerName'] | translate) : getCustomerInfo(true)['customerName']}}</span>
         <span class="c-mail">{{getCustomerInfo()['customerEmail']}}</span>
       </div>
       <span class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),

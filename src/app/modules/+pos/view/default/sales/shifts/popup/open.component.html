@@ -12,7 +12,7 @@
               <span class="icon-user"></span><span class="name">{{authenticate.getUserName()}}</span>
             </div>
 
-            <label>Start amount:</label>
+            <label>{{'Start amount' | translate}}:</label>
             <retail-text [(model)]="_data.startMoney" [disabled]="shiftState.detail.waitingServer"
                          [formKey]="'popup-open-shift'"
                          [validation]="'require,i-number'" [placeHolderText]="'Enter start amount' | translate"></retail-text>

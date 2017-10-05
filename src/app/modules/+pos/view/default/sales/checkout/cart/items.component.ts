@@ -68,4 +68,13 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
     }
     return this.customerInfo;
   }
+  
+  checkoutAsGuest(): boolean {
+    const customer = this.quoteState.customer;
+    if (customer && customer['id'] && parseInt(customer['id'] + '') !== parseInt(this.configState.setting.customer.getDefaultCustomerId())) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

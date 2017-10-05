@@ -4,26 +4,26 @@
     <div class="list-item">
       <ul class="items">
         <li class="product-item">
-          Product
+          {{ 'Product' | translate}}
         </li>
         <li class="sku-item">
-          Sku
+          {{ 'Sku' | translate}}
         </li>
         <li class="qty-item">
-          Qty
+          {{ 'Qty' | translate}}
         </li>
         <li class="price-item">
-          Price
+          {{ 'Price' | translate}}
         </li>
       </ul>
       <ul class="items animated fadeIn" *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;">
         <div class="list-addcart" (click)="addToCart(product,$event)">
           <a class="btn-detail" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)">
-            View detail
+            {{ 'View detail' | translate}}
           </a>
           <div class="btn-addcart">
             <i class="icon-addcart"></i>
-            <span>Add to cart</span>
+            <span>{{'Add to cart' | translate}}</span>
           </div>
         </div>
 
@@ -32,8 +32,8 @@
             <!--<img src="{{product['origin_image']}}" alt="">-->
             <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
             <!-- sale - soldout label -->
-            <span class="tags sale" *ngIf="isSales(product)">Sale</span>
-            <span class="tags soldout" *ngIf="isOutOfStock(product)">Sold out</span>
+            <span class="tags sale" *ngIf="isSales(product)">{{'Sale' | translate}}</span>
+            <span class="tags soldout" *ngIf="isOutOfStock(product)">{{'Sold out' | translate}}</span>
           </div>
           <div class="product-name">
             {{product['name']}}
@@ -63,8 +63,8 @@
       </span>
     </h3>
     <p>
-      Please try a different
-      <span style="color: darkcyan;" class="click">search </span> or
+      {{ 'Please try a different' | translate}}
+      <span style="color: darkcyan;" class="click">{{ 'search' | translate}} </span> {{ 'or' | translate}}
       <span style="color: darkcyan;" class="click">{{ 'category' | translate }}</span>
     </p>
   </div>

@@ -5,7 +5,7 @@
     <p class="price">{{order['totals']['grand_total'] | priceFormat}}</p>
   </div>
   <div class="info">
-    <h3 class="name">{{order['customer']['name']}}</h3>
+    <h3 class="name">{{!!checkoutAsGuest ? (order['customer']['name'] | translate) : order['customer']['name']}}</h3>
     <p class="id">#{{order['retail_id']}}</p>
   </div>
   <span class="offline" *ngIf="!order['order_id']">&nbsp;</span>
