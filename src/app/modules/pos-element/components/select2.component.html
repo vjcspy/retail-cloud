@@ -2,7 +2,7 @@
         data-placeholder="Choose one..">
   <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
   <option *ngFor="let option of elementData.data;trackBy:trackOption" [value]="option.value" [selected]="isSelected(option.value)">
-    {{ option.label}}
+    {{ option.label | translate}}
   </option>
 </select>
 <span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>

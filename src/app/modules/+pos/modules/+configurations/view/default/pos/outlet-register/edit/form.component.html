@@ -23,7 +23,7 @@
           <div class="inner">
             <ul class="fr-control">
               <li>
-                <label>Outlet ID</label>
+                <label>{{'Outlet ID' | translate}}</label>
                 <span class="fr-text">{{getEditOutletFormData()['outlet'] ? getEditOutletFormData()['outlet']['id'] : ''}}</span>
               </li>
               <li>
@@ -111,7 +111,7 @@
                              [validation]="'required'"></retail-text>
               </li>
               <li>
-                <label>ZIP/Postal Code</label>
+                <label>{{'ZIP' | translate}}/{{'Postal Code' | translate}}</label>
                 <retail-text [(model)]="getEditOutletFormData()['outlet']['postcode']"
                              [formKey]="'outlet_edit_address'"
                              [validation]="'required'"></retail-text>
