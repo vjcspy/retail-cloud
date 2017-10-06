@@ -8,12 +8,14 @@ import "../../../styles/styles.scss";
 import {CLOUD_DEFAULT_COMPONENTS} from "./view/default/index";
 import {DefaultContainerComponent} from "./view/default-container.component";
 import {AngularMeteorModule} from "../angular-meteor/index";
+import {R_EFFECTS, R_SERVICES} from "./R/index";
 
 @NgModule({
             imports: [
               ShareModule,
               AngularMeteorModule,
-              RouterModule.forChild(CLOUD_ROUTES)
+              RouterModule.forChild(CLOUD_ROUTES),
+              ...R_EFFECTS,
             ],
             exports: [],
             declarations: [
@@ -23,6 +25,8 @@ import {AngularMeteorModule} from "../angular-meteor/index";
               ...CLOUD_DEFAULT_COMPONENTS,
   
             ],
-            providers: [],
+            providers: [
+              ...R_SERVICES
+            ],
           })
 export class CloudModule {}

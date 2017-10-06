@@ -1,4 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ReducerManagement} from "../../services/reducer-management";
+import {cloudReducer} from "./R/index";
 
 @Component({
              // moduleId: module.id,
@@ -9,7 +11,11 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
            })
 
 export class CloudComponent implements OnInit {
-  constructor() { }
+  constructor(protected reducerManagement: ReducerManagement) {
+    this.reducerManagement.replaceReducer('cloud', cloudReducer());
+  }
   
-  ngOnInit() { }
+  ngOnInit() {
+    console.log("loaded cloud");
+  }
 }

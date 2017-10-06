@@ -55,8 +55,6 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
             this.back();
           }
-        } else {
-          this.back();
         }
       })
     );
