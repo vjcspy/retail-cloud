@@ -15,7 +15,7 @@
         <li *ngIf="authenticate.isAdmin(accountState.user)">
           <a class="nav-submenu" data-toggle="nav-submenu">
             <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/license-management" routerLinkActive="active">License Management</span>
+            <span class="sidebar-mini-hide" routerLink="/cloud/default/license/list" routerLinkActive="active">License Management</span>
           </a>
         </li>
         <li *ngIf="authenticate.isAdmin(accountState.user)">
@@ -52,15 +52,9 @@
             <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management')" (click)="routerActions.go('/cloud/default/user-management/cashier/list')" [ngClass]="{active: router.isActive('/cloud/default/user-management/cashier/list',false)}">
               <a>Users</a>
             </li>
-            <li *ngIf="authenticate.isAdmin(accountState.user)" routerLinkActive="active">
-              <a href="#/cloud/user-management/admins">Admins</a>
-            </li>
-            <li *ngIf="authenticate.isAdmin(accountState.user)" routerLinkActive="active">
-              <a href="#/cloud/user-management/owners">Owners</a>
-            </li>
             <li *ngIf="authenticate.isUser(accountState.user) && authenticate.userCan('view_edit_create_delete_role')"
                 routerLinkActive="active">
-              <a href="#/cloud/user-management/roles">Roles</a>
+              <a href="#/cloud/user-management/roles">Shop Roles</a>
             </li>
             <!--<li *ngIf="authenticate.isUser(accountState.user) && authenticate.userCan('view_edit_role_permission')" routerLink="/cloud/user-management/permission"
                 routerLinkActive="active">

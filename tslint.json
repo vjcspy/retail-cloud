@@ -65,6 +65,7 @@
     "object-literal-key-quotes": false,
     "prefer-for-of": false,
     "jsdoc-format": false,
-    "arrow-parens": false
+    "arrow-parens": false,
+    "no-empty": false
   }
 }
