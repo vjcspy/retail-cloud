@@ -64,30 +64,30 @@ export class TyroService {
       answerCallback(value);
     };
     
-    if (question.hasOwnProperty("isError") && question['isError'] === true) {
-      this.notify.error(question['text']);
-      return this.tyroStream.next({
-                                    type: 'error',
-                                    data: {isError: true, additionData: {message: question['text']}}
-                                  });
-    } else {
-      let questions = [];
-      let message   = '';
-      
-      if (question.hasOwnProperty("text")) {
-        message = question['text'];
-      }
-      if (_.size(question.options) > 0) {
-        _.forEach(question.options, (value) => {
-          questions.push({label: value, value});
-        });
-      }
-      
-      this.tyroStream.next({
-                             type: 'questionCallback',
-                             data: {isError: false, additionData: {questions, message}}
-                           });
+    // if (question.hasOwnProperty("isError") && question['isError'] === true && false) {
+    //   this.notify.error(question['text']);
+    //   return this.tyroStream.next({
+    //                                 type: 'error',
+    //                                 data: {isError: true, additionData: {message: question['text']}}
+    //                               });
+    // } else {
+    let questions = [];
+    let message   = '';
+    
+    if (question.hasOwnProperty("text")) {
+      message = question['text'];
     }
+    if (_.size(question.options) > 0) {
+      _.forEach(question.options, (value) => {
+        questions.push({label: value, value});
+      });
+    }
+    
+    this.tyroStream.next({
+                           type: 'questionCallback',
+                           data: {isError: false, additionData: {questions, message}}
+                         });
+    // }
   }
   
   receiptCallback: (merchantReceipt) => void = (merchantReceipt) => {
@@ -141,7 +141,9 @@ export class TyroService {
   canel() {
     try {
       this.getIClientInstance().cancelCurrentTransaction();
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
     this.getIClientInstance(true);
   }
   
