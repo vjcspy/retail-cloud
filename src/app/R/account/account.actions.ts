@@ -57,7 +57,7 @@ export class AccountActions {
   static ACTION_LOGOUT_FAILED = 'ACTION_LOGOUT_FAILED';
   
   logoutFailed(dispatch: boolean = true): Action {
-    const action = {type: AccountActions.ACTION_LOGIN_FAILED, payload: {}};
+    const action = {type: AccountActions.ACTION_LOGOUT_FAILED, payload: {}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

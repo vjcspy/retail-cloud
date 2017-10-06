@@ -11,7 +11,7 @@ export interface CloudState {
 }
 
 export const R_EFFECTS  = [
-  EffectsModule.run(UserEffects),
+  // EffectsModule.run(UserEffects),
 ];
 export const R_SERVICES = [
   UserActions,

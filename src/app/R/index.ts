@@ -50,12 +50,10 @@ if ('production' !== ENV) {
  */
 export const R_PROVIDERS = [
   RootActions,
-  // RootEffects,
   RouterActions,
   
   AccountActions,
   AccountService,
-  // AccountEffects
 ];
 
 export const mergeSliceReducers = (initialState: any, ...sliceReducer: Array<ActionReducer<any>>) => {
