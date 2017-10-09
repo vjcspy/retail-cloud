@@ -116,7 +116,7 @@ export class CheckoutProductService {
   
   handleScanner(callback: (barcode: string) => void, forceChange: boolean = false) {
     if (typeof this._handleScanner === 'undefined' || forceChange) {
-      console.log('init handle scanner');
+      // console.log('init handle scanner');
       this._handleScanner = $(document)['scannerDetection']({
                                                               timeBeforeScanTest: 200, // wait for the next character for upto 200ms
                                                               endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
@@ -129,7 +129,7 @@ export class CheckoutProductService {
   }
   
   disableHandleScanner() {
-    console.log('destroy scanner handle');
+    // console.log('destroy scanner handle');
     $(document)["scannerDetection"](false);
   }
   
