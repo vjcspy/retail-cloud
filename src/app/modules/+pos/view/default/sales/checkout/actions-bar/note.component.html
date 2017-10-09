@@ -2,15 +2,15 @@
   <div class="popup-content">
     <!-- Add note -->
     <div class="form-popup addNote-form">
-      <h2>Add note</h2>
+      <h2>{{'Add note' | translate}}</h2>
       <div class="form-popup-content">
         <form>
           <div class="form-group">
-            <textarea class="form-control" placeholder="Begin your message ..." name="note" [(ngModel)]="note"></textarea>
+            <textarea class="form-control" placeholder="{{'Begin your message' | translate}} ..." name="note" [(ngModel)]="note"></textarea>
           </div>
           <div class="button-group">
-            <button class="gray" (click)="cartActionBarActions.changeModePopup(null)">Cancel</button>
-            <button class="primary" (click)="saveNote()">Save</button>
+            <button class="gray" (click)="cartActionBarActions.changeModePopup(null)">{{'Cancel' | translate}}</button>
+            <button class="primary" (click)="saveNote()">{{'Save' | translate}}</button>
           </div>
         </form>
       </div>

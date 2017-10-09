@@ -1,8 +1,8 @@
 <div class="row client-db" style="margin-bottom: 20px">
   <div class="col-xs-12">
     <div class="btn-group pull-right">
-      <button type="button" class="btn btn-danger" (click)="flushAll()" [ladda]="clientDbState.syncing">Flush Client DB</button>
-      <button type="button" class="btn btn-danger" (click)="flushStorage()" [ladda]="clientDbState.syncing">Flush Local Storage</button>
+      <button type="button" class="btn btn-danger" (click)="flushAll()" [ladda]="clientDbState.syncing">{{'Flush Client DB' | translate}}</button>
+      <button type="button" class="btn btn-danger" (click)="flushStorage()" [ladda]="clientDbState.syncing">{{'Flush Local Storage' | translate}}</button>
     </div>
   </div>
 </div>
@@ -20,20 +20,20 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of clientDbState.entities" class="animated fadeIn">
-        <td style="font-weight: 800;text-transform: uppercase">{{ item['id']}}</td>
+        <td style="font-weight: 800;text-transform: uppercase">{{ item['id'] |translate}}</td>
         <td>{{ item['storeId'] ? item['storeId'] : 'NULL' }}</td>
         <td class="addition-data">
-          <p>Current page: {{item['currentPage']}}</p>
-          <p>Finished: {{ item['isFinished'] == true ? 'True' : 'False'}}</p>
+          <p>{{'Current page' | translate}}: {{item['currentPage']}}</p>
+          <p>{{'Finished' | translate}}: {{ item['isFinished'] == true ? 'True' : 'False'}}</p>
           <div *ngIf="!!item['additionData']">
-            <p>Total page: {{item['additionData']['lastPageNumber']}}</p>
-            <p>Total Item: {{item['additionData']['totalCount']}}</p>
-            <p>From Cache: {{item['additionData']['isLoadFromCache']}}</p>
+            <p>{{'Total page' | translate}}: {{item['additionData']['lastPageNumber']}}</p>
+            <p>{{'Total Item' | translate}}: {{item['additionData']['totalCount']}}</p>
+            <p>{{'From Cache' | translate}}: {{item['additionData']['isLoadFromCache']}}</p>
           </div>
         </td>
         <td>{{ getDateTimeString(item['updatedAt']) | amCalendar}}</td>
         <td>
-          <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">Clear</button>
+          <button type="button" (click)="clientDbActions.deleteEntity(item)" [ladda]="clientDbState.syncing">{{'Clear' | translate}}</button>
         </td>
       </tr>
       <tbody>

@@ -1,16 +1,16 @@
 <div class="list-mode-popup" [ngClass]="{'shipment-list-popup': isShippingPopup()}">
-  <h2 *ngIf="isShippingPopup()">Add shipment</h2>
+  <h2 *ngIf="isShippingPopup()">{{'Add shipment' | translate}}</h2>
   <div class="list-mode-content">
     <div class="list-mode-top clearfix">
       <div class="pull-left">
         <div class="" *ngIf="isShippingPopup()">
-          <label>Shipment Amount:</label>
+          <label>{{'Shipment Amount:' | translate}}</label>
           <input type="text" [(ngModel)]="shippingAmount" inputSelectText>
         </div>
-        <h3 class="title" *ngIf="!isShippingPopup()">Address list</h3>
+        <h3 class="title" *ngIf="!isShippingPopup()">{{'Address list' | translate}}</h3>
       </div>
       <div class="pull-right">
-        <button class="orange" (click)="addEditAddress({})">New Address</button>
+        <button class="orange" (click)="addEditAddress({})">{{'New Address' | translate}}</button>
       </div>
     </div>
     <ul class="list-mode-content scroll" perfectScroll>
@@ -37,14 +37,14 @@
       </li>
     </ul>
     <div class="list-mode-bot c-center" *ngIf="isShippingPopup()">
-      <button class="gray" *ngIf="quoteState.hasShipment === true" (click)="removeShipping()">Remove shipment</button>
+      <button class="gray" *ngIf="quoteState.hasShipment === true" (click)="removeShipping()">{{'Remove shipment' | translate}}</button>
       <button class="primary" (click)="addShipment()">
         {{quoteState.hasShipment === true ? ('Update shipment' | translate) : ('Add shipment' | translate)}}
       </button>
 
     </div>
     <div class="list-mode-bot c-center" *ngIf="!isShippingPopup()">
-      <button class="primary" (click)="updateAddress()">Close</button>
+      <button class="primary" (click)="updateAddress()">{{'Close' | translate}}</button>
     </div>
   </div>
 </div>

@@ -127,7 +127,7 @@
               </table>
             </div>
             <div class="button-wishlist c-center">
-              <button class="gray" (click)="cancelForm()">Close</button>
+              <button class="gray" (click)="cancelForm()">{{'Close' | translate}}</button>
               <button class="" [ngClass]="{'disabled' : checkoutPopupState.customerPopup.wishlistItemSelected.count() === 0}" (click)="addSelectedWishlistToCart()">
                 {{ "Add to Cart" | translate }}
               </button>
@@ -139,7 +139,7 @@
       <div class="desc-bottom" *ngIf="checkoutPopupState.customerPopup.billingTabState === 'accountInfo'">
         <button class="gray" (click)="cancelForm()" [ladda]="checkoutPopupState.customerPopup.isSaving">{{ 'Cancel' | translate }}</button>
         <button (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">
-          {{!checkoutPopupState.customerPopup.customer.getId() ? 'Create new' : 'Save'}}
+          {{!checkoutPopupState.customerPopup.customer.getId() ? ('Create new' | translate) : ('Save' | translate)}}
         </button>
       </div>
     </div>

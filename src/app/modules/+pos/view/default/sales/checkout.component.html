@@ -1,5 +1,5 @@
 <div class="grid-product">
-  <pos-default-sales-checkout-top-bar [checkoutProductState]="checkoutProductState$ | async" [configState]="configState$ | async" [quoteState]="quoteState$ | async">
+  <pos-default-sales-checkout-top-bar [checkoutProductState]="checkoutProductState$ | async" [configState]="configState$ | async" [quoteState]="quoteState$ | async" [cartCustomerState]="cartCustomerState$ | async">
   </pos-default-sales-checkout-top-bar>
 
   <pos-default-sales-checkout-category [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-category>
@@ -29,3 +29,4 @@
   <pos-default-sales-checkout-step [posQuoteState]="quoteState$ | async" [posStepState]="posStepState$ | async" [posConfigState]="configState$ | async" [posSyncState]="posSyncState$ | async" [posGeneralState]="generalState$ | async" [receiptState]="receiptState$ | async"></pos-default-sales-checkout-step>
 </div>
 
+<audio id="luckySearchSuccess" src="https://www.soundjay.com/button/sounds/beep-07.mp3" autostart="false" ></audio>
