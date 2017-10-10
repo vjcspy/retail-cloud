@@ -6,6 +6,9 @@ import {ListService} from "../../../R/sales/orders/list/list.service";
 import {OfflineService} from "../../../../../share/provider/offline";
 import {OrderService} from "../../../R/sales/orders/order.service";
 import {PerfectScrollDirective} from "../../../../../share/directives/perfect-scroll";
+import {PosConfigState} from "../../../../R/config/config.state";
+import {Observable} from "rxjs/Observable";
+import {Store} from "@ngrx/store";
 
 @Component({
              // moduleId: module.id,
@@ -14,6 +17,8 @@ import {PerfectScrollDirective} from "../../../../../share/directives/perfect-sc
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChanges {
+  configState$: Observable<PosConfigState>;
+  
   @Input() ordersState: OrdersState;
   
   @ViewChild('dateSelectFrom') dateSelectFrom: ElementRef;
@@ -24,7 +29,10 @@ export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChan
               public listActions: ListActions,
               public listService: ListService,
               public offline: OfflineService,
-              public orderService: OrderService) { }
+              public orderService: OrderService,
+              private store$: Store<any>) {
+    this.configState$  = this.store$.select('config');
+  }
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hasOwnProperty('ordersState')) {

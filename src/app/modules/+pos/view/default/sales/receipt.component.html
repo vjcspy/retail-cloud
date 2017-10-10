@@ -8,7 +8,7 @@
       <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
 
-        <h3 class="name" *ngIf="!checkoutAsGuest() || !getReceiptSetting()['order_info']['reference_number']">{{ 'Customer' | translate }}: {{getOrder()['customer']['name']}}<br/></h3>
+        <h3 class="name" *ngIf="!checkoutAsGuest() || !getReceiptSetting()['order_info']['reference_number']">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] | translate) : (getOrder()['customer']['name'])}}</h3>
         <h3 class="reference-number" *ngIf="!!getReceiptSetting()['order_info']['reference_number']">{{ 'APPLICANT REF. NB. ' | translate}}{{getOrder()['reference_number']}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
@@ -41,7 +41,11 @@
           {{ 'Served By' | translate }}:{{getUserNameById(getOrder()['user_id'])}}
         </p>
         <div class="timer">
+<<<<<<< HEAD
           Date time:
+=======
+          {{ 'Date' | translate }} &amp; {{ 'Time' | translate }}:
+>>>>>>> cfdb1503b074ffc025f55bd76ba0a4747cec7190
           <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>
           <span> --- {{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
         </div>

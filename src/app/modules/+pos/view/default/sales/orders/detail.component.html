@@ -24,7 +24,8 @@
             <span class="value">#{{getOrder()['retail_id']}}</span>
           </p>
           <p class="f-left" *ngIf="!checkoutAsGuest()">
-            <span class="txt">{{getOrder()['customer']['name']}}</span>
+            <span class="txt">{{!!checkoutAsGuest ? (getOrder()['customer']['name'] | translate) : getOrder()['customer']['name']}}</span>
+
             <span class="value">{{getOrder()['customer']['email']}}</span>
             <br/>
             <span class="txt">{{'Applicant Ref. Nb.'}}</span>
@@ -42,9 +43,9 @@
               <span class="value">#{{getOrder()['increment_id']}}</span>
 
               <span class="txt">{{ 'Status' | translate }}</span>
-              <span class="value">{{orderService.getClientStatus(getOrder()['retail_status'])}}</span>
+              <span class="value">{{orderService.getClientStatus(getOrder()['retail_status']) | translate}}</span>
 
-              <span class="txt">{{ 'Date &amp; Time' | translate }}</span>
+              <span class="txt">{{ 'Date' | translate }} &amp; {{ 'Time' | translate }}</span>
               <span class="value">{{getOrder()['created_at'] | datetimeFormat:'detail'}}</span>
             </p>
             <p class="f-left" *ngIf="!getOrder()['is_order_virtual']">

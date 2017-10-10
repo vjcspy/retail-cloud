@@ -39,6 +39,11 @@ export class RetailTranslate {
         label: 'Tiếng Việt',
         is_default: true
       },
+      {
+        code: 'es',
+        label: 'Espanol',
+        is_default: true
+      },
     ];
   }
   

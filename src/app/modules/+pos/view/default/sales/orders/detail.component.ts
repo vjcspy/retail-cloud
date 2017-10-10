@@ -150,8 +150,8 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   checkoutAsGuest(): boolean {
-    if (this.ordersState.detail.order.hasOwnProperty('customer')) {
-      return parseInt(this.ordersState.detail.order['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId());
+    if (this.getOrder().hasOwnProperty('customer')) {
+      return parseInt(this.getOrder()['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId());
     } else {
       return false;
     }
