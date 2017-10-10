@@ -23,27 +23,32 @@ export class ConfigurationsDefaultPosRegionEditFormComponent implements OnInit {
   @Input() configurationsState: ConfigurationsState;
   @Input() entitiesState: PosEntitiesState;
   
+  viewState = {};
+  viewData  = {};
+  
   constructor(private routerActions: RouterActions,
               private configurationsRegionService: ConfigurationsRegionService,
               private configurationsRegionActions: ConfigurationsRegionActions,
               private authenticate: AuthenticateService,
               private formValidation: FormValidationService,
               private notify: NotifyManager,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+    this.viewState = {
+      isOpenPopup: false,
+    };
+  }
   
   ngOnInit(): void {
-    this.route
-        .paramMap
-        .map((params: ParamMap) => {
+    this.route.paramMap.map((params: ParamMap) => {
           return params.get('id');
         })
         .subscribe((regionId: any) => {
           this.configurationsRegionActions.editRegion(regionId);
         });
-  
-    // if (!this.configurationsRegionService.editRegionFormData || !this.configurationsRegionService.editRegionFormData['id']) {
-    //   this.routerActions.go('pos/configurations/default/pos/region/grid');
-    // }
+    
+    if (!this.configurationsRegionService.editRegionFormData || !this.configurationsRegionService.editRegionFormData['id']) {
+      this.routerActions.go('pos/configurations/default/pos/region/grid');
+    }
   }
   
   back() {
@@ -68,9 +73,24 @@ export class ConfigurationsDefaultPosRegionEditFormComponent implements OnInit {
   }
   
   getOutletSelect() {
-    let data = OutletHelper.getOutletElementData();
-    let a = 2;
     return OutletHelper.getOutletElementData();
   }
   
+  confirmDeleteRegion() {
+    this.openPopup("Are you sure you want to delete this region ? ", () => {
+      this.configurationsRegionActions.deleteRegion(this.getRegion()['id']);
+    });
+  }
+  
+  openPopup(text: string, callBack: ()=>void) {
+    this.viewData['popup_text']  = text;
+    this.viewData['callBackYes']  = callBack;
+    this.viewState['isOpenPopup'] = true;
+  }
+  
+  callBackYes() {
+    if (this.viewData['callBackYes']) {
+      this.viewData['callBackYes']();
+    }
+  }
 }
