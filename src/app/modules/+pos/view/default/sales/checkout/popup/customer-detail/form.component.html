@@ -1,6 +1,6 @@
 <div class="form-popup" [ngClass]="{'new-address-shipment': isShippingPopup()}">
   <div class="form-popup-top" *ngIf="isShippingPopup()">
-    <h2>New address</h2>
+    <h2>{{'New address' | translate}}</h2>
   </div>
   <div class="form-popup-content">
     <form>
@@ -99,8 +99,8 @@
         <!--</div>-->
       </div>
       <div class="button-group">
-        <button class="gray" (click)="closePopup()" [ladda]="checkoutPopupState.customerPopup.isSaving">Cancel</button>
-        <button class="primary" (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">Save</button>
+        <button class="gray" (click)="closePopup()" [ladda]="checkoutPopupState.customerPopup.isSaving">{{'Cancel' | translate}}</button>
+        <button class="primary" (click)="save()" [ladda]="checkoutPopupState.customerPopup.isSaving">{{'Save' | translate}}</button>
       </div>
     </form>
   </div>

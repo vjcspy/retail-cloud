@@ -6,7 +6,7 @@
       <!-- Login -->
 
       <form class="js-validation-login form-horizontal push-30-t form-login">
-        <div class="page-title"><h1>Login</h1></div>
+        <div class="page-title"><h1>{{'Login' | translate}}</h1></div>
         <ul class="fr-control">
           <li>
             <div class="form-group">
@@ -25,18 +25,18 @@
             </div>
           </li>
           <li class="button-group col-xs-12">
-            <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isLogging">Login</button>
+            <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isLogging">{{'Login' | translate}}</button>
           </li>
           <li class="btn-links col-xs-12">
-            <a (click)="router.navigate(['/signup'])" class="click">Register</a>
+            <a (click)="router.navigate(['/signup'])" class="click">{{'Register' | translate}}</a>
             <span class="sep">|</span>
-            <a (click)="router.navigate(['reset_password'])" class="click">Forgot password?</a>
+            <a (click)="router.navigate(['reset_password'])" class="click">{{'Forgot password?' | translate}}</a>
           </li>
         </ul>
       </form>
 
 
     </div>
-    <a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>Contact Us</a>
+    <a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>{{'Contact Us' | translate}}</a>
   </div>
 </div>

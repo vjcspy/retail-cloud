@@ -5,9 +5,9 @@
       <input [disabled]="!method['isChanging'] && posStepState.totals.remain <= 0.01"
              type="text" inputSelectText enterBlur
              [value]="method['amount']"
-             (blur)="changeAmount($event.target.value)"/>
+             (blur)="changeAmount($event.target['value'])"/>
     </div>
-    <div class="c-other" *ngIf="!hasQuestion() && !isSuccess()">
+    <div class="c-other" *ngIf="!hasQuestion() && !isSuccess()" style="font-size: 12px;font-style: italic;font-weight: lighter">
       {{getMessage()}}
     </div>
     <div class="c-other" *ngIf="isSuccess()">

@@ -33,7 +33,7 @@ export class CartCustomerService {
         reString += ".*";
         
         let _result = 0;
-        const re = new RegExp(reString, "gi");
+        const re    = new RegExp(reString, "gi");
         customers.forEach((customer: CustomerDB) => {
           if (customer['email'] === 'guest@xretail.smartosc.com' || customer['email'] === 'guest@sales.connectpos.com') {
             return true;
@@ -45,7 +45,13 @@ export class CartCustomerService {
           
           let fullStringSearch: string = "";
           _.forEach(configState.posRetailConfig.fieldSearchCustomer, (field: string) => {
-            if (customer.hasOwnProperty(field) && _.isString(customer[field])) {
+            if (field === 'postcode' && _.size(customer['address']) > 0) {
+              _.forEach(customer['address'], (_add: any) => {
+                if (_.isString(_add['postcode'])) {
+                  fullStringSearch += " " + (_add['postcode']);
+                }
+              });
+            } else if (customer.hasOwnProperty(field) && _.isString(customer[field])) {
               fullStringSearch += " " + (customer[field]);
             }
           });

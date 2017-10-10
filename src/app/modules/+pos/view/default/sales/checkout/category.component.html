@@ -3,7 +3,7 @@
 
     <div class="cateogries-inner" [ngClass]="{'disabled': !checkoutProductState.currentCategory || checkoutProductState.currentCategory['level'] == 1,'last-cate': checkoutProductState.categoryList.count()==0}">
       <a class="back-cate" (click)="checkoutProductCategoryActions.backCategory()">
-        <i class="icon-back-btn"></i>Back
+        <i class="icon-back-btn"></i>{{ 'Back' | translate }}
         <span class="tooltiptext-bottom">{{ 'Back' | translate }}</span>
       </a>
       <!-- class of preview/next button is "hidden" when lastest categories  -->
@@ -32,7 +32,7 @@
       </li>
     </ul>
     <div class="view-mode">
-      <label>View as:</label>
+      <label>{{'View as:' | translate}}</label>
       <a class="icon-grid" [ngClass]="{current: checkoutProductState.isGridMode}" (click)="changeViewMode()"></a>
       <a class="icon-list" [ngClass]="{current: !checkoutProductState.isGridMode}" (click)="changeViewMode(false)"></a>
     </div>

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy} from '@angular/core';
 import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {PosConfigState} from "../../../../R/config/config.state";
@@ -10,6 +10,8 @@ import {CheckoutPopup} from "../../../R/sales/checkout/popup/popup.state";
 import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../services/authenticate";
+import {CheckoutProductService} from "../../../R/sales/checkout/product/product.service";
+import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
 
 @Component({
              // moduleId: module.id,
@@ -17,32 +19,48 @@ import {AuthenticateService} from "../../../../../../services/authenticate";
              templateUrl: 'top-bar.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit {
+export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit, OnDestroy {
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   @Input() quoteState: PosQuoteState;
+  @Input() cartCustomerState: CartCustomerState;
   
-  protected searchString = new FormControl();
+  protected searchString        = new FormControl();
   protected searchInputElem: any;
+  protected isScanning: boolean = false;
   
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
               protected notify: NotifyManager,
               public authenticateService: AuthenticateService,
-              protected checkoutPopupActions: CheckoutPopupActions) {
+              protected checkoutPopupActions: CheckoutPopupActions,
+              protected checkoutProductService: CheckoutProductService) {
     super();
   }
   
   ngAfterViewInit(): void {
+    this.checkoutProductService.handleScanner((searchString) => {
+      if (!this.cartCustomerState.inSearchCustomers) {
+        this.checkoutProductActions.updateGridState({
+                                                      searchString,
+                                                      lastLuckySearchString: null
+                                                    });
+        this.isScanning = true;
+        setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
+      }
+    }, true);
+    
     this.subscribeObservable('subscribe_input_search', () => this.searchString
                                                                  .valueChanges
                                                                  .debounceTime(this.configState.constrain['debounceTimeSearch'])
+                                                                 .filter(() => !this.isScanning)
                                                                  // .distinctUntilChanged()
-                                                                 .subscribe((searchString: string) => this.checkoutProductActions.updateGridState({
-                                                                                                                                                    searchString,
-                                                                                                                                                    lastLuckySearchString: null
-                                                                                                                                                  }))
-    );
+                                                                 .subscribe((searchString: string) => {
+                                                                   this.checkoutProductActions.updateGridState({
+                                                                                                                 searchString,
+                                                                                                                 lastLuckySearchString: null
+                                                                                                               });
+                                                                 }));
   }
   
   openPopupCustomSale() {
@@ -82,5 +100,11 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
       //   this.checkoutProductActions.updateLuckySearch(null);
       // }, 1000);
     }
+  }
+  
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    
+    this.checkoutProductService.disableHandleScanner();
   }
 }
