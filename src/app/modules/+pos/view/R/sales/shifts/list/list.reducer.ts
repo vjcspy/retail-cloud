@@ -43,9 +43,9 @@ export const shiftListReducer: ActionReducer<ShiftStateRecord> = (state: ShiftSt
     
     case ShiftListActions.ACTION_LOAD_MORE_SHIFT:
       if (state.list.currentPage <= state.list.lastPageNumber) {
-        return state.setIn(['list', 'isLoadingFromServer'], true)
-                    .setIn(['list', 'currentPage'], state.list.currentPage + 1);
+        return state.setIn(['list', 'isLoadingFromServer'], true);
       }
+      
       return state;
     
     default:
