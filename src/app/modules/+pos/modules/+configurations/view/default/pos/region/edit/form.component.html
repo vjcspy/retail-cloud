@@ -1,5 +1,9 @@
 <div class="acr-row add-register">
   <div class="acr-head">
+    <h2 class="click" (click)="back()">
+      <span class="icon-left click"></span>
+      {{!!getRegion()['id'] ? ("Edit Region"|translate):("New Region"|translate)}}
+    </h2>
   </div>
   <div class="acr-content">
     <div class="inner">
@@ -20,8 +24,8 @@
   </div>
 </div>
 <div class="bottom-bar">
-  <button (click)="back()">
-    {{ 'Back' | translate }}
+  <button *ngIf="!!getRegion()['id']" class="delete-btn" (click)="removeRegion()">
+    {{ 'Delete' | translate }}
   </button>
   <button (click)="saveRegion()">
     {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
