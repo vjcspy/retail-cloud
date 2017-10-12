@@ -46,9 +46,9 @@ export class ConfigurationsDefaultPosRegionEditFormComponent implements OnInit {
           this.configurationsRegionActions.editRegion(regionId);
         });
     
-    if (!this.configurationsRegionService.editRegionFormData || !this.configurationsRegionService.editRegionFormData['id']) {
-      this.routerActions.go('pos/configurations/default/pos/region/grid');
-    }
+    // if (!this.configurationsRegionService.editRegionFormData || !this.configurationsRegionService.editRegionFormData['id']) {
+    //   this.routerActions.go('pos/configurations/default/pos/region/grid');
+    // }
   }
   
   back() {
