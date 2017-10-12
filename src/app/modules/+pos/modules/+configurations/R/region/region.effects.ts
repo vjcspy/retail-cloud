@@ -135,4 +135,31 @@ export class ConfigurationsRegionEffects {
                                           .catch((e) => Observable.of(this.configurationsRegionActions.saveRegionFailed('save_outlet_failed_from_sv', e, false)));
                              });
   
+  @Effect() deleteRegion = this.actions$
+                               .ofType(
+                                 ConfigurationsRegionActions.ACTION_DELETE_REGION
+                               )
+                               .withLatestFrom(this.store$.select('general'))
+                               .switchMap((z) => {
+                                 const action: Action = z[0];
+                                 const regionId       = action.payload['id'];
+                                 return this.regionService.createDeleteRegionRequest(regionId, <any>z[1])
+                                            .switchMap((data) => {
+                                              // this.notify.success(data['messages']);
+                                              let region = new RegionDB();
+                                              return Observable.fromPromise(region.delete(regionId))
+                                                               .switchMap(() => {
+                                                                 this._routerActions.go('pos/configurations/default/pos/region/grid');
+                                                                 return Observable.from([
+                                                                                          this.configurationsRegionActions.deleteRegionSuccess(
+                                                                                            regionId,
+                                                                                            false),
+                                                                                          this.entityActions.deleteEntity(regionId, RegionDB.getCode(),'id', false),
+                                                                                        ]);
+                                                               })
+                                                               .catch((e) => Observable.of(this.configurationsRegionActions.deleteRegionFailed('save_outlet_failed', e, false)));
+                                            })
+                                            .catch((e) => Observable.of(this.configurationsRegionActions.deleteRegionFailed("delete_cache_instance_failed", e, false)));
+                               });
+  
 }

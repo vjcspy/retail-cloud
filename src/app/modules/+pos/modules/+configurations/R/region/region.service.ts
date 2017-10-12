@@ -12,7 +12,6 @@ export class ConfigurationsRegionService {
   editRegionFormData = {};
   resolveFilterRegion(regions: List<any>, filterData) {
     let regionFiltered = regions.filter((region) => {
-      console.log(region);
       if (!!filterData.id && parseInt(region['id']) !== parseInt(filterData.id)) {
         return false;
       }
@@ -51,6 +50,7 @@ export class ConfigurationsRegionService {
         reString += ".*";
         let re = RegExp(reString, "gi");
   
+  // region['assigned_outlets'] = this.outletHelper.getOutletById()
         return re.test(region['assigned_outlets']);
       }
       return true;
@@ -62,5 +62,10 @@ export class ConfigurationsRegionService {
   createSaveRegionRequest(region, generalState: PosGeneralState) {
     return this.requestService
                .makePost(this.apiUrlManager.get("region", generalState.baseUrl), {data: region});
+  }
+  
+  createDeleteRegionRequest(id , generalState: PosGeneralState) {
+    return this.requestService
+               .makeDelete(this.apiUrlManager.get('region', generalState.baseUrl) + "?id=" + id);
   }
 }

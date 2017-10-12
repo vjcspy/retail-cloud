@@ -1,8 +1,9 @@
 <div class="acr-row add-register">
   <div class="acr-head">
     <h2 class="click" (click)="back()">
-      <span class="icon-left click"></span>
-      {{!!getRegion()['id'] ? ("Edit Region"|translate):("New Region"|translate)}}
+            <span class="icon-left">
+            </span>
+      {{getRegion()['id'] != 0 ? ("Edit region"|translate):("New region"|translate)}}
     </h2>
   </div>
   <div class="acr-content">
@@ -24,10 +25,25 @@
   </div>
 </div>
 <div class="bottom-bar">
+<<<<<<< HEAD
   <button *ngIf="!!getRegion()['id']" class="delete-btn" (click)="removeRegion()">
+=======
+  <button *ngIf="!!getRegion()['id']" class="red" (click)="confirmDeleteRegion()">
+>>>>>>> 9da4c1a95491a9f37944588d58ebada179acf93b
     {{ 'Delete' | translate }}
   </button>
   <button (click)="saveRegion()">
     {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
   </button>
 </div>
+
+<div class="popup-wrapper" style="z-index: 9998" [ngClass]="{open: viewState['isOpenPopup']}" id="newOutletInfo">
+  <div class="popup-content">
+    <h3>{{viewData['popup_text']}}</h3>
+    <div class="button-bar">
+      <button class="gray" (click)="viewState['isOpenPopup'] = false">{{ 'No' | translate }}</button>
+      <button (click)="callBackYes()">{{ 'Yes' | translate }}</button>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay" style="z-index: 9997" [ngClass]="{open: viewState['isOpenPopup']}"></div>

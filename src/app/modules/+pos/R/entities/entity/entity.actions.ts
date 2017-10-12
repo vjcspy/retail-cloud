@@ -30,4 +30,14 @@ export class EntityActions {
     
     return action;
   }
+  
+  static ACTION_DELETE_ENTITY = 'ACTION_DELETE_ENTITY';
+  deleteEntity(item_id: DataObject, entityCode: string, key: string = 'id', dispatch: boolean = true): Action {
+    const action = {type: EntityActions.ACTION_DELETE_ENTITY, payload: {entityCode, key}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    return action;
+  }
 }

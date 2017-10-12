@@ -89,4 +89,34 @@ export class ConfigurationsRegionActions {
     return action;
   }
   
+  static ACTION_DELETE_REGION = 'ACTION_DELETE_REGION';
+  deleteRegion(id: number, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsRegionActions.ACTION_DELETE_REGION, payload: {id}};
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    return action;
+  }
+  
+  static ACTION_DELETE_REGION_SUCCESS = 'ACTION_DELETE_REGION_SUCCESS';
+  
+  deleteRegionSuccess(regionId, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsRegionActions.ACTION_DELETE_REGION_SUCCESS, payload: {regionId}};
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_DELETE_REGION_FAILED = 'ACTION_DELETE_REGION_FAILED';
+  deleteRegionFailed(mess, e = null, dispatch: boolean = true): Action {
+    const action = {type: ConfigurationsRegionActions.ACTION_DELETE_REGION_FAILED, payload: {mess}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
