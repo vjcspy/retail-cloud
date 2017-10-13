@@ -322,6 +322,14 @@
   "Print": "Imprimir",
   "Send": "Enviar",
 
+  "Monday" : "Lunes",
+  "Tuesday" : "Martes",
+  "Wednesday" : "Miercoles",
+  "Thursday" : "Jueves",
+  "Friday" : "Viernes",
+  "Saturday" : "Sabado",
+  "Sunday" : "Domingo",
+
   "Customer Mode" : "Modo Cliente",
   "Use customer online mode" : "Utilizar el modo en línea del cliente",
   "Magento Order ID" : "ID de pedido Magento",
