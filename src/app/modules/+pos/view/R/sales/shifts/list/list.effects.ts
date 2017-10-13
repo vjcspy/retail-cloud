@@ -17,7 +17,6 @@ export class ShiftListEffects {
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
-              private offlineService: OfflineService,
               private shiftListActions: ShiftListActions,
               private shiftListService: ShiftListService,
               private shiftActions: ShiftActions) { }
@@ -25,7 +24,7 @@ export class ShiftListEffects {
   @Effect() clearShiftData = this.actions$
                                  .ofType(routerActions.UPDATE_LOCATION)
                                  .filter((action: Action) => {
-                                   return action.payload.hasOwnProperty('path') ? action.payload['path'] === '/pos/default/sales/shifts' : true
+                                   return action.payload.hasOwnProperty('path') ? action.payload['path'] === '/pos/default/sales/shifts' : true;
                                  })
                                  .map(() => this.shiftActions.clearShiftState(false));
   
@@ -38,11 +37,7 @@ export class ShiftListEffects {
                             .withLatestFrom(this.store$.select('shifts'), (z, z1) => [...z, z1])
                             .filter((z) => {
                               const shiftState: ShiftState = <any>z[2];
-                              if (shiftState.list.currentPage > shiftState.list.lastPageNumber) {
-                                return false
-                              }
-    
-                              return true;
+                              return shiftState.list.currentPage <= shiftState.list.lastPageNumber;
                             })
                             .debounceTime(500)
                             .switchMap((z) => {
