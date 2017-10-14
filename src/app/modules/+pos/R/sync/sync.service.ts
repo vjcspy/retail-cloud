@@ -72,8 +72,11 @@ export class PosSyncService {
       order['order']['is_exchange'] = quote.getData('is_exchange');
     }
     
-    if (quote.getData("reward_point")) {
-      order['reward_point'] = quote.getData("reward_point");
+    if (quote.getRewardPointData()) {
+      order['reward_point'] = quote.getRewardPointData();
+    }
+    if (quote.getGiftCardData()) {
+      order['gift_card'] = quote.getGiftCardData();
     }
     
     return <any>order;

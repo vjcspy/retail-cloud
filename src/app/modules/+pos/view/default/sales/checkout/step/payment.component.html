@@ -29,6 +29,10 @@
          *ngIf="showRewardPointPayment()">
       <checkout-rewardpoint [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></checkout-rewardpoint>
     </div>
+    <div class="checkout-row"
+         *ngIf="showGCPayment()">
+      <gift-card [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></gift-card>
+    </div>
   </div>
   <div class="content-bot">
     <div class="info-checkout">

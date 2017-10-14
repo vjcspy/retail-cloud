@@ -49,6 +49,7 @@ import {QuoteRefundActions} from "./quote/refund/refund.actions";
 import {EntityCustomerEffects} from "./entities/entity/customer.effects";
 import {EntityCustomerActions} from "./entities/entity/customer.actions";
 import {EntityCustomerService} from "./entities/entity/customer.service";
+import {IntegrateGCActions} from "./integrate/gc/gc.actions";
 
 export const R_POS_IMPORTS = [
   EffectsModule.run(PosAssignEffects),
@@ -110,6 +111,7 @@ export const R_POS_PROVIDERS = [
   PosSyncWishlistService,
   
   IntegrateRpActions,
+  IntegrateGCActions,
 ];
 
 /*Ở đây là interface bởi vì trong component, service... chỉ lấy data chứ không được set*/
