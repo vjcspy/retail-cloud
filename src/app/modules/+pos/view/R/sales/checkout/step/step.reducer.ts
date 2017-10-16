@@ -1,5 +1,5 @@
 import {Action, ActionReducer} from "@ngrx/store";
-import {CheckoutStep, Payment3rd, posStepStateFactory, PosStepStateRecord} from "./step.state";
+import {CheckoutStep, Payment3rd, PaymentMethod, posStepStateFactory, PosStepStateRecord} from "./step.state";
 import {PosStepActions} from "./step.actions";
 import {List} from "immutable";
 import {mergeSliceReducers} from "../../../../../../../R/index";
@@ -68,6 +68,15 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepSta
           }
         }
         return _p;
+      })).update('paymentMethodUsed', (_l: List<PaymentMethod>) => _l.map((_p) => {
+        if (_p.type === action.payload['type']) {
+          // fix addition data missing
+          let additionData = Object.assign({}, {..._p['data']}, {...action.payload['additionData']});
+          
+          return Object.assign({}, {..._p}, {data: additionData});
+        } else {
+          return _p;
+        }
       }));
     
     case QuoteRefundActions.ACTION_LOAD_CREDITMEMO_FAILED:
