@@ -7,6 +7,7 @@ import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {CartActionBarActions} from "../../../R/sales/checkout/cart/action-bar.actions";
 import {PosSyncWishlistActions} from "../../../../R/sync/actions/wishlist.actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -76,7 +77,11 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
       this.toastr.warning("Saving_cart_is_not_possible_during_refund");
       return;
     } else {
-      this.cartActionBarActions.saveOrderOnhold();
+      if (_.isEmpty(this.quoteState.quote.getData('reference_number'))) {
+        this.toastr.warning("mes_missing_applicant_ref");
+      } else {
+        this.cartActionBarActions.saveOrderOnhold();
+      }
     }
   }
 }
