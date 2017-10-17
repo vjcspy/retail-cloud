@@ -38,7 +38,7 @@ export class ProductListComponent implements OnInit {
       },
     ],
     bFilter: true,
-    sDom: 'ltp'
+    // sDom: 'ltp1'
   };
   
   ngOnInit() { }
