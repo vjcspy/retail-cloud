@@ -6,6 +6,7 @@ import {CashierListComponent} from "./user-management/cashiers/list.component";
 import {CashierFormComponent} from "./user-management/cashiers/form.component";
 import {LicenseManagementContainer} from "./license-management/license-management-container.component";
 import {LicenseListComponent} from "./license-management/license-list.component";
+import {LicenseFormComponent} from "./license-management/license-form.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -18,4 +19,5 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   
   LicenseManagementContainer,
   LicenseListComponent,
+  LicenseFormComponent,
 ];
