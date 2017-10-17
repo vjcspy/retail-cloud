@@ -1,0 +1,89 @@
+<!-- START Add new User page -->
+<div class="addNew min-page add-product-page">
+  <div class="white-box">
+    <div class="box560">
+      <div class="title-page">
+        <h1>
+          {{ isEditingProduct() ? "Update Product" : "Create Product"}}
+          <span *ngIf="isEditingLicense()">{{id}}</span>
+        </h1>
+      </div>
+      <form class="js-validation-product form-horizontal">
+        <div class="form-content">
+          <div class="form-group">
+            <label class="control-label" for="val-product_code">Product Code</label>
+            <div class="element">
+              <input type="text" class="form-control" id="val-product_code" name="val-product_code"
+                     placeholder="Enter Product Code.." [(ngModel)]="product['code']">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="val-product_name">Product Name</label>
+            <div class="element">
+              <input type="text" class="form-control" id="val-product_name" name="val-product_name"
+                     placeholder="Enter Product Code.." [(ngModel)]="product['name']">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="val-product_des">Description</label>
+            <div class="element">
+                            <textarea class="form-control" id="val-product_des" name="val-product_des" rows="6"
+                                      placeholder="Product's Description Here.." [(ngModel)]="product['additional_data']['description']">
+                            </textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="trial_days">Trial Days</label>
+            <div class="element">
+              <input type="number" class="form-control" id="trial_days" name="trial_days"
+                     placeholder="Enter Number of Trial Days.." [(ngModel)]="product['trial_days']">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="val-pricings">Pricings</label>
+            <div class="element">
+              <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
+                      name="val-pricings">
+                <option></option>
+                <option *ngFor="let price of prices" [value]="price._id" [selected]="isSelectedPrice(price._id)">
+                  {{ price.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Versions of Product</label>
+            <div class="element">
+              <button class="btn btn-sm add-version" (click)="addVersion()">Add Version</button>
+            </div>
+          </div>
+
+          <table class="table table-bordered tbl-version" *ngIf="product.versions.length > 0">
+            <tr>
+              <th>Version</th>
+              <th>Version Name</th>
+              <th>Action</th>
+            </tr>
+            <tr *ngFor="let version of product.versions">
+              <td>
+                <input class="form-control" type="text" [value]="version.version" name="{{ 'version' + version.version }}" [(ngModel)]="version.version">
+              </td>
+              <td>
+                <input class="form-control " type="text" [value]="version.name" name="{{ 'version-name' + version.name }}" [(ngModel)]="version.name">
+              </td>
+              <td>
+                <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeVersion(version)">
+                  <i class="fa fa-times"></i>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="group-btn tac line-top">
+          <button type="button" (click)="router.navigate(['/cloud/product-management'])" class="btn btn-default">Cancel</button>
+          <button type="submit" [disabled]="!!isLoading" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

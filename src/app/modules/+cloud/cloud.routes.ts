@@ -11,6 +11,7 @@ import {LicenseListComponent} from "./view/default/license-management/license-li
 import {LicenseFormComponent} from "./view/default/license-management/license-form.component";
 import {ProductManagementContainerComponent} from "./view/default/product-management/container.component";
 import {ProductListComponent} from "./view/default/product-management/list.component";
+import {ProductFormComponent} from "./view/default/product-management/form.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -72,6 +73,14 @@ export const CLOUD_ROUTES: Routes = [
                 path: 'list',
                 component: ProductListComponent
               },
+              {
+                path: 'create',
+                component: ProductFormComponent
+              },
+              {
+                path: 'edit/:id',
+                component: ProductFormComponent
+              }
             ]
           }
         ]
