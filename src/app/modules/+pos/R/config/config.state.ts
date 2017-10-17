@@ -23,7 +23,9 @@ export interface PosConfigState {
     allowSplitPayment: boolean;
     allowPartialPayment: boolean;
     isIntegrateRP: boolean;
+    isIntegrateGC: boolean;
     rpType: string;
+    gcType: string;
     inclDiscountPerItemInDiscount: boolean
     sortCategoryBaseOn: string;
     sortCategorySorting: string;
@@ -66,8 +68,10 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       displayRealTax: true,
       allowSplitPayment: true,
       allowPartialPayment: true,
-      isIntegrateRP: true,
+      isIntegrateRP: false,
+      isIntegrateGC: false,
       rpType: 'aheadWorld',
+      gcType: 'aheadWorld',
       inclDiscountPerItemInDiscount: false,
       sortCategoryBaseOn: 'name',
       sortCategorySorting: 'asc',

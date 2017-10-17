@@ -14,6 +14,7 @@ import {Session} from "../../customer/Model/Session";
 import {ObjectManager} from "../../General/App/ObjectManager";
 import {Customer} from "../../customer/Model/Customer";
 import {SettingManagement} from "../../setting/SettingManagement";
+
 export class Quote extends DataObject {
   protected _items: Item[]                  = [];
   protected itemProcessor: Processor        = null;
@@ -413,6 +414,10 @@ export class Quote extends DataObject {
   
   getRewardPointData() {
     return this.getData('reward_point');
+  }
+  
+  getGiftCardData() {
+    return this.getData('gift_card');
   }
   
   getPaymentData() {

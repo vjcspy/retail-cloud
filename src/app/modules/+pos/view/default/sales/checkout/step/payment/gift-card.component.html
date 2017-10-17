@@ -1,0 +1,22 @@
+<div class="checkout-row" *ngIf="offline.online">
+  <div class="checkout-head">
+    <div class="c-name"><span class="icon-diamond"></span> {{ 'Gift card' | translate }}</div>
+    <div *ngIf="isAheadWorldGC()">
+      <div class="c-price">
+        <button *ngIf="isUsingGiftCard()" (click)="integrateGCActions.removeGiftCard()" style="background: darkred" [disabled]="posSyncState.isSyncing">
+          {{ 'Remove' | translate }} {{ 'Gift Card' | translate }}
+        </button>
+        <button *ngIf="!isUsingGiftCard()" (click)="integrateGCActions.useGiftCard({gift_code:giftCode})" [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing ">
+          {{ 'Use' | translate }} {{ 'Gift Card' | translate }}
+        </button>
+        <div class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
+          <input *ngIf="!isUsingGiftCard()" [disabled]="posStepState.totals.remain <= 0.01"
+                 type="text" inputSelectText placeholder="Gift card code" [(ngModel)]="giftCode"/>
+          <span *ngIf="isUsingGiftCard()">
+            {{getGiftCardData()['gift_code']}}({{getGiftCardData()['base_giftcard_amount'] | priceFormat:true}})
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

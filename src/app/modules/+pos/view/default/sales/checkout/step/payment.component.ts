@@ -27,6 +27,10 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
     return this.posConfigState.posRetailConfig.isIntegrateRP && this.posQuoteState.items.count() > 0 && !this.posQuoteState.quote.getUseDefaultCustomer();
   }
   
+  showGCPayment() {
+    return this.posConfigState.posRetailConfig.isIntegrateGC && this.posQuoteState.items.count() > 0;
+  }
+  
   trackById(index, method) {
     return method['id'];
   }

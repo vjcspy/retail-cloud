@@ -13,6 +13,19 @@ export class ConfigurationsDefaultPosIntegrationSettingComponent implements OnIn
   @Input() retailConfigState: RetailConfigState;
   
   public _data = {
+    integrate_gc: {
+      title: "GC Extension",
+      data: [
+        {
+          label: "None",
+          value: 'none'
+        },
+        {
+          label: "Aheadworks",
+          value: 'aheadWorld'
+        }
+      ]
+    },
     integrate_rp: {
       title: "RP Extension",
       data: [
@@ -23,10 +36,6 @@ export class ConfigurationsDefaultPosIntegrationSettingComponent implements OnIn
         {
           label: "Aheadworks",
           value: 'aheadWorld'
-        },
-        {
-          label: "Magestore",
-          value: 'magestore'
         }
       ]
     },
@@ -36,13 +45,6 @@ export class ConfigurationsDefaultPosIntegrationSettingComponent implements OnIn
         {
           label: "None",
           value: 'none'
-        },
-        {
-          label: "Aheadworks",
-          value: 'aheadWorld'
-        }, {
-          label: "MageStore",
-          value: 'magestore'
         }
       ]
     },

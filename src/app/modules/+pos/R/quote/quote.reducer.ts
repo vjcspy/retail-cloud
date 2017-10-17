@@ -12,6 +12,7 @@ import {quoteItemReducer} from "./item/item.reducer";
 import {quoteRefundReducer} from "./refund/refund.reducer";
 import {Shipping} from "../../core/framework/quote/Model/Quote/Address/Total/Shipping";
 import {PosGeneralActions} from "../general/general.actions";
+import {IntegrateGCActions} from "../integrate/gc/gc.actions";
 
 const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
   switch (action.type) {
@@ -101,6 +102,12 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     case PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER:
       state.quote.setData('reference_number', action.payload['reference_number']);
       return state;
+    
+    case IntegrateGCActions.ACTION_USE_GIFT_CARD:
+      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']})));
+    
+    case IntegrateGCActions.ACTION_REMOVE_GIFT_CARD:
+      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {is_delete: true})));
     
     default:
       return state;
