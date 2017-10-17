@@ -41,11 +41,7 @@
           {{ 'Served By' | translate }}:{{getUserNameById(getOrder()['user_id'])}}
         </p>
         <div class="timer">
-<<<<<<< HEAD
-          Date time:
-=======
           {{ 'Date' | translate }} &amp; {{ 'Time' | translate }}:
->>>>>>> cfdb1503b074ffc025f55bd76ba0a4747cec7190
           <span>{{getOrder()['created_at'] | datetimeFormat:'date'}}</span>
           <span> --- {{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
         </div>
