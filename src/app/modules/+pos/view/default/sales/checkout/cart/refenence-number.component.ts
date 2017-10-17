@@ -10,6 +10,7 @@ import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
            })
 export class PosDefaultSalesCheckoutCartReferenceNumberComponent {
   @Input() posQuoteState: PosQuoteState;
+  @Input('checkIsRefund') checkIsRefund: boolean;
   
   constructor(protected posQuoteActions: PosQuoteActions) {}
   

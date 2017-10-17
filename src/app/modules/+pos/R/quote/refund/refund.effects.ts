@@ -83,7 +83,8 @@ export class QuoteRefundEffects {
                                                 if (!isSave) {
                                                   posQuoteState.quote
                                                                .setData('is_exchange', true)
-                                                               .setData('retail_note', `Exchange from order #${d['retail_id']}`);
+                                                               .setData('retail_note', `Exchange from order #${d['retail_id']}`)
+                                                               .setData('reference_number', d['reference_number']);
                                                   return this.refundActions.loadCreditmemoSuccess(d, false);
                                                 } else {return this.refundActions.saveCreditmemoSuccess(d['items'][0], false);}
                                               })

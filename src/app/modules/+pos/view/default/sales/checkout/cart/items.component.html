@@ -17,7 +17,8 @@
   </div>
 
   <pos-default-sales-checkout-cart-reference-number id="cart-reference-number-comp" class="cart-reference-number-comp"
-                                                    [posQuoteState]="quoteState"></pos-default-sales-checkout-cart-reference-number>
+                                                    [posQuoteState]="quoteState" [checkIsRefund]="configState.isResolveSetting && quoteState.creditmemo"
+  ></pos-default-sales-checkout-cart-reference-number>
 
   <pos-default-sales-checkout-cart-refund-items class="refund-items-comp" *ngIf="configState.isResolveSetting && quoteState.creditmemo"
                                                 [configState]="configState" [posQuoteState]="quoteState">
