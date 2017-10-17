@@ -9,6 +9,9 @@ import {LicenseListComponent} from "./license-management/license-list.component"
 import {LicenseFormComponent} from "./license-management/license-form.component";
 import {ProductManagementContainerComponent} from "./product-management/container.component";
 import {ProductListComponent} from "./product-management/list.component";
+import {ProductFormComponent} from "./product-management/form.component";
+import {PricingManagementContainerComponent} from "./pricing-managment/container.component";
+import {PricingListComponent} from "./pricing-managment/list.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -25,4 +28,8 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   
   ProductManagementContainerComponent,
   ProductListComponent,
+  ProductFormComponent,
+  
+  PricingManagementContainerComponent,
+  PricingListComponent,
 ];
