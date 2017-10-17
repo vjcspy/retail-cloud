@@ -54,11 +54,7 @@ export class ProductFormComponent implements OnInit {
   }
   
   isEditingProduct() {
-    if (!this.data.hasOwnProperty('isEditingProduct')) {
-      this.data['isEditingProduct'] = !!this.product && !!this.product['_id'];
-    }
-    
-    return this.data['isEditingProduct'];
+    return !!this.product && !!this.product['_id'];
   }
   
   goBack() {

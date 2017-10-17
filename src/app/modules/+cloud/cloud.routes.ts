@@ -13,6 +13,7 @@ import {ProductManagementContainerComponent} from "./view/default/product-manage
 import {ProductListComponent} from "./view/default/product-management/list.component";
 import {ProductFormComponent} from "./view/default/product-management/form.component";
 import {PricingListComponent} from "./view/default/pricing-managment/list.component";
+import {PricingFormComponent} from "./view/default/pricing-managment/form.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -94,11 +95,11 @@ export const CLOUD_ROUTES: Routes = [
               },
               {
                 path: 'create',
-                component: ProductFormComponent
+                component: PricingFormComponent
               },
               {
                 path: 'edit/:id',
-                component: ProductFormComponent
+                component: PricingFormComponent
               }
             ]
           }
