@@ -9,6 +9,8 @@ import {CashierFormComponent} from "./view/default/user-management/cashiers/form
 import {LicenseManagementContainer} from "./view/default/license-management/license-management-container.component";
 import {LicenseListComponent} from "./view/default/license-management/license-list.component";
 import {LicenseFormComponent} from "./view/default/license-management/license-form.component";
+import {ProductManagementContainerComponent} from "./view/default/product-management/container.component";
+import {ProductListComponent} from "./view/default/product-management/list.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -60,6 +62,16 @@ export const CLOUD_ROUTES: Routes = [
                 path: 'edit/:id',
                 component: LicenseFormComponent
               }
+            ]
+          },
+          {
+            path: "product",
+            component: ProductManagementContainerComponent,
+            children: [
+              {
+                path: 'list',
+                component: ProductListComponent
+              },
             ]
           }
         ]
