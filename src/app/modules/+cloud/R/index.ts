@@ -5,6 +5,9 @@ import {UserService} from "./user/user.service";
 import {EffectsModule} from "@ngrx/effects";
 import {UserEffects} from "./user/user.effects";
 import {UserActions} from "./user/user.actions";
+import {PricingActions} from "./pricing/actions";
+import {PricingService} from "./pricing/service";
+import {pricingReducer} from "./pricing/reducer";
 
 export interface CloudState {
   user: UserState;
@@ -16,8 +19,12 @@ export const R_EFFECTS  = [
 export const R_SERVICES = [
   UserActions,
   UserService,
+  
+  PricingActions,
+  PricingService,
 ];
 
 export const cloudReducer = () => createReducer({
-                                                  user: userReducer
+                                                  user: userReducer,
+                                                  pricing: pricingReducer
                                                 });

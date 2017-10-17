@@ -36,9 +36,7 @@
             <div class="element">
               <select class="form-control" id="val-type" name="val-type" [(ngModel)]="pricing['type']" data-placeholder="Choose one..">
                 <option value="">Choose option</option>
-                <option value="1">Standard</option>
-                <option value="2">Premium</option>
-                <option value="3">Lifetime</option>
+                <option *ngFor="let option of (pricingState$ | async)?.types" [value]="option['value']">{{option['name']}}</option>
               </select>
             </div>
           </div>
@@ -69,7 +67,7 @@
             <label class="control-label" for="val-cost_adding">Cost of adding new active user</label>
             <div class="element">
               <input type="text" class="form-control" id="val-cost_adding" name="val-cost_adding"
-                     placeholder="should be entered depending on type"
+                     placeholder="Depending on type"
                      [(ngModel)]="pricing['cost_adding']">
             </div>
           </div>
@@ -93,7 +91,7 @@
         </div>
         <div class="group-btn tac line-top">
           <button type="button" (click)="goBack()" class="btn btn-default">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" [ladda]="(pricingState$ | async).processing" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>

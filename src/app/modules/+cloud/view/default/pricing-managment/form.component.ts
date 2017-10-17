@@ -1,10 +1,14 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
 import {ActivatedRoute} from "@angular/router";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {Observable} from "rxjs/Observable";
 import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {PricingState} from "../../../R/pricing/state";
+import {Store} from "@ngrx/store";
+import {PricingActions} from "../../../R/pricing/actions";
+import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -12,17 +16,29 @@ import {NotifyManager} from "../../../../../services/notify-manager";
              templateUrl: 'form.component.html'
            })
 
-export class PricingFormComponent implements OnInit {
-  public pricing = {};
+export class PricingFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
+  public pricing = {
+    type: 1,
+    visibility: 1,
+  };
   protected data = {};
+  protected pricingState$: Observable<PricingState>;
+  protected validate;
   
   constructor(public pricingCollection: PriceCollection,
               protected route: ActivatedRoute,
               protected changeDetectorRef: ChangeDetectorRef,
               protected routerActions: RouterActions,
-              protected notify: NotifyManager) { }
+              protected pricingActions: PricingActions,
+              protected notify: NotifyManager,
+              protected store$: Store<any>) {
+    super();
+    this.pricingState$ = this.store$.select('pricing');
+  }
   
   ngOnInit() {
+    this.initPageJs();
+    
     Observable.combineLatest(
       this.route.params,
       this.pricingCollection.getCollectionObservable()
@@ -43,6 +59,74 @@ export class PricingFormComponent implements OnInit {
         }
       }
     });
+  }
+  
+  private initPageJs() {
+    let vm        = this;
+    this.validate =
+      jQuery('.js-validation-pricing')['validate']({
+                                                     errorClass: 'help-block text-right animated fadeInDown',
+                                                     errorElement: 'div',
+                                                     errorPlacement(error, e) {
+                                                       jQuery(e).parents('.form-group > div').append(error);
+                                                     },
+                                                     highlight(e) {
+                                                       const elem = jQuery(e);
+          
+                                                       elem.closest('.form-group').removeClass('has-error').addClass('has-error');
+                                                       elem.closest('.help-block').remove();
+                                                     },
+                                                     success(e) {
+                                                       const elem = jQuery(e);
+          
+                                                       elem.closest('.form-group').removeClass('has-error');
+                                                       elem.closest('.help-block').remove();
+                                                     },
+                                                     rules: {
+                                                       'val-pricing_name': {
+                                                         required: true
+                                                       },
+                                                       'val-pricing_code': {
+                                                         required: true
+                                                       },
+                                                       'val-display_name': {
+                                                         required: true
+                                                       },
+                                                       'val-type': {
+                                                         required: true
+                                                       },
+                                                       'val-visibility': {
+                                                         required: true
+                                                       },
+                                                     },
+                                                     messages: {
+                                                       'val-pricing_name': {
+                                                         required: 'Please enter pricing name',
+                                                       },
+                                                       'val-pricing_code': {
+                                                         required: 'Please enter pricing name',
+                                                       },
+                                                       'val-display_name': {
+                                                         required: 'Please enter pricing display name',
+                                                       },
+                                                       'val-type': {
+                                                         required: 'Please select one pricing type',
+                                                       },
+                                                       'val-visibility': {
+                                                         required: 'Please select visibility of pricing',
+                                                       }
+                                                     },
+                                                     submitHandler(form) {
+                                                       vm.pricingActions.savePricing({});
+                                                     }
+                                                   });
+  }
+  
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    if (this.validate) {
+      this.validate.destroy();
+    }
   }
   
   isEditingPricing() {
