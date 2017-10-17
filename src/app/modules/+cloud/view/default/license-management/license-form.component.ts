@@ -14,7 +14,12 @@ import {NotifyManager} from "../../../../../services/notify-manager";
            })
 
 export class LicenseFormComponent implements OnInit {
-  public license;
+  public license  = {
+    status: 1
+  };
+  public products = [];
+  
+  public data = {};
   
   constructor(protected route: ActivatedRoute,
               protected licenseCollection: LicenseCollection,
@@ -47,6 +52,14 @@ export class LicenseFormComponent implements OnInit {
   
   protected renderUserSelect2() {
   
+  }
+  
+  public isEditingLicense(): boolean {
+    if (!this.data.hasOwnProperty('isEditingLicense')) {
+      this.data['isEditingLicense'] = !!this.license && !!this.license['_id'];
+    }
+    
+    return this.data['isEditingLicense'];
   }
   
   goBack() {

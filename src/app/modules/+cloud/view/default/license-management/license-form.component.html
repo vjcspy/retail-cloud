@@ -4,8 +4,8 @@
     <div>
       <div class="title-page">
         <h1>
-          {{ license && license['_id'] ? "Update License" : "Create License"}}
-          <span *ngIf="license">{{id}}</span>
+          {{ isEditingLicense() ? "Update License" : "Create License"}}
+          <span *ngIf="isEditingLicense()">{{id}}</span>
         </h1>
       </div>
       <form class="js-validation-license form-horizontal form-addlicense">
@@ -23,10 +23,9 @@
           <div class="form-group">
             <label class="control-label" for="status">License status:</label>
             <div class="element">
-              <select class="form-control" id="status" name="status" [(ngModel)]="license.status">
+              <select class="form-control" id="status" name="status" [(ngModel)]="license['status']">
                 <option value="1">Activated</option>
                 <option value="0">Deactivated</option>
-                <option value="2">Fresh</option>
               </select>
             </div>
           </div>
@@ -47,7 +46,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let product of products;trackBy:product?.product_id">
+          <tr *ngFor="let product of products">
             <td>
               <div class="form-material">
                 <div class="col-xs-6">
@@ -73,7 +72,6 @@
                   <option value=""></option>
                   <option value="1">Activated</option>
                   <option value="0">Deactivated</option>
-                  <option value="2">Fresh</option>
                 </select>
               </div>
             </td>
