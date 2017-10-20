@@ -19,8 +19,7 @@ export abstract class AbstractCollection {
     if (typeof this._collection === 'undefined') {
       if (this.$collectionExisted) {
         this._collection = MongoObservable.fromExisting(Meteor.users);
-      }
-      else {
+      } else {
         this._collection = new MongoObservable.Collection(this.$collection);
       }
     }
