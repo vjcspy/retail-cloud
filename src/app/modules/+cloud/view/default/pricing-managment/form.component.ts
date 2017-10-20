@@ -135,7 +135,7 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
                                                        }
                                                      },
                                                      submitHandler(form) {
-                                                       vm.pricingActions.savePricing({});
+                                                       vm.pricingActions.savePricing(vm.pricing);
                                                      }
                                                    });
   }
@@ -152,6 +152,6 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   goBack() {
-    this.routerActions.go('cloud/default/product/list');
+    this.routerActions.go('cloud/default/pricing/list');
   }
 }

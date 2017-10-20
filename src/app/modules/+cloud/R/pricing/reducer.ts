@@ -7,6 +7,10 @@ export const pricingReducer: ActionReducer<PricingStateRecord> = (state = pricin
     case PricingActions.ACTION_SAVE_PRICE:
       return state.set('processing', true);
     
+    case PricingActions.ACTION_SAVE_PRICE_FAIL:
+    case PricingActions.ACTION_SAVE_PRICE_SUCCESS:
+      return state.set('processing', false);
+    
     default:
       return state;
   }

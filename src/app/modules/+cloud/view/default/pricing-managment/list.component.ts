@@ -13,7 +13,6 @@ export class PricingListComponent implements OnInit {
   public tableConfig = {
     actionsColumn: {edit: true, remove: true},
     columns: [
-      {data: "code", title: "Pricing Code"},
       {data: "name", title: "Pricing Name"},
       {data: "display_name", title: "Display Name"},
       {data: "type", title: "Type"},
@@ -24,25 +23,19 @@ export class PricingListComponent implements OnInit {
     
     ],
     columnDefs: [
-      {className: "hidden-xs", targets: [1]},
+      {className: "hidden-xs", targets: [0]},
       {
         className: "text-center",
         orderable: false,
-        targets: [3],
+        targets: [2],
         render(data) {
-          if (data === 1) {
-            return `<span class="label label-success">Standard</span>`;
-          } else if (data === 2) {
-            return `<span class="label label-danger">Premium</span>`;
-          } else if (data === 3) {
-            return `<span class="label label-default">Lifetime</span>`;
-          }
+          return data;
         }
       },
       {
         className: "text-center",
         orderable: false,
-        targets: [4, 5, 6],
+        targets: [3,4, 5],
         render(data) {
           if (!!data) {
             return data;
@@ -52,7 +45,7 @@ export class PricingListComponent implements OnInit {
       },
       {
         className: "text-center",
-        orderable: false, targets: [7],
+        orderable: false, targets: [6],
         render(data) {
           if (data === 0) {
             return `<span class="label label-success">Hidden</span>`;
