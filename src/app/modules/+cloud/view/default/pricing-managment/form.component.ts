@@ -9,6 +9,9 @@ import {PricingState} from "../../../R/pricing/state";
 import {Store} from "@ngrx/store";
 import {PricingActions} from "../../../R/pricing/actions";
 import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
+import {PriceTypeCollection} from "../../../../../services/meteor-collections/price-type";
+import * as _ from 'lodash';
+import {OptionInterface} from "../../../../../code/contract/option-interface";
 
 @Component({
              // moduleId: module.id,
@@ -17,19 +20,21 @@ import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscri
            })
 
 export class PricingFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
-  public pricing = {
-    type: 1,
+  public pricing                       = {
+    type: 'subscription',
     visibility: 1,
   };
-  protected data = {};
+  protected data                       = {};
   protected pricingState$: Observable<PricingState>;
   protected validate;
+  public priceTypes: OptionInterface[] = [];
   
   constructor(public pricingCollection: PriceCollection,
               protected route: ActivatedRoute,
               protected changeDetectorRef: ChangeDetectorRef,
               protected routerActions: RouterActions,
               protected pricingActions: PricingActions,
+              protected priceTypeCollection: PriceTypeCollection,
               protected notify: NotifyManager,
               protected store$: Store<any>) {
     super();
@@ -41,10 +46,22 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
     
     Observable.combineLatest(
       this.route.params,
-      this.pricingCollection.getCollectionObservable()
+      this.pricingCollection.getCollectionObservable(),
+      this.priceTypeCollection.getCollectionObservable()
     ).subscribe((z: any) => {
-      const params                                           = z[0];
-      const priceCollection: MongoObservable.Collection<any> = z[1];
+      const params                                               = z[0];
+      const priceCollection: MongoObservable.Collection<any>     = z[1];
+      const priceTypeCollection: MongoObservable.Collection<any> = z[2];
+      
+      if (_.size(this.priceTypes) === 0) {
+        const priceTypes = priceTypeCollection.collection.find({}).fetch();
+        _.forEach(priceTypes, (t) => {
+          this.priceTypes.push({
+                                 value: t['name'],
+                                 name: t['label']
+                               });
+        });
+      }
       
       if (!!params['id']) {
         const product = priceCollection.findOne({_id: params['id']});
@@ -52,12 +69,13 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
         if (!!product) {
           this.pricing = product;
           
-          this.changeDetectorRef.detectChanges();
         } else {
           this.notify.error('can_not_find_product_with_id: ' + params['id']);
           this.goBack();
         }
       }
+      
+      this.changeDetectorRef.detectChanges();
     });
   }
   
