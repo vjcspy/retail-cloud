@@ -56,10 +56,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                                  .filter(() => !this.isScanning)
                                                                  // .distinctUntilChanged()
                                                                  .subscribe((searchString: string) => {
-                                                                   this.checkoutProductActions.updateGridState({
-                                                                                                                 searchString,
-                                                                                                                 lastLuckySearchString: null
-                                                                                                               });
+                                                                   this.checkoutProductActions.updateGridState({searchString,});
                                                                  }));
   }
   
@@ -96,9 +93,10 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
       }
       
       this.searchInputElem.select();
-      // setTimeout(() => {
-      //   this.checkoutProductActions.updateLuckySearch(null);
-      // }, 1000);
+      this.checkoutProductActions.updateGridState({
+                                                    searchString: this.searchString.value,
+                                                    lastLuckySearchString: null
+                                                  });
     }
   }
   
