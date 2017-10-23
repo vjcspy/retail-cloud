@@ -131,6 +131,7 @@
     "rxjs": "^5.4.3",
     "screenfull": "^3.2.0",
     "select2": "^4.0.3",
+    "select2-bootstrap-theme": "0.1.0-beta.10",
     "typed-immutable-record": "^0.0.6",
     "zone.js": "~0.8.18"
   },

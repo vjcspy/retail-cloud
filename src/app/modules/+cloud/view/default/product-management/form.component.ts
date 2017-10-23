@@ -15,9 +15,13 @@ import {PriceCollection} from "../../../../../services/meteor-collections/prices
            })
 
 export class ProductFormComponent implements OnInit {
-  public product = {};
+  public product = {
+    versions: []
+  };
   public prices  = [];
   public data    = {};
+  
+  protected validation;
   
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
@@ -44,12 +48,77 @@ export class ProductFormComponent implements OnInit {
         if (!!product) {
           this.product = product;
           
-          this.changeDetectorRef.detectChanges();
         } else {
           this.notify.error('can_not_find_product_with_id: ' + params['id']);
           this.goBack();
         }
       }
+      this.changeDetectorRef.detectChanges();
+      setTimeout(() => {
+        this.initPageJs();
+      }, 250);
+    });
+  }
+  
+  private initPageJs() {
+    let vm          = this;
+    this.validation = jQuery('.js-validation-product')['validate']({
+                                                                     errorClass: 'help-block text-right animated fadeInDown',
+                                                                     errorElement: 'div',
+                                                                     errorPlacement(error, e) {
+                                                                       jQuery(e).parents('.form-group > div').append(error);
+                                                                     },
+                                                                     highlight(e) {
+                                                                       let elem = jQuery(e);
+        
+                                                                       elem.closest('.form-group').removeClass('has-error').addClass('has-error');
+                                                                       elem.closest('.help-block').remove();
+                                                                     },
+                                                                     success(e) {
+                                                                       let elem = jQuery(e);
+        
+                                                                       elem.closest('.form-group').removeClass('has-error');
+                                                                       elem.closest('.help-block').remove();
+                                                                     },
+                                                                     rules: {
+                                                                       'val-product_name': {
+                                                                         required: true
+                                                                       },
+                                                                       'val-product_code': {
+                                                                         required: true
+                                                                       },
+                                                                       'val-version_name': {
+                                                                         required: true
+                                                                       },
+                                                                       'val-version': {
+                                                                         required: true
+                                                                       },
+                                                                       'val-pricings': {
+                                                                         required: true,
+                                                                         minlength: 1
+                                                                       },
+                                                                     },
+                                                                     messages: {
+                                                                       'val-product_name': {
+                                                                         required: 'Please enter product name',
+                                                                       },
+                                                                       'val-product_code': {
+                                                                         required: 'Please enter product name',
+                                                                       },
+                                                                       'val-pricings': {
+                                                                         required: 'Please select at least choose one pricing',
+                                                                       },
+                                                                     },
+                                                                     submitHandler(form) {
+                                                                       setTimeout(() => {
+                                                                         vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                                       }, 1000);
+        
+                                                                     }
+                                                                   });
+    
+    jQuery("#val-pricings")['select2']().on('change', function () {
+      jQuery(this)['valid']();
     });
   }
   

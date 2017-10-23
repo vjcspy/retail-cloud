@@ -25,6 +25,8 @@ import {AuthenticateService} from "./services/authenticate";
                '../../node_modules/font-awesome/css/font-awesome.min.css',
                '../../node_modules/ionicons/css/ionicons.css',
                '../../node_modules/ng2-toastr/ng2-toastr.css',
+               '../../node_modules/select2/dist/css/select2.min.css',
+               '../../node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css',
                '../assets/icon/icomoon/style.css',
              ],
              template: `

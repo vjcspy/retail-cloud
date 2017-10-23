@@ -5,7 +5,7 @@
       <div class="title-page">
         <h1>
           {{ isEditingProduct() ? "Update Product" : "Create Product"}}
-          <span *ngIf="isEditingLicense()">{{id}}</span>
+          <span *ngIf="isEditingProduct()">{{id}}</span>
         </h1>
       </div>
       <form class="js-validation-product form-horizontal">
@@ -28,7 +28,7 @@
             <label class="control-label" for="val-product_des">Description</label>
             <div class="element">
                             <textarea class="form-control" id="val-product_des" name="val-product_des" rows="6"
-                                      placeholder="Product's Description Here.." [(ngModel)]="product['additional_data']['description']">
+                                      placeholder="Product's Description Here.." [(ngModel)]="product['description']">
                             </textarea>
             </div>
           </div>
@@ -44,9 +44,9 @@
             <div class="element">
               <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
                       name="val-pricings">
-                <option></option>
-                <option *ngFor="let price of prices" [value]="price._id" [selected]="isSelectedPrice(price._id)">
-                  {{ price.name}}
+                <!--<option></option>-->
+                <option *ngFor="let price of prices" [value]="price._id">
+                  {{ price.display_name}}
                 </option>
               </select>
             </div>
@@ -58,7 +58,7 @@
             </div>
           </div>
 
-          <table class="table table-bordered tbl-version" *ngIf="product.versions.length > 0">
+          <table class="table table-bordered tbl-version" *ngIf="product.versions && product.versions.length > 0">
             <tr>
               <th>Version</th>
               <th>Version Name</th>
@@ -80,8 +80,8 @@
           </table>
         </div>
         <div class="group-btn tac line-top">
-          <button type="button" (click)="router.navigate(['/cloud/product-management'])" class="btn btn-default">Cancel</button>
-          <button type="submit" [disabled]="!!isLoading" class="btn btn-primary">Save</button>
+          <button type="button" (click)="goBack()" class="btn btn-default">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>
