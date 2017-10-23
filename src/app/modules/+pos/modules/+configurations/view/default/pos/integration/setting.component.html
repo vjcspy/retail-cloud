@@ -30,6 +30,20 @@
     </div>
   </div>
 </div>
+<div class="acr-row integrate-extension">
+  <div class="acr-head acr-head-right"><h2>{{'Integrate with gift card extension' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <div class="th-row">
+        <div class="box-content">
+          <retail-setting-radio [data]="_data.integrate_gc"
+                                [(model)]="getRetailConfigSnapshot()['pos']['xretail/pos/integrate_gc']">
+          </retail-setting-radio>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--end Integrate with reward point extension-->
 
 <!--end Integration-->

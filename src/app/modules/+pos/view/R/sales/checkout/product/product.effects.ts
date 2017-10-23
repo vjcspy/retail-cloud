@@ -71,7 +71,7 @@ export class CheckoutProductEffects {
                                          CheckoutProductActions.ACTION_RESOLVE_CATALOG_PRODUCT
                                        )
                                        .filter(() => this.router.isActive('/pos/default/sales/checkout', false))
-                                       .debounceTime(150)
+                                       .debounceTime(200)
                                        .withLatestFrom(this.store$.select('checkoutProduct'))
                                        .withLatestFrom(this.store$.select('entities'),
                                                        ([action, checkoutProductState], entitiesState) => [action,
@@ -103,7 +103,9 @@ export class CheckoutProductEffects {
                               .withLatestFrom(this.store$.select('checkoutProduct'))
                               .filter((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
-                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null && checkoutProductState.searchString !== checkoutProductState.lastLuckySearchString;
+                                return checkoutProductState.productGridProducts.count() === 1
+                                       && checkoutProductState.searchString !== null
+                                       && (!checkoutProductState.lastLuckySearchString || checkoutProductState.searchString.indexOf(checkoutProductState.lastLuckySearchString) === -1);
                               })
                               .flatMap((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];

@@ -18,6 +18,7 @@ import {EntityActions} from "../entities/entity/entity.actions";
 import {OrderDB} from "../../database/xretail/db/order";
 import {PosGeneralState} from "../general/general.state";
 import {TrackingService} from "../../services/tracking/tracking-service";
+import {IntegrateGCActions} from "../integrate/gc/gc.actions";
 
 @Injectable()
 export class PosSyncEffects {
@@ -37,6 +38,8 @@ export class PosSyncEffects {
                                        PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER,
                                        // use or remove rp
                                        IntegrateRpActions.ACTION_USE_REWARD_POINT,
+                                       IntegrateGCActions.ACTION_USE_GIFT_CARD,
+                                       IntegrateGCActions.ACTION_REMOVE_GIFT_CARD,
                                        IntegrateRpActions.ACTION_REMOVE_REWARD_POINT
                                      )
                                      .withLatestFrom(this.store$.select('general'))
@@ -74,11 +77,19 @@ export class PosSyncEffects {
                                                  address.setData(key, total);
                                                }
                                              });
+        
                                              if (syncData.hasOwnProperty("reward_point") && _.isObject(syncData["reward_point"])) {
                                                quote.setData('reward_point', syncData["reward_point"]);
                                              } else {
                                                quote.unsetData("reward_point");
                                              }
+        
+                                             if (syncData.hasOwnProperty("gift_card") && _.isObject(syncData["gift_card"])) {
+                                               quote.setData('gift_card', Object.assign({}, {...quote.getGiftCardData()}, {...syncData["gift_card"]}));
+                                             } else {
+                                               quote.unsetData("gift_card");
+                                             }
+        
                                              if (syncData['totals']['coupon_code']) {
                                                this.notify.success('coupon_code_accepted');
                                              }

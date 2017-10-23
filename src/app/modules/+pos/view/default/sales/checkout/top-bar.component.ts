@@ -40,12 +40,17 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   ngAfterViewInit(): void {
     this.checkoutProductService.handleScanner((searchString) => {
+      // for search  barcode giftcard
+      // const inputFocusing = $('input:focus');
+      // if ((inputFocusing.length > 0 && inputFocusing[0]['attr']("id") !== 'pos_search_text')) {
+      //   return;
+      // }
+      
       if (!this.cartCustomerState.inSearchCustomers) {
         this.checkoutProductActions.updateGridState({
                                                       searchString,
                                                       lastLuckySearchString: null
                                                     });
-        this.isScanning = true;
         setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
       }
     }, true);
@@ -56,10 +61,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                                  .filter(() => !this.isScanning)
                                                                  // .distinctUntilChanged()
                                                                  .subscribe((searchString: string) => {
-                                                                   this.checkoutProductActions.updateGridState({
-                                                                                                                 searchString,
-                                                                                                                 lastLuckySearchString: null
-                                                                                                               });
+                                                                   this.checkoutProductActions.updateGridState({searchString});
                                                                  }));
   }
   
@@ -96,9 +98,10 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
       }
       
       this.searchInputElem.select();
-      // setTimeout(() => {
-      //   this.checkoutProductActions.updateLuckySearch(null);
-      // }, 1000);
+      this.checkoutProductActions.updateGridState({
+                                                    searchString: this.searchString.value,
+                                                    lastLuckySearchString: null
+                                                  });
     }
   }
   

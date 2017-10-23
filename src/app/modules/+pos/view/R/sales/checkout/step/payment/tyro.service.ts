@@ -58,7 +58,6 @@ export class TyroService {
   
   // Config callback when have a question from tyro
   questionCallback: (question: any, answerCallback: any) => void = (question, answerCallback) => {
-    console.log(question);
     // save answer callback for answer later
     this.answerCallback = (value) => {
       answerCallback(value);
@@ -104,7 +103,7 @@ export class TyroService {
   doPurchase(amount: string) {
     this.checkInitCallBack();
     
-    this.getIClientInstance().initiatePurchase({
+    this.getIClientInstance(true).initiatePurchase({
                                                  amount,
                                                  cashout: "0",
                                                  integratedReceipt: this.tyroPayment.isIntegratedReceipt()
@@ -119,7 +118,7 @@ export class TyroService {
   doRefund(amount: string) {
     this.checkInitCallBack();
     
-    this.getIClientInstance().initiateRefund({
+    this.getIClientInstance(true).initiateRefund({
                                                amount,
                                                integratedReceipt: this.tyroPayment.isIntegratedReceipt()
                                              }, {

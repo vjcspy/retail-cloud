@@ -12,6 +12,7 @@ import {quoteItemReducer} from "./item/item.reducer";
 import {quoteRefundReducer} from "./refund/refund.reducer";
 import {Shipping} from "../../core/framework/quote/Model/Quote/Address/Total/Shipping";
 import {PosGeneralActions} from "../general/general.actions";
+import {IntegrateGCActions} from "../integrate/gc/gc.actions";
 
 const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteStateRecord, action: Action) => {
   switch (action.type) {
@@ -69,6 +70,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('coupon_code')
            .unsetData('payment_data')
            .unsetData('reward_point')
+           .unsetData('gift_card')
            .unsetData('retail_has_shipment')
            .resetRetailAdditionData();
       
@@ -96,6 +98,12 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case IntegrateRpActions.ACTION_REMOVE_REWARD_POINT:
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {use_reward_point: false})));
+    
+    case IntegrateGCActions.ACTION_USE_GIFT_CARD:
+      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']}, {is_delete: false})));
+    
+    case IntegrateGCActions.ACTION_REMOVE_GIFT_CARD:
+      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {is_delete: true})));
     
     default:
       return state;

@@ -137,8 +137,8 @@ const checkoutProductMainReducer: ActionReducer<CheckoutProductStateRecord> = (s
             newState = newState.set(k, v);
           }
         } else {
-          if (k === 'searchString') {
-            newState.set('lastLuckySearchString', null);
+          if (k === 'searchString' && !v) {
+            newState = newState.set('lastLuckySearchString', null);
           }
           newState = newState.set(k, v);
         }

@@ -36,8 +36,10 @@ function resolveConfig(posSetting) {
     useCustomerOnlineMode: false,
     allowSplitPayment: true,
     allowPartialPayment: true,
-    isIntegrateRP: true,
-    rpType: 'aheadWorld',
+    isIntegrateRP: false,
+    isIntegrateGC: false,
+    rpType: 'none',
+    gcType: 'none',
     inclDiscountPerItemInDiscount: false,
     sortCategoryBaseOn: 'name',
     sortCategorySorting: 'asc',
@@ -85,6 +87,10 @@ function resolveConfig(posSetting) {
   if (posSetting.hasOwnProperty('xretail/pos/integrate_rp')) {
     configData.isIntegrateRP = (posSetting['xretail/pos/integrate_rp'] !== 'none' && !!posSetting['xretail/pos/integrate_rp']);
     configData.rpType        = posSetting['xretail/pos/integrate_rp'];
+  }
+  if (posSetting.hasOwnProperty('xretail/pos/integrate_gc')) {
+    configData.isIntegrateGC = (posSetting['xretail/pos/integrate_gc'] !== 'none' && !!posSetting['xretail/pos/integrate_gc']);
+    configData.gcType        = posSetting['xretail/pos/integrate_gc'];
   }
   
   if (posSetting.hasOwnProperty('xretail/pos/sort_category_base_on')) {
