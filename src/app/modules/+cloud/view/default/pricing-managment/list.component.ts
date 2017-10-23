@@ -11,7 +11,7 @@ import {RouterActions} from "../../../../../R/router/router.actions";
 
 export class PricingListComponent implements OnInit {
   public tableConfig = {
-    actionsColumn: {edit: true, remove: true},
+    actionsColumn: {edit: true, remove: false},
     columns: [
       {data: "name", title: "Pricing Name"},
       {data: "display_name", title: "Display Name"},
