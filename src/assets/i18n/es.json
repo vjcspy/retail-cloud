@@ -496,7 +496,7 @@
   "delete_onhold_order_successfully" : "El pedido de retención eliminado correctamente",
   "take_payment_success" : "Pago agregado con éxito",
   "delete_entity_database_successfully" : "Se eliminó correctamente la base de datos de entidad",
-  "save_customer_successfully" : "Nuevo cliente creado correctamente",
+  "save_customer_successfully" : "Cliente guardado correctamente",
   "order_will_push_to_queue_to_sync" : "El pedido está siendo resincronizado",
   "ship_order_successfully" : "El envío se ha creado correctamente.",
   "save_note_successfully" : "Notas guardadas correctamente.",
