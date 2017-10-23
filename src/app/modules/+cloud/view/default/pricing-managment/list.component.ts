@@ -56,7 +56,7 @@ export class PricingListComponent implements OnInit {
       }
     ],
     bFilter: true,
-    // sDom: 'ltp'
+    sDom: 'ltp'
   };
   
   constructor(public pricingCollection: PriceCollection,

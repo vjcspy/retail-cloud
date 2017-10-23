@@ -4,6 +4,8 @@ import {Actions, Effect} from "@ngrx/effects";
 import {ProductActions} from "./actions";
 import {Observable} from "rxjs/Observable";
 import {ProductService} from "./service";
+import {NotifyManager} from "../../../../services/notify-manager";
+import {RouterActions} from "../../../../R/router/router.actions";
 
 @Injectable()
 export class ProductEffects {
@@ -11,6 +13,8 @@ export class ProductEffects {
   constructor(protected store$: Store<any>,
               protected actions$: Actions,
               protected productActions: ProductActions,
+              protected notify: NotifyManager,
+              protected routerActions: RouterActions,
               protected productService: ProductService) { }
   
   @Effect() saveProduct = this.actions$
@@ -21,11 +25,16 @@ export class ProductEffects {
                                 const action: Action = z;
                                 return Observable.fromPromise(this.productService.saveProduct(action.payload['product']))
                                                  .map(() => {
+                                                   this.notify.success('save_product_successfully');
+                                                   setTimeout(() => {
+                                                     this.routerActions.go('cloud/default/product/list');
+                                                   });
                                                    return this.productActions.saveProductSuccess(null, false);
                                                  })
                                                  .catch((e) => {
-                                                   return Observable.of(this.productActions.saveProductFail(e && e['reason'] ?
-                                                                                                              e['reason'] : '', e, false));
+                                                   const reason = e && e['reason'] ? e['reason'] : '';
+                                                   this.notify.error(reason);
+                                                   return Observable.of(this.productActions.saveProductFail(reason, e, false));
                                                  });
                               });
   
