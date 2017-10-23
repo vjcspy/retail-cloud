@@ -8,9 +8,16 @@ import {PricingActions} from "./pricing/actions";
 import {PricingService} from "./pricing/service";
 import {pricingReducer} from "./pricing/reducer";
 import {PricingEffects} from "./pricing/effects";
+import {ProductService} from "./product/service";
+import {ProductActions} from "./product/actions";
+import {productReducer} from "./product/reducer";
+import {ProductState} from "./product/state";
+import {PricingState} from "./pricing/state";
 
 export interface CloudState {
   user: UserState;
+  product: ProductState;
+  pricing: PricingState;
 }
 
 export const R_EFFECTS  = [
@@ -20,11 +27,15 @@ export const R_SERVICES = [
   UserActions,
   UserService,
   
+  ProductService,
+  ProductActions,
+  
   PricingActions,
   PricingService,
 ];
 
 export const cloudReducer = () => createReducer({
                                                   user: userReducer,
-                                                  pricing: pricingReducer
+                                                  pricing: pricingReducer,
+                                                  product: productReducer,
                                                 });

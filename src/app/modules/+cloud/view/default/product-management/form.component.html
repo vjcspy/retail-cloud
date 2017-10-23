@@ -21,7 +21,7 @@
             <label class="control-label" for="val-product_name">Product Name</label>
             <div class="element">
               <input type="text" class="form-control" id="val-product_name" name="val-product_name"
-                     placeholder="Enter Product Code.." [(ngModel)]="product['name']">
+                     placeholder="Enter Product Name.." [(ngModel)]="product['name']">
             </div>
           </div>
           <div class="form-group">
@@ -62,15 +62,19 @@
             <tr>
               <th>Version</th>
               <th>Version Name</th>
+              <!--<th>Change Log</th>-->
               <th>Action</th>
             </tr>
-            <tr *ngFor="let version of product.versions">
+            <tr *ngFor="let version of product.versions;let i = index">
               <td>
-                <input class="form-control" type="text" [value]="version.version" name="{{ 'version' + version.version }}" [(ngModel)]="version.version">
+                <input class="form-control" type="text" name="{{'version-t' + i}} " [(ngModel)]="version.version">
               </td>
               <td>
-                <input class="form-control " type="text" [value]="version.name" name="{{ 'version-name' + version.name }}" [(ngModel)]="version.name">
+                <input class="form-control " type="text" name="{{ 'version-name-' + i }}" [(ngModel)]="version.name">
               </td>
+              <!--<td>-->
+              <!--<textarea class="form-control " type="text" name="{{ 'version-changelog-' + version.name }}" [(ngModel)]="version.changelog"></textarea>-->
+              <!--</td>-->
               <td>
                 <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeVersion(version)">
                   <i class="fa fa-times"></i>

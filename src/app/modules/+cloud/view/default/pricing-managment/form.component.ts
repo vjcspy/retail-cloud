@@ -44,7 +44,7 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
   ngOnInit() {
     this.initPageJs();
     
-    Observable.combineLatest(
+    this.subscribeObservable('_', () => Observable.combineLatest(
       this.route.params,
       this.pricingCollection.getCollectionObservable(),
       this.priceTypeCollection.getCollectionObservable()
@@ -76,7 +76,7 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
       }
       
       this.changeDetectorRef.detectChanges();
-    });
+    }));
   }
   
   private initPageJs() {

@@ -6,6 +6,8 @@ import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -103,7 +105,7 @@ export class ProductFormComponent implements OnInit {
                                                                          required: 'Please enter product name',
                                                                        },
                                                                        'val-product_code': {
-                                                                         required: 'Please enter product name',
+                                                                         required: 'Please enter product code',
                                                                        },
                                                                        'val-pricings': {
                                                                          required: 'Please select at least choose one pricing',
@@ -113,13 +115,10 @@ export class ProductFormComponent implements OnInit {
                                                                        setTimeout(() => {
                                                                          vm.product['pricings'] = jQuery("#val-pricings").val();
                                                                        }, 1000);
-        
                                                                      }
                                                                    });
     
-    jQuery("#val-pricings")['select2']().on('change', function () {
-      jQuery(this)['valid']();
-    });
+    jQuery("#val-pricings")['select2']();
   }
   
   isEditingProduct() {
@@ -128,5 +127,19 @@ export class ProductFormComponent implements OnInit {
   
   goBack() {
     this.routerActions.go('cloud/default/product/list');
+  }
+  
+  addVersion() {
+    this.product.versions.push({
+                                 name: "",
+                                 version: "",
+                                 changelog: "",
+                                 created_at: moment().toDate(),
+                                 updated_at: moment().toDate(),
+                               });
+  }
+  
+  removeVersion(version) {
+    _.remove(this.product.versions, version);
   }
 }
