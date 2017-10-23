@@ -10,11 +10,9 @@ export class ProductService {
     return new Promise((resolve, reject) => {
       MeteorObservable.call('product.save_product', {product})
                       .subscribe((res) => {
-                                   console.log(res);
-                                   resolve();
+                                   resolve(res);
                                  },
                                  (e) => {
-                                   console.log(e);
                                    reject(e);
                                  });
     });
