@@ -8,6 +8,9 @@ import {RouterActions} from "../../../../../R/router/router.actions";
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import {ProductActions} from "../../../R/product/actions";
+import {ProductState} from "../../../R/product/state";
+import {Store} from "@ngrx/store";
 
 @Component({
              // moduleId: module.id,
@@ -25,12 +28,18 @@ export class ProductFormComponent implements OnInit {
   
   protected validation;
   
+  public productState$: Observable<ProductState>;
+  
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
               protected route: ActivatedRoute,
               protected changeDetectorRef: ChangeDetectorRef,
               protected notify: NotifyManager,
-              protected routerActions: RouterActions) { }
+              protected routerActions: RouterActions,
+              protected productActions: ProductActions,
+              protected store$: Store<any>) {
+    this.productState$ = this.store$.select('product');
+  }
   
   ngOnInit() {
     Observable.combineLatest(
@@ -111,10 +120,9 @@ export class ProductFormComponent implements OnInit {
                                                                          required: 'Please select at least choose one pricing',
                                                                        },
                                                                      },
-                                                                     submitHandler(form) {
-                                                                       setTimeout(() => {
-                                                                         vm.product['pricings'] = jQuery("#val-pricings").val();
-                                                                       }, 1000);
+                                                                     submitHandler() {
+                                                                       vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                                       vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
     
@@ -141,5 +149,9 @@ export class ProductFormComponent implements OnInit {
   
   removeVersion(version) {
     _.remove(this.product.versions, version);
+  }
+  
+  isSelectedPrice(id) {
+    return _.indexOf(this.prices.map((p) => p['_id']), id) > -1;
   }
 }

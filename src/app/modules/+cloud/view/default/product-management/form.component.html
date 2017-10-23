@@ -44,8 +44,7 @@
             <div class="element">
               <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
                       name="val-pricings">
-                <!--<option></option>-->
-                <option *ngFor="let price of prices" [value]="price._id">
+                <option *ngFor="let price of prices" [value]="price._id" [selected]="isSelectedPrice(price._id)">
                   {{ price.display_name}}
                 </option>
               </select>
@@ -54,7 +53,7 @@
           <div class="form-group">
             <label class="control-label">Versions of Product</label>
             <div class="element">
-              <button class="btn btn-sm add-version" (click)="addVersion()">Add Version</button>
+              <button type="button" class="btn btn-sm add-version" (click)="addVersion()">Add Version</button>
             </div>
           </div>
 
@@ -85,7 +84,7 @@
         </div>
         <div class="group-btn tac line-top">
           <button type="button" (click)="goBack()" class="btn btn-default">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" [ladda]="(productState$ |async)?.processing" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>

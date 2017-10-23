@@ -13,6 +13,7 @@ import {ProductActions} from "./product/actions";
 import {productReducer} from "./product/reducer";
 import {ProductState} from "./product/state";
 import {PricingState} from "./pricing/state";
+import {ProductEffects} from "./product/effects";
 
 export interface CloudState {
   user: UserState;
@@ -22,6 +23,7 @@ export interface CloudState {
 
 export const R_EFFECTS  = [
   EffectsModule.run(PricingEffects),
+  EffectsModule.run(ProductEffects),
 ];
 export const R_SERVICES = [
   UserActions,
