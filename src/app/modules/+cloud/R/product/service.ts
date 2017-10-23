@@ -19,4 +19,11 @@ export class ProductService {
                                  });
     });
   }
+  
+  removeProduct(id): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('product.remove_product', {id})
+                      .subscribe((res) => resolve(res), (e) => reject(e));
+    });
+  }
 }

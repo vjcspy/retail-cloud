@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ProductCollection} from "../../../../../services/meteor-collections/products";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import * as _ from 'lodash';
+import {ProductActions} from "../../../R/product/actions";
 
 @Component({
              // moduleId: module.id,
@@ -11,10 +12,12 @@ import * as _ from 'lodash';
            })
 
 export class ProductListComponent implements OnInit {
-  constructor(public productsCollection: ProductCollection, protected routerActions: RouterActions) { }
+  constructor(public productsCollection: ProductCollection,
+              protected routerActions: RouterActions,
+              protected productActions: ProductActions) { }
   
   public tableConfig = {
-    actionsColumn: {edit: true},
+    actionsColumn: {edit: true, remove: true},
     columns: [
       {data: "code", title: "Code"},
       {data: "name", title: "Name"},
@@ -50,6 +53,10 @@ export class ProductListComponent implements OnInit {
       
       case "CLICK_EDIT":
         return this.routerActions.go('cloud/default/product/edit', $event['data']);
+      
+      case "APPROVE_REMOVE_RECORD":
+        this.productActions.removeProduct($event['data']);
+        return;
       
       default:
     }

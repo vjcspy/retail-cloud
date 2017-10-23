@@ -21,6 +21,7 @@ import {Store} from "@ngrx/store";
 
 export class ProductFormComponent implements OnInit {
   public product = {
+    pricings: [],
     versions: []
   };
   public prices  = [];
@@ -122,6 +123,7 @@ export class ProductFormComponent implements OnInit {
                                                                      },
                                                                      submitHandler() {
                                                                        vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                                       console.log(vm.product);
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
@@ -152,6 +154,6 @@ export class ProductFormComponent implements OnInit {
   }
   
   isSelectedPrice(id) {
-    return _.indexOf(this.prices.map((p) => p['_id']), id) > -1;
+    return _.indexOf(this.product.pricings, id) > -1;
   }
 }

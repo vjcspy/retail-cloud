@@ -40,4 +40,40 @@ export class ProductActions {
     
     return action;
   }
+  
+  static ACTION_REMOVE_PRODUCT = 'ACTION_REMOVE_PRODUCT';
+  
+  removeProduct(id, dispatch: boolean = true): Action {
+    const action = {type: ProductActions.ACTION_REMOVE_PRODUCT, payload: {id}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_REMOVE_PRODUCT_SUCCESS = 'ACTION_REMOVE_PRODUCT_SUCCESS';
+  
+  removeProductSuccess(dispatch: boolean = true): Action {
+    const action = {type: ProductActions.ACTION_REMOVE_PRODUCT_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_REMOVE_PRODUCT_FAIL = 'ACTION_REMOVE_PRODUCT_FAIL';
+  
+  removeProductFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: ProductActions.ACTION_REMOVE_PRODUCT_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

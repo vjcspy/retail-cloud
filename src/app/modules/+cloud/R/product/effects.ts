@@ -38,4 +38,22 @@ export class ProductEffects {
                                                  });
                               });
   
+  @Effect() removeProduct = this.actions$
+                                .ofType(
+                                  ProductActions.ACTION_REMOVE_PRODUCT
+                                )
+                                .switchMap((z: any) => {
+                                  const action: Action = z;
+                                  return Observable.fromPromise(this.productService.removeProduct(action.payload['id']))
+                                                   .map(() => {
+                                                     this.notify.success('remove_product_successfully');
+                                                     return this.productActions.removeProductSuccess(false);
+                                                   })
+                                                   .catch((e) => {
+                                                     const reason = e && e['reason'] ? e['reason'] : '';
+                                                     this.notify.error(reason);
+                                                     return Observable.of(this.productActions.removeProductFail(reason, e, false));
+                                                   });
+                                  ;
+                                });
 }
