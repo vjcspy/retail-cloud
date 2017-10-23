@@ -123,7 +123,6 @@ export class ProductFormComponent implements OnInit {
                                                                      },
                                                                      submitHandler() {
                                                                        vm.product['pricings'] = jQuery("#val-pricings").val();
-                                                                       console.log(vm.product);
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
