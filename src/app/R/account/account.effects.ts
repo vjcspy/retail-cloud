@@ -5,8 +5,6 @@ import {AccountActions} from "./account.actions";
 import {Observable} from "rxjs";
 import {AccountService} from "./account.service";
 import {RootActions} from "../root.actions";
-import {AccountState} from "./account.state";
-import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
 import {AuthenticateService} from "../../services/authenticate";
 
