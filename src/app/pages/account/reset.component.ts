@@ -4,6 +4,9 @@ import {NotifyManager} from "../../services/notify-manager";
 import {AuthenticateService} from "../../services/authenticate";
 import {RouterActions} from "../../R/router/router.actions";
 import {AccountActions} from "../../R/account/account.actions";
+import {Observable} from "rxjs/Observable";
+import {AccountState} from "../../R/account/account.state";
+import {Store} from "@ngrx/store";
 
 @Component({
              // moduleId: module.id,
@@ -16,13 +19,17 @@ export class ResetComponent implements OnInit, OnDestroy {
   token: string = "";
   data          = {};
   private validate: any;
+  accountState$: Observable<AccountState>;
   
   constructor(protected router: Router,
               protected routerActions: RouterActions,
               protected authService: AuthenticateService,
               private activeRoute: ActivatedRoute,
               private accountActions: AccountActions,
-              protected notify: NotifyManager) { }
+              protected notify: NotifyManager,
+              protected store$: Store<any>) {
+    this.accountState$ = this.store$.select('account');
+  }
   
   ngOnInit() {
     this.activeRoute.params.subscribe((p) => {
