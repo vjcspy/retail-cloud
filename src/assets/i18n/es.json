@@ -322,14 +322,6 @@
   "Print": "Imprimir",
   "Send": "Enviar",
 
-  "Monday" : "Lunes",
-  "Tuesday" : "Martes",
-  "Wednesday" : "Miercoles",
-  "Thursday" : "Jueves",
-  "Friday" : "Viernes",
-  "Saturday" : "Sabado",
-  "Sunday" : "Domingo",
-
   "Payment status": "Pago Status",
   "Shipment status" : "Envío Status",
   "Sync status" : "Sincronizado Status",
