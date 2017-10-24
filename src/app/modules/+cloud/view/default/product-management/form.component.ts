@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {ProductActions} from "../../../R/product/actions";
 import {ProductState} from "../../../R/product/state";
 import {Store} from "@ngrx/store";
+import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,7 @@ import {Store} from "@ngrx/store";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent extends AbstractSubscriptionComponent implements OnInit {
   public product = {
     pricings: [],
     versions: []
@@ -39,11 +40,12 @@ export class ProductFormComponent implements OnInit {
               protected routerActions: RouterActions,
               protected productActions: ProductActions,
               protected store$: Store<any>) {
+    super();
     this.productState$ = this.store$.select('product');
   }
   
   ngOnInit() {
-    Observable.combineLatest(
+    this.subscribeObservable("_", () => Observable.combineLatest(
       this.route.params,
       this.productCollection.getCollectionObservable(),
       this.priceCollection.getCollectionObservable(),
@@ -69,7 +71,7 @@ export class ProductFormComponent implements OnInit {
       setTimeout(() => {
         this.initPageJs();
       }, 250);
-    });
+    }));
   }
   
   private initPageJs() {

@@ -34,7 +34,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   ngOnInit() {
-    this.subscribeObservable('user', () =>
+    this.subscribeObservable("_", () =>
       Observable
         .combineLatest(
           this.route.params,

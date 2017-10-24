@@ -5,6 +5,7 @@ import {LicenseCollection} from "../../../../../services/meteor-collections/lice
 import {MongoObservable} from "meteor-rxjs";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -13,7 +14,7 @@ import {NotifyManager} from "../../../../../services/notify-manager";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class LicenseFormComponent implements OnInit {
+export class LicenseFormComponent extends AbstractSubscriptionComponent implements OnInit {
   public license  = {
     status: 1
   };
@@ -25,10 +26,12 @@ export class LicenseFormComponent implements OnInit {
               protected licenseCollection: LicenseCollection,
               protected notify: NotifyManager,
               protected changeDetectorRef: ChangeDetectorRef,
-              protected routerActions: RouterActions) { }
+              protected routerActions: RouterActions) {
+    super();
+  }
   
   ngOnInit() {
-    Observable.combineLatest(
+    this.subscribeObservable("_", () => Observable.combineLatest(
       this.route.params,
       this.licenseCollection.getCollectionObservable()
     ).subscribe((z: any) => {
@@ -47,7 +50,7 @@ export class LicenseFormComponent implements OnInit {
           this.goBack();
         }
       }
-    });
+    }));
   }
   
   protected renderUserSelect2() {
