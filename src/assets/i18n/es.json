@@ -46,7 +46,7 @@
   "Use This": "Usar esto",
 
   "There is no opening shift": "No hay caja abierta",
-  "No Opening Shift": "	Sin cambio de apertura",
+  "No Opening Shift": "Sin cambio de apertura",
   "Open": "Abrir",
   "Close": "Cerrar",
 
@@ -334,7 +334,7 @@
   "Shipment status" : "Envío Status",
   "Sync status" : "Sincronizado Status",
 
-  "Search by customer name , email and order\'s note" : "Búsqueda por nombre cliente, email, nota de pedido",
+  "Search by customer name , email and order's note" : "Búsqueda por nombre cliente, email, nota de pedido",
 
   "Customer Mode" : "Modo Cliente",
   "Use customer online mode" : "Utilizar el modo en línea del cliente",
