@@ -18,8 +18,7 @@ export class AuthenticateService {
   
   get user() {
     if (typeof this._user === 'undefined') {
-      const user = Meteor.user() || null;
-      this._user = user;
+      this._user = Meteor.user() || null;
       this._whenAccountUpdate();
     }
     
