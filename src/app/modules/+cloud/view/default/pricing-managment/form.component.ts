@@ -101,40 +101,44 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
                                                        elem.closest('.help-block').remove();
                                                      },
                                                      rules: {
-                                                       'val-pricing_name': {
-                                                         required: true
-                                                       },
-                                                       'val-pricing_code': {
-                                                         required: true
-                                                       },
                                                        'val-display_name': {
                                                          required: true
                                                        },
                                                        'val-type': {
                                                          required: true
                                                        },
-                                                       'val-visibility': {
-                                                         required: true
+                                                       // 'val-visibility': {
+                                                       //   required: true
+                                                       // },
+                                                       'val-nousers': {
+                                                         required: true,
+                                                         number: true
+                                                       },
+                                                       'val-cost_monthly': {
+                                                         required: true,
+                                                         number: true
+                                                       },
+                                                       'val-cost_annually': {
+                                                         required: true,
+                                                         number: true
+                                                       },
+                                                       'val-cost_adding': {
+                                                         required: true,
+                                                         number: true
                                                        },
                                                      },
                                                      messages: {
-                                                       'val-pricing_name': {
-                                                         required: 'Please enter pricing name',
-                                                       },
-                                                       'val-pricing_code': {
-                                                         required: 'Please enter pricing name',
-                                                       },
                                                        'val-display_name': {
                                                          required: 'Please enter pricing display name',
                                                        },
                                                        'val-type': {
                                                          required: 'Please select one pricing type',
                                                        },
-                                                       'val-visibility': {
-                                                         required: 'Please select visibility of pricing',
-                                                       }
+                                                       // 'val-visibility': {
+                                                       //   required: 'Please select visibility of pricing',
+                                                       // }
                                                      },
-                                                     submitHandler(form) {
+                                                     submitHandler() {
                                                        vm.pricingActions.savePricing(vm.pricing);
                                                      }
                                                    });

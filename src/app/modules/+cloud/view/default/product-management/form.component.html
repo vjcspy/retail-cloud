@@ -5,7 +5,7 @@
       <div class="title-page">
         <h1>
           {{ isEditingProduct() ? "Update Product" : "Create Product"}}
-          <span *ngIf="isEditingProduct()">{{id}}</span>
+          <span *ngIf="isEditingProduct()">{{product['name']}}</span>
         </h1>
       </div>
       <form class="js-validation-product form-horizontal">
@@ -32,13 +32,6 @@
                             </textarea>
             </div>
           </div>
-          <!--<div class="form-group">-->
-            <!--<label class="control-label" for="trial_days">Trial Days</label>-->
-            <!--<div class="element">-->
-              <!--<input type="number" class="form-control" id="trial_days" name="trial_days"-->
-                     <!--placeholder="Enter Number of Trial Days.." [(ngModel)]="product['trial_days']">-->
-            <!--</div>-->
-          <!--</div>-->
           <div class="form-group">
             <label class="control-label" for="val-pricings">Pricings</label>
             <div class="element">
