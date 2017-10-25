@@ -37,8 +37,8 @@
           </a>
         </li>
         <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management') || authenticate.userCan('view_edit_create_delete_role')" class="has-child"
-            [ngClass]="{open: router.isActive('/cloud/default/user-management',false)}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="routerActions.go('/cloud/default/user-management/cashier/list')">
+            [ngClass]="{open: openingSubmenuName == 'user'}">
+          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('user')">
             <i class="ion-android-options"></i>
             <span class="sidebar-mini-hide">User management</span>
           </a>
@@ -50,46 +50,44 @@
                 routerLinkActive="active">
               <a href="#/cloud/user-management/roles">Shop Roles</a>
             </li>
-            <!--<li *ngIf="authenticate.isUser(accountState.user) && authenticate.userCan('view_edit_role_permission')" routerLink="/cloud/user-management/permission"
-                routerLinkActive="active">
-              <a>Permission</a>
-            </li>-->
           </ul>
         </li>
-        <!--<li class="has-child">
-          <a class="nav-submenu" data-toggle="nav-submenu">
-            <i class="ion-ios-gear"></i>
-            <span class="sidebar-mini-hide">X-pos setting</span>
-          </a>
-        </li>-->
-        <li class="has-child" [ngClass]="{open: router.isActive('cloud/account',false)}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openMenu($event)">
+        <li class="has-child" [ngClass]="{open: openingSubmenuName == 'account'}">
+          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('account')">
             <i class="ion-person"></i>
             <span class="sidebar-mini-hide">Account</span>
           </a>
           <ul class="list-unstyled">
-            <li *ngIf="authenticate.isUser(accountState.user)" routerLinkActive="active">
-              <a href="#/cloud/account/license">License</a>
+            <li *ngIf="authenticate.isUser(accountState.user)" (click)="routerActions.go('cloud/default/account/license/list')">
+              <a>License</a>
             </li>
-            <li *ngIf="authenticate.isUser(accountState.user)" routerLink="/cloud/account/payment-method" routerLinkActive="active">
-              <a href="#/cloud/account/payment-method">Payment Methods</a>
+            <li *ngIf="authenticate.isUser(accountState.user)">
+              <a>Payment Methods</a>
             </li>
-            <li *ngIf="authenticate.isUser(accountState.user)" routerLinkActive="active">
-              <a href="#/cloud/account/invoices-history">Invoices History</a>
-            </li>
-            <li>
-              <a href="#/cloud/account/account-information">Account Information</a>
+            <li *ngIf="authenticate.isUser(accountState.user)">
+              <a>Invoices History</a>
             </li>
             <li>
-              <a href="#/cloud/account/change-password">Change Password</a>
+              <a>Account Information</a>
+            </li>
+            <li>
+              <a>Change Password</a>
             </li>
           </ul>
         </li>
-        <li *ngIf="authenticate.isUser(accountState.user)" class="has-child" [ngClass]="{open: router.isActive('cloud/documentation',false)}">
-          <a class="nav-submenu" data-toggle="nav-submenu" routerLink="/cloud/documentation">
+        <li class="has-child" [ngClass]="{open: openingSubmenuName == 'document'}">
+          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('document')">
             <i class="ion-android-list"></i>
             <span class="sidebar-mini-hide">Documentation</span>
           </a>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#">Connect POS</a>
+            </li>
+            <li>
+              <a href="#">Report</a>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

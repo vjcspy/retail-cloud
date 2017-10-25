@@ -14,7 +14,13 @@ import {RouterActions} from "../../../../R/router/router.actions";
 export class SidebarComponent implements OnInit {
   @Input() accountState: AccountState;
   
+  openingSubmenuName: string = '';
+  
   constructor(public authenticate: AuthenticateService, public router: Router, public routerActions: RouterActions) { }
   
   ngOnInit() { }
+  
+  openSubmenu(submenuName: string) {
+    this.openingSubmenuName = this.openingSubmenuName !== submenuName ? submenuName : '';
+  }
 }

@@ -17,6 +17,9 @@ import {PricingFormComponent} from "./view/default/pricing-managment/form.compon
 import {PricingManagementContainerComponent} from "./view/default/pricing-managment/container.component";
 import {CProductContainerComponent} from "./view/default/c-product/container";
 import {CProductListComponent} from "./view/default/c-product/list.component";
+import {AccountContainerComponent} from "./view/default/account/container";
+import {AccountLicenseContainerComponent} from "./view/default/account/license/container";
+import {AccountLicenseListComponent} from "./view/default/account/license/list.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -111,6 +114,22 @@ export const CLOUD_ROUTES: Routes = [
             component: CProductContainerComponent,
             children: [
               {path: 'list', component: CProductListComponent}
+            ]
+          },
+          {
+            path: 'account',
+            component: AccountContainerComponent,
+            children: [
+              {
+                path: 'license',
+                component: AccountLicenseContainerComponent,
+                children: [
+                  {
+                    path: 'list',
+                    component: AccountLicenseListComponent
+                  }
+                ]
+              }
             ]
           }
         ]
