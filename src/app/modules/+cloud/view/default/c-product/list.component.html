@@ -1,8 +1,14 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Panel title</h3>
-  </div>
-  <div class="panel-body">
-    Panel body
+<div class="row">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" *ngFor="let p of products">
+    <div class="card">
+      <img class="card-img-top" src="holder.js/300x300?theme=vine" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">{{p['name']}}</p>
+        <p>
+          <button [disabled]="!p['canTrial']" href="#" class="btn btn-primary" role="button">Trial</button>
+          <button [disabled]="!p['canPurchase']" href="#" class="btn btn-primary" role="button">Purchase</button>
+        </p>
+      </div>
+    </div>
   </div>
 </div>

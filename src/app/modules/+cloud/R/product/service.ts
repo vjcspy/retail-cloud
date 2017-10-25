@@ -28,9 +28,9 @@ export class ProductService {
   
   isProductHasTrialPricing(product: Object, prices: any[]): boolean {
     let isHasTrial = false;
-    if (_.isObject(product) && _.isArray(product['pricings'])) {
-      _.forEach(product['pricings'], (pId) => {
-        let price = _.find(prices, (_p) => _p['_id'] === pId);
+    if (_.isObject(product) && _.isArray(product['has_pricing'])) {
+      _.forEach(product['has_pricing'], (pPricing) => {
+        let price = _.find(prices, (_p) => _p['_id'] === pPricing['pricing_id']);
         if (price && price['type'] === 'trial') {
           isHasTrial = true;
           
@@ -43,9 +43,9 @@ export class ProductService {
   
   isProductCanPurchase(product: Object, prices: any[]): boolean {
     let canPurchase = false;
-    if (_.isObject(product) && _.isArray(product['pricings'])) {
-      _.forEach(product['pricings'], (pId) => {
-        let price = _.find(prices, (_p) => _p['_id'] === pId);
+    if (_.isObject(product) && _.isArray(product['has_pricing'])) {
+      _.forEach(product['has_pricing'], (pPricing) => {
+        let price = _.find(prices, (_p) => _p['_id'] === pPricing['pricing_id']);
         if (price && (price['type'] === 'life_time' || price['type'] === 'subscription')) {
           canPurchase = true;
           
