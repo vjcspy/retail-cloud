@@ -70,7 +70,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
       this.changeDetectorRef.detectChanges();
       setTimeout(() => {
         this.initPageJs();
-      }, 250);
+      }, 100);
     }));
   }
   
@@ -124,7 +124,21 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                                                                        },
                                                                      },
                                                                      submitHandler() {
-                                                                       vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                                       let pricings = jQuery("#val-pricings").val();
+        
+                                                                       if (_.isArray(pricings)) {
+                                                                         _.forEach(pricings, (pricing_id) => {
+                                                                           if (_.isArray(vm.product['has_pricing'])) {
+                                                                             vm.product['has_pricing'].push({pricing_id});
+                                                                           } else {
+                                                                             vm.product['has_pricing'] = [];
+                                                                           }
+                                                                         });
+                                                                       } else {
+                                                                         vm.notify.error("wrong_format_pricing");
+                                                                         return;
+                                                                       }
+  
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
@@ -155,6 +169,6 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   isSelectedPrice(id) {
-    return _.indexOf(this.product.pricings, id) > -1;
+    return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
 }

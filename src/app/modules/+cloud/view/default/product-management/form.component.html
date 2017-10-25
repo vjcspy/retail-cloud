@@ -37,8 +37,8 @@
             <div class="element">
               <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
                       name="val-pricings">
-                <option *ngFor="let price of prices" [value]="price._id" [selected]="isSelectedPrice(price._id)">
-                  {{ price.display_name}}
+                <option *ngFor="let price of prices" [value]="price['_id']" [selected]="isSelectedPrice(price._id)">
+                  {{ price['display_name']}}
                 </option>
               </select>
             </div>
