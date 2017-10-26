@@ -7,3 +7,25 @@
   width: 25px !important;
   height: 25px !important;
 }
+#modal-product-versions > .row {
+  margin: 30px auto;
+}
+#modal-product-versions th {
+  width: 125px;
+}
+#modal-product-versions th label {
+  font-weight: 600;
+  width: 125px;
+}
+.tbl-version th {
+  text-align: center;
+}
+.tbl-version td button {
+  margin: 0;
+}
+.tbl-version td code {
+  margin-right: 5px;
+}
+#modal-version-specified-customers ~span {
+  display: none;
+}

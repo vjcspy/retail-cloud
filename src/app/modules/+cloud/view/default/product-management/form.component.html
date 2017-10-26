@@ -1,7 +1,7 @@
 <!-- START Add new User page -->
 <div class="addNew min-page add-product-page">
-  <div class="white-box">
-    <div class="box560">
+  <div class="row white-box">
+    <div class="col-md-10 col-md-offset-1">
       <div class="title-page">
         <h1>
           {{ isEditingProduct() ? "Update Product" : "Create Product"}}
@@ -32,13 +32,6 @@
                             </textarea>
             </div>
           </div>
-          <!--<div class="form-group">-->
-            <!--<label class="control-label" for="trial_days">Trial Days</label>-->
-            <!--<div class="element">-->
-              <!--<input type="number" class="form-control" id="trial_days" name="trial_days"-->
-                     <!--placeholder="Enter Number of Trial Days.." [(ngModel)]="product['trial_days']">-->
-            <!--</div>-->
-          <!--</div>-->
           <div class="form-group">
             <label class="control-label" for="val-pricings">Pricings</label>
             <div class="element">
@@ -53,28 +46,35 @@
           <div class="form-group">
             <label class="control-label">Versions of Product</label>
             <div class="element">
-              <button type="button" class="btn btn-sm add-version" (click)="addVersion()">Add Version</button>
+              <button type="button" (click)="resetModalVersion()" class="btn btn-sm add-version" data-toggle="modal" data-target="#modal-product-versions">Add Version</button>
             </div>
           </div>
 
           <table class="table table-bordered tbl-version" *ngIf="product.versions && product.versions.length > 0">
             <tr>
               <th>Version</th>
-              <th>Version Name</th>
-              <!--<th>Change Log</th>-->
-              <th>Action</th>
+              <th>Name</th>
+              <th>API Versions</th>
+              <th>Path</th>
+              <th width="130">Action</th>
             </tr>
             <tr *ngFor="let version of product.versions;let i = index">
               <td>
-                <input class="form-control" type="text" name="{{'version-t' + i}} " [(ngModel)]="version.version">
+                {{version.version}}
               </td>
               <td>
-                <input class="form-control " type="text" name="{{ 'version-name-' + i }}" [(ngModel)]="version.name">
+                {{version.name}}
               </td>
-              <!--<td>-->
-              <!--<textarea class="form-control " type="text" name="{{ 'version-changelog-' + version.name }}" [(ngModel)]="version.changelog"></textarea>-->
-              <!--</td>-->
               <td>
+                <code *ngFor="let api of version.api">{{api}}</code>
+              </td>
+              <td>
+                {{version.path}}
+              </td>
+              <td>
+                <button class="btn btn-default" type="button" title="View Version" (click)="editVersion(i)" data-toggle="modal" data-target="#modal-product-versions">
+                  <i class="fa fa-eye"></i>
+                </button>
                 <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeVersion(version)">
                   <i class="fa fa-times"></i>
                 </button>
@@ -90,3 +90,88 @@
     </div>
   </div>
 </div>
+
+<!-- modal for product version -->
+<div id="modal-product-versions" class="modal fade" role="dialog">
+  <div class="row">
+
+    <!-- Modal content-->
+    <div class="col-md-offset-2 col-md-8 modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center">PRODUCT VERSION</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <th>
+              <label for="modal-version-version">Version</label>
+            </th>
+            <td>
+              <input type="hidden" name="modal-version-id" id="modal-version-id" value="-1">
+              <input type="text" class="form-control" id="modal-version-version" name="modal-version-version" required placeholder="Version of Product">
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="modal-version-name">Name</label>
+            </th>
+            <td>
+              <input type="text" class="form-control" id="modal-version-name" name="modal-version-name" required placeholder="Version Name">
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="modal-version-customers">Customers</label>
+            </th>
+            <td>
+              <select class="form-control" name="modal-version-customers" id="modal-version-customers" required style="margin-bottom: 10px;">
+                <option value="all">All Customers</option>
+                <option value="specified">Specified Customers</option>
+              </select>
+              <select multiple="multiple" class="form-control" name="modal-version-specified-customers" id="modal-version-specified-customers" required style="display:none; width: 100%;">
+                <option *ngFor="let user of users" value="{{ user }}">
+                  {{ user }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="modal-version-api">API Versions</label>
+            </th>
+            <td>
+              <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api" required style="width: 100%;">
+                <option *ngFor="let apiVersion of product.apiVersions" value="{{ apiVersion }}">
+                  {{ apiVersion }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="modal-version-path">Path</label>
+            </th>
+            <td>
+              <input type="text" class="form-control" id="modal-version-path" name="modal-version-path" required placeholder="Path to Folder">
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <label for="modal-version-descriptions">Descriptions</label>
+            </th>
+            <td>
+              <textarea class="form-control" id="modal-version-descriptions" name="modal-version-descriptions" cols="30" rows="10" placeholder="Descriptions"></textarea>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary add-version" (click)="addVersion()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- end -->
