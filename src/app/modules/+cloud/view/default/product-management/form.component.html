@@ -153,7 +153,32 @@
               <label for="modal-version-path">Path</label>
             </th>
             <td>
-              <input type="text" class="form-control" id="modal-version-path" name="modal-version-path" required placeholder="Path to Folder">
+              <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display"></code>
+              <input type="hidden" id="modal-version-path" name="modal-version-path" required >
+
+              <div class="row">
+                <div class="col-md-12" style="padding-left: 0;">
+                  <ul id="tree1">
+                    <li>Home
+                      <ul>
+                        <li>Desktop</li>
+                        <li>Applications
+                          <ul>
+                            <li>X-POS
+                              <ul>
+                                <li>1.1.0</li>
+                                <li>1.2.0</li>
+                                <li>1.2.1</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>Downloads</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </td>
           </tr>
           <tr>

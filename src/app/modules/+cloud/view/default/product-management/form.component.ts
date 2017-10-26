@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, AfterViewInit} from '@angular/core';
 import {ProductCollection} from "../../../../../services/meteor-collections/products";
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs/Observable";
@@ -20,7 +20,7 @@ import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscri
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class ProductFormComponent extends AbstractSubscriptionComponent implements OnInit {
+export class ProductFormComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public product = {
     pricings: [],
     versions: [],
@@ -74,6 +74,81 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         this.initPageJs();
       }, 100);
     }));
+  }
+  
+  ngAfterViewInit() {
+    // script for treeview
+    $.fn.extend({
+      treed: function (o) {
+        let openedClass = 'glyphicon-minus-sign';
+        let closedClass = 'glyphicon-plus-sign';
+      
+        if (typeof o !== 'undefined') {
+          if (typeof o.openedClass !== 'undefined') {
+            openedClass = o.openedClass;
+          }
+          if (typeof o.closedClass !== 'undefined') {
+            closedClass = o.closedClass;
+          }
+        }
+      
+        // initialize each of the top levels
+        let tree = $(this);
+        tree.addClass("tree");
+        tree.find('li').has("ul").each(function () {
+          let branch = $(this); // li with children ul
+          branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+          branch.addClass('branch');
+          branch.on('click', function (e) {
+            if (this == e.target) {
+              let icon = $(this).children('i:first');
+              icon.toggleClass(openedClass + " " + closedClass);
+              $(this).children().children().toggle();
+            }
+          });
+          branch.children().children().toggle();
+        });
+        // fire event from the dynamically added icon
+        tree.find('.branch .indicator').each(function(){
+          $(this).on('click', function () {
+            $(this).closest('li').click();
+          });
+        });
+        // fire event to open branch if the li contains an anchor instead of text
+        tree.find('.branch>a').each(function () {
+          $(this).on('click', function (e) {
+            $(this).closest('li').click();
+            e.preventDefault();
+          });
+        });
+        // fire event to open branch if the li contains a button instead of text
+        tree.find('.branch>button').each(function () {
+          $(this).on('click', function (e) {
+            $(this).closest('li').click();
+            e.preventDefault();
+          });
+        });
+        tree.find('li:not(.branch)').on('click', function () {
+          let path = [];
+          let end = false;
+          let current = $(this);
+          while (!end) {
+            path.unshift(current.clone().children().remove().end().text());
+            // console.log(current.clone().children().remove().end().text());
+            if( current.parent().hasClass('tree') ) {
+              end = true;
+              break;
+            }
+            current = current.parent().parent();
+          }
+          $('#modal-version-path-display').text(path.toString().replace(/\s+/g, '').replace(/,/g, ' / '));
+          $('#modal-version-path').val(path.toString().replace(/\s+/g, '').replace(/,/g, ' / '));
+        });
+      }
+    });
+    
+    $('#tree1').treed({openedClass:'glyphicon-folder-open', closedClass:'glyphicon-folder-close'});
+    // end: script for treeview
   }
   
   private initPageJs() {
@@ -187,7 +262,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
       customer.users = $('#modal-version-specified-customers').val();
     }
     
-    if( versionId == '-1' ) {
+    if( versionId === '-1' ) {
       this.product.versions.push(
         {
           name: $('#modal-version-name').val(),
@@ -224,6 +299,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
     $('#modal-version-specified-customers').val(this.product.versions[vIndex]['customers']['users']).trigger('change');
     $('#modal-version-api').val(this.product.versions[vIndex]['api']).trigger('change');
     $('#modal-version-path').val(this.product.versions[vIndex]['path']);
+    $('#modal-version-path-display').text(this.product.versions[vIndex]['path']);
     $('#modal-version-descriptions').val(this.product.versions[vIndex]['descriptions']);
   }
   
@@ -242,7 +318,8 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
     $('#modal-version-customers').val('all');
     $('#modal-version-specified-customers').val('').trigger('change');
     $('#modal-version-api').val('').trigger('change');
-    $('#modal-version-path').val('');
+    $('#modal-version-path').val('unset');
+    $('#modal-version-path-display').text('unset');
     $('#modal-version-descriptions').val('');
     $('.close').click();
   }
