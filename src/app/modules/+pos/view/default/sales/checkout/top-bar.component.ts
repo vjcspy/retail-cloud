@@ -51,6 +51,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
                                                       searchString,
                                                       lastLuckySearchString: null
                                                     });
+        this.isScanning = true;
         setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
       }
     }, true);
@@ -93,7 +94,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   checkEnter($event) {
     if ($event && $event['keyCode'] === 13) {
-      if (typeof  this.searchInputElem === 'undefined') {
+      if (typeof this.searchInputElem === 'undefined') {
         this.searchInputElem = jQuery('#pos_search_text');
       }
       
