@@ -18,6 +18,7 @@ import {CProductListComponent} from "./c-product/list.component";
 import {AccountContainerComponent} from "./account/container";
 import {AccountLicenseContainerComponent} from "./account/license/container";
 import {AccountLicenseListComponent} from "./account/license/list.component";
+import {AccountLicenseAdjustComponent} from "./account/license/adjust.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -46,4 +47,5 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   AccountContainerComponent,
   AccountLicenseContainerComponent,
   AccountLicenseListComponent,
+  AccountLicenseAdjustComponent,
 ];

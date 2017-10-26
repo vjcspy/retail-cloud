@@ -114,6 +114,10 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
                                                          required: true,
                                                          number: true
                                                        },
+                                                       'val-trialDay': {
+                                                         required: true,
+                                                         number: true
+                                                       },
                                                        'val-cost_monthly': {
                                                          required: true,
                                                          number: true

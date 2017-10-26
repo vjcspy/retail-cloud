@@ -5,8 +5,8 @@
       <div class="card-body">
         <p class="card-text">{{p['name']}}</p>
         <p>
-          <button [disabled]="!p['canTrial']" href="#" class="btn btn-primary" role="button">Trial</button>
-          <button [disabled]="!p['canPurchase']" href="#" class="btn btn-primary" role="button">Purchase</button>
+          <button [disabled]="!p['canTrial']" href="#" class="btn btn-primary" role="button" (click)="adjustPlan(p['_id'])">Trial</button>
+          <button [disabled]="!p['canPurchase']" href="#" class="btn btn-primary" role="button" (click)="adjustPlan(p['_id'])">Purchase</button>
         </p>
       </div>
     </div>

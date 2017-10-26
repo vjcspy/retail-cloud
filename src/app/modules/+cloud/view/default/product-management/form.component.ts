@@ -124,21 +124,18 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                                                                        },
                                                                      },
                                                                      submitHandler() {
-                                                                       let pricings = jQuery("#val-pricings").val();
-        
+                                                                       let pricings              = jQuery("#val-pricings").val();
+                                                                       vm.product['has_pricing'] = [];
                                                                        if (_.isArray(pricings)) {
                                                                          _.forEach(pricings, (pricing_id) => {
                                                                            if (_.isArray(vm.product['has_pricing'])) {
                                                                              vm.product['has_pricing'].push({pricing_id});
-                                                                           } else {
-                                                                             vm.product['has_pricing'] = [];
                                                                            }
                                                                          });
                                                                        } else {
                                                                          vm.notify.error("wrong_format_pricing");
                                                                          return;
                                                                        }
-  
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
