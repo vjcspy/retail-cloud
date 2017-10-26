@@ -10,20 +10,6 @@
       </div>
       <form class="js-validation-pricing form-horizontal">
         <div class="form-content">
-          <!--<div class="form-group">-->
-            <!--<label class="control-label" for="val-pricing_code">Pricing Code</label>-->
-            <!--<div class="element">-->
-              <!--<input type="text" class="form-control" id="val-pricing_code" name="val-pricing_code"-->
-                     <!--placeholder="Enter Pricing Code.." [(ngModel)]="pricing['code']">-->
-            <!--</div>-->
-          <!--</div>-->
-          <div class="form-group">
-            <label class="control-label" for="val-pricing_name">Pricing Name</label>
-            <div class="element">
-              <input type="text" class="form-control" id="val-pricing_name" name="val-pricing_name"
-                     placeholder="Enter Pricing Name.." [(ngModel)]="pricing['name']">
-            </div>
-          </div>
           <div class="form-group">
             <label class="control-label" for="val-display_name">Display Name</label>
             <div class="element">
@@ -43,12 +29,12 @@
           <div class="form-group">
             <label class="control-label" for="nousers">Number of starting user</label>
             <div class="element">
-              <input type="number" min="0" class="form-control" id="nousers" name="nousers"
+              <input type="number" min="0" class="form-control" id="nousers" name="val-nousers"
                      placeholder="Enter Number Of Starting Users.."
                      [(ngModel)]="pricing['nouser']">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="pricing['type'] != 'trial'">
             <label class="control-label" for="val-cost_monthly">Cost Monthly</label>
             <div class="element">
               <input type="text" class="form-control" id="val-cost_monthly" name="val-cost_monthly"
@@ -56,14 +42,14 @@
                      [(ngModel)]="pricing['cost_monthly']">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="pricing['type'] != 'trial'">
             <label class="control-label" for="val-cost_annually">Cost Yearly</label>
             <div class="element">
               <input type="text" class="form-control" id="val-cost_annually" name="val-cost_annually" placeholder="Enter Pricing Cost Annually.."
                      [(ngModel)]="pricing['cost_annually']">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" *ngIf="pricing['type'] != 'trial'">
             <label class="control-label" for="val-cost_adding">Cost of adding new active user</label>
             <div class="element">
               <input type="text" class="form-control" id="val-cost_adding" name="val-cost_adding"
@@ -71,15 +57,15 @@
                      [(ngModel)]="pricing['cost_adding']">
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label" for="val-visibility">Visibility</label>
-            <div class="element">
-              <select class="form-control" id="val-visibility" name="val-visibility" [(ngModel)]="pricing['visibility']" data-placeholder="Choose one..">
-                <option value="1">Show to Customer</option>
-                <option value="0">Hidden</option>
-              </select>
-            </div>
-          </div>
+          <!--<div class="form-group">-->
+            <!--<label class="control-label" for="val-visibility">Visibility</label>-->
+            <!--<div class="element">-->
+              <!--<select class="form-control" id="val-visibility" name="val-visibility" [(ngModel)]="pricing['visibility']" data-placeholder="Choose one..">-->
+                <!--<option value="1">Show to Customer</option>-->
+                <!--<option value="0">Hidden</option>-->
+              <!--</select>-->
+            <!--</div>-->
+          <!--</div>-->
           <div class="form-group">
             <label class="control-label" for="val-description">Description</label>
             <div class="element">

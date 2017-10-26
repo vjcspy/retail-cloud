@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {ProductActions} from "../../../R/product/actions";
 import {ProductState} from "../../../R/product/state";
 import {Store} from "@ngrx/store";
+import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,7 @@ import {Store} from "@ngrx/store";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent extends AbstractSubscriptionComponent implements OnInit {
   public product = {
     pricings: [],
     versions: [],
@@ -41,11 +42,12 @@ export class ProductFormComponent implements OnInit {
               protected routerActions: RouterActions,
               protected productActions: ProductActions,
               protected store$: Store<any>) {
+    super();
     this.productState$ = this.store$.select('product');
   }
   
   ngOnInit() {
-    Observable.combineLatest(
+    this.subscribeObservable("_", () => Observable.combineLatest(
       this.route.params,
       this.productCollection.getCollectionObservable(),
       this.priceCollection.getCollectionObservable(),
@@ -70,8 +72,8 @@ export class ProductFormComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
       setTimeout(() => {
         this.initPageJs();
-      }, 250);
-    });
+      }, 100);
+    }));
   }
   
   private initPageJs() {
@@ -125,7 +127,21 @@ export class ProductFormComponent implements OnInit {
                                                                        },
                                                                      },
                                                                      submitHandler() {
-                                                                       vm.product['pricings'] = jQuery("#val-pricings").val();
+                                                                       let pricings = jQuery("#val-pricings").val();
+        
+                                                                       if (_.isArray(pricings)) {
+                                                                         _.forEach(pricings, (pricing_id) => {
+                                                                           if (_.isArray(vm.product['has_pricing'])) {
+                                                                             vm.product['has_pricing'].push({pricing_id});
+                                                                           } else {
+                                                                             vm.product['has_pricing'] = [];
+                                                                           }
+                                                                         });
+                                                                       } else {
+                                                                         vm.notify.error("wrong_format_pricing");
+                                                                         return;
+                                                                       }
+  
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
@@ -216,7 +232,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   isSelectedPrice(id) {
-    return _.indexOf(this.product.pricings, id) > -1;
+    return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
   
   resetModalVersion() {

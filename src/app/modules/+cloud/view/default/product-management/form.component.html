@@ -5,7 +5,7 @@
       <div class="title-page">
         <h1>
           {{ isEditingProduct() ? "Update Product" : "Create Product"}}
-          <span *ngIf="isEditingProduct()">{{id}}</span>
+          <span *ngIf="isEditingProduct()">{{product['name']}}</span>
         </h1>
       </div>
       <form class="js-validation-product form-horizontal">
@@ -37,8 +37,8 @@
             <div class="element">
               <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
                       name="val-pricings">
-                <option *ngFor="let price of prices" [value]="price._id" [selected]="isSelectedPrice(price._id)">
-                  {{ price.display_name}}
+                <option *ngFor="let price of prices" [value]="price['_id']" [selected]="isSelectedPrice(price._id)">
+                  {{ price['display_name']}}
                 </option>
               </select>
             </div>

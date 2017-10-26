@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MeteorObservable} from "meteor-rxjs";
+import * as _ from 'lodash';
 
 @Injectable()
 export class ProductService {
@@ -23,5 +24,35 @@ export class ProductService {
       MeteorObservable.call('product.remove_product', {id})
                       .subscribe((res) => resolve(res), (e) => reject(e));
     });
+  }
+  
+  isProductHasTrialPricing(product: Object, prices: any[]): boolean {
+    let isHasTrial = false;
+    if (_.isObject(product) && _.isArray(product['has_pricing'])) {
+      _.forEach(product['has_pricing'], (pPricing) => {
+        let price = _.find(prices, (_p) => _p['_id'] === pPricing['pricing_id']);
+        if (price && price['type'] === 'trial') {
+          isHasTrial = true;
+          
+          return false;
+        }
+      });
+    }
+    return isHasTrial;
+  }
+  
+  isProductCanPurchase(product: Object, prices: any[]): boolean {
+    let canPurchase = false;
+    if (_.isObject(product) && _.isArray(product['has_pricing'])) {
+      _.forEach(product['has_pricing'], (pPricing) => {
+        let price = _.find(prices, (_p) => _p['_id'] === pPricing['pricing_id']);
+        if (price && (price['type'] === 'life_time' || price['type'] === 'subscription')) {
+          canPurchase = true;
+          
+          return false;
+        }
+      });
+    }
+    return canPurchase;
   }
 }

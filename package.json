@@ -108,6 +108,7 @@
     "font-awesome": "^4.7.0",
     "froala-editor": "2.6.2",
     "hammerjs": "^2.0.8",
+    "holderjs": "^2.9.4",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
     "immutable": "^3.8.1",

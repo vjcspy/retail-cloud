@@ -13,6 +13,11 @@ import {ProductFormComponent} from "./product-management/form.component";
 import {PricingManagementContainerComponent} from "./pricing-managment/container.component";
 import {PricingListComponent} from "./pricing-managment/list.component";
 import {PricingFormComponent} from "./pricing-managment/form.component";
+import {CProductContainerComponent} from "./c-product/container";
+import {CProductListComponent} from "./c-product/list.component";
+import {AccountContainerComponent} from "./account/container";
+import {AccountLicenseContainerComponent} from "./account/license/container";
+import {AccountLicenseListComponent} from "./account/license/list.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -34,4 +39,11 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   PricingManagementContainerComponent,
   PricingListComponent,
   PricingFormComponent,
+  
+  CProductContainerComponent,
+  CProductListComponent,
+  
+  AccountContainerComponent,
+  AccountLicenseContainerComponent,
+  AccountLicenseListComponent,
 ];

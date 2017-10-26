@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" *ngFor="let p of products">
+    <div class="card">
+      <img class="card-img-top" src="holder.js/300x300?theme=vine" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">{{p['name']}}</p>
+        <p>
+          <button [disabled]="!p['canTrial']" href="#" class="btn btn-primary" role="button">Trial</button>
+          <button [disabled]="!p['canPurchase']" href="#" class="btn btn-primary" role="button">Purchase</button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

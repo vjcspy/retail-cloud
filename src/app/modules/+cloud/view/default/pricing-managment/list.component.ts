@@ -13,47 +13,38 @@ export class PricingListComponent implements OnInit {
   public tableConfig = {
     actionsColumn: {edit: true, remove: false},
     columns: [
-      {data: "name", title: "Pricing Name"},
       {data: "display_name", title: "Display Name"},
       {data: "type", title: "Type"},
       {data: "cost_monthly", title: "Cost Monthly"},
       {data: "cost_annually", title: "Cost Yearly"},
       {data: "cost_adding", title: "Cost of adding new active user"},
-      {data: "visibility", title: "Visibility"},
+      // {data: "visibility", title: "Visibility"},
     
     ],
     columnDefs: [
-      {className: "hidden-xs", targets: [0]},
       {
         className: "text-center",
         orderable: false,
-        targets: [2],
+        targets: [0, 1, 2, 3, 4],
         render(data) {
-          return data;
-        }
-      },
-      {
-        className: "text-center",
-        orderable: false,
-        targets: [3,4, 5],
-        render(data) {
-          if (!!data) {
+          if (data) {
             return data;
+          } else {
+            return `-`;
           }
-          return ``;
         }
       },
-      {
-        className: "text-center",
-        orderable: false, targets: [6],
-        render(data) {
-          if (data === 0) {
-            return `<span class="label label-success">Hidden</span>`;
-          } else if (data === 1) {
-            return `<span class="label label-danger">Show to customer</span>`;
-          }
-        }
-      }
+      // {
+      //   className: "text-center",
+      //   orderable: false, targets: [5],
+      //   render(data) {
+      //     if (data === 0) {
+      //       return `<span class="label label-success">Hidden</span>`;
+      //     } else if (data === 1) {
+      //       return `<span class="label label-danger">Show to customer</span>`;
+      //     }
+      //   }
+      // }
     ],
     bFilter: true,
     sDom: 'ltp'
