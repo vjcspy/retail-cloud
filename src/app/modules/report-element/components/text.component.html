@@ -1,0 +1,4 @@
+<span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>
+<input placeholder="{{placeHolderText}}..." type="text" [(ngModel)]="model" class="form-control"
+       [ngClass]="{'error-valid':!_validProperty['isValid']}">
+

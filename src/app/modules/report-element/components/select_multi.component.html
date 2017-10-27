@@ -1,0 +1,7 @@
+<select [multiple]="elementData.isMultiSelect" class="form-control" style="width: 100%;" [(ngModel)]="model">
+    <option *ngFor="let option of elementData.data;trackBy:trackOption"
+            [value]="option.label" [selected]="option.label == modelValue"
+            [hidden]="option.label == 'base_row_total_product'">
+        {{option.label}}
+    </option>
+</select>

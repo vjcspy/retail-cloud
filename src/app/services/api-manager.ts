@@ -45,10 +45,11 @@ export class ApiManager {
     "permission": "permission",
     customerDetail: "customer-detail",
     updateCustomerWishlist: "update-wishlist",
-    'product-cache': 'product-cache'
+    'product-cache': 'product-cache',
+    salesreport: 'salesreport'
   };
   
-  get(apiKey, baseUrl: string): string {
+  get(apiKey, baseUrl?: string): string {
     if (!_.isString(baseUrl)) {
       throw new GeneralException("can_get_base_url");
     }

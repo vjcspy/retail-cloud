@@ -1,0 +1,6 @@
+<select class="form-control" [(ngModel)]="model">
+    <option *ngFor="let option of elementData.data;trackBy:trackOption"
+            [value]="option.value" [selected]="option.value == modelValue">
+        {{option.label}}
+    </option>
+</select>

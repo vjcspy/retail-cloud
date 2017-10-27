@@ -1,0 +1,25 @@
+.error-message {color: #F56461;}
+.error-message {left: 0!important;}
+input:not([type]),
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="time"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+textarea {
+  &.error-valid {
+    border: none; background: #F8ECEB;
+  }
+}
+
+.error-valid {
+  input[type="text"] {
+    border: none; background: #F8ECEB;
+  }
+}

@@ -1,0 +1,41 @@
+<ul>
+    <li class="clearfix radio-btn" (click)="handleUpdateDateCompare('to_date')">
+        <input type="radio" name="selector" id="day-to-{{value}}" [checked]="isCheck('to_date')">
+        <label for="day-to-{{value}}">{{label}} to date</label>
+        <div class="check"></div>
+    </li>
+    <li class="clearfix radio-btn" (click)="handleUpdateDateCompare('last')">
+        <input type="radio" name="selector" id="last-{{value}}" [checked]="isCheck('last')">
+        <label for="last-{{value}}">Last</label>
+        <div class="check"></div>
+        <report-input-number [(model)]="modelData['compare_count']"
+                             [validation]="'is-number-int'"
+                             [formKey]="'date-compare-item'"
+                             [className]="'form-control txt-num'"
+                             (keyup)="handleUpdateDateCompare('last')"
+        ></report-input-number>
+        <label class="not-radio">{{value}}s</label>
+    </li>
+    <li class="clearfix radio-btn" (click)="handleUpdateDateCompare('last_from')">
+        <report-input-number [(model)]="modelData['compare_count']"
+                             [validation]="'is-number-int'"
+                             [formKey]="'date-compare-item'"
+                             [className]="'form-control txt-num-count'"
+                             (keyup)="handleUpdateDateCompare('last_from')"
+        ></report-input-number>
+        <input type="radio" name="selector" id="{{value}}-from" [checked]="isCheck('last_from')">
+        <label for="{{value}}-from" class="lbl-count-from">{{value}}s, from</label>
+        <div class="check"></div>
+        <!--<report-select [elementData]="getYearSize()" [(model)]="getSelectedYear()['year_data']"></report-select>-->
+        <input type="text" id="selectYearData" *ngIf="value == 'year'"/>
+        <report-select *ngIf="value =='quarter'" [elementData]="getQuarterSize()" [(model)]="quarterSelected"></report-select>
+        <report-select *ngIf="value =='quarter'" [elementData]="getYearSize()" [(model)]="yearSelected"></report-select>
+        <!--<input type="text" id="selectQuarterData" *ngIf="value == 'quarter'"/>-->
+        <input type="text" id="selectMonthData" *ngIf="value == 'month'"/>
+        <input type="text" id="selectWeekData" *ngIf="value == 'week'"/>
+        <input type="text" id="selectDayData" *ngIf="value == 'day'"/>
+        <input type="text" id="selectHourData" *ngIf="value == 'hour'"/>
+    </li>
+
+
+</ul>

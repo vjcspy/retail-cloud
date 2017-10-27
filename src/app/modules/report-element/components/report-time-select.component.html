@@ -1,0 +1,128 @@
+<div class="date-range-wrap">
+    <i class="icon-date-time"></i>
+    <input class="form-control txt-date-range" type="text" name="daterange" value="{{convertCurrentDateDisplay(model['current_dateStart'])}} - {{convertCurrentDateDisplay(model['current_dateEnd'])}}"/>
+
+    <div class="date-range-content" [hidden]="!modelData['openDateFilter']" #dateTimeElem>
+        <ul class="nav nav-tabs date-selector-tabs" role="tablist">
+            <li [ngClass]="{active :modelData['dateTimeState'] =='compare'}"
+                (click)="current_state = 'compare'">
+                <a href="#Compare-dates" aria-controls="Compare-Dates" role="tab" data-toggle="tab">
+                    Compare Date
+                </a>
+            </li>
+            <li [ngClass]="{active : modelData['dateTimeState'] == 'ranger'}"
+                (click)="current_state = 'ranger'" name="daterange">
+                <a href="#Date-range" aria-controls="Date-range" role="tab" data-toggle="tab">
+                    Date Range
+                </a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane compare-date-panel" id="Compare-dates"
+                 [ngClass]="{'active':modelData['dateTimeState'] =='compare'}">
+                <form action="">
+                    <ul class="nav nav-tabs " role="tablist">
+                        <li [ngClass]="{active : modelData['compare_value'] == 'year'}">
+                            <a href="#tab-year" aria-controls="tab-year" role="tab" data-toggle="tab">
+                                Year
+                            </a>
+                        </li>
+                        <li [ngClass]="{active : modelData['compare_value'] == 'quarter'}">
+                            <a href="#tab-quarter" aria-controls="tab-quarter" role="tab" data-toggle="tab">
+                                Quarter
+                            </a>
+                        </li>
+                        <li [ngClass]="{active : modelData['compare_value'] == 'month'}">
+                            <a href="#tab-month" aria-controls="tab-month" role="tab" data-toggle="tab">
+                                Month
+                            </a>
+                        </li>
+                        <li [ngClass]="{active : modelData['compare_value'] == 'week'}">
+                            <a href="#tab-week" aria-controls="tab-week" role="tab" data-toggle="tab">
+                                Week
+                            </a>
+                        </li>
+                        <li [ngClass]="{active : modelData['compare_value'] == 'day'}">
+                            <a href="#tab-day" aria-controls="tab-day" role="tab" data-toggle="tab">
+                                Day
+                            </a>
+                        </li>
+                        <li [ngClass]="{active : modelData['compare_value'] == 'hour'}">
+                            <a href="#tab-hour" aria-controls="tab-hour" role="tab" data-toggle="tab">
+                                Hour
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'year'}" id="tab-year">
+                            <date-compare-item [value]="'year'" [label]="'Year'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'quarter'}" id="tab-quarter">
+                            <date-compare-item [value]="'quarter'" [label]="'Quarter'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'month'}" id="tab-month">
+                            <date-compare-item [value]="'month'" [label]="'Month'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'week'}"  id="tab-week">
+                            <date-compare-item [value]="'week'" [label]="'Week'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'day'}"  id="tab-day">
+                            <date-compare-item [value]="'day'" [label]="'Day'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" [ngClass]="{active:modelData['compare_value'] == 'hour'}" id="tab-hour">
+                            <date-compare-item [value]="'hour'" [label]="'Hour'" [(model)]="period_data">
+                            </date-compare-item>
+                        </div>
+
+                    </div>
+                    <div class="clearfix group-btn line-top">
+                        <div class="pull-left">
+					        			<span class="date-value">
+					        				<!--1st Jan 2017 - 31st Dec 2020-->
+                                            {{convertDisplay(period_data['dateStart'])}} - {{convertDisplay(period_data['dateEnd'])}}
+					        			</span>
+                        </div>
+                        <div class="pull-right">
+                            <!--<button class="btn btn-primary" [ngClass]="checkData()"  type="button" (click)="getSaleReport()">Apply-->
+                            <button class="btn btn-primary"  type="button" (click)="getSaleReport('compare')">Apply
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane date-range-panel" style="padding: 0px;" id="Date-range"
+                 [ngClass]="{'active':modelData['dateTimeState'] =='ranger'}">
+                <!--<form action="">-->
+                    <div id="dateRangerTable">
+                        <input id="dateRangerr"  #dateRangerr hidden="true"/>
+                    </div>
+                    <div class="clearfix group-btn line-top">
+                        <div class="pull-left">
+					        			<span class="date-value">
+					        				<!--1st Jan 2017 - 31st Dec 2020-->
+                                            {{convertDisplay(dateTimeRanger['startDate'])}} - {{convertDisplay(dateTimeRanger['endDate'])}}
+					        			</span>
+                        </div>
+                        <div class="pull-right">
+                            <!--<button class="btn btn-primary" [ngClass]="checkData()"  type="button" (click)="getSaleReport()">Apply-->
+                            <button class="btn btn-primary" type="button" (click)="getSaleReport('ranger')">Apply
+                            </button>
+                        </div>
+                    </div>
+                <!--</form>-->
+            </div>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<select [multiple]="elementData.isMultiSelect == true || multiple === true" #selectElem class="js-select2 form-control" style="width: 100%;"
+        data-placeholder="Choose one..">
+  <!--<option></option>&lt;!&ndash; Required for data-placeholder attribute to work with Select2 plugin &ndash;&gt;-->
+  <option *ngFor="let option of elementData.data;trackBy:trackOption" [value]="option.value" [selected]="isSelected(option.value)">{{ option.label
+    }}</option>
+</select>

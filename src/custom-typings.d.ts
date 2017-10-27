@@ -50,6 +50,7 @@ declare var NProgress: any;
 declare var Offline: any;
 declare var TYRO: any;
 declare var JsBarcode: any;
+declare var JQuery: any;
 /*
  // for legacy tslint etc to understand rename 'modern-lru' with your package
  // then comment out `declare module '*';`. For each new module copy/paste
