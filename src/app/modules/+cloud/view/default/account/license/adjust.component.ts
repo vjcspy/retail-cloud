@@ -5,10 +5,13 @@ import {PriceCollection} from "../../../../../../services/meteor-collections/pri
 import {ActivatedRoute, Params} from "@angular/router";
 import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
 import {Observable} from "rxjs/Observable";
-import {MongoObservable} from "meteor-rxjs";
+import {MeteorObservable, MongoObservable} from "meteor-rxjs";
 import * as _ from 'lodash';
 import {LogicException} from "../../../../../../code/LogicException";
 import {UserCreditCollection} from "../../../../../../services/meteor-collections/user-credit";
+import {Store} from "@ngrx/store";
+import {SalesState} from "../../../../R/sales/state";
+import {CheckoutActions} from "../../../../R/sales/checkout/actions";
 
 @Component({
              // moduleId: module.id,
@@ -29,13 +32,31 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
   
   public userCreditBalance = 0;
   
+  public totals = {
+    credit: {
+      creditPlan: 0,
+      creditExtraUser: 0,
+    },
+    total: {
+      costNewPlan: 0,
+      costExtraUser: 0,
+      discountCredit: 0,
+      grandTotal: 0
+    }
+  };
+  
+  public salesState$: Observable<SalesState>;
+  
   constructor(protected licenseCollection: LicenseCollection,
               protected productCollection: ProductCollection,
               protected pricingCollection: PriceCollection,
               protected userCreditCollection: UserCreditCollection,
               protected route: ActivatedRoute,
-              protected changeDetectorRef: ChangeDetectorRef) {
+              protected changeDetectorRef: ChangeDetectorRef,
+              protected store$: Store<any>,
+              protected checkoutActions: CheckoutActions) {
     super();
+    this.salesState$ = this.store$.select('sales');
   }
   
   ngOnInit() {
@@ -98,6 +119,8 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
           throw new LogicException("wrong_data");
         }
       }));
+    
+    this.subscribeObservable("calculate_total", () => this.salesState$.subscribe((salesState: SalesState) => this.totals = <any>salesState.checkout.totals));
   }
   
   protected getTrialPricing() {
@@ -152,25 +175,15 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
     if (_.isNaN(this.plan['extraUser']) || this.plan['extraUser'] < 0) {
       this.plan['extraUser'] = 0;
     }
-  }
-  
-  getTotals(): Object {
-    return {
-      credit: {
-        creditPlan: 0,
-        creditExtraUser: 0,
-      },
-      total: {
-        costNewPlan: 0,
-        costExtraUser: 0,
-      }
-    };
-  }
-  
-  getGrandTotal(): number {
-    return 0;
+    
+    this.calculateTotal();
   }
   
   submitOrder() {
+  
+  }
+  
+  calculateTotal() {
+    this.checkoutActions.calculateTotal(this.plan, this.product['_id']);
   }
 }

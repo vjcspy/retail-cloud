@@ -27,7 +27,7 @@
             <div class="form-group">
               <label class="control-label">Select your plan:</label>
               <div class="element">
-                <select class="js-select2 form-control" [(ngModel)]="plan['pricing_id']" name="pricing">
+                <select class="js-select2 form-control" [(ngModel)]="plan['pricing_id']" name="pricing" (ngModelChange)="calculateTotal()">
                   <option *ngFor="let pricing of prices" [value]="pricing['_id']">{{pricing['display_name']}}</option>
                 </select>
               </div>
@@ -35,7 +35,7 @@
             <div class="form-group" *ngIf="isSelectSubscription()">
               <label class="control-label">Select your billing cycle:</label>
               <div class="element">
-                <select class="form-control" [(ngModel)]="plan['cycle']" name="billing">
+                <select class="form-control" [(ngModel)]="plan['cycle']" name="billing" (ngModelChange)="calculateTotal()">
                   <option value="1">Monthly</option>
                   <option value="2">Annually</option>
                 </select>
@@ -65,7 +65,7 @@
                 <i class="ion-ios-help txtaqua"></i>
               </label>
               <div class="element">
-                <label>${{getTotals()['credit']['creditPlan'] | number: '1.2-2'}}</label>
+                <label>${{totals['credit']['creditPlan'] | number: '1.2-2'}}</label>
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@
                 <i class="ion-ios-help txtaqua"></i>
               </label>
               <div class="element">
-                <label>${{getTotals()['credit']['creditExtraUser'] | number: '1.2-2'}}</label>
+                <label>${{totals['credit']['creditExtraUser'] | number: '1.2-2'}}</label>
               </div>
             </div>
             <div class="msg msg-notice">
@@ -102,38 +102,44 @@
           <tbody>
           <tr>
             <td>Cost of new plan:</td>
-            <td>${{getTotals()['total']['costNewPlan'] | number: '1.2-2'}}</td>
+            <td>${{totals['total']['costNewPlan'] | number: '1.2-2'}}</td>
           </tr>
           <tr>
             <td>Cost of extra active users:</td>
-            <td>${{getTotals()['total']['costExtraUser'] | number: '1.2-2'}}</td>
+            <td>${{totals['total']['costExtraUser'] | number: '1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td>Total Cost:</td>
+            <td>${{(totals['total']['costNewPlan'] + totals['total']['costExtraUser'] ) | number: '1.2-2'}}</td>
           </tr>
           </tbody>
+
           <tfoot>
           <tr class="bg">
-            <td>Total Cost:</td>
-            <td>${{(getTotals()['total']['costNewPlan'] + getTotals()['total']['costExtraUser'] ) | number: '1.2-2'}}</td>
-          </tr>
-          <tr class="bg last">
-            <td>Your Credit:</td>
+            <td>Credit balance:</td>
             <td>${{userCreditBalance | number: '1.2-2'}}</td>
           </tr>
-          <tr class="bg last">
-            <td>Credit Change:</td>
-            <td>${{(getTotals()['credit']['creditExtraUser'] + getTotals()['credit']['creditPlan']) | number: '1.2-2'}}</td>
+          <tr class="bg">
+            <td>Credit earned :</td>
+            <td>${{(totals['credit']['creditExtraUser'] + totals['credit']['creditPlan']) | number: '1.2-2'}}</td>
+          </tr>
+          <tr class="bg">
+            <td>Credit spent:</td>
+            <td>${{ totals.total.discountCredit | number: '1.2-2'}}</td>
           </tr>
           <tr class="grand-total">
             <td>Grand total:</td>
-            <td>${{ getGrandTotal() | number: '1.2-2' }}</td>
+            <td>${{ totals.total.grandTotal | number: '1.2-2' }}</td>
           </tr>
           </tfoot>
-
         </table>
 
 
         <div class="group-btn tac line-top">
           <button class="btn btn-default" type="button">Cancel</button>
-          <button class="btn btn-primary" type="button" (click)="submitOrder()">{{isNotSelectTrial()? "Checkout" : "Register"}}</button>
+          <button class="btn btn-primary" [ladda]="(salesState$ | async)?.checkout.isCalculating" type="button" (click)="submitOrder()">
+            {{isNotSelectTrial()? "Checkout" : "Register"}}
+          </button>
         </div>
       </div>
     </div>
