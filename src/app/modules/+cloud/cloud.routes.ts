@@ -12,6 +12,7 @@ import {LicenseFormComponent} from "./view/default/license-management/license-fo
 import {ProductManagementContainerComponent} from "./view/default/product-management/container.component";
 import {ProductListComponent} from "./view/default/product-management/list.component";
 import {ProductFormComponent} from "./view/default/product-management/form.component";
+import {ProductApiComponent} from "./view/default/product-management/api.component";
 import {PricingListComponent} from "./view/default/pricing-managment/list.component";
 import {PricingFormComponent} from "./view/default/pricing-managment/form.component";
 import {PricingManagementContainerComponent} from "./view/default/pricing-managment/container.component";
@@ -84,6 +85,10 @@ export const CLOUD_ROUTES: Routes = [
               {
                 path: 'create',
                 component: ProductFormComponent
+              },
+              {
+                path: 'edit/:id/api',
+                component: ProductApiComponent
               },
               {
                 path: 'edit/:id',
