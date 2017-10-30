@@ -9,6 +9,7 @@ import {FormValidationService} from "../../../share/provider/form-validation";
 import {RequestService} from "../../../../services/request";
 // import {OfflineService} from "../../../share/provider/offline";
 import {NotifyManager} from "../../../../services/notify-manager";
+import {SaleReportDataManagement} from "./data-management";
 
 @Injectable()
 export class SaleReportService {
@@ -32,7 +33,8 @@ export class SaleReportService {
               protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
               protected router: Router,
-              protected formValidation: FormValidationService) {
+              protected formValidation: FormValidationService,
+              protected reportDataManagement: SaleReportDataManagement) {
     this.resolveDefaultData();
   }
   
@@ -571,11 +573,11 @@ export class SaleReportService {
     let measureList     = _.find(this.getMeasureIdByReportType()['data'], (row) => row['report_type'] == report_type);
     if (_.indexOf(['payment_method', 'shipping_method'], report_type) == -1) {
       _.remove(listMeasureType, function (measure) {
-        return _.indexOf(measureList['measureId'], measure['id']) != -1
+        return _.indexOf(measureList['measureIdBelongTo'], measure['id']) != -1
       });
     } else {
       _.remove(listMeasureType, function (measure) {
-        return _.indexOf(measureList['measureId'], measure['id']) == -1
+        return _.indexOf(measureList['measureIdNotBelongTo'], measure['id']) == -1
       });
     }
     return {
