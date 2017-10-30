@@ -42,7 +42,6 @@ export class TyroEffects {
                                         } else if (paymentData['gateway'] === 'iclient') {
                                           window['tyro_gateway'] = "https://iclient.test.tyro.com/";
                                         }
-                                        console.log('set ok');
                                       }
                                     }
     
