@@ -453,7 +453,7 @@ export class SaleReportService {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
     // } else {
-      let _query = this.apiUrlManager.get('salesreport');
+      let _query = this.apiUrlManager.get('salesreport', 'http://xpos.ispx.smartosc.com');
       this.requestService.makePost(_query, report)
           .subscribe(
             (data) => {
@@ -818,7 +818,7 @@ export class SaleReportService {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
     // } else {
-      let _query = this.apiUrlManager.get('salesreport');
+      let _query = this.apiUrlManager.get('salesreport', 'http://xpos.ispx.smartosc.com');
       this.requestService.makePost(_query, report)
           .subscribe((data) => {
             if (_.isObject(data)) {

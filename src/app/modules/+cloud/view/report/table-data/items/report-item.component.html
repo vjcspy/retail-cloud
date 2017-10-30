@@ -1,0 +1,51 @@
+<th *ngFor="let addition of additionData" [attr.colspan]="getColspanForItem(addition['value'])" [hidden]="canViewDetail"
+    class="datatable-row-label" style="white-space: nowrap;">
+  <a *ngIf="isDisplayItemDetail(addition['value'])" (click)="selectMoreInfo()" style="float: left;margin-right: 5px">
+    <span *ngIf="customizeChevron()" class="ion ion-chevron-down"></span>
+    <span *ngIf="!customizeChevron()" class="ion ion-chevron-up"></span>
+  </a>
+  <!--<a (click)="selectMoreInfo()" target="_blank">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? item[addition['value']] : '__') : item['name']}}</a>-->
+  {{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') :
+  (item['name'] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
+  <span
+    *ngIf="(service.viewDataFilter['report_type'] == 'customer' || service.viewDataFilter['report_type'] == 'register') && (addition['value'] == 'name')">
+    <p style="font-size: 11px; white-space: nowrap;"><i>
+    Shipping Amount: <span>{{service.viewData['symbol_currency']}}</span>
+   {{item['total_shipping_amount'] | number:'1.2-2'}}
+  </i></p></span>
+</th>
+<th *ngFor="let addition of additionData" [attr.colspan]="getColspanForItem(addition['value'])" class="datatable-row-label"
+    [hidden]="!canViewDetail">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') : (item['name'] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
+</th>
+<th [attr.colspan]="colspanTotal" *ngIf="typeDisplay != 'itemInHontical'" class="datatable-row-label">
+  <a *ngIf="!canViewDetail && service.viewDataFilter['report_type'] == 'sales_summary' " (click)="selectMoreInfo(true)"
+     style="float: left;margin-right: 5px">
+    <span *ngIf="customizeChevron()" class="ion ion-chevron-down"></span>
+    <span *ngIf="!customizeChevron()" class="ion ion-chevron-up"></span>
+  </a>
+  {{item['name']}}
+
+  <span
+    *ngIf="service.viewDataFilter['report_type'] == 'sales_summary'"><p style="font-size: 11px; white-space: nowrap;"><i>
+    Shipping Amount: <span>{{service.viewData['symbol_currency']}}</span>
+   {{item['total_shipping_amount'] | number:'1.2-2'}}
+  </i></p></span>
+</th>
+<td [hidden]="is_date_ranger" class="datatable-cell datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
+  <div class="price-wrap"> <span [hidden]="!service.checkShowSymbolCurrency(item['name'], item[date])">
+      {{service.viewData['symbol_currency']}}</span>{{service.checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :
+    (!service.checkNullValue(item[date]) ? item[date] : '__')}}
+  </div>
+</td>
+<td class="datatable-table-total" *ngFor="let measure of measures">
+  <div class="price-wrap" style="white-space: nowrap;"><span [hidden]="!service.checkShowSymbolCurrency(measure, item[measure])">
+  {{service.viewData['symbol_currency']}}</span>
+    {{service.checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount percent' || measure == 'Return percent') ? (item[measure] | percent:'1.2-2') :
+    ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!service.checkNullValue(item[measure]) ? item[measure] : '__')}}
+  </div>
+</td>
+

@@ -1,0 +1,12 @@
+<th colspan="2" class="datatable-row-label"></th>
+<th [attr.colspan]="colspanFooter-2" class="datatable-row-label">{{item['name']}}</th>
+<td [hidden]="isDateRanger()" class="datatable-cell datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
+    <span [hidden]="!service.checkShowSymbolCurrency(item['name'], item[date])">
+      {{base_currency_code}}</span>{{service.checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :
+  (!service.checkNullValue(item[date]) ? item[date] : '__')}}
+</td>
+<td class="datatable-table-total" *ngFor="let measure of measures">
+  <span [hidden]="!service.checkShowSymbolCurrency(measure, item[measure])">
+  {{base_currency_code}}</span>{{service.checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount percent' || measure == 'Return percent') ?
+  (item[measure] | percent:'1.2-2') :
+  ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!service.checkNullValue(item[measure]) ? item[measure] : '__')}}</td>

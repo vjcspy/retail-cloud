@@ -1,0 +1,111 @@
+<table class="datatable">
+  <thead>
+  <tr class="datatable-col-header-row">
+    <th [attr.colspan]="getColspanForHeader()"></th>
+    <th [hidden]="isDateRanger()" [attr.colspan]="data_view['list_date_filter'].length" class="border">2017</th>
+    <th class="datatable-row-aggs-header" [attr.colspan]="data_filter['measures'].length">Totals By {{saleReportService.getLabelForTitle()}}</th>
+  </tr>
+  <tr class="datatable-col-labels-row">
+    <th [attr.colspan]="getColspanForTitle(addition['value'])" class="datatable-row-label-label "
+        *ngFor="let addition of viewData['additionData'];trackBy:trackByValue"
+        style="text-align: left" [style.padding-right]="!checkShowAdditionPopup(addition['value']) ? '58px' : null">{{addition['value'] == 'name' ? saleReportService.getLabelForTitle() : addition['label']}}
+      <div [hidden]="checkShowAdditionPopup(addition['value'])" class="dropdown filter report-filter">
+        <a class="btn-report-filter" id="report-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <i class="ion ion-chevron-down"></i>
+        </a>
+        <ul class="dropdown-menu filter-dropdown" aria-labelledby="report-filter">
+          <li class="filter-all" (click)="selectAllAdditionData()">
+            <input type="checkbox" id="filter-date" [checked]="_additionData['isAllChecked']"
+                   [(ngModel)]="_additionData['isAllChecked']">
+            <label for="filter-date">All</label>
+          </li>
+          <li *ngFor="let additonalData of getAdditionalDataForPopUp()['data'];trackBy:trackByValue" (click)="selectAddtion()">
+            <input type="checkbox" id="{{additonalData['value']}}" name="{{additonalData['value']}}"
+                   [(ngModel)]="_additionData[additonalData['value']]"
+                   [checked]="_additionData[additonalData['value']]"
+                   (click)="selectAddtion()">
+            <label>{{additonalData['label']}}</label>
+          </li>
+          <div class="group-btn">
+            <button class="btn btn-primary" type="submit" (click)="applyAdditionField()">APPLY</button>
+          </div>
+        </ul>
+      </div>
+    </th>
+
+    <th [hidden]="isDateRanger()" class="datatable-row-label-label  datatable-row-label-label--last"
+        style="text-align: center"
+        *ngFor="let date  of data_view['list_date_filter']">
+      {{date}}
+    </th>
+    <th class="datatable-row-aggs-label "  *ngFor="let measure of list_measure"
+        (click)="saleReportService.resolveItemDisplay(measure)">{{measure}}
+      <i *ngIf="saleReportService.checkSortAsc(measure) == 3" class="ion ion-chevron-up"></i>
+      <i *ngIf="saleReportService.checkSortAsc(measure) == 2" class="ion ion-chevron-down"></i>
+    </th>
+    <!-- ngIf: showAggregateDropdown --></tr>
+  </thead>
+  <tbody *ngFor="let item of data_view['items'];">
+  <tr class="datatable-row datatable-row--group-start"
+      [hidden]="checkSummaryType() == 1"
+      sale-report-item
+      [item]="item"
+      [measures] = "list_measure"
+      [data_filter] = "data_filter"
+      [list_date]="data_view['list_date_filter']"
+      [is_date_ranger]="isDateRanger()"
+      [is_item_has_detail_data] = 'isdisplayMoreData(item)'
+      [detail_item_value]= 'detail_item_value'
+      [additionData] = "viewData['additionData']"
+      [typeDisplay]="'itemInHontical'"></tr>
+
+  <tr class="datatable-row" *ngFor="let itemDetail of detail_item"
+      [colspanFooter]="getColspanForHeader()"
+      [item]="itemDetail"
+      [hidden]="hiddenItemDetail(item)"
+      sale-report-item-detail
+      [measures] = "list_measure"
+      [data_filter] = "data_filter"
+      [list_date]="data_view['list_date_filter']"
+      [base_currency_code]="base_currency_code"></tr>
+  </tbody>
+
+  <!--&lt;!&ndash;body for total column&ndash;&gt;-->
+  <tbody  class="Thanh_demo">
+  <tr [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || saleReportService.checkDataNullForHidden()"
+      [ngClass]="{'datatable-col-totals-row': checkDisplayProductForSalesSummary() == true, 'datatable-row-col-totals' : checkDisplayProductForSalesSummary() == false }"
+      sale-report-item
+      [is_date_ranger]="isDateRanger()"
+      [item]="data_view['totalInHontical']"
+      [list_date]="data_view['list_date_filter']"
+      [is_item_has_detail_data] ='isdisplayMoreData()'
+      [measures] = "list_measure"
+      [data_filter] = "data_filter"
+      [typeDisplay]="'totalInHontical'"
+      [colspanTotal]="getColspanForHeader()">
+  </tr>
+  <tr class="datatable-row" *ngFor="let itemDetail of detail_item"
+      [colspanFooter]="getColspanForHeader()"
+      [item]="itemDetail"
+      [hidden]="checkDisplayProductForSalesSummary()"
+      sale-report-item-detail
+      [measures] = "list_measure"
+      [data_filter] = "data_filter"
+      [list_date]="data_view['list_date_filter']"
+      [base_currency_code]="base_currency_code"></tr>
+  <tr *ngIf="saleReportService.checkDataNullForHidden()">
+    <td style="text-align: center; padding-top: 10px;" colspan="15"><p><i>No data available for this period.</i></p></td>
+  </tr>
+  </tbody>
+  <tfoot [hidden]="isDateRanger() || saleReportService.viewDataFilter['report_type'] == 'category' || saleReportService.checkDataNullForHidden()">
+  <tr class="datatable-col-aggs-row" *ngFor="let itemDateRanger of refactorAdditionData()"
+      sale-report-dateranger-item
+      [firstItem]="refactorAdditionData()[0]"
+      [item]="itemDateRanger"
+      [list_date]="data_view['list_date_filter']"
+      [colspanFooter]="getColspanForHeader()"
+      [rowSpan]="list_measure.length">
+  </tr>
+  </tfoot>
+
+</table>
