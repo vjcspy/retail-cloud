@@ -10,6 +10,7 @@ import {ToastsManager} from "ng2-toastr";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 import {DialogService} from "./modules/dialog/dialog.service";
 import {RetailTranslate} from "./modules/share/provider/retail-translate";
+import {NotifyManager} from "./services/notify-manager";
 
 /**
  * App Component
@@ -36,12 +37,28 @@ import {RetailTranslate} from "./modules/share/provider/retail-translate";
 export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,
               vcr: ViewContainerRef,
+              protected notify: NotifyManager,
               protected translate: RetailTranslate,
               private dialogService: DialogService,) {
     super();
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
+    this.loginMeteor();
+  }
+  
+  protected loginMeteor(): void {
+    if (!Meteor.loggingIn()) {
+      new Promise((resolve, reject) => {
+        Meteor.loginWithPassword('thanhnt', '123thanh', (e: Error) => {
+          if (e && e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+            return reject(e);
+          }
+          resolve();
+        });
+      });
+    }
   }
   
   protected resolveLanguage() {

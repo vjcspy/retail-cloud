@@ -66,17 +66,17 @@ export class PosGeneralActions {
     return action;
   }
   
-  static ACTION_RESOLVED_URLS = 'ACTION_RESOLVED_URLS';
-  
-  resolvedUrls(urls, dispatch: boolean = true): Action {
-    const action = {type: PosGeneralActions.ACTION_RESOLVED_URLS, payload: {urls}};
-    
-    if (dispatch === true) {
-      this.store$.dispatch(action);
-    }
-    
-    return action;
-  }
+  // static ACTION_RESOLVED_URLS = 'ACTION_RESOLVED_URLS';
+  //
+  // resolvedUrls(urls, dispatch: boolean = true): Action {
+  //   const action = {type: PosGeneralActions.ACTION_RESOLVED_URLS, payload: {urls}};
+  //
+  //   if (dispatch === true) {
+  //     this.store$.dispatch(action);
+  //   }
+  //
+  //   return action;
+  // }
   
   static ACTION_CLEAR_GENERAL_DATA = 'ACTION_CLEAR_GENERAL_DATA';
   

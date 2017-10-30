@@ -27,11 +27,12 @@ export class AccountEffects {
                          .ofType(AccountActions.ACTION_LOGIN)
                          .withLatestFrom(this.store$.select('account'))
                          .switchMap((z) => {
-                           return Observable.fromPromise(this.authService.signIn(z[0].payload['user']))
-                                            .map(() => {
-                                              const user = Meteor.user();
+                           return this.authService.signIn(z[0].payload['user'],z[0].payload['baseUrl'])
+                                            .map((data) => {
+                                              const user = data;
                                               this.accountService.saveUserToStorage(user);
-      
+                                              this.accountService.saveBaseUrlToStorage(z[0].payload['baseUrl']);
+                                              this.accountService.saveLicenseToStorage();
                                               const redirect = (z[1] as AccountState).redirect;
                                               if (_.isString(redirect)) {
                                                 if (redirect.indexOf("http") > -1) {
@@ -40,7 +41,6 @@ export class AccountEffects {
                                                   this.routerActions.go(redirect);
                                                 }
                                               }
-      
                                               return this.accountActions.loginSuccess(user, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.loginFailed(false)));

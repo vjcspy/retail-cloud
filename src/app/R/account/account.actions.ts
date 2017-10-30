@@ -7,8 +7,8 @@ export class AccountActions {
   
   static ACTION_LOGIN = 'ACTION_LOGIN';
   
-  login(user, dispatch: boolean = true): Action {
-    const action = {type: AccountActions.ACTION_LOGIN, payload: {user}};
+  login(user,baseUrl, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_LOGIN, payload: {user,baseUrl}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

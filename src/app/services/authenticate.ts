@@ -1,39 +1,41 @@
 import {Injectable} from '@angular/core';
 import {AppStorage} from "./storage";
-import {MeteorObservable} from "meteor-rxjs";
 import {NotifyManager} from "./notify-manager";
 import {AccountActions} from "../R/account/account.actions";
+import {ApiManager} from "./api-manager";
+import {RequestService} from "./request";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class AuthenticateService {
   private _user;
   protected trackingWhenUserChange;
   
-  constructor(protected storage: AppStorage, protected notify: NotifyManager, protected accountActions: AccountActions) { }
+  constructor(protected storage: AppStorage, protected notify: NotifyManager, protected accountActions: AccountActions ,private apiUrlManager: ApiManager, private requestService: RequestService) { }
   
   get user() {
-    if (typeof this.trackingWhenUserChange === 'undefined') {
-      this.trackingWhenUserChange = MeteorObservable.autorun().subscribe(() => {
-        const user = Meteor.user();
-        if (user) {
-          this._user = user;
-        }
-      });
-    }
+    // let baseUrl   = this.storage.localRetrieve('baseUrl');
+    // let tokenKey  = this.storage.localRetrieve('token_key');
+    // let username  = this.storage.localRetrieve('username');
+    let localUser = this.storage.localRetrieve('user');
     
-    if (!this._user) {
-      let localUser = this.storage.localRetrieve('user');
-      if (localUser) {
-        this._user = localUser;
-      } else {
-        let meteorUser = Meteor.user();
-        if (meteorUser) {
-          this._user = meteorUser;
-        }
-      }
+    // if (typeof this.trackingWhenUserChange === 'undefined' && baseUrl && tokenKey && username) {
+    //   let canAutoLogin            = false;
+    //   this.trackingWhenUserChange = this.checkLogin(baseUrl, tokenKey, username).subscribe((data) => {
+    //     return canAutoLogin = data;
+    //   });
+    //   if (canAutoLogin && localUser) {
+    //     this._user = localUser;
+    //   }
+    // }
+    if (localUser) {
+      this._user = localUser;
     }
-    
     return this._user;
+  }
+  
+  checkLogin(baseUrl,tokenKey,user): Observable<any> {
+    return this.requestService.makePost(this.apiUrlManager.get('checkLogin', baseUrl), {'user': user, 'key': tokenKey});
   }
   
   set user(value) {
@@ -51,18 +53,8 @@ export class AuthenticateService {
     return true;
   }
   
-  signIn(user: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      
-      Meteor.loginWithPassword(user.username, user.password, (e: Error) => {
-        
-        if (e && e['reason']) {
-          this.notify.error(e['reason'], e['error']);
-          return reject(e);
-        }
-        resolve();
-      });
-    });
+  signIn(user: any, baseUrl: any): Observable<any> {
+    return this.requestService.makePost(this.apiUrlManager.get('login', baseUrl), {'username': user.username, 'password': user.password});
   }
   
   signOut() {

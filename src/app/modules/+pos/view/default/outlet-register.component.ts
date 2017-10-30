@@ -27,6 +27,6 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   }
   
   ngOnInit() {
-    this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
+    // this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
   }
 }
