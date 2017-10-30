@@ -46,7 +46,7 @@
   "Use This": "Usar esto",
 
   "There is no opening shift": "No hay caja abierta",
-  "No Opening Shift": "	Sin cambio de apertura",
+  "No Opening Shift": "Sin cambio de apertura",
   "Open": "Abrir",
   "Close": "Cerrar",
 
@@ -322,13 +322,11 @@
   "Print": "Imprimir",
   "Send": "Enviar",
 
-  "Monday" : "Lunes",
-  "Tuesday" : "Martes",
-  "Wednesday" : "Miercoles",
-  "Thursday" : "Jueves",
-  "Friday" : "Viernes",
-  "Saturday" : "Sabado",
-  "Sunday" : "Domingo",
+  "Payment status": "Pago Status",
+  "Shipment status" : "Envío Status",
+  "Sync status" : "Sincronizado Status",
+
+  "Search by customer name , email and order's note" : "Búsqueda por nombre cliente, email, nota de pedido",
 
   "Customer Mode" : "Modo Cliente",
   "Use customer online mode" : "Utilizar el modo en línea del cliente",
@@ -469,6 +467,10 @@
   "View as:" : "Visto como:",
   "Search by": "Búsqueda por",
   "Add Customer" : "Agregar cliente",
+  "Remove Customer" : "Eliminar cliente",
+
+  "Category Position": "Posición de Categoría",
+  "Category Name" : "Nombre de Categoría",
 
   "can_not_refund_in_offline_mode": "No se puede realizar el reembolso en modo sin conexión. Por favor conectarse a Internet.",
   "can_get_customer_detail_data" : "No se puede obtener información del cliente debido a un error del servidor o una mala conexión. Inténtelo de nuevo o póngase en contacto con nosotros para obtener ayuda.",

@@ -30,15 +30,17 @@
       </div>
     </div>
     <div class="selectbox-wrap">
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getPaymentStatusElem()" [defaultText]="'Payment status'"
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getPaymentStatusElem()"
+                     [defaultText]="('Payment status' | translate)"
                      [model]="ordersState.list.searchOrderPaymentStatus"
                      (modelChange)="searchOrderStatus({searchOrderPaymentStatus:$event})">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getShipmentStatusElem()" [defaultText]="'Shipment status'"
+      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getShipmentStatusElem()"
+                     [defaultText]="('Shipment status' | translate)"
                      [model]="ordersState.list.searchOrderShipmentStatus"
                      (modelChange)="searchOrderStatus({searchOrderShipmentStatus:$event})">
       </retail-select>
-      <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="'Sync status'"
+      <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="('Sync status' | translate)"
                      [model]="ordersState.list.searchOrderSyncStatus"
                      (modelChange)="searchOrderStatus({searchOrderSyncStatus:$event})">
       </retail-select>
