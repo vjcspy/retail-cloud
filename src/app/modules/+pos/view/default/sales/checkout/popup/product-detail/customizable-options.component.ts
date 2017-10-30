@@ -81,10 +81,6 @@ export class PosDefaultSalesCheckoutPopupProductDetailCustomizableOptionsCompone
     }
   }
   
-  
-  ngAfterViewInit(): void {
-  }
-  
   getProduct(): Product {
     return this.productOptionsState.product;
   }
