@@ -76,7 +76,7 @@
             <h4 [ngClass]="{'refunded-color': payment['is_purchase'] != 1}">{{getPaymentTitle(payment)}}</h4>
             <div *ngIf="payment['type'] == 'tyro'" style="margin-left: 15px;font-style: italic">
               <p>{{ 'Authorisation Code' | translate }}: {{payment['data']['authorisationCode']}}</p>
-              <p>{{ 'Card Type' | translate }}: {{payment['data']['authorisationCode']}}</p>
+              <p>{{ 'Card Type' | translate }}: {{payment['data']['cardType']}}</p>
               <p>{{ 'Issuer Action Code' | translate }}: {{payment['data']['issuerActionCode']}}</p>
               <p>{{ 'Transaction Reference' | translate }}: {{payment['data']['transactionReference']}}</p>
             </div>

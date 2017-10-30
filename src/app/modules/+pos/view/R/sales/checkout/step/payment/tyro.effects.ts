@@ -7,11 +7,47 @@ import {TyroService} from "./tyro.service";
 import {TyroActions} from "./tyro.actions";
 import * as _ from 'lodash';
 import {TyroPayment} from "../../../../../../services/payment-integrate/tyro";
+import {EntityActions} from "../../../../../../R/entities/entity/entity.actions";
+import {PosEntitiesActions} from "../../../../../../R/entities/entities.actions";
+import {PaymentDB} from "../../../../../../database/xretail/db/payment";
+import {List} from "immutable";
+import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 
 @Injectable()
 export class TyroEffects {
   
   constructor(private store$: Store<any>, private actions: Actions, private tyroService: TyroService, private tyroPayment: TyroPayment) {}
+  
+  @Effect() initTestGateway = this.actions
+                                  .ofType(
+                                    EntityActions.ACTION_PUSH_MANY_ENTITY,
+                                    PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                  )
+                                  .filter((action: Action) => !!action.payload['entityCode'] && action.payload['entityCode'] === PaymentDB.getCode())
+                                  .withLatestFrom(this.store$.select('entities'))
+                                  .map((z: any) => {
+                                    const action: Action = z[0];
+                                    let payments: List<PaymentDB>;
+                                    if (action.type === EntityActions.ACTION_PUSH_MANY_ENTITY) {
+                                      payments = action.payload['items'];
+                                    } else {
+                                      payments = (z[1] as PosEntitiesState)[PaymentDB.getCode()].items;
+                                    }
+                                    const tyro = payments.find((_p) => _p['type'] === 'tyro');
+                                    if (tyro) {
+                                      const paymentData = tyro['payment_data'];
+                                      if (paymentData && paymentData['gateway']) {
+                                        if (paymentData['gateway'] === 'iclientsimulator') {
+                                          window['tyro_gateway'] = "https://iclientsimulator.test.tyro.com/";
+                                        } else if (paymentData['gateway'] === 'iclient') {
+                                          window['tyro_gateway'] = "https://iclient.test.tyro.com/";
+                                        }
+                                        console.log('set ok');
+                                      }
+                                    }
+    
+                                    return {type: TyroActions.ACTION_SET_TYRO_GATEWAY};
+                                  });
   
   @Effect() initTyroConfig = this.actions
                                  .ofType(

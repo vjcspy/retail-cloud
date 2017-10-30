@@ -20,6 +20,15 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() configurationsState: ConfigurationsState;
   
+  public dataSelect = {
+    tyroGateway: {
+      data: [
+        {label: "iclientsimulator.test", value: "iclientsimulator"},
+        {label: "iclient.test", value: "iclient"},
+      ]
+    }
+  };
+  
   constructor(private formValidation: FormValidationService,
               private configurationsPaymentService: ConfigurationsPaymentService,
               private configurationsPaymentActions: ConfigurationsPaymentActions,

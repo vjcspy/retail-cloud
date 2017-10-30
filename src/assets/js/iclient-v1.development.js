@@ -6667,7 +6667,14 @@ TYRO = function() {
                 throw new Error("Transaction already in progress.");
             }
             var iframe = doc.createElement("iframe");
-            var iframeSourceUrl = "https://iclientsimulator.test.tyro.com/";
+          var iframeSourceUrl;
+          if (window.hasOwnProperty('tyro_gateway')) {
+            iframeSourceUrl = window['tyro_gateway'];
+          }
+          else {
+             iframeSourceUrl = "https://iclient.test.tyro.com/";
+          }
+          console.log(iframeSourceUrl);
             iframe.setAttribute("src", iframeSourceUrl + "iclient.html?apiKey=" + apiKey + "&originOfPos=" + encodeURIComponent(SHARED_INTERFACE.getOriginOfPos()));
             iframe.setAttribute("style", "display: none");
             iframe.setAttribute("id", "iclient-headless-iframe");
