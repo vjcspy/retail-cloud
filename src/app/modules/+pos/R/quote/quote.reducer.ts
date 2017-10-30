@@ -1,7 +1,6 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {posQuoteStateFactory, PosQuoteStateRecord} from "./quote.state";
 import {PosQuoteActions} from "./quote.actions";
-import * as _ from 'lodash';
 import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
 import {PosSyncActions} from "../sync/sync.actions";
