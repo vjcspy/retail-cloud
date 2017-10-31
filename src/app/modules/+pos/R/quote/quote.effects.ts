@@ -113,6 +113,7 @@ export class PosQuoteEffects {
                                       case 'configurable':
                                       case 'bundle':
                                       case 'grouped':
+                                      case 'aw_giftcard':
                                         return {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                           payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
@@ -517,7 +518,7 @@ export class PosQuoteEffects {
             await groupedType.resolveAssociatedProducts(groupedProduct);
             break;
           default:
-            throw new GeneralException("We not yet support type of this product.");
+            break;
         }
       }).then(() => resolve());
     });

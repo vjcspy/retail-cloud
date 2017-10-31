@@ -62,6 +62,7 @@
                     </pos-default-sales-checkout-popup-product-detail-super-attribute>
                   </div>
                   <pos-default-sales-checkout-popup-product-detail-super-group *ngIf="productOptionsState.product.getTypeId()==='grouped'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-super-group>
+                  <pos-default-sales-checkout-popup-product-detail-gift-card *ngIf="productOptionsState.product.getTypeId()==='aw_giftcard'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-gift-card>
                 </ul>
               </form>
               <div *ngIf="productOptionsState.product.getTypeId() === 'bundle'">

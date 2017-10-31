@@ -39,7 +39,7 @@ export class ProductOptionsEffects {
                                                       const childProduct = products.find((p) => parseInt(p.id + '') === parseInt(selection['entity_id'] + ''));
                                                       if (childProduct) {
                                                         childBundleImages[selection['entity_id']] = childProduct['origin_image'];
-                                                        
+            
                                                         // add data of product to selection, because need tier_prices data when collect total.
                                                         Object.assign(selection, {...childProduct});
                                                       } else {
@@ -182,6 +182,10 @@ export class ProductOptionsEffects {
                                                                productOptionsState.buyRequest
                                                                                   .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
+                                                             }
+                                                             if (productOptionsState.product.getTypeId() === 'aw_giftcard') {
+                                                               productOptionsState.buyRequest
+                                                                                  .setData('gift_card', productOptionsState.optionData.gift_card);
                                                              }
                                                              if (productOptionsState.currentProcessing === 'ADD_NEW') {
                                                                return this.quoteActions.addItemBuyRequestToQuote(productOptionsState.buyRequest, false, false);

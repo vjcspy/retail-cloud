@@ -15,11 +15,11 @@ export class ProductOptionsActions {
   constructor(private store$: Store<any>) { }
   
   changeTabView(tabView: string) {
-    this.store$.dispatch({type: ProductOptionsActions.ACTION_CHANGE_TAB_VIEW, payload: {tabView}})
+    this.store$.dispatch({type: ProductOptionsActions.ACTION_CHANGE_TAB_VIEW, payload: {tabView}});
   }
   
   cancelProductOptions() {
-    this.store$.dispatch({type: ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS})
+    this.store$.dispatch({type: ProductOptionsActions.ACTION_CANCEL_PRODUCT_OPTIONS});
   }
   
   confirmProductOptions() {

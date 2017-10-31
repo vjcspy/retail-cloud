@@ -1,3 +1,5 @@
-<input type="text" [value]="model" (change)="changeValue($event.target.value)" inputSelectText [disabled]="disabled"
+<input *ngIf="typeElem == 'text'" type="text" [value]="model" (change)="changeValue($event.target.value)" inputSelectText [disabled]="disabled"
        [ngClass]="{'error-valid':!_validProperty['isValid']}">
+<textarea *ngIf="typeElem == 'textarea'" [value]="model" (change)="changeValue($event.target.value)" inputSelectText [disabled]="disabled"
+          [ngClass]="{'error-valid':!_validProperty['isValid']}"></textarea>
 <span [hidden]="_validProperty['isValid']" class="error-message">{{_validProperty['mess']}}</span>
