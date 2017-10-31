@@ -339,4 +339,25 @@ export class ReportHelper {
     };
   }
   
+  static convertDate(date ,compare_value) {
+    if (_.isObject(date)) {
+      if (compare_value == "year") {
+        return moment(date['date_start']).format('YYYY');
+      } else if (compare_value == "quarter") {
+        return moment(date['date_start']).format('MMM YYYY');
+        
+      } else if (compare_value == "month") {
+        return moment(date['date_start']).format('MMM YYYY');
+        
+      } else if (compare_value == "week") {
+        return moment(date['date_start']).format('LL');
+        
+      } else if (compare_value == "day") {
+        return moment(date['date_start']).format('LL');
+      } else {
+        return moment(date['date_start']).format('lll');
+      }
+      
+    }
+  }
 }
