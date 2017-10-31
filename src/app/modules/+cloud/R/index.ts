@@ -1,7 +1,7 @@
 import {SaleReportService} from "./report/service";
-import {SaleReportDataManagement} from "./report/data-management";
+import {ReportHelper} from "./report/helper";
 
 export const R_SERVICES = [
   SaleReportService,
-  SaleReportDataManagement
+  ReportHelper
 ];

@@ -9,7 +9,7 @@ import {FormValidationService} from "../../../share/provider/form-validation";
 import {RequestService} from "../../../../services/request";
 // import {OfflineService} from "../../../share/provider/offline";
 import {NotifyManager} from "../../../../services/notify-manager";
-import {SaleReportDataManagement} from "./data-management";
+import {ReportHelper} from "./helper";
 
 @Injectable()
 export class SaleReportService {
@@ -33,8 +33,7 @@ export class SaleReportService {
               protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
               protected router: Router,
-              protected formValidation: FormValidationService,
-              protected reportDataManagement: SaleReportDataManagement) {
+              protected formValidation: FormValidationService) {
     this.resolveDefaultData();
   }
   
