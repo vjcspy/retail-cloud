@@ -445,6 +445,10 @@ export class Quote extends DataObject {
     return this.getData('synced_items');
   }
   
+  needSaveOnline(): boolean {
+    return (this.getRewardPointData() && this.getRewardPointData()['use_reward_point']) || (this.getGiftCardData() && this.getGiftCardData()['base_giftcard_amount']);
+  }
+  
   isVirtual() {
     let isVirtual  = true;
     let countItems = 0;
