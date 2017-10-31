@@ -25,6 +25,9 @@
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/outlet',false)}">
           <span class="click" (click)="go('pos/configurations/default/pos/outlet/grid')">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
         </li>
+        <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/region',false)}">
+          <span class="click" (click)="go('pos/configurations/default/pos/region/grid')">{{ 'Manage Region' | translate }}</span>
+        </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/payment',false)}">
           <span class="click" (click)="go('pos/configurations/default/pos/payment')">{{ 'Payment' | translate }}</span>
         </li>

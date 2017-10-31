@@ -1,0 +1,11 @@
+<div class="acr-row outlet-management">
+  <div class="acr-head"><h2>{{ 'Region Management' | translate }}</h2></div>
+  <div class="acr-content">
+    <div class="inner">
+      <configurations-default-pos-region-grid-table [configurationsState]="configurations$ | async"></configurations-default-pos-region-grid-table>
+      <div class="button-bar">
+        <button class="orange" (click)="newRegion()">{{ 'New Region' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -90,4 +90,15 @@ export class ConfigurationsViewRouterEffects {
                                                                                  'stores'
                                                                                ], false);
                                         });
+  
+  @Effect() whenGoRegion = this.actions$
+                               .ofType(routerActions.UPDATE_LOCATION)
+                               .filter((action: Action) =>this.router.isActive('pos/configurations/default/pos/region' , false))
+                               .map(() => {
+                                 return this.pullActions.pullEntities([
+                                                                        'region',
+                                                                        'outlet',
+                                                                      ], false);
+                               });
 }
+

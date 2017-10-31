@@ -1,0 +1,44 @@
+<div class="acr-row add-register">
+  <div class="acr-head">
+    <h2 class="click" (click)="back()">
+      <span class="icon-left click"></span>
+      {{!!getRegion()['id'] ? ("Edit Region"|translate):("New Region"|translate)}}
+    </h2>
+  </div>
+  <div class="acr-content">
+    <div class="inner">
+      <ul class="fr-control">
+        <li>
+          <label class="require">{{ 'Region Name' | translate }}</label>
+          <retail-text [(model)]="getRegion()['region_name']"
+                       [formKey]="'region_edit_data'"
+                       [validation]="'required'"></retail-text>
+        </li>
+        <li>
+          <label>{{ 'Register Status' | translate }}</label>
+          <retail-select2 [elementData]="getOutletSelect()" [multiple]="true"
+                          [(model)]="getRegion()['assigned_outlets']"></retail-select2>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="bottom-bar">
+  <button *ngIf="!!getRegion()['id']" class="red" (click)="confirmDeleteRegion()">
+    {{ 'Delete' | translate }}
+  </button>
+  <button (click)="saveRegion()">
+    {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
+  </button>
+</div>
+
+<div class="popup-wrapper" style="z-index: 9998" [ngClass]="{open: viewState['isOpenPopup']}" id="newOutletInfo">
+  <div class="popup-content">
+    <h3>{{viewData['popup_text']}}</h3>
+    <div class="button-bar">
+      <button class="gray" (click)="viewState['isOpenPopup'] = false">{{ 'No' | translate }}</button>
+      <button (click)="callBackYes()">{{ 'Yes' | translate }}</button>
+    </div>
+  </div>
+</div>
+<div class="popup-overlay" style="z-index: 9997" [ngClass]="{open: viewState['isOpenPopup']}"></div>
