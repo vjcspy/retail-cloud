@@ -76,4 +76,16 @@ export class ProductActions {
     
     return action;
   }
+  
+  static ACTION_UPDATE_PRODUCT_API = 'ACTION_UPDATE_PRODUCT_API';
+  
+  updateProductApi(product, dispatch: boolean = true): Action {
+    const action = {type: ProductActions.ACTION_UPDATE_PRODUCT_API, payload: {product}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

@@ -96,3 +96,21 @@
   outline: 0;
 }
 /* end treeview*/
+
+#list-product-api {
+  margin-top: 10px;
+}
+#modal-product-api > .row {
+  margin: 50px auto;
+}
+#modal-product-api th {
+  width: 125px;
+}
+#modal-product-api th label {
+  font-weight: 600;
+  width: 125px;
+}
+#list-product-api td button {
+  min-width: 35px;
+  margin: 0;
+}
