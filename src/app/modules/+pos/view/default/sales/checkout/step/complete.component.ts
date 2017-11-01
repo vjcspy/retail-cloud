@@ -6,6 +6,7 @@ import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
+import {AppStorage} from "../../../../../../../services/storage";
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {OfflineService} from "../../../../../../share/provider/offline";
 

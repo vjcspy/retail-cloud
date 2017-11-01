@@ -35,6 +35,13 @@ export class PosQuoteService {
     return quote;
   }
   
+  setReferenceNumberToQuote(reference_number: string): Quote {
+    const quote = PosQuote.getQuote();
+    quote.setData('reference_number', reference_number);
+    
+    return quote;
+  }
+  
   checkShiftOpenInSV(generalState: PosGeneralState): Observable<any> {
     return this.request
                .makeGet(this.apiManger.get('check-open-shift', generalState.baseUrl) + `?outlet_id=${generalState.outlet['id']}&register_id=${generalState.register['id']}`)

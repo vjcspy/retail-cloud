@@ -33,7 +33,6 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
     } else if (!this.isShippingPopup() && this.quoteState.billingAdd && this.quoteState.billingAdd.hasOwnProperty('id')) {
       this.currentAddressId = this.quoteState.billingAdd['id'];
     }
-    
     this.shippingAmount = this.quoteState.shippingAmount;
   }
   
@@ -80,7 +79,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   }
   
   addEditAddress(address = {}) {
-    if (_.isEmpty(address) || this.authenticateService.userCan('change_customer_information')) {
+    // if (_.isEmpty(address) || this.authenticateService.userCan('change_customer_information')) {
+    if (this.authenticateService.userCan('change_customer_information')) {
       this.checkoutPopupActions.addNewCustomerAddress(address);
     } else {
       this.toastr.error("not_have_permission_to_change_customer_information");

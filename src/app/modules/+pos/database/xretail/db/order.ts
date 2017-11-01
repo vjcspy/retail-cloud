@@ -6,6 +6,7 @@ export class OrderDB extends DataObject {
   increment_id: string;
   retail_id: string;
   retail_note: string;
+  reference_number: string;
   retail_status: string;
   can_creditmemo: string;
   can_ship: string;
@@ -20,7 +21,7 @@ export class OrderDB extends DataObject {
   created_at: string;
   
   static getFields(): string {
-    return "++id,order_id,increment_id,status,retail_id,retail_status,retail_note,sync_data,pushed,can_creditmemo,can_ship,can_invoice,customer,items,billing_address,shipping_address,totals";
+    return "++id,order_id,increment_id,status,retail_id,retail_status,retail_note,reference_number,sync_data,pushed,can_creditmemo,can_ship,can_invoice,customer,items,billing_address,shipping_address,totals";
   }
   
   static getCode(): string {

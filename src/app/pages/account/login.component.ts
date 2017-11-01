@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   public email;
   public password;
   public baseUrls = [ "mage2ee.local","tlspos.ispx.smartosc.com"]
+
   public baseUrl;
   
   accountState$: Observable<AccountState>;
@@ -89,8 +90,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   login() {
     if (this.jForm.valid()) {
       this.accountActions.login({
-                                  username: this.email,
-                                  password: this.password
+                                  username: window.btoa(this.email),
+                                  password: window.btoa(this.password)
                                 } , this.baseUrl);
     }
   }

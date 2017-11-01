@@ -4122,3 +4122,33 @@ ul.has-list {
   }
 }
 
+.c-reference-number {
+  background: $grayLight;
+  padding: 15px 20px;
+  input[type="text"],
+  input[type="search"] {
+    background-color: white;
+    border: #C0C0C0 solid 1px;
+    padding-left: 18px; padding-right: 18px;
+    color: $mainTxt;
+    height: 42px;
+    font-size: 14px;
+    @include border-radius(5px);
+  }
+}
+
+.reference_number{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+}
+
+.reference_number{
+  .title,
+  .reference_number_value{
+    display: inline-block;
+  }
+}
+
+

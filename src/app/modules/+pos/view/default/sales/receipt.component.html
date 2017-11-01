@@ -8,7 +8,8 @@
       <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
 
-        <h3 class="name">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] | translate) : (getOrder()['customer']['name'])}}</h3>
+        <h3 class="name" *ngIf="!checkoutAsGuest() || !getReceiptSetting()['order_info']['reference_number']">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] | translate) : (getOrder()['customer']['name'])}}</h3>
+        <h3 class="reference-number" *ngIf="!!getReceiptSetting()['order_info']['reference_number']">{{ 'APPLICANT REF. NB. ' | translate}}{{getOrder()['reference_number']}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
           Email:&nbsp;{{getOrder()['customer']['email']}}

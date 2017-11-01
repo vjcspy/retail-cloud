@@ -72,6 +72,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('reward_point')
            .unsetData('gift_card')
            .unsetData('retail_has_shipment')
+           .unsetData('reference_number')
            .resetRetailAdditionData();
       
       return state.clear().set('creditmemo', null).set('info', {isShiftOpening}).set('quote', state.quote);
@@ -98,6 +99,10 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case IntegrateRpActions.ACTION_REMOVE_REWARD_POINT:
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {use_reward_point: false})));
+  
+    case PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER:
+      state.quote.setData('reference_number', action.payload['reference_number']);
+      return state;
     
     case IntegrateGCActions.ACTION_USE_GIFT_CARD:
       return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']}, {is_delete: false})));

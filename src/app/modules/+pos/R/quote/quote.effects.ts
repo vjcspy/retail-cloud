@@ -339,6 +339,12 @@ export class PosQuoteEffects {
                             if (retail_note) {
                               this.quoteService.setNoteToQuote(retail_note);
                             }
+  
+                            // Resolve reference number
+                            let reference_number = action.payload['orderData']['reference_number'];
+                            if (reference_number) {
+                              this.quoteService.setReferenceNumberToQuote(reference_number);
+                            }
     
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];

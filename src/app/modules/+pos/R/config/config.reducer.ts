@@ -29,7 +29,7 @@ function resolveConfig(posSetting) {
     numberOfSearchProductResult: 20,
     fieldSearchProduct: ["name", "sku", "id", "price", "type_id"],
     fieldSearchCustomer: ["first_name", "last_name", "telephone", "email", "id"],
-    fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id"],
+    fieldSearchOrderOffline: ["first_name", "last_name", "telephone", "email", "magento_order_id", "customer_id", "client_order_id", "reference_number"],
     supportUnicodeInSearch: false,
     waitTimeEachSearch: 177,
     displayRealTax: true,

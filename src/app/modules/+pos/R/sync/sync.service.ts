@@ -34,6 +34,8 @@ export class PosSyncService {
     order['user_id']             = generalState.user['id'];
     order['retail_has_shipment'] = quoteState.hasShipment;
     order['is_offline']          = !this.onlineOffline.online;
+  
+    order['reference_number']    = quote.getData('reference_number');
     
     order['items'] = [];
     _.forEach(quoteState.items.toArray(), (item) => {
@@ -92,6 +94,7 @@ export class PosSyncService {
       retail_id: this.getOrderClientId(configState.orderCount),
       retail_status: null,
       retail_note: order['retail_note'],
+      reference_number: order['reference_number'],
       customer: {
         id: quote.getCustomer().getId(),
         name: quote.getCustomer().getData('first_name') +
