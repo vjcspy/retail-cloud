@@ -22,7 +22,7 @@ export class Giftcard extends AbstractType {
       amount = this.getAmount(giftCardBuyRequest, product);
       this.validateAmount(giftCardBuyRequest, product, processMode, amount);
     } catch (e) {
-      return e.getMessage();
+      return <any>"can_not_add_gift_cart_to_quote, may_be_integrate_out_of_date";
     }
     
     product.addCustomOption(GiftCardOption.AMOUNT, amount, product)
@@ -32,7 +32,7 @@ export class Giftcard extends AbstractType {
            .addCustomOption(GiftCardOption.RECIPIENT_EMAIL, giftCardBuyRequest.getData(GiftCardOption.RECIPIENT_EMAIL), product)
            .addCustomOption(GiftCardOption.HEADLINE, giftCardBuyRequest.getData(GiftCardOption.HEADLINE), product)
            .addCustomOption(GiftCardOption.MESSAGE, giftCardBuyRequest.getData(GiftCardOption.MESSAGE), product)
-           .addCustomOption(GiftCardOption.DELIVERY_DATE, giftCardBuyRequest.getData(GiftCardOption.DELIVERY_DATE)['data_date'], product)
+           .addCustomOption(GiftCardOption.DELIVERY_DATE, !!giftCardBuyRequest.getData(GiftCardOption.DELIVERY_DATE) ? giftCardBuyRequest.getData(GiftCardOption.DELIVERY_DATE)['data_date'] : null, product)
            .addCustomOption(GiftCardOption.DELIVERY_DATE_TIMEZONE, giftCardBuyRequest.getData(GiftCardOption.DELIVERY_DATE_TIMEZONE), product)
            .addCustomOption(GiftCardOption.GIFTCARD_TYPE, giftCardBuyRequest.getData(GiftCardOption.GIFTCARD_TYPE), product)
            .addCustomOption(GiftCardOption.TEMPLATE, giftCardBuyRequest.getData(GiftCardOption.TEMPLATE), product);
