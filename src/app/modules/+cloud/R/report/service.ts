@@ -35,6 +35,7 @@ export class SaleReportService {
               protected router: Router,
               protected formValidation: FormValidationService) {
     this.resolveDefaultData();
+    console.log(ReportHelper.getListMeasure());
   }
   
   enableFilterMeasure() {

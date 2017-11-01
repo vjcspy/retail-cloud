@@ -40,6 +40,7 @@ export class ReportHelper {
   }
   
   static getListMeasure(for_sum: boolean = false, report_type = 'sales_summary'): Object {
+    console.log(_.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT, ReportHelper.REPORT_TYPE_COLUMN_SHIPPING));
     let list_measure = [];
     if (for_sum) {
       if (_.indexOf(['payment_method', 'shipping_method'], report_type) == -1) {
@@ -66,40 +67,40 @@ export class ReportHelper {
           label: "Revenue",
           value: "revenue",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 2,
           label: "Cost",
           value: "total_cost",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 3,
           label: "Gross Profit",
           value: "gross_profit",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 4,
           label: "Margin",
           value: "margin",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 5,
           label: "Tax",
           value: "total_tax",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 6,
@@ -113,74 +114,74 @@ export class ReportHelper {
           label: "Cart Size",
           value: "cart_size",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 8,
           label: "Cart Value",
           value: "cart_value",
           is_default: true,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 9,
           label: "Cart Value (incl tax)",
           value: "cart_value_incl_tax",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 10,
           label: "Customer Count",
           value: "customer_count",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 11,
           label: "Discount",
           value: "discount_amount",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 12,
           label: "Discount percent",
           value: "discount_percent",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 13,
           label: "First Sale",
           value: "first_sale",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_DAY]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_DAY)
         },
         {
           id: 14,
           label: "Item Sold",
           value: "item_sold",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         },
         {
           id: 15,
           label: "Last Sale",
           value: "last_sale",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_DAY]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_DAY)
         },
         {
           id: 16,
@@ -194,68 +195,68 @@ export class ReportHelper {
           label: "Return percent",
           value: "return_percent",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_SUMMARY_ORDERSTATUS]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SUMMARY_ORDERSTATUS)
         },
         {
           id: 18,
           label: "Return count",
           value: "return_count",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_SUMMARY_ORDERSTATUS]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SUMMARY_ORDERSTATUS)
         },
         {
           id: 19,
           label: "Shipping Amount",
           value: "shipping_amount",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_ORDER]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_ORDER)
         },
         {
           id: 20,
           label: "Shipping Tax",
           value: "shipping_tax",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_ORDER]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_ORDER)
         },
         {
           id: 21,
           label: "Shipping Tax Refunded",
           value: "shipping_tax_refunded",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_ORDER]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_ORDER)
         },
         {
           id: 22,
           label: "Subtotal Refunded",
           value: "subtotal_refunded",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_ORDERSTATUS]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_ORDERSTATUS)
         },
         {
           id: 23,
           label: "Total Refunded",
           value: "total_refunded",
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
-                              ReportHelper.REPORT_TYPE_COLUMN_PRODUCT]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING,
+                                       ReportHelper.REPORT_TYPE_COLUMN_PRODUCT)
         },
         {
           id: 24,
           label:"base_row_total_product",
           value:'base_row_total_product',
           is_default: false,
-          not_available_for: [ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
-                              ReportHelper.REPORT_TYPE_COLUMN_SHIPPING]
+          not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
+                                       ReportHelper.REPORT_TYPE_COLUMN_SHIPPING)
         }
       ];
     }
@@ -263,6 +264,28 @@ export class ReportHelper {
       data: list_measure,
       isMultiSelect: true,
       label: "Measure",
+      value: "measure"
+    }
+  }
+  
+  static getListMeasureByReportType(report_type = 'sales_summary') {
+    let listMeasureType = ReportHelper.getListMeasure()['data'];
+    let measureList     = _.find(this.getListMeasure()['data'], (row) => row['report_type'] == report_type);
+    if (_.indexOf(['payment_method', 'shipping_method'], report_type) == -1) {
+      _.remove(listMeasureType, function (measure) {
+        return _.indexOf(measureList['measureIdBelongTo'], measure['id']) != -1
+      });
+    } else {
+      _.remove(listMeasureType, function (measure) {
+        return _.indexOf(measureList['measureIdNotBelongTo'], measure['id']) == -1
+      });
+    }
+    
+    
+    return {
+      data: listMeasureType,
+      isMultiSelect: true,
+      label: "Mearsure",
       value: "measure"
     }
   }
