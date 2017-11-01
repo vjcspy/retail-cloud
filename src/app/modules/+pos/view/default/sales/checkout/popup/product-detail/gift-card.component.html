@@ -8,7 +8,7 @@
     </retail-select>
   </li>
   <li *ngIf="giftCardOption['aw_gc_amount'] == 'custom'">
-    <label>Sender Email <span style="display: inline-block">*</span></label>
+    <label>Custom amount <span style="display: inline-block">*</span></label>
     <retail-text [model]="giftCardOption['aw_gc_custom_amount']" (modelChange)="updateGiftCardOption('aw_gc_custom_amount',$event)"
                  [validation]="'require,p-number'"
                  [formKey]="'pos-product-detail'">
@@ -44,14 +44,6 @@
                    [formKey]="'pos-product-detail'"
                    [validation]="'require'">
     </retail-select>
-  </li>
-
-  <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
-    <label>Sender Email <span style="display: inline-block">*</span></label>
-    <retail-text [model]="giftCardOption['aw_gc_sender_email']" (modelChange)="updateGiftCardOption('aw_gc_sender_email',$event)"
-                 [validation]="'require' "
-                 [formKey]="'pos-product-detail'">
-    </retail-text>
   </li>
   <li>
     <label>Recipient Name <span style="display: inline-block">*</span></label>

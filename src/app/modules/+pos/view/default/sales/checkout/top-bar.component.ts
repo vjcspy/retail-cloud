@@ -26,7 +26,6 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   protected searchString        = new FormControl();
   protected searchInputElem: any;
-  protected isScanning: boolean = false;
   
   protected scannerSubject = new Subject();
   
@@ -41,7 +40,6 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   ngAfterViewInit(): void {
     this.checkoutProductService.handleScanner((searchString) => {
-      this.isScanning = true;
       this.scannerSubject.next(searchString);
     }, true);
     
@@ -50,19 +48,17 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
           .asObservable()
           .filter(() => $('input:focus').length === 0)
           .subscribe((searchString) => {
-            this.searchString.setValue(searchString, {emitEvent: true});
+            this.searchString.setValue(searchString, {emitEvent: false});
             this.checkoutProductActions.updateGridState({
                                                           searchString,
                                                           lastLuckySearchString: null
                                                         });
-            setTimeout(() => {this.isScanning = false;}, 200);
           }));
     
     this.subscribeObservable('subscribe_input_search', () =>
       this.searchString
           .valueChanges
           // .distinctUntilChanged()
-          .filter(() => !this.isScanning)
           .debounceTime(this.configState.constrain['debounceTimeSearch'])
           .subscribe((searchString: string) => {
             this.checkoutProductActions.updateGridState({
