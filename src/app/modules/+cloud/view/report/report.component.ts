@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as _ from "lodash";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import {SaleReportService} from "../../R/report/service";
+import {ReportHelper} from "../../R/report/helper";
 @Component({
              selector: 'sale-report',
              templateUrl: 'report.component.html',
@@ -21,6 +22,13 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
       // this.saleReportService.getSaleReport();
     });
   }
+  getListReportType(){
+    return ReportHelper.getListReportType();
+  }
+  
+  getListMeasureByReportType(report_type){
+    return ReportHelper.getListMeasureByReportType(report_type);
+  }
   
   getDataFilter() {
     return this.saleReportService.viewDataFilter;
@@ -38,7 +46,7 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     if (!field.hasOwnProperty('name')) {
       field.unshift("name");
     }
-    _.forEach(this.saleReportService.getListMeasureByReportType()['data'], (measure) => {
+    _.forEach(this.getListMeasureByReportType(this.getDataFilter()['report_type'])['data'], (measure) => {
       if (measure['label'] != 'base_row_total_product')
         field.push(measure['label']);
     });

@@ -12,7 +12,7 @@
         <div class="form-group select-type-report">
           <div class="input-group">
             <span class="input-group-addon">@</span>
-            <report-select [elementData]="saleReportService.getListReportType()"
+            <report-select [elementData]="getListReportType()"
                            [(model)]="getDataFilter()['report_type']"
                            (modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>
           </div>
@@ -52,7 +52,7 @@
                 <div class="column-display">
                   <form action="">
                     <div class="form-group">
-                      <report-multi-select [elementData]="saleReportService.getListMeasureByReportType()"
+                      <report-multi-select [elementData]="getListMeasureByReportType(getDataFilter()['report_type'])"
                                            [(model)]="getDataFilter()['measures']"
                                            (modelChange)="saleReportService.changeMeasure()"></report-multi-select>
                     </div>
