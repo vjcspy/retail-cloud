@@ -11,7 +11,7 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {CheckoutProductService} from "../../../R/sales/checkout/product/product.service";
-import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
+import {Subject} from "rxjs/Subject";
 
 @Component({
              // moduleId: module.id,
@@ -23,11 +23,12 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   @Input() quoteState: PosQuoteState;
-  @Input() cartCustomerState: CartCustomerState;
   
   protected searchString        = new FormControl();
   protected searchInputElem: any;
   protected isScanning: boolean = false;
+  
+  protected scannerSubject = new Subject();
   
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
@@ -40,30 +41,35 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   ngAfterViewInit(): void {
     this.checkoutProductService.handleScanner((searchString) => {
-      // for search  barcode giftcard
-      // const inputFocusing = $('input:focus');
-      // if ((inputFocusing.length > 0 && inputFocusing[0]['attr']("id") !== 'pos_search_text')) {
-      //   return;
-      // }
-      
-      if (!this.cartCustomerState.inSearchCustomers) {
-        this.checkoutProductActions.updateGridState({
-                                                      searchString,
-                                                      lastLuckySearchString: null
-                                                    });
-        this.isScanning = true;
-        setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
-      }
+      this.isScanning = true;
+      this.scannerSubject.next(searchString);
     }, true);
     
-    this.subscribeObservable('subscribe_input_search', () => this.searchString
-                                                                 .valueChanges
-                                                                 .debounceTime(this.configState.constrain['debounceTimeSearch'])
-                                                                 .filter(() => !this.isScanning)
-                                                                 // .distinctUntilChanged()
-                                                                 .subscribe((searchString: string) => {
-                                                                   this.checkoutProductActions.updateGridState({searchString});
-                                                                 }));
+    this.subscribeObservable('subscript_scanner', () =>
+      this.scannerSubject
+          .asObservable()
+          .filter(() => $('input:focus').length === 0)
+          .subscribe((searchString) => {
+            this.searchString.setValue(searchString, {emitEvent: true});
+            this.checkoutProductActions.updateGridState({
+                                                          searchString,
+                                                          lastLuckySearchString: null
+                                                        });
+            setTimeout(() => {this.isScanning = false;}, 200);
+          }));
+    
+    this.subscribeObservable('subscribe_input_search', () =>
+      this.searchString
+          .valueChanges
+          // .distinctUntilChanged()
+          .filter(() => !this.isScanning)
+          .debounceTime(this.configState.constrain['debounceTimeSearch'])
+          .subscribe((searchString: string) => {
+            this.checkoutProductActions.updateGridState({
+                                                          searchString
+                                                        });
+          })
+    );
   }
   
   openPopupCustomSale() {
