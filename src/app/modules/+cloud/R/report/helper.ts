@@ -253,7 +253,7 @@ export class ReportHelper {
     return {
       data: listMeasure,
       isMultiSelect: true,
-      label: "Mearsure",
+      label: "List Mearsure",
       value: "measure"
     }
   }
