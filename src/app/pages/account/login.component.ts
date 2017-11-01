@@ -89,8 +89,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   login() {
     if (this.jForm.valid()) {
       this.accountActions.login({
-                                  username: this.email,
-                                  password: this.password
+                                  username: window.btoa(this.email),
+                                  password: window.btoa(this.password)
                                 } , this.baseUrl);
     }
   }

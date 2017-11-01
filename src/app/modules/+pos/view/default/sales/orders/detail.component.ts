@@ -13,7 +13,6 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
 import {OfflineService} from "../../../../../share/provider/offline";
-import {UserCollection} from "../../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -39,7 +38,6 @@ export class PosDefaultSalesOrdersDetailComponent {
               private detailActions: OrderDetailActions,
               protected receiptActions: ReceiptActions,
               protected refundActions: QuoteRefundActions,
-              protected userCollection: UserCollection,
               protected addPaymentActions: OrderListAddPaymentActions) { }
   
   getPayment() {
@@ -139,7 +137,8 @@ export class PosDefaultSalesOrdersDetailComponent {
       let name = this.getOrder()['customer']['name'];
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
-        username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
+        // username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
+        username : "Unknown",
         inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
       };
       this.receiptActions.sendEmailReceipt(this.getOrder(), email, name, settingReceipt);

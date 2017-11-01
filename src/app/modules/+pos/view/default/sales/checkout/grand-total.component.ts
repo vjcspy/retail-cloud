@@ -20,7 +20,7 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
               protected authService: AuthenticateService) {}
   
   goCheckoutStep() {
-    if (this.authService.userCan('create_orders')) {
+    if (this.authService.userCan('create_order')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
         this.posSyncActions.syncCurrentOrder();
       }

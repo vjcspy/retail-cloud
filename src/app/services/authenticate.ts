@@ -5,13 +5,18 @@ import {AccountActions} from "../R/account/account.actions";
 import {ApiManager} from "./api-manager";
 import {RequestService} from "./request";
 import {Observable} from "rxjs";
+import {Permission} from "./user/Permission";
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthenticateService {
   private _user;
-  protected trackingWhenUserChange;
   
-  constructor(protected storage: AppStorage, protected notify: NotifyManager, protected accountActions: AccountActions ,private apiUrlManager: ApiManager, private requestService: RequestService) { }
+  constructor(protected storage: AppStorage,
+              protected notify: NotifyManager,
+              protected accountActions: AccountActions,
+              private apiUrlManager: ApiManager,
+              private requestService: RequestService) { }
   
   get user() {
     // let baseUrl   = this.storage.localRetrieve('baseUrl');
@@ -34,10 +39,6 @@ export class AuthenticateService {
     return this._user;
   }
   
-  checkLogin(baseUrl,tokenKey,user): Observable<any> {
-    return this.requestService.makePost(this.apiUrlManager.get('checkLogin', baseUrl), {'user': user, 'key': tokenKey});
-  }
-  
   set user(value) {
     this._user = value;
   }
@@ -50,11 +51,16 @@ export class AuthenticateService {
   }
   
   userCan(permission: string) {
-    return true;
+    let localUser        = this.storage.localRetrieve('user');
+    let activePermission = localUser['permission'];
+    if (_.indexOf(activePermission, Permission.getOrderClientStatus(permission)) != -1) {
+      return true;
+    }
+    return false;
   }
   
   signIn(user: any, baseUrl: any): Observable<any> {
-    return this.requestService.makePost(this.apiUrlManager.get('login', baseUrl), {'username': user.username, 'password': user.password});
+    return this.requestService.makePost(this.apiUrlManager.get('login', baseUrl), {'p1': user.username, 'p2': user.password});
   }
   
   signOut() {

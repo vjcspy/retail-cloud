@@ -77,8 +77,12 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   changeOutlet() {
-    if (this.offline.online) {
-      this.go('pos/default/outlet-register');
+    if(this.authenticateService.userCan('change_outlet')){
+      if (this.offline.online) {
+        this.go('pos/default/outlet-register');
+      }
+    }else{
+      this.notify.error("not_have_permission_to_change_outlet");
     }
   }
   
@@ -91,8 +95,12 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   flushCache() {
+    if(this.authenticateService.userCan('flush_cache')){
     if (this.offline.online) {
       this.go('pos/configurations/default/advanced/client-db');
+    }
+    }else{
+      this.notify.error("not_have_permission_to_flush_cache");
     }
   }
   

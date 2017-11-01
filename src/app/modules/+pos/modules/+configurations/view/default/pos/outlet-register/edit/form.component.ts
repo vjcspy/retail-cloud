@@ -78,12 +78,12 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   }
   
   saveOutlet() {
-    if (this.authenticate.userCan('change_register_information')) {
+    if (!this.authenticate.userCan('change_register_information') && this.getEditOutletFormData().outlet.hasOwnProperty('id')) {
+      this.notify.error("not_have_permission_to_change_outlet_register_information");
+    } else {
       this.formValidation.submit('outlet_edit_address', () => {
         this.configurationsOutletActions.saveOutlet(this.getEditOutletFormData().outlet, this.getEditOutletFormData().registers);
       }, true);
-    } else {
-      this.notify.error("not_have_permission_to_change_outlet_register_information");
     }
   }
   
