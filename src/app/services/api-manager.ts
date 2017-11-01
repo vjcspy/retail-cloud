@@ -13,7 +13,7 @@ export class ApiManager {
     retailConfig: 'retail-setting',
     outlet: 'outlet',
     register: 'register',
-    
+    region : 'region',
     /*Pos*/
     products: "product",
     category: "category",

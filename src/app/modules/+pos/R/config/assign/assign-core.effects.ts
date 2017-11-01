@@ -19,6 +19,8 @@ import {ShippingSetting} from "../../../core/framework/setting/ShippingSetting";
 import {StoreDB} from "../../../database/xretail/db/store";
 import {StoreHelper} from "../../../core/framework/store/Helper/StoreHelper";
 import {RealtimeActions} from "../../entities/realtime/realtime.actions";
+import {OutletDB} from "../../../database/xretail/db/outlet";
+import {OutletHelper} from "../../../core/framework/outlet/Helper/OutletHelper";
 
 @Injectable()
 export class AssignConfigCoreEffects {
@@ -93,5 +95,12 @@ export class AssignConfigCoreEffects {
                                 .map((z) => {
                                   StoreHelper.stores = (z[1] as PosEntitiesState).stores.items.toJS();
                                   return this.rootActions.nothing("Save store to core");
+                                });
+  @Effect() saveOutletData = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
+                                .filter((action: Action) => action.payload['entityCode'] === OutletDB.getCode())
+                                .withLatestFrom(this.store$.select('entities'))
+                                .map((z) => {
+                                  OutletHelper.outlets = (z[1] as PosEntitiesState).outlet.items.toJS();
+                                  return this.rootActions.nothing("Save outlet to core");
                                 });
 }

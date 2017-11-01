@@ -8,6 +8,7 @@ import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
 import {AuthenticateService} from "../../../../../../../../services/authenticate";
+import {NotifyManager} from "../../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -27,6 +28,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   constructor(protected checkoutPopupActions: CheckoutPopupActions,
               protected entityCustomerActions: EntityCustomerActions,
               protected authService: AuthenticateService,
+              protected toastr:NotifyManager,
               protected formValidation: FormValidationService) { }
   
   changeBillingState(state) {
@@ -64,8 +66,13 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   }
   
   save() {
-    this.formValidation.submit('pos-address-form-' + this.type, () => {
-      this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer, this.checkoutPopupState.customerPopup.editAddress);
-    }, true);
+    if (!this.authService.userCan('change_customer_information') && this.checkoutPopupState.customerPopup.customer.getId()) {
+        this.toastr.error("not_have_permission_to_change_customer_information");
+    } else {
+      this.formValidation.submit('pos-address-form-' + this.type, () => {
+        this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer,
+                                                       this.checkoutPopupState.customerPopup.editAddress);
+      }, true);
+    }
   }
 }

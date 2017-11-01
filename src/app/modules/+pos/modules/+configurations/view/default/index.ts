@@ -28,6 +28,11 @@ import {ConfigurationsDefaultCacheManagementClientDBGridComponent} from "./cache
 import {ConfigurationsDefaultTranslateComponent} from "./translate.component";
 import {ConfigurationsDefaultCacheManagementPullPerformancePullComponent} from "./cache-management/pull-performance/pull.component";
 import {ConfigurationsDefaultCacheManagementPullPerformanceComponent} from "./cache-management/pull-performance.component";
+import {ConfigurationsDefaultPosRegionGridComponent} from "./pos/region/grid.component";
+import {ConfigurationsDefaultPosRegionGridTableComponent} from "./pos/region/grid/table.component";
+import {ConfigurationsDefaultPosRegionEditComponent} from "./pos/region/edit.component";
+import {ConfigurationsDefaultPosRegionEditFormComponent} from "./pos/region/edit/form.component";
+import {ConfigurationsDefaultPosRegionComponent} from "./pos/region.component";
 
 export const DEFAULT_COMPONENTS = [
   ConfigurationsDefaultContainerComponent,
@@ -72,4 +77,10 @@ export const DEFAULT_COMPONENTS = [
   
   ConfigurationsDefaultCacheManagementPullPerformanceComponent,
   ConfigurationsDefaultCacheManagementPullPerformancePullComponent,
+
+  ConfigurationsDefaultPosRegionComponent,
+  ConfigurationsDefaultPosRegionGridComponent,
+  ConfigurationsDefaultPosRegionGridTableComponent,
+  ConfigurationsDefaultPosRegionEditComponent,
+  ConfigurationsDefaultPosRegionEditFormComponent,
 ];

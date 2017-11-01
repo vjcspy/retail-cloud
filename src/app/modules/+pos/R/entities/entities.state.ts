@@ -1,5 +1,5 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
-import {entityFactory, EntityRecord, outletEntityFactory, retailConfigEntityFactory, storeEntityFactory} from "./entities.model";
+import {entityFactory, EntityRecord, outletEntityFactory, retailConfigEntityFactory, storeEntityFactory,regionEntityFactory} from "./entities.model";
 import {ProductDB} from "../../database/xretail/db/product";
 import {CustomerDB} from "../../database/xretail/db/customer";
 import {List} from "immutable";
@@ -25,6 +25,7 @@ export interface PosEntitiesState {
   warehouse?: EntityRecord;
   countries?: EntityRecord;
   outlet?: EntityRecord;
+  region?: EntityRecord;
   stores?: EntityRecord;
   receipts?: EntityRecord;
   settings?: EntityRecord;
@@ -201,6 +202,7 @@ export const posEntitiesStateFactory = makeTypedFactory<PosEntitiesState, PosEnt
                                     isDependStore: false,
                                     query: "",
                                     propertyFilter: {}
-                                  })
+                                  }),
+    region:regionEntityFactory()
   }
 );
