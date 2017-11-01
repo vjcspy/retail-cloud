@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {PosConfigState} from "../../../R/config/config.state";
 import {ReceiptState} from "../../R/sales/receipts/receipt.state";
-import {UserCollection} from "../../../../../services/meteor-collections/users";
 import * as _ from 'lodash';
 import {CountryHelper} from "../../../core/framework/directory/Helper/CountryHelper";
 import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
@@ -29,7 +28,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
   };
 
-  constructor(private userCollection: UserCollection, private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
+  constructor(private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
     super();
   }
 
@@ -80,7 +79,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   }
 
   getUserNameById(id) {
-    return this.userCollection.getUserNameById(id);
+    return "Unknow";
+    // return this.userCollection.getUserNameById(id);
   }
 
   checkIsCustomSales(item) {
@@ -276,7 +276,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .c-left {text-align: left!important;}
             .c-right {text-align: right!important;}
             .c-center {text-align: center!important;}
-            .invoice {                
+            .invoice {
                 max-width: 420px; margin: 0 auto;
                 background: #FFF;
                 /*border-radius: 10px;*/
@@ -331,7 +331,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
-                padding: 0; text-align: center;                
+                padding: 0; text-align: center;
             }
             .invoice-table th {
                 font-weight: 400;

@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
-  public baseUrls = [ "mage2ee.local","xpos.ispx.smartosc.com"]
+  public baseUrls = [ "mage2ee.local","tlspos.ispx.smartosc.com"]
   public baseUrl;
   
   accountState$: Observable<AccountState>;
