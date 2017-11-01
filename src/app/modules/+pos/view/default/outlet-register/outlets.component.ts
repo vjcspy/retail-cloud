@@ -4,6 +4,7 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as _ from 'lodash';
+import {AppStorage} from "../../../../../services/storage";
 
 @Component({
              // moduleId: module.id,
@@ -15,7 +16,7 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() pullState: PosPullState;
   
-  constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager) { }
+  constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager,private storage: AppStorage) { }
   
   ngOnInit() { }
   
@@ -30,8 +31,14 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   }
   
   getEnableOutletOrRegister(e: any, isList: boolean = true) {
+    let $listOutlet;
+    if (!!this.storage.localRetrieve('outlets')) {
+      $listOutlet = this.storage.localRetrieve('outlets');
+    } else {
+      $listOutlet = this.storage.localRetrieve('user')['outlet'];
+    }
     if (isList) {
-      return e.filter((o) => o['is_active'] == 1)
+      return e.filter((o) => (o['is_active'] == 1 && _.indexOf($listOutlet, o['id']) != -1))
               .sort((a, b) => a['name'].localeCompare(b['name']));
     }
     else {

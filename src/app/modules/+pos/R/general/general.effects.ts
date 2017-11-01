@@ -38,30 +38,30 @@ export class PosGeneralEffects {
                                              return this.pullActions.pullEntities(['stores', 'outlet', 'retailConfig'], false);
                                            });
   
-  @Effect() resolveUrls = this.actions$
-                              .ofType(
-                                AccountActions.SAVE_LICENSE_DATA
-                              )
-                              .withLatestFrom(this.store$.select('account'))
-                              .filter((z) => {
-                                const accountState: AccountState = <any>z[1];
-                                return !!accountState.license && !!accountState.license.licenseHasPos && _.isArray(accountState.license.licenseHasPos['base_url']);
-                              })
-                              .map((z) => {
-                                const accountState: AccountState = <any>z[1];
-                                let listUrl                      = List.of();
-                                const urls                       = accountState.license.licenseHasPos['base_url'];
-                                _.forEach(urls, (url) => {
-                                  if (parseInt(url['status']) === 1) {
-                                    listUrl = listUrl.push({
-                                                             url: url['url'],
-                                                             is_default: false,
-                                                             isMage1: false
-                                                           });
-                                  }
-                                });
-                                return this.generalActions.resolvedUrls(listUrl, false);
-                              });
+  // @Effect() resolveUrls = this.actions$
+  //                             .ofType(
+  //                               AccountActions.SAVE_LICENSE_DATA
+  //                             )
+  //                             .withLatestFrom(this.store$.select('account'))
+  //                             .filter((z) => {
+  //                               const accountState: AccountState = <any>z[1];
+  //                               return !!accountState.license && !!accountState.license.licenseHasPos && _.isArray(accountState.license.licenseHasPos['base_url']);
+  //                             })
+  //                             .map((z) => {
+  //                               const accountState: AccountState = <any>z[1];
+  //                               let listUrl                      = List.of();
+  //                               const urls                       = accountState.license.licenseHasPos['base_url'];
+  //                               _.forEach(urls, (url) => {
+  //                                 if (parseInt(url['status']) === 1) {
+  //                                   listUrl = listUrl.push({
+  //                                                            url: url['url'],
+  //                                                            is_default: false,
+  //                                                            isMage1: false
+  //                                                          });
+  //                                 }
+  //                               });
+  //                               return this.generalActions.resolvedUrls(listUrl, false);
+  //                             });
   
   @Effect() saveOutletAndRegister = this.actions$
                                         .ofType(PosGeneralActions.ACTION_SELECT_OUTLET_REGISTER)

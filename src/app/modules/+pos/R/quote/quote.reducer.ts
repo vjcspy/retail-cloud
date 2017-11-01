@@ -70,6 +70,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
            .unsetData('coupon_code')
            .unsetData('payment_data')
            .unsetData('reward_point')
+           .unsetData('gift_card')
            .unsetData('retail_has_shipment')
            .unsetData('reference_number')
            .resetRetailAdditionData();
@@ -104,7 +105,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state;
     
     case IntegrateGCActions.ACTION_USE_GIFT_CARD:
-      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']})));
+      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']}, {is_delete: false})));
     
     case IntegrateGCActions.ACTION_REMOVE_GIFT_CARD:
       return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {is_delete: true})));

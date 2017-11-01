@@ -11,7 +11,6 @@ import {CountryHelper} from "../../../../../../../core/framework/directory/Helpe
 import {AuthenticateService} from "../../../../../../../../../services/authenticate";
 import {FormValidationService} from "../../../../../../../../share/provider/form-validation";
 import {NotifyManager} from "../../../../../../../../../services/notify-manager";
-import {UserCollection} from "../../../../../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -88,10 +87,10 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
     }
   }
   
-  getUserSelect() {
-    let userCollection = new UserCollection();
-    return userCollection.getUserSelect();
-  }
+  // getUserSelect() {
+  //   let userCollection = new UserCollection();
+  //   return userCollection.getUserSelect();
+  // }
   
   editRegister(register) {
     this.configurationsOutletActions.editRegister(register);

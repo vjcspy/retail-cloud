@@ -9,7 +9,7 @@
         <button *ngIf="!isUsingGiftCard()" (click)="integrateGCActions.useGiftCard({gift_code:giftCode})" [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing ">
           {{ 'Use' | translate }} {{ 'Gift Card' | translate }}
         </button>
-        <div class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
+        <div class="c-other" style="margin-top: -36px; width: 100%; text-align: center; left: 45%; max-width: 340px;font-weight: lighter">
           <input *ngIf="!isUsingGiftCard()" [disabled]="posStepState.totals.remain <= 0.01"
                  type="text" inputSelectText placeholder="Gift card code" [(ngModel)]="giftCode"/>
           <span *ngIf="isUsingGiftCard()">
