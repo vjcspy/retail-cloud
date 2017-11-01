@@ -37,6 +37,7 @@ import {QuoteRefundActions} from "./refund/refund.actions";
 import {RealtimeActions} from "../entities/realtime/realtime.actions";
 import {TaxDB} from "../../database/xretail/db/tax";
 import {SettingDB} from "../../database/xretail/db/setting";
+import {AppService} from "../../../../app.service";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -273,6 +274,9 @@ export class PosQuoteEffects {
                                                       });
         
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
+                                                      
+                                                      // fix unknown issue when using bar code scanner
+                                                      AppService.$changeDetecteor.detectChanges();
         
                                                       return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
