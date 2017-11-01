@@ -51,12 +51,13 @@ export class AuthenticateService {
   }
   
   userCan(permission: string) {
-    let localUser        = this.storage.localRetrieve('user');
-    let activePermission = localUser['permission'];
-    if (_.indexOf(activePermission, Permission.getOrderClientStatus(permission)) != -1) {
-      return true;
-    }
-    return false;
+    return true;
+    // let localUser        = this.storage.localRetrieve('user');
+    // let activePermission = localUser['permission'];
+    // if (_.indexOf(activePermission, Permission.getOrderClientStatus(permission)) != -1) {
+    //   return true;
+    // }
+    // return false;
   }
   
   signIn(user: any, baseUrl: any): Observable<any> {
