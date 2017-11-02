@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {PosQuoteState} from "../../../../../../R/quote/quote.state";
 import {PosStepState} from "../../../../../R/sales/checkout/step/step.state";
 import {PosConfigState} from "../../../../../../R/config/config.state";
@@ -9,7 +9,8 @@ import {IntegrateGCActions} from "../../../../../../R/integrate/gc/gc.actions";
 @Component({
              // moduleId: module.id,
              selector: 'gift-card',
-             templateUrl: 'gift-card.component.html'
+             templateUrl: 'gift-card.component.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 
 export class CheckoutGiftCardComponent implements OnInit {
@@ -36,8 +37,7 @@ export class CheckoutGiftCardComponent implements OnInit {
   
   isUsingGiftCard() {
     const gcData = this.posQuoteState.quote.getGiftCardData();
-    
-    return !!gcData && parseFloat(gcData['base_giftcard_amount']) > 0;
+    return !!gcData && !isNaN(gcData['base_giftcard_amount']) && parseFloat(gcData['base_giftcard_amount']) !== 0;
   }
   
   getGiftCardData() {
