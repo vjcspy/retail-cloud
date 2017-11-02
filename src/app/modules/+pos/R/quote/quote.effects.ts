@@ -253,7 +253,7 @@ export class PosQuoteEffects {
                                                            .setShippingAddress((quoteState as PosQuoteState).shippingAdd)
                                                            .setBillingAddress((quoteState as PosQuoteState).billingAdd);
         
-                                                      if (quote.getCustomer()['id'] == (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
+                                                      if (quote.getCustomer()['id'] === (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
                                                         quote.setUseDefaultCustomer(true);
                                                       } else {
                                                         quote.setUseDefaultCustomer(false);
@@ -276,7 +276,7 @@ export class PosQuoteEffects {
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
                                                       
                                                       // fix unknown issue when using bar code scanner
-                                                      AppService.$changeDetecteor.detectChanges();
+                                                      AppService.$changeDetector.detectChanges();
         
                                                       return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });

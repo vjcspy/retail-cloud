@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Injectable, Injector} from '@angular/core';
 
 @Injectable()
 export class AppService {
-  static $changeDetecteor: ChangeDetectorRef;
+  static $changeDetector: ChangeDetectorRef;
   static $Injector;
   
   constructor(protected injector: Injector) {

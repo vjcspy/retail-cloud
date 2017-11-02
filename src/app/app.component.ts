@@ -44,7 +44,7 @@ export class AppComponent extends AbstractSubscriptionComponent {
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
-    AppService.$changeDetecteor = this.changedetector;
+    AppService.$changeDetector = this.changedetector;
   }
   
   protected resolveLanguage() {
