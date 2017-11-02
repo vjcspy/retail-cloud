@@ -10,12 +10,13 @@ export class ConfigurationsRegionService {
   constructor(private requestService: RequestService,
               private apiUrlManager: ApiManager) {}
   editRegionFormData = {};
+  
   resolveFilterRegion(regions: List<any>, filterData) {
     let regionFiltered = regions.filter((region) => {
       if (!!filterData.id && parseInt(region['id']) !== parseInt(filterData.id)) {
         return false;
       }
-      if (!!filterData.name) {
+      if (!!filterData.region_name) {
         let reString: string = "";
         _.forEach(_.split(filterData.name, " "), (v) => {
           if (!_.isString(v) || v === '' || v === null) {

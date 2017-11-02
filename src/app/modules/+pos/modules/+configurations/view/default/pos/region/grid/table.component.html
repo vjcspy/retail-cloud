@@ -13,10 +13,10 @@
         <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.id" enterBlur (blur)="updateFilter({id:$event.target['value']})"/>
       </td>
       <td>
-        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.region_name" enterBlur (blur)="updateFilter({name:$event.target['value']})"/>
+        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.region_name" enterBlur (blur)="updateFilter({region_name:$event.target['value']})"/>
       </td>
       <td>
-        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.assigned_outlets" enterBlur (blur)="updateFilter({name:$event.target['value']})"/>
+        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.assigned_outlets" enterBlur (blur)="updateFilter({assigned_outlets:$event.target['value']})"/>
       </td>
       <td>
 
@@ -27,7 +27,7 @@
       <td>{{region['id']}}</td>
       <td>{{region['region_name']}}</td>
       <td>{{refactorListOutletById(region['assigned_outlets'])}}</td>
-      <td (click)="editRegion(region['id'])">EDIT</td>
+      <td (click)="editRegion(region['id'])" style="color: #337ab7">EDIT</td>
     </tr>
   </tbody>
 </table>

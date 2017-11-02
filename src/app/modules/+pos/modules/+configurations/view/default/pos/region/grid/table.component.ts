@@ -21,8 +21,9 @@ export class ConfigurationsDefaultPosRegionGridTableComponent {
   refactorListOutletById(list: any[]) {
     let outletSelected = [];
     _.forEach(list, (value) => {
-      outletSelected.push(OutletHelper.getOutletById(value));
-      // ;
+      if (OutletHelper.getOutletById(value) != null) {
+        outletSelected.push(OutletHelper.getOutletById(value));
+      }
     });
     return outletSelected;
   }

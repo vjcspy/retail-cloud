@@ -7,7 +7,7 @@
   </div>
   <div class="acr-content">
     <div class="inner">
-      <ul class="fr-control">
+      <ul class="fr-control" style="width:80% !important;">
         <li>
           <label class="require">{{ 'Region Name' | translate }}</label>
           <retail-text [(model)]="getRegion()['region_name']"
@@ -15,7 +15,7 @@
                        [validation]="'required'"></retail-text>
         </li>
         <li>
-          <label>{{ 'Register Status' | translate }}</label>
+          <label>{{ 'List of Outlet' | translate }}</label>
           <retail-select2 [elementData]="getOutletSelect()" [multiple]="true"
                           [(model)]="getRegion()['assigned_outlets']"></retail-select2>
         </li>
@@ -23,10 +23,12 @@
     </div>
   </div>
 </div>
-<div class="bottom-bar">
+<div class="bottom-bar" style="right: inherit !important">
   <button *ngIf="!!getRegion()['id']" class="red" (click)="confirmDeleteRegion()">
     {{ 'Delete' | translate }}
   </button>
+</div>
+<div class="bottom-bar">
   <button (click)="saveRegion()">
     {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
   </button>
