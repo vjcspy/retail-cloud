@@ -11,7 +11,6 @@ import {CountryHelper} from "../../../../../../../core/framework/directory/Helpe
 import {AuthenticateService} from "../../../../../../../../../services/authenticate";
 import {FormValidationService} from "../../../../../../../../share/provider/form-validation";
 import {NotifyManager} from "../../../../../../../../../services/notify-manager";
-import {UserCollection} from "../../../../../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -79,19 +78,19 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   }
   
   saveOutlet() {
-    if (this.authenticate.userCan('change_register_information')) {
+    if (!this.authenticate.userCan('change_register_information') && this.getEditOutletFormData().outlet.hasOwnProperty('id')) {
+      this.notify.error("not_have_permission_to_change_outlet_register_information");
+    } else {
       this.formValidation.submit('outlet_edit_address', () => {
         this.configurationsOutletActions.saveOutlet(this.getEditOutletFormData().outlet, this.getEditOutletFormData().registers);
       }, true);
-    } else {
-      this.notify.error("not_have_permission_to_change_outlet_register_information");
     }
   }
   
-  getUserSelect() {
-    let userCollection = new UserCollection();
-    return userCollection.getUserSelect();
-  }
+  // getUserSelect() {
+  //   let userCollection = new UserCollection();
+  //   return userCollection.getUserSelect();
+  // }
   
   editRegister(register) {
     this.configurationsOutletActions.editRegister(register);

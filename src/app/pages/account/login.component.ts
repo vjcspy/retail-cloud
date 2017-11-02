@@ -10,6 +10,7 @@ import {AccountActions} from "../../R/account/account.actions";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AccountState} from "../../R/account/account.state";
+import * as _ from 'lodash';
 
 @Component({
              selector: 'sign-in',
@@ -20,6 +21,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
+  public baseUrls = [ "mage2ee.local","tlspos.ispx.smartosc.com"]
+
+  public baseUrl;
   
   accountState$: Observable<AccountState>;
   
@@ -32,9 +36,12 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngAfterViewInit(): void {
-    if (!this.email || this.email === 'cashier') {
-      this.email    = 'cashier';
-      this.password = 'cashier123';
+    if(!this.baseUrl){
+      this.baseUrl = this.baseUrls[0];
+    }
+    if (!this.email || this.email === 'admin') {
+      this.email    = 'admin';
+      this.password = 'admin123';
     }
   }
   
@@ -78,19 +85,29 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                                }
                                              }
                                            });
-    
   }
   
   login() {
     if (this.jForm.valid()) {
       this.accountActions.login({
-                                  username: this.email,
-                                  password: this.password
-                                });
+                                  username: window.btoa(this.email),
+                                  password: window.btoa(this.password)
+                                } , this.baseUrl);
     }
   }
   
   ngOnDestroy(): void {
     this.validate.destroy();
   }
+  
+  
+  selectWebsite($event) {
+    if (_.isString($event) && $event !== 'null' && this.baseUrl !== $event) {
+      this.baseUrl = $event;
+    }
+    // else {
+    //   this.notify.error("sorry_we_can_not_select_base_url");
+    // }
+  }
+  
 }

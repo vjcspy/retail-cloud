@@ -15,6 +15,7 @@ import {PosGeneralState} from "../general/general.state";
 import * as _ from 'lodash';
 import {RealtimeActions} from "./realtime/realtime.actions";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
+import {AppStorage} from "../../../../services/storage";
 
 @Injectable()
 export class PosEntitiesEffects {
@@ -22,7 +23,7 @@ export class PosEntitiesEffects {
               private store: Store<PosState>,
               private rootActions: RootActions,
               private posEntityService: PosEntitiesService,
-              private entitiesActions: PosEntitiesActions) {}
+              private entitiesActions: PosEntitiesActions,protected storage: AppStorage) {}
   
   @Effect() initEntityBeforeGetFromSV$ = this.action$
                                              .ofType(
@@ -146,6 +147,13 @@ export class PosEntitiesEffects {
     _.forEach(entity.propertyFilter, (val, key) => {
       _query += `&searchCriteria[${key}]=${val}`;
     });
+    
+    // if (!!entity.apiUrlCode && entity.apiUrlCode === "outlet") {
+    //   // entity.propertyFilter = {storeId :this.storage.localRetrieve('userId')};
+    //  _query += '&searchCriteria[userId]=' + this.storage.localRetrieve('userId');
+    //   //   entity.query.concat("&searchCriteria[userId]=" + this.storage.localRetrieve('userId'));
+    // }
+    
     _query += `&searchCriteria[pageSize]=${entity.pageSize}&searchCriteria[currentPage]=${entity.currentPage + 1}`;
     
     if (!!generalState.store && !!generalState.store['id']) {

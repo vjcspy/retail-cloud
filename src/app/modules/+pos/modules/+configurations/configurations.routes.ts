@@ -20,6 +20,9 @@ import {ConfigurationsDefaultCacheManagementMagentoProductComponent} from "./vie
 import {ConfigurationsDefaultCacheManagementClientDBComponent} from "./view/default/cache-management/client-db.component";
 import {ConfigurationsDefaultTranslateComponent} from "./view/default/translate.component";
 import {ConfigurationsDefaultCacheManagementPullPerformanceComponent} from "./view/default/cache-management/pull-performance.component";
+import {ConfigurationsDefaultPosRegionGridComponent} from "./view/default/pos/region/grid.component";
+import {ConfigurationsDefaultPosRegionEditComponent} from "./view/default/pos/region/edit.component";
+import {ConfigurationsDefaultPosRegionComponent} from "./view/default/pos/region.component";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -47,6 +50,14 @@ export const CONFIGURATIONS_ROUTES: Routes = [
                   {path: 'grid', component: ConfigurationsDefaultPosOutletRegisterGridComponent},
                   {path: 'edit/:id', component: ConfigurationsDefaultPosOutletRegisterEditComponent},
                   {path: 'register-edit', component: ConfigurationsDefaultPosOutletRegisterEditRegisterComponent},
+                ]
+              },
+              {
+                path: 'region',
+                component: ConfigurationsDefaultPosRegionComponent,
+                children: [
+                  {path: 'grid', component: ConfigurationsDefaultPosRegionGridComponent},
+                  {path: 'edit/:id', component:ConfigurationsDefaultPosRegionEditComponent},
                 ]
               },
               {path: 'payment', component: ConfigurationsDefaultPosPaymentComponent},

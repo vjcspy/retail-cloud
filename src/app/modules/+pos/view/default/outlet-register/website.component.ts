@@ -7,6 +7,8 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {AuthenticateService} from "../../../../../services/authenticate";
+import {OfflineService} from "../../../../share/provider/offline";
 
 @Component({
              // moduleId: module.id,
@@ -22,6 +24,8 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   public baseUrl: string;
   
   constructor(public accountActions: AccountActions,
+              public authenticateService: AuthenticateService,
+              public offline: OfflineService,
               protected notify: NotifyManager,
               public generalActions: PosGeneralActions,
               protected routerActions: RouterActions) { }
@@ -69,5 +73,15 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   
   go(path: string) {
     this.routerActions.go(path);
+  }
+  
+  goPosSetting() {
+    if (this.authenticateService.userCan('access_to_connectpos_settings')) {
+      if (this.offline.online) {
+        this.go('pos/configurations/default/pos/outlet/grid');
+      }
+    } else {
+      this.notify.error("not_have_permission_to_access_to_connectpos_settings");
+    }
   }
 }

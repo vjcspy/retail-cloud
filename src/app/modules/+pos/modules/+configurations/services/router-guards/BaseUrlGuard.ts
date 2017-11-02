@@ -4,11 +4,15 @@ import {PosGeneralService} from "../../../../R/general/general.service";
 import {PosGeneralActions} from "../../../../R/general/general.actions";
 import {posReducer} from "../../../../R/index";
 import {ReducerManagement} from "../../../../../../services/reducer-management";
+import {AuthenticateService} from "../../../../../../services/authenticate";
 
 @Injectable()
 export class BaseUrlGuard implements CanActivate, CanActivateChild {
   
-  constructor(protected generalService: PosGeneralService, protected generalActions: PosGeneralActions, protected reducerManagement: ReducerManagement) {
+  constructor(protected authenticateService: AuthenticateService,
+              protected generalService: PosGeneralService,
+              protected generalActions: PosGeneralActions,
+              protected reducerManagement: ReducerManagement) {
     this.reducerManagement.replaceReducer('posReducer', posReducer());
   }
   
@@ -19,6 +23,9 @@ export class BaseUrlGuard implements CanActivate, CanActivateChild {
   }
   
   checkGeneralDataExisted(url: string) {
+    if (!this.authenticateService.userCan('access_to_connectpos_settings')) {
+      return false;
+    }
     const baseUrl = this.generalService.getBaseUrl();
     if (baseUrl) {
       this.generalActions.selectWebsite(baseUrl);

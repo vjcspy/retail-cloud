@@ -18,8 +18,8 @@ export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosG
     case PosGeneralActions.ACTION_SELECT_WEBSITE:
       return state.set('baseUrl', action.payload['baseUrl']);
     
-    case PosGeneralActions.ACTION_RESOLVED_URLS:
-      return state.set('urls', action.payload['urls']);
+    // case PosGeneralActions.ACTION_RESOLVED_URLS:
+    //   return state.set('urls', action.payload['urls']);
     
     case AccountActions.ACTION_LOGOUT:
     case PosGeneralActions.ACTION_CLEAR_GENERAL_DATA:

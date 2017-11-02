@@ -7,11 +7,13 @@ export class ApiManager {
   private _middleUrl: string = "xrest/v1/xretail";
   private _isSecureHttp;
   private _apiUrl            = {
+    /*Tls Login*/
+    login : 'login',
     /*Retail*/
     retailConfig: 'retail-setting',
     outlet: 'outlet',
     register: 'register',
-    
+    region : 'region',
     /*Pos*/
     products: "product",
     category: "category",

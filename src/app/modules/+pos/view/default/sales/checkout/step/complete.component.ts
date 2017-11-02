@@ -6,7 +6,7 @@ import {PosStepActions} from "../../../../R/sales/checkout/step/step.actions";
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
-import {UserCollection} from "../../../../../../../services/meteor-collections/users";
+import {AppStorage} from "../../../../../../../services/storage";
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {OfflineService} from "../../../../../../share/provider/offline";
 
@@ -27,7 +27,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   customerEmail: string    = '';
   public isRefundExchange  = false;
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection, private offline: OfflineService) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, private offline: OfflineService) { }
   
   ngOnInit() {
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
@@ -82,7 +82,8 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
-        username: this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']),
+        // username: this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']),
+        username: "Unknow",
         inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
       };
       this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name, settingReceipt);

@@ -5,6 +5,8 @@ import {FormValidationService} from "../../../../../../../../../share/provider/f
 import {ConfigurationsOutletActions} from "../../../../../../R/outlets/outlet.actions";
 import {ConfigurationsState} from "../../../../../../R/index";
 import {DialogService} from "../../../../../../../../../dialog/dialog.service";
+import {AuthenticateService} from "../../../../../../../../../../services/authenticate";
+import {NotifyManager} from "../../../../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -17,6 +19,8 @@ export class ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent imp
   @Input() configurationsState: ConfigurationsState;
   
   constructor(private routerActions: RouterActions,
+              private authenticate: AuthenticateService,
+              private notify: NotifyManager,
               private configurationsOutletService: ConfigurationsOutletService,
               private formValid: FormValidationService,
               private configurationsOutletActions: ConfigurationsOutletActions,
@@ -40,9 +44,13 @@ export class ConfigurationsDefaultPosOutletRegisterEditRegisterFormComponent imp
   }
   
   saveRegister() {
-    this.formValid.submit('register_edit_data', () => {
-      this.configurationsOutletActions.saveRegister(this.getRegister());
-    }, true);
+    if (!this.authenticate.userCan('change_register_information') && this.getRegister().hasOwnProperty('id')) {
+      this.notify.error("not_have_permission_to_change_outlet_register_information");
+    } else {
+      this.formValid.submit('register_edit_data', () => {
+        this.configurationsOutletActions.saveRegister(this.getRegister());
+      }, true);
+    }
   }
   
   getStatusSelect() {

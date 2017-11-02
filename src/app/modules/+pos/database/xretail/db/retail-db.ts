@@ -19,6 +19,7 @@ import {PaymentDB} from "./payment";
 import {ReceiptDB} from "./receipt";
 import {WarehouseDB} from "./warehouse";
 import {PermissionDB} from "./permission";
+import {RegionDB} from "./region";
 
 export class RetailDB extends Dexie {
   entityInformation: Dexie.Table<EntityInformation, string>;
@@ -41,6 +42,7 @@ export class RetailDB extends Dexie {
   receipts: Dexie.Table<ReceiptDB, string>;
   warehouse: Dexie.Table<WarehouseDB, string>;
   permission: Dexie.Table<PermissionDB, string>;
+  region: Dexie.Table<PermissionDB,string>;
   
   constructor() {
     console.log('%c Init DB! ', 'color: #bada55');
@@ -69,6 +71,7 @@ export class RetailDB extends Dexie {
         receipts: ReceiptDB.getFields(),
         warehouse: WarehouseDB.getFields(),
         permission: PermissionDB.getFields(),
+        region: RegionDB.getFields(),
       });
     
     // Map physic class to database object
@@ -92,6 +95,7 @@ export class RetailDB extends Dexie {
     db.receipts.mapToClass(ReceiptDB);
     db.warehouse.mapToClass(WarehouseDB);
     db.permission.mapToClass(PermissionDB);
+    db.region.mapToClass(RegionDB);
   }
 }
 if (!window.hasOwnProperty('retailDB')) {

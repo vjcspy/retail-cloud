@@ -42,5 +42,23 @@ export const entityReducer: ActionReducer<PosEntitiesStateRecord> = (state, acti
     return state;
   }
   
+  if (type === EntityActions.ACTION_DELETE_ENTITY) {
+    const entityCode = action.payload['entityCode'];
+    const primaryKey = action.payload['key'];
+    
+    return state.updateIn([entityCode, 'items'], (items) => {
+      let itemIndex;
+      if (primaryKey) {
+        itemIndex = items.findIndex((c) => c[primaryKey] === action.payload['item_id']);
+      }
+      if (itemIndex > -1) {
+        items.splice(itemIndex,1);
+      }
+      // return itemIndex > -1 ?
+      //   items.set(itemIndex, Object.assign({}, action.payload['item'])) :
+      //   items.push(Object.assign({}, action.payload['item']));
+    });
+  }
+  
   return state;
 };

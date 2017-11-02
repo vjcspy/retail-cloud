@@ -10,6 +10,7 @@ export interface PosGeneralState {
   outlet: Object;
   user: Object;
   redirect: string;
+  region: Object;
 }
 
 export interface PosGeneralStateRecord extends TypedRecord<PosGeneralStateRecord>, PosGeneralState {}
@@ -22,5 +23,6 @@ export const posGeneralStateFactory = makeTypedFactory<PosGeneralState, PosGener
                                                                                                  warehouse: null,
                                                                                                  outlet: null,
                                                                                                  user: null,
-                                                                                                 redirect: 'pos/default/sales/checkout'
+                                                                                                 redirect: 'pos/default/sales/checkout',
+                                                                                                 region: null
                                                                                                });

@@ -11,6 +11,7 @@ import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponen
 import {DialogService} from "./modules/dialog/dialog.service";
 import {RetailTranslate} from "./modules/share/provider/retail-translate";
 import {AppService} from "./app.service";
+import {NotifyManager} from "./services/notify-manager";
 
 /**
  * App Component
@@ -37,6 +38,7 @@ import {AppService} from "./app.service";
 export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,
               vcr: ViewContainerRef,
+              protected notify: NotifyManager,
               protected translate: RetailTranslate,
               protected changedetector: ChangeDetectorRef,
               private dialogService: DialogService,) {
@@ -45,6 +47,21 @@ export class AppComponent extends AbstractSubscriptionComponent {
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
     AppService.$changeDetecteor = this.changedetector;
+    this.loginMeteor();
+  }
+  
+  protected loginMeteor(): void {
+    if (!Meteor.loggingIn()) {
+      new Promise((resolve, reject) => {
+        Meteor.loginWithPassword('thanhnt', '123thanh', (e: Error) => {
+          if (e && e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+            return reject(e);
+          }
+          resolve();
+        });
+      });
+    }
   }
   
   protected resolveLanguage() {

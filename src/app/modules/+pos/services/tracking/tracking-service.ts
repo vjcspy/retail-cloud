@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {LicenseCollection} from "../../../../services/meteor-collections/licenses";
 import {AppStorage} from "../../../../services/storage";
 import * as _ from 'lodash';
 
@@ -10,7 +9,7 @@ export class TrackingService {
   
   protected _licenseKey;
   
-  constructor(protected licenseCollection: LicenseCollection, protected storage: AppStorage) {
+  constructor(protected storage: AppStorage) {
   }
   
   tracking(event: String, data?: Object) {
@@ -50,13 +49,9 @@ export class TrackingService {
       if (license) {
         this._licenseKey = license['key'];
       } else {
-        const licenses = this.licenseCollection.getCollection().find({}).fetch();
-        if (_.size(licenses) === 1) {
-          this._licenseKey = _.first(licenses)['key'];
-        }
+        this._licenseKey = "24f247e3fda094d3d10d5eff52e310b8";
       }
     }
-    
     return this._licenseKey;
   }
 }
