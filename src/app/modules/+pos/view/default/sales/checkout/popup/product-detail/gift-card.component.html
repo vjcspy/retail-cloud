@@ -23,8 +23,15 @@
     </retail-select>
   </li>
   <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
-    <label>Sender Email <span style="display: inline-block">*</span></label>
+    <label>Sender Name <span style="display: inline-block">*</span></label>
     <retail-text [model]="giftCardOption['aw_gc_sender_name']" (modelChange)="updateGiftCardOption('aw_gc_sender_name',$event)"
+                 [validation]="'require' "
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
+    <label>Sender Email <span style="display: inline-block">*</span></label>
+    <retail-text [model]="giftCardOption['aw_gc_sender_email']" (modelChange)="updateGiftCardOption('aw_gc_sender_email',$event)"
                  [validation]="'require' "
                  [formKey]="'pos-product-detail'">
     </retail-text>
@@ -39,11 +46,10 @@
 
   <li *ngIf="getGiftCardOptionConfig()['isAllowDeliveryDate']">
     <label>Delivery Date Timezone<span style="display: inline-block">*</span></label>
-    <retail-select [model]="giftCardOption['aw_gc_delivery_date_timezone']" (modelChange)="updateGiftCardOption('aw_gc_delivery_date_timezone',$event)"
-                   [elementData]="data.selectElem.delivery_date_timezone"
-                   [formKey]="'pos-product-detail'"
-                   [validation]="'require'">
-    </retail-select>
+    <retail-select2 [elementData]="data.selectElem.delivery_date_timezone"
+                    [model]="giftCardOption['aw_gc_delivery_date_timezone']" (modelChange)="updateGiftCardOption('aw_gc_delivery_date_timezone',$event)"
+                    [formKey]="'pos-product-detail'"
+                    [validation]="'require'"></retail-select2>
   </li>
   <li>
     <label>Recipient Name <span style="display: inline-block">*</span></label>

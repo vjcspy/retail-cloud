@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import {Timezone} from "../../+pos/core/framework/General/DateTime/Timezone";
 
 @Component({
              //moduleId: module.id,
@@ -13,9 +14,10 @@ import * as moment from 'moment';
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() validation: string = "";
+  @Input() validation: string   = "";
   @Input() formKey: string;
   @Input() minDate: any;
+  @Input() useTimezone: boolean = false;
   @ViewChild('dateSelect') elementData: ElementRef;
   
   modelValue;
@@ -59,15 +61,23 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
     }
     
     if (_.isEmpty(this.model)) {
-      this.model.month     = moment().month();
-      this.model.day       = moment().date();
-      this.model.year      = moment().year();
-      this.model.data_date = moment().format("MM/DD/YYYY");
+      let current = moment();
+      if (this.useTimezone) {
+        current = Timezone.convertTimeToStoreTime(current);
+      }
+      this.model.month     = current.month();
+      this.model.day       = current.date();
+      this.model.year      = current.year();
+      this.model.data_date = current.format("MM/DD/YYYY");
     }
     
     if (this.model.hasOwnProperty('data_date') && this.model.data_date != null) {
       options['startDate'] = this.model.data_date;
-      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start, end, label) => {
+      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start) => {
+        if (this.useTimezone) {
+          start = Timezone.convertTimeToStoreTime(start);
+        }
+        
         this._dateTime       = start;
         this.model.month     = start.month();
         this.model.day       = start.date();
@@ -76,7 +86,10 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.changeDetector.detectChanges();
       });
     } else {
-      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start, end, label) => {
+      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start) => {
+        if (this.useTimezone) {
+          start = Timezone.convertTimeToStoreTime(start);
+        }
         this._dateTime       = start;
         this.model.month     = start.month() + 1;
         this.model.day       = start.date();
@@ -98,8 +111,9 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
   
   ngOnDestroy(): void {
-    if (typeof this._validateSubscription != "undefined")
+    if (typeof this._validateSubscription !== "undefined") {
       this._validateSubscription.unsubscribe();
+    }
   }
   
   protected _validateElement(needValid): boolean {
@@ -120,8 +134,9 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
   getOutputTime() {
     if (this._dateTime) {
       return this._dateTime.format("MM/DD/YYYY");
-    } else
+    } else {
       return "";
+    }
   }
   
   triggerDatePicker() {

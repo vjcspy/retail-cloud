@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {SettingDB} from "../../../../database/xretail/db/setting";
+import {Moment} from "moment";
 
 export class Timezone {
   isScopeDateInInterval(scope, dateFrom = null, dateTo = null): boolean {
@@ -32,4 +33,16 @@ export class Timezone {
     }
   }
   
+  static convertTimeToStoreTime(time: Moment) {
+    if (SettingDB.getStoreConfigGroup("store") && SettingDB.getStoreConfigGroup("store")['time_zone']) {
+      const timezone = Math.abs(SettingDB.getStoreConfigGroup("store")['time_zone']);
+      if (SettingDB.getStoreConfigGroup("store")['time_zone'] < 0) {
+        return time.utc().add(timezone, "s");
+      } else {
+        return time.utc().subtract(timezone, "s");
+      }
+    } else {
+      return time;
+    }
+  }
 }
