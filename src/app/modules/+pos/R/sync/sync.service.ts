@@ -119,6 +119,7 @@ export class PosSyncService {
           'reward_point')['use_reward_point']) ?
           quote.getData('reward_point')['reward_point_discount_amount'] :
           null,
+        "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount']: null,
         "grand_total": quote.getShippingAddress().getData('grand_total')
       },
       sync_data: order,

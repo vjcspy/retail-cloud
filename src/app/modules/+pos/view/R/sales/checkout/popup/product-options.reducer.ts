@@ -33,7 +33,8 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
                    .setIn(['optionData', 'bundle_option_qty'], {})
                    .setIn(['optionData', 'options'], {})
                    .setIn(['optionData', 'super_attribute'], {})
-                   .setIn(['optionData', 'super_group'], {});
+                   .setIn(['optionData', 'super_group'], {})
+                   .setIn(['optionData', 'gift_card'], {});
       
       const product    = action.payload['product'];
       const buyRequest = action.payload['buyRequest'];
@@ -50,6 +51,8 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
                          .setIn(['optionData', 'bundle_option_qty'], buyRequest.getData('bundle_option_qty'));
           }
           break;
+        default:
+          break;
       }
       
       // convert multi select to array
@@ -61,6 +64,10 @@ export const productOptionsReducer: ActionReducer<ProductOptionsStateRecord> = (
       
       if (buyRequest.getData('options')) {
         state = state.setIn(['optionData', 'options'], buyRequest.getData('options'));
+      }
+      
+      if (buyRequest.getData('gift_card')) {
+        state = state.setIn(['optionData', 'gift_card'], buyRequest.getData('gift_card'));
       }
       
       return state.set('product', product)

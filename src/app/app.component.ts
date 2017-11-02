@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
@@ -10,6 +10,7 @@ import {ToastsManager} from "ng2-toastr";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 import {DialogService} from "./modules/dialog/dialog.service";
 import {RetailTranslate} from "./modules/share/provider/retail-translate";
+import {AppService} from "./app.service";
 
 /**
  * App Component
@@ -37,11 +38,13 @@ export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,
               vcr: ViewContainerRef,
               protected translate: RetailTranslate,
+              protected changedetector: ChangeDetectorRef,
               private dialogService: DialogService,) {
     super();
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
+    AppService.$changeDetecteor = this.changedetector;
   }
   
   protected resolveLanguage() {

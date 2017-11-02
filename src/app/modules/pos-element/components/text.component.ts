@@ -9,6 +9,7 @@ import {FormValidationService} from "../../share/provider/form-validation";
              // changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailTextComponent implements OnInit, OnDestroy {
+  @Input() typeElem: string   = 'text';
   @Input() validation: string = "";
   @Input() formKey: string;
   @Input() disabled           = false;

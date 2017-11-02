@@ -11,7 +11,7 @@ import {PosQuoteState} from "../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {CheckoutProductService} from "../../../R/sales/checkout/product/product.service";
-import {CartCustomerState} from "../../../R/sales/checkout/cart/customer.state";
+import {Subject} from "rxjs/Subject";
 
 @Component({
              // moduleId: module.id,
@@ -23,11 +23,11 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   @Input() quoteState: PosQuoteState;
-  @Input() cartCustomerState: CartCustomerState;
   
   protected searchString        = new FormControl();
   protected searchInputElem: any;
-  protected isScanning: boolean = false;
+  
+  protected scannerSubject = new Subject();
   
   constructor(private checkoutProductActions: CheckoutProductActions,
               public menuLeftActions: MenuLeftActions,
@@ -40,27 +40,32 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   ngAfterViewInit(): void {
     this.checkoutProductService.handleScanner((searchString) => {
-      if (!this.cartCustomerState.inSearchCustomers) {
-        this.checkoutProductActions.updateGridState({
-                                                      searchString,
-                                                      lastLuckySearchString: null
-                                                    });
-        this.isScanning = true;
-        setTimeout(() => {this.isScanning = false;}, parseInt(this.configState.constrain['debounceTimeSearch'] + '') + 100);
-      }
+      this.scannerSubject.next(searchString);
     }, true);
     
-    this.subscribeObservable('subscribe_input_search', () => this.searchString
-                                                                 .valueChanges
-                                                                 .debounceTime(this.configState.constrain['debounceTimeSearch'])
-                                                                 .filter(() => !this.isScanning)
-                                                                 // .distinctUntilChanged()
-                                                                 .subscribe((searchString: string) => {
-                                                                   this.checkoutProductActions.updateGridState({
-                                                                                                                 searchString,
-                                                                                                                 lastLuckySearchString: null
-                                                                                                               });
-                                                                 }));
+    this.subscribeObservable('subscript_scanner', () =>
+      this.scannerSubject
+          .asObservable()
+          .filter(() => $('input:focus').length === 0)
+          .subscribe((searchString) => {
+            this.searchString.setValue(searchString, {emitEvent: false});
+            this.checkoutProductActions.updateGridState({
+                                                          searchString,
+                                                          lastLuckySearchString: null
+                                                        });
+          }));
+    
+    this.subscribeObservable('subscribe_input_search', () =>
+      this.searchString
+          .valueChanges
+          // .distinctUntilChanged()
+          .debounceTime(this.configState.constrain['debounceTimeSearch'])
+          .subscribe((searchString: string) => {
+            this.checkoutProductActions.updateGridState({
+                                                          searchString
+                                                        });
+          })
+    );
   }
   
   openPopupCustomSale() {
@@ -91,14 +96,15 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   
   checkEnter($event) {
     if ($event && $event['keyCode'] === 13) {
-      if (typeof  this.searchInputElem === 'undefined') {
+      if (typeof this.searchInputElem === 'undefined') {
         this.searchInputElem = jQuery('#pos_search_text');
       }
       
       this.searchInputElem.select();
-      // setTimeout(() => {
-      //   this.checkoutProductActions.updateLuckySearch(null);
-      // }, 1000);
+      this.checkoutProductActions.updateGridState({
+                                                    searchString: this.searchString.value,
+                                                    lastLuckySearchString: null
+                                                  });
     }
   }
   

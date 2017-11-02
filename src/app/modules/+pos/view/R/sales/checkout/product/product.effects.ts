@@ -15,11 +15,13 @@ import {RealtimeActions} from "../../../../../R/entities/realtime/realtime.actio
 import {CategoryDB} from "../../../../../database/xretail/db/category";
 import {PosStepActions} from "../step/step.actions";
 import {routerActions} from "@ngrx/router-store";
+import * as _ from 'lodash';
 
 @Injectable()
 export class CheckoutProductEffects {
   
-  private _gridProductScroll;
+  private _gridProductElem;
+  private _listProductElem;
   
   constructor(private store$: Store<any>,
               private actions$: Actions,
@@ -85,15 +87,10 @@ export class CheckoutProductEffects {
                                        .switchMap(([action, checkoutProductState, entitiesState, configState]) => {
                                          return Observable.fromPromise(this.checkoutProductsService.resolveSearchProduct(<any>checkoutProductState, (checkoutProductState as CheckoutProductState).catalogProducts, <any>configState))
                                                           .map((data: GeneralMessage) => {
-                                                            // update scroll behavior for customer
-                                                            // setTimeout(() => {
-                                                            //   if ((checkoutProductState as CheckoutProductState).isGridMode) {
-                                                            //     jQuery('#grid-product-perfect-scroll')['perfectScrollbar']('update');
-                                                            //   } else {
-                                                            //     jQuery('#list-product-perfect-scroll')['perfectScrollbar']('update');
-                                                            //   }
-                                                            // }, 500);
-      
+                                                            if (_.indexOf([CheckoutProductActions.ACTION_UPDATE_GRID_STATE,
+                                                                           CheckoutProductActions.ACTION_RESOLVE_CATALOG_PRODUCT], action['type']) > -1) {
+                                                              this.scrollGridProductToTop(checkoutProductState);
+                                                            }
                                                             return this.checkoutProductActions.resolvedGridProduct(data.data, false);
                                                           });
                                        });
@@ -103,12 +100,14 @@ export class CheckoutProductEffects {
                               .withLatestFrom(this.store$.select('checkoutProduct'))
                               .filter((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
-                                return checkoutProductState.productGridProducts.count() === 1 && checkoutProductState.searchString !== null && checkoutProductState.searchString !== checkoutProductState.lastLuckySearchString;
+                                return checkoutProductState.productGridProducts.count() === 1
+                                       && checkoutProductState.searchString !== null
+                                       && (!checkoutProductState.lastLuckySearchString || checkoutProductState.searchString.indexOf(checkoutProductState.lastLuckySearchString) === -1);
                               })
                               .flatMap((z: any) => {
                                 const checkoutProductState: CheckoutProductState = z[1];
                                 const product                                    = checkoutProductState.productGridProducts.first();
-                                this.scrollGridProductToTop();
+                                this.scrollGridProductToTop(checkoutProductState);
                                 this.checkoutProductsService.playSuccessLuckySearch();
                                 return Observable.from([
                                                          this.checkoutProductActions.updateLuckySearch(checkoutProductState.searchString, false),
@@ -116,13 +115,19 @@ export class CheckoutProductEffects {
                                                        ]);
                               });
   
-  private scrollGridProductToTop() {
-    if (!this._gridProductScroll) {
-      this._gridProductScroll = document.getElementById('grid-product-perfect-scroll');
-    }
-    
-    if (!!this._gridProductScroll) {
-      this._gridProductScroll.scrollTop = 0;
-    }
+  private scrollGridProductToTop(checkoutProductState?: any) {
+    setTimeout(() => {
+      if (!checkoutProductState || (checkoutProductState as CheckoutProductState).isGridMode) {
+        if (!this._gridProductElem) {
+          this._gridProductElem = document.getElementById('grid-product-perfect-scroll');
+        }
+        this._gridProductElem.scrollTop = 0;
+      } else {
+        if (!this._listProductElem) {
+          this._listProductElem = document.getElementById('list-product-perfect-scroll');
+        }
+        this._listProductElem.scrollTop = 0;
+      }
+    });
   }
 }

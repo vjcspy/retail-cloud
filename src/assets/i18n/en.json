@@ -374,7 +374,7 @@
     "delete_onhold_order_successfully" : "On hold order deleted successfully",
     "take_payment_success" : "Payment added successully",
     "delete_entity_database_successfully" : "Entity database deleted successfully",
-    "save_customer_successfully" : "New customer created successfully",
+    "save_customer_successfully" : "Save customer successfully",
     "order_will_push_to_queue_to_sync" : "Order is being resynced",
     "ship_order_successfully" : "Shipment created successfully.",
     "save_note_successfully" : "Notes saved successfully.",

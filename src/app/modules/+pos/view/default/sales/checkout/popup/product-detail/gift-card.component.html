@@ -1,0 +1,75 @@
+<div *ngIf="getGiftCardOptionConfig()">
+  <li>
+    <label>Amount<span style="display: inline-block">*</span></label>
+    <retail-select [model]="giftCardOption['aw_gc_amount']" (modelChange)="updateGiftCardOption('aw_gc_amount',$event)"
+                   [elementData]="data.selectElem.amount"
+                   [formKey]="'pos-product-detail'"
+                   [validation]="'require'">
+    </retail-select>
+  </li>
+  <li *ngIf="giftCardOption['aw_gc_amount'] == 'custom'">
+    <label>Custom amount <span style="display: inline-block">*</span></label>
+    <retail-text [model]="giftCardOption['aw_gc_custom_amount']" (modelChange)="updateGiftCardOption('aw_gc_custom_amount',$event)"
+                 [validation]="'require,p-number'"
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['getGiftcardTemplates']">
+    <label>Template<span style="display: inline-block">*</span></label>
+    <retail-select [model]="giftCardOption['aw_gc_template']" (modelChange)="updateGiftCardOption('aw_gc_template',$event)"
+                   [elementData]="data.selectElem.templates"
+                   [formKey]="'pos-product-detail'"
+                   [validation]="'require'">
+    </retail-select>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
+    <label>Sender Email <span style="display: inline-block">*</span></label>
+    <retail-text [model]="giftCardOption['aw_gc_sender_name']" (modelChange)="updateGiftCardOption('aw_gc_sender_name',$event)"
+                 [validation]="'require' "
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowDeliveryDate']">
+    <label>Delivery date<span style="display: inline-block">*</span></label>
+    <date-select [model]="giftCardOption['aw_gc_delivery_date']" (modelChange)="updateGiftCardOption('aw_gc_delivery_date',$event)"
+                 [formKey]="'pos-product-detail'" [minDate]="data.minDate"
+                 [validation]="'require'">
+    </date-select>
+  </li>
+
+  <li *ngIf="getGiftCardOptionConfig()['isAllowDeliveryDate']">
+    <label>Delivery Date Timezone<span style="display: inline-block">*</span></label>
+    <retail-select [model]="giftCardOption['aw_gc_delivery_date_timezone']" (modelChange)="updateGiftCardOption('aw_gc_delivery_date_timezone',$event)"
+                   [elementData]="data.selectElem.delivery_date_timezone"
+                   [formKey]="'pos-product-detail'"
+                   [validation]="'require'">
+    </retail-select>
+  </li>
+  <li>
+    <label>Recipient Name <span style="display: inline-block">*</span></label>
+    <retail-text [model]="giftCardOption['aw_gc_recipient_name']" (modelChange)="updateGiftCardOption('aw_gc_recipient_name',$event)"
+                 [validation]="'require' "
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
+    <label>Recipient Email <span style="display: inline-block">*</span></label>
+    <retail-text [model]="giftCardOption['aw_gc_recipient_email']" (modelChange)="updateGiftCardOption('aw_gc_recipient_email',$event)"
+                 [validation]="'require' "
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowHeadline']">
+    <label>Headline</label>
+    <retail-text [model]="giftCardOption['aw_gc_headline']" (modelChange)="updateGiftCardOption('aw_gc_headline',$event)"
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+  <li *ngIf="getGiftCardOptionConfig()['isAllowMessage']">
+    <label>Message</label>
+    <retail-text [model]="giftCardOption['aw_gc_message']" (modelChange)="updateGiftCardOption('aw_gc_message',$event)"
+                 [typeElem]="'textarea'"
+                 [formKey]="'pos-product-detail'">
+    </retail-text>
+  </li>
+</div>

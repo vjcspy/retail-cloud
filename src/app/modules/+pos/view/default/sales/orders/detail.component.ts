@@ -49,7 +49,6 @@ export class PosDefaultSalesOrdersDetailComponent {
         payments.push(payment);
       }
     });
-    
     return payments;
   }
   

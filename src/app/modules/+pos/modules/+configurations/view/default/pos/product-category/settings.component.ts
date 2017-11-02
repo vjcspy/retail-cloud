@@ -158,6 +158,13 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         data: TaxClassHelper.getProductTaxClassElementData()['data']
       }
     };
+    
+    if (this.getRetailConfigSnapshot()['pos']['xretail/pos/integrate_gc'] === 'aheadWorld') {
+      this._data['show_product_by_type']['data'].push({
+                                                        label: "Gift card",
+                                                        value: 'aw_giftcard'
+                                                      });
+    }
   }
   
   protected _productAttributes;
