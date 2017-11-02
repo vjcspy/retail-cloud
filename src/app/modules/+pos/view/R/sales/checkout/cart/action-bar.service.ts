@@ -46,7 +46,8 @@ export class CartActionBarService {
         let fullStringSearch = order['customer']['first_name'] +
                                order['customer']['last_name'] +
                                order['customer']['email'] +
-                               (order['note'] ? order['note'] : '');
+                               (order['note'] ? order['note'] : '') +
+                               order['reference_number'];
         
         return re.test(fullStringSearch);
       });
