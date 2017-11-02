@@ -14,6 +14,9 @@ export const generalReducer: ActionReducer<PosGeneralStateRecord> = (state: PosG
     
     case PosGeneralActions.ACTION_GO_OUTLET_REGISTER_PAGE:
       return state.set('redirect', action.payload['redirect']);
+  
+    case PosGeneralActions.ACTION_GO_SALE_PAGE:
+      return state.set('redirect', action.payload['redirect']);
     
     case PosGeneralActions.ACTION_SELECT_WEBSITE:
       return state.set('baseUrl', action.payload['baseUrl']);

@@ -5,7 +5,6 @@ import {Routes} from "@angular/router";
 import {ConfigurationsDefaultPosComponent} from "./view/default/pos.component";
 import {ConfigurationsDefaultCacheManagement} from "./view/default/cache-management.component";
 import {PosConfigurationsDefaultPosProductCategoryComponent} from "./view/default/pos/product-category.component";
-import {BaseUrlGuard} from "./services/router-guards/BaseUrlGuard";
 import {ConfigurationsDefaultGeneralComponent} from "./view/default/general.component";
 import {ConfigurationsDefaultPosCustomerComponent} from "./view/default/pos/customer.component";
 import {ConfigurationsDefaultPosOutletRegisterComponent} from "./view/default/pos/outlet-register.component";
@@ -23,6 +22,7 @@ import {ConfigurationsDefaultCacheManagementPullPerformanceComponent} from "./vi
 import {ConfigurationsDefaultPosRegionGridComponent} from "./view/default/pos/region/grid.component";
 import {ConfigurationsDefaultPosRegionEditComponent} from "./view/default/pos/region/edit.component";
 import {ConfigurationsDefaultPosRegionComponent} from "./view/default/pos/region.component";
+import {PermissionGuard} from "../../services/router-guards/permission-guard";
 
 export const CONFIGURATIONS_ROUTES: Routes = [
   {
@@ -33,7 +33,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
       {
         path: 'default',
         component: ConfigurationsDefaultContainerComponent,
-        canActivate: [BaseUrlGuard],
+        canActivate: [PermissionGuard],
         children: [
           {path: 'general', component: ConfigurationsDefaultGeneralComponent},
           
@@ -68,7 +68,7 @@ export const CONFIGURATIONS_ROUTES: Routes = [
           },
           
           {
-            path: 'advanced', component: ConfigurationsDefaultCacheManagement,
+            path: 'advanced',canActivate: [PermissionGuard],component: ConfigurationsDefaultCacheManagement,
             children: [
               {path: 'magento-product', component: ConfigurationsDefaultCacheManagementMagentoProductComponent},
               {path: 'client-db', component: ConfigurationsDefaultCacheManagementClientDBComponent},

@@ -62,6 +62,7 @@
             {{ 'Discount' | translate }}
           </label>
           <input inputSelectText
+                 [disabled]="!authService.userCan('add_discount')"
                  value="{{(item.getData('buy_request').getData('is_discount_value')? (item.getData('buy_request').getData('discount_per_item') || 0) : (item.getData('buy_request').getData('retail_discount_per_items_percent')|| 0))  |  number : '1.2-2'}}"
                  (blur)="updateItemBuyRequest($event,item,'discount_per_item')" enterBlur=""
                  type="text">

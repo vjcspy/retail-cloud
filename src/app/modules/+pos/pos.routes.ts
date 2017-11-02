@@ -8,6 +8,7 @@ import {PosDefaultSalesOrdersComponent} from "./view/default/sales/orders.compon
 import {PosDefaultSalesShiftsComponent} from "./view/default/sales/shifts.component";
 import {AuthGuard} from "../../services/router-guard/auth-guard";
 import {GeneralGuard} from "./services/router-guards/general-guard";
+import {PermissionGuard} from "./services/router-guards/permission-guard";
 
 export const POS_ROUTES: Routes = [
   {
@@ -25,11 +26,11 @@ export const POS_ROUTES: Routes = [
             canActivate: [GeneralGuard],
             children: [
               {path: 'checkout', component: PosDefaultSalesCheckoutComponent},
-              {path: 'orders', component: PosDefaultSalesOrdersComponent},
-              {path: 'shifts', component: PosDefaultSalesShiftsComponent},
+              {path: 'orders', component: PosDefaultSalesOrdersComponent, canActivate: [PermissionGuard]},
+              {path: 'shifts', component: PosDefaultSalesShiftsComponent, canActivate: [PermissionGuard]},
             ]
           },
-          {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent},
+          {path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent, canActivate: [PermissionGuard]},
         ]
       },
       {path: 'configurations', loadChildren: './modules/+configurations#ConfigurationsModule', data: {preload: true}}

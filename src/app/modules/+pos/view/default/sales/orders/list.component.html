@@ -3,8 +3,8 @@
         <span class="menu-toggle" (click)="menuLeftActions.changeOpenState(true)"><span class="icon-menu amenu"></span><span
           class="text">X-Retail</span></span>
     <div class="check-box click" (click)="toggleSearchOnline(!ordersState.list.isSearchOnline)">
-      <input [checked]="ordersState.list.isSearchOnline"
-             type="checkbox" [disabled]="!offline.online">
+      <input [disabled]="!offline.online || !authService.userCan('search_order')" [checked]="ordersState.list.isSearchOnline"
+             type="checkbox">
       <span></span>{{ 'Search Online' | translate }}
     </div>
     <div class="search-blk">
@@ -12,7 +12,7 @@
                                               placeholder="{{'Client ID' | translate}}, {{'Magento ID' | translate}}, {{'Customer' | translate}}..."
                                               (blur)="searchOrder($event.target.value)"
                                               enterBlur inputSelectText
-                                              [disabled]="ordersState.list.isResolving"
+                                              [disabled]="ordersState.list.isResolving || !authService.userCan('search_order')"
                                               type="text">
     </div>
   </div><!--end top-bar-->
@@ -21,25 +21,28 @@
     <div class="date-input-wrap">
       <div class="date-input">
         <i class="icon-date-time"></i>
-        <input #dateSelectFrom type="text" class="calendar-picker"/>
+        <input #dateSelectFrom type="text" class="calendar-picker" [disabled]="!authService.userCan('search_order')"/>
       </div>
         <label>{{'To' | translate}}</label>
       <div class="date-input">
         <i class="icon-date-time"></i>
-        <input #dateSelectTo class="calendar-picker" type="text"/>
+        <input #dateSelectTo class="calendar-picker" type="text" [disabled]="!authService.userCan('search_order')"/>
       </div>
     </div>
     <div class="selectbox-wrap">
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getPaymentStatusElem()" [defaultText]="'Payment status'"
+      <retail-select [disabled]="ordersState.list.isSearchOnline || !authService.userCan('search_order')" [elementData]="orderService.getPaymentStatusElem()"
+                     [defaultText]="'Payment status'"
                      [model]="ordersState.list.searchOrderPaymentStatus"
                      (modelChange)="searchOrderStatus({searchOrderPaymentStatus:$event})">
       </retail-select>
-      <retail-select [disabled]="ordersState.list.isSearchOnline" [elementData]="orderService.getShipmentStatusElem()" [defaultText]="'Shipment status'"
+      <retail-select [disabled]="ordersState.list.isSearchOnline || !authService.userCan('search_order')" [elementData]="orderService.getShipmentStatusElem()"
+                     [defaultText]="'Shipment status'"
                      [model]="ordersState.list.searchOrderShipmentStatus"
                      (modelChange)="searchOrderStatus({searchOrderShipmentStatus:$event})">
       </retail-select>
       <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="'Sync status'"
                      [model]="ordersState.list.searchOrderSyncStatus"
+                     [disabled]="!authService.userCan('search_order')"
                      (modelChange)="searchOrderStatus({searchOrderSyncStatus:$event})">
       </retail-select>
     </div>

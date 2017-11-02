@@ -103,4 +103,12 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
     this.quoteState.quote.setData('is_value_discount_whole_order',isDiscountValue);
     this.cartTotalsActions.changeDiscountType(isDiscountValue);
   }
+  
+  openDiscountPopUp(){
+    if(this.authService.userCan('add_discount')){
+    this.cartTotalsActions.changeDiscountPopupState(true)
+    }else{
+      this.notify.error("not_have_permission_to_add_discount");
+    }
+  }
 }

@@ -118,6 +118,13 @@ export class PosGeneralEffects {
                                      return this.rootActions.nothing("Go to outlet and register page");
                                    });
   
+  @Effect() goCheckOutPage = this.actions$
+                                   .ofType(PosGeneralActions.ACTION_GO_SALE_PAGE)
+                                   .map(() => {
+                                     this.routerAction.go('pos/default/sales/checkout');
+                                     return this.rootActions.nothing("Go to checkout page");
+                                   });
+  
   @Effect() clearGeneralDataWhenLogoutOrChangeOutlet = this.actions$
                                                            .ofType(
                                                              AccountActions.ACTION_LOGOUT,

@@ -28,7 +28,8 @@ export class PosDefaultSalesOrdersDetailComponent {
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   
-  constructor(public orderService: OrderService,
+  constructor(protected authenticateService: AuthenticateService,
+              public orderService: OrderService,
               protected quoteActions: PosQuoteActions,
               protected routerActions: RouterActions,
               protected authService: AuthenticateService,
@@ -78,18 +79,30 @@ export class PosDefaultSalesOrdersDetailComponent {
   }
   
   reorder() {
-    this.routerActions.go('pos/default/sales/checkout');
-    setTimeout(() => {
-      this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
-    }, 250);
+    if (this.authenticateService.userCan('duplicate_order')) {
+      this.routerActions.go('pos/default/sales/checkout');
+      setTimeout(() => {
+        this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
+      }, 250);
+    }else{
+      this.notify.error("not_have_permission_to_duplicate_order");
+    }
   }
   
   printReceipt(type: string = 'receipt') {
-    this.receiptActions.printSalesReceipt(this.getOrder(), type);
+    if (this.authService.userCan('print_order_detail')) {
+      this.receiptActions.printSalesReceipt(this.getOrder(), type);
+    }else{
+      this.notify.error("not_have_permission_to_print_order_detail");
+    }
   }
   
   addPayments() {
-    this.addPaymentActions.needAddPayment(this.getOrder());
+    if (this.authService.userCan('add_payment')) {
+      this.addPaymentActions.needAddPayment(this.getOrder());
+    } else {
+      this.notify.error("not_have_permission_to_add_payment_for_order");
+    }
   }
   
   refund() {

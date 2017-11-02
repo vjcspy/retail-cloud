@@ -40,7 +40,11 @@ export class PosDefaultSalesShiftDetailComponent {
   }
   
   printShiftReport() {
-    this.shiftDetailService.printShiftReport();
+    if(this.authenticateService.userCan('print_shift_report')) {
+      this.shiftDetailService.printShiftReport();
+    }else{
+      this.notify.error("not_have_permission_to_print_shift_report")
+    }
   }
 
 }

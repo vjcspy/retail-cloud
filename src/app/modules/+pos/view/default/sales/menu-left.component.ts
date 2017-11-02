@@ -95,11 +95,11 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   flushCache() {
-    if(this.authenticateService.userCan('flush_cache')){
-    if (this.offline.online) {
-      this.go('pos/configurations/default/advanced/client-db');
-    }
-    }else{
+    if (this.authenticateService.userCan('flush_cache')) {
+      if (this.offline.online) {
+        this.go('pos/configurations/default/advanced/client-db');
+      }
+    } else {
       this.notify.error("not_have_permission_to_flush_cache");
     }
   }

@@ -9,6 +9,7 @@ import {PerfectScrollDirective} from "../../../../../share/directives/perfect-sc
 import {PosConfigState} from "../../../../R/config/config.state";
 import {Observable} from "rxjs/Observable";
 import {Store} from "@ngrx/store";
+import {AuthenticateService} from "../../../../../../services/authenticate";
 
 @Component({
              // moduleId: module.id,
@@ -26,6 +27,7 @@ export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChan
   @ViewChild(PerfectScrollDirective) perfectScroll: PerfectScrollDirective;
   
   constructor(public menuLeftActions: MenuLeftActions,
+              private authService: AuthenticateService,
               public listActions: ListActions,
               public listService: ListService,
               public offline: OfflineService,
@@ -63,7 +65,9 @@ export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChan
   }
   
   toggleSearchOnline($event) {
-    this.listActions.changeSearchData({isSearchOnline: $event});
+    if(this.authService.userCan('search_order')){
+      this.listActions.changeSearchData({isSearchOnline: $event});
+    }
   }
   
   protected initDateRangePicker() {

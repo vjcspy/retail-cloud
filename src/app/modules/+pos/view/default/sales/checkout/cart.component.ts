@@ -30,12 +30,8 @@ export class PosDefaultSalesCheckoutCartComponent {
               private offline: OfflineService) { }
   
   openShift() {
-    if (this.authenticateService.userCan('view_register')) {
       if (this.offline.online) {
         this.routerActions.go('pos/default/sales/shifts');
       }
-    } else {
-      this.toastr.error("not_have_permission_to_view_register");
-    }
   }
 }

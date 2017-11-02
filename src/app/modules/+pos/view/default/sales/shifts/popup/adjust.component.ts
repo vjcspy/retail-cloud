@@ -35,11 +35,9 @@ export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
   }
   
   adjustShift() {
-    // if (this.authenticate.userCan('open_and_close_register')) {
     if (this.authenticate.userCan('make_adjustment_on_register')) {
       if (this._data.isIn === null) {
         this.notify.warning("please_define_action_when_adjust_shift");
-        
         return;
       }
       this.formValidation.submit('popup-adjust-shift', () => {

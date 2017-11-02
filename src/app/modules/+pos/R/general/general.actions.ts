@@ -66,6 +66,26 @@ export class PosGeneralActions {
     return action;
   }
   
+  /**
+   ** @REDUCER:
+   *
+   * save redirect url
+   *-----------------------------------------------------------------
+   ** @EFFECTS-ACTION:
+   *
+   *
+   */
+  static ACTION_GO_SALE_PAGE = 'ACTION_GO_SALE_PAGE';
+  
+  goCheckOutPage(redirect, dispatch: boolean = true): Action {
+    const action = {type: PosGeneralActions.ACTION_GO_SALE_PAGE, payload: {redirect}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
   // static ACTION_RESOLVED_URLS = 'ACTION_RESOLVED_URLS';
   //
   // resolvedUrls(urls, dispatch: boolean = true): Action {

@@ -48,7 +48,7 @@
     </li>
 
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/advanced',false)}">
-            <span class="click" (click)="go('pos/configurations/default/advanced/client-db')">
+            <span class="click" (click)="cacheManager()">
                 {{ 'Advanced' | translate }}
             </span>
       <ul class="sub-menu">
