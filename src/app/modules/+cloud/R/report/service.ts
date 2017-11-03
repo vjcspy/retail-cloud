@@ -13,7 +13,6 @@ import {ReportHelper} from "./helper";
 
 @Injectable()
 export class SaleReportService {
-  protected enableFilter: boolean = false;
   protected stream               = {
     refreshSaleReport: new Subject(),
     change_page : new Subject()
@@ -35,11 +34,6 @@ export class SaleReportService {
               protected router: Router,
               protected formValidation: FormValidationService) {
     this.resolveDefaultData();
-  }
-  
-  enableFilterMeasure() {
-    this.enableFilter = !this.enableFilter;
-    return this.enableFilter;
   }
   
   private initDefaultValueFilter() {
@@ -438,8 +432,8 @@ export class SaleReportService {
       this.initDefaultValueFilter();
     let data = this.initRequestReportData();
     this.postSaleReport(data);
-    if (!resetFilet)
-      this.enableFilter = false;
+    // if (!resetFilet)
+    //   this.enableFilter = false;
     if (changeReportType == true)
       this.changeReportType = true;
   }
@@ -504,12 +498,6 @@ export class SaleReportService {
       });
     }
     this.measure_selected[this.viewDataFilter['report_type']] = this.viewDataFilter['measures'];
-  }
-  
-  applyFilter(force: boolean = false){
-    this.formValidation.submit('report-filter', async () => {
-      this.getSaleReport(force);
-    }, true);
   }
   
   protected initDataFilterReport(dataFilter) {
@@ -755,16 +743,6 @@ export class SaleReportService {
     return reportColumn['label'];
   }
   
-  getOptionForFilter() {
-    let report_type = this.viewDataFilter['report_type'];
-    if (report_type == 'order_status')
-      return ReportHelper.getListOrderStatus();
-    else if (report_type == 'day_of_week')
-      return ReportHelper.getListDayOfWeek();
-    else
-      return ReportHelper.getListHour();
-  }
-  
   checkNullValue(value) {
     if (value == null || value == 'N/A' || value == "NaN" || typeof value === 'undefined' || value == NaN)
       return true;
@@ -838,19 +816,6 @@ export class SaleReportService {
       } else
         return false;
     }
-  }
-  
-  checkDisableFilter() {
-    if (this.viewDataFilter['report_type'] == 'sales_summary' && this.viewDataFilter['measures'].length <= 2){
-      if ((_.head(this.viewDataFilter['measures']) == 'First Sale' && _.last(this.viewDataFilter['measures']) == 'Last Sale') ||
-          (_.head(this.viewDataFilter['measures']) == 'First Sale' && this.viewDataFilter['measures'].length == 1) ||
-          (_.head(this.viewDataFilter['measures']) == 'Last Sale' && this.viewDataFilter['measures'].length == 1)
-      ){
-        this.enableFilter = false;
-        return true;
-      }
-    } else
-      return false;
   }
 }
 

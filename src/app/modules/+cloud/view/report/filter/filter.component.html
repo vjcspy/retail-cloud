@@ -14,7 +14,7 @@
       <div class="form-group col-sm-12" *ngFor="let columnForFilter of saleReportService.viewData['columnForFilter'];trackBy:trackByValue"
            [hidden]="checkSummaryType() == 1">
         <label>{{columnForFilter['value'] == 'name' ? saleReportService.getLabelForTitle() : columnForFilter['label']}}</label>
-        <report-select2 [elementData]="saleReportService.getOptionForFilter()"
+        <report-select2 [elementData]="getOptionForFilter()"
                         [(model)]="saleReportService._filterData[columnForFilter['value']]"
                         [multiple]="true"></report-select2>
       </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="group-btn">
       <button class="btn btn-orange" type="button" (click)="saleReportService.getSaleReport()">Reset filter</button>
-      <button class="btn btn-primary" type="submit" (click)="saleReportService.applyFilter(true)">Apply filter</button>
+      <button class="btn btn-primary" type="submit" (click)="applyFilter(true)">Apply filter</button>
     </div>
   </form>
 </div>

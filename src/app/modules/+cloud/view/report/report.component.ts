@@ -11,6 +11,7 @@ import {ReportHelper} from "../../R/report/helper";
              ],
            })
 export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
+  protected enableFilter: boolean = false;
   
   constructor(protected saleReportService: SaleReportService) {
     super();
@@ -113,5 +114,24 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
                 + "_to_" + this.getDataFilter()['current_dateEnd'] + ".csv" ;
     }
     return fileCSV;
+  }
+  
+  checkDisableFilter() {
+    let measures = this.saleReportService.viewDataFilter['measures'];
+    if (this.saleReportService.viewDataFilter['report_type'] == 'sales_summary' && measures.length <= 2){
+      if ((_.head(measures) == 'First Sale' && _.last(measures) == 'Last Sale') ||
+          (_.head(measures) == 'First Sale' && measures.length == 1) ||
+          (_.head(measures) == 'Last Sale' && measures.length == 1)
+      ){
+        this.enableFilter = false;
+        return true;
+      }
+    } else
+      return false;
+  }
+  
+  enableFilterMeasure() {
+    this.enableFilter = !this.enableFilter;
+    return this.enableFilter;
   }
 }
