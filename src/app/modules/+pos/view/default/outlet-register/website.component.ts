@@ -76,12 +76,12 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   }
   
   goPosSetting() {
-    // if (this.authenticateService.userCan('access_to_connectpos_settings')) {
+    if (this.authenticateService.userCan('access_to_connectpos_settings')) {
       if (this.offline.online) {
         this.go('pos/configurations/default/pos/outlet/grid');
       }
-    // } else {
-    //   this.notify.error("not_have_permission_to_access_to_connectpos_settings");
-    // }
+    } else {
+      this.notify.error("not_have_permission_to_access_to_connectpos_settings");
+    }
   }
 }
