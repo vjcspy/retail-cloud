@@ -25,7 +25,7 @@ export class SaleReportService {
   };
   public _sortData: string;
   public _filterData = {};
-  protected isSortAsc: boolean = false;
+  public isSortAsc: boolean = false;
   public changeReportType: boolean = false;
   
   constructor(protected toast: NotifyManager,
@@ -414,10 +414,6 @@ export class SaleReportService {
     return this.stream['enter_sale_report'];
   }
   
-  changeMeasure(): void {
-    this.measure_selected[this.viewDataFilter['report_type']] = this.viewDataFilter['measures'];
-  }
-  
   getSaleReport(force: boolean = false, resetFilet: boolean = false, changeReportType = false) {
     if (changeReportType) {
       this.initSortDefaultValue();
@@ -505,117 +501,11 @@ export class SaleReportService {
     let measure     = ReportHelper.getListMeasureByReportType(report_type)['data'];
     let filterData  = [];
     _.forEach(dataFilter, function (value, key) {
-      if (value == 'name' && typeof value != 'undefined') {
-        switch (report_type) {
-          case 'user':
-            filterData.push({
-                              "name": 'user_id',
-                              "search_value": value
-                            });
-            break;
-          case 'outlet':
-            filterData.push({
-                              "name": 'outlet',
-                              "search_value": value
-                            });
-            break;
-          case 'register':
-            filterData.push({
-                              "name": 'register',
-                              "search_value": value
-                            });
-            break;
-          case 'customer':
-            filterData.push({
-                              "name": 'customer',
-                              "search_value": value
-                            });
-            break;
-          case 'customer_group':
-            filterData.push({
-                              "name": 'customer_group_code',
-                              "search_value": value
-                            });
-            break;
-          case 'magento_website':
-            filterData.push({
-                              "name": 'website_name',
-                              "search_value": value
-                            });
-            break;
-          case 'magento_storeview':
-            filterData.push({
-                              "name": 'store_name',
-                              "search_value": value
-                            });
-            break;
-          case 'payment_method':
-            filterData.push({
-                              "name": 'payment_method',
-                              "search_value": value
-                            });
-            break;
-          case 'shipping_method':
-            filterData.push({
-                              "name": 'shipping_method',
-                              "search_value": value
-                            });
-            break;
-          case 'order_status':
-            filterData.push({
-                              "name": 'retail_status',
-                              "search_value": value
-                            });
-            break;
-          case 'currency':
-            filterData.push({
-                              "name": 'order_currency_code',
-                              "search_value": value
-                            });
-            break;
-          case 'day_of_week':
-            filterData.push({
-                              "name": 'day_of_week',
-                              "search_value": value
-                            });
-            break;
-          case 'hour':
-            filterData.push({
-                              "name": 'hour',
-                              "search_value": value
-                            });
-            break;
-          case 'product':
-            filterData.push({
-                              "name": 'name',
-                              "search_value": value
-                            });
-            break;
-          case 'region':
-            filterData.push({
-                              "name": 'region',
-                              "search_value": value
-                            });
-            break;
-          case 'manufacturer':
-            filterData.push({
-                              "name": 'manufacturer',
-                              "search_value": value
-                            });
-            break;
-          case 'category':
-            filterData.push({
-                              "name": 'category_name',
-                              "search_value": value
-                            });
-            break;
-          default:
-            filterData.push({
-                              "name": 'name',
-                              "search_value": value
-                            });
-            break;
-        }
+      if (typeof value != 'undefined' && key == 'name') {
+        filterData.push({
+                          "name": report_type,
+                          "search_value": value
+                        });
       } else {
         if (typeof value != 'undefined') {
           let valueMeasure = _.find(measure, (row) => row['label'] == key);
@@ -719,35 +609,6 @@ export class SaleReportService {
     this.viewDataFilter['display_item_detail'] = true;
   }
   
-  checkShowSymbolCurrency(measureLabel, value){
-    if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (incl tax)" || measureLabel == "Discount percent" || measureLabel == "Return percent"|| measureLabel == "Customer Count" ||
-        measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count" ||
-        measureLabel == "Return count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
-        this.checkIsNumberDecimals(value) == false) {
-      return false;
-    } else
-      return true;
-  }
-  
-  checkIsNumberDecimals(value){
-    if (value == null || value == 'N/A' || isNaN(value)|| typeof value == 'undefined' || value == '--' || typeof value == 'string')
-      return false;
-    else
-      return true;
-  }
-  
-  getLabelForTitle(){
-    let report_type = this.viewDataFilter['report_type'];
-    let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
-    return reportColumn['label'];
-  }
-  
-  checkNullValue(value) {
-    if (value == null || value == 'N/A' || value == "NaN" || typeof value === 'undefined' || value == NaN)
-      return true;
-  }
-  
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
     if (measureLabel) {
       if (!isFilter) {
@@ -793,29 +654,6 @@ export class SaleReportService {
       this.stream.change_page = <any>this.stream.change_page.share();
     }
     return this.stream.change_page;
-  }
-  
-  checkSortAsc(measureLabel) {
-    if (measureLabel) {
-      if (measureLabel == this._sortData) {
-        if (this.isSortAsc){
-          return 2;
-        } else
-          return 3;
-      } else
-        return 1;
-    }
-  }
-  
-  checkDataNullForHidden() {
-    if (this.viewData['report_type'] == 'sales_summary') {
-      return false;
-    } else {
-      if (this.viewData['items'].length == 0) {
-        return true;
-      } else
-        return false;
-    }
   }
 }
 

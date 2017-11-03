@@ -44,4 +44,10 @@ export class ReportFilterComponent {
     else
       return ReportHelper.getListHour();
   }
+  
+  getLabelForTitle(){
+    let report_type = this.saleReportService.viewDataFilter['report_type'];
+    let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
+    return reportColumn['label'];
+  }
 }

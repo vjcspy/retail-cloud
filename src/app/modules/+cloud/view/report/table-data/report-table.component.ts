@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ChangeDetectionStrategy, OnChanges} from '@angular/core';
 import * as _ from "lodash";
 import {SaleReportService} from "../../../R/report/service";
+import {ReportHelper} from "../../../R/report/helper";
 @Component({
              selector: 'sale-report-table',
              templateUrl: 'report-table.component.html',
@@ -225,5 +226,34 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
       return false;
     }
     return true;
+  }
+  
+  checkDataNullForHidden() {
+    if (this.saleReportService.viewData['report_type'] == 'sales_summary') {
+      return false;
+    } else {
+      if (this.saleReportService.viewData['items'].length == 0) {
+        return true;
+      } else
+        return false;
+    }
+  }
+  
+  checkSortAsc(measureLabel) {
+    if (measureLabel) {
+      if (measureLabel == this.saleReportService._sortData) {
+        if (this.saleReportService.isSortAsc){
+          return 2;
+        } else
+          return 3;
+      } else
+        return 1;
+    }
+  }
+  
+  getLabelForTitle(){
+    let report_type = this.saleReportService.viewDataFilter['report_type'];
+    let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
+    return reportColumn['label'];
   }
 }

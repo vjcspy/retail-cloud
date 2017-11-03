@@ -3,12 +3,12 @@
   <tr class="datatable-col-header-row">
     <th [attr.colspan]="getColspanForHeader()"></th>
     <th [hidden]="isDateRanger()" [attr.colspan]="data_view['list_date_filter'].length" class="border">2017</th>
-    <th class="datatable-row-aggs-header" [attr.colspan]="data_filter['measures'].length">Totals By {{saleReportService.getLabelForTitle()}}</th>
+    <th class="datatable-row-aggs-header" [attr.colspan]="data_filter['measures'].length">Totals By {{getLabelForTitle()}}</th>
   </tr>
   <tr class="datatable-col-labels-row">
     <th [attr.colspan]="getColspanForTitle(addition['value'])" class="datatable-row-label-label "
         *ngFor="let addition of viewData['additionData'];trackBy:trackByValue"
-        style="text-align: left" [style.padding-right]="!checkShowAdditionPopup(addition['value']) ? '58px' : null">{{addition['value'] == 'name' ? saleReportService.getLabelForTitle() : addition['label']}}
+        style="text-align: left" [style.padding-right]="!checkShowAdditionPopup(addition['value']) ? '58px' : null">{{addition['value'] == 'name' ? getLabelForTitle() : addition['label']}}
       <div [hidden]="checkShowAdditionPopup(addition['value'])" class="dropdown filter report-filter">
         <a class="btn-report-filter" id="report-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <i class="ion ion-chevron-down"></i>
@@ -40,8 +40,8 @@
     </th>
     <th class="datatable-row-aggs-label "  *ngFor="let measure of list_measure"
         (click)="saleReportService.resolveItemDisplay(measure)">{{measure}}
-      <i *ngIf="saleReportService.checkSortAsc(measure) == 3" class="ion ion-chevron-up"></i>
-      <i *ngIf="saleReportService.checkSortAsc(measure) == 2" class="ion ion-chevron-down"></i>
+      <i *ngIf="checkSortAsc(measure) == 3" class="ion ion-chevron-up"></i>
+      <i *ngIf="checkSortAsc(measure) == 2" class="ion ion-chevron-down"></i>
     </th>
     <!-- ngIf: showAggregateDropdown --></tr>
   </thead>
@@ -72,7 +72,7 @@
 
   <!--&lt;!&ndash;body for total column&ndash;&gt;-->
   <tbody  class="Thanh_demo">
-  <tr [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || saleReportService.checkDataNullForHidden()"
+  <tr [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()"
       [ngClass]="{'datatable-col-totals-row': checkDisplayProductForSalesSummary() == true, 'datatable-row-col-totals' : checkDisplayProductForSalesSummary() == false }"
       sale-report-item
       [is_date_ranger]="isDateRanger()"
@@ -93,11 +93,11 @@
       [data_filter] = "data_filter"
       [list_date]="data_view['list_date_filter']"
       [base_currency_code]="base_currency_code"></tr>
-  <tr *ngIf="saleReportService.checkDataNullForHidden()">
+  <tr *ngIf="checkDataNullForHidden()">
     <td style="text-align: center; padding-top: 10px;" colspan="15"><p><i>No data available for this period.</i></p></td>
   </tr>
   </tbody>
-  <tfoot [hidden]="isDateRanger() || saleReportService.viewDataFilter['report_type'] == 'category' || saleReportService.checkDataNullForHidden()">
+  <tfoot [hidden]="isDateRanger() || saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()">
   <tr class="datatable-col-aggs-row" *ngFor="let itemDateRanger of refactorAdditionData()"
       sale-report-dateranger-item
       [firstItem]="refactorAdditionData()[0]"

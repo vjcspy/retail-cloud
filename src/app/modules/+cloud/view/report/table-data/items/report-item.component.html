@@ -5,9 +5,9 @@
     <span *ngIf="!customizeChevron()" class="ion ion-chevron-up"></span>
   </a>
   <!--<a (click)="selectMoreInfo()" target="_blank">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? item[addition['value']] : '__') : item['name']}}</a>-->
-  {{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  {{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + getLabelForTitle() :
   (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') :
-  (item['name'] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+  (item['name'] == 'N/A' ? 'No  ' + getLabelForTitle() :
   (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
   <span
     *ngIf="(service.viewDataFilter['report_type'] == 'customer' || service.viewDataFilter['report_type'] == 'register') && (addition['value'] == 'name')">
@@ -17,8 +17,8 @@
   </i></p></span>
 </th>
 <th *ngFor="let addition of additionData" [attr.colspan]="getColspanForItem(addition['value'])" class="datatable-row-label"
-    [hidden]="!canViewDetail">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
-  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') : (item['name'] == 'N/A' ? 'No  ' + service.getLabelForTitle() :
+    [hidden]="!canViewDetail">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') : (item['name'] == 'N/A' ? 'No  ' + getLabelForTitle() :
   (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
 </th>
 <th [attr.colspan]="colspanTotal" *ngIf="typeDisplay != 'itemInHontical'" class="datatable-row-label">
@@ -36,16 +36,16 @@
   </i></p></span>
 </th>
 <td [hidden]="is_date_ranger" class="datatable-cell datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
-  <div class="price-wrap"> <span [hidden]="!service.checkShowSymbolCurrency(item['name'], item[date])">
-      {{service.viewData['symbol_currency']}}</span>{{service.checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :
-    (!service.checkNullValue(item[date]) ? item[date] : '__')}}
+  <div class="price-wrap"> <span [hidden]="!checkShowSymbolCurrency(item['name'], item[date])">
+      {{service.viewData['symbol_currency']}}</span>{{checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :
+    (!checkNullValue(item[date]) ? item[date] : '__')}}
   </div>
 </td>
 <td class="datatable-table-total" *ngFor="let measure of measures">
-  <div class="price-wrap" style="white-space: nowrap;"><span [hidden]="!service.checkShowSymbolCurrency(measure, item[measure])">
+  <div class="price-wrap" style="white-space: nowrap;"><span [hidden]="!checkShowSymbolCurrency(measure, item[measure])">
   {{service.viewData['symbol_currency']}}</span>
-    {{service.checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount percent' || measure == 'Return percent') ? (item[measure] | percent:'1.2-2') :
-    ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!service.checkNullValue(item[measure]) ? item[measure] : '__')}}
+    {{checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount percent' || measure == 'Return percent') ? (item[measure] | percent:'1.2-2') :
+    ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!checkNullValue(item[measure]) ? item[measure] : '__')}}
   </div>
 </td>
 

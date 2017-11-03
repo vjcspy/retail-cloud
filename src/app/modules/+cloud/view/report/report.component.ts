@@ -23,6 +23,11 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
       // this.saleReportService.getSaleReport();
     });
   }
+  
+  changeMeasure(): void {
+    this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
+  }
+  
   getListReportType(){
     return ReportHelper.getListReportType();
   }
@@ -133,5 +138,16 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   enableFilterMeasure() {
     this.enableFilter = !this.enableFilter;
     return this.enableFilter;
+  }
+  
+  checkDataNullForHidden() {
+    if (this.saleReportService.viewData['report_type'] == 'sales_summary') {
+      return false;
+    } else {
+      if (this.saleReportService.viewData['items'].length == 0) {
+        return true;
+      } else
+        return false;
+    }
   }
 }

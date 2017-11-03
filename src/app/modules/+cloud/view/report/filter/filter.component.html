@@ -4,8 +4,8 @@
     <div class="row" *ngIf="checkTypeFilterBasedReportType()">
       <div class="form-group col-lg-3 col-md-4 col-sm-6" *ngFor="let columnForFilter of saleReportService.viewData['columnForFilter'];trackBy:trackByValue"
            [hidden]="checkSummaryType() == 1">
-        <label>{{columnForFilter['value'] == 'name' ? saleReportService.getLabelForTitle() : columnForFilter['label']}}</label>
-        <report-text [placeHolderText]="columnForFilter['value'] == 'name' ? saleReportService.getLabelForTitle() : columnForFilter['label']"
+        <label>{{columnForFilter['value'] == 'name' ? getLabelForTitle() : columnForFilter['label']}}</label>
+        <report-text [placeHolderText]="columnForFilter['value'] == 'name' ? getLabelForTitle() : columnForFilter['label']"
                      [(model)]="saleReportService._filterData[columnForFilter['value']]">
         </report-text>
       </div>
@@ -13,7 +13,7 @@
     <div class="row" *ngIf="!checkTypeFilterBasedReportType()">
       <div class="form-group col-sm-12" *ngFor="let columnForFilter of saleReportService.viewData['columnForFilter'];trackBy:trackByValue"
            [hidden]="checkSummaryType() == 1">
-        <label>{{columnForFilter['value'] == 'name' ? saleReportService.getLabelForTitle() : columnForFilter['label']}}</label>
+        <label>{{columnForFilter['value'] == 'name' ? getLabelForTitle() : columnForFilter['label']}}</label>
         <report-select2 [elementData]="getOptionForFilter()"
                         [(model)]="saleReportService._filterData[columnForFilter['value']]"
                         [multiple]="true"></report-select2>

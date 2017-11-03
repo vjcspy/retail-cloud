@@ -28,7 +28,7 @@
       <div class="pull-right">
         <div class="report-filter-action">
           <button class="btn btn-default btn-filter-main" (click)="exportCSV()"
-                  [disabled]="saleReportService.checkDataNullForHidden()">
+                  [disabled]="checkDataNullForHidden()">
             <i class="icon-export"></i>
             Export CSV
           </button>
@@ -54,7 +54,7 @@
                     <div class="form-group">
                       <report-multi-select [elementData]="getListMeasureByReportType(getDataFilter()['report_type'])"
                                            [(model)]="getDataFilter()['measures']"
-                                           (modelChange)="saleReportService.changeMeasure()"></report-multi-select>
+                                           (modelChange)="changeMeasure()"></report-multi-select>
                     </div>
                     <div class="column-selected">
                       <strong>Column selected:</strong>
