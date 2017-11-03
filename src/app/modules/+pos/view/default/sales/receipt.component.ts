@@ -8,6 +8,7 @@ import {ReceiptService} from "../../R/sales/receipts/receipt.service";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as JsBarcode from 'jsbarcode';
 import {ReceiptActions} from "../../R/sales/receipts/receipt.actions";
+import {AppStorage} from "../../../../../services/storage";
 
 @Component({
              // moduleId: module.id,
@@ -28,7 +29,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
   };
 
-  constructor(private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions) {
+  constructor(private receiptService: ReceiptService, private notify: NotifyManager, private receiptActions: ReceiptActions , protected storage: AppStorage) {
     super();
   }
 
@@ -79,7 +80,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   }
 
   getUserNameById(id) {
-    return "Unknow";
+    return this.storage.localRetrieve("user")['username'];
     // return this.userCollection.getUserNameById(id);
   }
 

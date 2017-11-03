@@ -88,4 +88,15 @@ export class AccountActions {
     
     return action;
   }
+  
+  static ACTIVITY_TIMEOUT_OCCURRED = 'ACTIVITY_TIMEOUT_OCCURRED';
+  
+  auto_logout(dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTIVITY_TIMEOUT_OCCURRED, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    return action;
+  }
 }

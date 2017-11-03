@@ -7,6 +7,7 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
   switch (action.type) {
     case AccountActions.ACTION_LOGIN:
     case AccountActions.ACTION_LOGOUT:
+    case AccountActions.ACTIVITY_TIMEOUT_OCCURRED:
       return state.set('isLogging', true)
                   .set('license', {
                     licenseHasPos: null,
@@ -15,11 +16,15 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
                     id: null,
                     username: null,
                     emails: List.of()
-                  });
+                  }).set('loggedIn', false);
     
     case AccountActions.ACTION_LOGIN_SUCCESS:
+      return state.set('isLogging',false)
+                  .set('loggedIn',true);
+      
     case AccountActions.ACTION_LOGIN_FAILED:
-      return state.set('isLogging', false);
+      return state.set('isLogging', false)
+                  .set('loggedIn',false);
     
     case AccountActions.ACTION_GO_LOGIN_PAGE:
       state = state.set('isLogging', false);

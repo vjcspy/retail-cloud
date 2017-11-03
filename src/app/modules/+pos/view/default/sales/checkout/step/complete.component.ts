@@ -27,7 +27,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   customerEmail: string    = '';
   public isRefundExchange  = false;
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, private offline: OfflineService) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, private offline: OfflineService,protected storage: AppStorage) { }
   
   ngOnInit() {
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
@@ -83,7 +83,7 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
         // username: this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']),
-        username: "Unknow",
+        username: this.storage.localRetrieve("user")['username'],
         inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
       };
       this.receiptActions.sendEmailReceipt(this.posStepState.orderOffline, this.customerEmail, name, settingReceipt);

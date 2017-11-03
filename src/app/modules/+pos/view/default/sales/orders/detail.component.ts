@@ -13,6 +13,7 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
 import {OfflineService} from "../../../../../share/provider/offline";
+import {AppStorage} from "../../../../../../services/storage";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-order-detail',
@@ -33,6 +34,7 @@ export class PosDefaultSalesOrdersDetailComponent {
               protected quoteActions: PosQuoteActions,
               protected routerActions: RouterActions,
               protected authService: AuthenticateService,
+              protected storage: AppStorage,
               private notify: NotifyManager,
               private offline: OfflineService,
               private detailActions: OrderDetailActions,
@@ -150,7 +152,7 @@ export class PosDefaultSalesOrdersDetailComponent {
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
         //username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
-        username: "UnKnow",
+        username: this.storage.localRetrieve("user")['username'],
         inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
       };
       this.receiptActions.sendEmailReceipt(this.getOrder(), email, name, settingReceipt);

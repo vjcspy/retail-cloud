@@ -39,7 +39,7 @@ export class AppComponent extends AbstractSubscriptionComponent {
               vcr: ViewContainerRef,
               protected notify: NotifyManager,
               protected translate: RetailTranslate,
-              private dialogService: DialogService,) {
+              private dialogService: DialogService) {
     super();
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
