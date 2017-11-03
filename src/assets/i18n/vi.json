@@ -396,7 +396,7 @@
     "shipping_amount_must_be_positive_number" : "Shipping amount must be positive number",
     "Offline" : "Offline",
     "please_open_shift" : "Vui lòng mở shift mới",
-    "can't_add_more_3rd_payment" : "Xin lỗi! Bạn không thể thêm quá 3 phương thức thanh toán",
+    "can't_add_more_3rd_payment" : "Không thể sử dụng hơn 1 phương thức thanh toán qua gateway cùng lúc",
     "check_discount_whole_order" : "Vui lòng kiểm tra thông tin giảm giá cho đơn hàng",
     "no_item_in_cart" : "Không có hàng trong giỏ. Vui lòng kiếm tra lại!",
 

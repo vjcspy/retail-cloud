@@ -33,7 +33,7 @@ export class TyroPayment {
   pair(tid, mid, callBack: (response: any) => void) {
     this.config['tid'] = tid;
     this.config['mid'] = mid;
-    this.getIClientInstance(true).pairTerminal(this.config['tid'], this.config['mid'], (response) => {
+    this.getIClientInstance(true).pairTerminal(this.config['mid'], this.config['tid'], (response) => {
       if (response && response.hasOwnProperty('status') && response['status'] === 'inProgress') {
         this.notify.info(response['message'], 'In Progress');
       }
