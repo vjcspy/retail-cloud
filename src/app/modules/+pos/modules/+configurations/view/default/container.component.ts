@@ -20,9 +20,17 @@ export class ConfigurationsDefaultContainerComponent {
     this.routerActions.go(path);
   }
   
-  cacheManager() {
+  goWithPermission(path: string) {
+    if (this.authService.userCan('access_to_connectpos_settings')) {
+      this.go(path);
+    } else {
+      this.notify.error('not_have_permission_to_access_to_connectpos_settings');
+    }
+  }
+  
+  cacheManager(path:string) {
     if (this.authService.userCan('flush_cache')) {
-      this.go('pos/configurations/default/advanced/client-db');
+      this.go(path);
     } else {
       this.notify.error("not_have_permission_to_flush_cache");
     }

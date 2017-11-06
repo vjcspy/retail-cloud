@@ -43,16 +43,16 @@ export class PermissionGuard implements CanActivate, CanActivateChild {
           return false;
         }
       }
-    }
-  
-    if (url === '/pos/default/sales/shifts' && !this.authenticateService.userCan('view_register')) {
-      this.notify.error("not_have_permission_to_view_register");
-    } else if (url === "/pos/default/sales/orders" && !this.authenticateService.userCan('view_order_list')) {
-      this.notify.error("not_have_permission_to_view_order_list");
-    } else if (url === "/pos/default/outlet-register" && !this.authenticateService.userCan('change_outlet') && generalData) {
-      this.notify.error("not_have_permission_to_change_outlet");
     } else {
-      return true;
+      if (url === '/pos/default/sales/shifts' && !this.authenticateService.userCan('view_register')) {
+        this.notify.error("not_have_permission_to_view_register");
+      } else if (url === "/pos/default/sales/orders" && !this.authenticateService.userCan('view_order_list')) {
+        this.notify.error("not_have_permission_to_view_order_list");
+      } else if (url === "/pos/default/outlet-register" && !this.authenticateService.userCan('change_outlet') && generalData) {
+        this.notify.error("not_have_permission_to_change_outlet");
+      } else {
+        return true;
+      }
     }
     setTimeout(() => {
       this.generalActions.goCheckOutPage(url);

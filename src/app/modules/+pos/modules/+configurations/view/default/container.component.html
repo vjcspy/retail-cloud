@@ -6,63 +6,63 @@
   <ul class="left-menu">
 
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/general',false)}">
-      <span class="click" (click)="go('pos/configurations/default/general')">{{ 'General' | translate }}</span>
+      <span class="click" (click)="goWithPermission('pos/configurations/default/general')">{{ 'General' | translate }}</span>
     </li>
 
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/pos',false)}">
-            <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
+            <span class="click" (click)="goWithPermission('pos/configurations/default/pos/product-category')">
                 {{ 'POS Setting' | translate }}
             </span>
       <ul class="sub-menu">
         <li [ngClass]="{active: router.isActive('pos/configurations/default/pos/product-category',false)}">
-                    <span class="click" (click)="go('pos/configurations/default/pos/product-category')">
+                    <span class="click" (click)="goWithPermission('pos/configurations/default/pos/product-category')">
                     {{ 'Product' | translate }} &amp; {{ 'Category' | translate }}
                     </span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/customer',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/customer')">{{ 'Customer' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/customer')">{{ 'Customer' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/outlet',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/outlet/grid')">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/outlet/grid')">{{ 'Outlet' | translate }} &amp; {{ 'Register' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/region',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/region/grid')">{{ 'Manage Region' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/region/grid')">{{ 'Manage Region' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/payment',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/payment')">{{ 'Payment' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/payment')">{{ 'Payment' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/checkout',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/checkout')">{{ 'Checkout' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/checkout')">{{ 'Checkout' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/receipt',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/receipt')">{{ 'Receipt' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/receipt')">{{ 'Receipt' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/pos/integration',false)}">
-          <span class="click" (click)="go('pos/configurations/default/pos/integration')">{{ 'Integrations' | translate }}</span>
+          <span class="click" (click)="goWithPermission('pos/configurations/default/pos/integration')">{{ 'Integrations' | translate }}</span>
         </li>
       </ul>
     </li>
 
     <li [ngClass]="{active: router.isActive('/pos/configurations/default/translate',false)}">
-      <span class="click" (click)="go('pos/configurations/default/translate')">{{ 'Translate' | translate }}</span>
+      <span class="click" (click)="goWithPermission('pos/configurations/default/translate')">{{ 'Translate' | translate }}</span>
     </li>
 
     <li [ngClass]="{open: router.isActive('/pos/configurations/default/advanced',false)}">
-            <span class="click" (click)="cacheManager()">
+            <span class="click" (click)="cacheManager('pos/configurations/default/advanced/client-db')">
                 {{ 'Advanced' | translate }}
             </span>
       <ul class="sub-menu">
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/advanced/client-db',false)}">
-          <span class="click" (click)="go('pos/configurations/default/advanced/client-db')">
+          <span class="click" (click)="cacheManager('pos/configurations/default/advanced/client-db')">
             {{ 'Client Database' | translate }}</span>
         </li>
 
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/advanced/magento-product',false)}">
-          <span class="click" (click)="go('pos/configurations/default/advanced/magento-product')">
+          <span class="click" (click)="cacheManager('pos/configurations/default/advanced/magento-product')">
             {{ 'Magento Cache' | translate }}</span>
         </li>
         <li [ngClass]="{active: router.isActive('/pos/configurations/default/advanced/pull-performance',false)}">
-          <span class="click" (click)="go('pos/configurations/default/advanced/pull-performance')">
+          <span class="click" (click)="cacheManager('pos/configurations/default/advanced/pull-performance')">
             {{ 'Pull Performance' | translate }}</span>
         </li>
       </ul>
