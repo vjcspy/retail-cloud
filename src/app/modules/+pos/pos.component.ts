@@ -31,7 +31,7 @@ export class PosComponent {
     this.offline.init();
     console.log('%c POS v1.0.1.201710201902 ', 'background: #222; color: #bada55');
     
-    idle.setIdle(5);
+    idle.setIdle(5*60);
     
     
     idle.setTimeout(2);
