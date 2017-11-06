@@ -149,6 +149,7 @@ export class ConfigurationsRegionEffects {
                                               let region = new RegionDB();
                                               return Observable.fromPromise(region.delete(regionId))
                                                                .switchMap(() => {
+                                                                 this.notify.success("region_has_been_deleted_successfully");
                                                                  this._routerActions.go('pos/configurations/default/pos/region/grid');
                                                                  return Observable.from([
                                                                                           this.configurationsRegionActions.deleteRegionSuccess(

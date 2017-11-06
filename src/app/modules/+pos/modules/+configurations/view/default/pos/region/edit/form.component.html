@@ -36,7 +36,8 @@
 
 <div class="popup-wrapper" style="z-index: 9998" [ngClass]="{open: viewState['isOpenPopup']}" id="newOutletInfo">
   <div class="popup-content">
-    <h3>{{viewData['popup_text']}}</h3>
+    <h3>{{viewData['popup_text1']}}</h3>
+    <p>{{viewData['popup_text2']}}</p>
     <div class="button-bar">
       <button class="gray" (click)="viewState['isOpenPopup'] = false">{{ 'No' | translate }}</button>
       <button (click)="callBackYes()">{{ 'Yes' | translate }}</button>

@@ -77,13 +77,14 @@ export class ConfigurationsDefaultPosRegionEditFormComponent implements OnInit {
   }
   
   confirmDeleteRegion() {
-    this.openPopup("Are you sure you want to delete this region ? ", () => {
+    this.openPopup("Delete region" , "Are you sure you want to delete this region ? ", () => {
       this.configurationsRegionActions.deleteRegion(this.getRegion()['id']);
     });
   }
   
-  openPopup(text: string, callBack: ()=>void) {
-    this.viewData['popup_text']  = text;
+  openPopup(text1: string,text2:string, callBack: ()=>void) {
+    this.viewData['popup_text1']  = text1;
+    this.viewData['popup_text2']  = text2;
     this.viewData['callBackYes']  = callBack;
     this.viewState['isOpenPopup'] = true;
   }
