@@ -35,4 +35,8 @@ export class ConfigurationsDefaultPosRegionGridTableComponent {
   editRegion(id) {
     this.routerActions.go('pos/configurations/default/pos/region/edit', id);
   }
+  
+  getOutletSelect() {
+    return OutletHelper.getOutletElementData();
+  }
 }

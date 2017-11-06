@@ -18,7 +18,7 @@ export class ConfigurationsRegionService {
       }
       if (!!filterData.region_name) {
         let reString: string = "";
-        _.forEach(_.split(filterData.name, " "), (v) => {
+        _.forEach(_.split(filterData.region_name, " "), (v) => {
           if (!_.isString(v) || v === '' || v === null) {
             return true;
           }

@@ -1,33 +1,38 @@
 <table class="outlet-table">
   <thead>
-    <tr>
-      <th>Region ID</th>
-      <th>{{ 'Region Name' | translate }}</th>
-      <th>{{ 'List Of Outlet' | translate }}</th>
-      <th>{{ 'Action' | translate }}</th>
-    </tr>
+  <tr>
+    <th>Region ID</th>
+    <th>{{ 'Region Name' | translate }}</th>
+    <th>{{ 'List Of Outlet' | translate }}</th>
+    <th>{{ 'Action' | translate }}</th>
+  </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>
-        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.id" enterBlur (blur)="updateFilter({id:$event.target['value']})"/>
-      </td>
-      <td>
-        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.region_name" enterBlur (blur)="updateFilter({region_name:$event.target['value']})"/>
-      </td>
-      <td>
-        <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.assigned_outlets" enterBlur (blur)="updateFilter({assigned_outlets:$event.target['value']})"/>
-      </td>
-      <td>
+  <tr>
+    <td>
+      <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.id" enterBlur
+             (blur)="updateFilter({id:$event.target['value']})"/>
+    </td>
+    <td>
+      <input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.region_name" enterBlur
+             (blur)="updateFilter({region_name:$event.target['value']})"/>
+    </td>
+    <td style="width: 30%">
+      <!--<input placeholder="{{ 'Search field' | translate }}" [value]="configurationsState.regions.filterData.assigned_outlets" enterBlur (blur)="updateFilter({assigned_outlets:$event.target['value']})"/>-->
+      <retail-select2 [elementData]="getOutletSelect()" [multiple]="true"
+                      [(model)]="configurationsState.regions.filterData.assigned_outlets"
+                      (modelChange)="updateFilter({assigned_outlets:$event})"></retail-select2>
+    </td>
+    <td>
 
-      </td>
-    </tr>
-    <!--<tr *ngFor="let region of configurationsState.outlets.outletFiltered" (click)="editOutlet(outlet['id'])">-->
-    <tr *ngFor="let region of configurationsState.regions.regionFiltered">
-      <td>{{region['id']}}</td>
-      <td>{{region['region_name']}}</td>
-      <td>{{refactorListOutletById(region['assigned_outlets'])}}</td>
-      <td (click)="editRegion(region['id'])" style="color: #337ab7">EDIT</td>
-    </tr>
+    </td>
+  </tr>
+  <!--<tr *ngFor="let region of configurationsState.outlets.outletFiltered" (click)="editOutlet(outlet['id'])">-->
+  <tr *ngFor="let region of configurationsState.regions.regionFiltered">
+    <td>{{region['id']}}</td>
+    <td>{{region['region_name']}}</td>
+    <td>{{refactorListOutletById(region['assigned_outlets'])}}</td>
+    <td (click)="editRegion(region['id'])" style="color: #337ab7">EDIT</td>
+  </tr>
   </tbody>
 </table>

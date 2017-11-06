@@ -6,7 +6,7 @@ export interface ConfigurationsRegionState {
   filterData: {
     id: string,
     region_name: string
-    assigned_outlets: string;
+    assigned_outlets: List<any>;
   };
   editForm: {
     isLoadedDepend: boolean;
@@ -23,7 +23,7 @@ export const configurationsRegionStateFactory = makeTypedFactory<ConfigurationsR
     filterData: {
       id: null,
       region_name: null,
-      assigned_outlets : null
+      assigned_outlets : List.of()
     },
     editForm: {
       isLoadedDepend: false,
