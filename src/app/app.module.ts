@@ -35,6 +35,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 export function retailTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -69,6 +70,7 @@ export function retailTranslateLoader(http: HttpClient) {
               RouterExternalModule,
               DialogModule,
               RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: SelectivePreloadingStrategy}),
+              NgIdleKeepaliveModule.forRoot()
             ],
             /**
              * Expose our Services and Providers into Angular's dependency injection.
