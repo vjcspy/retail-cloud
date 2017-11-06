@@ -5,9 +5,9 @@ import {ReducerManagement} from "../../services/reducer-management";
 import {NotifyManager} from "../../services/notify-manager";
 import {AppService} from "../../app.service";
 import {TranslateService} from "@ngx-translate/core";
-import {Store} from "@ngrx/store";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from '@ng-idle/core';
 import {Keepalive} from '@ng-idle/keepalive';
+import {AccountActions} from "../../R/account/account.actions";
 
 @Component({
              // moduleId: module.id,
@@ -23,6 +23,7 @@ export class PosComponent {
   constructor(private reducerManagement: ReducerManagement,
               private offline: OfflineService,
               protected appService: AppService,
+              protected accountActions : AccountActions,
               protected translate: TranslateService,
               private notify: NotifyManager,
               private idle: Idle, private keepalive: Keepalive) {
