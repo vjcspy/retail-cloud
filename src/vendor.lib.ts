@@ -9,3 +9,4 @@ import "datatables.net/js/jquery.dataTables";
 import "datatables.net-bs/js/dataTables.bootstrap";
 
 import 'jquery-validation/dist/jquery.validate.min.js';
+import 'jquery-validation/dist/additional-methods.js';

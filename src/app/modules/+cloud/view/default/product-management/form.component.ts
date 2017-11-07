@@ -161,6 +161,12 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         $(e).closest('tr').removeClass('has-error');
         $(e).closest('.help-block').remove();
       },
+      rules:        {
+        'modal-version-version': {
+          required: true,
+          pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+        }
+      },
       submitHandler() {
         let versionId = $('#modal-version-id').val();
         let customer  = {
