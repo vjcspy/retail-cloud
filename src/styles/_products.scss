@@ -1,0 +1,59 @@
+
+#modal-product-versions > .row {
+  margin: 30px auto;
+}
+
+#modal-product-versions {
+  th {
+    width: 125px;
+    label {
+      font-weight: 600;
+      width: 125px;
+    }
+  }
+}
+
+.tbl-version {
+  th {
+    text-align: center;
+  }
+  td {
+    button {
+      margin: 0;
+    }
+    code {
+      margin-right: 5px;
+    }
+  }
+}
+
+#modal-version-specified-customers ~ span {
+  display: none;
+}
+
+#list-product-api {
+  margin-top: 10px;
+}
+
+#modal-product-api > .row {
+  margin: 50px auto;
+}
+
+#modal-product-api {
+  th {
+    width: 125px;
+    label {
+      font-weight: 600;
+      width: 125px;
+    }
+  }
+}
+
+#list-product-api {
+  td {
+    button {
+      min-width: 35px;
+      margin: 0;
+    }
+  }
+}
