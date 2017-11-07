@@ -10,6 +10,7 @@ import {LicenseFormComponent} from "./license-management/license-form.component"
 import {ProductManagementContainerComponent} from "./product-management/container.component";
 import {ProductListComponent} from "./product-management/list.component";
 import {ProductFormComponent} from "./product-management/form.component";
+import {ProductApiComponent} from "./product-management/api.component";
 import {PricingManagementContainerComponent} from "./pricing-managment/container.component";
 import {PricingListComponent} from "./pricing-managment/list.component";
 import {PricingFormComponent} from "./pricing-managment/form.component";
@@ -37,6 +38,7 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   ProductManagementContainerComponent,
   ProductListComponent,
   ProductFormComponent,
+  ProductApiComponent,
   
   PricingManagementContainerComponent,
   PricingListComponent,

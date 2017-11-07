@@ -56,4 +56,23 @@ export class ProductEffects {
                                                    });
                                   ;
                                 });
+  
+  @Effect() updateProductApi = this.actions$
+    .ofType(
+      ProductActions.ACTION_UPDATE_PRODUCT_API
+    )
+    .switchMap((z: any) => {
+      const action: Action = z;
+      return Observable.fromPromise(this.productService.saveProduct(action.payload['product']))
+        .map(() => {
+          this.notify.success('save_product_successfully');
+          
+          return this.productActions.saveProductSuccess(null, false);
+        })
+        .catch((e) => {
+          const reason = e && e['reason'] ? e['reason'] : '';
+          this.notify.error(reason);
+          return Observable.of(this.productActions.saveProductFail(reason, e, false));
+        });
+    });
 }
