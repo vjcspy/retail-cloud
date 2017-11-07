@@ -1,4 +1,4 @@
-import {createReducer} from "../../../R/index";
+import {createReducer} from "../../../../../R/index";
 import {braintreeReducer} from "./braintree/reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {BraintreeEffects} from "./braintree/effects";

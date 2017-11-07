@@ -1,10 +1,10 @@
 import {NgModule} from "@angular/core";
 import {SERVICES} from "./services/index";
 import {COMPONENTS} from "./components/index";
-import {ShareModule} from "../share/share.module";
 import {PaymentComponent} from "./components/payment.component";
-import {ReducerManagement} from "../../services/reducer-management";
+import {ReducerManagement} from "../../../../services/reducer-management";
 import {paymentBraintreeReducer, R_EFFECTS, R_SERVICES} from "./R/index";
+import {ShareModule} from "../../../share/share.module";
 
 @NgModule({
             imports: [
