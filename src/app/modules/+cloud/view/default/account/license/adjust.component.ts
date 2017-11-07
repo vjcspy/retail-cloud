@@ -100,7 +100,6 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
                 this.productPricing  = _.find(this.prices, (_p) => _p['_id'] === this.productLicense['pricing_id']);
                 
                 if (this.productPricing) {
-                
                 } else {
                   throw new LogicException("product_license_must_belong_one_of_pricing");
                 }
