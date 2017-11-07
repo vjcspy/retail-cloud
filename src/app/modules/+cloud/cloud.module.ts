@@ -10,7 +10,7 @@ import {DefaultContainerComponent} from "./view/default-container.component";
 import {AngularMeteorModule} from "../angular-meteor/index";
 import {R_EFFECTS, R_SERVICES} from "./R/index";
 import {CLOUD_SERVICES} from "./services/index";
-import {PaymentBraintreeModule} from "../payment-braintree/payment-braintree.module";
+import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braintree.module";
 
 @NgModule({
             imports: [
