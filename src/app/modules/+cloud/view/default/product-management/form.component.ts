@@ -164,7 +164,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
       rules:        {
         'modal-version-version': {
           required: true,
-          pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+          pattern:  /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
         }
       },
       submitHandler() {
@@ -179,8 +179,8 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         
         let path = '';
         if (versionId === '-1') {
-          let file = $('#modal-version-path')[0].files[0];
-          if (typeof(file) != 'undefined') {
+          let file = $('#modal-version-path')[0]['files'][0];
+          if (typeof(file) !== 'undefined') {
             let formData = new FormData();
             formData.append('fileAbc', file, file.name);
             
@@ -193,7 +193,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
               dataType:    'json',
               processData: false, // Don't process the files
               contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-              success:     function (data, textStatus, jqXHR) {
+              success:     (data, textStatus, jqXHR) => {
                 path = data.data.path;
                 
                 vm.product.versions.push(
@@ -202,7 +202,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                     version:      $('#modal-version-version').val(),
                     customers:    customer,
                     api:          $('#modal-version-api').val(),
-                    path:         path,
+                    path,
                     descriptions: $('#modal-version-descriptions').val(),
                     apiVersions:  {},
                     created_at:   moment().toDate(),
@@ -213,14 +213,14 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                 vm.disableLoadingModal();
                 $('.close').click();
               },
-              error:       function (jqXHR, textStatus, errorThrown) {
+              error:       (jqXHR, textStatus, errorThrown) => {
                 console.log('error: ', textStatus);
               }
-            };
+            });
           }
         } else {
-          let file = $('#modal-version-path')[0].files[0];
-          if (typeof(file) != 'undefined') {
+          let file = $('#modal-version-path')[0]['files'][0];
+          if (typeof(file) !== 'undefined') {
             let formData = new FormData();
             formData.append('fileAbc', file, file.name);
             
@@ -233,7 +233,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
               dataType:    'json',
               processData: false, // Don't process the files
               contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-              success:     function (data, textStatus, jqXHR) {
+              success:     (data, textStatus, jqXHR) => {
                 path = data.data.path;
                 
                 vm.product.versions[versionId].name         = $('#modal-version-name').val();
@@ -248,10 +248,10 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                 vm.disableLoadingModal();
                 $('.close').click();
               },
-              error:       function (jqXHR, textStatus, errorThrown) {
+              error:       (jqXHR, textStatus, errorThrown) => {
                 console.log('error: ', textStatus);
               }
-            };
+            });
           } else {
             // updateProduct()
             
@@ -269,8 +269,8 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         }
         
         vm.loadingModal();
-      }
-    );
+      },
+    });
     
     jQuery("#val-pricings")['select2']();
     jQuery("#modal-version-api")['select2']();
@@ -317,12 +317,13 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   
   editVersion(vIndex) {
     this.resetModalVersion();
+    let customer = this.product.versions[vIndex]['customers'] ? this.product.versions[vIndex]['customers'] : {type: '', users: ''};
     
     $('#modal-version-id').val(vIndex);
     $('#modal-version-name').val(this.product.versions[vIndex]['name']);
     $('#modal-version-version').val(this.product.versions[vIndex]['version']);
-    $('#modal-version-customers').val(this.product.versions[vIndex]['customers']['type']);
-    $('#modal-version-specified-customers').val(this.product.versions[vIndex]['customers']['users']).trigger('change');
+    $('#modal-version-customers').val(customer.type);
+    $('#modal-version-specified-customers').val(customer.users).trigger('change');
     $('#modal-version-api').val(this.product.versions[vIndex]['api']).trigger('change');
     $('#modal-version-path').removeAttr('required');
     $('#modal-version-path-display').text(this.product.versions[vIndex]['path']);
