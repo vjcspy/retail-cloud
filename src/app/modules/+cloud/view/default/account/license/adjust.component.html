@@ -1,0 +1,234 @@
+<div class="license-detail min-page" *ngIf="product">
+  <!-- =================================================================== -->
+  <!-- START Adjust Plan page -->
+
+  <div class="white-box">
+    <div class="box560">
+      <div class="title-page no-line">
+        <h1>Adjust plan</h1>
+      </div>
+      <div class="adjust-plan-content">
+        <div class="adjust-top clearfix">
+          <div class="pull-left">
+            <div class="lbl-title">{{product['name']}}</div>
+            <div class="lbl-current" *ngIf="pricing"><span>Current Plan:</span> <strong>{{pricing['display_name']}}</strong></div>
+          </div>
+          <div class="pull-right">
+            <a href="#AdjustPlan-modal" data-toggle="modal" class="btn-compare">
+              <span>Compare Plans</span>
+              <i class="ion-arrow-expand"></i>
+            </a>
+          </div>
+        </div>
+        <form class="form-horizontal">
+
+          <div class="block-item">
+            <h3 class="title-block">Change plan</h3>
+            <div class="form-group">
+              <label class="control-label">Select your plan:</label>
+              <div class="element">
+                <select class="js-select2 form-control" [(ngModel)]="plan['pricing_id']" name="pricing" (ngModelChange)="calculateTotal()">
+                  <option *ngFor="let pricing of prices" [value]="pricing['_id']">{{pricing['display_name']}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="isSelectSubscription()">
+              <label class="control-label">Select your billing cycle:</label>
+              <div class="element">
+                <select class="form-control" [(ngModel)]="plan['cycle']" name="billing" (ngModelChange)="calculateTotal()">
+                  <option value="1">Monthly</option>
+                  <option value="2">Annually</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group group-label" *ngIf="isNotSelectTrial()">
+              <label class="control-label">Monthly cost:</label>
+              <div class="element">
+                <label>${{ getMonthlyCost() | number: '1.2-2' }}</label>
+              </div>
+            </div>
+            <div class="form-group group-label">
+              <label class="control-label">Start with:</label>
+              <div class="element">
+                <label>{{currentSelectedPricing() ? currentSelectedPricing()['nouser'] : 0}} user(s)</label>
+              </div>
+            </div>
+            <div class="form-group group-label" *ngIf="!isNotSelectTrial()">
+              <label class="control-label">Free trial day:</label>
+              <div class="element">
+                <label>{{currentSelectedPricing() ? currentSelectedPricing()['trialDay'] : 0}} day(s)</label>
+              </div>
+            </div>
+            <div class="form-group  group-label">
+              <label class="control-label">
+                Add to your credits:
+                <i class="ion-ios-help txtaqua"></i>
+              </label>
+              <div class="element">
+                <label>${{totals['credit']['creditPlan'] | number: '1.2-2'}}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-item line-bottom" *ngIf="isNotSelectTrial()">
+            <h3 class="title-block">Change Active Users</h3>
+            <div class="form-group">
+              <label class="control-label">Number of user:</label>
+              <div class="element number-spinner">
+                <span class="num-btn ion-minus" (click)="changeExtraUser(-1)"></span>
+                <span class="num-value">{{getCurrentExtraUser() + plan['extraUser']}}</span>
+                <span class="num-btn ion-plus" (click)="changeExtraUser(1)"></span>
+              </div>
+              <div *ngIf="plan['extraUser'] > 0">(+{{plan['extraUser']}})</div>
+              <div *ngIf="plan['extraUser'] < 0">({{plan['extraUser']}})</div>
+            </div>
+            <div class="form-group group-label">
+              <label class="control-label">
+                Your Credit:
+                <i class="ion-ios-help txtaqua"></i>
+              </label>
+              <div class="element">
+                <label>${{totals['credit']['creditExtraUser'] | number: '1.2-2'}}</label>
+              </div>
+            </div>
+            <div class="msg msg-notice">
+              (*) Additional users are charged monthly
+            </div>
+          </div>
+        </form>
+
+        <h3 class="title-summary">Summary</h3>
+        <table class="summary" cellpadding="0" cellspacing="0" width="100%">
+          <tbody>
+          <tr>
+            <td>Cost of new plan:</td>
+            <td>${{totals['total']['costNewPlan'] | number: '1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td>Cost of extra active users:</td>
+            <td>${{totals['total']['costExtraUser'] | number: '1.2-2'}}</td>
+          </tr>
+          <tr>
+            <td>Total Cost:</td>
+            <td>${{(totals['total']['costNewPlan'] + totals['total']['costExtraUser'] ) | number: '1.2-2'}}</td>
+          </tr>
+          </tbody>
+
+          <tfoot>
+          <tr class="bg">
+            <td>Credit balance:</td>
+            <td>${{userCreditBalance | number: '1.2-2'}}</td>
+          </tr>
+          <tr class="bg">
+            <td>Credit earned :</td>
+            <td>${{(totals['credit']['creditExtraUser'] + totals['credit']['creditPlan']) | number: '1.2-2'}}</td>
+          </tr>
+          <tr class="bg">
+            <td>Credit spent:</td>
+            <td>${{ totals.total.discountCredit | number: '1.2-2'}}</td>
+          </tr>
+          <tr class="grand-total">
+            <td>Grand total:</td>
+            <td>${{ totals.total.grandTotal | number: '1.2-2' }}</td>
+          </tr>
+          </tfoot>
+        </table>
+
+
+        <div class="group-btn tac line-top">
+          <button class="btn btn-default" type="button">Cancel</button>
+          <button class="btn btn-primary" [ladda]="(salesState$ | async)?.checkout.isCalculating" type="button" (click)="submitOrder()">
+            {{isNotSelectTrial()? "Checkout" : "Register"}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Compare -->
+  <div id="AdjustPlan-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content adjustplan-modal">
+        <div class="modal-header">
+          <div class="adjust-top">
+            <div class="lbl-title">ConnectPOS Web Based</div>
+            <div class="lbl-current">
+              <span>Current Plan:</span> <strong>Standard</strong>
+            </div>
+            <button type="button" class="close ion-arrow-shrink" data-dismiss="modal"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="plan-wrap clearfix">
+            <div class="col-sm-4">
+              <div class="planbox">
+                <h3 class="title">
+                  Standard
+                  <i class="current"></i>
+                </h3>
+                <div class="price-wrap">
+                  <span class="currency">$19</span>
+                  <span class="sep">/</span>
+                  <span class="mo">mo</span>
+                </div>
+                <ul>
+                  <li>Billed in USD annually</li>
+                  <li>Single outlet</li>
+                  <li>1 active user</li>
+                  <li>Unlimited Registers</li>
+                  <li>24/7 Support</li>
+                  <li>Free update</li>
+                  <li>Basic reporting</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="planbox">
+                <h3 class="title">
+                  Premium
+                  <i class="icon"></i>
+                </h3>
+                <div class="price-wrap">
+                  <span class="currency">$39</span>
+                  <span class="sep">/</span>
+                  <span class="mo">mo</span>
+                </div>
+                <ul>
+                  <li>Billed in USD annually</li>
+                  <li>Multiple outlet</li>
+                  <li>3 active users</li>
+                  <li>Unlimited Registers</li>
+                  <li>24/7 Support</li>
+                  <li>Free update</li>
+                  <li>Advanced reporting</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="planbox">
+                <h3 class="title">
+                  Life-time
+                  <i class="icon"></i>
+                </h3>
+                <div class="price-wrap">
+                  <span class="currency">$699</span>
+                </div>
+                <ul>
+                  <li>&nbsp;</li>
+                  <li>Multiple outlet</li>
+                  <li>1 active user</li>
+                  <li>Unlimited Registers</li>
+                  <li>24/7 Support</li>
+                  <li>1-year free update</li>
+                  <li>Basic reporting</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

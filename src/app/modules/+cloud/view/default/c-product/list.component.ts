@@ -10,6 +10,7 @@ import {NotifyManager} from "../../../../../services/notify-manager";
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
 import * as _ from 'lodash';
 import {ProductService} from "../../../R/product/service";
+import {RouterActions} from "../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -29,6 +30,7 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
               protected productService: ProductService,
               protected store$: Store<any>,
               protected changeDetectorRef: ChangeDetectorRef,
+              protected routerActions: RouterActions,
               protected notify: NotifyManager) {
     super();
     this.accountState$ = this.store$.select('account');
@@ -92,6 +94,7 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
         } else {
           _.forEach(products, (p) => {
             let productInfo = {
+              _id: p['_id'],
               code: p['code'],
               name: p['name'],
               description: p['description'],
@@ -116,4 +119,7 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
     );
   }
   
+  adjustPlan(productId) {
+    this.routerActions.go('cloud/default/account/license/adjust', productId);
+  }
 }

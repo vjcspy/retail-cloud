@@ -34,6 +34,14 @@
                      [(ngModel)]="pricing['nouser']">
             </div>
           </div>
+          <div class="form-group" *ngIf="pricing['type'] == 'trial'">
+            <label class="control-label" for="trialDay">Free Trial Day</label>
+            <div class="element">
+              <input type="number" min="0" class="form-control" id="trialDay" name="val-trialDay"
+                     placeholder="Enter number"
+                     [(ngModel)]="pricing['trialDay']">
+            </div>
+          </div>
           <div class="form-group" *ngIf="pricing['type'] != 'trial'">
             <label class="control-label" for="val-cost_monthly">Cost Monthly</label>
             <div class="element">
@@ -58,13 +66,13 @@
             </div>
           </div>
           <!--<div class="form-group">-->
-            <!--<label class="control-label" for="val-visibility">Visibility</label>-->
-            <!--<div class="element">-->
-              <!--<select class="form-control" id="val-visibility" name="val-visibility" [(ngModel)]="pricing['visibility']" data-placeholder="Choose one..">-->
-                <!--<option value="1">Show to Customer</option>-->
-                <!--<option value="0">Hidden</option>-->
-              <!--</select>-->
-            <!--</div>-->
+          <!--<label class="control-label" for="val-visibility">Visibility</label>-->
+          <!--<div class="element">-->
+          <!--<select class="form-control" id="val-visibility" name="val-visibility" [(ngModel)]="pricing['visibility']" data-placeholder="Choose one..">-->
+          <!--<option value="1">Show to Customer</option>-->
+          <!--<option value="0">Hidden</option>-->
+          <!--</select>-->
+          <!--</div>-->
           <!--</div>-->
           <div class="form-group">
             <label class="control-label" for="val-description">Description</label>
