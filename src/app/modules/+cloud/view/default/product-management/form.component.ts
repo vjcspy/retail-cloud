@@ -12,6 +12,7 @@ import {ProductActions} from "../../../R/product/actions";
 import {ProductState} from "../../../R/product/state";
 import {Store} from "@ngrx/store";
 import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
+import {UPLOAD_CLIENT_PACKAGE_URL} from '../../../../../../../config/constant.js';
 
 @Component({
              // moduleId: module.id,
@@ -63,7 +64,6 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         
         if (!!product) {
           this.product = product;
-          
         } else {
           this.notify.error('can_not_find_product_with_id: ' + params['id']);
           this.goBack();
@@ -77,83 +77,12 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   ngAfterViewInit() {
-    // script for treeview
-    $.fn.extend({
-      treed: function (o) {
-        let openedClass = 'glyphicon-minus-sign';
-        let closedClass = 'glyphicon-plus-sign';
-      
-        if (typeof o !== 'undefined') {
-          if (typeof o.openedClass !== 'undefined') {
-            openedClass = o.openedClass;
-          }
-          if (typeof o.closedClass !== 'undefined') {
-            closedClass = o.closedClass;
-          }
-        }
-      
-        // initialize each of the top levels
-        let tree = $(this);
-        tree.addClass("tree");
-        tree.find('li').has("ul").each(function () {
-          let branch = $(this); // li with children ul
-          branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
-          branch.addClass('branch');
-          branch.on('click', function (e) {
-            if (this == e.target) {
-              let icon = $(this).children('i:first');
-              icon.toggleClass(openedClass + " " + closedClass);
-              $(this).children().children().toggle();
-            }
-          });
-          branch.children().children().toggle();
-        });
-        // fire event from the dynamically added icon
-        tree.find('.branch .indicator').each(function(){
-          $(this).on('click', function () {
-            $(this).closest('li').click();
-          });
-        });
-        // fire event to open branch if the li contains an anchor instead of text
-        tree.find('.branch>a').each(function () {
-          $(this).on('click', function (e) {
-            $(this).closest('li').click();
-            e.preventDefault();
-          });
-        });
-        // fire event to open branch if the li contains a button instead of text
-        tree.find('.branch>button').each(function () {
-          $(this).on('click', function (e) {
-            $(this).closest('li').click();
-            e.preventDefault();
-          });
-        });
-        tree.find('li:not(.branch)').on('click', function () {
-          let path = [];
-          let end = false;
-          let current = $(this);
-          while (!end) {
-            path.unshift(current.clone().children().remove().end().text());
-            // console.log(current.clone().children().remove().end().text());
-            if( current.parent().hasClass('tree') ) {
-              end = true;
-              break;
-            }
-            current = current.parent().parent();
-          }
-          $('#modal-version-path-display').text(path.toString().replace(/\s+/g, '').replace(/,/g, ' / '));
-          $('#modal-version-path').val(path.toString().replace(/\s+/g, '').replace(/,/g, ' / '));
-        });
-      }
-    });
-    
-    $('#tree1').treed({openedClass:'glyphicon-folder-open', closedClass:'glyphicon-folder-close'});
-    // end: script for treeview
+  
   }
   
   private initPageJs() {
     let vm          = this;
-    this.product.apiVersions = ['1.1.0', '1.2.0', '1.2.1']; // temporary
+    let apiUrl      = UPLOAD_CLIENT_PACKAGE_URL;
     this.validation = jQuery('.js-validation-product')['validate']({
                                                                      errorClass: 'help-block text-right animated fadeInDown',
                                                                      errorElement: 'div',
@@ -216,10 +145,126 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
                                                                          vm.notify.error("wrong_format_pricing");
                                                                          return;
                                                                        }
-  
+                                                                       
                                                                        vm.productActions.saveProduct(vm.product);
                                                                      }
                                                                    });
+  
+    $('#product-version')['validate']({
+      errorClass:   'help-block text-left animated fadeInDown',
+      errorElement: 'div',
+      highlight(e) {
+        $(e).closest('tr').removeClass('has-error').addClass('has-error');
+        $(e).closest('.help-block').remove();
+      },
+      success(e) {
+        $(e).closest('tr').removeClass('has-error');
+        $(e).closest('.help-block').remove();
+      },
+      submitHandler() {
+        let versionId = $('#modal-version-id').val();
+        let customer = {
+          type: $('#modal-version-customers option:selected').val(),
+          users: []
+        };
+        if($('#modal-version-customers option:selected').val() === 'specified') {
+          customer.users = $('#modal-version-specified-customers').val();
+        }
+  
+        let path = '';
+        if( versionId === '-1' ) {
+          let file = $('#modal-version-path')[0].files[0];
+          if( typeof(file) != 'undefined') {
+            let formData = new FormData();
+            formData.append('fileAbc', file, file.name);
+    
+            // uploadFile(data, updateProduct())
+            $.ajax({
+              url: apiUrl,
+              type: 'POST',
+              data: formData,
+              cache: false,
+              dataType: 'json',
+              processData: false, // Don't process the files
+              contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+              success: function(data, textStatus, jqXHR) {
+                path = data.data.path;
+  
+                vm.product.versions.push(
+                  {
+                    name: $('#modal-version-name').val(),
+                    version: $('#modal-version-version').val(),
+                    customers: customer,
+                    api: $('#modal-version-api').val(),
+                    path: path,
+                    descriptions: $('#modal-version-descriptions').val(),
+                    apiVersions: {},
+                    created_at: moment().toDate(),
+                    updated_at: moment().toDate(),
+                  }
+                );
+                vm.changeDetectorRef.detectChanges();
+                vm.disableLoadingModal();
+                $('.close').click();
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log('error: ', textStatus);
+              }
+            };
+          }
+        } else {
+          let file = $('#modal-version-path')[0].files[0];
+          if( typeof(file) != 'undefined') {
+            let formData = new FormData();
+            formData.append('fileAbc', file, file.name);
+      
+            // uploadFile(data, updateProduct())
+            $.ajax({
+              url: apiUrl,
+              type: 'POST',
+              data: formData,
+              cache: false,
+              dataType: 'json',
+              processData: false, // Don't process the files
+              contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+              success: function(data, textStatus, jqXHR) {
+                path = data.data.path;
+  
+                vm.product.versions[versionId].name         = $('#modal-version-name').val();
+                vm.product.versions[versionId].version      = $('#modal-version-version').val();
+                vm.product.versions[versionId].customers    = customer;
+                vm.product.versions[versionId].api          = $('#modal-version-api').val();
+                vm.product.versions[versionId].path         = path;
+                vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
+                vm.product.versions[versionId].updated_at   = moment().toDate();
+                
+                vm.changeDetectorRef.detectChanges();
+                vm.disableLoadingModal();
+                $('.close').click();
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log('error: ', textStatus);
+              }
+            };
+          } else {
+            // updateProduct()
+  
+            vm.product.versions[versionId].name         = $('#modal-version-name').val();
+            vm.product.versions[versionId].version      = $('#modal-version-version').val();
+            vm.product.versions[versionId].customers    = customer;
+            vm.product.versions[versionId].api          = $('#modal-version-api').val();
+            vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
+            vm.product.versions[versionId].updated_at   = moment().toDate();
+  
+            vm.changeDetectorRef.detectChanges();
+            vm.disableLoadingModal();
+            $('.close').click();
+          }
+        }
+        
+        vm.loadingModal();
+      }
+    );
     
     jQuery("#val-pricings")['select2']();
     jQuery("#modal-version-api")['select2']();
@@ -242,8 +287,49 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
         }
       });
     });
+    
+    vm.changeDetectorRef.detectChanges();
   }
-
+  
+  loadingModal() {
+    $('button.modal-add-version').addClass('disabled');
+    $('button.modal-add-version').append(' <i class="fa fa-spinner fa-spin"></i>');
+  }
+  
+  disableLoadingModal() {
+    $('button.modal-add-version').removeClass('disabled');
+    $('button.modal-add-version').text('Save');
+  }
+  
+  uploadPackage(data, callback, customer) {
+    let path = '';
+    
+    $.ajax({
+      url: 'http://localhost:8000/api/v1/articles',
+      type: 'POST',
+      data: data,
+      cache: false,
+      dataType: 'json',
+      processData: false, // Don't process the files
+      contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+      success: function(data, textStatus, jqXHR) {
+        path = data.data.path;
+        // updateProduct()
+        callback(customer);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('error: ', textStatus);
+      }
+    });
+  }
+  
+  updateProduct(data) {
+    let versionId = $('#modal-version-id').val();
+    for(const key in data) {
+      this.product.versions[versionId]['key'] = data[key];
+    }
+  }
+  
   isEditingProduct() {
     return !!this.product && !!this.product['_id'];
   }
@@ -253,6 +339,32 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   addVersion() {
+    let path = '';
+    let file = $('#modal-version-path')[0].files[0];
+    if( typeof(file) != 'undefined') {
+      let formData = new FormData();
+      formData.append('fileAbc', file, file.name);
+  
+      $.ajax({
+        url: 'http://localhost:8000/api/v1/articles',
+        type: 'POST',
+        data: formData,
+        cache: false,
+        dataType: 'json',
+        processData: false, // Don't process the files
+        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        success: function(data, textStatus, jqXHR) {
+          path = data.data.path;
+          
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log('error: ', textStatus);
+        }
+      };
+    }
+    
+    console.log('path: ' + path);
+    
     let versionId = $('#modal-version-id').val();
     let customer = {
       type: $('#modal-version-customers option:selected').val(),
@@ -269,36 +381,42 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
           version: $('#modal-version-version').val(),
           customers: customer,
           api: $('#modal-version-api').val(),
-          path: $('#modal-version-path').val(),
+          path: path,
           descriptions: $('#modal-version-descriptions').val(),
           created_at: moment().toDate(),
           updated_at: moment().toDate(),
         }
       );
     } else {
+      if ( path === '' ) {
+        path = this.product.versions[versionId].path;
+      }
       this.product.versions[versionId] = {
         name: $('#modal-version-name').val(),
         version: $('#modal-version-version').val(),
         customers: customer,
         api: $('#modal-version-api').val(),
-        path: $('#modal-version-path').val(),
+        path: path,
         descriptions: $('#modal-version-descriptions').val(),
         created_at: moment().toDate(),
         updated_at: moment().toDate(),
       };
     }
   
+    console.log(this.product.versions);
     this.resetModalVersion();
   }
   
   editVersion(vIndex) {
+    this.resetModalVersion();
+    
     $('#modal-version-id').val(vIndex);
     $('#modal-version-name').val(this.product.versions[vIndex]['name']);
     $('#modal-version-version').val(this.product.versions[vIndex]['version']);
     $('#modal-version-customers').val(this.product.versions[vIndex]['customers']['type']);
     $('#modal-version-specified-customers').val(this.product.versions[vIndex]['customers']['users']).trigger('change');
     $('#modal-version-api').val(this.product.versions[vIndex]['api']).trigger('change');
-    $('#modal-version-path').val(this.product.versions[vIndex]['path']);
+    $('#modal-version-path').removeAttr('required');
     $('#modal-version-path-display').text(this.product.versions[vIndex]['path']);
     $('#modal-version-descriptions').val(this.product.versions[vIndex]['descriptions']);
   }
@@ -312,13 +430,15 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   resetModalVersion() {
+    this.disableLoadingModal();
+    
     $('#modal-version-id').val(-1);
     $('#modal-version-name').val('');
     $('#modal-version-version').val('');
     $('#modal-version-customers').val('all');
     $('#modal-version-specified-customers').val('').trigger('change');
     $('#modal-version-api').val('').trigger('change');
-    $('#modal-version-path').val('unset');
+    $('#modal-version-path').val('');
     $('#modal-version-path-display').text('unset');
     $('#modal-version-descriptions').val('');
     $('.close').click();

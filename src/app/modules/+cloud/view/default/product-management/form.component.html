@@ -49,7 +49,7 @@
                       <select multiple="true" class="form-control val-pricings" id="val-pricings" style="width: 100%;"
                               name="val-pricings">
                         <option *ngFor="let price of prices" [value]="price['_id']" [selected]="isSelectedPrice(price._id)">
-                          {{ price['display_name']}}
+                          {{price['display_name']}}
                         </option>
                       </select>
                     </div>
@@ -111,106 +111,84 @@
   <div class="row">
 
     <!-- Modal content-->
-    <div class="col-md-offset-2 col-md-8 modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title text-center">PRODUCT VERSION</h4>
+    <form id="product-version">
+      <div class="col-md-offset-2 col-md-8 modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title text-center">PRODUCT VERSION</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+              <th>
+                <label for="modal-version-version">Version</label>
+              </th>
+              <td>
+                <input type="hidden" name="modal-version-id" id="modal-version-id" value="-1">
+                <input type="text" class="form-control" id="modal-version-version" name="modal-version-version" required placeholder="Version of Product">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="modal-version-name">Name</label>
+              </th>
+              <td>
+                <input type="text" class="form-control" id="modal-version-name" name="modal-version-name" required placeholder="Version Name">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="modal-version-customers">Customers</label>
+              </th>
+              <td>
+                <select class="form-control" name="modal-version-customers" id="modal-version-customers" required style="margin-bottom: 10px;">
+                  <option value="all">All Customers</option>
+                  <option value="specified">Specified Customers</option>
+                </select>
+                <select multiple="multiple" class="form-control" name="modal-version-specified-customers" id="modal-version-specified-customers" required style="display:none; width: 100%;">
+                  <option *ngFor="let user of users" value="{{ user }}">
+                    {{ user }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="modal-version-api">API Versions</label>
+              </th>
+              <td>
+                <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api" required style="width: 100%;">
+                  <option *ngFor="let apiVersion of product.apiVersions" value="{{ apiVersion.code }}">
+                    {{ apiVersion.code }}
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="modal-version-path">Package</label>
+              </th>
+              <td>
+                <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display"></code>
+                <input type="file" class="form-control" id="modal-version-path" name="modal-version-path" required style="margin-top: 10px;">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label for="modal-version-descriptions">Descriptions</label>
+              </th>
+              <td>
+                <textarea class="form-control" id="modal-version-descriptions" name="modal-version-descriptions" cols="30" rows="10" placeholder="Descriptions"></textarea>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary modal-add-version" >Save</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <table class="table">
-          <tr>
-            <th>
-              <label for="modal-version-version">Version</label>
-            </th>
-            <td>
-              <input type="hidden" name="modal-version-id" id="modal-version-id" value="-1">
-              <input type="text" class="form-control" id="modal-version-version" name="modal-version-version" required placeholder="Version of Product">
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <label for="modal-version-name">Name</label>
-            </th>
-            <td>
-              <input type="text" class="form-control" id="modal-version-name" name="modal-version-name" required placeholder="Version Name">
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <label for="modal-version-customers">Customers</label>
-            </th>
-            <td>
-              <select class="form-control" name="modal-version-customers" id="modal-version-customers" required style="margin-bottom: 10px;">
-                <option value="all">All Customers</option>
-                <option value="specified">Specified Customers</option>
-              </select>
-              <select multiple="multiple" class="form-control" name="modal-version-specified-customers" id="modal-version-specified-customers" required style="display:none; width: 100%;">
-                <option *ngFor="let user of users" value="{{ user }}">
-                  {{ user }}
-                </option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <label for="modal-version-api">API Versions</label>
-            </th>
-            <td>
-              <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api" required style="width: 100%;">
-                <option *ngFor="let apiVersion of product.apiVersions" value="{{ apiVersion }}">
-                  {{ apiVersion }}
-                </option>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <label for="modal-version-path">Path</label>
-            </th>
-            <td>
-              <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display"></code>
-              <input type="hidden" id="modal-version-path" name="modal-version-path" required >
-
-              <div class="row">
-                <div class="col-md-12" style="padding-left: 0;">
-                  <ul id="tree1">
-                    <li>Home
-                      <ul>
-                        <li>Desktop</li>
-                        <li>Applications
-                          <ul>
-                            <li>X-POS
-                              <ul>
-                                <li>1.1.0</li>
-                                <li>1.2.0</li>
-                                <li>1.2.1</li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>Downloads</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <label for="modal-version-descriptions">Descriptions</label>
-            </th>
-            <td>
-              <textarea class="form-control" id="modal-version-descriptions" name="modal-version-descriptions" cols="30" rows="10" placeholder="Descriptions"></textarea>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary add-version" (click)="addVersion()">Save</button>
-      </div>
-    </div>
+    </form>
 
   </div>
 </div>
