@@ -23,7 +23,13 @@ export class MenuService {
         {
           path: '/cloud/default/product/list',
           name: 'Product Management',
-          iconClass: 'ion-social-buffer',
+          iconClass: 'ion-ios-briefcase',
+          priority: 2,
+        },
+        {
+          path: '/cloud/default/pricing/list',
+          name: 'Pricing Management',
+          iconClass: 'ion-ios-pricetags-outline',
           priority: 2,
         },
       ]);
