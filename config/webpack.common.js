@@ -222,6 +222,7 @@ module.exports = function (options) {
                                   jQuery: 'jquery',
                                   $: 'jquery',
                                   jquery: 'jquery',
+                                  moment: 'moment',
                                   "window.jquery": "jquery",
                                   "window.jQuery": "jquery",
                                   "Tether": 'tether',
