@@ -3,6 +3,8 @@ import {AccountState} from "../../../../R/account/account.state";
 import {AuthenticateService} from "../../../../services/authenticate";
 import {Router} from "@angular/router";
 import {RouterActions} from "../../../../R/router/router.actions";
+import {MenuState} from "../../R/menu/state";
+import * as _ from 'lodash';
 
 @Component({
              // moduleId: module.id,
@@ -13,6 +15,7 @@ import {RouterActions} from "../../../../R/router/router.actions";
 
 export class SidebarComponent implements OnInit {
   @Input() accountState: AccountState;
+  @Input() menuState: MenuState;
   
   openingSubmenuName: string = '';
   
@@ -20,7 +23,9 @@ export class SidebarComponent implements OnInit {
   
   ngOnInit() { }
   
-  openSubmenu(submenuName: string) {
-    this.openingSubmenuName = this.openingSubmenuName !== submenuName ? submenuName : '';
+  openSubmenu(item: Object) {
+    if (_.isArray(item['children']) && _.size(item['children']) > 0) {
+      this.openingSubmenuName = this.openingSubmenuName !== item['name'] ? item['name'] : '';
+    }
   }
 }

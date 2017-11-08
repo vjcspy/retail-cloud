@@ -32,14 +32,23 @@ export class AuthenticateService {
   }
   
   isAdmin(user: Object): boolean {
+    if (!user) {
+      user = this.user;
+    }
     return !!user && _.size(_.intersection(this.getRole(user, 'cloud_group'), ['super_admin', 'sales', 'agency'])) > 0;
   }
   
   isUser(user: Object): boolean {
+    if (!user) {
+      user = this.user;
+    }
     return !!user && _.size(_.intersection(this.getRole(user, 'cloud_group'), ['user'])) > 0;
   }
   
   isShopOwner(user: Object): boolean {
+    if (!user) {
+      user = this.user;
+    }
     return !!user && user.hasOwnProperty('has_license') && user['has_license']['license_permission'] === 'owner';
   }
   
