@@ -9,7 +9,7 @@ export class MenuService {
   
   constructor(protected auth: AuthenticateService, protected router: Router) { }
   
-  initMenu(): List<MenuElemInterface> {
+  initMenu(): MenuElemInterface[] {
     let menu: MenuElemInterface[] = [];
     
     if (this.auth.isAdmin(null)) {
@@ -18,11 +18,13 @@ export class MenuService {
           path: '/cloud/default/license/list',
           name: 'License Management',
           iconClass: 'ion-social-buffer',
+          priority: 1,
         },
         {
           path: '/cloud/default/product/list',
           name: 'Product Management',
           iconClass: 'ion-social-buffer',
+          priority: 2,
         },
       ]);
     }
@@ -33,6 +35,7 @@ export class MenuService {
           path: '/cloud/default/c-product/list',
           name: 'Connect Products',
           iconClass: 'ion-social-buffer',
+          priority: 3,
         },
       ]);
     }
@@ -42,13 +45,15 @@ export class MenuService {
         path: '',
         name: 'User management',
         iconClass: 'ion-android-options',
-        children: []
+        children: [],
+        priority: 4,
       };
       
       if (this.auth.userCan('access_to_user_management') || this.auth.isAdmin(null)) {
         _user.children.push({
                               name: 'Users',
                               path: '/cloud/default/user-management/cashier/list',
+                              priority: 4.1,
                             });
       }
       
@@ -56,6 +61,7 @@ export class MenuService {
         _user.children.push({
                               name: 'Shop Roles',
                               path: '/cloud/user-management/roles',
+                              priority: 4.2,
                             });
       }
       
@@ -66,27 +72,32 @@ export class MenuService {
       path: '',
       name: 'Account',
       iconClass: 'ion-person',
-      children: []
+      children: [],
+      priority: 6,
     };
     
     if (this.auth.isShopOwner(null)) {
       _accounts.children.push({
                                 name: 'License',
                                 path: '/cloud/default/account/license/list',
+                                priority: 6.1,
                               });
       _accounts.children.push({
                                 name: 'Payment method',
                                 path: '/cloud/default/account/license/list',
+                                priority: 6.2,
                               });
       _accounts.children.push({
                                 name: 'Invoices History',
                                 path: '/cloud/default/account/license/list',
+                                priority: 6.3,
                               });
     }
     
     _accounts.children.push({
                               name: 'Account Information',
                               path: '/cloud/default/account/license/list',
+                              priority: 6.4,
                             });
     
     menu.push(_accounts);
@@ -99,16 +110,19 @@ export class MenuService {
                   children: [
                     {
                       path: '',
-                      name: 'Connect POS'
+                      name: 'Connect POS',
+                      priority: 7.1,
                     },
                     {
                       path: '',
-                      name: 'Report'
+                      name: 'Report',
+                      priority: 7.2,
                     }
-                  ]
+                  ],
+                  priority: 7,
                 });
     }
     
-    return List.of(...menu);
+    return menu;
   }
 }

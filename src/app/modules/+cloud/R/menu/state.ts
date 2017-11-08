@@ -7,6 +7,7 @@ export interface MenuElemInterface {
   iconClass?: string;
   ngClass?: () => Object;
   children?: MenuElemInterface[];
+  priority: number;
 }
 
 export interface MenuState {
