@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, AfterViewInit} from '@angular/core';
 import {ProductCollection} from "../../../../../services/meteor-collections/products";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../services/notify-manager";
@@ -29,6 +29,7 @@ export class ProductApiComponent extends AbstractSubscriptionComponent implement
   
   constructor(public    productCollection: ProductCollection,
               protected route: ActivatedRoute,
+              protected router: Router,
               protected changeDetectorRef: ChangeDetectorRef,
               protected notify: NotifyManager,
               protected routerActions: RouterActions,
@@ -54,7 +55,6 @@ export class ProductApiComponent extends AbstractSubscriptionComponent implement
           if( typeof(this.product.apiVersions) === 'undefined' ) {
             this.product.apiVersions = [];
           }
-          console.log(this.product);
         } else {
           this.notify.error('can_not_find_product_with_id: ' + params['id']);
           this.goBack();
@@ -68,7 +68,17 @@ export class ProductApiComponent extends AbstractSubscriptionComponent implement
   }
   
   ngAfterViewInit() {
+    let url = this.router.url;
+    $('ul.nav-tabs li:nth-child(1)').attr('class', '');
+    $('ul.nav-tabs li:nth-child(2)').attr('class', 'active');
+    $('ul.nav-tabs li:nth-child(2) a').attr('href', '/#' + url);
   
+    if( url.search('api') !== -1 ) {
+      url = url.replace('api', 'general');
+    } else {
+      url = url.replace('edit', 'edit/general');
+    }
+    $('ul.nav-tabs li:first-child a').attr('href', '/#' + url);
   }
   
   private initPageJs() {

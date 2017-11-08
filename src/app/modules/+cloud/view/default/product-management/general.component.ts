@@ -16,12 +16,12 @@ import {UPLOAD_CLIENT_PACKAGE_URL} from '../../../../../../../config/constant.js
 
 @Component({
   // moduleId: module.id,
-  selector:        'product-form',
-  templateUrl:     'form.component.html',
+  selector:        'product-general',
+  templateUrl:     'general.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ProductFormComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
+export class ProductGeneralComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public product = {
     pricings:    [],
     versions:    [],
@@ -78,7 +78,17 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   ngAfterViewInit() {
-  
+    let url = this.router.url;
+    $('ul.nav-tabs li:first-child').attr('class', 'active');
+    $('ul.nav-tabs li:nth-child(2)').attr('class', '');
+    $('ul.nav-tabs li:first-child a').attr('href', '/#' + url);
+    
+    if( url.search('general') !== -1 ) {
+      url = url.replace('general', 'api');
+    } else {
+      url = url.replace('edit', 'edit/api');
+    }
+    $('ul.nav-tabs li:nth-child(2) a').attr('href', '/#' + url);
   }
   
   private initPageJs() {
