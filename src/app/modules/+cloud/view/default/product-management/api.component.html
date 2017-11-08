@@ -1,57 +1,35 @@
-<!-- START Add new User page -->
-<div class="addNew min-page add-product-page">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="panel with-nav-tabs panel-default">
-        <div class="panel-heading">
-          <ul class="nav nav-tabs">
-            <li>
-              <a routerLink="../" >
-                {{ isEditingProduct() ? "Update Product" : "Create Product"}}
-              </a>
-            </li>
-            <li class="active">
-              <a href="#api-management" data-toggle="tab">API Management</a>
-            </li>
-          </ul>
-        </div>
 
-        <div class="panel-body">
-          <div class="tab-content">
-            <div class="tab-pane fade in active form-content" id="api-management">
-              <button class="btn btn-xs btn-success" (click)="resetModalApi()" data-toggle="modal" data-target="#modal-product-api" style="margin-left: 0;">Create New</button>
+<div class="panel-body">
+  <div class="tab-content">
+    <div class="tab-pane fade in active form-content" id="api-management">
+      <button class="btn btn-xs btn-success" (click)="resetModalApi()" data-toggle="modal" data-target="#modal-product-api" style="margin-left: 0;">Create New</button>
 
-              <table id="list-product-api" class="table table-bordered">
-                <tr>
-                  <th>Code</th>
-                  <th>Name</th>
-                  <th width="120">Actions</th>
-                </tr>
-                <tr *ngFor="let version of product.apiVersions;let i = index">
-                  <td>
-                    <code>{{version.code}}</code>
-                  </td>
-                  <td>
-                    {{version.name}}
-                  </td>
-                  <td>
-                    <button class="btn btn-default" type="button" title="View Version" data-toggle="modal" data-target="#modal-product-api" (click)="showProductApi(i)">
-                      <i class="fa fa-eye"></i>
-                    </button>
-                    <button class="btn btn-default btn-orange" type="button" title="Remove Version">
-                      <i class="fa fa-times"></i>
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+      <table id="list-product-api" class="table table-bordered">
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th width="120">Actions</th>
+        </tr>
+        <tr *ngFor="let version of product.apiVersions;let i = index">
+          <td>
+            <code>{{version.code}}</code>
+          </td>
+          <td>
+            {{version.name}}
+          </td>
+          <td>
+            <button class="btn btn-default" type="button" title="View Version" data-toggle="modal" data-target="#modal-product-api" (click)="showProductApi(i)">
+              <i class="fa fa-eye"></i>
+            </button>
+            <button class="btn btn-default btn-orange" type="button" title="Remove Version">
+              <i class="fa fa-times"></i>
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
-
 
 <!-- modal for product api -->
 <div id="modal-product-api" class="modal fade" role="dialog">
