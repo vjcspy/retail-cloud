@@ -15,7 +15,7 @@
         <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">
           <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu(item)">
             <i [class]="item.iconClass"></i>
-            <span class="sidebar-mini-hide" [routerLink]="!!item.children && item.children.length > 0 ? item.children[0]['path'] : ''" routerLinkActive="active">{{item.name}}</span>
+            <span class="sidebar-mini-hide" [routerLink]="!!item.children && item.children.length > 0 ? item.children[0]['path'] : item.path" routerLinkActive="active">{{item.name}}</span>
           </a>
           <ul *ngIf="!!item.children && item.children.length > 0" class="list-unstyled">
             <li *ngFor="let child of item.children" [routerLink]="child.path" routerLinkActive="active">
