@@ -72,7 +72,7 @@ export class ProductFormComponent extends AbstractSubscriptionComponent implemen
       }
       this.changeDetectorRef.detectChanges();
       setTimeout(() => {
-        this.initPageJs();
+        // this.initPageJs();
       }, 100);
     }));
   }
