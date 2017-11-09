@@ -7,45 +7,7 @@ export class ApiManager {
   private _middleUrl: string = "xrest/v1/xretail";
   private _isSecureHttp;
   private _apiUrl            = {
-    /*Retail*/
-    retailConfig: 'retail-setting',
-    outlet: 'outlet',
-    register: 'register',
-    
-    /*Pos*/
-    products: "product",
-    category: "category",
-    customers: "customer",
-    stores: "store",
-    taxes: "tax-rates",
-    settings: "setting",
-    countries: "country-region",
-    taxClass: "tax-class",
-    customerGroup: "customer-group",
-    loadOrderData: "load-order-data",
-    saveOrder: "save-order",
-    'customer-address': "customer-address",
-    creditmemo: "creditmemo",
-    wishlist: "wishlist",
-    orders: "order",
-    userOrderCount: "user-order-count",
-    shipment: "shipment",
-    payment: "payment",
-    shifts: "shifts",
-    'check-open-shift': "check-open-shift",
-    'open-shift': "open-shift",
-    'close-shift': "close-shift",
-    'adjust-shift': "adjust-shift",
-    receipts: "receipts",
-    "take-payment": "take-payment",
-    "reward-point-apply": "reward-point-apply",
-    "send-email": "send-email",
-    "warehouse": "warehouse",
-    "role": "role",
-    "permission": "permission",
-    customerDetail: "customer-detail",
-    updateCustomerWishlist: "update-wishlist",
-    'product-cache': 'product-cache',
+
     salesreport: 'salesreport'
   };
   

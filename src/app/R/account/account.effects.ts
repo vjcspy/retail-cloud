@@ -3,10 +3,14 @@ import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {AccountActions} from "./account.actions";
 import {Observable} from "rxjs";
+import * as _ from 'lodash';
+import {List} from "immutable";
 import {AccountService} from "./account.service";
 import {RootActions} from "../root.actions";
 import {RouterActions} from "../router/router.actions";
 import {AuthenticateService} from "../../services/authenticate";
+import {AccountState} from "./account.state";
+
 
 @Injectable()
 export class AccountEffects {
@@ -60,6 +64,7 @@ export class AccountEffects {
                          .switchMap(() => {
                            return Observable.fromPromise(this.accountService.logout())
                                             .map(() => {
+                                              this.accountService.removeStorage();
                                               location.reload(true);
                                               return this.accountActions.goLoginPage(false, false);
                                             })
@@ -94,4 +99,34 @@ export class AccountEffects {
                                                    })
                                                    .catch((e) => Observable.of(this.rootActions.error("", false)));
                                 });
+  
+  @Effect() resolveUrls = this.actions$
+                              .ofType(
+                                AccountActions.SAVE_LICENSE_DATA
+                              )
+                              .withLatestFrom(this.store$.select('account'))
+                              .filter((z) => {
+                                const accountState: AccountState = <any>z[1];
+                                return !!accountState.license && _.isArray(accountState.license['base_url']);
+                              })
+                              .map((z) => {
+                                const accountState: AccountState = <any>z[1];
+                                let listUrl                      = List.of();
+                                let defaultUrl = "";
+                                const urls                       = accountState.license['base_url'];
+                                _.forEach(urls, (url) => {
+                                  if (parseInt(url['status']) === 1) {
+                                    listUrl = listUrl.push({
+                                                             url: url['url'],
+                                                             is_default: false,
+                                                             isMage1: false
+                                                           });
+                                  }
+                                });
+                              if(listUrl.count() > 1){
+                                defaultUrl = listUrl.get(0)['url'];
+                              }
+                                return this.accountActions.resolvedUrls(listUrl ,defaultUrl, false);
+                              });
+  
 }

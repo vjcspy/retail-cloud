@@ -1,4 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AbstractSubscriptionComponent} from "../../code/AbstractSubscriptionComponent";
+import {AccountService} from "../../R/account/account.service";
 
 @Component({
              // moduleId: module.id,
@@ -8,10 +10,13 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class CloudComponent implements OnInit {
-  constructor() {}
+export class CloudComponent extends AbstractSubscriptionComponent implements OnInit {
+  constructor(private accountService: AccountService) {
+    super();
+  }
   
   ngOnInit() {
-    console.log("loaded cloud");
+    this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
+    // console.log("loaded cloud");
   }
 }

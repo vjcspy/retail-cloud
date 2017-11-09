@@ -1,6 +1,11 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChange, SimpleChanges,AfterViewInit} from '@angular/core';
 import {AccountState} from "../../../../R/account/account.state";
 import {AccountActions} from "../../../../R/account/account.actions";
+import {AppStorage} from "../../../../services/storage";
+import {NotifyManager} from "../../../../services/notify-manager";
+import {LocalStorage} from "ngx-webstorage";
+import * as _ from 'lodash';
+import {SaleReportService} from "../../R/report/service";
 
 @Component({
              // moduleId: module.id,
@@ -9,10 +14,48 @@ import {AccountActions} from "../../../../R/account/account.actions";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnChanges, AfterViewInit {
   @Input() accountState: AccountState;
   
-  constructor(public accountActions: AccountActions) { }
+  @LocalStorage('baseUrl')
+  public baseUrl: string;
   
-  ngOnInit() { }
+  constructor(public accountActions: AccountActions, protected storage: AppStorage, private notify: NotifyManager , private salesReportService : SaleReportService) {
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.baseUrl || this.baseUrl === "") {
+      _.forEach(changes, (change: SimpleChange, key) => {
+        if (key === 'accountState') {
+          const currentState: AccountState = change.currentValue;
+          if (currentState.urls.count() > 0) {
+            const first = currentState.urls.find((v) => _.isString(v['url']) && v['url'] !== "");
+            if (first) {
+              this.selectWebsite(first['url']);
+            }
+          }
+        }
+      });
+    }
+  }
+  
+  ngAfterViewInit(): void {
+    if (_.isString(this.baseUrl) && this.baseUrl !== "") {
+      this.accountActions.changeUrl(this.baseUrl);
+    }
+  }
+  
+  selectWebsite($event) {
+    if (_.isString($event) && $event !== 'null' && this.baseUrl !== $event) {
+      this.baseUrl = $event;
+      this.accountActions.changeUrl(this.baseUrl);
+      this.salesReportService.getChangeBaseUrlStream().next();
+    } else {
+    
+    }
+  }
+  
+  hasWebsite() {
+    return this.accountState.urls.count() > 0;
+  }
 }

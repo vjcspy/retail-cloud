@@ -10,9 +10,14 @@ import {RequestService} from "../../../../services/request";
 // import {OfflineService} from "../../../share/provider/offline";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {ReportHelper} from "./helper";
+import {LocalStorage} from "ngx-webstorage";
 
 @Injectable()
 export class SaleReportService {
+  
+  @LocalStorage('baseUrl')
+  public baseUrl: string;
+  
   protected stream               = {
     refreshSaleReport: new Subject(),
     change_page : new Subject()
@@ -398,28 +403,6 @@ export class SaleReportService {
     return true;
   }
   
-  enterSaleReportStream() {
-    if (!this.stream.hasOwnProperty('enter_sale_report')) {
-      this.stream['enter_sale_report'] = new Subject();
-      this.stream['enter_sale_report']
-        .asObservable()
-        .filter(() => {
-          // return this.onlineOfflineService.online;
-        })
-        .subscribe(
-          async() => {
-            let getReport = await this.postSaleReport(this.initRequestReportData());
-            if (getReport) {
-              this.router.navigate(['/cloud/sale-report']);
-            } else {
-              this.toast.error('Error');
-            }
-          }
-        );
-    }
-    return this.stream['enter_sale_report'];
-  }
-  
   getSaleReport(force: boolean = false, resetFilet: boolean = false, changeReportType = false) {
     if (changeReportType) {
       this.initSortDefaultValue();
@@ -447,7 +430,7 @@ export class SaleReportService {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
     // } else {
-      let _query = this.apiUrlManager.get('salesreport', 'http://xpos.ispx.smartosc.com');
+      let _query = this.apiUrlManager.get('salesreport', this.baseUrl);
       this.requestService.makePost(_query, report)
           .subscribe(
             (data) => {
@@ -544,7 +527,7 @@ export class SaleReportService {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
     // } else {
-      let _query = this.apiUrlManager.get('salesreport', 'http://xpos.ispx.smartosc.com');
+      let _query = this.apiUrlManager.get('salesreport',this.baseUrl);
       this.requestService.makePost(_query, report)
           .subscribe((data) => {
             if (_.isObject(data)) {
@@ -654,7 +637,7 @@ export class SaleReportService {
     }
   }
   
-  getSearchCustomerStream() {
+  getChangeBaseUrlStream() {
     if (!this.stream.hasOwnProperty('change_page')) {
       this.stream.change_page = new Subject();
       this.stream.change_page = <any>this.stream.change_page.share();
