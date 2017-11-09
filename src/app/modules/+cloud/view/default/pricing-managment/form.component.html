@@ -11,6 +11,13 @@
       <form class="js-validation-pricing form-horizontal">
         <div class="form-content">
           <div class="form-group">
+            <label class="control-label" for="val-display_code">Code</label>
+            <div class="element">
+              <input type="text" class="form-control" id="val-display_code" name="val-display_code"
+                     placeholder="Enter Pricing Name.." [(ngModel)]="pricing['code']">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label" for="val-display_name">Display Name</label>
             <div class="element">
               <input type="text" class="form-control" id="val-display_name" name="val-display_name"

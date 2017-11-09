@@ -101,6 +101,9 @@ export class PricingFormComponent extends AbstractSubscriptionComponent implemen
                                                        elem.closest('.help-block').remove();
                                                      },
                                                      rules: {
+                                                       'val-display_code': {
+                                                         required: true
+                                                       },
                                                        'val-display_name': {
                                                          required: true
                                                        },
