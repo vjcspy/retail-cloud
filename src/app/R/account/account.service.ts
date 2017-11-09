@@ -45,12 +45,9 @@ export class AccountService {
   }
   
   logout() {
-    console.log('here11');
     return new Promise<void>((resolve, reject) => {
       Meteor.logout((e: Error) => {
-        console.log('here');
         if (!!e) {
-          console.log(e);
           if (e['reason']) {
             this.notify.error(e['reason'], e['error']);
           }
