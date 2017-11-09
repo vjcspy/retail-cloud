@@ -1,0 +1,70 @@
+<div class="license-detail min-page">
+  <!-- =================================================================== -->
+  <!-- START Checkout page -->
+
+  <div class="white-box">
+    <div class="box560">
+      <div class="title-page no-line">
+        <h1>Checkout</h1>
+      </div>
+      <div class="checkout-content">
+        <div class="payment-method-wrap">
+          <div class="row grand-total">
+            <div class="col-sm-6 lbl">
+              Grand total:
+            </div>
+            <div class="col-sm-6 value">
+              ${{grandtotal | number: '1.2-2'}}
+            </div>
+          </div>
+          <div class="row payment-method-choice">
+            <div class="col-sm-6 lbl">
+              Select your payment method
+            </div>
+            <div class="col-sm-6">
+              <ul>
+                <li class="clearfix payment-wall radio-btn" [ngClass]="{active: paymentMethod == 'paymentwall'}">
+                  <input type="radio" id="payment-wall" value="paymentwall" name="paymentMethod" [(ngModel)]="paymentMethod">
+                  <label for="payment-wall">Paymentwall</label>
+                  <div class="check">
+                    <div class="inside"></div>
+                  </div>
+                  <span class="icon icon-paywall"></span>
+                </li>
+                <li class="clearfix paypal radio-btn" [ngClass]="{active: paymentMethod == 'braintree'}">
+                  <input type="radio" id="paypal" value="braintree" name="paymentMethod" [(ngModel)]="paymentMethod">
+                  <label for="paypal">Braintree</label>
+                  <div class="check"></div>
+                  <span class="icon icon-paypal"></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="credit-card-info" *ngIf="paymentMethod == 'braintree'">
+          <braintree-payment-component></braintree-payment-component>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup modal checkout-success -->
+  <div id="checkout-success-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="checkout-success-popup">
+            Your payment has been completed! You’re being redirected to License Page in: <span class="number">5</span>
+            <i class="ico-success"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Popup modal - end-->
+
+    <!-- END Checkout page -->
+
+  </div>
+</div>

@@ -12,80 +12,14 @@
     </div>
     <div class="sidebar-content">
       <ul class="nav-main list-unstyled">
-        <li *ngIf="authenticate.isAdmin(accountState.user)">
-          <a class="nav-submenu" data-toggle="nav-submenu">
-            <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/license/list" routerLinkActive="active">License Management</span>
+        <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">
+          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu(item)">
+            <i [class]="item.iconClass"></i>
+            <span class="sidebar-mini-hide" [routerLink]="!!item.children && item.children.length > 0 ? item.children[0]['path'] : ''" routerLinkActive="active">{{item.name}}</span>
           </a>
-        </li>
-        <li *ngIf="authenticate.isAdmin(accountState.user)">
-          <a class="nav-submenu" data-toggle="nav-submenu">
-            <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/pricing/list" routerLinkActive="active">Pricing Management</span>
-          </a>
-        </li>
-        <li *ngIf="authenticate.isAdmin(accountState.user)">
-          <a class="nav-submenu" data-toggle="nav-submenu">
-            <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/product/list" routerLinkActive="active">Product Management</span>
-          </a>
-        </li>
-        <li *ngIf="authenticate.isUser(accountState.user)" (click)="routerActions.go('cloud/default/c-product/list')">
-          <a class="nav-submenu" data-toggle="nav-submenu">
-            <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/c-product/list" routerLinkActive="active">Connect Products</span>
-          </a>
-        </li>
-        <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management') || authenticate.userCan('view_edit_create_delete_role')" class="has-child"
-            [ngClass]="{open: openingSubmenuName == 'user'}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('user')">
-            <i class="ion-android-options"></i>
-            <span class="sidebar-mini-hide">User management</span>
-          </a>
-          <ul class="list-unstyled">
-            <li *ngIf="authenticate.isAdmin(accountState.user) || authenticate.userCan('access_to_user_management')" (click)="routerActions.go('/cloud/default/user-management/cashier/list')" [ngClass]="{active: router.isActive('/cloud/default/user-management/cashier/list',false)}">
-              <a>Users</a>
-            </li>
-            <li *ngIf="authenticate.isUser(accountState.user) && authenticate.userCan('view_edit_create_delete_role')"
-                routerLinkActive="active">
-              <a href="#/cloud/user-management/roles">Shop Roles</a>
-            </li>
-          </ul>
-        </li>
-        <li class="has-child" [ngClass]="{open: openingSubmenuName == 'account'}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('account')">
-            <i class="ion-person"></i>
-            <span class="sidebar-mini-hide">Account</span>
-          </a>
-          <ul class="list-unstyled">
-            <li *ngIf="authenticate.isUser(accountState.user)" (click)="routerActions.go('cloud/default/account/license/list')">
-              <a>License</a>
-            </li>
-            <li *ngIf="authenticate.isUser(accountState.user)">
-              <a>Payment Methods</a>
-            </li>
-            <li *ngIf="authenticate.isUser(accountState.user)">
-              <a>Invoices History</a>
-            </li>
-            <li>
-              <a>Account Information</a>
-            </li>
-            <li>
-              <a>Change Password</a>
-            </li>
-          </ul>
-        </li>
-        <li class="has-child" [ngClass]="{open: openingSubmenuName == 'document'}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu('document')">
-            <i class="ion-android-list"></i>
-            <span class="sidebar-mini-hide">Documentation</span>
-          </a>
-          <ul class="list-unstyled">
-            <li>
-              <a href="#">Connect POS</a>
-            </li>
-            <li>
-              <a href="#">Report</a>
+          <ul *ngIf="!!item.children && item.children.length > 0" class="list-unstyled">
+            <li *ngFor="let child of item.children" [routerLink]="child.path" routerLinkActive="active">
+              <a>{{child.name}}</a>
             </li>
           </ul>
         </li>

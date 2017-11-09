@@ -9,12 +9,15 @@ import {CLOUD_DEFAULT_COMPONENTS} from "./view/default/index";
 import {DefaultContainerComponent} from "./view/default-container.component";
 import {AngularMeteorModule} from "../angular-meteor/index";
 import {R_EFFECTS, R_SERVICES} from "./R/index";
+import {CLOUD_SERVICES} from "./services/index";
+import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braintree.module";
 
 @NgModule({
             imports: [
               ShareModule,
               AngularMeteorModule,
               RouterModule.forChild(CLOUD_ROUTES),
+              PaymentBraintreeModule,
               ...R_EFFECTS,
             ],
             exports: [],
@@ -26,7 +29,8 @@ import {R_EFFECTS, R_SERVICES} from "./R/index";
   
             ],
             providers: [
-              ...R_SERVICES
+              ...R_SERVICES,
+              ...CLOUD_SERVICES,
             ],
           })
 export class CloudModule {}

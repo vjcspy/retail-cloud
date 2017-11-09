@@ -23,6 +23,7 @@ import {AccountContainerComponent} from "./view/default/account/container";
 import {AccountLicenseContainerComponent} from "./view/default/account/license/container";
 import {AccountLicenseListComponent} from "./view/default/account/license/list.component";
 import {AccountLicenseAdjustComponent} from "./view/default/account/license/adjust.component";
+import {AccountLicenseCheckoutComponent} from "./view/default/account/license/checkout.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -148,6 +149,10 @@ export const CLOUD_ROUTES: Routes = [
                   {
                     path: 'adjust/:productId',
                     component: AccountLicenseAdjustComponent
+                  },
+                  {
+                    path: 'checkout',
+                    component: AccountLicenseCheckoutComponent
                   }
                 ]
               }

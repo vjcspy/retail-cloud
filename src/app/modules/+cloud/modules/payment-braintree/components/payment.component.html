@@ -1,0 +1,5 @@
+<div id="dropin-container"></div>
+<div class="group-btn tac line-top" [hidden]="(braintreeState$ | async)?.dropinCreated != true">
+  <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+  <button type="button" id="braintree-submit" class="btn btn-primary">Confirm</button>
+</div>
