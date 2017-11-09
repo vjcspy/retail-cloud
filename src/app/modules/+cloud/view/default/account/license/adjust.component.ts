@@ -179,7 +179,7 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
   }
   
   submitOrder() {
-  
+    this.checkoutActions.submitPlan(this.plan, this.product['_id']);
   }
   
   calculateTotal() {

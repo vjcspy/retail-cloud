@@ -12,4 +12,11 @@ export class CheckoutService {
                       .subscribe((res: any) => resolve(res), (e) => reject(e));
     });
   }
+  
+  submitOrder(plan, product_id): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('sales.order_submit', {plan, product_id})
+                      .subscribe((planId) => resolve(planId), (err) => reject(err));
+    });
+  }
 }

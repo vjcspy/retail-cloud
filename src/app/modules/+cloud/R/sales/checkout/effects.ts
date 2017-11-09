@@ -26,4 +26,22 @@ export class CheckoutEffects {
                                                       return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
                                                     });
                                  });
+  
+  @Effect() submitPlan = this.actions$
+                             .ofType(CheckoutActions.ACTION_SUBMIT_PLAN)
+                             .switchMap((z: any) => {
+                               const action: Action     = z;
+                               const {plan, product_id} = action['payload'];
+                               return Observable.fromPromise(this.checkoutService.submitOrder(plan, product_id))
+                                                .map((planId) => {
+                                                  this.notify.success("submit_plan_success");
+                                                  
+                                                  return this.checkoutActions.submitPlanSuccess(planId, false);
+                                                })
+                                                .catch((e) => {
+                                                  const reason = e && e['reason'] ? e['reason'] : '';
+                                                  this.notify.error(reason);
+                                                  return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
+                                                });
+                             });
 }
