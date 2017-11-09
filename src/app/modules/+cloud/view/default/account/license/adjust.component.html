@@ -70,62 +70,53 @@
             </div>
           </div>
 
-          <div class="block-item line-bottom" *ngIf="isNotSelectTrial()">
-            <h3 class="title-block">Change Active Users</h3>
-            <div class="form-group">
-              <label class="control-label">Number of user:</label>
-              <div class="element number-spinner">
-                <span class="num-btn ion-minus" (click)="changeExtraUser(-1)"></span>
-                <span class="num-value">{{getCurrentExtraUser() + plan['extraUser']}}</span>
-                <span class="num-btn ion-plus" (click)="changeExtraUser(1)"></span>
-              </div>
-              <div *ngIf="plan['extraUser'] > 0">(+{{plan['extraUser']}})</div>
-              <div *ngIf="plan['extraUser'] < 0">({{plan['extraUser']}})</div>
-            </div>
-            <div class="form-group group-label">
-              <label class="control-label">
-                Your Credit:
-                <i class="ion-ios-help txtaqua"></i>
-              </label>
-              <div class="element">
-                <label>${{totals['credit']['creditExtraUser'] | number: '1.2-2'}}</label>
-              </div>
-            </div>
-            <div class="msg msg-notice">
-              (*) Additional users are charged monthly
-            </div>
-          </div>
+          <!--<div class="block-item line-bottom" *ngIf="isNotSelectTrial()">-->
+          <!--<h3 class="title-block">Change Active Users</h3>-->
+          <!--<div class="form-group">-->
+          <!--<label class="control-label">Number of user:</label>-->
+          <!--<div class="element number-spinner">-->
+          <!--<span class="num-btn ion-minus" (click)="changeExtraUser(-1)"></span>-->
+          <!--<span class="num-value">{{getCurrentExtraUser() + plan['extraUser']}}</span>-->
+          <!--<span class="num-btn ion-plus" (click)="changeExtraUser(1)"></span>-->
+          <!--</div>-->
+          <!--<div *ngIf="plan['extraUser'] > 0">(+{{plan['extraUser']}})</div>-->
+          <!--<div *ngIf="plan['extraUser'] < 0">({{plan['extraUser']}})</div>-->
+          <!--</div>-->
+          <!--<div class="form-group group-label">-->
+          <!--<label class="control-label">-->
+          <!--Your Credit:-->
+          <!--<i class="ion-ios-help txtaqua"></i>-->
+          <!--</label>-->
+          <!--<div class="element">-->
+          <!--<label>${{totals['credit']['creditExtraUser'] | number: '1.2-2'}}</label>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<div class="msg msg-notice">-->
+          <!--(*) Additional users are charged monthly-->
+          <!--</div>-->
+          <!--</div>-->
         </form>
 
         <h3 class="title-summary">Summary</h3>
         <table class="summary" cellpadding="0" cellspacing="0" width="100%">
           <tbody>
-          <tr>
+          </tbody>
+          <tfoot>
+          <tr class="bg">
             <td>Cost of new plan:</td>
             <td>${{totals['total']['costNewPlan'] | number: '1.2-2'}}</td>
           </tr>
-          <tr>
-            <td>Cost of extra active users:</td>
-            <td>${{totals['total']['costExtraUser'] | number: '1.2-2'}}</td>
-          </tr>
-          <tr>
-            <td>Total Cost:</td>
-            <td>${{(totals['total']['costNewPlan'] + totals['total']['costExtraUser'] ) | number: '1.2-2'}}</td>
-          </tr>
-          </tbody>
-
-          <tfoot>
           <tr class="bg">
             <td>Credit balance:</td>
             <td>${{userCreditBalance | number: '1.2-2'}}</td>
           </tr>
           <tr class="bg">
             <td>Credit earned :</td>
-            <td>${{(totals['credit']['creditExtraUser'] + totals['credit']['creditPlan']) | number: '1.2-2'}}</td>
+            <td>${{totals['credit']['creditPlan'] | number: '1.2-2'}}</td>
           </tr>
           <tr class="bg">
-            <td>Credit spent:</td>
-            <td>${{ totals.total.discountCredit | number: '1.2-2'}}</td>
+            <td>Discount:</td>
+            <td>${{ totals.total.discount | number: '1.2-2'}}</td>
           </tr>
           <tr class="grand-total">
             <td>Grand total:</td>

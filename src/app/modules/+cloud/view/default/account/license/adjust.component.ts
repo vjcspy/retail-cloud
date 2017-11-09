@@ -40,7 +40,7 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
     total: {
       costNewPlan: 0,
       costExtraUser: 0,
-      discountCredit: 0,
+      discount: 0,
       grandTotal: 0
     }
   };
