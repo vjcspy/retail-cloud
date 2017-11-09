@@ -59,7 +59,7 @@
       [additionData] = "viewData['additionData']"
       [typeDisplay]="'itemInHontical'"></tr>
 
-  <tr class="datatable-row" *ngFor="let itemDetail of detail_item"
+  <tr class="datatable-row" *ngFor="let itemDetail of item['item_details']"
       [colspanFooter]="getColspanForHeader()"
       [item]="itemDetail"
       [hidden]="hiddenItemDetail(item)"
@@ -71,8 +71,9 @@
   </tbody>
 
   <!--&lt;!&ndash;body for total column&ndash;&gt;-->
-  <tbody  class="Thanh_demo">
-  <tr [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()"
+  <tbody class="total_summary_report" style="background-color: #666;">
+  <tr style="color: #ffffff;"
+      [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()"
       [ngClass]="{'datatable-col-totals-row': checkDisplayProductForSalesSummary() == true, 'datatable-row-col-totals' : checkDisplayProductForSalesSummary() == false }"
       sale-report-item
       [is_date_ranger]="isDateRanger()"
@@ -84,7 +85,7 @@
       [typeDisplay]="'totalInHontical'"
       [colspanTotal]="getColspanForHeader()">
   </tr>
-  <tr class="datatable-row" *ngFor="let itemDetail of detail_item"
+  <tr class="datatable-row" *ngFor="let itemDetail of data_view['totalInHontical']['item_details']"
       [colspanFooter]="getColspanForHeader()"
       [item]="itemDetail"
       [hidden]="checkDisplayProductForSalesSummary()"

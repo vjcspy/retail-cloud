@@ -11,6 +11,7 @@ import {RequestService} from "../../../../services/request";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {ReportHelper} from "./helper";
 import {LocalStorage} from "ngx-webstorage";
+import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
 
 @Injectable()
 export class SaleReportService {
@@ -19,15 +20,17 @@ export class SaleReportService {
   public baseUrl: string;
   
   protected stream               = {
-    refreshSaleReport: new Subject(),
     change_page : new Subject()
   };
+  
   public measure_selected = {};
   public viewDataFilter   = {};
   public viewData         = {};
+  
   public viewState = {
     isOverLoad: true,
   };
+  
   public _sortData: string;
   public _filterData = {};
   public isSortAsc: boolean = false;
@@ -35,9 +38,9 @@ export class SaleReportService {
   
   constructor(protected toast: NotifyManager,
               protected requestService: RequestService,
+              protected onlineOfflineService:OnlineOfflineModeService,
               protected apiUrlManager: ApiManager,
-              protected router: Router,
-              protected formValidation: FormValidationService) {
+              protected router: Router){
     this.resolveDefaultData();
   }
   
@@ -72,13 +75,12 @@ export class SaleReportService {
       
       current_dateStart: moment().subtract(3, 'week').startOf('week').format("YYYY-MM-DD 00:00:00"),
       current_dateEnd: moment().endOf('week').format("YYYY-MM-DD 23:59:59"),
-      display_item_detail: false,
       item_view_detail : null,
     };
     this.viewData       = {
       list_date_filter: [],
       items: [],
-      additionalData: [],
+      totalInVertical: [],
       totalInHontical: [],
       columnForFilter: [],
       list_item_detail : []
@@ -119,7 +121,6 @@ export class SaleReportService {
     this.viewData = {
       list_date_filter: [],
       items: [],
-      additionalData: [],
       totalInVertical: [],
       totalInHontical: [],
       list_item_detail :[]
@@ -134,23 +135,27 @@ export class SaleReportService {
     // start get data group by report type value
     _.forEach(group_data_report_type, (report_type_data) => {
       let report_type     = [];
+      report_type['item_details'] = [];
+      report_type['display_item_detail'] = false;
       report_type['name'] = _.isObject(report_type_data['value']) ? report_type_data['value']['name'] : (report_type_data['value'] == 'N/A' ? (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') : report_type_data['value']);
       
       // add them value de filter doi voi nhung data can hien thi them data
       if (this.viewDataFilter['report_type'] == "payment_method" || this.viewDataFilter['report_type'] == "order_status" ||
-          this.viewDataFilter['report_type'] == "register" || this.viewDataFilter['report_type'] == "customer"
-          || this.viewDataFilter['report_type'] == "region") {
-        report_type['value'] = report_type_data['data']
+          this.viewDataFilter['report_type'] == "register" || this.viewDataFilter['report_type'] == "customer" || this.viewDataFilter['report_type'] == "region") {
+        report_type['value'] = report_type_data['data'];
       }
+      
       if (this.viewDataFilter['report_type'] == 'customer') {
         report_type['customer_email']      = report_type_data['value']['email'];
         report_type['customer_telephone']  = report_type_data['value']['phone'];
         report_type['customer_group_code'] = report_type_data['value']['customer_group_code'];
         report_type['total_shipping_amount']  = report_type_data['value']['total_shipping_amount'];
       }
+      
       if (this.viewDataFilter['report_type'] == 'register' || this.viewDataFilter['report_type'] == 'sales_summary') {
         report_type['total_shipping_amount']  = report_type_data['total_shipping_amount'];
       }
+      
       if (this.viewDataFilter['report_type'] == 'product') {
         report_type['sku']          = report_type_data['value']['sku'];
         report_type['product_type'] = report_type_data['value']['product_type'];
@@ -226,7 +231,7 @@ export class SaleReportService {
     
     // start get data by date ranger
     if (this.viewDataFilter['dateTimeState'] == "compare") {
-      this.getAdditionalData(itemsData);
+      this.getTotalInVertical(itemsData);
     }
     this.calculateItemData(this.viewData['totalInHontical']);
     
@@ -312,7 +317,7 @@ export class SaleReportService {
     }
   }
   
-  getAdditionalData(itemsData) {
+  getTotalInVertical(itemsData) {
     _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (additionalData)=> {
       let additionalItem     = [];
       additionalItem['name'] = additionalData['label'];
@@ -391,7 +396,7 @@ export class SaleReportService {
           }
         });
       });
-      this.viewData['additionalData'].push(additionalItem);
+      this.viewData['totalInVertical'].push(additionalItem);
     });
   }
   
@@ -412,7 +417,6 @@ export class SaleReportService {
         this.viewDataFilter['measures'] =   this.measure_selected[this.viewDataFilter['report_type']];
       }
     }
-    this.viewDataFilter['display_item_detail'] = false;
     if (!force)
       this.initDefaultValueFilter();
     let data = this.initRequestReportData();
@@ -531,7 +535,7 @@ export class SaleReportService {
       this.requestService.makePost(_query, report)
           .subscribe((data) => {
             if (_.isObject(data)) {
-              this.convertDetailItemData(data['items'], data['group_data']);
+              this.convertDetailItemData(data['items'], data['group_data'],data['item_detail']);
               this.viewState.isOverLoad = true;
               return defer.resolve(true);
             } else {
@@ -543,16 +547,27 @@ export class SaleReportService {
     // }
   }
   
-  convertDetailItemData(itemsData, group_data_report_type) {
-    this.viewData['list_item_detail'] = [];
-    
+  convertDetailItemData(itemsData, group_data_report_type , itemDetail) {
+    let itemSeach ;
+    if(itemDetail == "Totals"){
+      itemSeach =  this.viewData['totalInHontical'];
+    }else{
+      itemSeach = _.find(this.viewData['items'], (item) => {
+        if (item['value'] === itemDetail) {
+          return item;
+        }
+      });
+      // push item want view more detail to top
+      let cloneItem = _.indexOf(this.viewData['items'], itemSeach);
+      this.viewData['items'].splice(cloneItem, 1);
+    }
+    if(!!itemSeach){
+    itemSeach['item_details'] = [];
     // start get data group by report type value
     _.forEach(group_data_report_type, (report_type_data) => {
       let report_type = [];
       let compare_value = this.viewDataFilter['compare_value'];
-      
       report_type['name'] = report_type_data['value'];
-      
       _.forEach(itemsData, (item) => {
         let model = _.find(item['value'], function (option) {
           if (_.isObject(option) && option.hasOwnProperty('data_report_type') &&
@@ -590,16 +605,20 @@ export class SaleReportService {
         }
       });
       // Object.assign()
-      this.viewData['list_item_detail'].push(report_type);
+      itemSeach['item_details'].push(report_type);
     });
-    _.forEach(this.viewData['list_item_detail'], (item)=> {
+    _.forEach(this.viewData['item_details'], (item)=> {
       this.calculateItemData(item);
     });
-    this.viewDataFilter['display_item_detail'] = true;
+      itemSeach['display_item_detail'] = true;
+      if(itemDetail != "Totals"){
+      this.viewData['items'].unshift(itemSeach);
+      }
+    }
+    this.resolveItemDisplay();
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-    if (measureLabel) {
       if (!isFilter) {
         if (measureLabel != this._sortData) {
           this.isSortAsc = true;
@@ -607,9 +626,17 @@ export class SaleReportService {
           this.isSortAsc = !this.isSortAsc;
         }
       }
+      if(measureLabel != null){
       this._sortData = measureLabel;
+      }
+    let listDataSoft = _.filter(this.viewData['items'], function (item) {
+      return item['display_item_detail'] != true ;
+    });
+    this.viewData['items'] =  _.filter(this.viewData['items'], function (item) {
+      return item['display_item_detail'] == true ;
+    });
       // mac dinh sort desc
-      this.viewData['items'] = _.sortBy(this.viewData['items'], [(item) => {
+    listDataSoft = _.sortBy(listDataSoft, [(item) => {
         if (this._sortData == 'First Sale' || this._sortData == 'Last Sale') {
           return _.toLower(item[this._sortData]);
         } else {
@@ -618,23 +645,10 @@ export class SaleReportService {
       }]);
       if (this.isSortAsc) {
         //noinspection TypeScriptUnresolvedFunction
-        this.viewData['items'] = _.reverse(this.viewData['items']);
+        listDataSoft = _.reverse(listDataSoft);
       }
-      if (this.viewData['list_item_detail']){
-        this.viewData['list_item_detail'] = _.sortBy(this.viewData['list_item_detail'], [(itemDetail) => {
-          if (this._sortData == 'First Sale' || this._sortData == 'Last Sale') {
-            return _.toLower(itemDetail[this._sortData]);
-          } else {
-            return parseFloat(itemDetail[this._sortData]);
-            
-          }
-        }]);
-        if (this.isSortAsc) {
-          //noinspection TypeScriptUnresolvedFunction
-          this.viewData['list_item_detail'] = _.reverse(this.viewData['list_item_detail']);
-        }
-      }
-    }
+    this.viewData['items'] = _.concat(this.viewData['items'], listDataSoft);
+
   }
   
   getChangeBaseUrlStream() {

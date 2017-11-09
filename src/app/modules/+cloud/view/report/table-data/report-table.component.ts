@@ -204,8 +204,12 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return true;
   }
   
-  protected hiddenItemDetail($item) {
-    if (this.isdisplayMoreData($item) == false && this.data_filter['display_item_detail'] == true && $item['value'] == this.detail_item_value) {
+  protected hiddenItemDetail(item) {
+    // if (this.isdisplayMoreData($item) == false && this.data_filter['display_item_detail'] == true && $item['value'] == this.detail_item_value) {
+    //   return false;
+    // }
+    // return true;
+    if (item.hasOwnProperty('display_item_detail') && item['display_item_detail'] == true) {
       return false;
     }
     return true;
@@ -214,7 +218,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   refactorAdditionData() {
     let additionalData = [];
     _.forEach(this.list_measure, (measure) => {
-      let additionalItem = _.find(this.data_view['additionalData'], (item)=>item['name'] == measure);
+      let additionalItem = _.find(this.data_view['totalInVertical'], (item)=>item['name'] == measure);
       if (additionalItem)
         additionalData.push(additionalItem);
     });

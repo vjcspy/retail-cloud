@@ -42,15 +42,28 @@ export class CloudSaleReportItemComponent {
     return true;
   }
   
-  protected selectMoreInfo(is_total:boolean = false) {
-    if (this.service.viewData['list_item_detail'].length == 0 || this.item['value'] != this.detail_item_value ) {
-      if(is_total){
-        this.service.getMoreItemData('total');
-      }else{
+  protected selectMoreInfo(is_total: boolean = false) {
+    // if (this.data_filter['report_type'] == "payment_method" && this.item.hasOwnProperty('value') && this.item['value'] == "retailmultiple") {
+    // if (this.service.viewData['list_item_detail'].length == 0 || this.item['value'] != this.detail_item_value ) {
+    //     if(is_total){
+    //       // for sales summary
+    //         this.service.getMoreItemData('Totals');
+    //     }else{
+    //     this.service.getMoreItemData(this.item['value']);
+    //     }
+    // } else {
+    //     this.service.viewDataFilter['display_item_detail'] = !this.service.viewDataFilter['display_item_detail'];
+    // }
+    if (this.item.hasOwnProperty('item_details') && this.item['item_details'].length != 0 ) {
+      this.item['display_item_detail'] = !this.item['display_item_detail'];
+      this.service.resolveItemDisplay();
+    } else {
+      if (is_total) {
+        // for sales summary
+        this.service.getMoreItemData('Totals');
+      } else {
         this.service.getMoreItemData(this.item['value']);
       }
-    } else {
-      this.service.viewDataFilter['display_item_detail'] = !this.service.viewDataFilter['display_item_detail'];
     }
   }
   
@@ -66,7 +79,7 @@ export class CloudSaleReportItemComponent {
   }
   
   customizeChevron() {
-    if (this.service.viewDataFilter['display_item_detail'] && this.item['value'] == this.detail_item_value) {
+    if (this.service.viewDataFilter['display_item_detail'] && this.item['display_item_detaiil'] == true) {
       return false;
     }
     return true;
