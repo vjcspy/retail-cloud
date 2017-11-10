@@ -1,4 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {CheckoutActions} from "../../../../R/sales/checkout/actions";
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs/Observable";
+import {CheckoutState} from "../../../../R/sales/checkout/state";
+import {CloudState} from "../../../../R/index";
 
 @Component({
              // moduleId: module.id,
@@ -11,7 +16,15 @@ export class AccountLicenseCheckoutComponent implements OnInit {
   grandtotal: number = 100;
   paymentMethod: string;
   
-  constructor() { }
+  checkoutState$: Observable<CheckoutState>;
   
-  ngOnInit() { }
+  constructor(protected checkoutActions: CheckoutActions,
+              protected store$: Store<any>) {
+    this.checkoutState$ = this.store$.map((cloudState: CloudState) => cloudState.sales.checkout);
+  }
+  
+  ngOnInit() {
+    this.checkoutActions.initCheckoutPayment();
+  }
+  
 }

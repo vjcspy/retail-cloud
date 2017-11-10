@@ -11,7 +11,7 @@
         <div class="payment-method-wrap">
           <div class="row grand-total">
             <div class="col-sm-6 lbl">
-              Grand total:
+              Grand total
             </div>
             <div class="col-sm-6 value">
               ${{grandtotal | number: '1.2-2'}}
@@ -19,23 +19,17 @@
           </div>
           <div class="row payment-method-choice">
             <div class="col-sm-6 lbl">
-              Select your payment method
+              Payment method
             </div>
             <div class="col-sm-6">
               <ul>
-                <li class="clearfix payment-wall radio-btn" [ngClass]="{active: paymentMethod == 'paymentwall'}">
-                  <input type="radio" id="payment-wall" value="paymentwall" name="paymentMethod" [(ngModel)]="paymentMethod">
-                  <label for="payment-wall">Paymentwall</label>
+                <li class="clearfix radio-btn" *ngFor="let p of (checkoutState$ | async)?.payments"
+                    [ngClass]="{active: paymentMethod == p['id'],'payment-wall': p['id'] =='payment-wall','paypal': p['id'] =='braintree'}">
+                  <input type="radio" [id]="p['id']" [value]="p['id']" name="paymentMethod" [(ngModel)]="paymentMethod">
+                  <label [for]="p['id']">{{p['data']['name']}}</label>
                   <div class="check">
-                    <div class="inside"></div>
                   </div>
-                  <span class="icon icon-paywall"></span>
-                </li>
-                <li class="clearfix paypal radio-btn" [ngClass]="{active: paymentMethod == 'braintree'}">
-                  <input type="radio" id="paypal" value="braintree" name="paymentMethod" [(ngModel)]="paymentMethod">
-                  <label for="paypal">Braintree</label>
-                  <div class="check"></div>
-                  <span class="icon icon-paypal"></span>
+                  <span class="icon icon-paywall" [ngClass]="{'icon-paywall': p['id'] =='payment-wall','icon-paypal' :p['id'] =='braintree' }"></span>
                 </li>
               </ul>
             </div>

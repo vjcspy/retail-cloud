@@ -35,7 +35,7 @@ export class CheckoutEffects {
                                return Observable.fromPromise(this.checkoutService.submitOrder(plan, product_id))
                                                 .map((planId) => {
                                                   this.notify.success("submit_plan_success");
-                                                  
+      
                                                   return this.checkoutActions.submitPlanSuccess(planId, false);
                                                 })
                                                 .catch((e) => {
@@ -44,4 +44,11 @@ export class CheckoutEffects {
                                                   return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
                                                 });
                              });
+  
+  @Effect() initCheckoutPayment = this.actions$
+                                      .ofType(CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT)
+                                      .switchMap((z: any) => {
+                                        return Observable.fromPromise(this.checkoutService.getPayments())
+                                                         .map((payments) => this.checkoutActions.initedCheckoutPayment(payments, false));
+                                      });
 }

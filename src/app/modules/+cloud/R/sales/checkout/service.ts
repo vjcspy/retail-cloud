@@ -19,4 +19,11 @@ export class CheckoutService {
                       .subscribe((planId) => resolve(planId), (err) => reject(err));
     });
   }
+  
+  getPayments(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('sales-payment.get_sale_payment')
+                      .subscribe((payments: any) => resolve(payments), (err) => reject(err));
+    });
+  }
 }

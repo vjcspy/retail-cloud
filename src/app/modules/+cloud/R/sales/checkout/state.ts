@@ -1,8 +1,11 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
+import {List} from "immutable";
 
 export interface CheckoutState {
   isCalculating: boolean;
   totals: Object;
+  
+  payments: List<any>;
 }
 
 export interface CheckoutSateRecord extends CheckoutState, TypedRecord<any> {
@@ -22,6 +25,7 @@ export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutSate
         costExtraUser: 0,
         discountCredit: 0,
         grandTotal: 0
-      }
-    }
+      },
+    },
+    payments: List.of()
   });

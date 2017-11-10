@@ -75,5 +75,29 @@ export class CheckoutActions {
     return action;
   }
   
+  static ACTION_INIT_CHECKOUT_PAYMENT = 'ACTION_INIT_CHECKOUT_PAYMENT';
+  
+  initCheckoutPayment(dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_INITED_CHECKOUT_PAYMENT = 'ACTION_INITED_CHECKOUT_PAYMENT';
+  
+  initedCheckoutPayment(payments, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT, payload: {payments}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   constructor(protected store$: Store<any>) { }
 }
