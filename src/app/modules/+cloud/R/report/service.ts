@@ -20,6 +20,7 @@ export class SaleReportService {
   public baseUrl: string;
   
   protected stream               = {
+    refreshSaleReport: new Subject(),
     change_page : new Subject()
   };
   
@@ -521,7 +522,7 @@ export class SaleReportService {
   // làm riêng 1 function để lấy thêm data cho những item (retail multi trong payment method)
   getMoreItemData(item_filter) {
     this.viewDataFilter['item_view_detail'] = item_filter;
-    this.postItemDetail(this.initRequestReportData(null, item_filter))
+    this.postItemDetail(this.initRequestReportData(null, item_filter));
   }
   
   protected postItemDetail(report) {
@@ -648,7 +649,8 @@ export class SaleReportService {
         listDataSoft = _.reverse(listDataSoft);
       }
     this.viewData['items'] = _.concat(this.viewData['items'], listDataSoft);
-
+    this.viewState.isOverLoad = true;
+    this.updateView().next();
   }
   
   getChangeBaseUrlStream() {
@@ -657,6 +659,14 @@ export class SaleReportService {
       this.stream.change_page = <any>this.stream.change_page.share();
     }
     return this.stream.change_page;
+  }
+  
+  updateView(){
+    if(!this.stream.hasOwnProperty('refreshSaleReport')){
+    this.stream.refreshSaleReport = new Subject();
+    this.stream.refreshSaleReport = <any>this.stream.refreshSaleReport.share();
+    }
+    return this.stream.refreshSaleReport;
   }
 }
 
