@@ -49,7 +49,7 @@ export class MeteorDataTable {
       options = this.getDefaultOption();
     }
     // add Column action
-    if (options.hasOwnProperty('actionsColumn')) {
+    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['edit'] === true || options['actionsColumn']['remove'] === true  )) {
       let _numOfColumn = _.size(options.columns);
       options.columns.push({data: "_id", title: "Actions"});
       
