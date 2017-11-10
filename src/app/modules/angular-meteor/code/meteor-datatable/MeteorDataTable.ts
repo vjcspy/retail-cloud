@@ -1,5 +1,5 @@
 import {MongoObservable} from "meteor-rxjs";
-import {Observable, Subscription, Subject} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import * as _ from "lodash";
 import {EventEmitter} from "@angular/core";
 
@@ -49,7 +49,7 @@ export class MeteorDataTable {
       options = this.getDefaultOption();
     }
     // add Column action
-    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['edit'] === true || options['actionsColumn']['remove'] === true  )) {
+    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit']) || options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove']))) {
       let _numOfColumn = _.size(options.columns);
       options.columns.push({data: "_id", title: "Actions"});
       
@@ -64,11 +64,13 @@ export class MeteorDataTable {
                                    // this case `data: 0`.
                                    render(data, type, row) {
                                      let _html = `<div class="btn-group">`;
-                                     if (options['actionsColumn']['edit'] === true) {
-                                       _html += `<a class="link-action meteor-table-bt-edit" data-id="${data}">Edit </a>`;
+                                     if (options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit'])) {
+                                       _html += `<a class="link-action meteor-table-bt-edit" data-id="${data}">${options['actionsColumn']['edit'].hasOwnProperty('name') ?
+                                         options['actionsColumn']['edit']['name'] : 'Edit'} </a>`;
                                      }
-                                     if (options['actionsColumn']['remove'] === true) {
-                                       _html += ` <a class="meteor-table-bt-remove link-action" data-toggle="modal" data-id="${data}">Delete</a>`;
+                                     if (options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove'])) {
+                                       _html += ` <a class="meteor-table-bt-remove link-action" data-toggle="modal" data-id="${data}">${options['actionsColumn']['remove']['name'] ?
+                                         options['actionsColumn']['remove']['name'] : 'Remove'}</a>`;
                                      }
                                      _html += `</div>`;
           
