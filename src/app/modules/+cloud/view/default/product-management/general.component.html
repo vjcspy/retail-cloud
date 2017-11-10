@@ -117,16 +117,16 @@
             </tr>
             <tr>
               <th>
-                <label for="modal-version-customers">Customers</label>
+                <label for="modal-version-licenses">Licenses</label>
               </th>
               <td>
-                <select class="form-control" name="modal-version-customers" id="modal-version-customers" required style="margin-bottom: 10px;">
-                  <option value="all">All Customers</option>
-                  <option value="specified">Specified Customers</option>
+                <select class="form-control" name="modal-version-licenses" id="modal-version-licenses" required style="margin-bottom: 10px;">
+                  <option value="all">All Licenses</option>
+                  <option value="specified">Specified Licenses</option>
                 </select>
-                <select multiple="multiple" class="form-control" name="modal-version-specified-customers" id="modal-version-specified-customers" required style="display:none; width: 100%;">
-                  <option *ngFor="let user of users" value="{{ user }}">
-                    {{ user }}
+                <select multiple="multiple" class="form-control" name="modal-version-specified-licenses" id="modal-version-specified-licenses" required style="display:none; width: 100%;">
+                  <option *ngFor="let license of licenses" value="{{ license.key }}">
+                    {{ license.key + ' | ' + license.shop_owner_username }}
                   </option>
                 </select>
               </td>
