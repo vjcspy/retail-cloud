@@ -22,6 +22,7 @@ import {AccountLicenseContainerComponent} from "./account/license/container";
 import {AccountLicenseListComponent} from "./account/license/list.component";
 import {AccountLicenseAdjustComponent} from "./account/license/adjust.component";
 import {AccountLicenseCheckoutComponent} from "./account/license/checkout.component";
+import {AccountLicensePlanListComponent} from "./account/license/plan/list.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -54,4 +55,5 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   AccountLicenseListComponent,
   AccountLicenseAdjustComponent,
   AccountLicenseCheckoutComponent,
+  AccountLicensePlanListComponent,
 ];

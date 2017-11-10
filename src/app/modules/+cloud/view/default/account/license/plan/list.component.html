@@ -1,0 +1,7 @@
+<div *ngIf="resolvedData">
+  <div class="pricing-list min-page">
+    <angular-meteor-datatable [collectionObservable]="planCollection.getCollectionObservable()"
+                              [tableConfig]="getTableConfig()" (event)="handleTableEvent($event)">
+    </angular-meteor-datatable>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import {R_EFFECTS, R_SERVICES} from "./R/index";
 import {CLOUD_SERVICES} from "./services/index";
 import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braintree.module";
 import {MenuActions} from "./R/menu/actions";
+import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
 
 @NgModule({
             imports: [
@@ -30,6 +31,7 @@ import {MenuActions} from "./R/menu/actions";
   
             ],
             providers: [
+              ...CLOUD_METEOR_COLLECTION,
               ...R_SERVICES,
               ...CLOUD_SERVICES,
             ],

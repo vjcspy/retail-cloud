@@ -24,6 +24,7 @@ import {AccountLicenseContainerComponent} from "./view/default/account/license/c
 import {AccountLicenseListComponent} from "./view/default/account/license/list.component";
 import {AccountLicenseAdjustComponent} from "./view/default/account/license/adjust.component";
 import {AccountLicenseCheckoutComponent} from "./view/default/account/license/checkout.component";
+import {AccountLicensePlanListComponent} from "./view/default/account/license/plan/list.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -152,7 +153,15 @@ export const CLOUD_ROUTES: Routes = [
                   },
                   {
                     path: 'checkout',
-                    component: AccountLicenseCheckoutComponent
+                    component: AccountLicenseCheckoutComponent,
+                    data: {
+                      orderType: '',
+                      orderId: ''
+                    }
+                  },
+                  {
+                    path: 'plan',
+                    component: AccountLicensePlanListComponent
                   }
                 ]
               }

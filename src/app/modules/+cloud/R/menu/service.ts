@@ -82,6 +82,12 @@ export class MenuService {
       priority: 6,
     };
     
+    _accounts.children.push({
+                              name: 'Plan',
+                              path: '/cloud/default/account/license/plan',
+                              priority: 6.01,
+                            });
+    
     if (this.auth.isShopOwner(null)) {
       _accounts.children.push({
                                 name: 'License',
