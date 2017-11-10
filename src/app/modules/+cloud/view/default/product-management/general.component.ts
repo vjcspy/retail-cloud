@@ -6,6 +6,7 @@ import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
+import {LicenseCollection} from "../../../../../services/meteor-collections/licenses";
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import {ProductActions} from "../../../R/product/actions";
@@ -22,14 +23,14 @@ import {UPLOAD_CLIENT_PACKAGE_URL} from '../../../../../../../config/constant.js
 })
 
 export class ProductGeneralComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
-  public product = {
+  public product  = {
     pricings:    [],
     versions:    [],
     apiVersions: []
   };
-  public prices  = [];
-  public data    = {};
-  public users   = ['test@example.com', 'hihi@example.com', 'hehe@example.com']; // temporary
+  public prices   = [];
+  public data     = {};
+  public licenses = [];
   
   protected validation;
   
@@ -37,6 +38,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
+              public licenseCollection: LicenseCollection,
               protected route: ActivatedRoute,
               protected router: Router,
               protected changeDetectorRef: ChangeDetectorRef,
@@ -53,12 +55,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
       this.route.params,
       this.productCollection.getCollectionObservable(),
       this.priceCollection.getCollectionObservable(),
+      this.licenseCollection.getCollectionObservable(),
     ).subscribe((z: any) => {
       const params                                             = z[0];
       const productCollection: MongoObservable.Collection<any> = z[1];
       const priceCollection: MongoObservable.Collection<any>   = z[2];
+      const licenseCollection: MongoObservable.Collection<any> = z[3];
       
       this.prices = priceCollection.find().fetch();
+      this.licenses = licenseCollection.find().fetch();
       
       if (!!params['id']) {
         const product = productCollection.findOne({_id: params['id']});
@@ -157,6 +162,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           return;
         }
         
+        console.log(vm.product);
         vm.productActions.saveProduct(vm.product);
       }
     });
@@ -180,12 +186,12 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
       },
       submitHandler() {
         let versionId = $('#modal-version-id').val();
-        let customer  = {
-          type:  $('#modal-version-customers option:selected').val(),
-          users: []
+        let license  = {
+          type:  $('#modal-version-licenses option:selected').val(),
+          licenses: []
         };
-        if ($('#modal-version-customers option:selected').val() === 'specified') {
-          customer.users = $('#modal-version-specified-customers').val();
+        if ($('#modal-version-licenses option:selected').val() === 'specified') {
+          license.licenses = $('#modal-version-specified-licenses').val();
         }
         
         let path = '';
@@ -211,7 +217,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                   {
                     name:         $('#modal-version-name').val(),
                     version:      $('#modal-version-version').val(),
-                    customers:    customer,
+                    licenses:    license,
                     api:          $('#modal-version-api').val(),
                     path,
                     descriptions: $('#modal-version-descriptions').val(),
@@ -226,6 +232,9 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               },
               error:       (jqXHR, textStatus, errorThrown) => {
                 console.log('error: ', textStatus);
+                alert('Sorry, Cannot upload package !');
+                vm.disableLoadingModal();
+                $('.close').click();
               }
             });
           }
@@ -249,7 +258,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                 
                 vm.product.versions[versionId].name         = $('#modal-version-name').val();
                 vm.product.versions[versionId].version      = $('#modal-version-version').val();
-                vm.product.versions[versionId].customers    = customer;
+                vm.product.versions[versionId].licenses     = license;
                 vm.product.versions[versionId].api          = $('#modal-version-api').val();
                 vm.product.versions[versionId].path         = path;
                 vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
@@ -261,6 +270,9 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               },
               error:       (jqXHR, textStatus, errorThrown) => {
                 console.log('error: ', textStatus);
+                alert('Sorry, Cannot upload package !');
+                vm.disableLoadingModal();
+                $('.close').click();
               }
             });
           } else {
@@ -268,7 +280,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
             
             vm.product.versions[versionId].name         = $('#modal-version-name').val();
             vm.product.versions[versionId].version      = $('#modal-version-version').val();
-            vm.product.versions[versionId].customers    = customer;
+            vm.product.versions[versionId].licenses     = license;
             vm.product.versions[versionId].api          = $('#modal-version-api').val();
             vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
             vm.product.versions[versionId].updated_at   = moment().toDate();
@@ -285,27 +297,27 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     
     jQuery("#val-pricings")['select2']();
     jQuery("#modal-version-api")['select2']();
-    jQuery("#modal-version-specified-customers")['select2']();
+    jQuery("#modal-version-specified-licenses")['select2']();
     
     $(document).ready(() => {
       $(document).on('show.bs.modal', '#modal-product-versions', () => {
-        if ($('#modal-version-customers option:selected').val() === 'specified') {
-          $('#modal-version-specified-customers').next().css('display', 'block');
+        if ($('#modal-version-licenses option:selected').val() === 'specified') {
+          $('#modal-version-specified-licenses').next().css('display', 'block');
         } else {
-          $('#modal-version-specified-customers').next().css('display', 'none');
+          $('#modal-version-specified-licenses').next().css('display', 'none');
         }
       });
       
-      $('#modal-version-customers').on('change', () => {
-        if ($('#modal-version-customers option:selected').val() === 'specified') {
-          $('#modal-version-specified-customers').next().css('display', 'block');
+      $('#modal-version-licenses').on('change', () => {
+        if ($('#modal-version-licenses option:selected').val() === 'specified') {
+          $('#modal-version-specified-licenses').next().css('display', 'block');
         } else {
-          $('#modal-version-specified-customers').next().css('display', 'none');
+          $('#modal-version-specified-licenses').next().css('display', 'none');
         }
       });
     });
     
-    vm.changeDetectorRef.detectChanges();
+    // vm.changeDetectorRef.detectChanges();
   }
   
   loadingModal() {
@@ -328,13 +340,13 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   editVersion(vIndex) {
     this.resetModalVersion();
-    let customer = this.product.versions[vIndex]['customers'] ? this.product.versions[vIndex]['customers'] : {type: '', users: ''};
+    let license = this.product.versions[vIndex]['licenses'] ? this.product.versions[vIndex]['licenses'] : {type: '', licenses: ''};
     
     $('#modal-version-id').val(vIndex);
     $('#modal-version-name').val(this.product.versions[vIndex]['name']);
     $('#modal-version-version').val(this.product.versions[vIndex]['version']);
-    $('#modal-version-customers').val(customer.type);
-    $('#modal-version-specified-customers').val(customer.users).trigger('change');
+    $('#modal-version-licenses').val(license.type);
+    $('#modal-version-specified-licenses').val(license.licenses).trigger('change');
     $('#modal-version-api').val(this.product.versions[vIndex]['api']).trigger('change');
     $('#modal-version-path').removeAttr('required');
     $('#modal-version-path-display').text(this.product.versions[vIndex]['path']);
@@ -355,8 +367,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     $('#modal-version-id').val(-1);
     $('#modal-version-name').val('');
     $('#modal-version-version').val('');
-    $('#modal-version-customers').val('all');
-    $('#modal-version-specified-customers').val('').trigger('change');
+    $('#modal-version-licenses').val('all');
+    $('#modal-version-specified-licenses').val('').trigger('change');
     $('#modal-version-api').val('').trigger('change');
     $('#modal-version-path').val('');
     $('#modal-version-path-display').text('unset');
