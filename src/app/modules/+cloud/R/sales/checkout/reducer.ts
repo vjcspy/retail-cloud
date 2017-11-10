@@ -2,6 +2,7 @@ import {Action, ActionReducer} from "@ngrx/store";
 import {SalesStateRecord} from "../state";
 import {CheckoutActions} from "./actions";
 import {CheckoutSateRecord} from "./state";
+import {List} from "immutable";
 
 export const checkoutReducer: ActionReducer<SalesStateRecord> = (state: SalesStateRecord, action: Action) => {
   if (action.type === CheckoutActions.ACTION_CALCULATE_TOTALS) {
@@ -18,7 +19,10 @@ export const checkoutReducer: ActionReducer<SalesStateRecord> = (state: SalesSta
   }
   
   if (action.type === CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT) {
-    return state.update('checkout', (checkout: CheckoutSateRecord) => checkout.set('payments', action.payload['payments']));
+    return state.update('checkout', (checkout: CheckoutSateRecord) =>
+      checkout.set('payments', List.of(...action.payload['payments']))
+              .set('totals', action.payload['totals'])
+    );
   }
   
   return state;

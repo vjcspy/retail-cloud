@@ -77,8 +77,8 @@ export class CheckoutActions {
   
   static ACTION_INIT_CHECKOUT_PAYMENT = 'ACTION_INIT_CHECKOUT_PAYMENT';
   
-  initCheckoutPayment(dispatch: boolean = true): Action {
-    const action = {type: CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT, payload: {}};
+  initCheckoutPayment(orderType, orderId, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT, payload: {orderType, orderId}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -89,8 +89,8 @@ export class CheckoutActions {
   
   static ACTION_INITED_CHECKOUT_PAYMENT = 'ACTION_INITED_CHECKOUT_PAYMENT';
   
-  initedCheckoutPayment(payments, dispatch: boolean = true): Action {
-    const action = {type: CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT, payload: {payments}};
+  initedCheckoutPayment(payments, totals: Object, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT, payload: {payments, totals}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

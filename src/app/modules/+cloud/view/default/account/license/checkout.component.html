@@ -14,7 +14,7 @@
               Grand total
             </div>
             <div class="col-sm-6 value">
-              ${{grandtotal | number: '1.2-2'}}
+              ${{(checkoutState$ | async).totals?.total.grandTotal | number: '1.2-2'}}
             </div>
           </div>
           <div class="row payment-method-choice">

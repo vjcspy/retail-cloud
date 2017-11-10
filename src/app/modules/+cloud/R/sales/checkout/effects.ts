@@ -21,7 +21,7 @@ export class CheckoutEffects {
                                    return Observable.fromPromise(this.checkoutService.calculateToltal(action.payload['plan'], action.payload['product_id']))
                                                     .map((total) => this.checkoutActions.calculateTotalSuccess(total, false))
                                                     .catch((e) => {
-                                                      const reason = e && e['reason'] ? e['reason'] : '';
+                                                      const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                       this.notify.error(reason);
                                                       return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
                                                     });
@@ -39,7 +39,7 @@ export class CheckoutEffects {
                                                   return this.checkoutActions.submitPlanSuccess(planId, false);
                                                 })
                                                 .catch((e) => {
-                                                  const reason = e && e['reason'] ? e['reason'] : '';
+                                                  const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                   this.notify.error(reason);
                                                   return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
                                                 });
@@ -48,7 +48,13 @@ export class CheckoutEffects {
   @Effect() initCheckoutPayment = this.actions$
                                       .ofType(CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT)
                                       .switchMap((z: any) => {
-                                        return Observable.fromPromise(this.checkoutService.getPayments())
-                                                         .map((payments) => this.checkoutActions.initedCheckoutPayment(payments, false));
+                                        const action: Action = z;
+                                        return Observable.fromPromise(this.checkoutService.getCheckoutData(action.payload))
+                                                         .map((data) => this.checkoutActions.initedCheckoutPayment(data['payments'], data['totals'], false))
+                                                         .catch((e) => {
+                                                           const reason = e && e['reason'] ? e['reason'] : e['error'];
+                                                           this.notify.error(reason);
+                                                           return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
+                                                         });
                                       });
 }

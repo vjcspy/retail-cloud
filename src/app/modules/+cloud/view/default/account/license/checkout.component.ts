@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {CheckoutState} from "../../../../R/sales/checkout/state";
 import {CloudState} from "../../../../R/index";
 import {ActivatedRoute} from "@angular/router";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -21,14 +22,22 @@ export class AccountLicenseCheckoutComponent implements OnInit {
   
   constructor(protected checkoutActions: CheckoutActions,
               protected store$: Store<any>,
+              protected notify: NotifyManager,
               protected route: ActivatedRoute) {
     this.checkoutState$ = this.store$.map((cloudState: CloudState) => cloudState.sales.checkout);
   }
   
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      console.log(params);
-      this.checkoutActions.initCheckoutPayment();
+      if (params) {
+        const {orderType, orderId} = params;
+        
+        if (!orderType || !orderId) {
+          this.notify.error('can_load_data');
+        } else {
+          this.checkoutActions.initCheckoutPayment(orderType, orderId);
+        }
+      }
     });
   }
   

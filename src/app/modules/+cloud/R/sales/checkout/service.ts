@@ -20,10 +20,10 @@ export class CheckoutService {
     });
   }
   
-  getPayments(): Promise<any> {
+  getCheckoutData(checkoutData): Promise<any> {
     return new Promise((resolve, reject) => {
-      MeteorObservable.call('sales-payment.get_sale_payment')
-                      .subscribe((payments: any) => resolve(payments), (err) => reject(err));
+      MeteorObservable.call('sales.get_checkout_data', checkoutData)
+                      .subscribe((data: any) => resolve(data), (err) => reject(err));
     });
   }
 }
