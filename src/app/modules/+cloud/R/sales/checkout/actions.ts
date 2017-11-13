@@ -99,5 +99,17 @@ export class CheckoutActions {
     return action;
   }
   
+  static ACTION_PAY_SUCCESS = 'ACTION_PAY_SUCCESS';
+  
+  paySuccess(dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_PAY_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   constructor(protected store$: Store<any>) { }
 }

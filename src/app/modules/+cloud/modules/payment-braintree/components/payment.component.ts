@@ -19,6 +19,10 @@ export class PaymentComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.braintreeActions.dropinCreate(window.document.querySelector('#braintree-submit'));
+    this.braintreeActions.dropinCreate();
+  }
+  
+  requestPaymentMethod() {
+    this.braintreeActions.requestPaymentMethod();
   }
 }

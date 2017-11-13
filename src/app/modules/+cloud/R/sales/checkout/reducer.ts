@@ -18,6 +18,11 @@ export const checkoutReducer: ActionReducer<SalesStateRecord> = (state: SalesSta
     return state.update('checkout', (checkout: CheckoutSateRecord) => checkout.set('isCalculating', false));
   }
   
+  if (action.type === CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT) {
+    return state.update('checkout', (checkout: CheckoutSateRecord) => checkout.set('orderType', action.payload['orderType'])
+                                                                              .set('orderId', action.payload['orderId']));
+  }
+  
   if (action.type === CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT) {
     return state.update('checkout', (checkout: CheckoutSateRecord) =>
       checkout.set('payments', List.of(...action.payload['payments']))

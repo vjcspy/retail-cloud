@@ -8,8 +8,8 @@ export class BraintreeActions {
   
   static ACTION_BRAINTREE_DROPIN_CREATE = 'ACTION_BRAINTREE_DROPIN_CREATE';
   
-  dropinCreate(button: Element, dispatch: boolean = true): Action {
-    const action = {type: BraintreeActions.ACTION_BRAINTREE_DROPIN_CREATE, payload: {button}};
+  dropinCreate(dispatch: boolean = true): Action {
+    const action = {type: BraintreeActions.ACTION_BRAINTREE_DROPIN_CREATE, payload: {}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -22,6 +22,18 @@ export class BraintreeActions {
   
   dropinCreateSuccess(dispatch: boolean = true): Action {
     const action = {type: BraintreeActions.ACTION_BRAINTREE_DROPIN_CREATE_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_REQUEST_PAYMENT_METHOD = 'ACTION_REQUEST_PAYMENT_METHOD';
+  
+  requestPaymentMethod(dispatch: boolean = true): Action {
+    const action = {type: BraintreeActions.ACTION_REQUEST_PAYMENT_METHOD, payload: {}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

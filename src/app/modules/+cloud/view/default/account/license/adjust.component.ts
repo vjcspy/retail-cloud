@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LicenseCollection} from "../../../../../../services/meteor-collections/licenses";
 import {ProductCollection} from "../../../../../../services/meteor-collections/products";
 import {PriceCollection} from "../../../../../../services/meteor-collections/prices";
@@ -20,7 +20,7 @@ import {CheckoutActions} from "../../../../R/sales/checkout/actions";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent implements OnInit {
+export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public plan           = {
     extraUser: 0,
     cycle: 2
@@ -112,6 +112,8 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
               this.initDefaultPricingPlan();
             }
             
+            this.calculateTotal();
+            
             return this.changeDetectorRef.detectChanges();
           }
           
@@ -184,5 +186,8 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
   
   calculateTotal() {
     this.checkoutActions.calculateTotal(this.plan, this.product['_id']);
+  }
+  
+  ngAfterViewInit(): void {
   }
 }

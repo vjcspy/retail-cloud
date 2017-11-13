@@ -32,4 +32,12 @@ export class BrainTreeMeteorServer {
                                  });
     });
   }
+  
+  pay(orderType, orderId, gatewayAdditionData) {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('sales-payment.pay', {orderType, orderId, gatewayAdditionData})
+                      .subscribe((res) => resolve(res),
+                                 (err) => reject(err));
+    });
+  }
 }

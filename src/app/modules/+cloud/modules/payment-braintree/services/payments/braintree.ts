@@ -1,14 +1,17 @@
 import {Injectable} from '@angular/core';
 import * as dropin from 'braintree-web-drop-in';
 import {BrainTreeMeteorServer} from "./braintree/server";
+import {GeneralException} from "../../../../../../code/GeneralException";
 
 @Injectable()
 export class Braintree {
   
+  protected braintreeFormInstance;
+  
   constructor(protected server: BrainTreeMeteorServer) {
   }
   
-  initClient(button: Element) {
+  initClient() {
     return new Promise((resolve, reject) => {
       this.server.getClientToken()
           .then((res) => {
@@ -23,23 +26,46 @@ export class Braintree {
                 return reject(createErr);
               }
           
-              button.addEventListener('click', () => {
-                instance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
-                  if (requestPaymentMethodErr) {
-                    // No payment method is available.
-                    // An appropriate error will be shown in the UI.
-                    return;
-                  }
-                  console.log(payload);
-                  // Submit payload.nonce to your server
-                });
-              });
+              this.braintreeFormInstance = instance;
+          
+              // button.addEventListener('click', () => {
+              //   instance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
+              //     if (requestPaymentMethodErr) {
+              //       // No payment method is available.
+              //       // An appropriate error will be shown in the UI.
+              //       return;
+              //     }
+              //     console.log(payload);
+              //     // Submit payload.nonce to your server
+              //   });
+              // });
           
               resolve(instance);
             });
           }, (err) => {
             reject(err);
           });
+    });
+  }
+  
+  requestPaymentMethod(orderType, orderId) {
+    if (typeof this.braintreeFormInstance === 'undefined') {
+      throw new GeneralException("braintree_has_not_initialized");
+    }
+    
+    return new Promise((resolve, reject) => {
+      this.braintreeFormInstance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
+        if (requestPaymentMethodErr) {
+          // No payment method is available.
+          // An appropriate error will be shown in the UI.
+          return reject(requestPaymentMethodErr);
+        }
+        // Submit payload.nonce to your server
+        this.server.pay(orderType, orderId, {
+          paymentNonce: payload.nonce,
+          id: 'braintree'
+        }).then((res) => resolve(res), (err) => reject(err));
+      });
     });
   }
 }

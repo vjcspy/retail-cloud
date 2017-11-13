@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 import {MongoObservable} from "meteor-rxjs";
 import * as _ from 'lodash';
 import {RouterActions} from "../../../../../../../R/router/router.actions";
+import * as moment from 'moment';
 
 @Component({
              // moduleId: module.id,
@@ -62,10 +63,12 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
         {data: "pricing_cycle", title: "Cycle", searchable: true},
         {data: "prev_pricing_id", title: "Prev Pricing", searchable: true},
         {data: "prev_pricing_cycle", title: "Prev Cycle", searchable: true},
-        {data: "cost_new_plan", title: "Cost new plan", searchable: true},
-        {data: "credit_change_plan", title: "Credit change plan", searchable: true},
+        {data: "price", title: "Price", searchable: true},
+        {data: "credit_earn", title: "Credit Earn", searchable: true},
+        {data: "credit_spent", title: "Credit Spent", searchable: true},
         {data: "discount_amount", title: "Discount"},
-        {data: "grand_total", title: "Grandtotal"},
+        {data: "grand_total", title: "Total"},
+        {data: "created_at", title: "Created"},
       ],
       columnDefs: [
         {
@@ -73,9 +76,9 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
           render(data) {
             if (_.isArray(vm.products)) {
               const product = _.find(vm.products, (_p) => _p['_id'] === data);
-              return product ? product['name'] : data;
+              return product ? product['name'] : "-";
             } else {
-              return data;
+              return "-";
             }
           }
         },
@@ -84,9 +87,9 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
           render(data) {
             if (_.isArray(vm.pricings)) {
               const pricings = _.find(vm.pricings, (_p) => _p['_id'] === data);
-              return pricings ? pricings['display_name'] : data;
+              return pricings ? pricings['display_name'] : "-";
             } else {
-              return data;
+              return "-";
             }
           }
         },
@@ -94,6 +97,13 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
           targets: [2, 4],
           render(data) {
             return parseInt(data) === 1 ? "Monthly" : "Annually";
+          }
+        },
+        {
+          targets: [10],
+          render(data) {
+            let date = moment(data);
+            return date.format("dddd, MMMM Do YYYY");
           }
         }
       ],

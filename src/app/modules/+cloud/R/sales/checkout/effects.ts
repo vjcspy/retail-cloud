@@ -16,10 +16,14 @@ export class CheckoutEffects {
   
   @Effect() calculateTotal = this.actions$
                                  .ofType(CheckoutActions.ACTION_CALCULATE_TOTALS)
+                                 .debounceTime(1000)
                                  .switchMap((z: any) => {
                                    const action: Action = z;
                                    return Observable.fromPromise(this.checkoutService.calculateToltal(action.payload['plan'], action.payload['product_id']))
-                                                    .map((total) => this.checkoutActions.calculateTotalSuccess(total, false))
+                                                    .map((totals) => {
+                                                      console.log(totals);
+                                                      return this.checkoutActions.calculateTotalSuccess(totals, false);
+                                                    })
                                                     .catch((e) => {
                                                       const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                       this.notify.error(reason);

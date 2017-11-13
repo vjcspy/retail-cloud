@@ -65,7 +65,7 @@
                 <i class="ion-ios-help txtaqua"></i>
               </label>
               <div class="element">
-                <label>${{totals['credit']['creditPlan'] | number: '1.2-2'}}</label>
+                <label>${{(totals.data?.credit_earn || 0) | number: '1.2-2'}}</label>
               </div>
             </div>
           </div>
@@ -104,23 +104,27 @@
           <tfoot>
           <tr class="bg">
             <td>Cost of new plan:</td>
-            <td>${{totals['total']['costNewPlan'] | number: '1.2-2'}}</td>
+            <td>${{totals.total?.price | number: '1.2-2'}}</td>
           </tr>
           <tr class="bg">
             <td>Credit balance:</td>
             <td>${{userCreditBalance | number: '1.2-2'}}</td>
           </tr>
-          <tr class="bg">
+          <tr class="bg" *ngIf="totals.data?.credit_earn">
             <td>Credit earned :</td>
-            <td>${{totals['credit']['creditPlan'] | number: '1.2-2'}}</td>
+            <td>${{totals.data?.credit_earn | number: '1.2-2'}}</td>
           </tr>
-          <tr class="bg">
+          <tr class="bg" *ngIf="totals.data?.credit_spent">
+            <td>Credit earned :</td>
+            <td>${{totals.data?.credit_spent | number: '1.2-2'}}</td>
+          </tr>
+          <tr class="bg" *ngIf="totals.total?.discount_amount">
             <td>Discount:</td>
-            <td>${{ totals.total.discount | number: '1.2-2'}}</td>
+            <td>${{totals.total?.discount_amount | number: '1.2-2'}}</td>
           </tr>
           <tr class="grand-total">
             <td>Grand total:</td>
-            <td>${{ totals.total.grandTotal | number: '1.2-2' }}</td>
+            <td>${{totals.total?.grand_total | number: '1.2-2' }}</td>
           </tr>
           </tfoot>
         </table>
