@@ -1,8 +1,6 @@
 <div class="wrapper">
-
   <sidebar-component [accountState]="accountState$ | async"></sidebar-component>
   <header-component [accountState]="accountState$ | async"></header-component>
-
   <div class="main-container">
     <div class="container-fluid">
       <router-outlet></router-outlet>

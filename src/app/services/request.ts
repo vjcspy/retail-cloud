@@ -78,7 +78,7 @@ export class RequestService {
                  (error: any) => {
                    if (showError) {
                      if (error['status'] === 0) {
-                       this.notify.error('Internal Server Error');
+                       // this.notify.error('Internal Server Error');
                      } else {
                        if (error.status === 400 && error.hasOwnProperty('_body')) {
                          let _mess = JSON.parse(error['_body']);

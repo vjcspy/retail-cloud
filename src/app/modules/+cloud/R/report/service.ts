@@ -5,7 +5,6 @@ import * as $q from "q";
 import * as _ from "lodash";
 import * as moment from "moment";
 import {ApiManager} from "../../../../services/api-manager";
-import {FormValidationService} from "../../../share/provider/form-validation";
 import {RequestService} from "../../../../services/request";
 // import {OfflineService} from "../../../share/provider/offline";
 import {NotifyManager} from "../../../../services/notify-manager";
@@ -21,7 +20,8 @@ export class SaleReportService {
   
   protected stream               = {
     refreshSaleReport: new Subject(),
-    change_page : new Subject()
+    change_page : new Subject(),
+    over_loadding : new Subject()
   };
   
   public measure_selected = {};
@@ -30,6 +30,7 @@ export class SaleReportService {
   
   public viewState = {
     isOverLoad: true,
+    isOverLoadReport : false
   };
   
   public _sortData: string;
@@ -56,6 +57,7 @@ export class SaleReportService {
     
     this.viewState        = {
       isOverLoad: true,
+      isOverLoadReport : false
     };
     this.measure_selected = [];
     this.initDefaultValue();
@@ -217,13 +219,13 @@ export class SaleReportService {
         }
       });
     }
-    if (this.viewDataFilter['report_type'] == "order_status") {
-      _.forEach(this.viewData['items'], (itemDetail) => {
-        if (itemDetail['value'] == "magento_status") {
-          this.getMoreItemData('magento_status');
-        }
-      });
-    }
+    // if (this.viewDataFilter['report_type'] == "order_status") {
+    //   _.forEach(this.viewData['items'], (itemDetail) => {
+    //     if (itemDetail['value'] == "magento_status") {
+    //       this.getMoreItemData('magento_status');
+    //     }
+    //   });
+    // }
     
     this.viewData['symbol_currency'] = base_currency;
     
@@ -431,6 +433,7 @@ export class SaleReportService {
   private postSaleReport(report) {
     let defer = $q.defer();
     this.viewState.isOverLoad = false ;
+    this.viewState.isOverLoadReport = true ;
     // if (!this.onlineOfflineService.online) {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
@@ -446,15 +449,23 @@ export class SaleReportService {
                   this.viewDataFilter['current_dateEnd'] = data['date_ranger']['date_end'];
                 }
                 this.viewState.isOverLoad = true ;
+                this.viewState.isOverLoadReport = false ;
+                this.updateOverLoadSteam().next();
                 return defer.resolve(true);
               } else {
                 this.viewState.isOverLoad = true ;
-                this.toast.error("Some problem occur when load data sales report")
+                this.viewState.isOverLoadReport = false ;
+                this.updateOverLoadSteam().next();
+                this.toast.error("Some problem occur when load data sales report");
               }
-              this.viewState.isOverLoad = true ;
+              // this.viewState.isOverLoad = true ;
+              // this.viewState.isOverLoadReport = false ;
             },
             (e) => {
-              this.viewState.isOverLoad = true ;
+              this.toast.error("Some problem occur when load data sales report");
+              this.viewState.isOverLoad = false ;
+              this.viewState.isOverLoadReport = false ;
+              this.updateOverLoadSteam().next();
               return defer.resolve(false);
             }
           );
@@ -528,6 +539,7 @@ export class SaleReportService {
   protected postItemDetail(report) {
     let defer = $q.defer();
     this.viewState.isOverLoad = false ;
+    this.viewState.isOverLoadReport = true ;
     // if (!this.onlineOfflineService.online) {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
@@ -538,10 +550,15 @@ export class SaleReportService {
             if (_.isObject(data)) {
               this.convertDetailItemData(data['items'], data['group_data'],data['item_detail']);
               this.viewState.isOverLoad = true;
+              this.viewState.isOverLoadReport = false ;
+              this.updateOverLoadSteam().next();
               return defer.resolve(true);
             } else {
               this.viewState.isOverLoad = true;
-              this.toast.error("Some problem occur when load data sales report")
+              this.viewState.isOverLoadReport = false ;
+              this.updateOverLoadSteam().next();
+              this.toast.error("Some problem occur when load data sales report");
+              return defer.resolve(false);
             }
           });
       return defer.promise;
@@ -550,7 +567,9 @@ export class SaleReportService {
   
   convertDetailItemData(itemsData, group_data_report_type , itemDetail) {
     let itemSeach ;
+    
     if(itemDetail == "Totals"){
+      // item detail cho sale summary
       itemSeach =  this.viewData['totalInHontical'];
     }else{
       itemSeach = _.find(this.viewData['items'], (item) => {
@@ -667,6 +686,14 @@ export class SaleReportService {
     this.stream.refreshSaleReport = <any>this.stream.refreshSaleReport.share();
     }
     return this.stream.refreshSaleReport;
+  }
+  
+  updateOverLoadSteam(){
+    if (!this.stream.hasOwnProperty('over_loadding')) {
+      this.stream.over_loadding = new Subject();
+      this.stream.over_loadding = <any>this.stream.over_loadding.share();
+    }
+    return this.stream.over_loadding;
   }
 }
 

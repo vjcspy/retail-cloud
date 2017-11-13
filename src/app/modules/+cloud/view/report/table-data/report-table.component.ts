@@ -204,10 +204,11 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   protected isdisplayMoreData($item) {
+
     if (this.data_filter['report_type'] == "payment_method" && $item['value'] == "retailmultiple") {
       return false;
-    } else if (this.data_filter['report_type'] == "order_status" && $item['value'] == "magento_status") {
-      return false;
+    // } else if (this.data_filter['report_type'] == "order_status" && $item['value'] == "magento_status") {
+    //   return false;
     }else if (this.data_filter['report_type'] == "register" || this.data_filter['report_type'] == "customer"
               || this.data_filter['report_type'] == "sales_summary" || this.data_filter['report_type'] == "region"){
       return false;
@@ -237,7 +238,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   checkDisplayProductForSalesSummary() {
-    if (this.checkSummaryType() == 1 && this.data_filter['display_item_detail'] == true) {
+    if (this.checkSummaryType() == 1 && this.data_view['totalInHontical']['display_item_detail'] === true) {
       return false;
     }
     return true;

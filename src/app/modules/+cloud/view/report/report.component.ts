@@ -26,7 +26,6 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     });
   
     this._subscription['update_view']  =  this.saleReportService.updateView().subscribe(() => {
-      console.log(this.saleReportService.viewState);
       this.changeDetector.detectChanges();
     });
   }
