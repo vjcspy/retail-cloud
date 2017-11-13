@@ -212,6 +212,8 @@ export class SaleReportService {
     _.forEach(this.viewData['items'], (item)=> {
       this.calculateItemData(item);
     });
+    
+    // auto view payment_method retail detail
     if (this.viewDataFilter['report_type'] == "payment_method") {
       _.forEach(this.viewData['items'], (itemDetail)=> {
         if (itemDetail['value'] == "retailmultiple") {
@@ -219,13 +221,15 @@ export class SaleReportService {
         }
       });
     }
-    // if (this.viewDataFilter['report_type'] == "order_status") {
-    //   _.forEach(this.viewData['items'], (itemDetail) => {
-    //     if (itemDetail['value'] == "magento_status") {
-    //       this.getMoreItemData('magento_status');
-    //     }
-    //   });
-    // }
+  
+    // auto view order_status magento  detail
+    if (this.viewDataFilter['report_type'] == "order_status") {
+      _.forEach(this.viewData['items'], (itemDetail) => {
+        if (itemDetail['value'] == "magento_status") {
+          this.getMoreItemData('magento_status');
+        }
+      });
+    }
     
     this.viewData['symbol_currency'] = base_currency;
     
@@ -536,32 +540,39 @@ export class SaleReportService {
     this.postItemDetail(this.initRequestReportData(null, item_filter));
   }
   
-  protected postItemDetail(report) {
-    let defer = $q.defer();
-    this.viewState.isOverLoad = false ;
-    this.viewState.isOverLoadReport = true ;
+  private postItemDetail(report) {
+    let defer                       = $q.defer();
+    this.viewState.isOverLoad       = false;
+    this.viewState.isOverLoadReport = true;
     // if (!this.onlineOfflineService.online) {
     //   this.viewState.isOverLoad = true ;
     //   return defer.resolve(true);
     // } else {
-      let _query = this.apiUrlManager.get('salesreport',this.baseUrl);
-      this.requestService.makePost(_query, report)
-          .subscribe((data) => {
-            if (_.isObject(data)) {
-              this.convertDetailItemData(data['items'], data['group_data'],data['item_detail']);
-              this.viewState.isOverLoad = true;
-              this.viewState.isOverLoadReport = false ;
-              this.updateOverLoadSteam().next();
-              return defer.resolve(true);
-            } else {
-              this.viewState.isOverLoad = true;
-              this.viewState.isOverLoadReport = false ;
-              this.updateOverLoadSteam().next();
-              this.toast.error("Some problem occur when load data sales report");
-              return defer.resolve(false);
-            }
-          });
-      return defer.promise;
+    let _query = this.apiUrlManager.get('salesreport', this.baseUrl);
+    this.requestService.makePost(_query, report)
+        .subscribe((data) => {
+                     if (_.isObject(data)) {
+                       this.convertDetailItemData(data['items'], data['group_data'], data['item_detail']);
+                       this.viewState.isOverLoad       = true;
+                       this.viewState.isOverLoadReport = false;
+                       this.updateOverLoadSteam().next();
+                       return defer.resolve(true);
+                     } else {
+                       this.viewState.isOverLoad       = true;
+                       this.viewState.isOverLoadReport = false;
+                       this.updateOverLoadSteam().next();
+                       this.toast.error("Some problem occur when load data sales report");
+                       return defer.resolve(false);
+                     }
+                   },
+                   (e) => {
+                     this.toast.error("Some problem occur when load data sales report");
+                     this.viewState.isOverLoad       = false;
+                     this.viewState.isOverLoadReport = false;
+                     this.updateOverLoadSteam().next();
+                     return defer.resolve(false);
+                   });
+    return defer.promise;
     // }
   }
   
@@ -627,7 +638,7 @@ export class SaleReportService {
       // Object.assign()
       itemSeach['item_details'].push(report_type);
     });
-    _.forEach(this.viewData['item_details'], (item)=> {
+    _.forEach(itemSeach['item_details'], (item)=> {
       this.calculateItemData(item);
     });
       itemSeach['display_item_detail'] = true;
