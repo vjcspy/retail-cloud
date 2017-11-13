@@ -27,6 +27,7 @@ export class SaleReportService {
   public _filterData = {};
   public isSortAsc: boolean = false;
   public changeReportType: boolean = false;
+  public enableFilter: boolean = false;
   
   constructor(protected toast: NotifyManager,
               protected requestService: RequestService,

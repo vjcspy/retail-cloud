@@ -11,8 +11,6 @@ import {ReportHelper} from "../../R/report/helper";
              ],
            })
 export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
-  protected enableFilter: boolean = false;
-  
   constructor(protected saleReportService: SaleReportService) {
     super();
   }
@@ -128,7 +126,7 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
           (_.head(measures) == 'First Sale' && measures.length == 1) ||
           (_.head(measures) == 'Last Sale' && measures.length == 1)
       ){
-        this.enableFilter = false;
+        this.saleReportService.enableFilter = false;
         return true;
       }
     } else
@@ -136,8 +134,8 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   }
   
   enableFilterMeasure() {
-    this.enableFilter = !this.enableFilter;
-    return this.enableFilter;
+    this.saleReportService.enableFilter = !this.saleReportService.enableFilter;
+    return this.saleReportService.enableFilter;
   }
   
   checkDataNullForHidden() {
