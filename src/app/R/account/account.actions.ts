@@ -149,4 +149,39 @@ export class AccountActions {
     
     return action;
   }
+  
+  static SAVE_LICENSE_DATA = 'SAVE_LICENSE_DATA';
+  
+  saveLicenseData(license, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.SAVE_LICENSE_DATA, payload: {license}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_RESOLVED_URLS  =  'ACTION_RESOLVED_URLS';
+
+  resolvedUrls(urls,defaultUrl, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_RESOLVED_URLS, payload: {urls,defaultUrl}};
+
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+
+    return action;
+  }
+  
+  static ACTION_CHANGE_URL = 'ACTION_CHANGE_URL';
+  
+  changeUrl(url, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_CHANGE_URL, payload: {url}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    return action;
+  }
 }

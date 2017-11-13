@@ -21,6 +21,15 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     case AccountActions.ACTION_SAVE_ACCOUNT:
       return state.set('user', action.payload['user']);
     
+    case AccountActions.SAVE_LICENSE_DATA:
+      return state.set('license', action.payload['license']);
+  
+    case AccountActions.ACTION_RESOLVED_URLS:
+      return state.set('urls', action.payload['urls'])
+                  .set('default_url', action.payload['defaultUrl']);
+      
+    case AccountActions.ACTION_CHANGE_URL:
+      return state.set('default_url' , action.payload['default_url']);
     default:
       return state;
   }

@@ -1,10 +1,28 @@
 import {Injectable} from '@angular/core';
 import {NotifyManager} from "../../services/notify-manager";
+import {Observable, Subscription} from "rxjs";
+import * as _ from 'lodash';
+import {LicenseCollection} from "../../services/meteor-collections/licenses";
+import {ProductCollection} from "../../services/meteor-collections/products";
+import {AccountActions} from "./account.actions";
+import {AppStorage} from "../../services/storage";
+import {GeneralException} from "../../code/GeneralException";
+import {AccountState} from "./account.state";
+import {RequestService} from "../../services/request";
+import {ApiManager} from "../../services/api-manager";
 
 @Injectable()
 export class AccountService {
   
-  constructor(protected notify: NotifyManager) { }
+  protected subscriptionLicense: Subscription;
+  
+  constructor(protected storage: AppStorage,
+              protected requestService : RequestService,
+              protected apiUrlManager: ApiManager,
+              protected licenseCollection: LicenseCollection,
+              protected productCollection: ProductCollection,
+              protected notify: NotifyManager,
+              protected accountActions: AccountActions) { }
   
   register(user: any) {
     return new Promise<void>((resolve, reject) => {
@@ -45,10 +63,8 @@ export class AccountService {
   }
   
   logout() {
-    console.log('here11');
     return new Promise<void>((resolve, reject) => {
       Meteor.logout((e: Error) => {
-        console.log('here');
         if (!!e) {
           console.log(e);
           if (e['reason']) {
@@ -59,6 +75,10 @@ export class AccountService {
         resolve();
       });
     });
+  }
+  
+  removeStorage(){
+    this.storage.localClear('baseUrl');
   }
   
   requestSendForgotPassword(email: string) {
@@ -92,4 +112,45 @@ export class AccountService {
       });
     });
   }
+  
+  subscribeLicense(resubscribe: boolean = false) {
+    if (typeof this.subscriptionLicense === 'undefined' || resubscribe === true) {
+      if (this.subscriptionLicense) {
+        this.subscriptionLicense.unsubscribe();
+      }
+      
+      this.subscriptionLicense =
+        Observable.combineLatest(this.licenseCollection.getCollectionObservable(), this.productCollection.getCollectionObservable())
+                  .subscribe(([licenseCollection, productCollection]) => {
+                    const products = productCollection.collection.find({}).fetch();
+                    if (products) {
+                      const posProduct = _.find(products, p => p['code'] === 'xpos');
+                      if (posProduct) {
+                        const licenses = licenseCollection.collection.find({}).fetch();
+                        if (_.size(licenses) === 1) {
+                          // this.storage.localStorage('license', _.first(licenses));
+                
+                          const licenseHasPos = _.find(licenses[0]['has_product'], p => {
+                            return p['product_id'] === posProduct['_id'];
+                          });
+                
+                          if (licenseHasPos) {
+                            this.accountActions.saveLicenseData(licenseHasPos);
+                          } else {
+                            this.notify.error("we_can_not_find_your_license");
+                          }
+                        } else {
+                          this.notify.error("Can't get license information");
+                          throw new GeneralException("Can't find license");
+                        }
+                      }
+                    } else {
+                      return;
+                    }
+                  });
+    }
+    
+    return this.subscriptionLicense;
+  }
+
 }

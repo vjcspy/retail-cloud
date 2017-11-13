@@ -79,30 +79,28 @@
                    [animate]="true"
                    [speed]="50"
                    [acceleration]="2"
-                   [scrollDistance]="300"
-    >
+                   [scrollDistance]="300">
     </go-top-button>
     <sale-report-table [data_filter]="getDataFilter()"
                        [data_view]="getDataView()"
                        [measure]="getDataFilter()['measures']"
-                       [detail_item]="getDataView()['list_item_detail']"
                        [detail_item_value] =" getDataFilter()['item_view_detail']"
                        [base_currency_code]="saleReportService.viewData['symbol_currency']"></sale-report-table>
   </div>
 </div>
-<!--<div class="popup-overlay" style="z-index: 9999" [ngClass]="{open: !saleReportService.viewState['isOverLoad']}">-->
-  <!--<div class="sk-circle">-->
-    <!--<div class="sk-circle1 sk-child"></div>-->
-    <!--<div class="sk-circle2 sk-child"></div>-->
-    <!--<div class="sk-circle3 sk-child"></div>-->
-    <!--<div class="sk-circle4 sk-child"></div>-->
-    <!--<div class="sk-circle5 sk-child"></div>-->
-    <!--<div class="sk-circle6 sk-child"></div>-->
-    <!--<div class="sk-circle7 sk-child"></div>-->
-    <!--<div class="sk-circle8 sk-child"></div>-->
-    <!--<div class="sk-circle9 sk-child"></div>-->
-    <!--<div class="sk-circle10 sk-child"></div>-->
-    <!--<div class="sk-circle11 sk-child"></div>-->
-    <!--<div class="sk-circle12 sk-child"></div>-->
-  <!--</div>-->
-<!--</div>-->
+<div class="popup-overlay" style="z-index: 9998" [ngClass]="{open: !saleReportService.viewState['isOverLoad']}">
+  <div class="sk-circle">
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
+  </div>
+</div>

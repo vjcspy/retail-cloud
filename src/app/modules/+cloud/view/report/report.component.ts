@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
+import {AccountState} from "../../../../R/account/account.state";
 import * as _ from "lodash";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import {SaleReportService} from "../../R/report/service";
 import {ReportHelper} from "../../R/report/helper";
+import {Observable} from "rxjs/Observable";
 @Component({
              selector: 'sale-report',
              templateUrl: 'report.component.html',
@@ -11,14 +13,18 @@ import {ReportHelper} from "../../R/report/helper";
              ],
            })
 export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
-  constructor(protected saleReportService: SaleReportService) {
+  constructor(protected saleReportService: SaleReportService ,protected changeDetector: ChangeDetectorRef ) {
     super();
   }
   
   ngOnInit() {
-    this._subscription['change_base_url']  =  this.saleReportService.getSearchCustomerStream().subscribe(() => {
-      // this.saleReportService.resolveDefaultData();
-      // this.saleReportService.getSaleReport();
+    this._subscription['change_base_url']  =  this.saleReportService.getChangeBaseUrlStream().subscribe(() => {
+      this.saleReportService.resolveDefaultData();
+      this.saleReportService.getSaleReport();
+    });
+  
+    this._subscription['update_view']  =  this.saleReportService.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
     });
   }
   

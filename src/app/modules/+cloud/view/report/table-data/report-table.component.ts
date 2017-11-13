@@ -1,12 +1,14 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, ChangeDetectorRef} from '@angular/core';
 import * as _ from "lodash";
 import {SaleReportService} from "../../../R/report/service";
 import {ReportHelper} from "../../../R/report/helper";
+import {AbstractRxComponent} from "../../../../share/core/AbstractRxComponent";
 @Component({
              selector: 'sale-report-table',
              templateUrl: 'report-table.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
+             // changeDetection: ChangeDetectionStrategy.OnPush
            })
+// export class CloudSaleReportTableComponent extends AbstractRxComponent implements OnInit, OnChanges {
 export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   @Input('data_view') data_view     = [];
   @Input('data_filter') data_filter = [];
@@ -23,9 +25,19 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     additionData :[],
   };
   
-  constructor(protected saleReportService: SaleReportService) {
+  // constructor(private saleReportService: SaleReportService,protected changeDetector: ChangeDetectorRef ) {
+  constructor(private saleReportService: SaleReportService) {
+    // super();
     this.initDefaultViewData();
     this.initSelectDefault();
+  }
+  ngOnInit() {
+    // phải subscripe vào đây  hoặc changeDetection không được set onPush vì component này vẫn phải get data trực tiếp từ service .(filter)phải
+    //  viết lại
+    
+    // this._subscription['update_view']  =  this.saleReportService.updateView().subscribe(() => {
+    //   this.changeDetector.detectChanges();
+    // });
   }
   
   protected initSelectDefault() {
@@ -46,8 +58,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return this.viewData['additionData'];
   }
   
-  ngOnInit() {
-  }
+
   
   ngOnChanges() {
     if (this.saleReportService.changeReportType == true) {
@@ -193,10 +204,11 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   protected isdisplayMoreData($item) {
+
     if (this.data_filter['report_type'] == "payment_method" && $item['value'] == "retailmultiple") {
       return false;
-    } else if (this.data_filter['report_type'] == "order_status" && $item['value'] == "magento_status") {
-      return false;
+    // } else if (this.data_filter['report_type'] == "order_status" && $item['value'] == "magento_status") {
+    //   return false;
     }else if (this.data_filter['report_type'] == "register" || this.data_filter['report_type'] == "customer"
               || this.data_filter['report_type'] == "sales_summary" || this.data_filter['report_type'] == "region"){
       return false;
@@ -204,8 +216,12 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return true;
   }
   
-  protected hiddenItemDetail($item) {
-    if (this.isdisplayMoreData($item) == false && this.data_filter['display_item_detail'] == true && $item['value'] == this.detail_item_value) {
+  protected hiddenItemDetail(item) {
+    // if (this.isdisplayMoreData($item) == false && this.data_filter['display_item_detail'] == true && $item['value'] == this.detail_item_value) {
+    //   return false;
+    // }
+    // return true;
+    if (item.hasOwnProperty('display_item_detail') && item['display_item_detail'] == true) {
       return false;
     }
     return true;
@@ -214,7 +230,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   refactorAdditionData() {
     let additionalData = [];
     _.forEach(this.list_measure, (measure) => {
-      let additionalItem = _.find(this.data_view['additionalData'], (item)=>item['name'] == measure);
+      let additionalItem = _.find(this.data_view['totalInVertical'], (item)=>item['name'] == measure);
       if (additionalItem)
         additionalData.push(additionalItem);
     });
@@ -222,7 +238,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   checkDisplayProductForSalesSummary() {
-    if (this.checkSummaryType() == 1 && this.data_filter['display_item_detail'] == true) {
+    if (this.checkSummaryType() == 1 && this.data_view['totalInHontical']['display_item_detail'] === true) {
       return false;
     }
     return true;
