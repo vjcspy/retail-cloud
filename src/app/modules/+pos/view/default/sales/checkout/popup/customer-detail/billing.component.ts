@@ -66,6 +66,7 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   }
   
   save() {
+    console.log(this.checkoutPopupState.customerPopup.customer);
     if (!this.authService.userCan('change_customer_information') && this.checkoutPopupState.customerPopup.customer.getId()) {
         this.toastr.error("not_have_permission_to_change_customer_information");
     } else {
@@ -74,5 +75,12 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
                                                        this.checkoutPopupState.customerPopup.editAddress);
       }, true);
     }
+  }
+  
+  checkPermissionChangeCustomerInfo(){
+    if(this.checkoutPopupState.customerPopup.customer.hasOwnProperty('id') && !this.authService.userCan('change_customer_information')){
+    return true;
+    }
+    return false;
   }
 }
