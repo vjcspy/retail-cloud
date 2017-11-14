@@ -27,7 +27,7 @@ export class PosDefaultSalesShiftsPopupOpenComponent implements OnInit {
   
   ngOnInit() {
     if (this.shiftState.lastShift) {
-      this._data.startMoney = this.shiftState.lastShift['total_counted_amount'] - this.shiftState.lastShift['take_out_amount'];
+      this._data.startMoney = Math.round(Number(this.shiftState.lastShift['total_counted_amount'] - this.shiftState.lastShift['take_out_amount'])*100) / 100;
     }
   }
   
