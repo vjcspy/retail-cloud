@@ -17,10 +17,20 @@
                            (modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>
           </div>
         </div>
-        <div class="form-group select-card-method">
-        </div>
-        <report-time-select [model]="getDataFilter()"></report-time-select>
 
+        <div class="date-range-wrap" style="padding: 0px 12px;">
+        <report-time-select [model]="getDataFilter()"></report-time-select>
+        </div>
+
+        <div class="form-group select-card-method" *ngIf="getDataFilter()['report_type'] === 'category' || getDataFilter()['report_type'] === 'region'">
+          <div class="input-group">
+            <span style="padding: 6px 12px;font-size: 14px;font-weight: normal;line-height: 1;color: #ffffff;text-align: center;display: table-cell;border-radius: 4px;vertical-align: middle;">
+              Extra info</span>
+          <report-select [elementData]="getListReportType()"
+                         [(model)]="getDataFilter()['report_type']"
+                         (modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>
+          </div>
+        </div>
       </div>
 
 
