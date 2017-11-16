@@ -39,7 +39,7 @@
       {{date}}
     </th>
     <th class="datatable-row-aggs-label "  *ngFor="let measure of list_measure"
-        (click)="saleReportService.resolveItemDisplay(measure)">{{measure}}
+        (click)="saleReportService.resolveItemDisplay(measure,true)">{{measure}}
       <i *ngIf="checkSortAsc(measure) == 3" class="ion ion-chevron-up"></i>
       <i *ngIf="checkSortAsc(measure) == 2" class="ion ion-chevron-down"></i>
     </th>
