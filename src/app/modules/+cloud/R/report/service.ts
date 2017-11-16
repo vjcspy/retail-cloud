@@ -80,6 +80,7 @@ export class SaleReportService {
       current_dateStart: moment().subtract(3, 'week').startOf('week').format("YYYY-MM-DD 00:00:00"),
       current_dateEnd: moment().endOf('week').format("YYYY-MM-DD 23:59:59"),
       item_view_detail : null,
+      extra_info : this.getReportExtraData(),
     };
     this.viewData       = {
       list_date_filter: [],
@@ -90,13 +91,13 @@ export class SaleReportService {
       list_item_detail : []
     };
     
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
     this.measure_selected = [];
   }
   
   initSortDefaultValue(){
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
   }
   
@@ -118,6 +119,7 @@ export class SaleReportService {
       },
       'column': null,
       'filter': this.initDataFilterReport(this._filterData),
+      'extra_info' :this.getReportExtraData(),
     };
   }
   
@@ -478,6 +480,13 @@ export class SaleReportService {
     // }
   }
   
+  getReportExtraData() {
+    if (!this.viewDataFilter.hasOwnProperty('extra_info')) {
+      return this.viewDataFilter['extra_info'] = ReportHelper.getListExtraData()['data'][0]['value'];
+    }
+    return this.viewDataFilter['extra_info'];
+  }
+  
   getReportTypeData() {
     if (!this.viewDataFilter.hasOwnProperty("report_type")) {
       return this.viewDataFilter['report_type'] = ReportHelper.getListReportType()['data'][0]['value'];
@@ -651,13 +660,13 @@ export class SaleReportService {
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-      if (!isFilter) {
-        if (measureLabel != this._sortData) {
-          this.isSortAsc = true;
-        } else {
-          this.isSortAsc = !this.isSortAsc;
-        }
+    if (!isFilter) {
+      if (measureLabel == this._sortData) {
+        this.isSortAsc = !this.isSortAsc;
+      } else {
+        this.isSortAsc = true;
       }
+    }
       if(measureLabel != null){
       this._sortData = measureLabel;
       }

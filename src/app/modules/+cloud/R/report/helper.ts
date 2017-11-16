@@ -237,6 +237,19 @@ export class ReportHelper {
     };
   }
   
+  static getListExtraData(): Object {
+      let data = [
+        {id: 1, label: "Region", value: "region"},
+        {id: 2, label: "Outlet", value: "outlet"},
+      ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Sale Report",
+      value: "report_type"
+    }
+  }
+  
   static getListMeasureByReportType(report_type: string = 'sales_summary', is_default: boolean = false) {
     let listMeasure = ReportHelper.LIST_MEASURE;
   

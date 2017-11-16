@@ -36,6 +36,10 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     return ReportHelper.getListReportType();
   }
   
+  getListExtraInfo(){
+    return ReportHelper.getListExtraData();
+  }
+  
   getListMeasureByReportType(report_type){
     return ReportHelper.getListMeasureByReportType(report_type);
   }
