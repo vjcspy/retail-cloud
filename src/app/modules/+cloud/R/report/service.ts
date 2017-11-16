@@ -90,13 +90,13 @@ export class SaleReportService {
       list_item_detail : []
     };
     
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
     this.measure_selected = [];
   }
   
   initSortDefaultValue(){
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
   }
   
@@ -651,7 +651,7 @@ export class SaleReportService {
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-      if (!isFilter) {
+      if (isFilter) {
         if (measureLabel != this._sortData) {
           this.isSortAsc = true;
         } else {
