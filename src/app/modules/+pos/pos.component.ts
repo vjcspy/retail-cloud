@@ -40,7 +40,8 @@ export class PosComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
-    this.idle.setIdle(1*30);
+    let a :boolean = true;
+    this.idle.setIdle(1*60);
     // this.idle.setIdle(1*5);
     this.idle.setTimeout(2);
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
