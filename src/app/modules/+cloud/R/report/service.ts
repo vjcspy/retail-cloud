@@ -35,13 +35,12 @@ export class SaleReportService {
   
   public _sortData: string;
   public _filterData = {};
-  public isSortAsc: boolean = false;
+  public isSortAsc: boolean;
   public changeReportType: boolean = false;
   public enableFilter: boolean = false;
   
   constructor(protected toast: NotifyManager,
               protected requestService: RequestService,
-              protected onlineOfflineService:OnlineOfflineModeService,
               protected apiUrlManager: ApiManager,
               protected router: Router){
     this.resolveDefaultData();
@@ -90,13 +89,13 @@ export class SaleReportService {
       list_item_detail : []
     };
     
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
     this.measure_selected = [];
   }
   
   initSortDefaultValue(){
-    this._sortData = "NONE";
+    this._sortData = "Revenue";
     this.isSortAsc = false;
   }
   
@@ -243,7 +242,7 @@ export class SaleReportService {
     }
     this.calculateItemData(this.viewData['totalInHontical']);
     
-    this.resolveItemDisplay(this._sortData,true);
+    this.resolveItemDisplay(this._sortData);
   }
   
   protected calculateItemData(item) {
@@ -651,7 +650,7 @@ export class SaleReportService {
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-      if (!isFilter) {
+      if (isFilter) {
         if (measureLabel != this._sortData) {
           this.isSortAsc = true;
         } else {
