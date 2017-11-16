@@ -61,10 +61,12 @@ export class Braintree {
           return reject(requestPaymentMethodErr);
         }
         // Submit payload.nonce to your server
-        this.server.pay(orderType, orderId, {
-          paymentNonce: payload.nonce,
-          id: 'braintree'
-        }).then((res) => resolve(res), (err) => reject(err));
+        if (payload.nonce) {
+          this.server.pay(orderType, orderId, {
+            paymentMethodNonce: payload.nonce,
+            id: 'braintree'
+          }).then((res) => resolve(res), (err) => reject(err));
+        }
       });
     });
   }

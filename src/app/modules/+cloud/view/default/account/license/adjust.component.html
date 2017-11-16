@@ -1,16 +1,13 @@
 <div class="license-detail min-page" *ngIf="product">
-  <!-- =================================================================== -->
-  <!-- START Adjust Plan page -->
-
   <div class="white-box">
     <div class="box560">
       <div class="title-page no-line">
-        <h1>Adjust plan</h1>
+        <h1>{{product['name']}}</h1>
       </div>
       <div class="adjust-plan-content">
         <div class="adjust-top clearfix">
           <div class="pull-left">
-            <div class="lbl-title">{{product['name']}}</div>
+            <div class="lbl-title"></div>
             <div class="lbl-current" *ngIf="pricing"><span>Current Plan:</span> <strong>{{pricing['display_name']}}</strong></div>
           </div>
           <div class="pull-right">
@@ -36,8 +33,7 @@
               <label class="control-label">Select your billing cycle:</label>
               <div class="element">
                 <select class="form-control" [(ngModel)]="plan['cycle']" name="billing" (ngModelChange)="calculateTotal()">
-                  <option value="1">Monthly</option>
-                  <option value="2">Annually</option>
+                  <option *ngFor="let cycle of viewData.billingCycleSelectOptions" [value]="cycle.value">{{cycle['name']}}</option>
                 </select>
               </div>
             </div>
@@ -47,54 +43,48 @@
                 <label>${{ getMonthlyCost() | number: '1.2-2' }}</label>
               </div>
             </div>
-            <div class="form-group group-label">
-              <label class="control-label">Start with:</label>
+            <div class="form-group group-label" *ngIf="productLicense['_id']">
+              <label class="control-label">Current register :</label>
               <div class="element">
-                <label>{{currentSelectedPricing() ? currentSelectedPricing()['nouser'] : 0}} user(s)</label>
+                <label>{{productLicense['addition_entity']}} user(s)</label>
               </div>
             </div>
             <div class="form-group group-label" *ngIf="!isNotSelectTrial()">
               <label class="control-label">Free trial day:</label>
               <div class="element">
-                <label>{{currentSelectedPricing() ? currentSelectedPricing()['trialDay'] : 0}} day(s)</label>
+                <label>{{currentSelectedPricing() ? currentSelectedPricing()['trial_day'] : 0}} day(s)</label>
               </div>
             </div>
-            <div class="form-group  group-label">
+            <!--<div class="form-group  group-label">-->
+            <!--<label class="control-label">-->
+            <!--Add to your credits:-->
+            <!--<i class="ion-ios-help txtaqua"></i>-->
+            <!--</label>-->
+            <!--<div class="element">-->
+            <!--<label>${{(totals.data?.credit_earn || 0) | number: '1.2-2'}}</label>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+
+          <div class="block-item line-bottom" *ngIf="isNotSelectTrial()">
+            <div class="form-group">
+              <label class="control-label">Number of Register:</label>
+              <div class="element number-spinner">
+                <span class="num-btn ion-minus" (click)="changeAdditionEntity(-1)" [ladda]="(salesState$ | async)?.checkout.isCalculating"></span>
+                <span class="num-value">{{getAdditionEntity()}}</span>
+                <span class="num-btn ion-plus" (click)="changeAdditionEntity(+1)" [ladda]="(salesState$ | async)?.checkout.isCalculating"></span>
+              </div>
+            </div>
+            <div class="form-group group-label">
               <label class="control-label">
                 Add to your credits:
                 <i class="ion-ios-help txtaqua"></i>
               </label>
               <div class="element">
-                <label>${{(totals.data?.credit_earn || 0) | number: '1.2-2'}}</label>
+                <label>${{totals.data?.credit_earn | number: '1.2-2'}}</label>
               </div>
             </div>
           </div>
-
-          <!--<div class="block-item line-bottom" *ngIf="isNotSelectTrial()">-->
-          <!--<h3 class="title-block">Change Active Users</h3>-->
-          <!--<div class="form-group">-->
-          <!--<label class="control-label">Number of user:</label>-->
-          <!--<div class="element number-spinner">-->
-          <!--<span class="num-btn ion-minus" (click)="changeExtraUser(-1)"></span>-->
-          <!--<span class="num-value">{{getCurrentExtraUser() + plan['extraUser']}}</span>-->
-          <!--<span class="num-btn ion-plus" (click)="changeExtraUser(1)"></span>-->
-          <!--</div>-->
-          <!--<div *ngIf="plan['extraUser'] > 0">(+{{plan['extraUser']}})</div>-->
-          <!--<div *ngIf="plan['extraUser'] < 0">({{plan['extraUser']}})</div>-->
-          <!--</div>-->
-          <!--<div class="form-group group-label">-->
-          <!--<label class="control-label">-->
-          <!--Your Credit:-->
-          <!--<i class="ion-ios-help txtaqua"></i>-->
-          <!--</label>-->
-          <!--<div class="element">-->
-          <!--<label>${{totals['credit']['creditExtraUser'] | number: '1.2-2'}}</label>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="msg msg-notice">-->
-          <!--(*) Additional users are charged monthly-->
-          <!--</div>-->
-          <!--</div>-->
         </form>
 
         <h3 class="title-summary">Summary</h3>
@@ -148,8 +138,8 @@
         <div class="modal-header">
           <div class="adjust-top">
             <div class="lbl-title">ConnectPOS Web Based</div>
-            <div class="lbl-current">
-              <span>Current Plan:</span> <strong>Standard</strong>
+            <div class="lbl-current" *ngIf="!!productLicense['_id']">
+              <span>Current Plan:</span> <strong>{{productPricing['display_name']}}</strong>
             </div>
             <button type="button" class="close ion-arrow-shrink" data-dismiss="modal"></button>
           </div>
@@ -160,7 +150,7 @@
               <div class="planbox">
                 <h3 class="title">
                   Standard
-                  <i class="current"></i>
+                  <i class="current" *ngIf="!!productPricing && productPricing['code'] === 'cpos_standard'"></i>
                 </h3>
                 <div class="price-wrap">
                   <span class="currency">$19</span>
@@ -182,7 +172,7 @@
               <div class="planbox">
                 <h3 class="title">
                   Premium
-                  <i class="icon"></i>
+                  <i class="current" *ngIf="!!productPricing && productPricing['code'] === 'cpos_premium'"></i>
                 </h3>
                 <div class="price-wrap">
                   <span class="currency">$39</span>
@@ -204,7 +194,7 @@
               <div class="planbox">
                 <h3 class="title">
                   Life-time
-                  <i class="icon"></i>
+                  <i class="current" *ngIf="!!productPricing && productPricing['code'] === 'lifetime'"></i>
                 </h3>
                 <div class="price-wrap">
                   <span class="currency">$699</span>

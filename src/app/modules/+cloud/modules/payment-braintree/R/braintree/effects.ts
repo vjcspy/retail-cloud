@@ -6,6 +6,7 @@ import {Action, Store} from "@ngrx/store";
 import {BraintreeService} from "./service";
 import {SalesState} from "../../../../R/sales/state";
 import {CheckoutActions} from "../../../../R/sales/checkout/actions";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Injectable()
 export class BraintreeEffects {
@@ -14,6 +15,7 @@ export class BraintreeEffects {
               protected store$: Store<any>,
               protected checkoutActions: CheckoutActions,
               protected braintreeActions: BraintreeActions,
+              protected notify: NotifyManager,
               protected braintreeService: BraintreeService) { }
   
   @Effect() createDropin = this.actions$
@@ -35,6 +37,11 @@ export class BraintreeEffects {
                                          return Observable.fromPromise(this.braintreeService
                                                                            .getBraintree()
                                                                            .requestPaymentMethod(salesState.checkout.orderType, salesState.checkout.orderId))
-                                                          .map(() => this.checkoutActions.paySuccess(false));
+                                                          .map(() => this.checkoutActions.paySuccess(false))
+                                                          .catch((e) => {
+                                                            const reason = e && e['reason'] ? e['reason'] : e['error'];
+                                                            this.notify.error(reason);
+                                                            return Observable.of(this.checkoutActions.payFail(reason, e, false));
+                                                          });
                                        });
 }

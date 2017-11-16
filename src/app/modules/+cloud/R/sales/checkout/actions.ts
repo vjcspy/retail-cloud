@@ -111,5 +111,17 @@ export class CheckoutActions {
     return action;
   }
   
+  static ACTION_PAY_FAIL = 'ACTION_PAY_FAIL';
+  
+  payFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_PAY_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   constructor(protected store$: Store<any>) { }
 }

@@ -12,6 +12,7 @@ import {UserCreditCollection} from "../../../../../../services/meteor-collection
 import {Store} from "@ngrx/store";
 import {SalesState} from "../../../../R/sales/state";
 import {CheckoutActions} from "../../../../R/sales/checkout/actions";
+import {PricingService} from "../../../../R/pricing/service";
 
 @Component({
              // moduleId: module.id,
@@ -22,7 +23,7 @@ import {CheckoutActions} from "../../../../R/sales/checkout/actions";
 
 export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public plan           = {
-    extraUser: 0,
+    addition_entity: 1,
     cycle: 2
   };
   public productLicense = {};
@@ -45,6 +46,10 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
     }
   };
   
+  viewData = {
+    billingCycleSelectOptions: []
+  };
+  
   public salesState$: Observable<SalesState>;
   
   constructor(protected licenseCollection: LicenseCollection,
@@ -54,6 +59,7 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
               protected route: ActivatedRoute,
               protected changeDetectorRef: ChangeDetectorRef,
               protected store$: Store<any>,
+              protected pricingService: PricingService,
               protected checkoutActions: CheckoutActions) {
     super();
     this.salesState$ = this.store$.select('sales');
@@ -67,12 +73,15 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
         this.productCollection.getCollectionObservable(),
         this.pricingCollection.getCollectionObservable(),
         this.userCreditCollection.getCollectionObservable(),
-      ).subscribe((z: any) => {
+        Observable.fromPromise(this.pricingService.getBillingCylceSelectOptions())
+      ).debounceTime(1000).subscribe((z: any) => {
         const params: Params                                        = z[0];
         const licenseCollection: MongoObservable.Collection<any>    = z[1];
         const productCollection: MongoObservable.Collection<any>    = z[2];
         const pricingCollection: MongoObservable.Collection<any>    = z[3];
         const userCreditCollection: MongoObservable.Collection<any> = z[4];
+        
+        this.viewData.billingCycleSelectOptions = z[5];
         
         const productId = params['productId'];
         const license   = licenseCollection.collection.findOne();
@@ -162,19 +171,19 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
     return !!pricing && pricing['type'] !== 'trial';
   }
   
-  getCurrentExtraUser() {
-    if (this.productLicense) {
-      return this.productLicense['numOfExtraUser'] || 0;
-    } else {
-      return 0;
+  getAdditionEntity() {
+    if (_.isNaN(this.plan['addition_entity']) || this.plan.addition_entity < 1) {
+      this.plan['addition_entity'] = 1;
     }
+    
+    return this.plan.addition_entity;
   }
   
-  changeExtraUser(value: number) {
-    this.plan['extraUser'] += value;
+  changeAdditionEntity(value: number) {
+    this.plan['addition_entity'] += value;
     
-    if (_.isNaN(this.plan['extraUser']) || this.plan['extraUser'] < 0) {
-      this.plan['extraUser'] = 0;
+    if (_.isNaN(this.plan['addition_entity']) || this.plan.addition_entity < 1) {
+      this.plan['addition_entity'] = 1;
     }
     
     this.calculateTotal();

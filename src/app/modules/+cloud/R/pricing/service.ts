@@ -16,4 +16,12 @@ export class PricingService {
                       });
     });
   }
+  
+  getBillingCylceSelectOptions() {
+    return new Promise(((resolve, reject) => {
+      MeteorObservable.call('data-provider.billing_cycle_select_options')
+                      .subscribe((data) => resolve(data),
+                                 (err) => reject(err));
+    }));
+  }
 }
