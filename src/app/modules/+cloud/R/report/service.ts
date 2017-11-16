@@ -429,8 +429,8 @@ export class SaleReportService {
       this.initDefaultValueFilter();
     let data = this.initRequestReportData();
     this.postSaleReport(data);
-    // if (!resetFilet)
-    //   this.enableFilter = false;
+    if (!resetFilet)
+      this.enableFilter = false;
     if (changeReportType == true)
       this.changeReportType = true;
   }
@@ -485,7 +485,7 @@ export class SaleReportService {
     return this.viewDataFilter['report_type'];
   }
   
-  getMeasureSelectedColumn(fource:boolean = false) {
+  getMeasureSelectedColumn(fource: boolean = false) {
     if (!this.viewDataFilter.hasOwnProperty('measures') || fource) {
       let report_type = this.viewDataFilter['report_type'];
       this.viewDataFilter['measures'] = [];
