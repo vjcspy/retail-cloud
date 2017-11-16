@@ -11,6 +11,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AccountState} from "../../R/account/account.state";
 import * as _ from 'lodash';
+import {NotifyManager} from "../../services/notify-manager";
 
 @Component({
              selector: 'sign-in',
@@ -23,14 +24,23 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   public password;
   public baseUrls = ["tlspos.ispx.smartosc.com","mage2ee.local","mage2.local"]
   public baseUrl;
+  public isAutoLogout :boolean;
   
   accountState$: Observable<AccountState>;
   
-  constructor(protected accountActions: AccountActions, protected routerActions: RouterActions, protected store$: Store<any>) {
+  constructor(protected accountActions: AccountActions, protected routerActions: RouterActions, protected store$: Store<any>,   private notify: NotifyManager) {
     this.accountState$ = this.store$.select('account');
+    this.isAutoLogout = false;
   }
   
   ngOnInit() {
+    this.accountState$.subscribe(data => {
+      if (data.isAutoLogin === true) {
+          this.email = data.user.username;
+          this.baseUrl = data.user.baseUrl;
+          this.isAutoLogout = true;
+      }
+    });
     this.initPageJs();
   }
   
@@ -109,4 +119,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
   
+  changeAccount(): void {
+    location.reload(true);
+  }
 }

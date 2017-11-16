@@ -89,4 +89,16 @@ export class AccountActions {
     return action;
   }
   
+  static AUTO_LOGOUT = 'AUTO_LOGOUT';
+  
+  autoLogout(dispatch: boolean = true): Action {
+    const action = {type: AccountActions.AUTO_LOGOUT, payload: {}};
+  
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
 }

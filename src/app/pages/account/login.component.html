@@ -15,7 +15,7 @@
               <label for="baseUrl">{{'Website' | translate}}</label>
               </div>
               <div class="col-xs-8">
-              <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
+              <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)" [disabled]="isAutoLogout">
                 <option *ngFor="let item of baseUrls" [value]="item" [selected]="baseUrl == item">{{item}}</option>
               </select>
               </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
               <div class="col-xs-12">
                 <input type="text" inputSelectText id="login-username" name="login-username" [(ngModel)]="email"
-                       placeholder="Username"/>
+                       placeholder="Username" [disabled]="isAutoLogout"/>
               </div>
             </div>
           </li>
@@ -39,8 +39,8 @@
           <li class="button-group col-xs-12">
             <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isLogging">{{'Login' | translate}}</button>
           </li>
-          <li class="btn-links col-xs-12">
-            <!--<a (click)="router.navigate(['/signup'])" class="click">{{'Register' | translate}}</a>-->
+          <li class="btn-links col-xs-12" *ngIf="isAutoLogout" >
+            <a (click)="changeAccount()" class="click">{{'Change account' | translate}}</a>
             <!--<span class="sep">|</span>-->
             <!--<a (click)="router.navigate(['reset_password'])" class="click">{{'Forgot password?' | translate}}</a>-->
           </li>

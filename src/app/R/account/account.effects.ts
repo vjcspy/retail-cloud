@@ -41,7 +41,13 @@ export class AccountEffects {
                                                   this.routerActions.go(redirect);
                                                 }
                                               }
-                                              return this.accountActions.loginSuccess(user, false);
+                                              let accountUser = {
+                                                'id': user['_id'],
+                                                'username': user['username'],
+                                                'emails': user['email'],
+                                                'baseUrl': z[0].payload['baseUrl']
+                                              }
+                                              return this.accountActions.loginSuccess(accountUser, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                          });
@@ -65,4 +71,10 @@ export class AccountEffects {
                                 return this.rootActions.nothing("Go login page", false);
                               });
   
+  @Effect() autoLogout = this.actions$.ofType(AccountActions.AUTO_LOGOUT)
+                             .map(() => {
+                               this.appStorage.localClear();
+                               this.routerActions.go('/account/login');
+                               return this.rootActions.nothing("Go login page", false);
+                             })
 }

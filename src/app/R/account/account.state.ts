@@ -6,12 +6,14 @@ export interface AccountState {
     id: string;
     username: string;
     emails: List<any>;
+    baseUrl : string;
   },
   license: {
     licenseHasPos: any;
   };
   isLogging: boolean;
   redirect: string;
+  isAutoLogin : boolean;
 }
 
 export interface AccountStateRecord extends TypedRecord<any>, AccountState {}
@@ -21,12 +23,14 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
     user: {
       id: null,
       username: null,
-      emails: List.of()
+      emails: List.of(),
+      baseUrl : null
     },
     license: {
       licenseHasPos: null,
     },
     isLogging: false,
-    redirect: 'pos/default/sales/checkout'
+    redirect: 'pos/default/sales/checkout',
+    isAutoLogin : false
   }
 );
