@@ -13,7 +13,8 @@ import {Observable} from "rxjs/Observable";
              ],
            })
 export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
-  constructor(protected saleReportService: SaleReportService ,protected changeDetector: ChangeDetectorRef ) {
+  constructor(protected saleReportService: SaleReportService ,protected changeDetector: ChangeDetectorRef ,
+              protected reportHelper: ReportHelper) {
     super();
   }
   
@@ -41,7 +42,7 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   }
   
   getListMeasureByReportType(report_type){
-    return ReportHelper.getListMeasureByReportType(report_type);
+    return this.reportHelper.getListMeasureByReportType(report_type);
   }
   
   getDataFilter() {
