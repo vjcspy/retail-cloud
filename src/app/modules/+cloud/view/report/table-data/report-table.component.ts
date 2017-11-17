@@ -78,7 +78,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   
   protected checkShowAdditionPopup(addition) {
     let lastRow = _.last(this.viewData['additionData']);
-    if ((this.data_filter['report_type'] == 'customer' || this.data_filter['report_type'] == 'product') && addition == lastRow['value'])
+    if ((this.data_filter['report_type'] == 'customer' || this.data_filter['report_type'] == 'product' || this.data_filter['report_type'] == 'reference_number') && addition == lastRow['value'])
       return false;
     else return true;
   }
@@ -107,6 +107,11 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
         {id: 2, label: "Email", value: "customer_email"},
         {id: 3, label: "Customer Group", value: "customer_group_code"},
         {id: 4, label: "Phone", value: "customer_telephone"},
+      ];
+    } if (report_type == 'reference_number'){
+      list_additional_data = [
+        {id: 1, label: "Name", value: "name"},
+        {id: 2, label: "Outlet", value: "outlet"},
       ];
     } else {
       list_additional_data = [
@@ -163,6 +168,12 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
         sku: false,
         product_type: false,
         manufacturer: false,
+      };
+      Object.assign(this._additionData, additionData);
+    }
+    if (report_type == 'reference_number'){
+      let additionData = {
+        outlet: false,
       };
       Object.assign(this._additionData, additionData);
     }
