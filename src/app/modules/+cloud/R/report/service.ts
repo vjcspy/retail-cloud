@@ -42,6 +42,7 @@ export class SaleReportService {
   constructor(protected toast: NotifyManager,
               protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
+              protected reportHelper: ReportHelper,
               protected router: Router){
     this.resolveDefaultData();
   }
@@ -176,7 +177,7 @@ export class SaleReportService {
           } else {
             report_type[item['dateRanger']] = parseFloat(model['revenue']);
           }
-          _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
+          _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
             if (this.checkCalculateMeasureData(measure['label'])) {
               if (measure['label'] == "First Sale") {
                 if (model[measure['value']]) {
@@ -246,7 +247,7 @@ export class SaleReportService {
   }
   
   protected calculateItemData(item) {
-    _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
+    _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
       item[measure['label']] = this.convertItemData(item, measure['label']);
     });
   }
@@ -296,7 +297,7 @@ export class SaleReportService {
   getTotalInHonticalByMeasure() {
     this.viewData['totalInHontical']['name'] = "Totals";
     let totalInHontical                      = [];
-    _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
+    _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
       _.forEach(this.viewData['items'], (items) => {
         if (this.checkCalculateMeasureData(measure['label'])) {
           if (measure['label'] == "First Sale" ) {
@@ -325,7 +326,7 @@ export class SaleReportService {
   }
   
   getTotalInVertical(itemsData) {
-    _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (additionalData)=> {
+    _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (additionalData)=> {
       let additionalItem     = [];
       additionalItem['name'] = additionalData['label'];
       _.forEach(itemsData, (item) => {
@@ -488,7 +489,7 @@ export class SaleReportService {
     if (!this.viewDataFilter.hasOwnProperty('measures') || fource) {
       let report_type = this.viewDataFilter['report_type'];
       this.viewDataFilter['measures'] = [];
-      _.forEach(ReportHelper.getListMeasureByReportType(report_type, true)['data'], (measure)=> {
+      _.forEach(this.reportHelper.getListMeasureByReportType(report_type, true)['data'], (measure)=> {
         this.viewDataFilter['measures'].push(measure['label']);
       });
     }
@@ -507,7 +508,7 @@ export class SaleReportService {
   
   protected initDataFilterReport(dataFilter) {
     let report_type = this.viewDataFilter['report_type'];
-    let measure     = ReportHelper.getListMeasureByReportType(report_type)['data'];
+    let measure     = this.reportHelper.getListMeasureByReportType(report_type)['data'];
     let filterData  = [];
     _.forEach(dataFilter, function (value, key) {
       if (typeof value != 'undefined' && key == 'name') {
@@ -612,7 +613,7 @@ export class SaleReportService {
           } else {
             report_type[ReportHelper.convertDate(item['data'], compare_value)] = parseFloat(model['revenue']);
           }
-          _.forEach(ReportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
+          _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
             if (this.checkCalculateMeasureData(measure['label'])) {
               if (measure['label'] == "First Sale") {
                 if (!report_type.hasOwnProperty(measure['label']) || model[measure['value']] < report_type[measure['label']]) {
