@@ -157,6 +157,10 @@ export class SaleReportService {
         report_type['customer_group_code'] = report_type_data['value']['customer_group_code'];
         report_type['total_shipping_amount']  = report_type_data['value']['total_shipping_amount'];
       }
+  
+      if (this.viewDataFilter['report_type'] == 'reference_number') {
+        report_type['outlet']      = report_type_data['value']['outlet'];
+      }
       
       if (this.viewDataFilter['report_type'] == 'register' || this.viewDataFilter['report_type'] == 'sales_summary') {
         report_type['total_shipping_amount']  = report_type_data['total_shipping_amount'];

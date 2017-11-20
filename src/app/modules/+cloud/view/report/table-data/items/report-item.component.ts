@@ -21,8 +21,7 @@ export class CloudSaleReportItemComponent {
   @Input('is_item_has_detail_data') canViewDetail: boolean;
   @Input('detail_item_value') detail_item_value: boolean;
   
-  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {
-  }
+  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {}
   
   getFullnameUserReport(userId) {
     //     let userReport     = _.find(this.route.snapshot.data['users'], (row) => row['_id'] == userId);
@@ -43,17 +42,6 @@ export class CloudSaleReportItemComponent {
   }
   
   protected selectMoreInfo(is_total: boolean = false) {
-    // if (this.data_filter['report_type'] == "payment_method" && this.item.hasOwnProperty('value') && this.item['value'] == "retailmultiple") {
-    // if (this.service.viewData['list_item_detail'].length == 0 || this.item['value'] != this.detail_item_value ) {
-    //     if(is_total){
-    //       // for sales summary
-    //         this.service.getMoreItemData('Totals');
-    //     }else{
-    //     this.service.getMoreItemData(this.item['value']);
-    //     }
-    // } else {
-    //     this.service.viewDataFilter['display_item_detail'] = !this.service.viewDataFilter['display_item_detail'];
-    // }
     if (this.item.hasOwnProperty('item_details') && this.item['item_details'].length != 0 ) {
       this.item['display_item_detail'] = !this.item['display_item_detail'];
       this.service.resolveItemDisplay();
@@ -79,7 +67,7 @@ export class CloudSaleReportItemComponent {
   }
   
   customizeChevron() {
-    if (this.service.viewDataFilter['display_item_detail'] && this.item['display_item_detaiil'] == true) {
+    if (this.service.viewDataFilter['display_item_detail'] || this.item['display_item_detail'] == true) {
       return false;
     }
     return true;
@@ -89,6 +77,13 @@ export class CloudSaleReportItemComponent {
     let report_type = this.service.viewDataFilter['report_type'];
     let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
     return reportColumn['label'];
+  }
+  
+  getLabelForAdditionalData(additionalData) {
+    let list_additional_data = [];
+    let report_type = this.data_filter['report_type'];
+    let additionalColumn = _.find(ReportHelper.getAdditionalData(report_type)['data'], (row) => row['value'] == additionalData);
+    return additionalColumn['label'];
   }
   
   checkIsNumberDecimals(value){

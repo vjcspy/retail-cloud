@@ -295,6 +295,42 @@ export class ReportHelper {
     };
   }
   
+  static getAdditionalData(report_type: string = 'product') {
+    let list_additional_data = [];
+    switch (report_type) {
+      case 'product':
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+          {id: 2, label: "SKU", value: "sku"},
+          {id: 3, label: "Product Type", value: "product_type"},
+          {id: 4, label: "Manufacturer", value: "manufacturer"},
+        ];
+        break;
+      case 'customer':
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+          {id: 2, label: "Email", value: "customer_email"},
+          {id: 3, label: "Customer Group", value: "customer_group_code"},
+          {id: 4, label: "Telephone", value: "customer_telephone"},
+        ];
+        break;
+      case 'reference_number':
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+          {id: 2, label: "Outlet", value: "outlet"},
+        ];
+        break;
+      default:
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+        ];
+        break;
+    }
+    return {
+      data: list_additional_data,
+    }
+  }
+  
   static getListDayOfWeek(): Object {
     return {
       data: [
