@@ -6,8 +6,8 @@ export class TyroPayment {
   protected config = {
     apiKey: 'provide by tyro',
     posProductInfo: {
-      posProductVendor: "SMART OSC",
-      posProductName: "X-Retail",
+      posProductVendor: "SMART-OSC",
+      posProductName: "ConnectPOS",
       posProductVersion: "1.0.0"
     }
   };

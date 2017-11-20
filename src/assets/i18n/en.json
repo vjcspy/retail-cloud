@@ -398,7 +398,7 @@
     "Offline" : "Switched to Offline mode",
     "Online" : "Switched to Online mode",
     "please_open_shift" : "Please open a shift before adding a product to cart.",
-    "can't_add_more_3rd_payment" : "Cannot select more than one 3rd payment method as same time.",
+    "can't_add_more_3rd_payment" : "Cannot select more than one 3rd party payment method at the same time.",
     "check_discount_whole_order" : "Discount amount is invalid. Please try again!",
     "no_item_in_cart" : "Cannot apply discount or coupon code to empty cart",
 

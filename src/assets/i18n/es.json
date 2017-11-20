@@ -522,7 +522,7 @@
   "Offline" : "Cambió al modo sin conexión",
   "Online" : "Cambió al modo Conectado",
   "please_open_shift" : "Por favor, abra el movimiento",
-  "can't_add_more_3rd_payment" : "Cannot select more than one 3rd payment method as same time.",
+  "can't_add_more_3rd_payment" : "Cannot select more than one 3rd party payment method at the same time.",
   "check_discount_whole_order" : "La cantidad de descuento no es válida. ¡Por favor, inténtelo de nuevo!",
   "no_item_in_cart" : "No se puede aplicar el código de descuento o de cupón al carro vacío",
 
