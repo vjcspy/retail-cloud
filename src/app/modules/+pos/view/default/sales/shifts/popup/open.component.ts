@@ -5,6 +5,7 @@ import {FormValidationService} from "../../../../../../share/provider/form-valid
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {ShiftDetailActions} from "../../../../R/sales/shifts/detail/detail.actions";
 import {ShiftState} from "../../../../R/sales/shifts/shift.state";
+import {NumberHelper} from "../../../../../services/helper/number-helper";
 
 @Component({
              // moduleId: module.id,
@@ -27,7 +28,7 @@ export class PosDefaultSalesShiftsPopupOpenComponent implements OnInit {
   
   ngOnInit() {
     if (this.shiftState.lastShift) {
-      this._data.startMoney = this.shiftState.lastShift['total_counted_amount'] - this.shiftState.lastShift['take_out_amount'];
+      this._data.startMoney = NumberHelper.round(this.shiftState.lastShift['total_counted_amount'] - this.shiftState.lastShift['take_out_amount'],2);
     }
   }
   
