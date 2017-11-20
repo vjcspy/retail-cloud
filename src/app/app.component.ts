@@ -11,6 +11,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponent";
 import {RetailTranslate} from "./modules/share/provider/retail-translate";
 import {AuthenticateService} from "./services/authenticate";
+import {NotifyManager} from "./services/notify-manager";
 
 /**
  * App Component
@@ -38,13 +39,28 @@ import {AuthenticateService} from "./services/authenticate";
 export class AppComponent extends AbstractSubscriptionComponent {
   constructor(private toastr: ToastsManager,
               vcr: ViewContainerRef,
+              protected notify: NotifyManager,
               protected translate: TranslateService,
               private retailTranslate: RetailTranslate,
               private authenticate: AuthenticateService) {
     super();
     this.resolveLanguage();
     this.toastr.setRootViewContainerRef(vcr);
-    this.authenticate.subscribeAccountChange();
+    this.loginMeteor();
+  }
+  
+  protected loginMeteor():void{
+    if(!Meteor.loggingIn()){
+      new Promise((resolve, reject) => {
+        Meteor.loginWithPassword('thanhnt', '123thanh', (e: Error) => {
+          if (e && e['reason']) {
+            this.notify.error(e['reason'], e['error']);
+            return reject(e);
+          }
+          resolve();
+        });
+      });
+    }
   }
   
   protected resolveLanguage() {

@@ -2,10 +2,14 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 import {List} from "immutable";
 
 export interface AccountState {
-  user: any;
+  user: {
+    id: string;
+    username: string;
+    emails: List<any>;
+    baseUrl : string;
+    role : string;
+  },
   license :any;
-  urls: List<any>;
-  default_url :any;
   isProcessing: boolean;
   redirect: string;
 }
@@ -14,11 +18,15 @@ export interface AccountStateRecord extends TypedRecord<any>, AccountState {}
 
 export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRecord>(
   {
-    user: null,
+    user: {
+      id: null,
+      username: null,
+      emails: List.of(),
+      baseUrl : null,
+      role : null
+    },
     license :null,
-    urls: List.of(),
-    default_url :null,
     isProcessing: false,
-    redirect: 'cloud/default'
+    redirect: 'cloud/default/sale-report'
   }
 );

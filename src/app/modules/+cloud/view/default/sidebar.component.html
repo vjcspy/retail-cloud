@@ -12,13 +12,15 @@
     </div>
     <div class="sidebar-content">
       <ul class="nav-main list-unstyled">
-        <li *ngIf="authenticate.isUser(accountState.user)">
+        <!--<li *ngIf="authenticate.isUser(accountState.user)">-->
+        <li>
           <a class="nav-submenu" data-toggle="nav-submenu">
             <i class="ion-social-buffer"></i>
             <span class="sidebar-mini-hide" routerLink="/cloud/general" routerLinkActive="active">General</span>
           </a>
         </li>
-        <li *ngIf="authenticate.isUser(accountState.user)">
+        <!--<li *ngIf="authenticate.isUser(accountState.user)">-->
+        <li>
           <a class="nav-submenu" data-toggle="nav-submenu">
             <i class="ion-pie-graph"></i>
             <span class="sidebar-mini-hide" routerLink="/cloud/dashboard" routerLinkActive="active">Dashboard</span>

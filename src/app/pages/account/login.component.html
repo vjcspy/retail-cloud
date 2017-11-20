@@ -10,6 +10,25 @@
         <ul class="fr-control">
           <li>
             <div class="form-group">
+              <div class="col-xs-3">
+                <label for="baseUrl">{{'Website' | translate}}</label>
+              </div>
+              <div class="col-xs-8">
+                <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)">
+                  <option *ngFor="let item of baseUrls" [value]="item" [selected]="baseUrl == item">{{item}}</option>
+                </select>
+              </div>
+            </div>
+            <!--<div class="form-group">-->
+              <!--<div class="col-xs-12">-->
+                <!--<input type="text" inputSelectText id="login-username" name="login-username" [(ngModel)]="email"-->
+                       <!--placeholder="Username" [disabled]="isAutoLogout"/>-->
+              <!--</div>-->
+            <!--</div>-->
+          </li>
+
+          <li>
+            <div class="form-group">
               <div class="col-xs-12">
                 <input type="text" inputSelectText id="login-username" name="login-username" [(ngModel)]="email"
                        placeholder="Username"/>
@@ -27,16 +46,16 @@
           <li class="button-group col-xs-12">
             <button type="submit" (click)="login()" [ladda]="(accountState$ |async)?.isProcessing">Login</button>
           </li>
-          <li class="btn-links col-xs-12">
-            <a (click)="routerActions.go('account/register')" class="click">Register</a>
-            <span class="sep">|</span>
-            <a (click)="routerActions.go('account/reset')" class="click">Forgot password?</a>
-          </li>
+          <!--<li class="btn-links col-xs-12">-->
+            <!--<a (click)="routerActions.go('account/register')" class="click">Register</a>-->
+            <!--<span class="sep">|</span>-->
+            <!--<a (click)="routerActions.go('account/reset')" class="click">Forgot password?</a>-->
+          <!--</li>-->
         </ul>
       </form>
 
 
     </div>
-    <a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>Contact Us</a>
+    <!--<a href="#" class="click contact-btn"><i class="fa fa-envelope-o"></i>Contact Us</a>-->
   </div>
 </div>

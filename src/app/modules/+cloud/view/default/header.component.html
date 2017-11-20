@@ -9,22 +9,17 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-
-        <!--<div class="form-group" *ngIf="hasWebsite()">-->
-          <!--<label for="baseUrl">{{'Website' | translate}}</label>-->
-          <!--<select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)" >-->
-            <!--<option value="null">{{'Please select website'| translate}}</option>-->
-            <!--<option *ngFor="let item of accountState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>-->
-          <!--</select>-->
-        <!--</div>-->
-
       <ul class="nav navbar-nav">
         <li>
-          <label for="baseUrl">{{'Please select website' | translate}}</label>
-          <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)"
-                  [(disabled)]="salesReportService.viewState['isOverLoadReport']">
-          <option *ngFor="let item of accountState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>
-          </select>
+          <a href="http://sales.connectpos.com" title="connectpos">
+            <i class="ion-ios-monitor-outline"></i>Connectpos
+          </a>
+        </li>
+        <!--<li *ngIf="data.isUser">-->
+        <li>
+          <a routerLink="/cloud/general/sales-report" title="c-report">
+            <i class="ion-ios-paper-outline"></i>C-report
+          </a>
         </li>
       </ul>
       <div class="nav navbar-nav navbar-right">
@@ -32,7 +27,7 @@
           <div class="img"><img src="assets/img/default-avatar.png" alt="Avatar"></div>
           <div class="personal-info">
             <span class="name">{{accountState.user['username']}}</span>
-            <span class="role">({{accountState.user['roles']['cloud_group']}})</span>
+            <span class="role">({{accountState.user['role']}})</span>
           </div>
           <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing">
             Logout

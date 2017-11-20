@@ -11,6 +11,7 @@ import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {AccountState} from "../../R/account/account.state";
 import {AuthenticateService} from "../../services/authenticate";
+import * as _ from 'lodash';
 
 @Component({
              selector: 'sign-in',
@@ -21,6 +22,8 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
+  public baseUrls = ["magento2demo2.connectpos.com","tlspos.ispx.smartosc.com","mage2ee.local"];
+  public baseUrl;
   
   accountState$: Observable<AccountState>;
   
@@ -32,16 +35,20 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngOnInit() {
-    if (this.authService.user) {
-      this.routerActions.go('');
-    } else {
-      this.initPageJs();
-    }
+    this.initPageJs();
+    // if (this.authService.user) {
+    //   this.routerActions.go('');
+    // } else {
+    //   this.initPageJs();
+    // }
   }
   
   ngAfterViewInit(): void {
-    if (!this.email || this.email === 'cashiertest') {
-      this.email    = 'cashiertest';
+    if(!this.baseUrl){
+      this.baseUrl = this.baseUrls[0];
+    }
+    if (!this.email || this.email === 'admin') {
+      this.email    = 'admin';
       this.password = 'admin123';
     }
   }
@@ -68,21 +75,21 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                              rules: {
                                                'login-username': {
                                                  required: true,
-                                                 minlength: 6
+                                                 // minlength: 6
                                                },
                                                'login-password': {
                                                  required: true,
-                                                 minlength: 8
+                                                 // minlength: 8
                                                }
                                              },
                                              messages: {
                                                'login-username': {
                                                  required: 'Please enter a username',
-                                                 minlength: 'Your username must consist of at least 6 characters'
+                                                 // minlength: 'Your username must consist of at least 6 characters'
                                                },
                                                'login-password': {
                                                  required: 'Please provide a password',
-                                                 minlength: 'Your password must be at least 8 characters long'
+                                                 // minlength: 'Your password must be at least 8 characters long'
                                                }
                                              }
                                            });
@@ -92,10 +99,23 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   login() {
     if (this.jForm.valid()) {
       this.accountActions.login({
-                                  username: this.email,
-                                  password: this.password
-                                });
+                                  username: window.btoa(this.email),
+                                  password: window.btoa(this.password)
+                                }, this.baseUrl);
     }
+  }
+  
+  selectWebsite($event) {
+    if (_.isString($event) && $event !== 'null' && this.baseUrl !== $event) {
+      this.baseUrl = $event;
+    }
+    // else {
+    //   this.notify.error("sorry_we_can_not_select_base_url");
+    // }
+  }
+  
+  changeAccount(): void {
+    location.reload(true);
   }
   
   ngOnDestroy(): void {

@@ -16,6 +16,5 @@ export class CloudComponent extends AbstractSubscriptionComponent implements OnI
   }
   
   ngOnInit() {
-    this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
   }
 }

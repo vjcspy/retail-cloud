@@ -27,45 +27,42 @@ export class AccountEffects {
                         .ofType(AccountActions.ACTION_LOGIN)
                         .withLatestFrom(this.store$.select('account'))
                         .switchMap((z) => {
-                          return Observable.fromPromise(this.accountService.login(z[0].payload['user']))
-                                           .map(() => {
-                                             return this.accountActions.loginSuccess(false);
+                          return this.accountService.signIn(z[0].payload['user'], z[0].payload['baseUrl'])
+                                           .map((data) => {
+                                             const user = data;
+                                             this.accountService.saveUserToStorage(user);
+                                             this.accountService.saveBaseUrlToStorage(z[0].payload['baseUrl']);
+                                             this.accountService.saveLicenseToStorage();
+                                             const redirect = (z[1] as AccountState).redirect;
+                                             if (_.isString(redirect)) {
+                                               if (redirect.indexOf("http") > -1) {
+                                                 window.location.replace(redirect);
+                                               } else {
+                                                 this.routerActions.go(redirect);
+                                               }
+                                             }
+                                             let accountUser = {
+                                               'id': user['_id'],
+                                               'username': user['username'],
+                                               'emails': user['email'],
+                                               'baseUrl': z[0].payload['baseUrl'],
+                                               'role': z[0].payload['role']
+                                             }
+                                             return this.accountActions.loginSuccess(accountUser, false);
                                            })
                                            .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                         });
   
-  @Effect() loginOrRegisterSuccess = this.actions$
-                                         .ofType(
-                                           AccountActions.ACTION_LOGIN_SUCCESS,
-                                           AccountActions.ACTiON_USER_REGISTER_SUCCESS,
-                                         )
-                                         .withLatestFrom(this.store$.select('account'))
-                                         .map((z: any) => {
-                                           window.location.reload(true);
-    
-                                           return this.accountActions.saveAccount(this.authenticate.user, false);
-                                         });
-  
-  @Effect() register = this.actions$
-                           .ofType(AccountActions.ACTION_USER_REGISTER)
-                           .withLatestFrom(this.store$.select('account'))
-                           .switchMap((z: any) => {
-                             const action = z[0];
-                             return Observable.fromPromise(this.accountService.register(action['payload']['user']))
-                                              .map(() => {
-                                                return this.accountActions.registerSuccess(false);
-                                              })
-                                              .catch((e) => {
-                                                return Observable.of(this.accountActions.registerFailed(e, false));
-                                              });
-                           });
   
   @Effect() logout = this.actions$.ofType(AccountActions.ACTION_LOGOUT)
                          .switchMap(() => {
                            return Observable.fromPromise(this.accountService.logout())
                                             .map(() => {
-                                              this.accountService.removeStorage();
-                                              location.reload(true);
+                                             this.accountService.localClear();
+                                             setTimeout(()=>{
+                                               location.reload(true);
+                                             },200);
+                                              
                                               return this.accountActions.goLoginPage(false, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
@@ -76,57 +73,6 @@ export class AccountEffects {
                                 this.routerActions.go('/account/login');
     
                                 return this.rootActions.nothing("Go login page", false);
-                              });
-  
-  @Effect() sendResetPassword = this.actions$
-                                    .ofType(AccountActions.ACTION_USER_SEND_RESET_PASSWORD)
-                                    .switchMap((z: any) => {
-                                      const action: Action = z;
-                                      return Observable.fromPromise(this.accountService.requestSendForgotPassword(action.payload['user']['email']))
-                                                       .map(() => {
-                                                         return this.accountActions.goLoginPage(false, false);
-                                                       })
-                                                       .catch((e) => Observable.of(this.rootActions.error("", false)));
-                                    });
-  
-  @Effect() resetPassword = this.actions$
-                                .ofType(AccountActions.ACTION_USER_RESET_PASSWORD)
-                                .switchMap((z: any) => {
-                                  const action: Action = z;
-                                  return Observable.fromPromise(this.accountService.resetPassword(action.payload['token'], action.payload['newPassword']))
-                                                   .map(() => {
-                                                     return this.accountActions.goLoginPage(false, false);
-                                                   })
-                                                   .catch((e) => Observable.of(this.rootActions.error("", false)));
-                                });
-  
-  @Effect() resolveUrls = this.actions$
-                              .ofType(
-                                AccountActions.SAVE_LICENSE_DATA
-                              )
-                              .withLatestFrom(this.store$.select('account'))
-                              .filter((z) => {
-                                const accountState: AccountState = <any>z[1];
-                                return !!accountState.license && _.isArray(accountState.license['base_url']);
-                              })
-                              .map((z) => {
-                                const accountState: AccountState = <any>z[1];
-                                let listUrl                      = List.of();
-                                let defaultUrl = "";
-                                const urls                       = accountState.license['base_url'];
-                                _.forEach(urls, (url) => {
-                                  if (parseInt(url['status']) === 1) {
-                                    listUrl = listUrl.push({
-                                                             url: url['url'],
-                                                             is_default: false,
-                                                             isMage1: false
-                                                           });
-                                  }
-                                });
-                              if(listUrl.count() > 1){
-                                defaultUrl = listUrl.get(0)['url'];
-                              }
-                                return this.accountActions.resolvedUrls(listUrl ,defaultUrl, false);
                               });
   
 }
