@@ -58,8 +58,6 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return this.viewData['additionData'];
   }
   
-
-  
   ngOnChanges() {
     if (this.saleReportService.changeReportType == true) {
       this.viewData['additionData'] = [{id: 1, label: "Name", value: "name"}];

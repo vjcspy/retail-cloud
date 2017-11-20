@@ -18,7 +18,7 @@
 </th>
 <th *ngFor="let addition of additionData" [attr.colspan]="getColspanForItem(addition['value'])" class="datatable-row-label"
     [hidden]="!canViewDetail">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + getLabelForTitle() :
-  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') : (item['name'] == 'N/A' ? 'No  ' + getLabelForTitle() :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : (addition['value'] == 'name' ? 'No  ' + getLabelForTitle() : 'No  ' + getLabelForAdditionalData(addition['value']))) : (item['name'] == 'N/A' ? 'No  ' + getLabelForTitle() :
   (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
 </th>
 <th [attr.colspan]="colspanTotal" *ngIf="typeDisplay != 'itemInHontical'" class="datatable-row-label">

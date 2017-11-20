@@ -21,8 +21,7 @@ export class CloudSaleReportItemComponent {
   @Input('is_item_has_detail_data') canViewDetail: boolean;
   @Input('detail_item_value') detail_item_value: boolean;
   
-  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {
-  }
+  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {}
   
   getFullnameUserReport(userId) {
     //     let userReport     = _.find(this.route.snapshot.data['users'], (row) => row['_id'] == userId);
@@ -89,6 +88,15 @@ export class CloudSaleReportItemComponent {
     let report_type = this.service.viewDataFilter['report_type'];
     let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
     return reportColumn['label'];
+  }
+  
+  getLabelForAdditionalData(additionalData) {
+    let list_additional_data = [
+      {id: 1, label: "Name", value: "name"},
+      {id: 2, label: "Outlet", value: "outlet"},
+    ];
+    let additionalColumn = _.find(list_additional_data, (row) => row['value'] == additionalData);
+    return additionalColumn['label'];
   }
   
   checkIsNumberDecimals(value){
