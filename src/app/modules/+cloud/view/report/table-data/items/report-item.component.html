@@ -1,8 +1,8 @@
 <th *ngFor="let addition of additionData" [attr.colspan]="getColspanForItem(addition['value'])" [hidden]="canViewDetail"
     class="datatable-row-label" style="white-space: nowrap;">
   <a *ngIf="isDisplayItemDetail(addition['value'])" (click)="selectMoreInfo()" style="float: left;margin-right: 5px">
-    <span *ngIf="customizeChevron()" class="ion ion-chevron-down"></span>
-    <span *ngIf="!customizeChevron()" class="ion ion-chevron-up"></span>
+    <span *ngIf="customizeChevron()" class="ion ion-android-add-circle"></span>
+    <span *ngIf="!customizeChevron()" class="ion ion-android-remove-circle"></span>
   </a>
   <!--<a (click)="selectMoreInfo()" target="_blank">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? item[addition['value']] : '__') : item['name']}}</a>-->
   {{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + getLabelForTitle() :
@@ -24,8 +24,8 @@
 <th [attr.colspan]="colspanTotal" *ngIf="typeDisplay != 'itemInHontical'" class="datatable-row-label">
   <a *ngIf="!canViewDetail && service.viewDataFilter['report_type'] == 'sales_summary' " (click)="selectMoreInfo(true)"
      style="float: left;margin-right: 5px">
-    <span *ngIf="customizeChevron()" class="ion ion-chevron-down"></span>
-    <span *ngIf="!customizeChevron()" class="ion ion-chevron-up"></span>
+    <span *ngIf="customizeChevron()" class="ion ion-android-add-circle"></span>
+    <span *ngIf="!customizeChevron()" class="ion ion-android-remove-circle"></span>
   </a>
   {{item['name']}}
 
