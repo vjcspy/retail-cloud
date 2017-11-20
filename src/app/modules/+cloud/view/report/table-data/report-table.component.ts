@@ -106,7 +106,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
         {id: 3, label: "Customer Group", value: "customer_group_code"},
         {id: 4, label: "Phone", value: "customer_telephone"},
       ];
-    } if (report_type == 'reference_number'){
+    } else if (report_type == 'reference_number'){
       list_additional_data = [
         {id: 1, label: "Name", value: "name"},
         {id: 2, label: "Outlet", value: "outlet"},
