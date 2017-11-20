@@ -42,17 +42,6 @@ export class CloudSaleReportItemComponent {
   }
   
   protected selectMoreInfo(is_total: boolean = false) {
-    // if (this.data_filter['report_type'] == "payment_method" && this.item.hasOwnProperty('value') && this.item['value'] == "retailmultiple") {
-    // if (this.service.viewData['list_item_detail'].length == 0 || this.item['value'] != this.detail_item_value ) {
-    //     if(is_total){
-    //       // for sales summary
-    //         this.service.getMoreItemData('Totals');
-    //     }else{
-    //     this.service.getMoreItemData(this.item['value']);
-    //     }
-    // } else {
-    //     this.service.viewDataFilter['display_item_detail'] = !this.service.viewDataFilter['display_item_detail'];
-    // }
     if (this.item.hasOwnProperty('item_details') && this.item['item_details'].length != 0 ) {
       this.item['display_item_detail'] = !this.item['display_item_detail'];
       this.service.resolveItemDisplay();
@@ -78,7 +67,7 @@ export class CloudSaleReportItemComponent {
   }
   
   customizeChevron() {
-    if (this.service.viewDataFilter['display_item_detail'] && this.item['display_item_detaiil'] == true) {
+    if (this.service.viewDataFilter['display_item_detail'] || this.item['display_item_detail'] == true) {
       return false;
     }
     return true;
@@ -93,31 +82,7 @@ export class CloudSaleReportItemComponent {
   getLabelForAdditionalData(additionalData) {
     let list_additional_data = [];
     let report_type = this.data_filter['report_type'];
-    if (report_type == 'product'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "SKU", value: "sku"},
-        {id: 3, label: "Product Type", value: "product_type"},
-        {id: 4, label: "Manufacturer", value: "manufacturer"},
-      ];
-    } else if (report_type == 'customer'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "Email", value: "customer_email"},
-        {id: 3, label: "Customer Group", value: "customer_group_code"},
-        {id: 4, label: "Telephone", value: "customer_telephone"},
-      ];
-    } else if (report_type == 'reference_number'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "Outlet", value: "outlet"},
-      ];
-    } else {
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-      ];
-    }
-    let additionalColumn = _.find(list_additional_data, (row) => row['value'] == additionalData);
+    let additionalColumn = _.find(ReportHelper.getAdditionalData(report_type)['data'], (row) => row['value'] == additionalData);
     return additionalColumn['label'];
   }
   

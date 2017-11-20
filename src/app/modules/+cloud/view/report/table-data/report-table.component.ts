@@ -48,7 +48,8 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   
   protected initDefaultViewData() {
     if (this.viewData.hasOwnProperty('additionData')) {
-      let addition = this.getAdditionalData()['data'];
+      let report_type = this.data_filter['report_type'];
+      let addition = ReportHelper.getAdditionalData(report_type)['data'];
       _.remove(addition, function (data) {
         return data['id'] != 1
       });
@@ -89,40 +90,9 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return (value == 'name') ? 3 : 1;
   }
   
-  protected getAdditionalData() {
-    let list_additional_data = [];
-    let report_type = this.data_filter['report_type'];
-    if (report_type == 'product'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "SKU", value: "sku"},
-        {id: 3, label: "Product Type", value: "product_type"},
-        {id: 4, label: "Manufacturer", value: "manufacturer"},
-      ];
-    } else if (report_type == 'customer'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "Email", value: "customer_email"},
-        {id: 3, label: "Customer Group", value: "customer_group_code"},
-        {id: 4, label: "Telephone", value: "customer_telephone"},
-      ];
-    } else if (report_type == 'reference_number'){
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-        {id: 2, label: "Outlet", value: "outlet"},
-      ];
-    } else {
-      list_additional_data = [
-        {id: 1, label: "Name", value: "name"},
-      ];
-    }
-    return {
-      data: list_additional_data,
-    }
-  }
-  
   protected getAdditionalDataForPopUp() {
-    let additionalDataForPopUp = this.getAdditionalData()['data'];
+    let report_type = this.data_filter['report_type'];
+    let additionalDataForPopUp = ReportHelper.getAdditionalData(report_type)['data'];
     _.remove(additionalDataForPopUp, function (data) {
       return data['id'] == 1
     });
@@ -179,10 +149,11 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   protected applyAdditionField() {
+    let report_type = this.data_filter['report_type'];
     let dataForPopupDisplayAddition = this.getAdditionalDataForPopUp()['data'];
     let dataForPopupDisplayAdditionSelected = this.initDefaultViewData();
     if (this._additionData['isAllChecked'] == true){
-      this.viewData['additionData'] = this.getAdditionalData()['data'];
+      this.viewData['additionData'] = ReportHelper.getAdditionalData(report_type)['data'];
     } else {
       _.forEach(this._additionData, function(value, key) {
         if (value == true){
