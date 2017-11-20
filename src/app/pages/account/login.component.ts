@@ -80,17 +80,17 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                                },
                                                'login-password': {
                                                  required: true,
-                                                 minlength: 8
+                                                 // minlength: 8
                                                }
                                              },
                                              messages: {
                                                'login-username': {
                                                  required: 'Please enter a username',
-                                                 minlength: 'Your username must consist of at least 6 characters'
+                                                 // minlength: 'Your username must consist of at least 6 characters'
                                                },
                                                'login-password': {
                                                  required: 'Please provide a password',
-                                                 minlength: 'Your password must be at least 8 characters long'
+                                                 // minlength: 'Your password must be at least 8 characters long'
                                                }
                                              }
                                            });
