@@ -28,7 +28,8 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state;
     
     case PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE:
-      return state.set('items', state.items.filter((item: DataObject) => parseInt(item.getData('qty')) > 0));
+      // return state.set('items', state.items.filter((item: DataObject) => parseInt(item.getData('qty')) > 0));
+      return state.set('items', state.items.filter((item: DataObject) => item.getData('qty') > 0));
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
       let items: List<DataObject> = action.payload['items'];
