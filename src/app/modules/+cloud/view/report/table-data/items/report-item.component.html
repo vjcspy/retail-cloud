@@ -6,7 +6,7 @@
   </a>
   <!--<a (click)="selectMoreInfo()" target="_blank">{{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? item[addition['value']] : '__') : item['name']}}</a>-->
   {{typeDisplay == 'itemInHontical' ? (item[addition['value']] ? (item[addition['value']] == 'N/A' ? 'No  ' + getLabelForTitle() :
-  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : '__') :
+  (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item[addition['value']]) : item[addition['value']])) : (addition['value'] == 'name' ? 'No  ' + getLabelForTitle() : 'No  ' + getLabelForAdditionalData(addition['value']))) :
   (item['name'] == 'N/A' ? 'No  ' + getLabelForTitle() :
   (service.viewDataFilter['report_type'] == 'user' ? getFullnameUserReport(item['name']) : item['name']))}}
   <span
