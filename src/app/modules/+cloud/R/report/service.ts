@@ -664,7 +664,7 @@ export class SaleReportService {
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-    if (!isFilter) {
+    if (isFilter) {
       if (measureLabel == this._sortData) {
         this.isSortAsc = !this.isSortAsc;
       } else {

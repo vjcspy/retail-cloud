@@ -46,7 +46,7 @@ export class AccountEffects {
                                                'username': user['username'],
                                                'emails': user['email'],
                                                'baseUrl': z[0].payload['baseUrl'],
-                                               'role': z[0].payload['role']
+                                               'role': user['role']
                                              }
                                              return this.accountActions.loginSuccess(accountUser, false);
                                            })

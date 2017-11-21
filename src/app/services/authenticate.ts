@@ -14,8 +14,17 @@ export class AuthenticateService {
   
   get user() {
     let localUser = this.storage.localRetrieve('user');
-    if (localUser) {
+    let baseUrl = this.storage.localRetrieve('baseUrl');
+    if (localUser && baseUrl) {
+      let accountUser = {
+        'id': localUser['_id'],
+        'username': localUser['username'],
+        'emails': localUser['email'],
+        'baseUrl': baseUrl,
+        'role': localUser['role']
+      }
       this._user = localUser;
+      this._whenAccountUpdate(accountUser);
     }
     
     return this._user;
@@ -35,4 +44,7 @@ export class AuthenticateService {
     // return false;
   }
   
+  private _whenAccountUpdate(accountUser) {
+    this.accountActions.loginSuccess(accountUser);
+  }
 }
