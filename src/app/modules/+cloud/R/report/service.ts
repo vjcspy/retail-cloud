@@ -146,8 +146,13 @@ export class SaleReportService {
       report_type['name'] = _.isObject(report_type_data['value']) ? report_type_data['value']['name'] : (report_type_data['value'] == 'N/A' ? (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') : report_type_data['value']);
       
       // add them value de filter doi voi nhung data can hien thi them data
-      if (this.viewDataFilter['report_type'] == "payment_method" || this.viewDataFilter['report_type'] == "order_status" ||
-          this.viewDataFilter['report_type'] == "register" || this.viewDataFilter['report_type'] == "customer" || this.viewDataFilter['report_type'] == "region") {
+      if (this.viewDataFilter['report_type'] == "payment_method" ||
+          this.viewDataFilter['report_type'] == "order_status" ||
+          this.viewDataFilter['report_type'] == "register" ||
+          this.viewDataFilter['report_type'] == "customer" ||
+          this.viewDataFilter['report_type'] == "region"||
+          this.viewDataFilter['report_type'] == "outlet" ||
+          this.viewDataFilter['report_type'] == "category") {
         report_type['value'] = report_type_data['data'];
       }
       
