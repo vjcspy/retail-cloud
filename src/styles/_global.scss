@@ -660,6 +660,14 @@ label {
     }
 
 }
+.ladda-button {
+    position: relative;
+    .ladda-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+}
 
 // radio style  -- Start
 .radio-btn{
