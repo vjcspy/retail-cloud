@@ -25,6 +25,7 @@ import {AccountLicenseListComponent} from "./view/default/account/license/list.c
 import {AccountLicenseAdjustComponent} from "./view/default/account/license/adjust.component";
 import {AccountLicenseCheckoutComponent} from "./view/default/account/license/checkout.component";
 import {AccountLicensePlanListComponent} from "./view/default/account/license/plan/list.component";
+import {RolesComponent} from "./view/default/user-management/roles.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -57,6 +58,10 @@ export const CLOUD_ROUTES: Routes = [
                     component: CashierFormComponent
                   }
                 ]
+              },
+              {
+                path: 'roles',
+                component: RolesComponent
               }
             ]
           },

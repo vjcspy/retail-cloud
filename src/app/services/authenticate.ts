@@ -49,12 +49,18 @@ export class AuthenticateService {
     if (!user) {
       user = this.user;
     }
-    console.log(user);
-    return !!user && _.isArray(user['has_license']) && _.size(user['has_license']) > 0 && user['has_license'][0]['license_permission'] === 'owner';
+    return this.hasLicense(user) && user['has_license'][0]['license_permission'] === 'owner';
   }
   
   userCan(permission: string) {
     return true;
+  }
+  
+  hasLicense(user: Object): boolean {
+    if (!user) {
+      user = this.user;
+    }
+    return !!user && _.isArray(user['has_license']) && _.size(user['has_license']) > 0;
   }
   
   subscribeAccountChange() {
