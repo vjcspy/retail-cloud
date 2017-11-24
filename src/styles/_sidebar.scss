@@ -2,32 +2,27 @@
 
 #sidebar {
     position: fixed;
-    width: 203px;
+    width: 40px;
     top: 0;
     bottom: 0;
     left: 0;
     z-index: 10;
-    @include transition(.28s);
-    @include translate3D(-169px, 0, 0);
-    overflow-y: auto;
-    overflow-x: hidden;
+    @include transition(.15s);
+    /* @include translate3D(-169px, 0, 0); */
+    /* overflow-y: auto;
+    overflow-x: hidden; */
     background: $dark-blue;
     
     .sidebar-header {
         background-color: $aqua;
-        .logo {
-            padding: 28px;
+        .logo, .navbar-back {
             display: none;
         }
-        .navbar-toggler, .navbar-back {
+        .navbar-toggler {
             float: right;
             cursor: pointer;
             height: 100%;
-            padding: 19px 8px;
-        }
-        .navbar-back{
-            background-color: rgba(255, 255, 255, 0.2);
-            display: none;
+            padding: 19px 13px;
         }
         .ion-navicon, .ion-ios-arrow-back {
             font-size: 25px;
@@ -37,9 +32,10 @@
     li {
         border-top: 1px solid $boder-color-light;
         &.has-child {
+            position: relative;
             .nav-submenu {
                 position: relative;
-                &:after {
+                /* &:after {
                     content: "\f489";
                     position: absolute;
                     right: 27px;
@@ -47,7 +43,7 @@
                     font-family: "Ionicons";
                     font-size: 25px;
                     font-weight: 900;
-                }
+                } */
             }
             ul {
                 margin-bottom: 14px;
@@ -69,23 +65,41 @@
                 }
             }
             &.open {
-                .nav-submenu {
-                    //color: $aqua;
+                /* .nav-submenu {
                     &:after {
                         content: "\f462";
                     }
+                } */
+                background:  $navy-light;
+                li a {
+                    padding-left: 40px;
+                    padding-right: 40px;
+                    
+                }
+                i {
+                    color: $green;
                 }
                 ul {
-                    display: block;
+                    /* display: block;
                     @include transition(.8s);
                     .active a {
-                        //color: $aqua;
                         &:focus{
                             outline: none;
                         }
                         &:hover{
                             cursor: pointer;
                         }
+                    } */
+                    position: absolute;
+                    left: 100%;
+                    top: 0;
+                    z-index: 1000;
+                    display: block;
+                    background: $navy-light;
+                    width: 220px;
+                    padding: 20px 0;
+                    a {
+                        text-align: left;
                     }
                 }
             }
@@ -96,55 +110,128 @@
         text-transform: uppercase;
         display: block;
         padding: 14px 10px;
+        text-align: center;
         &:hover {
             color: $green;
         }
         i {
             font-size: 16px;
-            margin-right: 10px;
+            
         }
         &.nav-submenu{
             white-space: nowrap;
+            .sidebar-mini-hide {
+                display: none;
+            }
         }
     }
     .sidebar-pull {
-        @include translate3D(170px, 0, 0);
-        @include transition(.28s);
+        /* @include translate3D(170px, 0, 0); */
+        @include transition(.25s);
     }
     .search-form {
-        margin: 14px 0;
+        padding: 27px 0;
         position: relative;
-        .ion-ios-search {
-            position: absolute;
-            right: 10px;
-            top: 7px;
+        text-align: center;
+        form {
+            display: none;
+        }
+        &.open {
+            background: $navy-light;
+            > .ion-ios-search {
+                color: $green;
+            }
+            form {
+                position: absolute;
+                left: 100%;
+                top: 0;
+                width: 220px;
+                background: $navy-light;
+                padding: 20px 0;
+                display: block;
+                .ion-ios-search {
+                    display: none;
+                }
+                .form-control {
+                    margin: 0 25px;
+                    width: calc(100% - 50px);
+                    visibility: visible;
+                    @include box-shadow(none);
+                    background-color: transparent;
+                    border: 1px solid $green;
+                    @include border-radius(20px);
+                    height: 38px;
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    color:  $white-smoke;
+                    &::-webkit-input-placeholder {
+                        color: #576378;
+                        font-size: $font-size-base - 1;
+                    }
+                    &:-moz-placeholder {
+                        color: #576378;
+                        opacity: 1;
+                        font-size: $font-size-base - 1;
+                    }
+                    &::-moz-placeholder {
+                        color: #576378;
+                        opacity: 1;
+                        font-size: $font-size-base - 1;
+                    }
+                    &:-ms-input-placeholder {
+                        color: #576378;
+                        font-size: $font-size-base - 1;
+                    }
+                }
+            }
+        }
+        > .ion-ios-search {
             font-size: 16px;
             color: $white-smoke;
         }
-        .form-control {
-            visibility: hidden;
-        }
+        
+        
     }
     &.expand {
         width: 297px;
-        @include translate3D(0, 0, 0);
-        .sidebar-pull {
+        /* @include translate3D(0, 0, 0); */
+        /* .sidebar-pull {
             @include translate3D(0, 0, 0);
-        }
+        } */
         .logo {
             display: block;
+            padding: 28px;
         }
         .navbar-back{
             display: block;
             padding: 19px 14px;
+            background-color: rgba(255, 255, 255, 0.2);
         }
         .navbar-toggler {
             display: none;
         }
+
+        .navbar-back {
+            float: right;
+            cursor: pointer;
+            height: 100%;
+            padding: 19px 8px;
+        }
         .search-form {
-            margin: 25px 20px;
-            .ion-ios-search {
-                right: 15px;
+            padding: 25px 20px;
+            > .ion-ios-search {
+               display: none;
+            }
+            form {
+                display: block;
+                position: relative;
+                .ion-ios-search {
+                    position: absolute;
+                    right: 14px;
+                    top: 7px;
+                    font-size: 16px;
+                    color: $white-smoke;
+                }
             }
             .form-control {
                 visibility: visible;
@@ -179,17 +266,66 @@
             padding: 0 20px;
              .nav-submenu {           
                 color: $smoke;
-                .sidebar-mini-hide {
-                    color: $white-smoke;
-                }
                 &:hover{
                     cursor: pointer;
                     color: $green;
                     .sidebar-mini-hide {
                         color: $green;
                     }
-                }  
+                } 
+                .sidebar-mini-hide {
+                    color: $white-smoke;
+                }
+                .sidebar-mini-hide {
+                    display: inline-block;
+                } 
             } 
+            a {
+                text-align: left;
+                i {
+                    margin-right: 10px;
+                }
+            }
+
+        }
+        li.has-child {
+            ul {
+                display: none;
+            }
+            .nav-submenu {
+                &:after {
+                    content: "\f489";
+                    position: absolute;
+                    right: 27px;
+                    top: 6px;
+                    font-family: "Ionicons";
+                    font-size: 25px;
+                    font-weight: 900;
+                }
+            }
+            &.open {
+                .nav-submenu {
+                    &:after {
+                        content: "\f462";
+                    }
+                }
+                ul {
+                    display: block;
+                    position: static;
+                    top: auto;
+                    left: auto;
+                    z-index: auto;
+                    @include transition(.8s);
+                    .active a {
+                        &:focus{
+                            outline: none;
+                        }
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
         }
     }
 }
