@@ -116,14 +116,16 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
       this.role = _.find(this.roles, (rol) => {
         return rol['code'] === code;
       });
+      if (this.role) {
+        jQuery(this.modalRole.nativeElement)['modal']('show');
+      }
     } else {
       this.role = {
         name: null,
         code: null
       };
+      jQuery(this.modalRole.nativeElement)['modal']('show');
     }
-    
-    jQuery(this.modalRole.nativeElement)['modal']('show');
   }
   
   deleteRole(code?: string) {
@@ -131,15 +133,15 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
       this.role = _.find(this.roles, (rol) => {
         return rol['code'] === code;
       });
+      
+      if (this.role) {
+        jQuery(this.modalDelete.nativeElement)['modal']('show');
+      }
     }
-    jQuery(this.modalDelete.nativeElement)['modal']('show');
   }
   
-  deleteRoleConfirm(code: string) {
-    let data = {
-      code,
-      license_id: this.license['_id']
-    };
+  deleteRoleConfirm() {
+    this.shopMangeActions.deleteRole(this.role);
     jQuery(this.modalDelete.nativeElement)['modal']('hide');
   }
   

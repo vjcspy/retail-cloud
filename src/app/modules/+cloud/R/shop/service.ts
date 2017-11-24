@@ -15,4 +15,14 @@ export class ShopManageService {
                       );
     });
   }
+  
+  deleteRole(role): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('license.delete_role', role)
+                      .subscribe(
+                        () => resolve(),
+                        (err) => reject(err)
+                      );
+    });
+  }
 }
