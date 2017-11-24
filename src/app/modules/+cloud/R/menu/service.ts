@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AuthenticateService} from "../../../../services/authenticate";
-import {List} from "immutable";
 import {MenuElemInterface} from "./state";
 import {Router} from "@angular/router";
 
@@ -82,12 +81,6 @@ export class MenuService {
       priority: 6,
     };
     
-    _accounts.children.push({
-                              name: 'Plan',
-                              path: '/cloud/default/account/license/plan',
-                              priority: 6.01,
-                            });
-    
     if (this.auth.isShopOwner(null)) {
       _accounts.children.push({
                                 name: 'License',
@@ -98,11 +91,6 @@ export class MenuService {
                                 name: 'Payment method',
                                 path: '/cloud/default/account/license/list',
                                 priority: 6.2,
-                              });
-      _accounts.children.push({
-                                name: 'Invoices History',
-                                path: '/cloud/default/account/license/list',
-                                priority: 6.3,
                               });
     }
     

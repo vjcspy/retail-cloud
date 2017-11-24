@@ -1,5 +1,4 @@
 import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
-import {List} from "immutable";
 
 export interface AccountState {
   user: any;

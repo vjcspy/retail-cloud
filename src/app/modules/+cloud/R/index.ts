@@ -1,4 +1,3 @@
-import {UserState} from "./user/user.state";
 import {createReducer} from "../../../R/index";
 import {userReducer} from "./user/user.reducer";
 import {UserService} from "./user/user.service";
@@ -26,7 +25,6 @@ import {MenuActions} from "./menu/actions";
 import {menuReducer} from "./menu/reducer";
 
 export interface CloudState {
-  user: UserState;
   product: ProductState;
   pricing: PricingState;
   sales: SalesState;
@@ -57,7 +55,6 @@ export const R_SERVICES = [
 ];
 
 export const cloudReducer = () => createReducer({
-                                                  user: userReducer,
                                                   pricing: pricingReducer,
                                                   product: productReducer,
                                                   sales: salesReducer,
