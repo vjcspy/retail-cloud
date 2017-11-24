@@ -12,11 +12,13 @@ export interface MenuElemInterface {
 
 export interface MenuState {
   elem: List<MenuElemInterface>;
+  isExpand: boolean;
 }
 
 export interface MenuStateRecord extends MenuState, TypedRecord<any> {}
 
 export const menuStateFactory = makeTypedFactory<MenuState, MenuStateRecord>({
-                                                                               elem: <any>List.of()
+                                                                               elem: <any>List.of(),
+                                                                               isExpand: false
                                                                              }
 );
