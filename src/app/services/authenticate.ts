@@ -49,7 +49,8 @@ export class AuthenticateService {
     if (!user) {
       user = this.user;
     }
-    return !!user && user.hasOwnProperty('has_license') && user['has_license']['license_permission'] === 'owner';
+    console.log(user);
+    return !!user && _.isArray(user['has_license']) && _.size(user['has_license']) > 0 && user['has_license'][0]['license_permission'] === 'owner';
   }
   
   userCan(permission: string) {

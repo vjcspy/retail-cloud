@@ -3,6 +3,7 @@ import {Actions, Effect} from "@ngrx/effects";
 import {MenuService} from "./service";
 import {MenuActions} from "./actions";
 import {UserCollection} from "../../../../services/meteor-collections/users";
+import {AccountActions} from "../../../../R/account/account.actions";
 
 @Injectable()
 export class MenuEffects {
@@ -13,7 +14,10 @@ export class MenuEffects {
               protected userCollection: UserCollection) { }
   
   @Effect() initCloudModule = this.actions$
-                                  .ofType(MenuActions.ACTION_INIT_CLOUD_MENU)
+                                  .ofType(
+                                    MenuActions.ACTION_INIT_CLOUD_MENU,
+                                    AccountActions.ACTION_SAVE_ACCOUNT
+                                  )
                                   .switchMap((z: any) => {
                                     return this.userCollection
                                                .getCollectionObservable()

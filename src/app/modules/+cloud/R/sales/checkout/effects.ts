@@ -21,7 +21,6 @@ export class CheckoutEffects {
                                    const action: Action = z;
                                    return Observable.fromPromise(this.checkoutService.calculateToltal(action.payload['plan'], action.payload['product_id']))
                                                     .map((totals) => {
-                                                      console.log(totals);
                                                       return this.checkoutActions.calculateTotalSuccess(totals, false);
                                                     })
                                                     .catch((e) => {
