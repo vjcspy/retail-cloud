@@ -29,4 +29,16 @@ export class MenuActions {
     
     return action;
   }
+  
+  static ACTION_TOGGLE_MENU = 'ACTION_TOGGLE_MENU';
+  
+  toggleMenu(dispatch: boolean = true): Action {
+    const action = {type: MenuActions.ACTION_TOGGLE_MENU, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

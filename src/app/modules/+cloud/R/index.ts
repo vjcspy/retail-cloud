@@ -1,8 +1,5 @@
 import {createReducer} from "../../../R/index";
-import {userReducer} from "./user/user.reducer";
-import {UserService} from "./user/user.service";
 import {EffectsModule} from "@ngrx/effects";
-import {UserActions} from "./user/user.actions";
 import {PricingActions} from "./pricing/actions";
 import {PricingService} from "./pricing/service";
 import {pricingReducer} from "./pricing/reducer";
@@ -23,12 +20,18 @@ import {MenuEffects} from "./menu/effects";
 import {MenuService} from "./menu/service";
 import {MenuActions} from "./menu/actions";
 import {menuReducer} from "./menu/reducer";
+import {ShopManageActions} from "./shop/actions";
+import {ShopManageService} from "./shop/service";
+import {ShopManageState} from "./shop/state";
+import {shopManageReducer} from "./shop/reducer";
+import {ShopManageEffects} from "./shop/effects";
 
 export interface CloudState {
   product: ProductState;
   pricing: PricingState;
   sales: SalesState;
   menu: MenuState;
+  shopManage: ShopManageState;
 }
 
 export const R_EFFECTS  = [
@@ -36,10 +39,11 @@ export const R_EFFECTS  = [
   EffectsModule.run(ProductEffects),
   EffectsModule.run(CheckoutEffects),
   EffectsModule.run(MenuEffects),
+  EffectsModule.run(ShopManageEffects),
 ];
 export const R_SERVICES = [
-  UserActions,
-  UserService,
+  ShopManageActions,
+  ShopManageService,
   
   ProductService,
   ProductActions,
@@ -59,4 +63,5 @@ export const cloudReducer = () => createReducer({
                                                   product: productReducer,
                                                   sales: salesReducer,
                                                   menu: menuReducer,
+                                                  shopManage: shopManageReducer,
                                                 });

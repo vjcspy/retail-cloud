@@ -9,6 +9,10 @@ export const menuReducer: ActionReducer<MenuStateRecord> = (state = menuStateFac
     return state.set('elem', List.of(...sortMenu(action.payload['elem'])));
   }
   
+  if (action.type === MenuActions.ACTION_TOGGLE_MENU) {
+    return state.set('isExpand', !state.isExpand);
+  }
+  
   return state;
 };
 

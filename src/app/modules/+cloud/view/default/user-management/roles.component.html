@@ -1,0 +1,102 @@
+<!-- START Role list page -->
+<div class="role-list min-page" *ngIf="data.isResolvedData">
+  <div class="title-conent">
+    <div class="row">
+      <div class="col-xs-6">
+        <h1>List of roles</h1>
+      </div>
+      <div class="col-xs-6">
+        <div class="tar">
+          <a (click)="editRole()" class="btn btn-large btn-primary" data-toggle="modal" [ladda]="(shopManageState$ | async).isProcessing">
+            Add new role
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered white-box">
+    <thead>
+    <tr>
+      <th class="role-name">Code</th>
+      <th class="role-name">Name</th>
+      <th class="action" colspan="3">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let rol of roles">
+      <td class="first-name">{{rol['code']}}</td>
+      <td class="first-name">{{rol['name']}}</td>
+      <td class="action">
+        <a href="#/cloud/user-management/permission/{{rol['code']}}" class="link-action">Edit permission</a>
+      </td>
+      <td class="action">
+        <a class="link-action" (click)="editRole(rol['code'])">Edit role</a>
+      </td>
+      <td class="action"><a class="link-action" data-toggle="modal" (click)="deleteRole(rol['code'])">Delete</a></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Popup modal HTML -->
+  <div id="Delete-role-modal" class="modal fade" #modalDelete>
+    <div class="modal-dialog" *ngIf="!!role &&!!role['code']">
+      <div class="modal-content gray-bg ">
+        <div class="modal-header">
+          <h2 class="modal-title">Delete Role</h2>
+        </div>
+        <div class="modal-body">
+          <div class="msg-gray-bg">
+            Are you sure you want to delete role: {{role['name']}}?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="group-btn tac">
+            <button type="button" class="btn btn-default" data-dismiss="modal" [ladda]="(shopManageState$ | async).isProcessing">Cancel</button>
+            <button type="submit" class="btn btn-primary" (click)="deleteRoleConfirm()" [ladda]="(shopManageState$ | async).isProcessing">Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Popup modal - end-->
+</div>
+
+<!-- Popup modal HTML -->
+<div id="Edit-role-modal" class="modal fade" #modalRole>
+  <div class="modal-dialog">
+    <div class="modal-content gray-bg ">
+      <div class="modal-header">
+        <h2 class="modal-title">{{!!role && !!role['code'] ? 'Edit Role' : 'New Role'}}</h2>
+      </div>
+      <div class="modal-body">
+        <form class="js-validation-role form-horizontal">
+          <div class="form-content">
+            <div class="form-group">
+              <label class="control-label" for="name">Code:</label>
+              <div class="element">
+                <input type="text" class="form-control" id="code" name="code" [(ngModel)]="role['code']">
+              </div>
+            </div>
+          </div>
+          <div class="form-content">
+            <div class="form-group">
+              <label class="control-label" for="name">Name:</label>
+              <div class="element">
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="role['name']">
+              </div>
+            </div>
+          </div>
+          <div class="group-btn tac">
+            <button type="button" class="btn btn-default" data-dismiss="modal" [ladda]="(shopManageState$ | async).isProcessing">Cancel</button>
+            <button type="submit" class="btn btn-primary" [ladda]="(shopManageState$ | async).isProcessing">Confirm</button>
+          </div>
+        </form>
+      </div>
+      <!--<div class="modal-footer">
+
+        </div>-->
+    </div>
+  </div>
+</div>
+<!-- Popup modal - end-->

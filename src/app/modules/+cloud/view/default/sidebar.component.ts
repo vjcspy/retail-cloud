@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {RouterActions} from "../../../../R/router/router.actions";
 import {MenuState} from "../../R/menu/state";
 import * as _ from 'lodash';
+import {MenuActions} from "../../R/menu/actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,10 @@ export class SidebarComponent implements OnInit {
   
   openingSubmenuName: string = '';
   
-  constructor(public authenticate: AuthenticateService, public router: Router, public routerActions: RouterActions) { }
+  constructor(public authenticate: AuthenticateService,
+              public router: Router,
+              public routerActions: RouterActions,
+              public menuActions: MenuActions) { }
   
   ngOnInit() { }
   

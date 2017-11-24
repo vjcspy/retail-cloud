@@ -62,10 +62,10 @@ export class MenuService {
                             });
       }
       
-      if (this.auth.userCan('view_edit_create_delete_role')) {
+      if (this.auth.hasLicense(null) && this.auth.userCan('view_edit_create_delete_role')) {
         _user.children.push({
                               name: 'Shop Roles',
-                              path: '/cloud/user-management/roles',
+                              path: '/cloud/default/user-management/roles',
                               priority: 4.2,
                             });
       }
