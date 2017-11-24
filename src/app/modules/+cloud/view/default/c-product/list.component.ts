@@ -61,54 +61,34 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
             return;
           }
           _.forEach(products, (p) => {
-            let productInfo = {
-              code: p['code'],
-              name: p['name'],
-              description: p['description'],
+            let productInfo = Object.assign({}, {...p}, {
               canTrial: false,
               canPurchase: false
-            };
+            });
             
             let licenseHasProduct;
             if (_.isArray(this.license['has_product'])) {
               licenseHasProduct = _.find(this.license['has_product'], (_p) => _p['_id'] === p['_id']);
-              if (licenseHasProduct['isFresh'] === true && this.productService.isProductHasTrialPricing(p, prices)) {
-                productInfo.canTrial = true;
+              if (!licenseHasProduct) {
+                productInfo.canTrial = this.productService.isProductHasTrialPricing(p, prices);
               }
-              
-              if ((!licenseHasProduct['pricing_type'] || licenseHasProduct['pricing_type'] === 'trial') && this.productService.isProductCanPurchase(p, prices)) {
-                productInfo.canPurchase = true;
-              }
+              productInfo.canPurchase = true;
             } else {
-              if (this.productService.isProductHasTrialPricing(p, prices)) {
-                productInfo.canTrial = true;
-              }
-              
-              if (this.productService.isProductCanPurchase(p, prices)) {
-                productInfo.canPurchase = true;
-              }
+              productInfo.canTrial    = this.productService.isProductHasTrialPricing(p, prices);
+              productInfo.canPurchase = this.productService.isProductCanPurchase(p, prices);
             }
             
             this.products.push(productInfo);
           });
         } else {
           _.forEach(products, (p) => {
-            let productInfo = {
-              _id: p['_id'],
-              code: p['code'],
-              name: p['name'],
-              description: p['description'],
+            let productInfo = Object.assign({}, {...p}, {
               canTrial: false,
               canPurchase: false
-            };
+            });
             
-            if (this.productService.isProductHasTrialPricing(p, prices)) {
-              productInfo.canTrial = true;
-            }
-            
-            if (this.productService.isProductCanPurchase(p, prices)) {
-              productInfo.canPurchase = true;
-            }
+            productInfo.canTrial    = this.productService.isProductHasTrialPricing(p, prices);
+            productInfo.canPurchase = this.productService.isProductCanPurchase(p, prices);
             
             this.products.push(productInfo);
           });
