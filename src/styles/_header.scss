@@ -8,29 +8,35 @@ header {
     z-index: 9;
 }
 
-.navbar-default .navbar-nav > li {
-    margin: 20px 30px;
-    @include tablet {
-        margin: 20px 7px;
+.navbar-default {
+    .navbar-collapse {
+        background: $white;
     }
-    > a {
-        font-size: 14px;
-        color: $navy;
-        font-weight: 600;
-        text-transform: uppercase;
-        display: flex;
-        align-items: center;
-        padding: 0;
-        i {
-            font-size: 40px;
-            color: $aqua;
-            margin-right: 12px;
-        }
-    }
-    &:first-child {
-        margin-left: 46px;
+    .navbar-nav > li {
+        margin: 20px 30px;
         @include tablet {
-            margin-left: 0;
+            margin: 20px 7px;
+        }
+        
+        > a {
+            font-size: 14px;
+            color: $navy;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            i {
+                font-size: 40px;
+                color: $aqua;
+                margin-right: 12px;
+            }
+        }
+        &:first-child {
+            margin-left: 46px;
+            @include tablet {
+                margin-left: 0;
+            }
         }
     }
 }

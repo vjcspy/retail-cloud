@@ -1,15 +1,18 @@
-<div id="sidebar">
-  <div class="sidebar-pull">
-    <div class="sidebar-header">
-      <a class="logo" title="Logo" href="#">
-        <img src="assets/img/logo.png" alt="Logo">
-      </a>
+<div id="sidebar" class="expand">
+    <div class="sidebar-header clearfix">
+        <div class="navbar-toggler"><i class="ion-navicon"></i></div>
+        <div class="navbar-back"><i class="ion-ios-arrow-back"></i></div>
+        <a class="logo" title="Logo" href="#">
+          <img src="assets/img/logo.png" alt="Logo">
+        </a>
+      </div>
       <div class="search-form">
         <form action="" class="form-horizontal">
+          <i class="ion-ios-search"></i>
           <input type="text" placeholder="Search Setting" class="form-control">
         </form>
       </div>
-    </div>
+  <div class="sidebar-pull">
     <div class="sidebar-content">
       <ul class="nav-main list-unstyled">
         <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">
