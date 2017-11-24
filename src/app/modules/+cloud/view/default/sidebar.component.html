@@ -1,4 +1,4 @@
-<div id="sidebar" [ngClass]="{expand: menuState.isExpand}">
+<div id="sidebar" [ngClass]="{expand: menuState.isExpand, 'z-collapse': !menuState.isExpand}">
   <div class="sidebar-header clearfix">
     <div class="navbar-toggler" (click)="menuActions.toggleMenu()"><i class="ion-navicon"></i></div>
     <div class="navbar-back" (click)="menuActions.toggleMenu()"><i class="ion-ios-arrow-back"></i></div>
@@ -6,28 +6,26 @@
       <img src="assets/img/logo.png" alt="Logo">
     </a>
   </div>
-      <div class="search-form open">
-        <i class="ion-ios-search"></i>
+  <div class="search-form open">
+    <i class="ion-ios-search"></i>
     <form action="" class="form-horizontal">
       <i class="ion-ios-search"></i>
       <input type="text" placeholder="Search Setting" class="form-control">
     </form>
   </div>
-  <div class="sidebar-pull">
-    <div class="sidebar-content">
-      <ul class="nav-main list-unstyled">
-        <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">
-          <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu(item)">
-            <i [class]="item.iconClass"></i>
-            <span class="sidebar-mini-hide" [routerLink]="!!item.children && item.children.length > 0 ? item.children[0]['path'] : item.path" routerLinkActive="active">{{item.name}}</span>
-          </a>
-          <ul *ngIf="!!item.children && item.children.length > 0" class="list-unstyled">
-            <li *ngFor="let child of item.children" [routerLink]="child.path" routerLinkActive="active">
-              <a>{{child.name}}</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+  <div class="sidebar-content">
+    <ul class="nav-main list-unstyled">
+      <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">
+        <a class="nav-submenu" data-toggle="nav-submenu" (click)="openSubmenu(item)">
+          <i [class]="item.iconClass"></i>
+          <span class="sidebar-mini-hide" [routerLink]="!!item.children && item.children.length > 0 ? item.children[0]['path'] : item.path" routerLinkActive="active">{{item.name}}</span>
+        </a>
+        <ul *ngIf="!!item.children && item.children.length > 0" class="list-unstyled">
+          <li *ngFor="let child of item.children" [routerLink]="child.path" routerLinkActive="active">
+            <a>{{child.name}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </div>
