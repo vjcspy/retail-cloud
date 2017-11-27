@@ -12,7 +12,6 @@
     /* overflow-y: auto;
     overflow-x: hidden; */
     background: $dark-blue;
-    
     .sidebar-header {
         background-color: $aqua;
         .logo, .navbar-back {
@@ -35,15 +34,6 @@
             position: relative;
             .nav-submenu {
                 position: relative;
-                /* &:after {
-                    content: "\f489";
-                    position: absolute;
-                    right: 27px;
-                    top: 6px;
-                    font-family: "Ionicons";
-                    font-size: 25px;
-                    font-weight: 900;
-                } */
             }
             ul {
                 margin-bottom: 14px;
@@ -64,45 +54,7 @@
                     border: none!important;
                 }
             }
-            &.open {
-                /* .nav-submenu {
-                    &:after {
-                        content: "\f462";
-                    }
-                } */
-                background:  $navy-light;
-                li a {
-                    padding-left: 40px;
-                    padding-right: 40px;
-                    
-                }
-                i {
-                    color: $green;
-                }
-                ul {
-                    /* display: block;
-                    @include transition(.8s);
-                    .active a {
-                        &:focus{
-                            outline: none;
-                        }
-                        &:hover{
-                            cursor: pointer;
-                        }
-                    } */
-                    position: absolute;
-                    left: 100%;
-                    top: 0;
-                    z-index: 1000;
-                    display: block;
-                    background: $navy-light;
-                    width: 220px;
-                    padding: 20px 0;
-                    a {
-                        text-align: left;
-                    }
-                }
-            }
+            
         }
     }
     .nav-main a {
@@ -125,10 +77,6 @@
             }
         }
     }
-    .sidebar-pull {
-        /* @include translate3D(170px, 0, 0); */
-        @include transition(.25s);
-    }
     .search-form {
         padding: 27px 0;
         position: relative;
@@ -136,68 +84,13 @@
         form {
             display: none;
         }
-        &.open {
-            background: $navy-light;
-            > .ion-ios-search {
-                color: $green;
-            }
-            form {
-                position: absolute;
-                left: 100%;
-                top: 0;
-                width: 220px;
-                background: $navy-light;
-                padding: 20px 0;
-                display: block;
-                .ion-ios-search {
-                    display: none;
-                }
-                .form-control {
-                    margin: 0 25px;
-                    width: calc(100% - 50px);
-                    visibility: visible;
-                    @include box-shadow(none);
-                    background-color: transparent;
-                    border: 1px solid $green;
-                    @include border-radius(20px);
-                    height: 38px;
-                    padding-left: 30px;
-                    padding-right: 30px;
-                    color:  $white-smoke;
-                    &::-webkit-input-placeholder {
-                        color: #576378;
-                        font-size: $font-size-base - 1;
-                    }
-                    &:-moz-placeholder {
-                        color: #576378;
-                        opacity: 1;
-                        font-size: $font-size-base - 1;
-                    }
-                    &::-moz-placeholder {
-                        color: #576378;
-                        opacity: 1;
-                        font-size: $font-size-base - 1;
-                    }
-                    &:-ms-input-placeholder {
-                        color: #576378;
-                        font-size: $font-size-base - 1;
-                    }
-                }
-            }
-        }
         > .ion-ios-search {
             font-size: 16px;
             color: $white-smoke;
         }
-        
-        
     }
     &.expand {
         width: 297px;
-        /* @include translate3D(0, 0, 0); */
-        /* .sidebar-pull {
-            @include translate3D(0, 0, 0);
-        } */
         .logo {
             display: block;
             padding: 28px;
@@ -325,6 +218,80 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+#sidebar.z-collapse li.has-child:hover {
+    background:  $navy-light;
+    li a {
+        padding-left: 40px;
+        padding-right: 40px;
+        
+    }
+    i {
+        color: $green;
+    }
+    ul {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        z-index: 1000;
+        display: block;
+        background: $navy-light;
+        width: 220px;
+        padding: 20px 0;
+        a {
+            text-align: left;
+        }
+    }
+}
+
+#sidebar.z-collapse .search-form:hover {
+    background: $navy-light;
+    > .ion-ios-search {
+        color: $green;
+    }
+    form {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        width: 220px;
+        background: $navy-light;
+        padding: 20px 0;
+        display: block;
+        .ion-ios-search {
+            display: none;
+        }
+        .form-control {
+            margin: 0 25px;
+            width: calc(100% - 50px);
+            visibility: visible;
+            @include box-shadow(none);
+            background-color: transparent;
+            border: 1px solid $green;
+            @include border-radius(20px);
+            height: 38px;
+            padding-left: 30px;
+            padding-right: 30px;
+            color:  $white-smoke;
+            &::-webkit-input-placeholder {
+                color: #576378;
+                font-size: $font-size-base - 1;
+            }
+            &:-moz-placeholder {
+                color: #576378;
+                opacity: 1;
+                font-size: $font-size-base - 1;
+            }
+            &::-moz-placeholder {
+                color: #576378;
+                opacity: 1;
+                font-size: $font-size-base - 1;
+            }
+            &:-ms-input-placeholder {
+                color: #576378;
+                font-size: $font-size-base - 1;
             }
         }
     }
