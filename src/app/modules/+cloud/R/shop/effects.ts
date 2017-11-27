@@ -5,6 +5,7 @@ import {ShopManageActions} from "./actions";
 import {Observable} from "rxjs/Observable";
 import {ShopManageService} from "./service";
 import {NotifyManager} from "../../../../services/notify-manager";
+import {RouterActions} from "../../../../R/router/router.actions";
 
 @Injectable()
 export class ShopManageEffects {
@@ -13,6 +14,7 @@ export class ShopManageEffects {
               protected actions$: Actions,
               protected shopManageService: ShopManageService,
               protected shopManageActions: ShopManageActions,
+              protected routerActions: RouterActions,
               protected notify: NotifyManager) { }
   
   @Effect() saveRole = this.actions$
@@ -55,6 +57,7 @@ export class ShopManageEffects {
                                     return Observable.fromPromise(this.shopManageService.savePermissions(action.payload['permissions'], action.payload['code']))
                                                      .map(() => {
                                                        this.notify.success("save_permissions_successfully");
+                                                       this.routerActions.go('cloud/default/user-management/roles');
                                                        return this.shopManageActions.savePermissionSuccess(false);
                                                      })
                                                      .catch((e) => {

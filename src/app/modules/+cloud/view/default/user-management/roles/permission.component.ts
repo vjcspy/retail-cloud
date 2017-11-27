@@ -10,6 +10,8 @@ import * as _ from 'lodash';
 import {GeneralException} from "../../../../../../code/GeneralException";
 import {RouterActions} from "../../../../../../R/router/router.actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {Store} from "@ngrx/store";
+import {ShopManageState} from "../../../../R/shop/state";
 
 @Component({
              // moduleId: module.id,
@@ -19,14 +21,18 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
            })
 
 export class PermissionComponent extends AbstractSubscriptionComponent implements OnInit {
+  shopManageState$: Observable<ShopManageState>;
+  
   constructor(protected shopManageService: ShopManageService,
               protected shopManageActions: ShopManageActions,
               protected licenseCollection: LicenseCollection,
               protected route: ActivatedRoute,
               protected notify: NotifyManager,
               protected changeDetectorRef: ChangeDetectorRef,
+              protected store$: Store<any>,
               protected routerActions: RouterActions) {
     super();
+    this.shopManageState$ = this.store$.select('shopManage');
   }
   
   permissions: any[];
@@ -48,18 +54,42 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
         
         if (!!this.code) {
           const licenseCollection: MongoObservable.Collection<any> = z[1];
-          this.permissions                                         = z[2];
-          
-          if (!this.data.activatedGroup) {
-            this.data.activatedGroup = _.first(this.permissions)['group'];
-          }
           
           const licenses = licenseCollection.collection.find().fetch();
           if (_.size(licenses) === 1) {
             const roles = licenses[0]['has_roles'];
             this.role   = _.find(roles, (r) => r['code'] === this.code);
             if (!!this.role) {
-              this.changeDetectorRef.detectChanges();
+              
+              // resolve default value of permission
+              if (_.isArray(z[2])) {
+                this.permissions = _.map(z[2], (group) => {
+                  group['sections'] = _.map(group['sections'], (section) => {
+                    section['permissions'] = _.map(section['permissions'], (permission) => {
+                      if (this.role && _.isArray(this.role['has_permissions'])) {
+                        const _p = _.find(this.role['has_permissions'], (p) => p['permission'] === permission['permission']);
+                        if (_p) {
+                          permission['is_active'] = _p['is_active'];
+                        }
+                      } else {
+                        permission['is_active'] = false;
+                      }
+                      
+                      return permission;
+                    });
+                    
+                    return section;
+                  });
+                  
+                  return group;
+                });
+                
+                if (!this.data.activatedGroup) {
+                  this.data.activatedGroup = _.first(this.permissions)['group'];
+                }
+                
+                this.changeDetectorRef.detectChanges();
+              }
             }
           }
         } else {
@@ -75,4 +105,5 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
       this.notify.error("can_not_find_role");
     }
   }
+  
 }

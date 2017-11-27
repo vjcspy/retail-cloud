@@ -8,26 +8,24 @@ import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, EventEmi
            })
 export class IZBootstrapSwitchComponent implements OnInit, AfterViewInit {
   @ViewChild('bootstrapSwitchElem') protected bootstrapSwitchElem: ElementRef;
-  @Input() protected model: boolean;
+  @Input() protected model: boolean                      = false;
   @Output() protected modelChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input('state') protected state;
   
   constructor() { }
   
-  ngOnInit() { }
+  ngOnInit() {
+  }
   
   ngAfterViewInit(): void {
     let vm = this;
     $(this.bootstrapSwitchElem.nativeElement)['bootstrapSwitch']({
                                                                    offText: "No",
                                                                    onText: "Yes",
-                                                                   state: !!this.state,
+                                                                   state: this.model,
                                                                    onSwitchChange: (event, state) => {
                                                                      vm.model = state;
                                                                      vm.modelChange.emit(state);
                                                                    }
                                                                  });
   }
-  
-  
 }

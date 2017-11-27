@@ -18,11 +18,11 @@
           <div role="tabpanel" class="tab-pane active" *ngFor="let group of permissions" id="{{ group.group }}">
             <div *ngIf="group.group == data.activatedGroup">
               <div class="row" *ngFor="let section of group.sections">
-                <div class="col-left" *ngIf="section.hasOwnProperty('section')"><label>{{section['name']}}</label></div>
+                <div class="col-left"><label>{{section['name']}}</label></div>
                 <div class="col-right" *ngFor="let permission of section.permissions">
                   <div class="clearfix switch-state">
                     <label>{{permission.name}}</label>
-                    <iz-bootstrap-switch [state]="permission['is_active']" [(model)]="permission['is_active']"></iz-bootstrap-switch>
+                    <iz-bootstrap-switch [(model)]="permission['is_active']"></iz-bootstrap-switch>
                   </div>
                 </div>
               </div>
@@ -34,8 +34,10 @@
       </div>
     </div>
     <div class="group-btn tac">
-      <button class="btn btn-default" type="button" (click)="routerActions.go('cloud/default/user-management/roles')">Cancel</button>
-      <button class="btn btn-primary" type="submit" (click)="save()">Save</button>
+      <button class="btn btn-default" type="button" (click)="routerActions.go('cloud/default/user-management/roles')" [ladda]="(shopManageState$ | async)?.isProcessing">
+        Cancel
+      </button>
+      <button class="btn btn-primary" type="submit" (click)="save()" [ladda]="(shopManageState$ | async)?.isProcessing">Save</button>
     </div>
   </form>
   <!-- Popup modal HTML -->
