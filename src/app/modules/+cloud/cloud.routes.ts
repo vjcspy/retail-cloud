@@ -26,6 +26,7 @@ import {AccountLicenseAdjustComponent} from "./view/default/account/license/adju
 import {AccountLicenseCheckoutComponent} from "./view/default/account/license/checkout.component";
 import {AccountLicensePlanListComponent} from "./view/default/account/license/plan/list.component";
 import {RolesComponent} from "./view/default/user-management/roles.component";
+import {PermissionComponent} from "./view/default/user-management/roles/permission.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -62,6 +63,10 @@ export const CLOUD_ROUTES: Routes = [
               {
                 path: 'roles',
                 component: RolesComponent
+              },
+              {
+                path: 'permissions/:code',
+                component: PermissionComponent
               }
             ]
           },

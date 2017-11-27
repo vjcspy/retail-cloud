@@ -27,7 +27,7 @@
       <td class="first-name">{{rol['code']}}</td>
       <td class="first-name">{{rol['name']}}</td>
       <td class="action">
-        <a href="#/cloud/user-management/permission/{{rol['code']}}" class="link-action">Edit permission</a>
+        <a class="link-action" (click)="routerActions.go('cloud/default/user-management/permissions', rol['code'])">Edit permission</a>
       </td>
       <td class="action">
         <a class="link-action" (click)="editRole(rol['code'])">Edit role</a>

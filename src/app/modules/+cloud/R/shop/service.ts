@@ -25,4 +25,12 @@ export class ShopManageService {
                       );
     });
   }
+  
+  getPermissions(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('license.get_permissions')
+                      .subscribe((permissions) => resolve(permissions),
+                                 (err) => reject(err));
+    });
+  }
 }

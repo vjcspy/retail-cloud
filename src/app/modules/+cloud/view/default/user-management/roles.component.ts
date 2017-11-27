@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import {Store} from "@ngrx/store";
 import {ShopManageState} from "../../../R/shop/state";
 import {ShopManageActions} from "../../../R/shop/actions";
+import {RouterActions} from "../../../../../R/router/router.actions";
 
 @Component({
              // moduleId: module.id,
@@ -35,6 +36,7 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
   constructor(protected licenseCollection: LicenseCollection,
               protected changeDetectorRef: ChangeDetectorRef,
               protected shopMangeActions: ShopManageActions,
+              protected routerActions: RouterActions,
               protected store$: Store<any>) {
     super();
     this.shopManageState$ = this.store$.select('shopManage');

@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import { HttpModule} from "@angular/http";
+import {HttpModule} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {MomentModule} from "angular2-moment";
@@ -8,6 +8,7 @@ import {SHARE_DIRECTIVES} from "./directives/index";
 import {LaddaModule} from "angular2-ladda";
 import {SHARE_PIPES} from "./pipes/index";
 import {TranslateModule} from "@ngx-translate/core";
+import {SHARE_COMPONENTS} from "./components/index";
 
 @NgModule({
             imports: [
@@ -33,11 +34,13 @@ import {TranslateModule} from "@ngx-translate/core";
               ReactiveFormsModule,
               LaddaModule,
               ...SHARE_DIRECTIVES,
-              ...SHARE_PIPES
+              ...SHARE_PIPES,
+              ...SHARE_COMPONENTS,
             ],
             declarations: [
               ...SHARE_DIRECTIVES,
-              ...SHARE_PIPES
+              ...SHARE_PIPES,
+              ...SHARE_COMPONENTS,
             ],
             providers: [...SHARE_PROVIDERS],
           })

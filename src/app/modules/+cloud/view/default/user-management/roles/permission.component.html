@@ -1,0 +1,65 @@
+<div class="permission-page min-page">
+  <h1 class="tac">{{role?.name}}’s permission</h1>
+  <form class="js-validation-permission">
+    <div class="white-box">
+      <div class="tabs-wraper tabs-permission">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" *ngFor="let group of permissions" [ngClass]="{'active': group.group == data.activatedGroup}">
+            <a href="{{ '#' + group['group'] }}" role="tab" data-toggle="tab" (click)="data.activatedGroup = group.group">
+              {{group['name']}}
+              <i class="ion-ios-compose-outline" [ngClass]="{'enable': group.group == data.activatedGroup}"></i>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" *ngFor="let group of permissions" id="{{ group.group }}">
+            <div *ngIf="group.group == data.activatedGroup">
+              <div class="row" *ngFor="let section of group.sections">
+                <div class="col-left" *ngIf="section.hasOwnProperty('section')"><label>{{section['name']}}</label></div>
+                <div class="col-right" *ngFor="let permission of section.permissions">
+                  <div class="clearfix switch-state">
+                    <label>{{permission.name}}</label>
+                    <iz-bootstrap-switch [state]="permission['default_value']" [(model)]="permission['default_value']"></iz-bootstrap-switch>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="group-btn tac">
+      <button class="btn btn-default" type="button" (click)="routerActions.go('cloud/default/user-management/roles')">Cancel</button>
+      <button class="btn btn-primary" type="submit" (click)="save()">Save</button>
+    </div>
+  </form>
+  <!-- Popup modal HTML -->
+  <div id="confirm-change-permission-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content gray-bg ">
+        <div class="modal-header">
+          <h2 class="modal-title">Confirm discard changes</h2>
+        </div>
+        <div class="modal-body">
+          <div class="msg-gray-bg">
+            Your changes have not been saved. Discard changes?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="group-btn tac">
+            <button type="button" class="btn btn-default">Cancel</button>
+            <button type="button" class="btn btn-primary">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Popup modal - end-->
+</div>
+
+
