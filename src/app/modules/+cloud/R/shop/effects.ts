@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Store} from "@ngrx/store";
+import {Action, Store} from "@ngrx/store";
 import {Actions, Effect} from "@ngrx/effects";
 import {ShopManageActions} from "./actions";
 import {Observable} from "rxjs/Observable";
@@ -35,7 +35,7 @@ export class ShopManageEffects {
                                ShopManageActions.ACTION_DELETE_ROLE
                              )
                              .switchMap((z: any) => {
-                               const action = z;
+                               const action: Action = z;
                                return Observable.fromPromise(this.shopManageService.deleteRole(action.payload['role']))
                                                 .map(() => this.shopManageActions.deleteRoleSuccess(false))
                                                 .catch((e) => {
@@ -44,4 +44,23 @@ export class ShopManageEffects {
                                                   return Observable.of(this.shopManageActions.deleteRoleFail(reason, e, false));
                                                 });
                              });
+  
+  @Effect() savePermissions = this.actions$
+                                  .ofType(
+                                    ShopManageActions.ACTION_SAVE_PERMISSION
+                                  )
+                                  .switchMap((z: any) => {
+                                    const action: Action = z;
+    
+                                    return Observable.fromPromise(this.shopManageService.savePermissions(action.payload['permissions'], action.payload['code']))
+                                                     .map(() => {
+                                                       this.notify.success("save_permissions_successfully");
+                                                       return this.shopManageActions.savePermissionSuccess(false);
+                                                     })
+                                                     .catch((e) => {
+                                                       const reason = e && e['reason'] ? e['reason'] : e['error'];
+                                                       this.notify.error(reason);
+                                                       return Observable.of(this.shopManageActions.savePermissionFail(reason, e, false));
+                                                     });
+                                  });
 }

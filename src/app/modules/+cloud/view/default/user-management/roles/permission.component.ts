@@ -9,6 +9,7 @@ import {MongoObservable} from "meteor-rxjs";
 import * as _ from 'lodash';
 import {GeneralException} from "../../../../../../code/GeneralException";
 import {RouterActions} from "../../../../../../R/router/router.actions";
+import {NotifyManager} from "../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -22,6 +23,7 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
               protected shopManageActions: ShopManageActions,
               protected licenseCollection: LicenseCollection,
               protected route: ActivatedRoute,
+              protected notify: NotifyManager,
               protected changeDetectorRef: ChangeDetectorRef,
               protected routerActions: RouterActions) {
     super();
@@ -29,6 +31,7 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
   
   permissions: any[];
   code: string;
+  role: any;
   
   data = {
     activatedGroup: ''
@@ -52,8 +55,13 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
           }
           
           const licenses = licenseCollection.collection.find().fetch();
-          
-          this.changeDetectorRef.detectChanges();
+          if (_.size(licenses) === 1) {
+            const roles = licenses[0]['has_roles'];
+            this.role   = _.find(roles, (r) => r['code'] === this.code);
+            if (!!this.role) {
+              this.changeDetectorRef.detectChanges();
+            }
+          }
         } else {
           throw new GeneralException("can_not_find_role_code");
         }
@@ -61,6 +69,10 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
   }
   
   save() {
-    
+    if (!!this.role['code']) {
+      this.shopManageActions.savePermission(this.permissions, this.role['code']);
+    } else {
+      this.notify.error("can_not_find_role");
+    }
   }
 }

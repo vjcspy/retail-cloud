@@ -33,4 +33,12 @@ export class ShopManageService {
                                  (err) => reject(err));
     });
   }
+  
+  savePermissions(permissions, code): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('license.save_permissions', {permissions, code})
+                      .subscribe(() => resolve(),
+                                 (e) => reject(e));
+    });
+  }
 }

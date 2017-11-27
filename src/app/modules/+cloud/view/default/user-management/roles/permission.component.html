@@ -22,7 +22,7 @@
                 <div class="col-right" *ngFor="let permission of section.permissions">
                   <div class="clearfix switch-state">
                     <label>{{permission.name}}</label>
-                    <iz-bootstrap-switch [state]="permission['default_value']" [(model)]="permission['default_value']"></iz-bootstrap-switch>
+                    <iz-bootstrap-switch [state]="permission['is_active']" [(model)]="permission['is_active']"></iz-bootstrap-switch>
                   </div>
                 </div>
               </div>

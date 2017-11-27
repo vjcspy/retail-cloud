@@ -76,4 +76,40 @@ export class ShopManageActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_PERMISSION = 'ACTION_SAVE_PERMISSION';
+  
+  savePermission(permissions, code, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PERMISSION, payload: {permissions, code}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_PERMISSION_SUCCESS = 'ACTION_SAVE_PERMISSION_SUCCESS';
+  
+  savePermissionSuccess(dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PERMISSION_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_PERMISSION_FAIL = 'ACTION_SAVE_PERMISSION_FAIL';
+  
+  savePermissionFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PERMISSION_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
