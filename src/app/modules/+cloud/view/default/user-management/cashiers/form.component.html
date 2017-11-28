@@ -48,7 +48,7 @@
             <label class="control-label" for="cashier_products">Assign to products:</label>
             <div class="element">
               <select multiple="true" class="form-control cashier_products" id="cashier_products" name="cashier_products">
-                <option *ngFor="let product of license['has_product']" [value]="product['product_id']" [selected]="isProductHasUser(product['id'])">
+                <option *ngFor="let product of license['has_product']" [value]="product['product_id']" [selected]="isProductHasUser(product['product_id'])">
                   {{getProductName(product['product_id'])}}
                 </option>
               </select>

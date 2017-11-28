@@ -21,6 +21,10 @@ import {ShopManageActions} from "../../../../R/shop/actions";
 
 export class CashierFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
   public user     = {
+    profile: {
+      first_name: "",
+      last_name: ""
+    },
     status: 1
   };
   public roles: any[];
@@ -64,20 +68,25 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
               this.user['status'] = 1;
             }
             
-            const licenses = licenseCollection.collection.find().fetch();
-            if (_.size(licenses) === 1) {
-              this.license  = _.first(licenses);
-              this.roles    = _.isArray(this.license['has_roles']) ? this.license['has_roles'] : [];
-              this.products = productCollection.collection.find().fetch();
-              
-              this.changeDetectorRef.detectChanges();
-              this.initPageJs();
+            if (this.user['roles'] && _.size(this.user['roles']['shop_group']) === 1) {
+              this.user['role'] = _.first(this.user['roles']['shop_group']);
             }
           } else {
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
             this.back();
           }
         }
+        
+        const licenses = licenseCollection.collection.find().fetch();
+        if (_.size(licenses) === 1) {
+          this.license  = _.first(licenses);
+          this.roles    = _.isArray(this.license['has_roles']) ? this.license['has_roles'] : [];
+          this.products = productCollection.collection.find().fetch();
+          
+          this.changeDetectorRef.detectChanges();
+          this.initPageJs();
+        }
+        
       })
     );
   }
