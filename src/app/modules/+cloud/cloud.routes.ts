@@ -27,6 +27,8 @@ import {AccountLicenseCheckoutComponent} from "./view/default/account/license/ch
 import {AccountLicensePlanListComponent} from "./view/default/account/license/plan/list.component";
 import {RolesComponent} from "./view/default/user-management/roles.component";
 import {PermissionComponent} from "./view/default/user-management/roles/permission.component";
+import {ConnectposDocumentComponent} from "./view/default/documentation/connectpos.component";
+import {ReportDocumentComponent} from "./view/default/documentation/report.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -174,6 +176,19 @@ export const CLOUD_ROUTES: Routes = [
                     component: AccountLicensePlanListComponent
                   }
                 ]
+              }
+            ]
+          },
+          {
+            path: 'documentation',
+            children: [
+              {
+                path: 'connectpos',
+                component: ConnectposDocumentComponent
+              },
+              {
+                path: 'report',
+                component: ReportDocumentComponent
               }
             ]
           }

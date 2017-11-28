@@ -109,12 +109,12 @@ export class MenuService {
                   iconClass: 'ion-android-list',
                   children: [
                     {
-                      path: '',
+                      path: '/cloud/default/documentation/connectpos',
                       name: 'Connect POS',
                       priority: 7.1,
                     },
                     {
-                      path: '',
+                      path: '/cloud/default/documentation/report',
                       name: 'Report',
                       priority: 7.2,
                     }
