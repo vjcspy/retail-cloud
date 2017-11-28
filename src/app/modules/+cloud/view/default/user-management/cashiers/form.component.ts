@@ -10,6 +10,7 @@ import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubs
 import {LicenseCollection} from "../../../../../../services/meteor-collections/licenses";
 import * as _ from 'lodash';
 import {ProductCollection} from "../../../../../../services/meteor-collections/products";
+import {ShopManageActions} from "../../../../R/shop/actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,14 +20,16 @@ import {ProductCollection} from "../../../../../../services/meteor-collections/p
            })
 
 export class CashierFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
-  public user     = {};
+  public user     = {
+    status: 1
+  };
   public roles: any[];
   public license;
   public products = [];
   
   private _vaidation;
   
-  constructor(public authService: AuthenticateService,
+  constructor(protected shopManage: ShopManageActions,
               public routerActions: RouterActions,
               public route: ActivatedRoute,
               protected userCollection: UserCollection,
@@ -57,7 +60,11 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
           if (user) {
             this.user          = user;
             this.user['email'] = user['emails'][0]['address'];
-            const licenses     = licenseCollection.collection.find().fetch();
+            if (!this.user.hasOwnProperty('status')) {
+              this.user['status'] = 1;
+            }
+            
+            const licenses = licenseCollection.collection.find().fetch();
             if (_.size(licenses) === 1) {
               this.license  = _.first(licenses);
               this.roles    = _.isArray(this.license['has_roles']) ? this.license['has_roles'] : [];
@@ -81,6 +88,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
       if (product) {
         return !!_.find(product['has_user'], (hasUser) => hasUser['user_id'] === this.user['_id']);
       } else {
+        return false;
       }
     } else {
       return false;
@@ -97,6 +105,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   private initPageJs() {
+    let vm = this;
     if (this._vaidation) {
       this._vaidation.destroy();
     }
@@ -126,6 +135,9 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     'lastname': {
                                                                       required: true
                                                                     },
+                                                                    'cashier_products': {
+                                                                      required: true
+                                                                    },
                                                                     'username': {
                                                                       required: true,
                                                                       minlength: 5
@@ -150,6 +162,9 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     'lastname': {
                                                                       required: 'Please enter a last name',
                                                                     },
+                                                                    'cashier_products': {
+                                                                      required: 'Product is required',
+                                                                    },
                                                                     'firstname': {
                                                                       required: 'Please enter a first name',
                                                                     },
@@ -161,7 +176,9 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     }
                                                                   },
                                                                   submitHandler: () => {
-                                                                  
+                                                                    vm.user['cashier_products'] = jQuery('#cashier_products').val();
+        
+                                                                    this.shopManage.saveCashier(vm.user);
                                                                   }
                                                                 });
     jQuery('#cashier_products')['select2']();

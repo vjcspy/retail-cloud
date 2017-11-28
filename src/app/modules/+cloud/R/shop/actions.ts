@@ -112,4 +112,40 @@ export class ShopManageActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_CASHIER = 'ACTION_SAVE_CASHIER';
+  
+  saveCashier(cashier, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_CASHIER, payload: {cashier}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_CASHIER_SUCCESS = 'ACTION_SAVE_CASHIER_SUCCESS';
+  
+  saveCashierSuccess(dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_CASHIER_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_CASHIER_FAIL = 'ACTION_SAVE_CASHIER_FAIL';
+  
+  saveCashierFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_CASHIER_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

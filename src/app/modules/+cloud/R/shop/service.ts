@@ -41,4 +41,12 @@ export class ShopManageService {
                                  (e) => reject(e));
     });
   }
+  
+  saveCashier(cashier): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('cashier.save', cashier)
+                      .subscribe(() => resolve(),
+                                 (e) => reject(e));
+    });
+  }
 }

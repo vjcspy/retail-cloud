@@ -66,4 +66,24 @@ export class ShopManageEffects {
                                                        return Observable.of(this.shopManageActions.savePermissionFail(reason, e, false));
                                                      });
                                   });
+  
+  @Effect() saveCashier = this.actions$
+                              .ofType(
+                                ShopManageActions.ACTION_SAVE_CASHIER
+                              )
+                              .switchMap((z: any) => {
+                                const action: Action = z;
+    
+                                return Observable.fromPromise(this.shopManageService.saveCashier(action.payload['cashier']))
+                                                 .map(() => {
+                                                   this.notify.success("save_cashier_successfully");
+                                                   this.routerActions.go('cloud/default/user-management/cashier/list');
+                                                   return this.shopManageActions.saveCashierSuccess(false);
+                                                 })
+                                                 .catch((e) => {
+                                                   const reason = e && e['reason'] ? e['reason'] : e['error'];
+                                                   this.notify.error(reason);
+                                                   return Observable.of(this.shopManageActions.saveCashierFail(reason, e, false));
+                                                 });
+                              });
 }
