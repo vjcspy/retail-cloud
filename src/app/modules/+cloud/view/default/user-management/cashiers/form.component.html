@@ -1,5 +1,5 @@
 <!-- START Add new User page -->
-<div class="addNew min-page">
+<div class="addNew min-page" *ngIf="license">
   <div class="white-box">
     <div class="box560">
       <div class="title-page">
@@ -25,51 +25,41 @@
             <label class="control-label" for="username">Username:</label>
             <div class="element">
               <input type="text" class="form-control" id="username" name="username" placeholder="Enter a username"
-                     [(ngModel)]="user.username" [disabled]="!!id">
+                     [(ngModel)]="user.username" [disabled]="!!user['_id']">
             </div>
           </div>
           <div class="form-group">
             <label class="control-label" for="email">Email:</label>
             <div class="element">
               <input type="email" class="form-control" id="email" name="email" placeholder="Enter a email" [(ngModel)]="user['email']"
-                     [disabled]="!!id">
+                     [disabled]="!!user['_id']">
             </div>
           </div>
-          <!--<div class="form-group" *ngIf="authService.isShopOwner(user)">-->
-          <!--<label class="control-label" for="role">Role:</label>-->
-          <!--<div class="element">-->
-          <!--<select class="form-control" id="role" name="role" [(ngModel)]="user['role']">-->
-          <!--<option value=""></option>-->
-          <!--<option *ngFor="let role of roles" value="{{ role['code'] }}">{{ role['name'] }}</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="form-group" *ngIf="authService.isAdmin(user)">-->
-          <!--<label class="control-label" for="role_cloud">Role:</label>-->
-          <!--<div class="element">-->
-          <!--<select class="form-control" id="role_cloud" name="role_cloud" [(ngModel)]="user['role_cloud']">-->
-          <!--<option value="admin">Admin</option>-->
-          <!--<option value="user">User</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="form-group" *ngIf="authService.isShopOwner(user)">-->
-          <!--<label class="control-label" for="cashier_products">Assign to products:</label>-->
-          <!--<div class="element">-->
-          <!--<select multiple="true" class="form-control cashier_products" id="cashier_products"-->
-          <!--name="cashier_products">-->
-          <!--<option *ngFor="let product of license.products_selectuser" [value]="product['id']" [selected]="isSelectedProduct(product['id'])">-->
-          <!--{{product['text']}}-->
-          <!--</option>-->
-          <!--</select>-->
-          <!--</div>-->
-          <!--</div>-->
+          <div class="form-group">
+            <label class="control-label" for="role">Role:</label>
+            <div class="element">
+              <select class="form-control" id="role" name="role" [(ngModel)]="user['role']">
+                <option value="">None</option>
+                <option *ngFor="let role of roles" value="{{ role['code'] }}">{{ role['name'] }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="cashier_products">Assign to products:</label>
+            <div class="element">
+              <select multiple="true" class="form-control cashier_products" id="cashier_products" name="cashier_products">
+                <option *ngFor="let product of license['has_product']" [value]="product['product_id']" [selected]="isProductHasUser(product['id'])">
+                  {{getProductName(product['product_id'])}}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="form-group">
             <label class="control-label" for="status">Status:</label>
             <div class="element">
-              <select class="form-control" id="status" name="status" [(ngModel)]="user['profile']['status']">
-                <option value="1">Enabled</option>
-                <option value="0">Disabled</option>
+              <select class="form-control" id="status" name="status" [(ngModel)]="user['status']">
+                <option value="1">Active</option>
+                <option value="0">Deactive</option>
               </select>
             </div>
           </div>

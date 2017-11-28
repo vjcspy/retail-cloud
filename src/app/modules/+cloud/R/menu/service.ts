@@ -45,7 +45,7 @@ export class MenuService {
       ]);
     }
     
-    if (this.auth.userCan('access_to_user_management') || this.auth.userCan('view_edit_create_delete_role') || this.auth.isAdmin(null)) {
+    if (this.auth.hasLicense(null) && (this.auth.userCan('access_to_user_management') || this.auth.userCan('view_edit_create_delete_role'))) {
       let _user: MenuElemInterface = {
         path: '',
         name: 'User management',
@@ -54,15 +54,15 @@ export class MenuService {
         priority: 4,
       };
       
-      if (this.auth.userCan('access_to_user_management') || this.auth.isAdmin(null)) {
+      if (this.auth.userCan('access_to_user_management')) {
         _user.children.push({
-                              name: 'Users',
+                              name: 'Cashiers',
                               path: '/cloud/default/user-management/cashier/list',
                               priority: 4.1,
                             });
       }
       
-      if (this.auth.hasLicense(null) && this.auth.userCan('view_edit_create_delete_role')) {
+      if (this.auth.userCan('view_edit_create_delete_role')) {
         _user.children.push({
                               name: 'Shop Roles',
                               path: '/cloud/default/user-management/roles',

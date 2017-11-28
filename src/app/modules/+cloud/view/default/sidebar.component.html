@@ -6,13 +6,13 @@
       <img src="assets/img/logo.png" alt="Logo">
     </a>
   </div>
-  <div class="search-form open">
-    <i class="ion-ios-search"></i>
-    <form action="" class="form-horizontal">
-      <i class="ion-ios-search"></i>
-      <input type="text" placeholder="Search Setting" class="form-control">
-    </form>
-  </div>
+  <!--<div class="search-form open">-->
+    <!--<i class="ion-ios-search"></i>-->
+    <!--<form action="" class="form-horizontal">-->
+      <!--<i class="ion-ios-search"></i>-->
+      <!--<input type="text" placeholder="Search Setting" class="form-control">-->
+    <!--</form>-->
+  <!--</div>-->
   <div class="sidebar-content">
     <ul class="nav-main list-unstyled">
       <li *ngFor="let item of menuState.elem" [ngClass]="{'has-child': !!item.children && item.children.length > 0,open: openingSubmenuName == item.name}">

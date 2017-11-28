@@ -7,6 +7,9 @@ import {UserCollection} from "../../../../../../services/meteor-collections/user
 import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
+import {LicenseCollection} from "../../../../../../services/meteor-collections/licenses";
+import * as _ from 'lodash';
+import {ProductCollection} from "../../../../../../services/meteor-collections/products";
 
 @Component({
              // moduleId: module.id,
@@ -16,11 +19,10 @@ import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubs
            })
 
 export class CashierFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
-  public user = {
-    profile: {
-      status: 1
-    }
-  };
+  public user     = {};
+  public roles: any[];
+  public license;
+  public products = [];
   
   private _vaidation;
   
@@ -28,7 +30,9 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
               public routerActions: RouterActions,
               public route: ActivatedRoute,
               protected userCollection: UserCollection,
+              protected licenseCollection: LicenseCollection,
               protected changeDetectorRef: ChangeDetectorRef,
+              protected productCollection: ProductCollection,
               protected notify: NotifyManager) {
     super();
   }
@@ -38,10 +42,14 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
       Observable
         .combineLatest(
           this.route.params,
-          this.userCollection.getCollectionObservable()
+          this.userCollection.getCollectionObservable(),
+          this.licenseCollection.getCollectionObservable(),
+          this.productCollection.getCollectionObservable()
         ).subscribe((z: any) => {
-        const params                                          = z[0];
-        const userCollection: MongoObservable.Collection<any> = z[1];
+        const params                                             = z[0];
+        const userCollection: MongoObservable.Collection<any>    = z[1];
+        const licenseCollection: MongoObservable.Collection<any> = z[2];
+        const productCollection: MongoObservable.Collection<any> = z[3];
         
         if (!!params['id']) {
           const user = userCollection.findOne({_id: params['id']});
@@ -49,8 +57,15 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
           if (user) {
             this.user          = user;
             this.user['email'] = user['emails'][0]['address'];
-            
-            this.changeDetectorRef.detectChanges();
+            const licenses     = licenseCollection.collection.find().fetch();
+            if (_.size(licenses) === 1) {
+              this.license  = _.first(licenses);
+              this.roles    = _.isArray(this.license['has_roles']) ? this.license['has_roles'] : [];
+              this.products = productCollection.collection.find().fetch();
+              
+              this.changeDetectorRef.detectChanges();
+              this.initPageJs();
+            }
           } else {
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
             this.back();
@@ -58,11 +73,33 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
         }
       })
     );
-    
-    this.initPageJs();
+  }
+  
+  isProductHasUser(productId: string): boolean {
+    if (!!this.user['_id']) {
+      const product = _.find(this.license['has_product'], (p) => p['product_id'] === productId);
+      if (product) {
+        return !!_.find(product['has_user'], (hasUser) => hasUser['user_id'] === this.user['_id']);
+      } else {
+      }
+    } else {
+      return false;
+    }
+  }
+  
+  getProductName(productId: string) {
+    const product = _.find(this.products, (p) => p['_id'] === productId);
+    if (product) {
+      return product['name'];
+    } else {
+      return "";
+    }
   }
   
   private initPageJs() {
+    if (this._vaidation) {
+      this._vaidation.destroy();
+    }
     this._vaidation = jQuery('.js-validation-user')['validate']({
                                                                   ignore: [],
                                                                   errorClass: 'help-block text-right animated fadeInDown',
@@ -124,11 +161,10 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     }
                                                                   },
                                                                   submitHandler: () => {
-                                                                    if (!!this.user['_id']) {
-                                                                    } else {
-                                                                    }
+                                                                  
                                                                   }
                                                                 });
+    jQuery('#cashier_products')['select2']();
   }
   
   ngOnDestroy(): void {
