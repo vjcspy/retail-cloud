@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {AccountState} from "../../../../R/account/account.state";
 import {AuthenticateService} from "../../../../services/authenticate";
 import {Router} from "@angular/router";
@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   
   constructor(public authenticate: AuthenticateService,
               public router: Router,
+              protected eRef: ElementRef,
               public routerActions: RouterActions,
               public menuActions: MenuActions) { }
   
@@ -30,6 +31,13 @@ export class SidebarComponent implements OnInit {
   openSubmenu(item: Object) {
     if (_.isArray(item['children']) && _.size(item['children']) > 0) {
       this.openingSubmenuName = this.openingSubmenuName !== item['name'] ? item['name'] : '';
+    }
+  }
+  
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (!this.eRef.nativeElement.contains(event.target) && this.menuState.isExpand === true) {
+      this.menuActions.toggleMenu();
     }
   }
 }
