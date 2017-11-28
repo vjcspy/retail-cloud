@@ -250,7 +250,11 @@ a {
     float: left;
     color: $gray;
 }
-
+.js-validation-role.form-horizontal .control-label {
+    text-align: right !important;
+    margin-right: 30px;
+    width: 95px;
+}
 .element {
     float: left;
     width: calc(100% - 190px);

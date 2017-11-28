@@ -30,6 +30,15 @@
     }
     li {
         border-top: 1px solid $boder-color-light;
+        > .nav-submenu {
+            position: relative;
+            &.active {
+                color: $green;
+                .sidebar-mini-hide {
+                    color: $green;
+                }
+            }
+        }
         &.has-child {
             position: relative;
             .nav-submenu {
@@ -166,6 +175,12 @@
                         color: $green;
                     }
                 } 
+                &.active {
+                    color: $green;
+                    .sidebar-mini-hide {
+                        color: $green;
+                    }
+                }
                 .sidebar-mini-hide {
                     color: $white-smoke;
                 }
@@ -186,6 +201,10 @@
                 display: none;
             }
             .nav-submenu {
+                color: $green;
+                .sidebar-mini-hide {
+                    color: $green;
+                }
                 &:after {
                     content: "\f489";
                     position: absolute;
@@ -210,6 +229,7 @@
                     z-index: auto;
                     @include transition(.8s);
                     .active a {
+                        color: $green;
                         &:focus{
                             outline: none;
                         }
