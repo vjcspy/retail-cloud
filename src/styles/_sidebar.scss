@@ -63,7 +63,7 @@
                     border: none!important;
                 }
             }
-            
+
         }
     }
     .nav-main a {
@@ -77,7 +77,7 @@
         }
         i {
             font-size: 16px;
-            
+
         }
         &.nav-submenu{
             white-space: nowrap;
@@ -166,7 +166,7 @@
         }
         .nav-main {
             padding: 0 20px;
-             .nav-submenu {           
+             .nav-submenu {
                 color: $smoke;
                 &:hover{
                     cursor: pointer;
@@ -174,7 +174,7 @@
                     .sidebar-mini-hide {
                         color: $green;
                     }
-                } 
+                }
                 &.active {
                     color: $green;
                     .sidebar-mini-hide {
@@ -186,8 +186,8 @@
                 }
                 .sidebar-mini-hide {
                     display: inline-block;
-                } 
-            } 
+                }
+            }
             a {
                 text-align: left;
                 i {
@@ -201,10 +201,10 @@
                 display: none;
             }
             .nav-submenu {
-                color: $green;
-                .sidebar-mini-hide {
-                    color: $green;
-                }
+                //color: $green;
+                //.sidebar-mini-hide {
+                //    color: $green;
+                //}
                 &:after {
                     content: "\f489";
                     position: absolute;
@@ -247,7 +247,7 @@
     li a {
         padding-left: 40px;
         padding-right: 40px;
-        
+
     }
     i {
         color: $green;
