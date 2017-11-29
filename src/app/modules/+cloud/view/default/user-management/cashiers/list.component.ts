@@ -52,7 +52,7 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {data: "username", title: "Username", searchable: true},
         {data: "emails", title: "Emails", searchable: true},
         {data: "has_license", title: "Roles"},
-        {data: "profile", title: "Status"},
+        {data: "has_license", title: "Status"},
       ],
       columnDefs: [
         {
@@ -99,12 +99,8 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {
           className: "status",
           targets: [4],
-          render(data) {
-            if (!!data && ((data.hasOwnProperty('status') && parseInt(data['status']) === 1) || (data.hasOwnProperty('is_disabled') && parseInt(data['is_disabled']) === 0))) {
-              return `Enabled`;
-            } else {
-              return `Disabled`;
-            }
+          render(hasLicense) {
+            return _.size(hasLicense) === 1 && parseInt(hasLicense[0]['status']) === 1 ? "Active" : "Deactive";
           }
         }
       ],

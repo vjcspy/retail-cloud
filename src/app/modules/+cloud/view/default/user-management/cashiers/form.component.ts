@@ -11,6 +11,8 @@ import {LicenseCollection} from "../../../../../../services/meteor-collections/l
 import * as _ from 'lodash';
 import {ProductCollection} from "../../../../../../services/meteor-collections/products";
 import {ShopManageActions} from "../../../../R/shop/actions";
+import {ShopManageState} from "../../../../R/shop/state";
+import {Store} from "@ngrx/store";
 
 @Component({
              // moduleId: module.id,
@@ -33,6 +35,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
   
   private _vaidation;
   
+  public shopManage$: Observable<ShopManageState>;
+  
   constructor(protected shopManage: ShopManageActions,
               public routerActions: RouterActions,
               public route: ActivatedRoute,
@@ -40,8 +44,10 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
               protected licenseCollection: LicenseCollection,
               protected changeDetectorRef: ChangeDetectorRef,
               protected productCollection: ProductCollection,
-              protected notify: NotifyManager) {
+              protected notify: NotifyManager,
+              protected store$: Store<any>) {
     super();
+    this.shopManage$ = this.store$.select('shopManage');
   }
   
   ngOnInit() {
