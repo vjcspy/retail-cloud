@@ -7,6 +7,9 @@ import {CloudSaleReportItemDetailComponent} from "../report/table-data/items/rep
 import {CloudSaleReportDateRangerItemComponent} from "../report/table-data/items/report-item-dateranger.coponent";
 import {CloudSaleReportItemComponent} from "../report/table-data/items/report-item.component";
 import {DashboardPage} from "../dashboard/dashboard";
+import {RetailDashboardChart} from "../dashboard/chart/retail-dashboard-chart";
+import {ChartLineTime} from "../dashboard/chart/element/chart-line-time";
+import {BarChart} from "../dashboard/chart/element/bar-chart";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -18,5 +21,9 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   CloudSaleReportTableComponent,
   CloudSaleReportItemDetailComponent,
   CloudSaleReportDateRangerItemComponent,
-  CloudSaleReportItemComponent
+  CloudSaleReportItemComponent,
+
+  RetailDashboardChart,
+  ChartLineTime,
+  BarChart
 ];

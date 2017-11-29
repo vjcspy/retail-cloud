@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy,} fro
 
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
+import {DashBoardHelper} from "../../R/dashboard/helper";
 
 @Component({
              selector: 'z-dashboard',
@@ -123,5 +124,37 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
       label: "Time Period Picker",
       value: "time_period_picker"
     }
+  }
+  
+  protected getListScope() {
+    let data = [
+      {id: 1, label: "Outlet", value: "outlet"},
+      {id: 2, label: "Website", value: "website"},
+      {id: 3, label: "Store View", value: "storeview"}
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Scope",
+      value: "scope"
+    }
+  }
+  
+  protected getListCurrency() {
+    let data = [
+      {id: 1, label: "USD", value: "usd"},
+      {id: 2, label: "VND", value: "vnd"},
+      {id: 3, label: "THB", value: "thb"}
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Currency",
+      value: "currency"
+    }
+  }
+  
+  protected getListTypeChart() {
+    return DashBoardHelper.getListTypeChart();
   }
 }

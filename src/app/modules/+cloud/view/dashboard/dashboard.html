@@ -1,36 +1,45 @@
-<div class="panel-filter clearfix">
-  <div class="fillter-top clearfix">
-    <div class="pull-left gray-bg dashboard-row">
-      <div class="dashboard-heading">
-        <h1>Retail Dashboard</h1>
-      </div>
-    </div>
-    <div class="pull-right dashboard-actions">
-      <div class="form-group select-type-report">
-        <div class="input-group">
-          <span class="input-group-addon">Time Period Picker</span>
-          <report-select [elementData]="getListTimePeriodPicker()">
-          </report-select>
+<div class="retail-dashboard">
+  <div class="panel-filter clearfix">
+    <div class="fillter-top clearfix">
+      <div class="pull-left gray-bg dashboard-row">
+        <div class="dashboard-heading">
+          <h1>Retail Dashboard</h1>
         </div>
       </div>
+      <div class="pull-right dashboard-actions">
+        <div class="form-group select-type-report">
+          <div class="input-group">
+            <p class="input-group-addon">Time Period Picker</p>
+            <report-select [elementData]="getListTimePeriodPicker()">
+            </report-select>
+          </div>
+          <div>
+            <button class="btn btn-default btn-angle-left" type="button">
+              <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </button>
+            <input class="button date day" value="28th Nov 2017"/>
+            <button class="btn btn-default btn-angle-right" type="button">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="input-group">
+            <p class="input-group-addon">Currency</p>
+            <report-select [elementData]="getListCurrency()">
+            </report-select>
+          </div>
+          <div class="input-group">
+            <p class="input-group-addon">Scope</p>
+            <report-select [elementData]="getListScope()">
+            </report-select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      <ul class="button-group date-shifter">
-        <li>
-          <a class="button secondary">
-            <div class="icon">left</div>
-          </a>
-        </li>
-        <li>
-          <a class="button date day">
-            <strong class="ng-binding">28th Nov 2017</strong>
-          </a>
-        </li>
-        <li>
-          <a class="button secondary">
-            <div class="icon">right</div>
-          </a>
-        </li>
-      </ul>
+  <div class="database-content">
+    <div class="retail-dashboard-chart" *ngFor="let typeChart of getListTypeChart()['data']">
+      <retail-dashboard-chart [typeChart]="typeChart.value"></retail-dashboard-chart>
     </div>
   </div>
 </div>
