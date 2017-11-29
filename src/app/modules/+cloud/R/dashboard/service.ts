@@ -7,7 +7,6 @@ import * as moment from "moment";
 import {ApiManager} from "../../../../services/api-manager";
 import {RequestService} from "../../../../services/request";
 import {NotifyManager} from "../../../../services/notify-manager";
-import {ReportHelper} from "./helper";
 import {LocalStorage} from "ngx-webstorage";
 import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
 
