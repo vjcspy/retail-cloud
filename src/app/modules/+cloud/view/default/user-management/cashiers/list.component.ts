@@ -46,7 +46,7 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
   getTableConfig() {
     let vm = this;
     return {
-      actionsColumn: {edit: true, remove: true},
+      actionsColumn: {edit: true, remove: false},
       columns: [
         {data: "profile", title: "Name", searchable: true},
         {data: "username", title: "Username", searchable: true},
