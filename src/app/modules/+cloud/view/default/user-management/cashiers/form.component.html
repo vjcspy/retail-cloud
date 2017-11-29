@@ -65,8 +65,8 @@
           </div>
         </div>
         <div class="group-btn tac line-top">
-          <button type="button" class="btn btn-default" (click)="back()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-default" (click)="back()" [ladda]="(shopManage$ | async)?.isProcessing">Cancel</button>
+          <button type="submit" class="btn btn-primary" [ladda]="(shopManage$ | async)?.isProcessing">Save</button>
         </div>
       </form>
     </div>
