@@ -6,11 +6,13 @@ import {CloudSaleReportTableComponent} from "../report/table-data/report-table.c
 import {CloudSaleReportItemDetailComponent} from "../report/table-data/items/report-item-detail.component";
 import {CloudSaleReportDateRangerItemComponent} from "../report/table-data/items/report-item-dateranger.coponent";
 import {CloudSaleReportItemComponent} from "../report/table-data/items/report-item.component";
+import {DashboardPage} from "../dashboard/dashboard";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
   HeaderComponent,
 
+  DashboardPage,
   CloudSaleReportPage,
   ReportFilterComponent,
   CloudSaleReportTableComponent,
