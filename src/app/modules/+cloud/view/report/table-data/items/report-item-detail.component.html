@@ -1,5 +1,5 @@
 <th colspan="2" class="datatable-row-label"></th>
-<th [attr.colspan]="colspanFooter-2" class="datatable-row-label">{{item['name']}}</th>
+<th [attr.colspan]="colspanFooter-2" class="datatable-row-label">{{item['name'] == 'N/A' ? 'No '+ getLabelForTitle() : item['name']}}</th>
 <td [hidden]="isDateRanger()" class="datatable-cell datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
     <span [hidden]="!checkShowSymbolCurrency(item['name'], item[date])">
       {{base_currency_code}}</span>{{checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :

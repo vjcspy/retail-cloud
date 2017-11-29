@@ -1,5 +1,7 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {SaleReportService} from "../../../../R/report/service";
+import {ReportHelper} from "../../../../R/report/helper";
+import * as _ from "lodash";
 
 @Component({
              selector: '[sale-report-item-detail]',
@@ -44,5 +46,11 @@ export class CloudSaleReportItemDetailComponent {
       return false;
     } else
       return true;
+  }
+  
+  getLabelForTitle() {
+    let extra_info = this.service.viewDataFilter['extra_info'];
+    let reportColumn     = _.find(ReportHelper.getListExtraData()['data'], (row) => row['value'] == extra_info);
+    return reportColumn['label'];
   }
 }
