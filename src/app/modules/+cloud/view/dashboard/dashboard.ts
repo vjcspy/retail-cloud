@@ -1,16 +1,14 @@
 import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy,} from '@angular/core';
-import * as moment from 'moment';
-import * as $q from "q";
-import * as _ from "lodash";
-import {RequestService} from "../../../../services/request";
-import {ApiManager} from "../../../../services/api-manager";
 
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 
 @Component({
              selector: 'z-dashboard',
-             templateUrl: 'dashboard.html'
+             templateUrl: 'dashboard.html',
+             styleUrls: [
+               './dashboard.scss'
+             ],
            })
 export class DashboardPage implements AfterViewInit, OnDestroy {
   @ViewChild('chart') public chartEl: ElementRef;
@@ -110,5 +108,20 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
   
   public ngOnDestroy() {
     this._barchart.destroy();
+  }
+  
+  protected getListTimePeriodPicker() {
+    let data = [
+      {id: 1, label: "Day", value: "day"},
+      {id: 2, label: "Week", value: "week"},
+      {id: 3, label: "Month", value: "month"},
+      {id: 4, label: "Year", value: "year"},
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Time Period Picker",
+      value: "time_period_picker"
+    }
   }
 }
