@@ -1,7 +1,11 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {UserCollection} from "../../../../../../services/meteor-collections/users";
 import * as _ from 'lodash';
 import {RouterActions} from "../../../../../../R/router/router.actions";
+import {LicenseCollection} from "../../../../../../services/meteor-collections/licenses";
+import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
+import {Observable} from "rxjs/Observable";
+import {MongoObservable} from "meteor-rxjs";
 
 @Component({
              // moduleId: module.id,
@@ -10,18 +14,44 @@ import {RouterActions} from "../../../../../../R/router/router.actions";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class CashierListComponent {
+export class CashierListComponent extends AbstractSubscriptionComponent implements OnInit {
+  public license;
+  public roles;
+  
   constructor(public userCollection: UserCollection,
-              public routerActions: RouterActions) { }
+              protected licenseCollection: LicenseCollection,
+              protected elemChangeDetechtor: ChangeDetectorRef,
+              public routerActions: RouterActions) {
+    super();
+  }
+  
+  ngOnInit(): void {
+    this.subscribeObservable('_', () =>
+      Observable.combineLatest(
+        this.licenseCollection.getCollectionObservable()
+      ).subscribe((z: any) => {
+        const licenseCollection: MongoObservable.Collection<any> = z[0];
+        
+        const licenses = licenseCollection.collection.find().fetch();
+        
+        if (_.size(licenses) === 1) {
+          this.license = _.first(licenses);
+          this.roles   = this.license['has_roles'] || [];
+          
+          this.elemChangeDetechtor.detectChanges();
+        }
+      }));
+  }
   
   getTableConfig() {
+    let vm = this;
     return {
       actionsColumn: {edit: true, remove: true},
       columns: [
         {data: "profile", title: "Name", searchable: true},
         {data: "username", title: "Username", searchable: true},
         {data: "emails", title: "Emails", searchable: true},
-        {data: "roles", title: "Roles"},
+        {data: "has_license", title: "Roles"},
         {data: "profile", title: "Status"},
       ],
       columnDefs: [
@@ -52,11 +82,17 @@ export class CashierListComponent {
           className: "role",
           orderable: false,
           targets: [3],
-          render(roles, type, row) {
-            if (_.isObject(roles) && roles.hasOwnProperty("cloud_group")) {
-              return roles['cloud_group'];
+          render(hasLicense, type, row) {
+            if (_.size(hasLicense) === 1) {
+              if (hasLicense[0]['license_permission'] === 'owner') {
+                return 'OWNER';
+              }
+              
+              const role = _.find(vm.roles, (r) => r['code'] === hasLicense[0]['shop_role']);
+              console.log(vm.roles);
+              return role ? role['name'] : 'NONE';
             } else {
-              return "";
+              return "NONE";
             }
           }
         },

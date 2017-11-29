@@ -21,9 +21,6 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
   @ViewChild('modalDelete') protected modalDelete;
   
   public shopManageState$: Observable<ShopManageState>;
-  public data = {
-    isResolvedData: false
-  };
   
   public role: Object = {
     code: null,
@@ -54,7 +51,7 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
         if (_.size(licenses) === 1) {
           this.license             = _.first(licenses);
           this.roles               = this.license['has_roles'];
-          this.data.isResolvedData = true;
+          
           this.changeDetectorRef.detectChanges();
           setTimeout(() => { this.initPageJs();}, 500);
         } else {

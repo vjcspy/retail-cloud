@@ -1,4 +1,4 @@
-<div class="list-page min-page">
+<div class="list-page min-page" *ngIf="license">
   <angular-meteor-datatable [collectionObservable]="userCollection.getCollectionObservable()"
                             [tableConfig]="getTableConfig()" (event)="handleTableEvent($event)">
   </angular-meteor-datatable>
