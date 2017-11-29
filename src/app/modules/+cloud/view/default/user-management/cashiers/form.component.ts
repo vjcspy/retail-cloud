@@ -68,8 +68,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
               this.user['status'] = 1;
             }
             
-            if (this.user['roles'] && _.size(this.user['roles']['shop_group']) === 1) {
-              this.user['role'] = _.first(this.user['roles']['shop_group']);
+            if (_.size(this.user['has_license']) === 1) {
+              this.user['role'] = _.first(this.user['has_license'])['shop_role'];
             }
           } else {
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
