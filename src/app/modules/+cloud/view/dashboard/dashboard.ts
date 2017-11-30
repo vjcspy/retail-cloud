@@ -81,7 +81,7 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
         {
           showInLegend: false,
           name: 'Total',
-          data: [12.395 - 9.25, 12.395 - 7.5, 12.395 - 2, 12.395 - 1],
+          data: [12.395 - 9.25, 12.395 - 7.5, 12.395 - 2, 12.395 - 0],
           color: '#989898',
           dataLabels: {
             formatter: function () {
@@ -95,7 +95,7 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
         {
           showInLegend: false,
           name: 'Value',
-          data: [9.25, 7.5, 2, 1],
+          data: [9.25, 7.5, 2, 0],
           color: '#0196FC',
           dataLabels: {
             format: ['Outlet A'],
