@@ -23,13 +23,10 @@
             </button>
           </div>
           <div class="input-group">
-            <p class="input-group-addon">Currency</p>
-            <report-select [elementData]="getListCurrency()">
-            </report-select>
-          </div>
-          <div class="input-group">
             <p class="input-group-addon">Scope</p>
-            <report-select [elementData]="getListScope()">
+            <report-select [elementData] = "getListScope()"
+                           [(model)] = "getDataFilter()['scope']"
+                           (modelChange)="dashboardReportService.getDashboardReport()">
             </report-select>
           </div>
         </div>

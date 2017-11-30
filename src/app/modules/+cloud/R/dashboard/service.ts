@@ -8,7 +8,7 @@ import {ApiManager} from "../../../../services/api-manager";
 import {RequestService} from "../../../../services/request";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {LocalStorage} from "ngx-webstorage";
-import {ReportDashboardHelper} from "helper";
+import {ReportDashboardHelper} from "./helper";
 import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
 
 @Injectable()
@@ -50,8 +50,8 @@ export class DashboardReportService {
     this.viewDataFilter = {
       scope: this.getScopeData(),
       period: '7d',
-      dateStart: moment().subtract(7, 'day').format("YYYY-MM-DD 00:00:00"),
-      dateEnd: moment().format("YYYY-MM-DD 23:59:59")
+      dateStart: moment(),
+      dateEnd: moment()
     };
     this.viewData       = {
       list_date_filter: [],
@@ -63,7 +63,7 @@ export class DashboardReportService {
     if (!this.viewDataFilter.hasOwnProperty("scope")) {
       return this.viewDataFilter['scope'] = ReportDashboardHelper.getListScope()['data'][0]['value'];
     }
-    return this.viewDataFilter['report_type'];
+    return this.viewDataFilter['scope'];
   }
 
   initRequestReportData() {
@@ -72,8 +72,8 @@ export class DashboardReportService {
       'period': this.viewDataFilter['period'],
       // 'dateStart': moment(this.viewDataFilter['dateStart']).format() + '/' + this.viewDataFilter['dateStart'] ,
       // 'dateEnd': moment(this.viewDataFilter['dateEnd']).format() + '/' + this.viewDataFilter['dateEnd']
-      'dateStart': this.viewDataFilter['dateStart'] ,
-      'dateEnd':this.viewDataFilter['dateEnd']
+      'dateStart': this.viewDataFilter['dateStart'].format("YYYY-MM-DD") ,
+      'dateEnd':this.viewDataFilter['dateEnd'].format("YYYY-MM-DD")
     };
   }
   
@@ -124,9 +124,18 @@ export class DashboardReportService {
       list_date_filter: [],
       items: [],
     };
-    _.forEach(itemsData, (items) => {
-      this.viewData['items'].push("12");
+    let data = [];
+    _.forEach(ReportDashboardHelper.getWidgets()['data'] , (widget)=>{
+    data[widget['value']] = [];
+      _.forEach(itemsData, (items) => {
+        data[widget['value']].push({
+                  "name": items['name'],
+                  "value": items['chart_data'][widget['value']]
+                })
       });
+    });
+    console.log(data);
+    
     
    
   }

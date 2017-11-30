@@ -1,8 +1,10 @@
 import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy,} from '@angular/core';
+import {ReportDashboardHelper} from "../../R/dashboard/helper";
+import {DashboardReportService} from "../../R/dashboard/service";
 
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
-import {DashBoardHelper} from "../../R/dashboard/helper";
+
 
 @Component({
              selector: 'z-dashboard',
@@ -108,15 +110,21 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
   }
   
   public ngOnDestroy() {
-    this._barchart.destroy();
+    // this._barchart.destroy();
+  }
+  
+  constructor(protected dashboardReportService: DashboardReportService) {
+  }
+  
+  getDataFilter() {
+    return this.dashboardReportService.viewDataFilter;
   }
   
   protected getListTimePeriodPicker() {
     let data = [
       {id: 1, label: "Day", value: "day"},
       {id: 2, label: "Week", value: "week"},
-      {id: 3, label: "Month", value: "month"},
-      {id: 4, label: "Year", value: "year"},
+      {id: 3, label: "Month", value: "month"}
     ];
     return {
       data: data,
@@ -140,21 +148,7 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
     }
   }
   
-  protected getListCurrency() {
-    let data = [
-      {id: 1, label: "USD", value: "usd"},
-      {id: 2, label: "VND", value: "vnd"},
-      {id: 3, label: "THB", value: "thb"}
-    ];
-    return {
-      data: data,
-      isMultiSelect: false,
-      label: "Currency",
-      value: "currency"
-    }
-  }
-  
   protected getListTypeChart() {
-    return DashBoardHelper.getListTypeChart();
+    return ReportDashboardHelper.getWidgets();
   }
 }
