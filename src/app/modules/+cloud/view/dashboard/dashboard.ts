@@ -1,16 +1,15 @@
 import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy,} from '@angular/core';
-import * as moment from 'moment';
-import * as $q from "q";
-import * as _ from "lodash";
-import {RequestService} from "../../../../services/request";
-import {ApiManager} from "../../../../services/api-manager";
 
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
+import {DashBoardHelper} from "../../R/dashboard/helper";
 
 @Component({
              selector: 'z-dashboard',
-             templateUrl: 'dashboard.html'
+             templateUrl: 'dashboard.html',
+             styleUrls: [
+               './dashboard.scss'
+             ],
            })
 export class DashboardPage implements AfterViewInit, OnDestroy {
   @ViewChild('chart') public chartEl: ElementRef;
@@ -110,5 +109,52 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
   
   public ngOnDestroy() {
     this._barchart.destroy();
+  }
+  
+  protected getListTimePeriodPicker() {
+    let data = [
+      {id: 1, label: "Day", value: "day"},
+      {id: 2, label: "Week", value: "week"},
+      {id: 3, label: "Month", value: "month"},
+      {id: 4, label: "Year", value: "year"},
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Time Period Picker",
+      value: "time_period_picker"
+    }
+  }
+  
+  protected getListScope() {
+    let data = [
+      {id: 1, label: "Outlet", value: "outlet"},
+      {id: 2, label: "Website", value: "website"},
+      {id: 3, label: "Store View", value: "storeview"}
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Scope",
+      value: "scope"
+    }
+  }
+  
+  protected getListCurrency() {
+    let data = [
+      {id: 1, label: "USD", value: "usd"},
+      {id: 2, label: "VND", value: "vnd"},
+      {id: 3, label: "THB", value: "thb"}
+    ];
+    return {
+      data: data,
+      isMultiSelect: false,
+      label: "Currency",
+      value: "currency"
+    }
+  }
+  
+  protected getListTypeChart() {
+    return DashBoardHelper.getListTypeChart();
   }
 }
