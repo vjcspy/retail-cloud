@@ -91,7 +91,7 @@
     }
     .button-group{
     	@include clearfix;
-    	button {min-width: 114px; }
+    	button {min-width: 114px; padding: initial;}
 	    .click {
 	      float: left; margin-top: 11px;
 	      color: $aqua;
@@ -110,8 +110,6 @@
     }
 
 	}
-
-
 
   .back-btn {
     position: absolute;
