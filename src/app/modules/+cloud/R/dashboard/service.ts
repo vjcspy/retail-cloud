@@ -121,24 +121,45 @@ export class DashboardReportService {
   convertData(itemsData , $listDateFilter) {
     this.viewData = {
       list_date_filter: [],
-      items: [],
+      items: []
     };
     this.viewData['list_date_filter'] = $listDateFilter;
-    _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
-      let _data = {
+    // _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
+    //   let _data = {
+    //     name: widget['label'],
+    //     type: widget['value'],
+    //     data: []
+    //   };
+    //   _.forEach(itemsData, (scope) => {
+    //     _data["data"].push({
+    //               "name": scope['name'],
+    //               "value": scope['chart_data'][widget['value']]
+    //             })
+    //   });
+    //   this.viewData['items'].push(_data);
+    // });
+    
+    _.forEach(ReportDashboardHelper.getWidgets()['data'], widget => {
+      let data = {
         name: widget['label'],
         type: widget['value'],
         data: []
       };
-      _.forEach(itemsData, (scope) => {
-        _data["data"].push({
-                  "name": scope['name'],
-                  "value": scope['chart_data'][widget['value']]
-                })
+    
+      _.forEach(itemsData, scope => {
+        const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widget['value']);
+        if (chartDataOfCurrentScope) {
+          data['data'].push({
+                               scopeName: scope['name'],
+                               chartData: chartDataOfCurrentScope
+                             });
+        } else {
+        }
       });
-      this.viewData['items'].push(_data);
+    
+      this.viewData['items'].push(data);
     });
-    console.log(this.viewData['items']);
+    this.updateView().next();
   }
   
   getChangeBaseUrlStream() {
@@ -154,7 +175,7 @@ export class DashboardReportService {
     this.stream.refreshDashboardReport = new Subject();
     this.stream.refreshDashboardReport = <any>this.stream.refreshDashboardReport.share();
     }
-    return this.stream.refreshSaleReport;
+    return this.stream.refreshDashboardReport;
   }
   
 }

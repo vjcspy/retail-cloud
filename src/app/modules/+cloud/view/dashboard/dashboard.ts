@@ -1,10 +1,7 @@
-import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy,} from '@angular/core';
+import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ReportDashboardHelper} from "../../R/dashboard/helper";
 import {DashboardReportService} from "../../R/dashboard/service";
-
-const Highcharts = require('highcharts/highcharts.src');
-import 'highcharts/adapters/standalone-framework.src';
-
+import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: 'z-dashboard',
@@ -13,109 +10,23 @@ import 'highcharts/adapters/standalone-framework.src';
                './dashboard.scss'
              ],
            })
-export class DashboardPage implements AfterViewInit, OnDestroy {
-  @ViewChild('chart') public chartEl: ElementRef;
-  
-  private _barchart: any;
-  public ngAfterViewInit() {
-   let barchart =  this.initBarChart();
-    if (this.chartEl && this.chartEl.nativeElement) {
-      barchart.chart = {
-        type: 'bar',
-        renderTo: this.chartEl.nativeElement
-      };
-      
-      this._barchart = new Highcharts.Chart(barchart);
-    };
+
+
+export class DashboardPage extends AbstractRxComponent implements OnInit {
+  constructor(protected dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
+    super();
   }
   
-  private initBarChart():any {
-    return {
-      title: {
-        text: '',
-        style: {
-          display: 'none'
-        }
-      },
-      subtitle: {
-        text: '',
-        style: {
-          display: 'none'
-        }
-      },
-      legend: {
-        enabled: false,
-      },
-      xAxis: {
-        startOnTick: false,
-        labels: {
-          enabled: false
-        },
-        categories: [''],
-        lineWidth: 0,
-        tickWidth: 0,
-      },
-      yAxis: {
-        // minPadding: -10,
-        // maxPadding: -10,
-        labels: {
-          enabled: false,
-        },
-        categories: ['Jan', 'Feb', 'Mar', 'Apr'],
-        gridLineWidth: 0,
-        title: null
-      },
-      credits: {
-        enabled: false
-      },
-      plotOptions: {
-        series: {
-          pointPadding: 0.3,
-          groupPadding: -0.2,
-          stacking: 'percent'
-        }
-      },
-      tooltip: {
-        enabled: false
-      },
-      series: [
-        {
-          showInLegend: false,
-          name: 'Total',
-          data: [12.395 - 9.25, 12.395 - 7.5, 12.395 - 2, 12.395 - 0],
-          color: '#989898',
-          dataLabels: {
-            formatter: function () {
-              return this.total - this.y;
-            },
-            enabled: true,
-            align: 'right',
-            color: "#000000"
-          }
-        },
-        {
-          showInLegend: false,
-          name: 'Value',
-          data: [9.25, 7.5, 2, 0],
-          color: '#0196FC',
-          dataLabels: {
-            format: ['Outlet A'],
-            enabled: true,
-            align: 'left',
-            color: "#000000"
-          }
-        }
-      ]
-    };
+  ngOnInit() {
+    this._subscription['change_base_url']  =  this.dashboardReportService.getChangeBaseUrlStream().subscribe(() => {
+      this.dashboardReportService.getDashboardReport();
+    });
+    
+    this._subscription['update_view']  =  this.dashboardReportService.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
   }
-  
-  public ngOnDestroy() {
-    // this._barchart.destroy();
-  }
-  
-  constructor(protected dashboardReportService: DashboardReportService) {
-  }
-  
+
   getDataFilter() {
     return this.dashboardReportService.viewDataFilter;
   }
@@ -135,20 +46,15 @@ export class DashboardPage implements AfterViewInit, OnDestroy {
   }
   
   protected getListScope() {
-    let data = [
-      {id: 1, label: "Outlet", value: "outlet"},
-      {id: 2, label: "Website", value: "website"},
-      {id: 3, label: "Store View", value: "storeview"}
-    ];
-    return {
-      data: data,
-      isMultiSelect: false,
-      label: "Scope",
-      value: "scope"
-    }
+    return ReportDashboardHelper.getListScope();
   }
   
   protected getListTypeChart() {
     return ReportDashboardHelper.getWidgets();
   }
+  
+  protected getViewData(){
+    return this.dashboardReportService.viewData;
+  }
+  
 }

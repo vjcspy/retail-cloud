@@ -24,8 +24,8 @@
           </div>
           <div class="input-group">
             <p class="input-group-addon">Scope</p>
-            <report-select [elementData] = "getListScope()"
-                           [(model)] = "getDataFilter()['scope']"
+            <report-select [elementData]="getListScope()"
+                           [(model)]="getDataFilter()['scope']"
                            (modelChange)="dashboardReportService.getDashboardReport()">
             </report-select>
           </div>
@@ -36,7 +36,9 @@
 
   <div class="database-content">
     <div class="retail-dashboard-chart" *ngFor="let typeChart of getListTypeChart()['data']">
-      <retail-dashboard-chart [typeChart]="typeChart.value"></retail-dashboard-chart>
+      <retail-dashboard-chart [typeChart]="typeChart.value"
+                              [data_view]="getViewData()">
+      </retail-dashboard-chart>
     </div>
   </div>
 </div>

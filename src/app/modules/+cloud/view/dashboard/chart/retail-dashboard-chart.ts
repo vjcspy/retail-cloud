@@ -9,11 +9,17 @@ import * as _ from "lodash";
            })
 
 export class RetailDashboardChart {
-  @Input('typeChart') typeChart;
+  @Input('typeChart') typeChart = [];
+  @Input('data_view') viewData = [];
   
   getTitleDashBoardChart() {
     let typeChart = this.typeChart;
     let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
+  }
+  
+  getDataBarChart(){
+  console.log(this.viewData['items']);
+  return this.viewData;
   }
 }
