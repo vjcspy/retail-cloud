@@ -9,7 +9,7 @@ import {RequestService} from "../../../../services/request";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {LocalStorage} from "ngx-webstorage";
 import {ReportDashboardHelper} from "./helper";
-import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
+// import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
 
 @Injectable()
 export class DashboardReportService {
@@ -19,8 +19,7 @@ export class DashboardReportService {
 
   protected stream               = {
     refreshDashboardReport: new Subject(),
-    change_scope : new Subject(),
-    over_loadding : new Subject()
+    change_scope : new Subject()
   };
   
   public viewDataFilter   = {};
@@ -124,135 +123,39 @@ export class DashboardReportService {
       list_date_filter: [],
       items: [],
     };
-    let data = [];
-    _.forEach(ReportDashboardHelper.getWidgets()['data'] , (widget)=>{
-    data[widget['value']] = [];
-      _.forEach(itemsData, (items) => {
-        data[widget['value']].push({
-                  "name": items['name'],
-                  "value": items['chart_data'][widget['value']]
+    this.viewData['list_date_filter'] = $listDateFilter;
+    _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
+      let _data = {
+        name: widget['label'],
+        type: widget['value'],
+        data: []
+      };
+      _.forEach(itemsData, (scope) => {
+        _data["data"].push({
+                  "name": scope['name'],
+                  "value": scope['chart_data'][widget['value']]
                 })
       });
+      this.viewData['items'].push(_data);
     });
-    console.log(data);
-    
-    
-   
+    console.log(this.viewData['items']);
+  }
+  
+  getChangeBaseUrlStream() {
+    if (!this.stream.hasOwnProperty('change_scope')) {
+      this.stream.change_scope = new Subject();
+      this.stream.change_scope = <any>this.stream.change_scope.share();
+    }
+    return this.stream.change_scope;
   }
 
-  // protected getLabelForTitle(){
-  //   let report_type = this.viewDataFilter['report_type'];
-  //   let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
-  //   return reportColumn['label'];
-  // }
-  //
-  //
-  // getReportTypeData() {
-  //   if (!this.viewDataFilter.hasOwnProperty("report_type")) {
-  //     return this.viewDataFilter['report_type'] = ReportHelper.getListReportType()['data'][0]['value'];
-  //   }
-  //   return this.viewDataFilter['report_type'];
-  // }
-  //
-  // getMeasureSelectedColumn(fource: boolean = false) {
-  //   if (!this.viewDataFilter.hasOwnProperty('measures') || fource) {
-  //     let report_type = this.viewDataFilter['report_type'];
-  //     this.viewDataFilter['measures'] = [];
-  //     _.forEach(this.reportHelper.getListMeasureByReportType(report_type, true)['data'], (measure)=> {
-  //       this.viewDataFilter['measures'].push(measure['label']);
-  //     });
-  //   }
-  //   this.measure_selected[this.viewDataFilter['report_type']] =   this.viewDataFilter['measures'];
-  //   return this.viewDataFilter['measures'];
-  // }
-  //
-  // removeSelectedMeasure(measureSelected) {
-  //   if (this.viewDataFilter.hasOwnProperty('measures')) {
-  //     _.remove(this.viewDataFilter['measures'], function (measures) {
-  //       return measures == measureSelected
-  //     });
-  //   }
-  //   this.measure_selected[this.viewDataFilter['report_type']] = this.viewDataFilter['measures'];
-  // }
-  //
-  // protected initDataFilterReport(dataFilter) {
-  //   let report_type = this.viewDataFilter['report_type'];
-  //   let measure     = this.reportHelper.getListMeasureByReportType(report_type)['data'];
-  //   let filterData  = [];
-  //   _.forEach(dataFilter, function (value, key) {
-  //     if (typeof value != 'undefined' && key == 'name') {
-  //       filterData.push({
-  //                         "name": report_type,
-  //                         "search_value": value
-  //                       });
-  //     } else {
-  //       if (typeof value != 'undefined') {
-  //         let valueMeasure = _.find(measure, (row) => row['label'] == key);
-  //         if (valueMeasure) {
-  //           filterData.push({
-  //                             "name": valueMeasure['value'],
-  //                             "search_value": value
-  //                           });
-  //         } else
-  //           filterData.push({
-  //                             "name": key,
-  //                             "search_value": value
-  //                           });
-  //       }
-  //     }
-  //   });
-  //   return filterData;
-  // }
-  //
-  // resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-  //   if (isFilter) {
-  //     if (measureLabel == this._sortData) {
-  //       this.isSortAsc = !this.isSortAsc;
-  //     } else {
-  //       this.isSortAsc = true;
-  //     }
-  //   }
-  //     if(measureLabel != null){
-  //     this._sortData = measureLabel;
-  //     }
-  //   let listDataSoft = _.filter(this.viewData['items'], function (item) {
-  //     return item['display_item_detail'] != true ;
-  //   });
-  //   this.viewData['items'] =  _.filter(this.viewData['items'], function (item) {
-  //     return item['display_item_detail'] == true ;
-  //   });
-  //     // mac dinh sort desc
-  //   listDataSoft = _.sortBy(listDataSoft, [(item) => {
-  //       if (this._sortData == 'First Sale' || this._sortData == 'Last Sale') {
-  //         return _.toLower(item[this._sortData]);
-  //       } else {
-  //         return parseFloat(item[this._sortData]);
-  //       }
-  //     }]);
-  //     if (this.isSortAsc) {
-  //       //noinspection TypeScriptUnresolvedFunction
-  //       listDataSoft = _.reverse(listDataSoft);
-  //     }
-  //   this.viewData['items'] = _.concat(this.viewData['items'], listDataSoft);
-  //   this.viewState.isOverLoad = true;
-  //   this.updateView().next();
-  // }
-  //
-  // getChangeBaseUrlStream() {
-  //   if (!this.stream.hasOwnProperty('change_page')) {
-  //     this.stream.change_page = new Subject();
-  //     this.stream.change_page = <any>this.stream.change_page.share();
-  //   }
-  //   return this.stream.change_page;
-  // }
-  //
-  // updateView(){
-  //   if(!this.stream.hasOwnProperty('refreshSaleReport')){
-  //   this.stream.refreshSaleReport = new Subject();
-  //   this.stream.refreshSaleReport = <any>this.stream.refreshSaleReport.share();
-  //   }
-  //   return this.stream.refreshSaleReport;
-  // }
+  updateView(){
+    if(!this.stream.hasOwnProperty('refreshDashboardReport')){
+    this.stream.refreshDashboardReport = new Subject();
+    this.stream.refreshDashboardReport = <any>this.stream.refreshDashboardReport.share();
+    }
+    return this.stream.refreshSaleReport;
+  }
   
 }
 
