@@ -19,7 +19,6 @@ export class RetailDashboardChart {
   }
   
   getDataBarChart(){
-  console.log(this.viewData['items']);
   return this.viewData;
   }
 }
