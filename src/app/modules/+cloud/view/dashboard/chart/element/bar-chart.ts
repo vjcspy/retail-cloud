@@ -15,11 +15,11 @@ import 'highcharts/adapters/standalone-framework.src';
            })
 export class BarChart implements AfterViewInit, OnDestroy {
   @ViewChild('chart') public chartEl: ElementRef;
-  // item  = [0, 2113.4, 0, 152.96, 713.8, 0];
-                             item    = [0, 2113.4];
+                             item    = [0, 2113.4, 0, 152.96, 713.8, 0];
+                             // item    = [0, 2113.4];
                              maxItem = 2113.4 * 1.33;
-  // value = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee','1asd'];
-                             value   = ['Thanhnt1', 'demo outlet'];
+                             value   = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee', '1asd'];
+                             // value   = ['Thanhnt1', 'demo outlet'];
   private _barchart: any;
   
   public ngAfterViewInit() {
@@ -70,8 +70,8 @@ export class BarChart implements AfterViewInit, OnDestroy {
         {
           showInLegend: false,
           name: 'Total',
-          // data: [this.maxItem - 0, this.maxItem - 2113.4, this.maxItem - 0, this.maxItem - 152.96 , this.maxItem -713.8, this.maxItem - 0],
-          data: [this.maxItem - 0, this.maxItem - 2113.4],
+          data: [this.maxItem - 0, this.maxItem - 2113.4, this.maxItem - 0, this.maxItem - 152.96 , this.maxItem -713.8, this.maxItem - 0],
+          // data: [this.maxItem - 0, this.maxItem - 2113.4],
           value: this.value,
           color: '#989898',
           dataLabels: {

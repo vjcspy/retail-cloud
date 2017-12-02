@@ -118,12 +118,12 @@ export class DashboardReportService {
     // }
   }
   
-  convertData(itemsData , $listDateFilter) {
+  convertData(itemsData , listDateFilter) {
     this.viewData = {
       list_date_filter: [],
       items: []
     };
-    this.viewData['list_date_filter'] = $listDateFilter;
+    this.viewData['list_date_filter'] = listDateFilter;
     // _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
     //   let _data = {
     //     name: widget['label'],

@@ -37,7 +37,7 @@
   <div class="database-content">
     <div class="retail-dashboard-chart" *ngFor="let typeChart of getListTypeChart()['data']">
       <retail-dashboard-chart [typeChart]="typeChart.value"
-                              [data_view]="getViewData()">
+                              [data_view]="getViewData(typeChart.value)">
       </retail-dashboard-chart>
     </div>
   </div>

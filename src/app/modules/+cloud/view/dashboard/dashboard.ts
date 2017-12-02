@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, Chan
 import {ReportDashboardHelper} from "../../R/dashboard/helper";
 import {DashboardReportService} from "../../R/dashboard/service";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
+import * as _ from "lodash";
 
 @Component({
              selector: 'z-dashboard',
@@ -53,7 +54,13 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     return ReportDashboardHelper.getWidgets();
   }
   
-  protected getViewData(){
+  protected getViewData(widget = null){
+    if(widget != null){
+      let data = _.find(this.dashboardReportService.viewData['items'], (row) => { return row['type'] === widget; })
+      // console.log(_.find(this.dashboardReportService.viewData['items'], (row) => { return row['type'] === widgets; }));
+      // return this.dashboardReportService.viewData;
+      return data;
+    }
     return this.dashboardReportService.viewData;
   }
   
