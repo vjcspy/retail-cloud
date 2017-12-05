@@ -36,7 +36,7 @@ export class BraintreeEffects {
                                          const salesState: SalesState = z[1];
                                          return Observable.fromPromise(this.braintreeService
                                                                            .getBraintree()
-                                                                           .requestPaymentMethod(salesState.checkout.orderType, salesState.checkout.orderId))
+                                                                           .requestPaymentMethod(salesState.checkout.planId))
                                                           .map(() => this.checkoutActions.paySuccess(false))
                                                           .catch((e) => {
                                                             const reason = e && e['reason'] ? e['reason'] : e['error'];
