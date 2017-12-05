@@ -5,6 +5,7 @@ import {CheckoutService} from "./service";
 import {Observable} from "rxjs/Observable";
 import {Action} from "@ngrx/store";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {RouterActions} from "../../../../../R/router/router.actions";
 
 @Injectable()
 export class CheckoutEffects {
@@ -12,6 +13,7 @@ export class CheckoutEffects {
   constructor(protected actions$: Actions,
               protected checkoutService: CheckoutService,
               protected checkoutActions: CheckoutActions,
+              protected routerActions: RouterActions,
               protected notify: NotifyManager) { }
   
   @Effect() calculateTotal = this.actions$
@@ -37,7 +39,9 @@ export class CheckoutEffects {
                                const {plan, product_id} = action['payload'];
                                return Observable.fromPromise(this.checkoutService.submitOrder(plan, product_id))
                                                 .map((planId) => {
-                                                  this.notify.success("submit_plan_success");
+                                                  setTimeout(() => {
+                                                    this.routerActions.go('cloud/default/account/license/checkout', {planId});
+                                                  });
       
                                                   return this.checkoutActions.submitPlanSuccess(planId, false);
                                                 })

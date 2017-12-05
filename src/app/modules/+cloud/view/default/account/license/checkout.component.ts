@@ -30,12 +30,12 @@ export class AccountLicenseCheckoutComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       if (params) {
-        const {orderType, orderId} = params;
+        const {planId} = params;
         
-        if (!orderType || !orderId) {
+        if (!planId) {
           this.notify.error('can_load_data');
         } else {
-          this.checkoutActions.initCheckoutPayment(orderType, orderId);
+          this.checkoutActions.initCheckoutPayment(planId);
         }
       }
     });
