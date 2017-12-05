@@ -1,11 +1,16 @@
-<div class='widget'>
-  <h1>{{getTitleDashBoardChart()}}</h1>
-  <h2>$479</h2>
-  <h3>
-    <div>Up</div>
-    <div>Previous Day</div>
-  </h3>
-  <!--<bar-chart  [data_bar_chart]="getDataBarChart()"></bar-chart>-->
-  <bar-chart></bar-chart>
-  <chart-line-time [typeChart]="typeChart"></chart-line-time>
+<div class="retail-dashboard-chart">
+  <div class='widget'>
+    <h1>{{getTitleDashBoardChart()}}</h1>
+    <h2>$479</h2>
+    <h3 class="positive">
+      <div class="change">Up</div>
+      <div class="relation">Previous Day</div>
+    </h3>
+    <div class="bar-chart">
+      <bar-chart></bar-chart>
+    </div>
+    <div class="chart-line-time">
+      <chart-line-time [typeChart]="typeChart"></chart-line-time>
+    </div>
+  </div>
 </div>

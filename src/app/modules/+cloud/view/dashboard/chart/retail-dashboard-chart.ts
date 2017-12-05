@@ -5,7 +5,10 @@ import * as _ from "lodash";
 @Component({
              // moduleId: module.id,
              selector: 'retail-dashboard-chart',
-             templateUrl: 'retail-dashboard-chart.html'
+             templateUrl: 'retail-dashboard-chart.html',
+             styleUrls: [
+               './retail-dashboard-chart.scss'
+             ],
            })
 
 export class RetailDashboardChart {
@@ -13,13 +16,6 @@ export class RetailDashboardChart {
   @Input('data_view') viewData     = [];
   
   getTitleDashBoardChart() {
-    console.log(this.viewData);
-    // if(this.viewData != "undefined"){
-    //   _.forEach(this.viewData['data'], item => {
-    //   console.log(item);
-    //   });
-    // }
-    
     let typeChart = this.typeChart;
     let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
