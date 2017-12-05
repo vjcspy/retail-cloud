@@ -39,7 +39,10 @@ export class ChartLineTime implements AfterViewInit, OnDestroy {
       },
   
       xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: {
+          autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
+        }
       },
       yAxis: {
         title: {
