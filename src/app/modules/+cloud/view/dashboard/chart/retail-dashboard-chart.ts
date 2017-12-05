@@ -20,7 +20,6 @@ export class RetailDashboardChart {
     //   });
     // }
     
-    
     let typeChart = this.typeChart;
     let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
