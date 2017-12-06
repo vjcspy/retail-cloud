@@ -13,20 +13,25 @@ export class RetailDashboardChart {
   @Input('data_view') viewData     = [];
   
   getTitleDashBoardChart() {
-    console.log(this.viewData);
-    // if(this.viewData != "undefined"){
-    //   _.forEach(this.viewData['data'], item => {
-    //   console.log(item);
-    //   });
-    // }
-    
-    
     let typeChart = this.typeChart;
     let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
   }
   
   getDataBarChart() {
-    return this.viewData;
+    if (typeof  this.viewData != "undefined"  && typeof  this.typeChart != "undefined") {
+      let data = {
+        scope_Names: [],
+        chart_data: [],
+        chart_type : this.typeChart
+      };
+      _.forEach(this.viewData['data'], item => {
+        if (item.hasOwnProperty('chartData') && item.hasOwnProperty('scopeName')) {
+          data.scope_Names.push(item['scopeName']);
+          data.chart_data.push(_.last(item['chartData']));
+        }
+      });
+      return data;
+    }
   }
 }

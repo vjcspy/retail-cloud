@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, Input} from '@angular/core';
 import * as moment from 'moment';
 import * as $q from "q";
 import * as _ from "lodash";
@@ -13,35 +13,86 @@ import 'highcharts/adapters/standalone-framework.src';
              selector: 'bar-chart',
              templateUrl: 'bar-chart.html'
            })
-export class BarChart implements AfterViewInit, OnDestroy {
+export class BarChart implements AfterViewInit, OnDestroy,OnInit {
   @ViewChild('chart') public chartEl: ElementRef;
-                             item    = [0, 2113.4, 0, 152.96, 713.8, 0];
-                             // item    = [0, 2113.4];
-                             maxItem = 2113.4 * 1.33;
-                             value   = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee', '1asd'];
-                             // value   = ['Thanhnt1', 'demo outlet'];
+  chart_type :string;
+  chart_data : any;
+  scope_Names :any;
+  totalValues : any;
+  maxValue : number;
+                             // item    = [0, 2113.4, 0, 152.96, 713.8, 0];
+                             // // item    = [0, 2113.4];
+                             // maxItem = 2113.4 * 1.33;
+                             // value   = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee', '1asd'];
+                             // // value   = ['Thanhnt1', 'demo outlet'];
+  @Input('data_bar_chart') viewData    = [];
   private _barchart: any;
   
+  ngOnInit() {
+    if (typeof this.viewData != "undefined") {
+      let max = _.max(this.viewData['chart_data']);
+      if (typeof max === "number" && max > 0) {
+        this.maxValue = Math.round(max * 1.33*100)/100;
+      } else {
+        this.maxValue = 1;
+      }
+      
+      this.chart_data = this.viewData['chart_data'];
+      this.scope_Names = this.viewData['scope_Names'];
+      this.chart_type = this.viewData['chart_type'];
+      this.totalValues = [];
+      _.forEach(this.viewData['chart_data'], item => {
+        this.totalValues.push(this.maxValue - item);
+      });
+    }
+    this.convertChart();
+  }
+  
   public ngAfterViewInit() {
-    let barchart = this.initBarChart();
+    // // if (typeof this.viewData != "undefined") {
+    //   let barchart = this.initBarChart();
+    // // };
+    //   if (this.chartEl && this.chartEl.nativeElement) {
+    //     barchart.chart = {
+    //       type: 'bar',
+    //       renderTo: this.chartEl.nativeElement
+    //     };
+    //
+    //     this._barchart = new Highcharts.Chart(barchart);
+    //   }
+  }
+  
+  convertChart(){
+    let barchart = this.initBarChart(this.chart_type);
+    // };
     if (this.chartEl && this.chartEl.nativeElement) {
       barchart.chart = {
         type: 'bar',
         renderTo: this.chartEl.nativeElement
       };
-      
+    
       this._barchart = new Highcharts.Chart(barchart);
     }
-    ;
   }
   
-  private initBarChart(): any {
+  private initBarChart(chartType): any {
+    // let max = _.max(this.viewData['chart_data']);
+    // // let maxChartValue = max * 1.33;
+    // let maxChartValue = 0;
+    // let totalValues = [];
+    // _.forEach(this.viewData['chart_data'], item => {
+    //   totalValues.push(maxChartValue - item);
+    // });
     return {
+      chart: {
+        defaultSeriesType: 'bar'
+      },
       title: {text: '', style: {display: 'none'}},
       subtitle: {text: '', style: {display: 'none'}},
       legend: {enabled: false},
       xAxis: {
-        categories: this.value,
+        categories: this.scope_Names,
+        // categories: this.value,
         labels: {enabled: false},
         lineWidth: 0,
         tickWidth: 0,
@@ -58,8 +109,9 @@ export class BarChart implements AfterViewInit, OnDestroy {
       },
       plotOptions: {
         series: {
-          pointPadding: 0.3,
-          groupPadding: -0.2,
+          pointWidth: 25,
+          pointPadding: 0.1,
+          // pointPlacement: -0.2
           stacking: 'percent'
         }
       },
@@ -70,13 +122,19 @@ export class BarChart implements AfterViewInit, OnDestroy {
         {
           showInLegend: false,
           name: 'Total',
-          data: [this.maxItem - 0, this.maxItem - 2113.4, this.maxItem - 0, this.maxItem - 152.96 , this.maxItem -713.8, this.maxItem - 0],
+          data: this.totalValues,
+          // data: [this.maxItem - 0, this.maxItem - 2113.4, this.maxItem - 0, this.maxItem - 152.96 , this.maxItem -713.8, this.maxItem - 0],
           // data: [this.maxItem - 0, this.maxItem - 2113.4],
-          value: this.value,
+          value: this.scope_Names,
+          // value: this.value,
           color: '#989898',
           dataLabels: {
             formatter: function () {
-              return this.total - this.y;
+              if(chartType === "discount_percent"){
+                let discount_percent = 100 *(this.total - this.y);
+                return Math.round(discount_percent * 100)/100;
+              }else
+              return Math.round((this.total - this.y) * 100) / 100;
             },
             enabled: true,
             align: 'right',
@@ -86,7 +144,8 @@ export class BarChart implements AfterViewInit, OnDestroy {
         {
           showInLegend: false,
           name: 'Value',
-          data: this.item,
+          data: this.chart_data,
+          // data: this.item,
           color: '#0196FC',
           dataLabels: {
             formatter: function () {
