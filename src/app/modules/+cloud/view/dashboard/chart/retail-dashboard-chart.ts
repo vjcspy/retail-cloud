@@ -5,7 +5,10 @@ import * as _ from "lodash";
 @Component({
              // moduleId: module.id,
              selector: 'retail-dashboard-chart',
-             templateUrl: 'retail-dashboard-chart.html'
+             templateUrl: 'retail-dashboard-chart.html',
+             styleUrls: [
+               './retail-dashboard-chart.scss'
+             ],
            })
 
 export class RetailDashboardChart {
