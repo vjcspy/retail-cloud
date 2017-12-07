@@ -34,6 +34,7 @@ export class DashboardGranularity extends AbstractRxComponent implements OnInit 
       case '7d':
         end_date = moment(end_date, "Do MMM YYYY").add(change_granularity, 'days').format("Do MMM YYYY");
         this.setEndTimePeriod(end_date);
+        this.setStartTimePeriod(end_date);
         this.granularity = end_date;
         break;
       case '6w':
