@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 import {ReportDashboardHelper} from "../../../../R/dashboard/helper";
@@ -13,7 +13,7 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
-export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
+export class ChartLineTime implements OnDestroy, OnInit {
   @Input('typeChart') typeChart    = [];
   @ViewChild('chart_line_time') public chartEl: ElementRef;
   @Input('data_chart_line_time') viewData    = [];
