@@ -71,8 +71,8 @@ export class DashboardReportService {
       'period': this.viewDataFilter['period'],
       // 'dateStart': moment(this.viewDataFilter['dateStart']).format() + '/' + this.viewDataFilter['dateStart'] ,
       // 'dateEnd': moment(this.viewDataFilter['dateEnd']).format() + '/' + this.viewDataFilter['dateEnd']
-      'dateStart': this.viewDataFilter['dateStart'].format("YYYY-MM-DD") ,
-      'dateEnd':this.viewDataFilter['dateEnd'].format("YYYY-MM-DD")
+      'dateStart': moment(this.viewDataFilter['dateStart'], "Do MMM YYYY").format("YYYY-MM-DD") ,
+      'dateEnd': moment(this.viewDataFilter['dateEnd'], "Do MMM YYYY").format("YYYY-MM-DD") ,
     };
   }
   
