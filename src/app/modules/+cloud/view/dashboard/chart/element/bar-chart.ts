@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, Input} from '@angular/core';
+import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, ChangeDetectionStrategy} from '@angular/core';
 import * as moment from 'moment';
 import * as $q from "q";
 import * as _ from "lodash";
@@ -11,7 +11,8 @@ import 'highcharts/adapters/standalone-framework.src';
 @Component({
              // moduleId: module.id,
              selector: 'bar-chart',
-             templateUrl: 'bar-chart.html'
+             templateUrl: 'bar-chart.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class BarChart implements AfterViewInit, OnDestroy,OnInit {
   @ViewChild('chart') public chartEl: ElementRef;

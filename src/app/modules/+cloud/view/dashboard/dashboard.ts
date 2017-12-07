@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import {ReportDashboardHelper} from "../../R/dashboard/helper";
 import {DashboardReportService} from "../../R/dashboard/service";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
@@ -10,12 +10,14 @@ import * as _ from "lodash";
              styleUrls: [
                './dashboard.scss'
              ],
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 
 
 export class DashboardPage extends AbstractRxComponent implements OnInit {
   constructor(protected dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
     super();
+    dashboardReportService.getDashboardReport();
   }
   
   ngOnInit() {
@@ -26,6 +28,10 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     this._subscription['update_view']  =  this.dashboardReportService.updateView().subscribe(() => {
       this.changeDetector.detectChanges();
     });
+  }
+  
+  trackByValue(index, measure) {
+    return measure;
   }
 
   getDataFilter() {
@@ -43,6 +49,7 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   changeScopeValue(scope) {
     if (scope !== this.getScopeValue()) {
       this.dashboardReportService.viewDataFilter['scope'] = scope;
+      this.dashboardReportService.getDashboardReport();
     }
   }
   

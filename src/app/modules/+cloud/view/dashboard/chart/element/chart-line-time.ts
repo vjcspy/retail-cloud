@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 import {ReportDashboardHelper} from "../../../../R/dashboard/helper";
@@ -8,7 +8,8 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
 @Component({
              // moduleId: module.id,
              selector: 'chart-line-time',
-             templateUrl: 'chart-line-time.html'
+             templateUrl: 'chart-line-time.html',
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 
 export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
@@ -115,7 +116,6 @@ export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
   }
   
   public getViewData() {
-    console.log(this.dashboardReportService.viewData['items']);
     return this.dashboardReportService.viewData['items'];
   }
 }

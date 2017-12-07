@@ -32,6 +32,12 @@
 					<li><span>Scope:</span></li>
 					<li *ngFor="let scope of getListScope()['data']">
 						<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" (click)="changeScopeValue(scope.value)">{{scope.label}}</a>
+						<!--<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" >{{scope.label}}</a>-->
+            <!--//test-->
+            <!--<report-select style="display: none" [elementData]="getListScope()"-->
+                           <!--[(model)]="getDataFilter()['scope']"-->
+                           <!--(modelChange)="dashboardReportService.getDashboardReport()">-->
+            <!--</report-select>-->
 					</li>
 				</ul>
 			</div>
@@ -128,7 +134,10 @@
 	<!--</div>-->
   <div class="dashboard-primary-content">
     <div class="dashboard-container clearfix">
-      <retail-dashboard-chart [typeChart]="typeChart.value" *ngFor="let typeChart of getListTypeChart()['data']" class="retail-dashboard-chart-container"></retail-dashboard-chart>
+      <retail-dashboard-chart [typeChart]="typeChart.value"
+                              [data_view]="getViewData(typeChart.value)"
+                              *ngFor="let typeChart of getListTypeChart()['data']; trackBy:trackByValue"
+                              class="retail-dashboard-chart-container"></retail-dashboard-chart>
     </div>
   </div>
 	<div class="dashboard-secondary-content">

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReportDashboardHelper} from "../../../R/dashboard/helper";
 import * as _ from "lodash";
 
@@ -9,6 +9,7 @@ import * as _ from "lodash";
              styleUrls: [
                './retail-dashboard-chart.scss'
              ],
+             changeDetection: ChangeDetectionStrategy.OnPush
            })
 
 export class RetailDashboardChart {

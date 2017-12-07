@@ -101,6 +101,7 @@ export class DashboardGranularity extends AbstractRxComponent implements OnInit 
       } else {
         this.initDefaultGranularity(period, change_granularity);
       }
+      this.dashboardReportService.getDashboardReport();
     }
   }
   
