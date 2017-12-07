@@ -39,7 +39,13 @@ export class ChartLineTime implements OnDestroy, OnInit {
   }
   
   getListDataFilter() {
-    return _.map(this.dashboardReportService.viewData['list_date_filter'], function (date) {
+    let list_date_range = [];
+    _.forEach(this.dashboardReportService.viewData['list_date_filter'], item => {
+      if (item.hasOwnProperty('date_start')) {
+        list_date_range.push(item['date_start']);
+      }
+    });
+    return _.map(list_date_range, function (date) {
       return moment(date, "YYYY-MM-DD").format("Do MMM");
     });
   }
