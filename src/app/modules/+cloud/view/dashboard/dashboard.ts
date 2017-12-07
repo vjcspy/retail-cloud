@@ -32,17 +32,17 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     return this.dashboardReportService.viewDataFilter;
   }
   
-  protected getListTimePeriodPicker() {
-    let data = [
-      {id: 1, label: "Day", value: "day"},
-      {id: 2, label: "Week", value: "week"},
-      {id: 3, label: "Month", value: "month"}
-    ];
-    return {
-      data: data,
-      isMultiSelect: false,
-      label: "Time Period Picker",
-      value: "time_period_picker"
+  getScopeValue() {
+    return this.dashboardReportService.viewDataFilter['scope'];
+  }
+  
+  getPeriodValue() {
+    return this.dashboardReportService.viewDataFilter['period'];
+  }
+  
+  changeScopeValue(scope) {
+    if (scope !== this.getScopeValue()) {
+      this.dashboardReportService.viewDataFilter['scope'] = scope;
     }
   }
   
