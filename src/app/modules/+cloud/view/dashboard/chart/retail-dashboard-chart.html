@@ -7,10 +7,12 @@
       <div class="relation">Previous Day</div>
     </h3>
     <div class="bar-chart">
-      <bar-chart  [data_bar_chart]="getDataBarChart()"></bar-chart>
+      <bar-chart [data_bar_chart]="getDataBarChart()"></bar-chart>
     </div>
     <div class="chart-line-time">
-      <chart-line-time [typeChart]="typeChart"></chart-line-time>
+      <chart-line-time [typeChart]="typeChart"
+                       [data_chart_line_time]="getDataChartLineTime()"
+      ></chart-line-time>
     </div>
   </div>
 </div>
