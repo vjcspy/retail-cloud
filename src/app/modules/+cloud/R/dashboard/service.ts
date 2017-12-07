@@ -66,13 +66,15 @@ export class DashboardReportService {
   }
 
   initRequestReportData() {
+   let dateStart = moment(this.viewDataFilter['dateStart'], "Do MMM YYYY").format('YYYY-MM-DD 00:00:00');
+   let dateEnd = moment(this.viewDataFilter['dateEnd'], "Do MMM YYYY").format('YYYY-MM-DD 23:59:59');
     return {
       'scope': this.getScopeData(),
       'period': this.viewDataFilter['period'],
-      // 'dateStart': moment(this.viewDataFilter['dateStart']).format() + '/' + this.viewDataFilter['dateStart'] ,
-      // 'dateEnd': moment(this.viewDataFilter['dateEnd']).format() + '/' + this.viewDataFilter['dateEnd']
-      'dateStart': moment(this.viewDataFilter['dateStart'], "Do MMM YYYY").format("YYYY-MM-DD") ,
-      'dateEnd': moment(this.viewDataFilter['dateEnd'], "Do MMM YYYY").format("YYYY-MM-DD") ,
+      'dateStart': moment(dateStart).format() + '/' + dateStart,
+      'dateEnd': moment(dateEnd).format() + '/' + dateEnd
+      // 'dateStart': moment(this.viewDataFilter['dateStart'], "Do MMM YYYY").format("YYYY-MM-DD") ,
+      // 'dateEnd': moment(this.viewDataFilter['dateEnd'], "Do MMM YYYY").format("YYYY-MM-DD") ,
     };
   }
   
