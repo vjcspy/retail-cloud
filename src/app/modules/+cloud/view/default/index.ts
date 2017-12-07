@@ -10,6 +10,8 @@ import {DashboardPage} from "../dashboard/dashboard";
 import {RetailDashboardChart} from "../dashboard/chart/retail-dashboard-chart";
 import {ChartLineTime} from "../dashboard/chart/element/chart-line-time";
 import {BarChart} from "../dashboard/chart/element/bar-chart";
+import {DashboardGranularity} from "../dashboard/chart/element/dashboard-granularity";
+import {ProductTrend} from "../dashboard/chart/element/product-trend";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -25,5 +27,7 @@ export const CLOUD_DEFAULT_COMPONENTS = [
 
   RetailDashboardChart,
   ChartLineTime,
-  BarChart
+  BarChart,
+  ProductTrend,
+  DashboardGranularity
 ];

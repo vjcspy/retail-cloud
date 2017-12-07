@@ -1,4 +1,17 @@
 export class ReportDashboardHelper {
+  static NEXT_GRANULARITY = 1;
+  static PREV_GRANULARITY = -1;
+  
+  static getValueNextPrevGranularity(code) {
+    switch (code) {
+      case 'next':
+        return ReportDashboardHelper.NEXT_GRANULARITY;
+      case 'prev':
+        return ReportDashboardHelper.PREV_GRANULARITY;
+      default:
+        return 0;
+    }
+  }
   
   static getListScope(): Object {
     return {
@@ -27,5 +40,18 @@ export class ReportDashboardHelper {
       label: "Widgets",
       value: "widgets"
     }
+  }
+  
+  static getListTimePeriodPicker(): Object {
+    return {
+      data: [
+        {id: 1, label: "Day", value: "7d"},
+        {id: 2, label: "Week", value: "6w"},
+        {id: 3, label: "Month", value: "6m"}
+      ],
+      isMultiSelect: false,
+      label: "Time Period Picker",
+      value: "time_period_picker"
+    };
   }
 }

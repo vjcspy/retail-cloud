@@ -49,8 +49,8 @@ export class DashboardReportService {
     this.viewDataFilter = {
       scope: this.getScopeData(),
       period: '7d',
-      dateStart: moment(),
-      dateEnd: moment()
+      dateStart: moment().format("Do MMM YYYY"),
+      dateEnd: moment().format("Do MMM YYYY")
     };
     this.viewData       = {
       list_date_filter: [],

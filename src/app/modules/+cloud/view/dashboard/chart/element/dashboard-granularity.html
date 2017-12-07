@@ -1,0 +1,20 @@
+<ul class="button-group granularity-selector">
+  <li *ngFor="let period of getListTimePeriodPicker()['data']">
+    <a class="button" [ngClass]="{secondary: getPeriodValue() == period.value}" (click)="setGranularity(period.value)"> {{period.label}} </a>
+  </li>
+</ul>
+<ul class="button-group">
+  <li>
+    <a disabled class="button" (click)="setGranularity(getPeriodValue(), 'prev')">
+      <i class="ion-ios-arrow-left"></i>
+    </a>
+  </li>
+  <li>
+    <a class="button date day"> <strong>{{granularity}}</strong> </a>
+  </li>
+  <li>
+    <a class="button" (click)="setGranularity(getPeriodValue(), 'next')" [ngClass]="{'disabled':!canShiftUp()}">
+      <i class="ion-ios-arrow-right"></i>
+    </a>
+  </li>
+</ul>

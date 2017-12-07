@@ -7,42 +7,31 @@
 				</div>
 			</div>
 			<div class="pull-right dashboard-actions">
-				<ul class="button-group granularity-selector">
-					<li>
-						<a class="button secondary"> Day </a>
-					</li>
-					<li>
-						<a class="button"> Week </a>
-					</li>
-					<li>
-						<a class="button"> Month </a>
-					</li>
-				</ul>
-				<ul class="button-group">
-					<li>
-						<a class="button secondary">
-							<i class="ion-ios-arrow-left"></i>
-						</a>
-					</li>
-					<li>
-						<a class="button date day"> <strong>4th Dec 2017</strong> </a>
-					</li>
-					<li>
-						<a class="button">
-							<i class="ion-ios-arrow-right"></i>
-						</a>
-					</li>
-				</ul>
+        <dashboard-granularity></dashboard-granularity>
+				<!--<ul class="button-group granularity-selector">-->
+					<!--<li *ngFor="let period of getListTimePeriodPicker()['data']">-->
+						<!--<a class="button" [ngClass]="{secondary: getPeriodValue() == period.value}" (click)="setGranularity(period.value)"> {{period.label}} </a>-->
+					<!--</li>-->
+				<!--</ul>-->
+				<!--<ul class="button-group">-->
+					<!--<li>-->
+						<!--<a class="button secondary">-->
+							<!--<i class="ion-ios-arrow-left"></i>-->
+						<!--</a>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<a class="button date day"> <strong>4th Dec 2017</strong> </a>-->
+					<!--</li>-->
+					<!--<li>-->
+						<!--<a class="button">-->
+							<!--<i class="ion-ios-arrow-right"></i>-->
+						<!--</a>-->
+					<!--</li>-->
+				<!--</ul>-->
 				<ul class="button-group">
 					<li><span>Scope:</span></li>
-					<li>
-						<a class="button secondary">Outlet</a>
-					</li>
-					<li>
-						<a class="button">Website</a>
-					</li>
-					<li>
-						<a class="button">Storeview</a>
+					<li *ngFor="let scope of getListScope()['data']">
+						<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" (click)="changeScopeValue(scope.value)">{{scope.label}}</a>
 					</li>
 				</ul>
 			</div>
@@ -169,7 +158,7 @@
 						<td>2</td>
 						<td>$24<span class="decimals">.00</span></td>
 						<td>
-							bbb
+							<product-trend></product-trend>
 						</td>
 					</tr>
 					<tr>
@@ -178,7 +167,7 @@
 						<td>3</td>
 						<td>$9<span class="decimals">.00</span></td>
 						<td>
-							bbb
+              <product-trend></product-trend>
 						</td>
 					</tr>
 					<tr>
@@ -187,7 +176,7 @@
 						<td>4</td>
 						<td>$15<span class="decimals">.00</span></td>
 						<td>
-							bbb
+              <product-trend></product-trend>
 						</td>
 					</tr>
 					<tr>
@@ -196,7 +185,7 @@
 						<td>1</td>
 						<td>$13<span class="decimals">.00</span></td>
 						<td>
-							bbb
+              <product-trend></product-trend>
 						</td>
 					</tr>
 					<tr>
@@ -205,7 +194,7 @@
 						<td>1</td>
 						<td>$0<span class="decimals">.00</span></td>
 						<td>
-							bbb
+              <product-trend></product-trend>
 						</td>
 					</tr>
 				</tbody>
