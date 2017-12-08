@@ -14,7 +14,7 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
            })
 
 export class ChartLineTime implements OnDestroy, OnInit {
-  @Input('typeChart') typeChart    = [];
+  @Input('typeChart') typeChart: string;
   @ViewChild('chart_line_time') public chartEl: ElementRef;
   @Input('data_chart_line_time') viewData    = [];
   
@@ -51,7 +51,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
   }
   
   public convertChart() {
-    let chartLineTime = this.initChartLineTime();
+    let chartLineTime = this.initChartLineTime(this.typeChart);
     if (this.chartEl && this.chartEl.nativeElement) {
       chartLineTime.chart = {
         type: 'line',
@@ -63,7 +63,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
     ;
   }
   
-  private initChartLineTime(): any {
+  private initChartLineTime(type_chart): any {
     return {
       title: {
         text: ''
@@ -105,8 +105,26 @@ export class ChartLineTime implements OnDestroy, OnInit {
   
       tooltip: {
         formatter: function () {
+          let currency_symbol = '';
+          let discount_symbol = '';
+          switch (type_chart) {
+            case 'discount_percent':
+              discount_symbol = '%';
+              this.y = _.round(this.y*100, 2);
+              break;
+            case 'customer_count':
+              currency_symbol = '';
+              break;
+            case 'quantity':
+              currency_symbol = '';
+              break;
+            default:
+              currency_symbol = '$';
+              this.y = _.round(this.y, 2);
+              break;
+          }
           return '<b>' + this.series.name + '</b><br/>' +
-                 this.x + ': ' + this.y;
+                 this.x + ': ' + currency_symbol + this.y + discount_symbol;
         }
       },
   
