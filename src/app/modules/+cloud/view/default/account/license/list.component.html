@@ -39,7 +39,7 @@
           <tr *ngFor="let productLicense of licenseProduct">
             <td>{{productLicense['productName']}}</td>
             <td>{{productLicense['pricingName']}}</td>
-            <td>{{productLicense['billingCycle']}}</td>
+            <td>{{getLicenseBillingCycleText(productLicense['billingCycle'])}}</td>
             <td>{{productLicense['additionEntity']}}</td>
             <td>{{productLicense['purchaseDate'] | amCalendar}}</td>
             <td>{{productLicense['expiryDate'] | amCalendar}}</td>

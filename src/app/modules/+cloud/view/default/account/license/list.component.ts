@@ -77,6 +77,23 @@ export class AccountLicenseListComponent extends AbstractSubscriptionComponent i
       }));
   }
   
+  getLicenseBillingCycleText(cycleId) {
+    if (isNaN(cycleId)) {
+      return "";
+    } else {
+      switch (parseInt(cycleId)) {
+        case 0:
+          return "Lifetime";
+        case 2:
+          return "Annually";
+        case 1:
+          return "Monthly";
+        default:
+          return "";
+      }
+    }
+  }
+  
   protected showNonelicenseInform() {
     $('#none-license-inform')['modal']();
   }
