@@ -1,8 +1,9 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 import {ReportDashboardHelper} from "../../../../R/dashboard/helper";
 import * as _ from "lodash";
+import * as moment from "moment";
 import {DashboardReportService} from "../../../../R/dashboard/service";
 
 @Component({
@@ -12,18 +13,44 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
-export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
+export class ChartLineTime implements OnDestroy, OnInit {
   @Input('typeChart') typeChart    = [];
   @ViewChild('chart_line_time') public chartEl: ElementRef;
+  @Input('data_chart_line_time') viewData    = [];
+  
+  chart_data: any;
+  scope_Names: any;
+  totalValues: any;
+  
   private _chartLineTime: any;
   
   constructor(protected dashboardReportService: DashboardReportService) {}
   
   ngOnInit() {
-    this.getViewData();
+    if (typeof this.viewData != "undefined") {
+      this.chart_data = this.viewData['chart_data'];
+      this.scope_Names = this.viewData['scope_Names'];
+      this.totalValues = [];
+      _.forEach(this.viewData['chart_data'], item => {
+        this.totalValues = item;
+      });
+    }
+    this.convertChart();
   }
   
-  public ngAfterViewInit() {
+  getListDataFilter() {
+    let list_date_range = [];
+    _.forEach(this.dashboardReportService.viewData['list_date_filter'], item => {
+      if (item.hasOwnProperty('date_start')) {
+        list_date_range.push(item['date_start']);
+      }
+    });
+    return _.map(list_date_range, function (date) {
+      return moment(date, "YYYY-MM-DD").format("Do MMM");
+    });
+  }
+  
+  public convertChart() {
     let chartLineTime = this.initChartLineTime();
     if (this.chartEl && this.chartEl.nativeElement) {
       chartLineTime.chart = {
@@ -47,7 +74,7 @@ export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
       },
   
       xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        categories: this.getListDataFilter(),
         labels: {
           autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
         }
@@ -84,7 +111,7 @@ export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
   
       series: [{
         name: this.getTitleDashBoardChart(),
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        data: this.totalValues
       }],
   
       responsive: {
@@ -113,9 +140,5 @@ export class ChartLineTime implements AfterViewInit, OnDestroy, OnInit {
     let typeChart = this.typeChart;
     let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
-  }
-  
-  public getViewData() {
-    return this.dashboardReportService.viewData['items'];
   }
 }
