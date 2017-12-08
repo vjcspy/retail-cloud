@@ -2,7 +2,8 @@
   <div class='widget'>
     <h1>{{getTitleDashBoardChart()}}</h1>
     <h2>{{typeChart === 'discount_percent' ? (getDataChangeValue()['value'] | percent:'1.2-2') :
-      (typeChart === 'quantity' || typeChart === 'customer_count' ? (getDataChangeValue()['value'] | number:'1.0-0') : getDataChangeValue()['value'] | number:'1.2-2')
+      (typeChart === 'quantity' || typeChart === 'customer_count' ? (getDataChangeValue()['value'] | number:'1.0-0') :
+      getDataChangeValue()['value'] | number:'1.2-2')
       }}</h2>
     <h3 [ngClass]="{neutral: getDataChangeValue()['change'] === 0, negative: getDataChangeValue()['change'] === -1, positive: getDataChangeValue()['change'] === 1}">
       <div class="change">{{getLabelForChange()['label_change']}}</div>
