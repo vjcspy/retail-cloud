@@ -15,7 +15,6 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
            })
 
 export class AccountLicenseCheckoutComponent implements OnInit {
-  grandtotal: number = 100;
   paymentMethod: string;
   
   checkoutState$: Observable<CheckoutState>;

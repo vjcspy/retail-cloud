@@ -96,7 +96,7 @@ export class MenuService {
     
     _accounts.children.push({
                               name: 'Account Information',
-                              path: '/cloud/default/account/license/list',
+                              path: '/cloud/default/account/information',
                               priority: 6.4,
                             });
     

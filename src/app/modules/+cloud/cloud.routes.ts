@@ -29,6 +29,8 @@ import {RolesComponent} from "./view/default/user-management/roles.component";
 import {PermissionComponent} from "./view/default/user-management/roles/permission.component";
 import {ConnectposDocumentComponent} from "./view/default/documentation/connectpos.component";
 import {ReportDocumentComponent} from "./view/default/documentation/report.component";
+import {AccountLicenseCompleteComponent} from "./view/default/account/license/complete.component";
+import {AccountInformationComponent} from "./view/default/account/information.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -172,10 +174,18 @@ export const CLOUD_ROUTES: Routes = [
                     }
                   },
                   {
+                    path: 'complete',
+                    component: AccountLicenseCompleteComponent
+                  },
+                  {
                     path: 'plan',
                     component: AccountLicensePlanListComponent
                   }
                 ]
+              },
+              {
+                path: 'information',
+                component: AccountInformationComponent
               }
             ]
           },

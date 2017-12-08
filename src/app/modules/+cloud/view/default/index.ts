@@ -27,6 +27,8 @@ import {RolesComponent} from "./user-management/roles.component";
 import {PermissionComponent} from "./user-management/roles/permission.component";
 import {ConnectposDocumentComponent} from "./documentation/connectpos.component";
 import {ReportDocumentComponent} from "./documentation/report.component";
+import {AccountLicenseCompleteComponent} from "./account/license/complete.component";
+import {AccountInformationComponent} from "./account/information.component";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -62,6 +64,8 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   AccountLicenseAdjustComponent,
   AccountLicenseCheckoutComponent,
   AccountLicensePlanListComponent,
+  AccountLicenseCompleteComponent,
+  AccountInformationComponent,
   
   ConnectposDocumentComponent,
   ReportDocumentComponent,

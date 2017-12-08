@@ -123,5 +123,17 @@ export class CheckoutActions {
     return action;
   }
   
+  static CHECKED_PLAN_CAN_INVOICE = 'CHECKED_PLAN_CAN_INVOICE';
+  
+  checkedPlanCanInvoice(canInvoice, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.CHECKED_PLAN_CAN_INVOICE, payload: {canInvoice}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   constructor(protected store$: Store<any>) { }
 }
