@@ -77,13 +77,6 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
   }
   
   private initBarChart(chartType): any {
-    // let max = _.max(this.viewData['chart_data']);
-    // // let maxChartValue = max * 1.33;
-    // let maxChartValue = 0;
-    // let totalValues = [];
-    // _.forEach(this.viewData['chart_data'], item => {
-    //   totalValues.push(maxChartValue - item);
-    // });
     return {
       chart: {
         defaultSeriesType: 'bar'
@@ -110,8 +103,9 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
       },
       plotOptions: {
         series: {
-          pointWidth: 25,
-          pointPadding: 0.1,
+          pointWidth: 35,
+          // pointPadding: 0.1,
+          groupPadding: 0.1,
           // pointPlacement: -0.2
           stacking: 'percent'
         }
@@ -120,15 +114,15 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
         enabled: false
       },
       series: [
+        // borderRadius :6,
         {
           showInLegend: false,
           name: 'Total',
           data: this.totalValues,
-          // data: [this.maxItem - 0, this.maxItem - 2113.4, this.maxItem - 0, this.maxItem - 152.96 , this.maxItem -713.8, this.maxItem - 0],
           // data: [this.maxItem - 0, this.maxItem - 2113.4],
           value: this.scope_Names,
           // value: this.value,
-          color: '#989898',
+          color: '#d9d9d9',
           dataLabels: {
             formatter: function () {
               if(chartType === "discount_percent"){
@@ -147,7 +141,7 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
           name: 'Value',
           data: this.chart_data,
           // data: this.item,
-          color: '#0196FC',
+          color: '#1fa79d',
           dataLabels: {
             formatter: function () {
               return this.x;
