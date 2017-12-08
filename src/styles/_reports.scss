@@ -690,3 +690,70 @@
 
 }//End reports
 
+.current-plan-info {
+	.title-page h1 {
+		text-transform: capitalize;
+		font-weight: bold;
+	}
+	.form-content {
+		border-bottom: none;
+	}
+	.form-group {
+		margin-bottom: 10px;
+		.pl30 {
+			padding-left: 30px;
+		}
+		&.mt30 {
+			margin-top: 30px;
+		}
+	}
+	.form-horizontal .control-label {
+		padding-top: 0;
+		width: 205px;
+	}
+	.element {
+		width: calc(100% - 205px);
+		&.error-date {
+			color: $orange;
+			font-weight: 600;
+		}
+		&.s-row {
+			select {
+				width: 116px;
+				display: inline-block;
+			}
+		}
+	}
+	.link-action {
+		text-transform: capitalize;
+		font-weight: normal;
+	}
+	.list-of-basedurls {
+		.table-title {
+			text-transform: uppercase;
+			font-weight: 600;
+			margin-bottom: 15px;
+		}
+	}
+	.plan-history {
+		margin-top: 45px;
+		.table-title {
+			font-weight: 600;
+			font-size: 18px;
+			font-weight: 600;
+		}
+		.download-url {
+			margin-top: -10px;
+			margin-bottom: 20px;
+		}
+	}
+	.table.table-bordered {
+		th {
+			font-weight: 600;
+			color: $color-text;
+		}
+		th, td {
+			text-align: center;
+		}
+	}
+}
