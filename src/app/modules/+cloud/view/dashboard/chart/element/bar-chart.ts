@@ -131,9 +131,14 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
               }else
               return Math.round((this.total - this.y) * 100) / 100;
             },
+            style: {
+              textOutline : 'transparent !important',
+              stroke: 'transparent',
+              color :'#666666',
+              fontWeight : '300',
+            },
             enabled: true,
             align: 'right',
-            color: "#000000"
           }
         },
         {
@@ -146,9 +151,14 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
             formatter: function () {
               return this.x;
             },
+            style: {
+              textOutline : 'transparent !important',
+              stroke: 'transparent',
+              color :'#666666',
+              fontWeight : '300',
+            },
             enabled: true,
             align: 'left',
-            color: "#000000"
           }
         }
       ]
