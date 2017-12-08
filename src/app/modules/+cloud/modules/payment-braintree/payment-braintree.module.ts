@@ -24,6 +24,6 @@ import {ShareModule} from "../../../share/share.module";
           })
 export class PaymentBraintreeModule {
   constructor(protected reducer: ReducerManagement) {
-    this.reducer.replaceReducer('payment_braintree_module', paymentBraintreeReducer);
+    this.reducer.replaceReducer('payment_braintree_module', paymentBraintreeReducer());
   }
 }
