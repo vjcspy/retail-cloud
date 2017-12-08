@@ -1,0 +1,152 @@
+<a class="btn" data-toggle="modal" href="#delete-user">delete user</a>
+<div id="delete-user" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content gray-bg ">
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group tac">
+                        <p>Are you sure you want to delete user "<strong>Anh Le</strong>" ?</p>
+                    </div>
+                    <div class="group-btn tac">
+                        <button type="button" class="btn btn-default">No</button>
+                        <button type="button" class="btn btn-primary">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- START Add new User page -->
+<div class="current-plan-info min-page">
+    <div class="white-box">
+        <div class="box560">
+            <div class="title-page">
+                <h1>Current plan info</h1>
+            </div>
+            <form class="js-validation-user form-horizontal">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label class="control-label">Current ConnectPOS Version:</label>
+                        <div class="element">1.0.0</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Purchased Date:</label>
+                        <div class="element">25 - December - 2017</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Pricing Plan:</label>
+                        <div class="element">ConnectPOS Standard</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Current Register:</label>
+                        <div class="element">3/5</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Current Billing Cycle:</label>
+                        <div class="element">Monthly</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label pl30">Start Invoice At:</label>
+                        <div class="element">20 - October - 2017</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label pl30">Next Invoice At:</label>
+                        <div class="element error-date">21 - October - 2017  <a href="#" class="link-action">(Error)</a></div>
+                    </div>
+                    <div class="form-group mt30">
+                        <label class="control-label">ConnectPOS Version:</label>
+                        <div class="element s-row">
+                            <select class="form-control" name="">
+                                <option value="">1.0.0</option>
+                                <option value="">2.0</option>
+                            </select>
+                            <a href="#" class="link-action">(Version info)</a>
+                        </div>
+                    </div>
+                    <div class="form-group mt30">
+                        <label class="control-label">Status:</label>
+                        <div class="element s-row">
+                            <select class="form-control" name="status">
+                                <option value="1">Enable</option>
+                                <option value="0">Disable</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="list-of-basedurls">
+                <div class="clearfix">
+                    <div class="table-title pull-left">List of basedurls:</div>
+                    <div class="download-url pull-right"><a href="#" class="link-action">Download API Version</a></div>
+                </div>
+                <table class="table table-bordered table-responsive white-box">
+                    <thead>
+                        <tr>
+                            <th>In use</th>
+                            <th>Base URL</th>
+                            <th>API Version</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label class="css-input css-checkbox css-checkbox-primary">
+                                    <input type="checkbox" name=""><span></span>
+                                </label>
+                            </td>
+                            <td>Connect.abc</td>
+                            <td>1.0.0</td>
+                            <td><a href="#" class="link-action">Remove</a></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="css-input css-checkbox css-checkbox-primary">
+                                    <input type="checkbox" name=""><span></span>
+                                </label>
+                            </td>
+                            <td>creport.xyz</td>
+                            <td>1.0.0</td>
+                            <td><a href="#" class="link-action">Remove</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="plan-history">
+                <div class="clearfix">
+                    <div class="table-title pull-left">Plan history</div>
+                    <div class="download-url pull-right"><button type='button' class="btn btn-default btn-orange">Change plan</button></div>
+                </div>
+                <table class="table table-bordered table-responsive white-box">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Plan</th>
+                            <th>Starting date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Basic</td>
+                            <td>1 Jan 2018</td>
+                            <td><a href="#" class="link-action">See invoices</a></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Basic</td>
+                            <td>23 Nov 2017</td>
+                            <td><a href="#" class="link-action">See invoices</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="group-btn tac line-top">
+                <button type="button" class="btn btn-default">Back</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

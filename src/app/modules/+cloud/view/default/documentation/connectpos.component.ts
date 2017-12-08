@@ -3,9 +3,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 @Component({
              // moduleId: module.id,
              selector: 'connectpos-component',
-             template: `
-               Connect POS DOCUMENT
-             `,
+             templateUrl:'connectpos.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
