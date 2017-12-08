@@ -31,6 +31,8 @@ import {ConnectposDocumentComponent} from "./view/default/documentation/connectp
 import {ReportDocumentComponent} from "./view/default/documentation/report.component";
 import {AccountLicenseCompleteComponent} from "./view/default/account/license/complete.component";
 import {AccountInformationComponent} from "./view/default/account/information.component";
+import {AccountLicensePlanContainerComponent} from "./view/default/account/license/plan-container.component";
+import {AccountLicensePlanDetailComponent} from "./view/default/account/license/plan/detail.component";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -179,7 +181,17 @@ export const CLOUD_ROUTES: Routes = [
                   },
                   {
                     path: 'plan',
-                    component: AccountLicensePlanListComponent
+                    component: AccountLicensePlanContainerComponent,
+                    children: [
+                      {
+                        path: 'list',
+                        component: AccountLicensePlanListComponent
+                      },
+                      {
+                        path: 'detail',
+                        component: AccountLicensePlanDetailComponent
+                      }
+                    ]
                   }
                 ]
               },
