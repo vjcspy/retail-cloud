@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {ReportDashboardHelper} from "../../../R/dashboard/helper";
 import * as _ from "lodash";
+import {count} from "rxjs/operator/count";
 
 @Component({
              // moduleId: module.id,
@@ -15,6 +16,7 @@ import * as _ from "lodash";
 export class RetailDashboardChart {
   @Input('typeChart') typeChart = [];
   @Input('data_view') viewData  = [];
+  @Input('period') period: string;
   
   getTitleDashBoardChart() {
     let typeChart = this.typeChart;
@@ -62,9 +64,27 @@ export class RetailDashboardChart {
          });
          data.chart_data.push(result);
          return result;
-       }, [])
-       .value();
+       }, []).value();
       return data;
     }
+  }
+  
+  getDataChangeValue() {
+    let data = { };
+  
+    _.forEach(this.getDataChartLineTime()['chart_data'], item => {
+      data['value'] = parseFloat(item[item.length -1]) - parseFloat(item[item.length -2]);
+      data['change'] = data['value'] > 0 ? 1 : (data['value'] < 0 ? -1 : 0);
+    });
+    
+    return data;
+  }
+  
+  getLabelForChange() {
+    let change = this.getDataChangeValue()['change'];
+    let data = {};
+    data['label_previous'] = _.find(ReportDashboardHelper.getListTimePeriodPicker()['data'], (row) => row['value'] === this.period);
+    data['label_change'] = change > 0 ? 'Up' : (change < 0 ? 'Down' : 'No Change');
+    return data;
   }
 }
