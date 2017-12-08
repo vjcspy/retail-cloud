@@ -29,7 +29,7 @@
             <span class="name">{{accountState.user?.username}}</span>
             <span class="role">({{accountState.user?.roles['cloud_group']}})</span>
           </div>
-          <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing">
+          <div class="logout-btn" (click)="accountActions.logout()">
             Logout
             <i class="ion-log-out"></i>
           </div>
