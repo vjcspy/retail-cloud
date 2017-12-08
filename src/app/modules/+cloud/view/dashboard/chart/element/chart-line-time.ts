@@ -89,6 +89,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
           dataLabels: {
             enabled: false
           },
+          color: '#1fa79d',
           enableMouseTracking: true
         }
       },

@@ -136,6 +136,7 @@
     <div class="dashboard-container clearfix">
       <retail-dashboard-chart [typeChart]="typeChart.value"
                               [data_view]="getViewData(typeChart.value)"
+                              [period]="getPeriodValue()"
                               *ngFor="let typeChart of getListTypeChart()['data']; trackBy:trackByValue"
                               class="retail-dashboard-chart-container"></retail-dashboard-chart>
     </div>
