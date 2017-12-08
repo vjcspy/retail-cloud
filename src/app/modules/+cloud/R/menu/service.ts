@@ -87,11 +87,11 @@ export class MenuService {
                                 path: '/cloud/default/account/license/list',
                                 priority: 6.1,
                               });
-      _accounts.children.push({
-                                name: 'Payment method',
-                                path: '/cloud/default/account/license/list',
-                                priority: 6.2,
-                              });
+      // _accounts.children.push({
+      //                           name: 'Payment method',
+      //                           path: '/cloud/default/account/license/list',
+      //                           priority: 6.2,
+      //                         });
     }
     
     _accounts.children.push({
