@@ -44,7 +44,7 @@ export class CheckoutEffects {
                                                 .catch((e) => {
                                                   const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                   this.notify.error(reason);
-                                                  return Observable.of(this.checkoutActions.calculateTotalFail(reason, e, false));
+                                                  return Observable.of(this.checkoutActions.submitPlanFail(reason, e, false));
                                                 });
                              });
   

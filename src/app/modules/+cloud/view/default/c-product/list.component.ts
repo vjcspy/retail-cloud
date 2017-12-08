@@ -68,7 +68,7 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
             
             let licenseHasProduct;
             if (_.isArray(this.license['has_product'])) {
-              licenseHasProduct = _.find(this.license['has_product'], (_p) => _p['_id'] === p['_id']);
+              licenseHasProduct = _.find(this.license['has_product'], (_p) => _p['product_id'] === p['_id']);
               if (!licenseHasProduct) {
                 productInfo.canTrial = this.productService.isProductHasTrialPricing(p, prices);
               }
