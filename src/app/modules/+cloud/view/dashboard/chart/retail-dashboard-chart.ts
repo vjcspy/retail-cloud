@@ -89,4 +89,8 @@ export class RetailDashboardChart {
     data['label_change'] = change > 0 ? 'Up' : (change < 0 ? 'Down' : 'No Change');
     return data;
   }
+  
+  getBaseCurreny() {
+    return '$';
+  }
 }

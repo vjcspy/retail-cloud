@@ -3,7 +3,7 @@
     <h1>{{getTitleDashBoardChart()}}</h1>
     <h2>{{typeChart === 'discount_percent' ? (getDataChangeValue()['total'] | percent:'1.2-2') :
       (typeChart === 'quantity' || typeChart === 'customer_count' ? (getDataChangeValue()['total'] | number:'1.0-0') :
-      getDataChangeValue()['total'] | number:'1.2-2')
+      getBaseCurreny() + (getDataChangeValue()['total'] | number:'1.2-2'))
       }}</h2>
     <h3 [ngClass]="{neutral: getDataChangeValue()['change'] === 0, negative: getDataChangeValue()['change'] === -1, positive: getDataChangeValue()['change'] === 1}">
       <div class="change">{{getDataChangeValue()['change'] === 0 ? getLabelForChange()['label_change'] : getDataChangeValue()['percent']  | percent:'1.2-2'}}</div>
