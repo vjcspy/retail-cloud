@@ -21,6 +21,7 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.changeDetector.detach();
     this._subscription['change_base_url']  =  this.dashboardReportService.getChangeBaseUrlStream().subscribe(() => {
       this.dashboardReportService.getDashboardReport();
     });
