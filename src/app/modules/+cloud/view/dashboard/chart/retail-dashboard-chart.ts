@@ -73,8 +73,10 @@ export class RetailDashboardChart {
     let data = { };
   
     _.forEach(this.getDataChartLineTime()['chart_data'], item => {
-      data['value'] = parseFloat(item[item.length -1]) - parseFloat(item[item.length -2]);
-      data['change'] = data['value'] > 0 ? 1 : (data['value'] < 0 ? -1 : 0);
+      data['change_value'] = parseFloat(item[item.length -1]) - parseFloat(item[item.length -2]);
+      data['total'] = _.last(item);
+      data['percent'] = Math.abs(parseFloat(item[item.length -2]) === 0 ? 1 : ((parseFloat(item[item.length -1]) - parseFloat(item[item.length -2]))/parseFloat(item[item.length -2])));
+      data['change'] = data['change_value'] > 0 ? 1 : (data['change_value'] < 0 ? -1 : 0);
     });
     
     return data;
@@ -86,5 +88,9 @@ export class RetailDashboardChart {
     data['label_previous'] = _.find(ReportDashboardHelper.getListTimePeriodPicker()['data'], (row) => row['value'] === this.period);
     data['label_change'] = change > 0 ? 'Up' : (change < 0 ? 'Down' : 'No Change');
     return data;
+  }
+  
+  getBaseCurreny() {
+    return '$';
   }
 }

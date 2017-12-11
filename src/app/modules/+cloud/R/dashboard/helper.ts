@@ -30,11 +30,11 @@ export class ReportDashboardHelper {
     return {
       data: [
         {id: 1, label: "Revenue", value: "revenue"},
-        {id: 2, label: "Quantity", value: "quantity"},
-        {id: 3, label: "Customer Count", value: "customer_count"},
-        {id: 4, label: "Discount", value: "discount"},
-        {id: 5, label: "Discount Percent", value: "discount_percent"},
-        {id: 6, label: "Average Sales", value: "average_sales"}
+        {id: 2, label: "Order Count", value: "quantity"},
+        {id: 3, label: "Average Revenue", value: "average_sales"},
+        {id: 4, label: "Customer Count", value: "customer_count"},
+        {id: 5, label: "Discount", value: "discount"},
+        {id: 6, label: "Discount Percent", value: "discount_percent"}
       ],
       isMultiSelect: false,
       label: "Widgets",

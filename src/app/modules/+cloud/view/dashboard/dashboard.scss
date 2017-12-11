@@ -227,10 +227,11 @@
           margin-bottom: 3px
         }
         &.positive {
-          color: #34ad42;
+          color: #1fa79d;
           &:before {
+            color: #1fa79d !important;
             top: 2px;
-            border-bottom-color: #34ad42;
+            border-bottom-color: #1fa79d;
             border-top-color: transparent
           }
         }
