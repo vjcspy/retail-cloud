@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, OnDestroy, Input, ChangeDetectionStrategy} from '@angular/core';
 import * as moment from 'moment';
 import * as $q from "q";
 import * as _ from "lodash";
@@ -14,7 +14,7 @@ import 'highcharts/adapters/standalone-framework.src';
              templateUrl: 'bar-chart.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class BarChart implements AfterViewInit, OnDestroy,OnInit {
+export class BarChart implements OnDestroy,OnInit {
   @ViewChild('chart') public chartEl: ElementRef;
   chart_type :string;
   chart_data : any;
@@ -48,39 +48,23 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
     }
     this.convertChart();
   }
-  
-  public ngAfterViewInit() {
-    // // if (typeof this.viewData != "undefined") {
-    //   let barchart = this.initBarChart();
-    // // };
-    //   if (this.chartEl && this.chartEl.nativeElement) {
-    //     barchart.chart = {
-    //       type: 'bar',
-    //       renderTo: this.chartEl.nativeElement
-    //     };
-    //
-    //     this._barchart = new Highcharts.Chart(barchart);
-    //   }
-  }
-  
+
   convertChart(){
     let barchart = this.initBarChart(this.chart_type);
-    // };
     if (this.chartEl && this.chartEl.nativeElement) {
       barchart.chart = {
         type: 'bar',
+        marginTop: 40,
+        marginBottom: 80,
+        height: this.scope_Names.length * 55 + 120,
         renderTo: this.chartEl.nativeElement
       };
-    
       this._barchart = new Highcharts.Chart(barchart);
     }
   }
   
   private initBarChart(chartType): any {
     return {
-      chart: {
-        defaultSeriesType: 'bar'
-      },
       title: {text: '', style: {display: 'none'}},
       subtitle: {text: '', style: {display: 'none'}},
       legend: {enabled: false},
@@ -104,9 +88,8 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
       plotOptions: {
         series: {
           pointWidth: 35,
-          // pointPadding: 0.1,
-          groupPadding: 0.1,
-          // pointPlacement: -0.2
+          // pointPadding: 0,
+          // groupPadding: 0,
           stacking: 'percent'
         }
       },
@@ -114,7 +97,6 @@ export class BarChart implements AfterViewInit, OnDestroy,OnInit {
         enabled: false
       },
       series: [
-        // borderRadius :6,
         {
           showInLegend: false,
           name: 'Total',
