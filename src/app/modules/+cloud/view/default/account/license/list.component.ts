@@ -62,7 +62,7 @@ export class AccountLicenseListComponent extends AbstractSubscriptionComponent i
                                            billingCycle: parseInt(p['billing_cycle']),
                                            purchaseDate: p['purchase_date'],
                                            expiryDate: p['expiry_date'],
-                                           planId: p['plan_id']
+                                           productId: p['product_id']
                                          });
               } else {
                 this.notify.error("Error", "can_not_find_plan_or_pricing");
@@ -104,7 +104,7 @@ export class AccountLicenseListComponent extends AbstractSubscriptionComponent i
     $('#none-license-inform')['modal']('hide');
   }
   
-  viewDetail(planId) {
-    this.routerActions.go('cloud/default/account/license/plan/detail', {planId});
+  viewDetail(productId) {
+    this.routerActions.go('cloud/default/account/license/plan/detail', {productId});
   }
 }

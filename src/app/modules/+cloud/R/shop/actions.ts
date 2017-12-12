@@ -148,4 +148,40 @@ export class ShopManageActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_PRODUCT_LICENSE = 'ACTION_SAVE_PRODUCT_LICENSE';
+  
+  saveProductLicense(licenseHasProduct, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PRODUCT_LICENSE, payload: {licenseHasProduct}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_PRODUCT_LICENSE_SUCCESS = 'ACTION_SAVE_PRODUCT_LICENSE_SUCCESS';
+  
+  saveProductLicenseSuccess(dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PRODUCT_LICENSE_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_PRODUCT_LICENSE_FAIL = 'ACTION_SAVE_PRODUCT_LICENSE_FAIL';
+  
+  saveProductLicenseFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: ShopManageActions.ACTION_SAVE_PRODUCT_LICENSE_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

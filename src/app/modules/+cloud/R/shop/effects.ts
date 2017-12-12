@@ -86,4 +86,24 @@ export class ShopManageEffects {
                                                    return Observable.of(this.shopManageActions.saveCashierFail(reason, e, false));
                                                  });
                               });
+  
+  @Effect() saveProductLicense = this.actions$
+                                     .ofType(
+                                       ShopManageActions.ACTION_SAVE_PRODUCT_LICENSE
+                                     )
+                                     .switchMap((z: any) => {
+                                       const action: Action = z;
+    
+                                       return Observable.fromPromise(this.shopManageService.saveProductLicense(action.payload['licenseHasProduct']))
+                                                        .map(() => {
+                                                          this.notify.success("save_successfully");
+                                                          this.routerActions.go('cloud/default/account/license/list');
+                                                          return this.shopManageActions.saveProductLicenseSuccess(false);
+                                                        })
+                                                        .catch((e) => {
+                                                          const reason = e && e['reason'] ? e['reason'] : e['error'];
+                                                          this.notify.error(reason);
+                                                          return Observable.of(this.shopManageActions.saveProductLicenseFail(reason, e, false));
+                                                        });
+                                     });
 }

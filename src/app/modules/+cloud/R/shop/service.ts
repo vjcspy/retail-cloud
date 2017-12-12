@@ -49,4 +49,13 @@ export class ShopManageService {
                                  (e) => reject(e));
     });
   }
+  
+  saveProductLicense(licenseHasProduct): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('license.shop_save_product_license', licenseHasProduct)
+                      .subscribe(() => resolve(),
+                                 (e) => reject(e));
+      ;
+    });
+  }
 }

@@ -1,4 +1,4 @@
-<a class="btn" data-toggle="modal" href="#delete-user">delete user</a>
+<!--<a class="btn" data-toggle="modal" href="#delete-user">delete user</a>-->
 <div id="delete-user" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content gray-bg ">
@@ -18,137 +18,138 @@
 </div>
 
 <!-- START Add new User page -->
-<div class="current-plan-info min-page">
+<div class="current-plan-info min-page" *ngIf="!!licenseHasProduct">
   <div class="white-box">
     <div class="box560">
       <div class="title-page">
         <h1>Current plan info</h1>
       </div>
-      <form class="js-validation-user form-horizontal">
+      <form class="js-validation-user form-horizontal" id="plan-detail-form">
         <div class="form-content">
           <div class="form-group">
-            <label class="control-label">Current ConnectPOS Version:</label>
-            <div class="element">1.0.0</div>
+            <label class="control-label">Pricing Plan:</label>
+            <div class="element">{{pricing['display_name']}}</div>
           </div>
           <div class="form-group">
             <label class="control-label">Purchased Date:</label>
-            <div class="element">25 - December - 2017</div>
+            <div class="element">{{licenseHasProduct['purchase_date'] | amCalendar}}</div>
           </div>
           <div class="form-group">
-            <label class="control-label">Pricing Plan:</label>
-            <div class="element">ConnectPOS Standard</div>
+            <label class="control-label">Expiry Date:</label>
+            <div class="element error-date">{{licenseHasProduct['expiry_date'] | amCalendar}}</div>
           </div>
           <div class="form-group">
             <label class="control-label">Current Register:</label>
-            <div class="element">3/5</div>
+            <div class="element">{{licenseHasProduct['addition_entity']}}</div>
           </div>
           <div class="form-group">
             <label class="control-label">Current Billing Cycle:</label>
-            <div class="element">Monthly</div>
+            <div class="element">{{getBillingCycleName(licenseHasProduct['billing_cycle'])}}</div>
           </div>
           <div class="form-group">
-            <label class="control-label pl30">Start Invoice At:</label>
-            <div class="element">20 - October - 2017</div>
+            <label class="control-label pl30">Last Invoice At:</label>
+            <div class="element">{{ licenseHasProduct['last_invoice'] ? (licenseHasProduct['last_invoice'] | amCalendar) : "-"}}</div>
           </div>
           <div class="form-group">
             <label class="control-label pl30">Next Invoice At:</label>
-            <div class="element error-date">21 - October - 2017 <a href="#" class="link-action">(Error)</a></div>
+            <div class="element">{{licenseHasProduct['next_invoice'] ? (licenseHasProduct['next_invoice'] | amCalendar) : "-"}}
+              <!--<a class="link-action">(Error)</a>-->
+            </div>
           </div>
-          <div class="form-group mt30">
-            <label class="control-label">ConnectPOS Version:</label>
+          <div class="form-group">
+            <label class="control-label">Change Version:</label>
             <div class="element s-row">
-              <select class="form-control" name="">
-                <option value="">1.0.0</option>
+              <select class="form-control" name="" disabled style="width: auto">
+                <option value="">1.0.0 - current</option>
                 <option value="">2.0</option>
               </select>
-              <a href="#" class="link-action">(Version info)</a>
+              <a class="link-action">(Version info)</a>
             </div>
           </div>
-          <div class="form-group mt30">
+          <div class="form-group">
             <label class="control-label">Status:</label>
-            <div class="element s-row">
-              <select class="form-control" name="status">
-                <option value="1">Enable</option>
-                <option value="0">Disable</option>
-              </select>
-            </div>
+            <div class="element text-success">Activated</div>
           </div>
+        </div>
+        <div class="list-of-basedurls">
+          <div class="clearfix">
+            <div class="table-title pull-left">List of base urls:</div>
+            <div class="download-url pull-right"><a class="link-action">Download API Version</a></div>
+          </div>
+          <table class="table table-bordered table-responsive white-box">
+            <thead>
+            <tr>
+              <th>In use</th>
+              <th>Base URL</th>
+              <th>API Version</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let baseUrl of licenseHasProduct['base_url']">
+              <td>
+                <label *ngIf="baseUrl['request'] != true" class="css-input css-checkbox css-checkbox-primary">
+                  <input [disabled]="baseUrl['is_valid'] !== true" type="checkbox" name="license_in_use" [(ngModel)]="baseUrl['in_use']"><span></span>
+                </label>
+              </td>
+              <td>
+                <span *ngIf="baseUrl['request'] != true" style="word-break: break-all">{{baseUrl['url']}}</span>
+                <p *ngIf=" baseUrl['is_valid'] !== true && baseUrl['request'] !== true" class="text-danger">(waiting acceptance)</p>
+                <input *ngIf="baseUrl['request'] == true" type="text" class="form-control base-url" name="base-url" placeholder="Enter a URL ..." [(ngModel)]="baseUrl['url']">
+              </td>
+              <td>{{baseUrl['api_version']}}</td>
+              <td>
+                <a class="link-action" (click)="removeBaseUrl(baseUrl)">Remove</a>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><a class="link-action" (click)="requestNewBaseUrl(baseUrl)">New</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--<div class="plan-history">-->
+        <!--<div class="clearfix">-->
+        <!--<div class="table-title pull-left">Plan history</div>-->
+        <!--<div class="download-url pull-right">-->
+        <!--<button type='button' class="btn btn-default btn-orange">Change plan</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<table class="table table-bordered table-responsive white-box">-->
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--<th>#</th>-->
+        <!--<th>Plan</th>-->
+        <!--<th>Starting date</th>-->
+        <!--<th>Action</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+        <!--<td>1</td>-->
+        <!--<td>Basic</td>-->
+        <!--<td>1 Jan 2018</td>-->
+        <!--<td><a href="#" class="link-action">See invoices</a></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td>2</td>-->
+        <!--<td>Basic</td>-->
+        <!--<td>23 Nov 2017</td>-->
+        <!--<td><a href="#" class="link-action">See invoices</a></td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
+        <!--</div>-->
+
+        <div class="group-btn tac line-top">
+          <button type="button" class="btn btn-default" (click)="routerActions.go('cloud/default/account/license/list')">Back</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
-      <div class="list-of-basedurls">
-        <div class="clearfix">
-          <div class="table-title pull-left">List of basedurls:</div>
-          <div class="download-url pull-right"><a href="#" class="link-action">Download API Version</a></div>
-        </div>
-        <table class="table table-bordered table-responsive white-box">
-          <thead>
-          <tr>
-            <th>In use</th>
-            <th>Base URL</th>
-            <th>API Version</th>
-            <th>Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>
-              <label class="css-input css-checkbox css-checkbox-primary">
-                <input type="checkbox" name=""><span></span>
-              </label>
-            </td>
-            <td>Connect.abc</td>
-            <td>1.0.0</td>
-            <td><a href="#" class="link-action">Remove</a></td>
-          </tr>
-          <tr>
-            <td>
-              <label class="css-input css-checkbox css-checkbox-primary">
-                <input type="checkbox" name=""><span></span>
-              </label>
-            </td>
-            <td>creport.xyz</td>
-            <td>1.0.0</td>
-            <td><a href="#" class="link-action">Remove</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="plan-history">
-        <div class="clearfix">
-          <div class="table-title pull-left">Plan history</div>
-          <div class="download-url pull-right">
-            <button type='button' class="btn btn-default btn-orange">Change plan</button>
-          </div>
-        </div>
-        <table class="table table-bordered table-responsive white-box">
-          <thead>
-          <tr>
-            <th>#</th>
-            <th>Plan</th>
-            <th>Starting date</th>
-            <th>Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>1</td>
-            <td>Basic</td>
-            <td>1 Jan 2018</td>
-            <td><a href="#" class="link-action">See invoices</a></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Basic</td>
-            <td>23 Nov 2017</td>
-            <td><a href="#" class="link-action">See invoices</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="group-btn tac line-top">
-        <button type="button" class="btn btn-default">Back</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
     </div>
   </div>
 </div>
