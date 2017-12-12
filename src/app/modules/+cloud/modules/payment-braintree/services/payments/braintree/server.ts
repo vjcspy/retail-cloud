@@ -33,9 +33,9 @@ export class BrainTreeMeteorServer {
     });
   }
   
-  pay(orderType, orderId, gatewayAdditionData) {
+  pay(planId, gatewayAdditionData) {
     return new Promise((resolve, reject) => {
-      MeteorObservable.call('sales-payment.pay', {orderType, orderId, gatewayAdditionData})
+      MeteorObservable.call('sales-payment.pay', {planId, gatewayAdditionData})
                       .subscribe((res) => resolve(res),
                                  (err) => reject(err));
     });

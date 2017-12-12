@@ -77,8 +77,8 @@ export class CheckoutActions {
   
   static ACTION_INIT_CHECKOUT_PAYMENT = 'ACTION_INIT_CHECKOUT_PAYMENT';
   
-  initCheckoutPayment(orderType, orderId, dispatch: boolean = true): Action {
-    const action = {type: CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT, payload: {orderType, orderId}};
+  initCheckoutPayment(planId, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT, payload: {planId}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
@@ -115,6 +115,18 @@ export class CheckoutActions {
   
   payFail(mess, e, dispatch: boolean = true): Action {
     const action = {type: CheckoutActions.ACTION_PAY_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static CHECKED_PLAN_CAN_INVOICE = 'CHECKED_PLAN_CAN_INVOICE';
+  
+  checkedPlanCanInvoice(canInvoice, dispatch: boolean = true): Action {
+    const action = {type: CheckoutActions.CHECKED_PLAN_CAN_INVOICE, payload: {canInvoice}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

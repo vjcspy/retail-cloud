@@ -17,7 +17,7 @@
               ${{(checkoutState$ | async).totals?.total?.grand_total | number: '1.2-2'}}
             </div>
           </div>
-          <div class="row payment-method-choice">
+          <div class="row payment-method-choice" *ngIf="(checkoutState$ | async).totals?.total?.grand_total > 0">
             <div class="col-sm-6 lbl">
               Payment method
             </div>
@@ -34,6 +34,16 @@
               </ul>
             </div>
           </div>
+          <!--<div *ngIf="(checkoutState$ | async).totals?.total?.grand_total == 0">-->
+          <!--<div>-->
+          <!--you_do_not_need_select_payment-->
+          <!--</div>-->
+          <!--<div>-->
+          <!--<button>-->
+          <!--Complete-->
+          <!--</button>-->
+          <!--</div>-->
+          <!--</div>-->
         </div>
 
         <div class="credit-card-info" *ngIf="paymentMethod == 'braintree'">
@@ -42,23 +52,5 @@
 
       </div>
     </div>
-  </div>
-
-  <!-- Popup modal checkout-success -->
-  <div id="checkout-success-modal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <div class="checkout-success-popup">
-            Your payment has been completed! You’re being redirected to License Page in: <span class="number">5</span>
-            <i class="ico-success"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Popup modal - end-->
-
-    <!-- END Checkout page -->
-
   </div>
 </div>

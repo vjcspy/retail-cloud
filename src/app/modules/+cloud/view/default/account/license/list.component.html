@@ -28,25 +28,24 @@
           <thead>
           <tr>
             <th>Product</th>
-            <th>Version</th>
             <th>Pricing</th>
-            <th>Current User</th>
+            <th>Plan Billing Cycle</th>
+            <th>Active Register</th>
             <th>Purchase Date</th>
-            <th>Status</th>
+            <th>Expiry Date</th>
             <th>Action</th>
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>X-POS</td>
-            <td>1.0.1</td>
-            <td>1.0.1</td>
-            <td>1.0.1</td>
-            <td>1.0.1</td>
-            <td>1.0.1</td>
+          <tr *ngFor="let productLicense of licenseProduct">
+            <td>{{productLicense['productName']}}</td>
+            <td>{{productLicense['pricingName']}}</td>
+            <td>{{getLicenseBillingCycleText(productLicense['billingCycle'])}}</td>
+            <td>{{productLicense['additionEntity']}}</td>
+            <td>{{productLicense['purchaseDate'] | amCalendar}}</td>
+            <td>{{productLicense['expiryDate'] | amCalendar}}</td>
             <td>
-              <button type="button" class="btn btn-default" data-id="${data}">More Details</button>
-              <button type="button" class="btn btn-primary" data-id="${data}">Adjust Plan</button>
+              <a class="link-action meteor-table-bt-edit" (click)="viewDetail(productLicense['planId'])">View Detail</a>
             </td>
           </tr>
           </tbody>

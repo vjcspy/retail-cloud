@@ -4,8 +4,7 @@ import {List} from "immutable";
 export interface CheckoutState {
   isCalculating: boolean;
   totals: Object;
-  orderType: string;
-  orderId: string;
+  planId: string;
   payments: List<any>;
 }
 
@@ -16,8 +15,7 @@ export interface CheckoutSateRecord extends CheckoutState, TypedRecord<any> {
 export const checkoutStateFactory = makeTypedFactory<CheckoutState, CheckoutSateRecord>(
   {
     isCalculating: false,
-    orderId: null,
-    orderType: null,
+    planId: null,
     totals: {},
     payments: List.of()
   });

@@ -70,9 +70,9 @@
             <div class="form-group">
               <label class="control-label">Number of Register:</label>
               <div class="element number-spinner">
-                <span class="num-btn ion-minus" (click)="changeAdditionEntity(-1)" [ladda]="(salesState$ | async)?.checkout.isCalculating"></span>
+                <span class="num-btn ion-minus" (click)="changeAdditionEntity(-1)"></span>
                 <span class="num-value">{{getAdditionEntity()}}</span>
-                <span class="num-btn ion-plus" (click)="changeAdditionEntity(+1)" [ladda]="(salesState$ | async)?.checkout.isCalculating"></span>
+                <span class="num-btn ion-plus" (click)="changeAdditionEntity(+1)"></span>
               </div>
             </div>
             <div class="form-group group-label">

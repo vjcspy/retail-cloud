@@ -115,7 +115,7 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
   handleTableEvent($event) {
     switch ($event['type']) {
       case "CLICK_EDIT":
-        return this.routerActions.go('cloud/default/account/license/checkout', {orderType: 'plan', orderId: $event['data']});
+        return this.routerActions.go('cloud/default/account/license/checkout', {planId: $event['data']});
       
       default:
     }

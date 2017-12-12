@@ -7,6 +7,7 @@ import {BraintreeService} from "./service";
 import {SalesState} from "../../../../R/sales/state";
 import {CheckoutActions} from "../../../../R/sales/checkout/actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {RouterActions} from "../../../../../../R/router/router.actions";
 
 @Injectable()
 export class BraintreeEffects {
@@ -16,7 +17,8 @@ export class BraintreeEffects {
               protected checkoutActions: CheckoutActions,
               protected braintreeActions: BraintreeActions,
               protected notify: NotifyManager,
-              protected braintreeService: BraintreeService) { }
+              protected braintreeService: BraintreeService,
+              protected routerActions: RouterActions) { }
   
   @Effect() createDropin = this.actions$
                                .ofType(BraintreeActions.ACTION_BRAINTREE_DROPIN_CREATE)
@@ -36,8 +38,12 @@ export class BraintreeEffects {
                                          const salesState: SalesState = z[1];
                                          return Observable.fromPromise(this.braintreeService
                                                                            .getBraintree()
-                                                                           .requestPaymentMethod(salesState.checkout.orderType, salesState.checkout.orderId))
-                                                          .map(() => this.checkoutActions.paySuccess(false))
+                                                                           .requestPaymentMethod(salesState.checkout.planId))
+                                                          .map(() => {
+                                                            this.routerActions.go('cloud/default/account/license/complete');
+      
+                                                            return this.checkoutActions.paySuccess(false);
+                                                          })
                                                           .catch((e) => {
                                                             const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                             this.notify.error(reason);

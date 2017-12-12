@@ -11,11 +11,10 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
              // moduleId: module.id,
              selector: 'account-license-checkout-component',
              templateUrl: 'checkout.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush,
+             // changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
 export class AccountLicenseCheckoutComponent implements OnInit {
-  grandtotal: number = 100;
   paymentMethod: string;
   
   checkoutState$: Observable<CheckoutState>;
@@ -30,12 +29,12 @@ export class AccountLicenseCheckoutComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       if (params) {
-        const {orderType, orderId} = params;
+        const {planId} = params;
         
-        if (!orderType || !orderId) {
+        if (!planId) {
           this.notify.error('can_load_data');
         } else {
-          this.checkoutActions.initCheckoutPayment(orderType, orderId);
+          this.checkoutActions.initCheckoutPayment(planId);
         }
       }
     });

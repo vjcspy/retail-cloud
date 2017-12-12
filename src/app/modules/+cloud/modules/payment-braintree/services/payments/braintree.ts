@@ -48,7 +48,7 @@ export class Braintree {
     });
   }
   
-  requestPaymentMethod(orderType, orderId) {
+  requestPaymentMethod(planId) {
     if (typeof this.braintreeFormInstance === 'undefined') {
       throw new GeneralException("braintree_has_not_initialized");
     }
@@ -62,7 +62,7 @@ export class Braintree {
         }
         // Submit payload.nonce to your server
         if (payload.nonce) {
-          this.server.pay(orderType, orderId, {
+          this.server.pay(planId, {
             paymentMethodNonce: payload.nonce,
             id: 'braintree'
           }).then((res) => resolve(res), (err) => reject(err));

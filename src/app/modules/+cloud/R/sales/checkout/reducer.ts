@@ -19,8 +19,7 @@ export const checkoutReducer: ActionReducer<SalesStateRecord> = (state: SalesSta
   }
   
   if (action.type === CheckoutActions.ACTION_INIT_CHECKOUT_PAYMENT) {
-    return state.update('checkout', (checkout: CheckoutSateRecord) => checkout.set('orderType', action.payload['orderType'])
-                                                                              .set('orderId', action.payload['orderId']));
+    return state.update('checkout', (checkout: CheckoutSateRecord) => checkout.set('planId', action.payload['planId']));
   }
   
   if (action.type === CheckoutActions.ACTION_INITED_CHECKOUT_PAYMENT) {

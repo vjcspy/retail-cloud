@@ -26,4 +26,11 @@ export class CheckoutService {
                       .subscribe((data: any) => resolve(data), (err) => reject(err));
     });
   }
+  
+  checkPlanHasPaid(planId): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call("sales.plan_has_paid", {planId})
+                      .subscribe((d) => resolve(d), (err) => reject(err));
+    });
+  }
 }

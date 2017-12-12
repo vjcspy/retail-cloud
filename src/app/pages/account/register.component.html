@@ -62,7 +62,7 @@
             </label>
           </li>
           <li class="button-group col-xs-12">
-            <button type="submit" [ladda]="(accountState$ |async)?.isProcessing">Create Account</button>
+            <button type="submit" class="btn-primary" [ladda]="(accountState$ |async)?.isProcessing">Register</button>
           </li>
           <li>
             <a class="link-text" (click)="routerActions.go('account/login')">Login?</a>

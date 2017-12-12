@@ -34,8 +34,8 @@
             </div>
           </li>
           <li class="button-group col-xs-12">
-            <button type="submit" *ngIf="!token" [ladda]="(accountState$ |async)?.isProcessing">Enter Email</button>
-            <button type="submit" *ngIf="!!token" [ladda]="(accountState$ |async)?.isProcessing">Confirm New Password</button>
+            <button type="submit" class="btn-primary" *ngIf="!token" [ladda]="(accountState$ |async)?.isProcessing">Confirm</button>
+            <button type="submit" class="btn-primary" *ngIf="!!token" [ladda]="(accountState$ |async)?.isProcessing">Confirm</button>
           </li>
           <li>
             <a class="link-text" (click)="routerActions.go('account/login')">Login?</a>

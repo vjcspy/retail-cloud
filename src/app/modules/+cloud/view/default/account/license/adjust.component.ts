@@ -112,15 +112,17 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
                 } else {
                   throw new LogicException("product_license_must_belong_one_of_pricing");
                 }
+                
+                // remove trial pricing
+                this.prices = _.filter(this.prices, (p) => p['type'] !== 'trial');
               } else {
                 // license has not yet bought this product
-                this.initDefaultPricingPlan();
               }
             } else {
               // license has not yet bought any product
-              this.initDefaultPricingPlan();
             }
             
+            this.initDefaultPricingPlan();
             this.calculateTotal();
             
             return this.changeDetectorRef.detectChanges();
