@@ -26,7 +26,9 @@ export class AccountInformationComponent implements OnInit {
   ngOnInit() {
     const user = this.auth.user;
     if (!!user && user['_id']) {
-      this.user = user;
+      this.user = Object.assign({
+                                  profile: {}
+                                }, {...user});
       setTimeout(() => {
         this.initPageJs();
       });
