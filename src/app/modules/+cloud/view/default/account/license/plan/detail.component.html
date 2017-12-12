@@ -1,15 +1,14 @@
-<!--<a class="btn" data-toggle="modal" href="#delete-user">delete user</a>-->
-<div id="delete-user" class="modal fade">
+<div id="delete-url" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content gray-bg ">
       <div class="modal-body">
         <form action="" class="form-horizontal">
           <div class="form-group tac">
-            <p>Are you sure you want to delete user "<strong>Anh Le</strong>" ?</p>
+            <p>Are you sure you want to delete this url?</p>
           </div>
           <div class="group-btn tac">
-            <button type="button" class="btn btn-default">No</button>
-            <button type="button" class="btn btn-primary">Yes</button>
+            <button type="button" class="btn btn-default" (click)="closePopupModalDeleteUrl()">No</button>
+            <button type="button" class="btn btn-primary" (click)="removeBaseUrl()">Yes</button>
           </div>
         </form>
       </div>
@@ -103,7 +102,7 @@
               </td>
               <td>{{baseUrl['api_version']}}</td>
               <td>
-                <a class="link-action" (click)="removeBaseUrl(baseUrl)">Remove</a>
+                <a class="link-action" (click)="openPopupModalDeleteUrl(baseUrl)">Remove</a>
               </td>
             </tr>
             <tr>

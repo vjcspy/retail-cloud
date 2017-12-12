@@ -25,6 +25,7 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
   pricing: any;
   
   private validationElem;
+  protected urlDelete;
   
   constructor(protected activatedRoute: ActivatedRoute,
               protected licenseCollection: LicenseCollection,
@@ -111,8 +112,18 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
     return !!name ? name : "-";
   }
   
-  removeBaseUrl(baseUrl) {
-    _.remove(this.licenseHasProduct['base_url'], (b) => b === baseUrl);
+  removeBaseUrl() {
+    _.remove(this.licenseHasProduct['base_url'], (b) => b === this.urlDelete);
+    this.closePopupModalDeleteUrl();
+  }
+  
+  openPopupModalDeleteUrl(url) {
+    this.urlDelete = url;
+    $('#delete-url')['modal']('show');
+  }
+  
+   closePopupModalDeleteUrl() {
+    $('#delete-url')['modal']('hide');
   }
   
   requestNewBaseUrl() {
