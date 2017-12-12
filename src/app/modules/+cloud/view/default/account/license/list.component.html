@@ -33,6 +33,7 @@
             <th>Active Register</th>
             <th>Purchase Date</th>
             <th>Expiry Date</th>
+            <th>Action</th>
           </tr>
           </thead>
           <tbody>
@@ -43,6 +44,9 @@
             <td>{{productLicense['additionEntity']}}</td>
             <td>{{productLicense['purchaseDate'] | amCalendar}}</td>
             <td>{{productLicense['expiryDate'] | amCalendar}}</td>
+            <td>
+              <a class="link-action meteor-table-bt-edit" (click)="viewDetail(productLicense['planId'])">View Detail</a>
+            </td>
           </tr>
           </tbody>
         </table>
