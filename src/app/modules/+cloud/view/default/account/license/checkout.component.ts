@@ -11,7 +11,7 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
              // moduleId: module.id,
              selector: 'account-license-checkout-component',
              templateUrl: 'checkout.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush,
+             // changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
 export class AccountLicenseCheckoutComponent implements OnInit {

@@ -58,7 +58,7 @@ export class CheckoutEffects {
                                            return Observable.fromPromise(this.checkoutService.checkPlanHasPaid(planId))
                                                             .map((data) => {
                                                               if (data['hasPaid'] === true) {
-                                                                this.routerActions.go('cloud/default/account/license/complete', {planId});
+                                                                this.routerActions.go('cloud/default/account/license/complete');
                                                               } else {
                                                                 this.routerActions.go('cloud/default/account/license/checkout', {planId});
                                                               }
