@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {NotifyManager} from "../../services/notify-manager";
+import {MeteorObservable} from "meteor-rxjs";
 
 @Injectable()
 export class AccountService {
@@ -87,6 +88,13 @@ export class AccountService {
           resolve();
         }
       });
+    });
+  }
+  
+  saveUserProfile(user): Promise<any> {
+    return new Promise((resolve, reject) => {
+      MeteorObservable.call('accounts.user_update_profile', user)
+                      .subscribe(() => resolve(), (err) => reject(err));
     });
   }
 }

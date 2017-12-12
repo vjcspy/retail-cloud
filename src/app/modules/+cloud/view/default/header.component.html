@@ -26,8 +26,8 @@
         <div class="user">
           <div class="img"><img src="assets/img/default-avatar.png" alt="Avatar"></div>
           <div class="personal-info">
-            <span class="name">{{accountState.user?.username}}</span>
-            <span class="role">({{accountState.user?.roles['cloud_group']}})</span>
+            <span class="name">{{accountState.user?.profile?.first_name + ' ' + accountState.user?.profile?.last_name}}</span>
+            <span class="role" *ngIf="accountState.user?.roles['cloud_group']">({{accountState.user?.roles['cloud_group']}})</span>
           </div>
           <div class="logout-btn" (click)="accountActions.logout()">
             Logout

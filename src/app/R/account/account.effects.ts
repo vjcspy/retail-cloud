@@ -7,6 +7,7 @@ import {AccountService} from "./account.service";
 import {RootActions} from "../root.actions";
 import {RouterActions} from "../router/router.actions";
 import {AuthenticateService} from "../../services/authenticate";
+import {NotifyManager} from "../../services/notify-manager";
 
 @Injectable()
 export class AccountEffects {
@@ -17,6 +18,7 @@ export class AccountEffects {
               protected accountService: AccountService,
               protected authenticate: AuthenticateService,
               protected rootActions: RootActions,
+              protected notify: NotifyManager,
               protected routerActions: RouterActions) { }
   
   @Effect() login = this.actions$
@@ -94,4 +96,23 @@ export class AccountEffects {
                                                    })
                                                    .catch((e) => Observable.of(this.rootActions.error("", false)));
                                 });
+  
+  @Effect() saveUserProfile = this.actions$
+                                  .ofType(
+                                    AccountActions.ACTION_SAVE_USER_PROFILE
+                                  )
+                                  .switchMap((z: any) => {
+                                    const action: Action = z;
+                                    return Observable.fromPromise(this.accountService.saveUserProfile(action.payload['user']))
+                                                     .map(() => {
+                                                       this.notify.success("save_account_successfully");
+                                                       
+                                                       return this.accountActions.saveUserProfileSuccess(false);
+                                                     })
+                                                     .catch((e) => {
+                                                       const reason = e && e['reason'] ? e['reason'] : e['error'];
+      
+                                                       return Observable.of(this.rootActions.error(reason, e));
+                                                     });
+                                  });
 }

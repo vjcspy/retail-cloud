@@ -149,4 +149,40 @@ export class AccountActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_USER_PROFILE = 'ACTION_SAVE_USER_PROFILE';
+  
+  saveUserProfile(user, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_SAVE_USER_PROFILE, payload: {user}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_USER_PROFILE_SUCCESS = 'ACTION_SAVE_USER_PROFILE_SUCCESS';
+  
+  saveUserProfileSuccess(dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_SAVE_USER_PROFILE_SUCCESS, payload: {}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
+  static ACTION_SAVE_USER_PROFILE_FAIL = 'ACTION_SAVE_USER_PROFILE_FAIL';
+  
+  saveUserProfileFail(mess, e, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_SAVE_USER_PROFILE_FAIL, payload: {mess, e}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }
