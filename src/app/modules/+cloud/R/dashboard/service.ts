@@ -98,7 +98,7 @@ export class DashboardReportService {
         .subscribe(
           (data) => {
             if (_.isObject(data)) {
-              this.convertData(data['series'],data['list_date_filter']);
+              this.convertData(data['series'],data['list_date_filter'], data['product_sold'], data['product_sold_trend_data']);
               
               this.viewState.isOverLoad = true ;
               // this.viewState.isOverLoadReport = false ;
@@ -120,12 +120,14 @@ export class DashboardReportService {
     // }
   }
   
-  convertData(itemsData , listDateFilter) {
+  convertData(itemsData , listDateFilter, productSold, productTrendData) {
     this.viewData = {
       list_date_filter: [],
       items: []
     };
     this.viewData['list_date_filter'] = listDateFilter;
+    this.viewData['product_sold'] = productSold;
+    this.viewData['product_trend_data'] = productTrendData;
     // _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
     //   let _data = {
     //     name: widget['label'],

@@ -54,4 +54,18 @@ export class ReportDashboardHelper {
       value: "time_period_picker"
     };
   }
+  
+  static getListMeasureProductSold(): Object {
+    return {
+      data: [
+        {id: 1, label: "Revenue", value: "revenue"},
+        {id: 2, label: "Item Sold", value: "item_sold"},
+        {id: 3, label: "Discount", value: "discount_amount"},
+        {id: 4, label: "Trend", value: "trend"}
+      ],
+      isMultiSelect: false,
+      label: "Measure Product Sold",
+      value: "measure_product_sold"
+    };
+  }
 }
