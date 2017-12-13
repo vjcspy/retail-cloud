@@ -7,6 +7,7 @@ import {ApiManager} from "../../../../services/api-manager";
 
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
+import {DashboardReportService} from "../../../../R/dashboard/service";
 
 @Component({
              // moduleId: module.id,
@@ -54,9 +55,9 @@ export class BarChart implements OnDestroy,OnInit {
     if (this.chartEl && this.chartEl.nativeElement) {
       barchart.chart = {
         type: 'bar',
-        marginTop: 40,
-        marginBottom: 80,
-        height: this.scope_Names.length * 55 + 120,
+        marginTop: 5,
+        marginBottom: 15,
+        height: this.scope_Names.length * 50 + 20,
         renderTo: this.chartEl.nativeElement
       };
       this._barchart = new Highcharts.Chart(barchart);
@@ -87,7 +88,7 @@ export class BarChart implements OnDestroy,OnInit {
       },
       plotOptions: {
         series: {
-          pointWidth: 35,
+          pointWidth: 33,
           // pointPadding: 0,
           // groupPadding: 0,
           stacking: 'percent'

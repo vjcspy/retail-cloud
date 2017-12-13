@@ -16,9 +16,11 @@ export class ReportDashboardHelper {
   static getListScope(): Object {
     return {
       data: [
-        {id: 1, label: "Outlet", value: "outlet"},
-        {id: 2, label: "Magento Website", value: "website"},
-        {id: 3, label: "Magento Storeview", value: "store"}
+        {id: 1, label: "Region", value : "region"},
+        {id: 2, label: "Outlet", value: "outlet"},
+        {id: 3, label: "Magento Website", value: "website"},
+        {id: 4, label: "Magento Storeview", value: "store"}
+      
       ],
       isMultiSelect: false,
       label: "Scope",

@@ -1,0 +1,30 @@
+<div class="dashboard-secondary-content">
+  <div class="dashboard-database">
+    <h2>TOP SALES PEOPLE</h2>
+    <table class="datatable">
+      <thead>
+      <tr>
+        <th colspan="2">User</th>
+        <th (click)="sortRevenue()"  [ngClass]="sortItem()"><a>Revenue</a></th>
+        <th><a>Order Count</a></th>
+        <th><a>Items Sold</a></th>
+        <th><a>Cart Value</a></th>
+        <th><a>Cart Size</a></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of data_view">
+        <th colspan="2">{{item['username']}}</th>
+        <td>{{item['revenue'] | number :'1.2-2'}}</td>
+        <td>{{item['order_count'] | number :'1.2-2'}}</td>
+        <td>{{item['items_sold'] | number :'1.2-2' }}</td>
+        <td>{{item['cart_value'] | number :'1.2-2'}}</td>
+        <td>{{item['cart_size'] | number :'1.2-2'}}</td>
+        <!--<td>$0<span class="decimals">.00</span></td>-->
+      </tr>
+      </tbody>
+    </table>
+    <div *ngIf="checkDataNullForHidden()" class="datatable-no-results"> No data available for this period.</div>
+    <div class="view-full-report"><a routerLink="/cloud/default/sale-report" > View full report</a></div>
+  </div>
+</div>

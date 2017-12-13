@@ -12,6 +12,7 @@ import {ChartLineTime} from "../dashboard/chart/element/chart-line-time";
 import {BarChart} from "../dashboard/chart/element/bar-chart";
 import {DashboardGranularity} from "../dashboard/chart/element/dashboard-granularity";
 import {ProductTrend} from "../dashboard/chart/element/product-trend";
+import {RetailDashboardTableUser} from "../dashboard/Table/retail-dashboard-table-user";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -26,6 +27,7 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   CloudSaleReportItemComponent,
 
   RetailDashboardChart,
+  RetailDashboardTableUser,
   ChartLineTime,
   BarChart,
   ProductTrend,

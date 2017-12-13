@@ -27,6 +27,6 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
     },
     license :null,
     isProcessing: false,
-    redirect: 'cloud/default/sale-report'
+    redirect: 'cloud/default/dashboard'
   }
 );

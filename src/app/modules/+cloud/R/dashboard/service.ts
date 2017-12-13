@@ -54,7 +54,8 @@ export class DashboardReportService {
     };
     this.viewData       = {
       list_date_filter: [],
-      items: []
+      items: [],
+      topUser : []
     };
   }
   
@@ -98,10 +99,8 @@ export class DashboardReportService {
         .subscribe(
           (data) => {
             if (_.isObject(data)) {
-              this.convertData(data['series'],data['list_date_filter']);
-              
+              this.convertData(data);
               this.viewState.isOverLoad = true ;
-              // this.viewState.isOverLoadReport = false ;
               return defer.resolve(true);
             } else {
               this.viewState.isOverLoad = true ;
@@ -111,7 +110,7 @@ export class DashboardReportService {
           },
           (e) => {
             this.toast.error("Some problem occur when load data dashboard");
-            this.viewState.isOverLoad = false ;
+            this.viewState.isOverLoad = true ;
             // this.viewState.isOverLoadReport = false ;
             return defer.resolve(false);
           }
@@ -120,27 +119,14 @@ export class DashboardReportService {
     // }
   }
   
-  convertData(itemsData , listDateFilter) {
+  convertData(itemsData) {
     this.viewData = {
       list_date_filter: [],
-      items: []
+      items: [],
+      topUser : []
     };
-    this.viewData['list_date_filter'] = listDateFilter;
-    // _.forEach(ReportDashboardHelper.getWidgets()['data'] , widget =>{
-    //   let _data = {
-    //     name: widget['label'],
-    //     type: widget['value'],
-    //     data: []
-    //   };
-    //   _.forEach(itemsData, (scope) => {
-    //     _data["data"].push({
-    //               "name": scope['name'],
-    //               "value": scope['chart_data'][widget['value']]
-    //             })
-    //   });
-    //   this.viewData['items'].push(_data);
-    // });
-    
+    this.viewData['list_date_filter'] = itemsData['list_date_filter'];
+    this.viewData['topUser'] = itemsData['top_User'];
     _.forEach(ReportDashboardHelper.getWidgets()['data'], widget => {
       let data = {
         name: widget['label'],
@@ -148,7 +134,7 @@ export class DashboardReportService {
         data: []
       };
     
-      _.forEach(itemsData, scope => {
+      _.forEach(itemsData['series'], scope => {
         const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widget['value']);
         if (chartDataOfCurrentScope) {
           data['data'].push({
