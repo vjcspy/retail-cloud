@@ -120,7 +120,7 @@ export class DashboardReportService {
     // }
   }
   
-  convertData(itemsData , listDateFilter) {
+  convertData(itemsData) {
     this.viewData = {
       list_date_filter: [],
       items: [],
@@ -137,7 +137,7 @@ export class DashboardReportService {
         data: []
       };
     
-      _.forEach(itemsData, scope => {
+      _.forEach(itemsData['series'], scope => {
         const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widget['value']);
         if (chartDataOfCurrentScope) {
           data['data'].push({
