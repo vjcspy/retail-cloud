@@ -101,6 +101,7 @@ export class DashboardReportService {
             if (_.isObject(data)) {
               this.convertData(data);
               this.viewState.isOverLoad = true ;
+              // this.viewState.isOverLoadReport = false ;
               return defer.resolve(true);
             } else {
               this.viewState.isOverLoad = true ;
@@ -110,7 +111,7 @@ export class DashboardReportService {
           },
           (e) => {
             this.toast.error("Some problem occur when load data dashboard");
-            this.viewState.isOverLoad = true ;
+            this.viewState.isOverLoad = false ;
             // this.viewState.isOverLoadReport = false ;
             return defer.resolve(false);
           }
@@ -119,7 +120,7 @@ export class DashboardReportService {
     // }
   }
   
-  convertData(itemsData) {
+  convertData(itemsData , listDateFilter) {
     this.viewData = {
       list_date_filter: [],
       items: [],
@@ -127,6 +128,8 @@ export class DashboardReportService {
     };
     this.viewData['list_date_filter'] = itemsData['list_date_filter'];
     this.viewData['topUser'] = itemsData['top_User'];
+    this.viewData['product_sold'] = itemsData['product_sold'];
+    this.viewData['product_trend_data'] = itemsData['product_sold_trend_data'];
     _.forEach(ReportDashboardHelper.getWidgets()['data'], widget => {
       let data = {
         name: widget['label'],
@@ -134,7 +137,7 @@ export class DashboardReportService {
         data: []
       };
     
-      _.forEach(itemsData['series'], scope => {
+      _.forEach(itemsData, scope => {
         const chartDataOfCurrentScope = _.find(scope['chart_data'], (v, k) => k == widget['value']);
         if (chartDataOfCurrentScope) {
           data['data'].push({
