@@ -107,7 +107,7 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
   }
   
   getBillingCycleName(b) {
-    const name = this.constrainDataHelper.getBillingCycleName(b);
+    const name = ConstrainDataHelper.getBillingCycleName(b);
     
     return !!name ? name : "-";
   }
@@ -122,7 +122,7 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
     $('#delete-url')['modal']('show');
   }
   
-   closePopupModalDeleteUrl() {
+  closePopupModalDeleteUrl() {
     $('#delete-url')['modal']('hide');
   }
   

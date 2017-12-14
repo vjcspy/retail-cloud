@@ -6,6 +6,11 @@ import {MongoObservable} from "meteor-rxjs";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
+import {ProductCollection} from "../../../../../services/meteor-collections/products";
+import {PriceCollection} from "../../../../../services/meteor-collections/prices";
+import * as _ from 'lodash';
+import {ConstrainDataHelper} from "../../../services/constrain-data-helper";
+import {ValidateData} from "../../../services/validate-data";
 
 @Component({
              // moduleId: module.id,
@@ -15,10 +20,15 @@ import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscri
            })
 
 export class LicenseFormComponent extends AbstractSubscriptionComponent implements OnInit {
-  public license  = {
+  public license            = {
     status: 1
   };
-  public products = [];
+  public licenseHasProducts = [];
+  public user               = {
+    profile: {}
+  };
+  public products           = [];
+  public prices             = [];
   
   public data = {};
   
@@ -26,6 +36,8 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
               protected licenseCollection: LicenseCollection,
               protected notify: NotifyManager,
               protected changeDetectorRef: ChangeDetectorRef,
+              protected productCollection: ProductCollection,
+              protected pricingCollection: PriceCollection,
               protected routerActions: RouterActions) {
     super();
   }
@@ -33,10 +45,17 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
   ngOnInit() {
     this.subscribeObservable("_", () => Observable.combineLatest(
       this.route.params,
-      this.licenseCollection.getCollectionObservable()
+      this.licenseCollection.getCollectionObservable(),
+      this.productCollection.getCollectionObservable(),
+      this.pricingCollection.getCollectionObservable()
     ).subscribe((z: any) => {
       const params                                             = z[0];
       const licenseCollection: MongoObservable.Collection<any> = z[1];
+      const productCollection: MongoObservable.Collection<any> = z[2];
+      const pricingCollection: MongoObservable.Collection<any> = z[3];
+      
+      this.products = productCollection.collection.find().fetch();
+      this.prices   = pricingCollection.collection.find().fetch();
       
       if (!!params['id']) {
         const license = licenseCollection.findOne({_id: params['id']});
@@ -49,12 +68,50 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
           this.notify.error('can_not_find_license_with_id: ' + params['id']);
           this.goBack();
         }
+      } else {
+        this.licenseHasProducts = [];
+        _.forEach(this.products, (p) => {
+          this.licenseHasProducts.push(Object.assign({}, {...p}, {
+            checked: false,
+            status: 1,
+            purchase_date: null,
+            last_invoice: null,
+            base_url: [],
+            addition_entity: 1,
+            billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle']
+          }));
+        });
+        this.changeDetectorRef.detectChanges();
       }
     }));
   }
   
-  protected renderUserSelect2() {
+  getBillingCycleData() {
+    return ConstrainDataHelper.getBillingCycleData();
+  }
   
+  addBasedUrl(product, url) {
+    if (ValidateData.validateUrl(url)) {
+      if (_.indexOf(_.map(product['base_url'], u => u['url']), url) === -1) {
+        product['base_url'].push({
+                                   in_use: true,
+                                   is_valid: true,
+                                   url,
+                                 });
+      } else {
+        this.notify.warning("url_already_existed");
+      }
+    } else {
+      this.notify.warning("url_not_match");
+    }
+  }
+  
+  removeBaseUrl(product, url) {
+    _.remove(product['base_url'], url);
+  }
+  
+  isPricingOfProduct(pricing, product) {
+    return _.isArray(product['has_pricing']) && _.indexOf(_.map(product['has_pricing'], (_p) => _p['pricing_id']), pricing['_id']) > 0;
   }
   
   public isEditingLicense(): boolean {

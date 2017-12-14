@@ -3,27 +3,26 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ConstrainDataHelper {
+  protected static billingCycleData = [
+    {
+      billingCycle: 1,
+      name: "Monthly"
+    },
+    {
+      billingCycle: 2,
+      name: "Annually"
+    },
+  ];
   
   constructor() { }
   
-  getBillingCycleName(billingCycle): string {
-    const billingCycleData = [
-      {
-        billingCycle: 0,
-        name: "Lifetime"
-      },
-      {
-        billingCycle: 1,
-        name: "Monthly"
-      },
-      {
-        billingCycle: 2,
-        name: "Annually"
-      },
-    ];
-    
-    const cycle = _.find(billingCycleData, (d) => d['billingCycle'] === billingCycle);
+  static getBillingCycleName(billingCycle): string {
+    const cycle = _.find(ConstrainDataHelper.billingCycleData, (d) => d['billingCycle'] === billingCycle);
     
     return !!cycle ? cycle['name'] : "";
+  }
+  
+  static getBillingCycleData() {
+    return ConstrainDataHelper.billingCycleData;
   }
 }

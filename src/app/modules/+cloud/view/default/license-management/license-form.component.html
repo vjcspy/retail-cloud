@@ -13,13 +13,42 @@
           <div class="form-group">
             <label class="control-label" for="val-owner">Shop Owner</label>
             <div class="element">
-              <select [disabled]="!!license && !!license['shop_owner_id']" class="js-select2 form-control" id="val-owner" name="val-owner" style="width: 100%;"
-                      data-placeholder="Choose one.." [value]="license['shop_owner_id']">
-                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+              <select class="js-select2 form-control" id="val-owner" name="val-owner" style="width: 100%;"
+                      data-placeholder="Choose one.." [(ngModel)]="license['shop_owner_id']">
+                <option value="createNew">Create new</option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                 <option *ngFor="let user of users" [value]="user._id">{{ user.username }}</option>
               </select>
             </div>
           </div>
+
+          <!-- If create new user-->
+          <div *ngIf="license['shop_owner_id'] == 'createNew'">
+            <div class="form-group">
+              <label class="control-label" for="firstname">First Name:</label>
+              <div class="element">
+                <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="user['profile']['first_name']" placeholder="Enter a first name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="lastname">Last Name:</label>
+              <div class="element">
+                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="user['profile']['last_name']" placeholder="Enter a last name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="username">Username:</label>
+              <div class="element">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter a username" [(ngModel)]="user['username']">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="inputEmail">Email:</label>
+              <div class="element">
+                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Enter a email" [(ngModel)]="user['email']">
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="control-label" for="status">License status:</label>
             <div class="element">
@@ -34,19 +63,21 @@
         <table class="table table-responsive tbl-addlicense">
           <thead>
           <tr>
-            <th>Choose Product</th>
-            <th>Product Name</th>
-            <th>Product status</th>
-            <th>Start Version</th>
-            <th>Pricing Plan</th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Status</th>
+            <!--<th>Version</th>-->
+            <th>Pricing</th>
+            <th>Billing Cycle</th>
+            <th>Addition Entity</th>
             <th>Based URLs</th>
             <th>Purchased Date</th>
-            <th>Active Date</th>
+            <th>Last Invoice</th>
             <th>Expire Date</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let product of products">
+          <tr *ngFor="let product of licenseHasProducts">
             <td>
               <div class="form-material">
                 <div class="col-xs-6">
@@ -69,36 +100,53 @@
                         name="{{'status_product' + product['product_id']}}"
                         style="width: 100%;"
                         data-placeholder="Choose one..">
-                  <option value=""></option>
                   <option value="1">Activated</option>
                   <option value="0">Deactivated</option>
                 </select>
               </div>
             </td>
+            <!--<td>-->
+            <!--<div class="form-group">-->
+            <!--<select class="form-control" id="val-version"-->
+            <!--name="{{'val-version'+product['product_id']}}"-->
+            <!--style="width: 100%;"-->
+            <!--data-placeholder="Choose one.." [(ngModel)]="product['start_version']">-->
+            <!--<option></option>&lt;!&ndash; Required for data-placeholder attribute to work with Select2 plugin &ndash;&gt;-->
+            <!--<option *ngFor="let version of product['versions']" [value]="version['version']">{{ version['version'] }}-->
+            <!--</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</td>-->
             <td>
               <div class="form-group">
-                <select class="form-control" id="val-version"
-                        name="{{'val-version'+product['product_id']}}"
-                        style="width: 100%;"
-                        data-placeholder="Choose one.." [(ngModel)]="product['start_version']">
-                  <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                  <option *ngFor="let version of product['versions']" [value]="version['version']">{{ version['version'] }}
-                  </option>
+                <select class="form-control" id="val-price" name="{{'val-price'+product['product_id']}}" style="width: 100%;"
+                        data-placeholder="Choose one.." [(ngModel)]="product['pricing_id']">
+                  <ng-template ngFor let-price [ngForOf]="prices">
+                    <option *ngIf="isPricingOfProduct(price, product)"
+                            [value]="price._id">{{ price['display_name'] }}
+                    </option>
+                  </ng-template>
+
                 </select>
               </div>
             </td>
             <td>
               <div class="form-group">
-                <select class="form-control" id="val-price" name="{{'val-price'+product['product_id']}}" style="width: 100%;"
-                        data-placeholder="Choose one.." [(ngModel)]="product['pricing_id']">
-                  <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                  <ng-template ngFor let-price [ngForOf]="prices">
-                    <option *ngIf="product.pricings && product.pricings.indexOf(price._id)>-1"
-                            [value]="price._id">{{ price.name }}
-                    </option>
-                  </ng-template>
-
+                <select class="form-control" [(ngModel)]="product['billing_cycle']" id="val-product_billing_cycle"
+                        name="{{'product_billing_cycle' + product['billing_cycle']}}"
+                        style="width: 100%;"
+                        data-placeholder="Choose one..">
+                  <option *ngFor="let cycle of getBillingCycleData()" [value]="cycle['billingCycle']">{{cycle['name']}}</option>
                 </select>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <div class="form-material">
+                  <input class="form-control" type="text" name="{{'val-addition_entity'+product['addition_entity']}}"
+                         id="{{ 'val-addition_entity' + product['addition_entity'] }}"
+                         placeholder="Enter addition entity.." [(ngModel)]="product['addition_entity']">
+                </div>
               </div>
             </td>
             <td class="td-baseurl">
@@ -113,14 +161,14 @@
                 </div>
                 <div class="input-group row baseurl-list" *ngFor="let baseUrl of product['base_url']">
                   <div class="col-sm-12">
-                    <input class="form-control" type="text" disabled [value]="baseUrl['url']">
+                    <input class="form-control" [ngStyle]="{'color': baseUrl['in_use'] ? 'green' : ''}" type="text" disabled [value]="baseUrl['url']">
                     <div class="button-group">
-                      <button *ngIf="baseUrl['status']" class="btn btn-success" title="Deactive" type="button"
-                              (click)="toggleStatus(product, baseUrl)">
+                      <button *ngIf="baseUrl['is_valid']" class="btn btn-success" title="Deactive" type="button"
+                              (click)="baseUrl['is_valid'] = !baseUrl['is_valid']">
                         <i class="fa fa-check"></i>
                       </button>
-                      <button *ngIf="!baseUrl['status']" class="btn btn-default" title="Active" type="button"
-                              (click)="toggleStatus(product, baseUrl)">
+                      <button *ngIf="!baseUrl['is_valid']" class="btn btn-danger" title="Active" type="button"
+                              (click)="baseUrl['is_valid'] = !baseUrl['is_valid']">
                         <i class="fa fa-check"></i>
                       </button>
                       <button class="btn btn-default btn-orange" title="Remove" type="button" (click)="removeBaseUrl(product,baseUrl)">
@@ -134,18 +182,14 @@
             <td>
               <div class="form-group">
                 <div class="form-material">
-                  <input class="form-control" type="text" name="{{ 'val-purchased_date' + product['product_id'] }}"
-                         id="{{ 'val-purchased_date' + product['product_id'] }}"
-                         placeholder="Enter Purchased Date..">
+                  {{ product.purchase_date ? (product.purchase_date | amCalendar) : '' }}
                 </div>
               </div>
             </td>
             <td>
               <div class="form-group">
                 <div class="form-material">
-                  <input class="form-control" type="text" name="{{ 'val-active_date' + product['product_id'] }}"
-                         id="{{ 'val-active_date' + product['product_id'] }}"
-                         placeholder="Enter Active Date..">
+                  {{ product.last_invoice ? (product.last_invoice | amCalendar) : '' }}
                 </div>
               </div>
             </td>
@@ -163,8 +207,8 @@
         </table>
 
         <div class="group-btn tac line-top">
-          <button type="button" (click)="router.navigate(['/cloud/license-management'])" class="btn btn-default">Cancel</button>
-          <button type="submit" [disabled]="!!isLoading" class="btn btn-primary">Save</button>
+          <button type="button" (click)="routerActions.go('cloud/default/license/list')" class="btn btn-default">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>
