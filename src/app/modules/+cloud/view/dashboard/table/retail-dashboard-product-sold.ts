@@ -60,24 +60,7 @@ export class RetailDashBoardTableProductSold {
   }
   
   initDateRangeForSaleReport() {
-    let compare_value = this.getCompareValueSaleReport();
-    
-    switch (compare_value) {
-      case 'day':
-        this.saleReportService.viewDataFilter['dateStart'] = moment().format("YYYY-MM-DD 00:00:00");
-        this.saleReportService.viewDataFilter['dateEnd'] = moment().format("YYYY-MM-DD 23:59:59");
-        break;
-      case 'week':
-        this.saleReportService.viewDataFilter['dateStart'] = moment().startOf('week').format("YYYY-MM-DD 00:00:00");
-        this.saleReportService.viewDataFilter['dateEnd'] = moment().endOf('week').format("YYYY-MM-DD 23:59:59");
-        break;
-      case 'month':
-        this.saleReportService.viewDataFilter['dateStart'] = moment().startOf('month').format("YYYY-MM-DD 00:00:00");
-        this.saleReportService.viewDataFilter['dateEnd'] = moment().endOf('month').format("YYYY-MM-DD 23:59:59");
-        break;
-      default:
-        break;
-    }
-    
+    this.saleReportService.viewDataFilter['dateStart'] = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY").format('YYYY-MM-DD 00:00:00');
+    this.saleReportService.viewDataFilter['dateEnd'] = moment(this.reportDashBoardService.viewDataFilter['dateEnd'], "Do MMM YYYY").format('YYYY-MM-DD 23:59:59');
   }
 }
