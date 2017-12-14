@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 import {ReportDashboardHelper} from "../../../../R/dashboard/helper";
@@ -10,11 +10,28 @@ import * as _ from "lodash";
              templateUrl: 'product-trend.html'
            })
 
-export class ProductTrend implements AfterViewInit, OnDestroy {
+export class ProductTrend implements OnInit, OnDestroy {
   @ViewChild('product_trend') public chartEl: ElementRef;
+  @Input('data_product_trend') viewData    = [];
+  @Input('typeChart') typeChart;
   private _productTrend: any;
+  chart_data: any;
+  scope_Names: any;
+  totalValues: any;
   
-  public ngAfterViewInit() {
+  ngOnInit() {
+    if (typeof this.viewData != "undefined") {
+      this.chart_data = this.viewData['chart_data'];
+      this.scope_Names = this.viewData['scope_Names'];
+      this.totalValues = [];
+      _.forEach(this.viewData['chart_data'], item => {
+        this.totalValues = item['item_sold'];
+      });
+    }
+    this.convertChart();
+  }
+  
+  public convertChart() {
     let productTrend = this.initProductTrend();
     if (this.chartEl && this.chartEl.nativeElement) {
       productTrend.chart = {
@@ -22,7 +39,6 @@ export class ProductTrend implements AfterViewInit, OnDestroy {
         type: 'spline',
         renderTo: this.chartEl.nativeElement
       };
-      
       this._productTrend = new Highcharts.Chart(productTrend);
     }
     ;
@@ -66,7 +82,7 @@ export class ProductTrend implements AfterViewInit, OnDestroy {
       
       series: [{
         name: 'Product Sold',
-        data: [434, 523, 577, 698, 971, 131, 133, 175]
+        data: this.totalValues
       }],
       
       responsive: {

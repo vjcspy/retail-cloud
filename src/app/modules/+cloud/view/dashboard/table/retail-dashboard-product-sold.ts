@@ -64,4 +64,20 @@ export class RetailDashBoardTableProductSold {
     this.saleReportService.viewDataFilter['dateStart'] = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY").format('YYYY-MM-DD 00:00:00');
     this.saleReportService.viewDataFilter['dateEnd'] = moment(this.reportDashBoardService.viewDataFilter['dateEnd'], "Do MMM YYYY").format('YYYY-MM-DD 23:59:59');
   }
+  
+  getDataProductTrend(product_sku) {
+    if (typeof this.viewData['product_trend_data'] == "object") {
+      let data = {
+        scope_Names: [],
+        chart_data: []
+      };
+      _.forEach(this.viewData['product_trend_data']['series'], item => {
+        if (item.hasOwnProperty('chart_data') && item.hasOwnProperty('name') && item['name'] === product_sku) {
+          data.scope_Names.push(item['name']);
+          data.chart_data.push(item['chart_data']);
+        }
+      });
+      return data;
+    }
+  }
 }

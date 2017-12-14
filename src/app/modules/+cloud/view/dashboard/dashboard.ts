@@ -72,4 +72,8 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     return this.dashboardReportService.viewData;
   }
   
+  protected getProductTrend() {
+    return this.dashboardReportService.viewData;
+  }
+  
 }
