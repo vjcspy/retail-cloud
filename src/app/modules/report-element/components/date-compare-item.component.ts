@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
 import * as _ from "lodash";
 import * as moment from 'moment';
+import {SaleReportService} from "../../+cloud/R/report/service";
 
 @Component({
                // moduleId: module.id,
@@ -58,7 +59,8 @@ export class CloudReportDateCompareItemComponent implements OnInit,AfterViewInit
                                                maxYear: moment().format('YYYY'),
                                                format: "MM-YYYY",
                                                template: "MMM YYYY",
-                                               value: moment().format('MM-YYYY')
+                                              // for case view full report from init selected month dashboard
+                                               value: this.service.viewDataFilter['compare_from'] ? this.service.viewDataFilter['compare_from'].format('MM-YYYY') : moment().format('MM-YYYY')
                                            });
 
         $("#selectWeekData")['combodate']({
@@ -69,7 +71,8 @@ export class CloudReportDateCompareItemComponent implements OnInit,AfterViewInit
                                               maxYear: moment().format('YYYY'),
                                               format: "DD-MM-YYYY",
                                               template: "DD MMM YYYY",
-                                              value: moment().format('DD-MM-YYYY')
+                                            // for case view full report init selected week from dashboard
+                                              value: this.service.viewDataFilter['compare_from'] ? this.service.viewDataFilter['compare_from'].format('DD-MM-YYYY') : moment().format('DD-MM-YYYY')
                                           });
         $("#selectDayData")['combodate']({
                                              smartDays :true,
@@ -79,7 +82,8 @@ export class CloudReportDateCompareItemComponent implements OnInit,AfterViewInit
                                              maxYear: moment().format('YYYY'),
                                              format: "DD-MM-YYYY",
                                              template: "DD MMM YYYY",
-                                             value: moment().format('DD-MM-YYYY')
+                                           // for case view full report init selected day from dashboard
+                                             value: this.service.viewDataFilter['compare_from'] ? this.service.viewDataFilter['compare_from'].format('DD-MM-YYYY') : moment().format('DD-MM-YYYY')
                                          });
         $("#selectHourData")['combodate']({
                                               smartDays :true,
@@ -93,7 +97,7 @@ export class CloudReportDateCompareItemComponent implements OnInit,AfterViewInit
                                           });
     }
 
-    constructor() {
+    constructor(protected service: SaleReportService) {
         this.getDefaultQuarter();
     }
 

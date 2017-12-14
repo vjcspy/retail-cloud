@@ -48,6 +48,7 @@ export class RetailDashBoardTableProductSold {
     this.saleReportService.viewDataFilter['compare_value'] = this.getCompareValueSaleReport();
     this.saleReportService.viewDataFilter['compare_type'] = 'last_from';
     this.saleReportService.viewDataFilter['compare_count'] = 1;
+    this.saleReportService.viewDataFilter['compare_from'] = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY");
     this.initDateRangeForSaleReport();
     
     this.router.navigate(['/cloud/default/sale-report']);
