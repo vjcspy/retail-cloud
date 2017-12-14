@@ -1,5 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import * as _ from "lodash";
+import {SaleReportService} from "../../../R/report/service";
+import {ReportDashboardHelper} from "../../../R/dashboard/helper";
+import {DashboardReportService} from "../../../R/dashboard/service";
+import {Router} from "@angular/router";
+import * as moment from "moment";
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +21,10 @@ export class RetailDashboardTableUser implements OnInit {
   
   isSortAsc: boolean;
   
-  constructor(protected changeDetector: ChangeDetectorRef) {
+  constructor(protected changeDetector: ChangeDetectorRef,
+              protected saleReportService: SaleReportService,
+              protected reportDashBoardService: DashboardReportService,
+              private router: Router) {
     this.isSortAsc = true;
   }
   
@@ -53,5 +61,28 @@ export class RetailDashboardTableUser implements OnInit {
       return "datatable-sorting-down"
     }
     return "datatable-sorting-up";
+  }
+  
+  goToSaleReport() {
+    this.saleReportService.viewDataFilter['report_type']   = 'user';
+    this.saleReportService.viewDataFilter['dateTimeState'] = 'compare';
+    this.saleReportService.viewDataFilter['compare_value'] = this.getCompareValueSaleReport();
+    this.saleReportService.viewDataFilter['compare_type']  = 'last_from';
+    this.saleReportService.viewDataFilter['compare_count'] = 1;
+    this.saleReportService.viewDataFilter['compare_from']  = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY");
+    this.initDateRangeForSaleReport();
+    
+    this.router.navigate(['/cloud/default/sale-report']);
+  }
+  
+  getCompareValueSaleReport() {
+    let period     = this.reportDashBoardService.viewDataFilter['period'];
+    let periodData = _.find(ReportDashboardHelper.getListTimePeriodPicker()['data'], (row) => row['value'] === period);
+    return periodData['for_sale_report'];
+  }
+  
+  initDateRangeForSaleReport() {
+    this.saleReportService.viewDataFilter['dateStart'] = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY").format('YYYY-MM-DD 00:00:00');
+    this.saleReportService.viewDataFilter['dateEnd'] = moment(this.reportDashBoardService.viewDataFilter['dateEnd'], "Do MMM YYYY").format('YYYY-MM-DD 23:59:59');
   }
 }
