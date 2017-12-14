@@ -24,10 +24,10 @@ export class RetailDashBoardTableProductSold {
   
   sortAmount(measure) {
     if (measure == 'revenue') {
-      this.changeDetector.detectChanges();
       this.sort_measure             = measure;
       this.sort_desc                = !this.sort_desc;
       this.viewData['product_sold'] = _.reverse(this.viewData['product_sold']);
+      this.changeDetector.detectChanges();
     }
   }
   
