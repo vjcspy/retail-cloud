@@ -25,6 +25,6 @@
       </tbody>
     </table>
     <div *ngIf="checkDataNullForHidden()" class="datatable-no-results"> No data available for this period.</div>
-    <div class="view-full-report"><a routerLink="/cloud/default/sale-report" > View full report</a></div>
+    <div class="view-full-report" (click)="goToSaleReport()"><a>View full report</a> </div>
   </div>
 </div>
