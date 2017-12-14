@@ -26,7 +26,7 @@ export class DashboardReportService {
   public viewData         = {};
 
   public viewState = {
-    isOverLoad: true
+    isOverLoad: false
   };
 
   constructor(protected toast: NotifyManager,
@@ -40,7 +40,7 @@ export class DashboardReportService {
     this.viewData       = {};
 
     this.viewState        = {
-      isOverLoad: true,
+      isOverLoad: false,
     };
     this.initDefaultValue();
   }
@@ -79,11 +79,9 @@ export class DashboardReportService {
     };
   }
   
-  getDashboardReport(force: boolean = false) {
-    if (!force) {
+  getDashboardReport() {
       let postData = this.initRequestReportData();
       this.postDashboardReport(postData);
-    }
   }
   
   private postDashboardReport(report) {
@@ -101,7 +99,6 @@ export class DashboardReportService {
             if (_.isObject(data)) {
               this.convertData(data);
               this.viewState.isOverLoad = true ;
-              // this.viewState.isOverLoadReport = false ;
               return defer.resolve(true);
             } else {
               this.viewState.isOverLoad = true ;

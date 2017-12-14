@@ -12,7 +12,7 @@ import {ChartLineTime} from "../dashboard/chart/element/chart-line-time";
 import {BarChart} from "../dashboard/chart/element/bar-chart";
 import {DashboardGranularity} from "../dashboard/chart/element/dashboard-granularity";
 import {ProductTrend} from "../dashboard/chart/element/product-trend";
-import {RetailDashboardTableUser} from "../dashboard/Table/retail-dashboard-table-user";
+import {RetailDashboardTableUser} from "../dashboard/table/retail-dashboard-table-user";
 import {RetailDashBoardTableProductSold} from "../dashboard/table/retail-dashboard-product-sold";
 
 export const CLOUD_DEFAULT_COMPONENTS = [

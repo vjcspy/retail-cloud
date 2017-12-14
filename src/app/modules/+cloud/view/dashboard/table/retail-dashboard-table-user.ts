@@ -17,7 +17,7 @@ export class RetailDashboardTableUser implements OnInit {
   isSortAsc: boolean;
   
   constructor(protected changeDetector: ChangeDetectorRef) {
-    this.isSortAsc = false;
+    this.isSortAsc = true;
   }
   
   checkDataNullForHidden() {
