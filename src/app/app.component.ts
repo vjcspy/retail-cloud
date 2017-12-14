@@ -28,6 +28,7 @@ import {AuthenticateService} from "./services/authenticate";
                '../../node_modules/select2/dist/css/select2.min.css',
                '../../node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css',
                '../../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
+               '../../node_modules/bootstrap-daterangepicker/daterangepicker.css',
                '../../node_modules/ladda/dist/ladda.min.css',
                '../assets/icon/icomoon/style.css',
              ],

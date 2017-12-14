@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import {LicenseCollection} from "../../../../../services/meteor-collections/licenses";
@@ -19,7 +19,7 @@ import {ValidateData} from "../../../services/validate-data";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class LicenseFormComponent extends AbstractSubscriptionComponent implements OnInit {
+export class LicenseFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
   public license            = {
     status: 1
   };
@@ -29,8 +29,9 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
   };
   public products           = [];
   public prices             = [];
+  public data               = {};
   
-  public data = {};
+  protected formValidation;
   
   constructor(protected route: ActivatedRoute,
               protected licenseCollection: LicenseCollection,
@@ -64,6 +65,9 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
           this.license = license;
           
           this.changeDetectorRef.detectChanges();
+          setTimeout(() => {
+            this.initPageJs();
+          })
         } else {
           this.notify.error('can_not_find_license_with_id: ' + params['id']);
           this.goBack();
@@ -78,12 +82,69 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
             last_invoice: null,
             base_url: [],
             addition_entity: 1,
-            billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle']
+            billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle'],
+            expiry_date: ""
           }));
         });
         this.changeDetectorRef.detectChanges();
+        setTimeout(() => {
+          this.initPageJs();
+        })
       }
     }));
+  }
+  
+  private initPageJs() {
+    let vm = this;
+    if (this.formValidation) {
+      this.formValidation.destroy();
+    }
+    
+    // datepicker
+    jQuery(".expire_date_picker")['daterangepicker']({
+                                                       locale: {
+                                                         format: 'YYYY-MM-DD'
+                                                       },
+                                                       singleDatePicker: true,
+                                                       showDropdowns: true
+                                                     },
+                                                     (start, end, label) => {
+                                                     });
+    
+    let initLicenseValidationMaterial = () => {
+      jQuery('.js-validation-license')['validate']({
+                                                     errorClass: 'help-block text-right animated fadeInDown',
+                                                     errorElement: 'div',
+                                                     errorPlacement: (error, e) => {
+                                                       jQuery(e).parents('.form-group > div').append(error);
+                                                     },
+                                                     highlight: e => {
+                                                       let elem = jQuery(e);
+          
+                                                       elem.closest('.form-group').removeClass('has-error').addClass('has-error');
+                                                       elem.closest('.help-block').remove();
+                                                     },
+                                                     success: e => {
+                                                       let elem = jQuery(e);
+          
+                                                       elem.closest('.form-group').removeClass('has-error');
+                                                       elem.closest('.help-block').remove();
+                                                     },
+                                                     rules: {
+                                                       'val-status': {
+                                                         required: true
+                                                       },
+                                                     },
+                                                     messages: {
+                                                       'val-status': {
+                                                         required: 'Please select status',
+                                                       },
+                                                     },
+                                                     submitHandler: form => {
+                                                     }
+                                                   });
+    };
+    this.formValidation               = initLicenseValidationMaterial();
   }
   
   getBillingCycleData() {
@@ -124,5 +185,12 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
   
   goBack() {
     this.routerActions.go('cloud/default/license/list');
+  }
+  
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    if (this.formValidation) {
+      this.formValidation.destroy();
+    }
   }
 }
