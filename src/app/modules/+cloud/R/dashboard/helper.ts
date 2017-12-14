@@ -47,9 +47,9 @@ export class ReportDashboardHelper {
   static getListTimePeriodPicker(): Object {
     return {
       data: [
-        {id: 1, label: "Day", value: "7d"},
-        {id: 2, label: "Week", value: "6w"},
-        {id: 3, label: "Month", value: "6m"}
+        {id: 1, label: "Day", value: "7d", for_sale_report: "day"},
+        {id: 2, label: "Week", value: "6w", for_sale_report: "week"},
+        {id: 3, label: "Month", value: "6m", for_sale_report: "month"}
       ],
       isMultiSelect: false,
       label: "Time Period Picker",
