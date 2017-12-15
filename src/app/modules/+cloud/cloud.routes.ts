@@ -16,6 +16,10 @@ export const CLOUD_ROUTES: Routes = [
         component: DefaultContainerComponent,
         children: [
           {
+            path: 'dashboard',
+            component: DashboardPage
+          },
+          {
             path: 'sale-report',
             component: CloudSaleReportPage
           }
@@ -25,14 +29,6 @@ export const CLOUD_ROUTES: Routes = [
         path: 'report',
         component: CloudSaleReportPage
       },
-      {
-        path: 'sale-report',
-        component: CloudSaleReportPage
-      },
-      {
-        path: 'dashboard',
-        component: DashboardPage
-      }
     ]
   }
 ];

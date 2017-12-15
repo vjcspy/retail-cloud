@@ -8,7 +8,7 @@ export class ApiManager {
   private _isSecureHttp;
   private _apiUrl            = {
     login : 'login',
-    dashboard: "report-dashboard",
+    dashboard: "dashboard",
     salesreport: 'salesreport'
   };
   

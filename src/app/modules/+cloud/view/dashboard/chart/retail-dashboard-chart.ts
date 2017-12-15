@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {DashBoardHelper} from "../../../R/dashboard/helper";
+import {ReportDashboardHelper} from "../../../R/dashboard/helper";
 import * as _ from "lodash";
 
 @Component({
@@ -9,11 +9,24 @@ import * as _ from "lodash";
            })
 
 export class RetailDashboardChart {
-  @Input('typeChart') typeChart;
+  @Input('typeChart') typeChart    = [];
+  @Input('data_view') viewData     = [];
   
   getTitleDashBoardChart() {
+    console.log(this.viewData);
+    // if(this.viewData != "undefined"){
+    //   _.forEach(this.viewData['data'], item => {
+    //   console.log(item);
+    //   });
+    // }
+    
+    
     let typeChart = this.typeChart;
-    let chart     = _.find(DashBoardHelper.getListTypeChart()['data'], (row) => row['value'] === typeChart);
+    let chart     = _.find(ReportDashboardHelper.getWidgets()['data'], (row) => row['value'] === typeChart);
     return chart['label'];
+  }
+  
+  getDataBarChart() {
+    return this.viewData;
   }
 }

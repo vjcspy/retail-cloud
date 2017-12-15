@@ -1,12 +1,12 @@
 import {SaleReportService} from "./report/service";
 import {ReportHelper} from "./report/helper";
-import {DashBoardService} from "./dashboard/service";
-import {DashBoardHelper} from "./dashboard/helper";
+import {DashboardReportService} from "./dashboard/service";
+import {ReportDashboardHelper} from "./dashboard/helper";
 
 export const R_SERVICES = [
   SaleReportService,
   ReportHelper,
 
-  DashBoardService,
-  DashBoardHelper
+  DashboardReportService,
+  ReportDashboardHelper
 ];

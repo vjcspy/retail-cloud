@@ -1,45 +1,298 @@
 <div class="retail-dashboard">
-  <div class="panel-filter clearfix">
-    <div class="fillter-top clearfix">
-      <div class="pull-left gray-bg dashboard-row">
-        <div class="dashboard-heading">
-          <h1>Retail Dashboard</h1>
-        </div>
-      </div>
-      <div class="pull-right dashboard-actions">
-        <div class="form-group select-type-report">
-          <div class="input-group">
-            <p class="input-group-addon">Time Period Picker</p>
-            <report-select [elementData]="getListTimePeriodPicker()">
-            </report-select>
-          </div>
-          <div>
-            <button class="btn btn-default btn-angle-left" type="button">
-              <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </button>
-            <input class="button date day" value="28th Nov 2017"/>
-            <button class="btn btn-default btn-angle-right" type="button">
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </button>
-          </div>
-          <div class="input-group">
-            <p class="input-group-addon">Currency</p>
-            <report-select [elementData]="getListCurrency()">
-            </report-select>
-          </div>
-          <div class="input-group">
-            <p class="input-group-addon">Scope</p>
-            <report-select [elementData]="getListScope()">
-            </report-select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="dashboard-date-content">
+		<div class="clearfix">
+			<div class="pull-left gray-bg dashboard-row">
+				<div class="dashboard-heading">
+					<h1>Retail Dashboard</h1>
+				</div>
+			</div>
+			<div class="pull-right dashboard-actions">
+				<!-- <div class="form-group select-type-report">
+					<div class="input-group">
+						<p class="input-group-addon">Time Period Picker</p>
+						<report-select [elementData]="getListTimePeriodPicker()">
+						</report-select>
+					</div>
+					<div>
+						<button class="btn btn-default btn-angle-left" type="button">
+							<i class="fa fa-angle-left" aria-hidden="true"></i>
+						</button>
+						<input class="button date day" value="28th Nov 2017" />
+						<button class="btn btn-default btn-angle-right" type="button">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div class="input-group">
+						<p class="input-group-addon">Scope</p>
+						<report-select [elementData]="getListScope()" [(model)]="getDataFilter()['scope']" (modelChange)="dashboardReportService.getDashboardReport()">
+						</report-select>
+					</div>
+				</div> -->
+				<ul class="button-group granularity-selector">
+					<li> 
+						<a class="button secondary"> Day </a> 
+					</li>
+					<li> 
+						<a class="button"> Week </a> 
+					</li>
+					<li> 
+						<a class="button"> Month </a> 
+					</li>
+				</ul>	
+				<ul class="button-group">
+					<li>
+						<a class="button secondary">
+							<i class="ion-ios-arrow-left"></i>
+						</a>
+					</li>
+					<li> 
+						<a class="button date day"> <strong>4th Dec 2017</strong> </a> 
+					</li>
+					<li>
+						<a class="button">
+							<i class="ion-ios-arrow-right"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="button-group">
+					<li><span>Scope:</span></li>
+					<li>
+						<a class="button secondary">Outlet</a>
+					</li>
+					<li> 
+						<a class="button">Website</a> 
+					</li>
+					<li>
+						<a class="button">Storeview</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="dashboard-primary-content">
+		<div class="dashboard-container clearfix">
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="neutral">
+						<div class="change">No change</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="negative">
+						<div class="change">Up</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="positive">
+						<div class="change">Up</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="positive">
+						<div class="change">Up</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="negative">
+						<div class="change">Up</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="neutral">
+						<div class="change">No change</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
+			<div class="retail-dashboard-chart">
+				<div class='widget'>
+					<h1>Revenue</h1>
+					<h2>$479</h2>
+					<h3 class="negative">
+						<div class="change">Up</div>
+						<div class="relation">Previous Day</div>
+					</h3>
+					<div class="bar-chart">Bar chart</div>
+					<div class="chart-line-time">Chart line time</div>
+				</div>
+			</div>
 
-  <div class="database-content">
-    <div class="retail-dashboard-chart" *ngFor="let typeChart of getListTypeChart()['data']">
-      <retail-dashboard-chart [typeChart]="typeChart.value"></retail-dashboard-chart>
-    </div>
-  </div>
+		</div>
+	</div>
+	<div class="dashboard-secondary-content">
+		<div class="dashboard-database">
+			<h2>Products sold</h2>
+			<div class="filter-select">
+				<span>Show product's variants</span>
+				<select name="" id="">
+					<option value="no">No</option>
+					<option value="yes">Yes</option>
+				</select>
+			</div>
+			<table class="datatable">
+				<thead>
+					<tr>
+						<th colspan="2">Product</th>
+						<th class="datatable-sorting-down"><a>Revenue</a></th>
+						<th><a>Items Sold</a></th>
+						<th><a>Discount</a></th>
+						<th>Trend</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Running Shoes / 10</a></th>
+						<td>$216<span class="decimals">.00</span></td>
+						<td>2</td>
+						<td>$24<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Sports Bag</a></th>
+						<td>$126<span class="decimals">.00</span></td>
+						<td>3</td>
+						<td>$9<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Soccer Ball</a></th>
+						<td>$85<span class="decimals">.00</span></td>
+						<td>4</td>
+						<td>$15<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Team Jersey / Blue / Medium</a></th>
+						<td>$52<span class="decimals">.00</span></td>
+						<td>1</td>
+						<td>$13<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Jean For Film</a></th>
+						<td>$0<span class="decimals">.00</span></td>
+						<td>1</td>
+						<td>$0<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="datatable-no-results"> No data available for this period. </div>
+			<div class="view-full-report"> View full report </div>
+		</div>
+	</div>
+	<div class="dashboard-secondary-content">
+		<div class="dashboard-database">
+			<h2>TOP SALES PEOPLE</h2>
+			<table class="datatable">
+				<thead>
+					<tr>
+						<th colspan="2">Product</th>
+						<th><a>Revenue</a></th>
+						<th><a>Items Sold</a></th>
+						<th class="datatable-sorting-up"><a>Discount</a></th>
+						<th>Trend</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Running Shoes / 10</a></th>
+						<td>$216<span class="decimals">.00</span></td>
+						<td>2</td>
+						<td>$24<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Sports Bag</a></th>
+						<td>$126<span class="decimals">.00</span></td>
+						<td>3</td>
+						<td>$9<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Soccer Ball</a></th>
+						<td>$85<span class="decimals">.00</span></td>
+						<td>4</td>
+						<td>$15<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Team Jersey / Blue / Medium</a></th>
+						<td>$52<span class="decimals">.00</span></td>
+						<td>1</td>
+						<td>$13<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2"><a href="#" target="_blank">Jean For Film</a></th>
+						<td>$0<span class="decimals">.00</span></td>
+						<td>1</td>
+						<td>$0<span class="decimals">.00</span></td>
+						<td>
+							bbb
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="datatable-no-results"> No data available for this period. </div>
+			<div class="view-full-report"> View full report </div>
+		</div>
+	</div>
 </div>
