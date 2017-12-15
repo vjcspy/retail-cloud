@@ -57,8 +57,8 @@ export class RetailDashboardTableUser implements OnInit {
   }
   
   sortItem() {
-    if (this.isSortAsc === true) {
-      return "datatable-sorting-down"
+    if (this.isSortAsc === false) {
+      return "datatable-sorting-down";
     }
     return "datatable-sorting-up";
   }
