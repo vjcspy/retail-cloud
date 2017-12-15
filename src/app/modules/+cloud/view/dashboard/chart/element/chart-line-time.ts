@@ -110,6 +110,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
         style:{
           whiteSpace: 'pre-wrap'
         },
+        valueDecimals: 2,
         formatter: function () {
           let currency_symbol = '';
           let discount_symbol = '';
@@ -129,7 +130,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
               this.y = _.round(this.y, 2);
               break;
           }
-          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
+          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + discount_symbol + '</b><br/><br/>' +
                  moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY');
         }
       },
