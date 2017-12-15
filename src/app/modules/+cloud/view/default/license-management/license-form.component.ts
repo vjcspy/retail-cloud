@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import {ConstrainDataHelper} from "../../../services/constrain-data-helper";
 import {ValidateData} from "../../../services/validate-data";
 import {UserCollection} from "../../../../../services/meteor-collections/users";
+import {LicenseActions} from "../../../R/license/actions";
 
 @Component({
              // moduleId: module.id,
@@ -43,7 +44,8 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
               protected productCollection: ProductCollection,
               protected pricingCollection: PriceCollection,
               protected userCollection: UserCollection,
-              protected routerActions: RouterActions) {
+              protected routerActions: RouterActions,
+              protected licenseActions: LicenseActions) {
     super();
   }
   
@@ -92,7 +94,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
             product_id: p['_id'],
             addition_entity: 1,
             billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle'],
-            expiry_date: ""
+            expiry_date: new Date()
           }));
         });
         this.changeDetectorRef.detectChanges();
@@ -110,15 +112,18 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     }
     
     // datepicker
-    jQuery(".expire_date_picker")['daterangepicker']({
-                                                       locale: {
-                                                         format: 'YYYY-MM-DD'
-                                                       },
-                                                       singleDatePicker: true,
-                                                       showDropdowns: true
-                                                     },
-                                                     (start, end, label) => {
-                                                     });
+    _.forEach(this.licenseHasProducts, (p) => {
+      jQuery("#val-expire_date" + p['product_id'])['daterangepicker']({
+                                                                        locale: {
+                                                                          format: 'YYYY-MM-DD'
+                                                                        },
+                                                                        singleDatePicker: true,
+                                                                        showDropdowns: true
+                                                                      },
+                                                                      (start) => {
+                                                                        p['expiry_date'] = start.toDate();
+                                                                      });
+    });
     
     // user select2
     jQuery('#val-owner')['select2']().on('change', function (e) {
@@ -147,8 +152,29 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
                                                        elem.closest('.help-block').remove();
                                                      },
                                                      rules: {
+                                                       'val-owner': {
+                                                         required: true
+                                                       },
+                                                       'status': {
+                                                         required: true
+                                                       },
                                                        'val-status': {
                                                          required: true
+                                                       },
+                                                       'firstname': {
+                                                         required: true
+                                                       },
+                                                       'lastname': {
+                                                         required: true
+                                                       },
+                                                       'username': {
+                                                         required: true,
+                                                         minlength: 6
+                                                       },
+                                                       'email': {
+                                                         required: true,
+                                                         minlength: 6,
+                                                         email: true
                                                        },
                                                      },
                                                      messages: {
@@ -157,6 +183,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
                                                        },
                                                      },
                                                      submitHandler: form => {
+                                                       vm.licenseActions.saveLicense(vm.license, vm.licenseHasProducts, vm.user);
                                                      }
                                                    });
     };
