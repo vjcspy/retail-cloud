@@ -11,48 +11,45 @@ import {RouterActions} from "../../../../../R/router/router.actions";
            })
 
 export class LicenseListComponent implements OnInit {
+  // $('.meteor-table-bt-edit').text("Detail");
+  
   constructor(public licenseCollection: LicenseCollection,
               protected routerActions: RouterActions) { }
   
   public tableConfig = {
-    actionsColumn: {edit: true, remove: true},
+    actionsColumn: {edit: false, remove: true, detail: true},
     columns: [
+      {data: "_id", title: "License ID"},
       {data: "key", title: "License Key"},
-      {data: "has_product", title: "Products"},
       {data: "shop_owner_username", title: "Shop owner"},
-      {data: "has_product", title: "Based Urls"},
-      {data: "has_product", title: "Current User"},
+      {data: "has_product", title: "Products"},
       {data: "status", title: "Status"}
     ],
     columnDefs: [
       {className: "", orderable: false, targets: [0]},
+      {className: "", orderable: false, targets: [1]},
+        {
+            targets: [2], render: data => data ? data : "",
+        },
       {
         className: "", orderable: false,
-        targets: [1],
+        targets: [3],
         render: (data, type, row) => {
           let _html = "";
+          let text="";
           if (_.isArray(data)) {
             _.forEach(data, product => {
-              _html += `<span class="label label-warning">${product['product_id']}</span>&nbsp;`;
+              if (product['product_id']==="JcJcfodpL6KNrNR65") {
+                  _html += `<span class="label label-warning">ConnectPOS</span>&nbsp;`;
+              }
             });
           }
           return _html;
         }
       },
       {
-        targets: [2], render: data => data ? data : "",
-      },
-      {
-        targets: [3],
-        render: data => ``
-      },
-      {
-        targets: [4],
-        render: data => ``
-      },
-      {
         className: "text-center",
-        orderable: false, targets: [5],
+        orderable: false, targets: [4],
         render: data => {
           if (parseInt(data) === 1) {
             return `<span class="label label-success">Activated</span>`;
@@ -78,6 +75,9 @@ export class LicenseListComponent implements OnInit {
       case "CLICK_EDIT":
         return this.routerActions.go('cloud/default/license/edit', $event['data']);
       
+      case "CLICK_DETAIL":
+          return this.routerActions.go('cloud/default/license/detail', $event['data']);
+         
       default:
     }
   }

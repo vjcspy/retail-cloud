@@ -45,7 +45,6 @@ export class AccountLicenseListComponent extends AbstractSubscriptionComponent i
         const productCollection: MongoObservable.Collection<any> = z[3];
         
         const license = licenseCollection.collection.findOne();
-        
         if (license) {
           if (_.isArray(license['has_product'])) {
             this.licenseProduct = [];

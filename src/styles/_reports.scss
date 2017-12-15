@@ -690,70 +690,83 @@
 
 }//End reports
 
-.current-plan-info {
-	.title-page h1 {
-		text-transform: capitalize;
-		font-weight: bold;
+.connect-pos-cont, .c-report-cont {
+	.white-box {
+		padding: 0;
+		border: none;
 	}
-	.form-content {
-		border-bottom: none;
-	}
-	.form-group {
-		margin-bottom: 10px;
-		.pl30 {
-			padding-left: 30px;
-		}
-		&.mt30 {
-			margin-top: 30px;
+	.plan-wrap {
+		margin: 0;
+		border-bottom: 1px solid $light-gray;
+		.title {
+			margin-left: 0;
 		}
 	}
-	.form-horizontal .control-label {
-		padding-top: 0;
-		width: 205px;
+	.table-title {
+		margin-bottom: 30px;
+		font-size: 18px;
+		font-weight: 600;
 	}
-	.element {
-		width: calc(100% - 205px);
-		&.error-date {
-			color: $orange;
-			font-weight: 600;
+	.group-btn {
+		margin: 0;
+		padding: 30px 0;
+	}
+}
+
+#add-credit-card {
+	.date-field .element {
+		> * {
+			display: inline-block;
 		}
-		&.s-row {
-			select {
-				width: 116px;
-				display: inline-block;
+		input {
+			width: calc(100%/2 - 17px);
+		}
+		span {
+			margin: 0 10px;
+		}
+	}
+}
+
+.documentation-cont {
+	.docbox {
+		@include desktop {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+	.guide {
+		border: 1px solid #e6eaed;
+		border-radius: 3px;
+		display: flex;
+		background: $white;
+		margin-bottom: 25px;
+		@include desktop {
+			width: 48%;
+		}
+		.content-block {
+			margin-left: 25px;
+			padding-right: 20px;
+			position: relative;
+			h3 {
+				font-size: 18px;
+				font-weight: bold;
+				color: #4f4f4f;
+				text-transform: uppercase;
+				margin-bottom: 0;
 			}
-		}
-	}
-	.link-action {
-		text-transform: capitalize;
-		font-weight: normal;
-	}
-	.list-of-basedurls {
-		.table-title {
-			text-transform: uppercase;
-			font-weight: 600;
-			margin-bottom: 15px;
-		}
-	}
-	.plan-history {
-		margin-top: 45px;
-		.table-title {
-			font-weight: 600;
-			font-size: 18px;
-			font-weight: 600;
-		}
-		.download-url {
-			margin-top: -10px;
-			margin-bottom: 20px;
-		}
-	}
-	.table.table-bordered {
-		th {
-			font-weight: 600;
-			color: $color-text;
-		}
-		th, td {
-			text-align: center;
+			.version {
+				color: #818181;
+				margin: 5px 0 5px 0;
+			}
+			.des {
+				color: #4f4f4f;
+			}
+			.btn {
+				position: absolute;
+				bottom: 25px;
+				left: 0;
+				margin: 0;
+			}
 		}
 	}
 }

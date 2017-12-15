@@ -42,9 +42,9 @@ h3 {
     @include title-page();
 }
 .wrapper {
-    padding-left: 25px;
+    padding-left: 40px;
     margin: 0 auto;
-    width: 100%;
+    /* width: 100%; */
     min-width: 320px;
     .main-container {
         padding-top: 100px;
@@ -94,13 +94,13 @@ a {
 }
 @media (min-width: 768px) {
     .min-page {
-        width: 750px;
+        width: 698px;
     }
 }
 
 @media (min-width: 992px) {
     .min-page {
-        width: 970px;
+        width: 922px;
     }
 }
 
