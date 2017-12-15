@@ -59,8 +59,12 @@ export class ProductTrend implements OnInit, OnDestroy {
         visible: false
       },
       plotOptions: {
+        series: {
+          lineWidth: 1
+        },
         spline: {
           lineWidth: 4,
+          color: '#1fa79d',
           marker: {
             enabled: false
           },

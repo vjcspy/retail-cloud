@@ -104,6 +104,12 @@ export class ChartLineTime implements OnDestroy, OnInit {
       },
   
       tooltip: {
+        padding: 25,
+        borderRadius: 8,
+        useHTML: true,
+        style:{
+          whiteSpace: 'pre-wrap'
+        },
         formatter: function () {
           let currency_symbol = '';
           let discount_symbol = '';
@@ -123,8 +129,8 @@ export class ChartLineTime implements OnDestroy, OnInit {
               this.y = _.round(this.y, 2);
               break;
           }
-          return '<b>' + this.series.name + '</b><br/>' +
-                 this.x + ': ' + currency_symbol + this.y + discount_symbol;
+          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
+                 moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY');
         }
       },
   
