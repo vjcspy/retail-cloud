@@ -19,7 +19,9 @@
         <td>{{item['item_sold'] | number:'1.0-0'}}</td>
         <td>${{item['discount_amount'] | number:'1.2-2'}}</td>
         <td>
-          <product-trend></product-trend>
+          <product-trend [typeChart]="typeChart"
+                         [data_product_trend]="getDataProductTrend(item['sku'])">
+          </product-trend>
         </td>
       </tr>
       </tbody>

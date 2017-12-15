@@ -168,4 +168,9 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   isOverLoad(){
     return this.dashboardReportService.viewState['isOverLoad'];
   }
+  
+  protected getProductTrend() {
+    return this.dashboardReportService.viewData;
+  }
+  
 }

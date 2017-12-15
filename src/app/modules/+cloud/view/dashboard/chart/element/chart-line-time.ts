@@ -104,6 +104,13 @@ export class ChartLineTime implements OnDestroy, OnInit {
       },
   
       tooltip: {
+        padding: 25,
+        borderRadius: 8,
+        useHTML: true,
+        style:{
+          whiteSpace: 'pre-wrap'
+        },
+        valueDecimals: 2,
         formatter: function () {
           let currency_symbol = '';
           let discount_symbol = '';
@@ -111,6 +118,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
             case 'discount_percent':
               discount_symbol = '%';
               this.y = _.round(this.y*100, 2);
+              this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
               break;
             case 'customer_count':
               currency_symbol = '';
@@ -121,10 +129,11 @@ export class ChartLineTime implements OnDestroy, OnInit {
             default:
               currency_symbol = '$';
               this.y = _.round(this.y, 2);
+              this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
               break;
           }
-          return '<b>' + this.series.name + '</b><br/>' +
-                 this.x + ': ' + currency_symbol + this.y + discount_symbol;
+          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
+                 '<p style="text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY') + '</p>';
         }
       },
   
