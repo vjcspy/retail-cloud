@@ -98,7 +98,6 @@ export class DashboardReportService {
           (data) => {
             if (_.isObject(data)) {
               this.convertData(data);
-              this.viewState.isOverLoad = true ;
               return defer.resolve(true);
             } else {
               this.viewState.isOverLoad = true ;
@@ -147,6 +146,7 @@ export class DashboardReportService {
     
       this.viewData['items'].push(data);
     });
+    this.viewState['isOverLoad'] = true;
     this.updateView().next();
   }
   

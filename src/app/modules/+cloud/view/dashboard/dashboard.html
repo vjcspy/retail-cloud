@@ -7,37 +7,31 @@
 				</div>
 			</div>
 			<div class="pull-right dashboard-actions">
-        <dashboard-granularity></dashboard-granularity>
-				<!--<ul class="button-group granularity-selector">-->
-					<!--<li *ngFor="let period of getListTimePeriodPicker()['data']">-->
-						<!--<a class="button" [ngClass]="{secondary: getPeriodValue() == period.value}" (click)="setGranularity(period.value)"> {{period.label}} </a>-->
-					<!--</li>-->
-				<!--</ul>-->
-				<!--<ul class="button-group">-->
-					<!--<li>-->
-						<!--<a class="button secondary">-->
-							<!--<i class="ion-ios-arrow-left"></i>-->
-						<!--</a>-->
-					<!--</li>-->
-					<!--<li>-->
-						<!--<a class="button date day"> <strong>4th Dec 2017</strong> </a>-->
-					<!--</li>-->
-					<!--<li>-->
-						<!--<a class="button">-->
-							<!--<i class="ion-ios-arrow-right"></i>-->
-						<!--</a>-->
-					<!--</li>-->
-				<!--</ul>-->
+        <!--<dashboard-granularity></dashboard-granularity>-->
+        <ul class="button-group granularity-selector">
+          <li *ngFor="let period of getListTimePeriodPicker()['data']">
+            <a class="button" [ngClass]="{secondary: getPeriodValue() == period.value}" (click)="setGranularity(period.value)"> {{period.label}} </a>
+          </li>
+        </ul>
+        <ul class="button-group">
+          <li>
+            <a disabled class="button" (click)="setGranularity(getPeriodValue(), 'prev')">
+              <i class="ion-ios-arrow-left"></i>
+            </a>
+          </li>
+          <li>
+            <a class="button date day"> <strong>{{granularity}}</strong> </a>
+          </li>
+          <li>
+            <a class="button" (click)="setGranularity(getPeriodValue(), 'next')" [ngClass]="{'disabled':!canShiftUp()}">
+              <i class="ion-ios-arrow-right"></i>
+            </a>
+          </li>
+        </ul>
 				<ul class="button-group">
 					<li><span>Scope:</span></li>
 					<li *ngFor="let scope of getListScope()['data']">
 						<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" (click)="changeScopeValue(scope.value)">{{scope.label}}</a>
-						<!--<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" >{{scope.label}}</a>-->
-            <!--//test-->
-            <!--<report-select style="display: none" [elementData]="getListScope()"-->
-                           <!--[(model)]="getDataFilter()['scope']"-->
-                           <!--(modelChange)="dashboardReportService.getDashboardReport()">-->
-            <!--</report-select>-->
 					</li>
 				</ul>
 			</div>
@@ -54,20 +48,20 @@
   </div>
   <retail-dashboard-table-product-trend [data_view]="getViewData()"></retail-dashboard-table-product-trend>
   <retail-dashboard-table-topUser [data_view]="getViewData()['topUser']"> </retail-dashboard-table-topUser>
-
-<!--<div class="popup-overlay" style="z-index: 9998" [ngClass]="{open:!dashboardReportService.viewState['isOverLoad']}">-->
-  <!--<div class="sk-circle">-->
-    <!--<div class="sk-circle1 sk-child"></div>-->
-    <!--<div class="sk-circle2 sk-child"></div>-->
-    <!--<div class="sk-circle3 sk-child"></div>-->
-    <!--<div class="sk-circle4 sk-child"></div>-->
-    <!--<div class="sk-circle5 sk-child"></div>-->
-    <!--<div class="sk-circle6 sk-child"></div>-->
-    <!--<div class="sk-circle7 sk-child"></div>-->
-    <!--<div class="sk-circle8 sk-child"></div>-->
-    <!--<div class="sk-circle9 sk-child"></div>-->
-    <!--<div class="sk-circle10 sk-child"></div>-->
-    <!--<div class="sk-circle11 sk-child"></div>-->
-    <!--<div class="sk-circle12 sk-child"></div>-->
-  <!--</div>-->
-<!--</div>-->
+</div>
+<div class="popup-overlay" style="z-index: 9998" [ngClass]="{open:!isOverLoad()}">
+  <div class="sk-circle">
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
+  </div>
+</div>
