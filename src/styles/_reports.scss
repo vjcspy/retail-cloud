@@ -726,3 +726,47 @@
 		}
 	}
 }
+
+.documentation-cont {
+	.docbox {
+		@include desktop {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+	.guide {
+		border: 1px solid #e6eaed;
+		border-radius: 3px;
+		display: flex;
+		background: $white;
+		margin-bottom: 25px;
+		@include desktop {
+			width: 48%;
+		}
+		.content-block {
+			margin-left: 25px;
+			padding-right: 20px;
+			position: relative;
+			h3 {
+				font-size: 18px;
+				font-weight: bold;
+				color: #4f4f4f;
+				text-transform: uppercase;
+				margin-bottom: 0;
+			}
+			.version {
+				color: #818181;
+				margin: 5px 0 5px 0;
+			}
+			.des {
+				color: #4f4f4f;
+			}
+			.btn {
+				position: absolute;
+				bottom: 25px;
+				left: 0;
+				margin: 0;
+			}
+		}
+	}
+}
