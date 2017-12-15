@@ -76,7 +76,7 @@ export class LicenseListComponent implements OnInit {
         return this.routerActions.go('cloud/default/license/create');
       
       case "CLICK_EDIT":
-        return this.routerActions.go('cloud/default/user-management/cashier/edit', $event['data']);
+        return this.routerActions.go('cloud/default/license/edit', $event['data']);
       
       default:
     }

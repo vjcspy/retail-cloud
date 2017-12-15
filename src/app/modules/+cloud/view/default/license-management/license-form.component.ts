@@ -66,13 +66,37 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
       this.products = productCollection.collection.find().fetch();
       this.prices   = pricingCollection.collection.find().fetch();
       
-      this.users = userCollection.collection.find({has_license: {$exists: false}}).fetch();
+      this.users              = userCollection.collection.find().fetch();
+      this.licenseHasProducts = [];
       
       if (!!params['id']) {
         const license = licenseCollection.findOne({_id: params['id']});
         
         if (!!license) {
           this.license = license;
+          
+          _.forEach(this.products, (p) => {
+            const existedProductLicense = _.find(this.license['has_product'], (_p) => _p['product_id'] === p['_id']);
+            if (!!existedProductLicense) {
+              this.licenseHasProducts.push(Object.assign({}, {...p}, {...existedProductLicense}, {
+                is_new: false,
+                checked: true,
+              }));
+            } else {
+              this.licenseHasProducts.push(Object.assign({}, {...p}, {
+                is_new: true,
+                checked: false,
+                status: 1,
+                purchase_date: null,
+                last_invoice: null,
+                base_url: [],
+                product_id: p['_id'],
+                addition_entity: 1,
+                billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle'],
+                expiry_date: new Date()
+              }));
+            }
+          });
           
           this.changeDetectorRef.detectChanges();
           setTimeout(() => {
@@ -83,9 +107,9 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
           this.goBack();
         }
       } else {
-        this.licenseHasProducts = [];
         _.forEach(this.products, (p) => {
           this.licenseHasProducts.push(Object.assign({}, {...p}, {
+            is_new: true,
             checked: false,
             status: 1,
             purchase_date: null,
@@ -114,6 +138,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     // datepicker
     _.forEach(this.licenseHasProducts, (p) => {
       jQuery("#val-expire_date" + p['product_id'])['daterangepicker']({
+                                                                        startDate: p['expiry_date'],
                                                                         locale: {
                                                                           format: 'YYYY-MM-DD'
                                                                         },
