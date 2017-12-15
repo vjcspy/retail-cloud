@@ -36,7 +36,7 @@ export class ProductTrend implements OnInit, OnDestroy {
     if (this.chartEl && this.chartEl.nativeElement) {
       productTrend.chart = {
         backgroundColor:'rgba(255, 255, 255, 0.0)',
-        type: 'spline',
+        type: 'line',
         renderTo: this.chartEl.nativeElement
       };
       this._productTrend = new Highcharts.Chart(productTrend);
@@ -62,7 +62,7 @@ export class ProductTrend implements OnInit, OnDestroy {
         series: {
           lineWidth: 1
         },
-        spline: {
+        line: {
           lineWidth: 4,
           color: '#1fa79d',
           marker: {

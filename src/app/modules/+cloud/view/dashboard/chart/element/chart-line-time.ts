@@ -133,7 +133,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
               break;
           }
           return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
-                 moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY');
+                 '<p style="text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY') + '</p>';
         }
       },
   
