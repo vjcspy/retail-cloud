@@ -90,6 +90,10 @@ export const CLOUD_ROUTES: Routes = [
                 component: LicenseFormComponent
               },
               {
+                path: 'edit/:id',
+                component: LicenseFormComponent
+              },
+              {
                 path: 'detail/:id',
                 component: LicenseDetailsComponent
               },

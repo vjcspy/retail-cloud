@@ -1,7 +1,11 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LicenseCollection} from "../../../../../services/meteor-collections/licenses";
 import * as _ from 'lodash';
 import {RouterActions} from "../../../../../R/router/router.actions";
+import {ProductCollection} from "../../../../../services/meteor-collections/products";
+import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
+import {Observable} from "rxjs/Observable";
+import {MongoObservable} from "meteor-rxjs";
 
 @Component({
              // moduleId: module.id,
@@ -10,14 +14,19 @@ import {RouterActions} from "../../../../../R/router/router.actions";
              changeDetection: ChangeDetectionStrategy.OnPush,
            })
 
-export class LicenseListComponent implements OnInit {
-  // $('.meteor-table-bt-edit').text("Detail");
+export class LicenseListComponent extends AbstractSubscriptionComponent implements OnInit {
+  resolvedData: boolean = false;
+  protected products;
   
   constructor(public licenseCollection: LicenseCollection,
-              protected routerActions: RouterActions) { }
+              protected productCollection: ProductCollection,
+              protected detechChange: ChangeDetectorRef,
+              protected routerActions: RouterActions) {
+    super();
+  }
   
   public tableConfig = {
-    actionsColumn: {edit: false, remove: true, detail: true},
+    actionsColumn: {edit: true, detail: true},
     columns: [
       {data: "_id", title: "License ID"},
       {data: "key", title: "License Key"},
@@ -28,19 +37,22 @@ export class LicenseListComponent implements OnInit {
     columnDefs: [
       {className: "", orderable: false, targets: [0]},
       {className: "", orderable: false, targets: [1]},
-        {
-            targets: [2], render: data => data ? data : "",
-        },
+      {
+        targets: [2], render: data => data ? data : "",
+      },
       {
         className: "", orderable: false,
         targets: [3],
         render: (data, type, row) => {
           let _html = "";
-          let text="";
+          let text  = "";
           if (_.isArray(data)) {
             _.forEach(data, product => {
-              if (product['product_id']==="JcJcfodpL6KNrNR65") {
-                  _html += `<span class="label label-warning">ConnectPOS</span>&nbsp;`;
+              const _p = _.find(this.products, (_product) => _product['_id'] === product['product_id']);
+              if (_p) {
+                _html += `<span class="label label-warning">${_p['name']}</span>&nbsp;`;
+              } else {
+                _html += `<span class="label label-warning">${product['product_id']}</span>&nbsp;`;
               }
             });
           }
@@ -65,7 +77,19 @@ export class LicenseListComponent implements OnInit {
     sDom: 'ltp'
   };
   
-  ngOnInit() { }
+  ngOnInit() {
+    this.subscribeObservable("_", () =>
+      Observable.combineLatest(
+        this.productCollection.getCollectionObservable(),
+        this.licenseCollection.getCollectionObservable()
+      ).subscribe((z: any) => {
+        const productCollection: MongoObservable.Collection<any> = z[0];
+        this.products                                            = productCollection.collection.find().fetch();
+        
+        this.resolvedData = true;
+        this.detechChange.detectChanges();
+      }));
+  }
   
   handleEvent($event) {
     switch ($event['type']) {
@@ -76,8 +100,8 @@ export class LicenseListComponent implements OnInit {
         return this.routerActions.go('cloud/default/license/edit', $event['data']);
       
       case "CLICK_DETAIL":
-          return this.routerActions.go('cloud/default/license/detail', $event['data']);
-         
+        return this.routerActions.go('cloud/default/license/detail', $event['data']);
+      
       default:
     }
   }
