@@ -33,6 +33,11 @@ export class MeteorDataTable {
           vm.callBackSubject.emit({type: 'CLICK_EDIT', data: jQuery(this).attr('data-id')});
         });
       }, 100);
+        setTimeout(() => {
+            this.elementSelector.on('click', '.meteor-table-bt-detail', function () {
+                vm.callBackSubject.emit({type: 'CLICK_DETAIL', data: jQuery(this).attr('data-id')});
+            });
+        }, 100);
       setTimeout(() => {
         this.elementSelector.on('click', '.meteor-table-bt-remove', function () {
           vm.callBackSubject.emit({type: 'CLICK_REMOVE', data: jQuery(this).attr('data-id')});
@@ -49,7 +54,7 @@ export class MeteorDataTable {
       options = this.getDefaultOption();
     }
     // add Column action
-    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit']) || options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove']))) {
+    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['detail'] === true || _.isObject(options['actionsColumn']['detail']) ||options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit']) || options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove']))) {
       let _numOfColumn = _.size(options.columns);
       options.columns.push({data: "_id", title: "Actions"});
       
@@ -68,6 +73,10 @@ export class MeteorDataTable {
                                        _html += `<a class="link-action meteor-table-bt-edit" data-id="${data}">${options['actionsColumn']['edit'].hasOwnProperty('name') ?
                                          options['actionsColumn']['edit']['name'] : 'Edit'} </a>`;
                                      }
+                                     if (options['actionsColumn']['detail'] === true || _.isObject(options['actionsColumn']['detail'])) {
+                                           _html += `<a class="link-action meteor-table-bt-detail" data-id="${data}">${options['actionsColumn']['detail'].hasOwnProperty('name') ?
+                                               options['actionsColumn']['detail']['name'] : 'Detail'} </a>`;
+                                       }
                                      if (options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove'])) {
                                        _html += ` <a class="meteor-table-bt-remove link-action" data-toggle="modal" data-id="${data}">${options['actionsColumn']['remove']['name'] ?
                                          options['actionsColumn']['remove']['name'] : 'Remove'}</a>`;

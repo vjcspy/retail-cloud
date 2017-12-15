@@ -7,6 +7,7 @@ import {CashierFormComponent} from "./user-management/cashiers/form.component";
 import {LicenseManagementContainer} from "./license-management/license-management-container.component";
 import {LicenseListComponent} from "./license-management/license-list.component";
 import {LicenseFormComponent} from "./license-management/license-form.component";
+import {LicenseDetailsComponent} from "./license-management/license-details.component";
 import {ProductManagementContainerComponent} from "./product-management/container.component";
 import {ProductListComponent} from "./product-management/list.component";
 import {ProductFormComponent} from "./product-management/form.component";
@@ -31,7 +32,6 @@ import {AccountLicenseCompleteComponent} from "./account/license/complete.compon
 import {AccountInformationComponent} from "./account/information.component";
 import {AccountLicensePlanDetailComponent} from "./account/license/plan/detail.component";
 import {AccountLicensePlanContainerComponent} from "./account/license/plan-container.component";
-
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
   HeaderComponent,
@@ -46,6 +46,7 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   LicenseManagementContainer,
   LicenseListComponent,
   LicenseFormComponent,
+  LicenseDetailsComponent,
   
   ProductManagementContainerComponent,
   ProductListComponent,
