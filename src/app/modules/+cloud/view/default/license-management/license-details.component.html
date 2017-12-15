@@ -1,0 +1,43 @@
+<div class="list-page min-page">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="block">
+            <div class="block-content">
+                <table class="table table-bordered table-responsive white-box">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Shop Owner</th>
+                        <th>Current Version</th>
+                        <th>Pricing</th>
+                        <th>Plan Billing Cycle</th>
+                        <th>Active Register</th>
+                        <th>Purchase Date</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let productLicense of licenseProduct">
+                        <td>{{productLicense['productName']}}</td>
+                        <td>{{productLicense['shop_owner']}}</td>
+                        <td>{{productLicense['product_version']}}</td>
+                        <td>{{productLicense['pricingName']}}</td>
+                        <td>{{getLicenseBillingCycleText(productLicense['billingCycle'])}}</td>
+                        <td>{{productLicense['additionEntity']}}</td>
+                        <td>{{productLicense['purchaseDate'] | amCalendar}}</td>
+                        <td>{{productLicense['expiryDate'] | amCalendar}}</td>
+                        <td>{{getLicensStatus(productLicense['status'])}}</td>
+
+                        <td>
+                            <a class="link-action meteor-table-bt-edit" (click)="viewEdit(productLicense['productId'])">Edit</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
