@@ -1,6 +1,6 @@
 __meteor_runtime_config__ = {
   "meteorEnv": {},
-  "DDP_DEFAULT_CONNECTION_URL": "http://cloud.dev:2005"
+  "DDP_DEFAULT_CONNECTION_URL": "http://cloud.local:2005"
 };
 
 //////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,7 @@ import {PriceCollection} from "../../../../../services/meteor-collections/prices
 import * as _ from 'lodash';
 import {ConstrainDataHelper} from "../../../services/constrain-data-helper";
 import {ValidateData} from "../../../services/validate-data";
+import {UserCollection} from "../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -21,6 +22,7 @@ import {ValidateData} from "../../../services/validate-data";
 
 export class LicenseFormComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
   public license            = {
+    shop_owner_id: 'createNew',
     status: 1
   };
   public licenseHasProducts = [];
@@ -30,6 +32,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
   public products           = [];
   public prices             = [];
   public data               = {};
+  public users;
   
   protected formValidation;
   
@@ -39,6 +42,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
               protected changeDetectorRef: ChangeDetectorRef,
               protected productCollection: ProductCollection,
               protected pricingCollection: PriceCollection,
+              protected userCollection: UserCollection,
               protected routerActions: RouterActions) {
     super();
   }
@@ -48,15 +52,19 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
       this.route.params,
       this.licenseCollection.getCollectionObservable(),
       this.productCollection.getCollectionObservable(),
-      this.pricingCollection.getCollectionObservable()
+      this.pricingCollection.getCollectionObservable(),
+      this.userCollection.getCollectionObservable(),
     ).subscribe((z: any) => {
       const params                                             = z[0];
       const licenseCollection: MongoObservable.Collection<any> = z[1];
       const productCollection: MongoObservable.Collection<any> = z[2];
       const pricingCollection: MongoObservable.Collection<any> = z[3];
+      const userCollection: MongoObservable.Collection<any>    = z[4];
       
       this.products = productCollection.collection.find().fetch();
       this.prices   = pricingCollection.collection.find().fetch();
+      
+      this.users = userCollection.collection.find({has_license: {$exists: false}}).fetch();
       
       if (!!params['id']) {
         const license = licenseCollection.findOne({_id: params['id']});
@@ -67,7 +75,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
           this.changeDetectorRef.detectChanges();
           setTimeout(() => {
             this.initPageJs();
-          })
+          });
         } else {
           this.notify.error('can_not_find_license_with_id: ' + params['id']);
           this.goBack();
@@ -81,6 +89,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
             purchase_date: null,
             last_invoice: null,
             base_url: [],
+            product_id: p['_id'],
             addition_entity: 1,
             billing_cycle: _.last(ConstrainDataHelper.getBillingCycleData())['billingCycle'],
             expiry_date: ""
@@ -89,7 +98,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
         this.changeDetectorRef.detectChanges();
         setTimeout(() => {
           this.initPageJs();
-        })
+        });
       }
     }));
   }
@@ -110,6 +119,13 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
                                                      },
                                                      (start, end, label) => {
                                                      });
+    
+    // user select2
+    jQuery('#val-owner')['select2']().on('change', function (e) {
+      jQuery(this)['valid']();
+      vm.license['shop_owner_id'] = jQuery(this).val();
+      vm.changeDetectorRef.detectChanges();
+    });
     
     let initLicenseValidationMaterial = () => {
       jQuery('.js-validation-license')['validate']({

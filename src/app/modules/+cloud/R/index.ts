@@ -25,6 +25,9 @@ import {ShopManageService} from "./shop/service";
 import {ShopManageState} from "./shop/state";
 import {shopManageReducer} from "./shop/reducer";
 import {ShopManageEffects} from "./shop/effects";
+import {LicenseActions} from "./license/actions";
+import {LicenseService} from "./license/service";
+import {LicenseEffects} from "./license/effects";
 
 export interface CloudState {
   product: ProductState;
@@ -40,6 +43,7 @@ export const R_EFFECTS  = [
   EffectsModule.run(CheckoutEffects),
   EffectsModule.run(MenuEffects),
   EffectsModule.run(ShopManageEffects),
+  EffectsModule.run(LicenseEffects)
 ];
 export const R_SERVICES = [
   ShopManageActions,
@@ -56,6 +60,9 @@ export const R_SERVICES = [
   
   MenuService,
   MenuActions,
+  
+  LicenseActions,
+  LicenseService
 ];
 
 export const cloudReducer = () => createReducer({

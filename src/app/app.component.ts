@@ -30,6 +30,7 @@ import {AuthenticateService} from "./services/authenticate";
                '../../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
                '../../node_modules/bootstrap-daterangepicker/daterangepicker.css',
                '../../node_modules/ladda/dist/ladda.min.css',
+               '../../node_modules/animate.css/animate.min.css',
                '../assets/icon/icomoon/style.css',
              ],
              template: `
