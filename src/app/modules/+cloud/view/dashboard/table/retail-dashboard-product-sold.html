@@ -27,6 +27,6 @@
       </tbody>
     </table>
     <div class="datatable-no-results" *ngIf="getDataProductSold().length === 0"> No data available for this period. </div>
-    <div class="view-full-report" (click)="goToSaleReport()"><a>View full report</a> </div>
+    <div class="view-full-report"><a (click)="goToSaleReport()">View full report</a> </div>
   </div>
 </div>
