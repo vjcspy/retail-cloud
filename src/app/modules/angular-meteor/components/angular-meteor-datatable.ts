@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, ElementRef, ViewEncapsulation, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {Observable,} from "rxjs";
 import {MongoObservable} from "meteor-rxjs";
 import {AbstractSubscriptionComponent} from "../../../code/AbstractSubscriptionComponent";
@@ -8,7 +8,8 @@ import {MeteorDataTable} from "../code/meteor-datatable/MeteorDataTable";
              encapsulation: ViewEncapsulation.None,
              selector: 'angular-meteor-datatable',
              templateUrl: 'angular-meteor-datatable.html',
-             styleUrls: ['angular-meteor-datatable.scss']
+             styleUrls: ['angular-meteor-datatable.scss'],
+             changeDetection: ChangeDetectionStrategy.OnPush,
            })
 export class AngularMeteorDataTableComponent extends AbstractSubscriptionComponent implements OnInit {
   public data = {};
@@ -36,15 +37,16 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
       new MeteorDataTable(jQuery(this.dataTable.nativeElement), this.tableConfig, this.collectionObservable, this.event, this.defaultCollectionSelector);
     
     this.subscribeObservable('dataTable', () => this.meteorDataTable.getMeteorDtTableSubscription());
-    this.subscribeObservable('click_remove_button', () => this.event
-                                                              .asObservable()
-                                                              .filter(x => x['type'] === "CLICK_REMOVE")
-                                                              .subscribe(data => {
-                                                                if (data['data']) {
-                                                                  this.data['removeId'] = data['data'];
-                                                                  jQuery('#meteor-dt-remove-modal')['modal']('show');
-                                                                }
-                                                              }));
+    this.subscribeObservable('show_modal_when_click_remove_button',
+                             () => this.event
+                                       .asObservable()
+                                       .filter(x => x['type'] === "CLICK_REMOVE")
+                                       .subscribe(data => {
+                                         if (data['data']) {
+                                           this.data['removeId'] = data['data'];
+                                           jQuery('#meteor-dt-remove-modal')['modal']('show');
+                                         }
+                                       }));
     
   }
   
