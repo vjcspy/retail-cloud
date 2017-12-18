@@ -15,33 +15,30 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
              templateUrl: 'bar-chart.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class BarChart implements OnDestroy,OnInit {
+export class BarChart implements OnDestroy, OnInit {
   @ViewChild('chart') public chartEl: ElementRef;
-  chart_type :string;
-  chart_data : any;
-  scope_Names :any;
-  totalValues : any;
-  maxValue : number;
-                             // item    = [0, 2113.4, 0, 152.96, 713.8, 0];
-                             // // item    = [0, 2113.4];
-                             // maxItem = 2113.4 * 1.33;
-                             // value   = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee', '1asd'];
-                             // // value   = ['Thanhnt1', 'demo outlet'];
-  @Input('data_bar_chart') viewData    = [];
+                             chart_type: string;
+                             chart_data: any;
+                             scope_Names: any;
+                             totalValues: any;
+                             maxValue: number;
+                             
+  @Input('data_bar_chart') viewData = [];
+  @Input('current_currency') current_currency: string;
   private _barchart: any;
   
   ngOnInit() {
     if (typeof this.viewData != "undefined") {
       let max = _.max(this.viewData['chart_data']);
       if (typeof max === "number" && max > 0) {
-        this.maxValue = Math.round(max * 1.33*100)/100;
+        this.maxValue = Math.round(max * 1.33 * 100) / 100;
       } else {
         this.maxValue = 1;
       }
       
-      this.chart_data = this.viewData['chart_data'];
+      this.chart_data  = this.viewData['chart_data'];
       this.scope_Names = this.viewData['scope_Names'];
-      this.chart_type = this.viewData['chart_type'];
+      this.chart_type  = this.viewData['chart_type'];
       this.totalValues = [];
       _.forEach(this.viewData['chart_data'], item => {
         this.totalValues.push(this.maxValue - item);
@@ -49,8 +46,8 @@ export class BarChart implements OnDestroy,OnInit {
     }
     this.convertChart();
   }
-
-  convertChart(){
+  
+  convertChart() {
     let barchart = this.initBarChart(this.chart_type);
     if (this.chartEl && this.chartEl.nativeElement) {
       barchart.chart = {
@@ -65,6 +62,7 @@ export class BarChart implements OnDestroy,OnInit {
   }
   
   private initBarChart(chartType): any {
+    let currency_symbol = this.current_currency;
     return {
       title: {text: '', style: {display: 'none'}},
       subtitle: {text: '', style: {display: 'none'}},
@@ -108,17 +106,30 @@ export class BarChart implements OnDestroy,OnInit {
           color: '#d9d9d9',
           dataLabels: {
             formatter: function () {
-              if(chartType === "discount_percent"){
-                let discount_percent = 100 *(this.total - this.y);
-                return Math.round(discount_percent * 100)/100;
-              }else
-              return Math.round((this.total - this.y) * 100) / 100;
+              if (chartType === "discount_percent") {
+                let discount_percent = 100 * (this.total - this.y);
+                return Math.round(discount_percent * 100) / 100 + '%';
+              } else if (chartType === "customer_count" || chartType === "quantity") {
+                return Math.round((this.total - this.y) * 100) / 100;
+              } else {
+                let number = this.total - this.y;
+                if (1000 <= number && number < 1000000) {
+                  return currency_symbol + Math.round((number / 1000) * 100) / 100 + 'k';
+                } else if (1000000 <= number && number < 1000000000) {
+                  return currency_symbol + Math.round((number / 1000000) * 100) / 100 + 'm';
+                } else if (number >= 1000000000) {
+                  return currency_symbol + Math.round((number / 1000000000) * 100) / 100;
+                } else {
+                  return currency_symbol + Math.round(number * 100) / 100;
+                }
+                // return currency_symbol + Math.round((this.total - this.y) * 100) / 100;
+              }
             },
             style: {
-              textOutline : 'transparent !important',
+              textOutline: 'transparent !important',
               stroke: 'transparent',
-              color :'#666666',
-              fontWeight : '300',
+              color: '#666666',
+              fontWeight: '300',
             },
             enabled: true,
             align: 'right',
@@ -135,10 +146,10 @@ export class BarChart implements OnDestroy,OnInit {
               return this.x;
             },
             style: {
-              textOutline : 'transparent !important',
+              textOutline: 'transparent !important',
               stroke: 'transparent',
-              color :'#666666',
-              fontWeight : '300',
+              color: '#666666',
+              fontWeight: '300',
             },
             enabled: true,
             align: 'left',
@@ -151,4 +162,11 @@ export class BarChart implements OnDestroy,OnInit {
   public ngOnDestroy() {
     this._barchart.destroy();
   }
+  
+  // dummy data
+  // item    = [0, 2113.4, 0, 152.96, 713.8, 0];
+  // // item    = [0, 2113.4];
+  // maxItem = 2113.4 * 1.33;
+  // value   = ['Thanhnt1', 'demo outlet', 'Ha Noi', '120', 'Hhehee', '1asd'];
+  // // value   = ['Thanhnt1', 'demo outlet'];
 }

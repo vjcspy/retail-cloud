@@ -17,7 +17,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
   @Input('typeChart') typeChart: string;
   @ViewChild('chart_line_time') public chartEl: ElementRef;
   @Input('data_chart_line_time') viewData    = [];
-  
+  @Input('current_currency') current_currency: string;
   chart_data: any;
   scope_Names: any;
   totalValues: any;
@@ -64,6 +64,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
   }
   
   private initChartLineTime(type_chart): any {
+    let current_currency  = this.current_currency;
     return {
       title: {
         text: ''
@@ -127,12 +128,12 @@ export class ChartLineTime implements OnDestroy, OnInit {
               currency_symbol = '';
               break;
             default:
-              currency_symbol = '$';
+              currency_symbol = current_currency;
               this.y = _.round(this.y, 2);
               this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
               break;
           }
-          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">' + currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
+          return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">'+ currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
                  '<p style="text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY') + '</p>';
         }
       },

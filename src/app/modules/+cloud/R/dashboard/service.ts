@@ -122,6 +122,7 @@ export class DashboardReportService {
       items: [],
       topUser : []
     };
+    this.viewData['current_currency'] = itemsData['current_currency'];
     this.viewData['list_date_filter'] = itemsData['list_date_filter'];
     this.viewData['topUser'] = itemsData['top_User'];
     this.viewData['product_sold'] = itemsData['product_sold'];

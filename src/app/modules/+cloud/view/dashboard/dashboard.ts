@@ -173,4 +173,11 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     return this.dashboardReportService.viewData;
   }
   
+  getCurrentCurrency() {
+    if (this.dashboardReportService.viewData.hasOwnProperty('current_currency')) {
+      return this.dashboardReportService.viewData['current_currency'];
+    }
+    return "$";
+  }
+  
 }

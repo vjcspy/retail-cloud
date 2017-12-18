@@ -18,6 +18,7 @@ export class RetailDashboardChart {
   @Input('typeChart') typeChart: string;
   @Input('data_view') viewData  = [];
   @Input('period') period: string;
+  @Input('current_currency') current_currency: string;
   
   constructor(protected dashboardReportService: DashboardReportService) {}
   
@@ -117,9 +118,5 @@ export class RetailDashboardChart {
     data['label_previous'] = _.find(ReportDashboardHelper.getListTimePeriodPicker()['data'], (row) => row['value'] === this.period);
     data['label_change'] = change > 0 ? 'Up' : (change < 0 ? 'Down' : 'No Change');
     return data;
-  }
-  
-  getBaseCurreny() {
-    return '$';
   }
 }
