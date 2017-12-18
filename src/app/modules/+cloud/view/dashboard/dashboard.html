@@ -47,8 +47,10 @@
                               class="retail-dashboard-chart-container"></retail-dashboard-chart>
     </div>
   </div>
-  <retail-dashboard-table-product-trend [data_view]="getProductTrend()"></retail-dashboard-table-product-trend>
-  <retail-dashboard-table-topUser [data_view]="getViewData()['topUser']"> </retail-dashboard-table-topUser>
+  <retail-dashboard-table-product-trend [data_view]="getProductTrend()"
+                                        [current_currency] = "getCurrentCurrency()"></retail-dashboard-table-product-trend>
+  <retail-dashboard-table-topUser [data_view]="getViewData()['topUser']"
+                                  [current_currency] = "getCurrentCurrency()"> </retail-dashboard-table-topUser>
 </div>
 <div class="popup-overlay" style="z-index: 9998" [ngClass]="{open:!isOverLoad()}">
   <div class="sk-circle">

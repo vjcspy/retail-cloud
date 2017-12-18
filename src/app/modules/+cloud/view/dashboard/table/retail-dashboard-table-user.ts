@@ -18,6 +18,7 @@ import * as moment from "moment";
 
 export class RetailDashboardTableUser implements OnInit {
   @Input('data_view') data_view = [];
+  @Input('current_currency') current_currency: string;
   
   isSortAsc: boolean;
   

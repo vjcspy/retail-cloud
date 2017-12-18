@@ -19,6 +19,7 @@ export class RetailDashBoardTableProductSold {
   public sort_desc: boolean = true;
   public sort_measure: string = 'revenue';
   @Input('data_view') viewData  = [];
+  @Input('current_currency') current_currency: string;
   
   constructor(protected changeDetector: ChangeDetectorRef,
               protected saleReportService: SaleReportService,

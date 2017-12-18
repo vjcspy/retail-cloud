@@ -15,10 +15,10 @@
       <tbody>
       <tr *ngFor="let item of data_view">
         <th colspan="2">{{item['username']}}</th>
-        <td>${{item['revenue'] | number :'1.2-2'}}</td>
+        <td>{{current_currency}}{{item['revenue'] | number :'1.2-2'}}</td>
         <td>{{item['order_count'] | number :'1.2-2'}}</td>
         <td>{{item['items_sold'] | number :'1.2-2' }}</td>
-        <td>${{item['cart_value'] | number :'1.2-2'}}</td>
+        <td>{{current_currency}}{{item['cart_value'] | number :'1.2-2'}}</td>
         <td>{{item['cart_size'] | number :'1.2-2'}}</td>
         <!--<td>$0<span class="decimals">.00</span></td>-->
       </tr>
