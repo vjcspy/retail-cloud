@@ -51,7 +51,7 @@ export class AccountLicensePlanListComponent extends AbstractSubscriptionCompone
   getTableConfig() {
     let vm = this;
     return {
-      canCreate: false,
+      canCreateNew: false,
       actionsColumn: {
         edit: {
           name: "Invoice"
