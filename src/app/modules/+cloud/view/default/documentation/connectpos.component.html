@@ -176,6 +176,94 @@
         </div>
     </div>
 </div>
+
+<!-- TLS report -->
+<div class="sale-reports">
+    <div class="panel-filter clearfix">
+        <div class="fillter-top">
+            <div class="gray-bg clearfix">
+                <div class="dropdown filter filter-main">
+                    <button class="btn btn-default btn-filter-main" id="filter-main" type="button">
+                        <i class="fa fa-filter fa-fw"></i>
+                    </button>
+                </div>
+                <div class="form-group select-type-report">
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <select class="form-control">
+                            <option value="sales_summary">
+                                Sales Summary
+                            </option>
+                            <option value="user">
+                                User
+                            </option>
+                            <option value="outlet">
+                                Outlet
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="date-range-wrap">
+                    <i class="icon-date-time"></i>
+                    <input class="form-control txt-date-range" name="daterange" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="filter-fields">
+            <i class="icon-arr ion-arrow-up-b"></i>
+            <form action="" class="">
+                <div class="row">
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6" hidden="">
+                        <label>Sales Summary</label>
+                        <span class="error-message" hidden=""></span>
+                        <input class="form-control" type="text" placeholder="Sales Summary...">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                        <label>Revenue</label>
+                        <span class="error-message" hidden=""></span>
+                        <input class="form-control" type="text" placeholder="Revenue...">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                        <label>Cost</label>
+                        <span class="error-message" hidden=""></span>
+                        <select class="form-control">
+                            <option value="sales_summary">
+                                Sales Summary
+                            </option>
+                            <option value="user">
+                                User
+                            </option>
+                            <option value="outlet">
+                                Outlet
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                        <label>Gross Profit</label>
+                        <span class="error-message" hidden=""></span>
+                        <input class="form-control" type="text" placeholder="Gross Profit...">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                        <label>Margin</label>
+                        <span class="error-message" hidden=""></span>
+                        <input class="form-control" type="text" placeholder="Margin...">
+                    </div>
+                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                        <label>Tax</label>
+                        <span class="error-message" hidden=""></span>
+                        <input class="form-control" type="text" placeholder="Tax...">
+                    </div>
+                </div>
+                <div class="group-btn">
+                    <button class="btn btn-orange" type="button">Reset filter</button>
+                    <button class="btn btn-primary" type="submit">Apply filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Popup -->
 <a class="btn" data-toggle="modal" href="#add-credit-card">delete user</a>
 <div id="add-credit-card" class="modal fade">
