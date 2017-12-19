@@ -127,4 +127,7 @@ export class LicenseDetailsComponent extends AbstractSubscriptionComponent imple
         this.routerActions.go('cloud/default/license/edit', {productId});
         
     }
+    goBack() {
+        this.routerActions.go('cloud/default/license/list');
+    }
 }
