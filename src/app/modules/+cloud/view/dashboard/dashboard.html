@@ -39,12 +39,13 @@
 	</div>
   <div class="dashboard-primary-content">
     <div class="dashboard-container clearfix">
-      <retail-dashboard-chart [typeChart]="typeChart.value"
-                              [data_view]="getViewData(typeChart.value)"
-                              [period]="getPeriodValue()"
-                              [current_currency] = "getCurrentCurrency()"
-                              *ngFor="let typeChart of getListTypeChart()['data']; trackBy:trackByValue"
-                              class="retail-dashboard-chart-container"></retail-dashboard-chart>
+      <!--<retail-dashboard-chart [typeChart]="typeChart.value"-->
+                              <!--[data_view]="getViewData(typeChart.value)"-->
+                              <!--[period]="getPeriodValue()"-->
+                              <!--[current_currency] = "getCurrentCurrency()"-->
+                              <!--*ngFor="let typeChart of getListTypeChart()['data']; trackBy:trackByValue"-->
+                              <!--class="retail-dashboard-chart-container"></retail-dashboard-chart>-->
+      <retail-dashboard-groupChart></retail-dashboard-groupChart>
     </div>
   </div>
   <retail-dashboard-table-product-trend [data_view]="getProductTrend()"

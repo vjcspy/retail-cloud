@@ -13,6 +13,7 @@ import {BarChart} from "../dashboard/chart/element/bar-chart";
 import {ProductTrend} from "../dashboard/chart/element/product-trend";
 import {RetailDashboardTableUser} from "../dashboard/table/retail-dashboard-table-user";
 import {RetailDashBoardTableProductSold} from "../dashboard/table/retail-dashboard-product-sold";
+import {RetailDashboardGroupChart} from "../dashboard/chart/retail-dashboard-groupChart";
 
 export const CLOUD_DEFAULT_COMPONENTS = [
   SidebarComponent,
@@ -27,6 +28,7 @@ export const CLOUD_DEFAULT_COMPONENTS = [
   CloudSaleReportItemComponent,
 
   RetailDashboardChart,
+  RetailDashboardGroupChart,
   RetailDashboardTableUser,
   ChartLineTime,
   BarChart,

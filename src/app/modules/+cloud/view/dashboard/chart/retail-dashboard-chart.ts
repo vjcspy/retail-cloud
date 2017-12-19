@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {ReportDashboardHelper} from "../../../R/dashboard/helper";
 import * as _ from "lodash";
 import {count} from "rxjs/operator/count";
@@ -20,7 +20,7 @@ export class RetailDashboardChart {
   @Input('period') period: string;
   @Input('current_currency') current_currency: string;
   
-  constructor(protected dashboardReportService: DashboardReportService) {}
+  constructor(protected dashboardReportService: DashboardReportService,protected changeDetector: ChangeDetectorRef) {}
   
   getTitleDashBoardChart() {
     let typeChart = this.typeChart;

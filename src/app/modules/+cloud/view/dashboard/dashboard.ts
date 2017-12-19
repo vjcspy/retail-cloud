@@ -16,14 +16,14 @@ import * as moment from "moment";
 
 export class DashboardPage extends AbstractRxComponent implements OnInit {
   public granularity: string;
-  constructor(protected dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
+  constructor(public dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
     super();
-    dashboardReportService.getDashboardReport();
+    this.initDefaultGranularity(this.getPeriodValue());
+    this.dashboardReportService.getDashboardReport();
     changeDetector.detach();
   }
   
   ngOnInit() {
-    this.initDefaultGranularity(this.getPeriodValue());
     this._subscription['update_view']  =  this.dashboardReportService.updateView().subscribe(() => {
       this.changeDetector.detectChanges();
     });
@@ -56,10 +56,6 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   
   protected getListScope() {
     return ReportDashboardHelper.getListScope();
-  }
-  
-  protected getListTypeChart() {
-    return ReportDashboardHelper.getWidgets();
   }
   
   protected getViewData(widget = null){
@@ -149,7 +145,7 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     }
   }
   
-  protected getListTimePeriodPicker() {
+   getListTimePeriodPicker() {
     return ReportDashboardHelper.getListTimePeriodPicker();
   }
   
