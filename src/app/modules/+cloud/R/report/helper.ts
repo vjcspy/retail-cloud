@@ -245,6 +245,7 @@ export class ReportHelper {
       let data = [
         {id: 1, label: "Region", value: "region"},
         {id: 2, label: "Outlet", value: "outlet"},
+        {id: 3, label: "Category", value: "category"},
       ];
     return {
       data: data,

@@ -286,9 +286,16 @@ export class SaleReportService {
         itemLable = item['Total Sales'] / item['Order Count'];
         break;
       case "Discount percent":
-        itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
+        if (this.viewDataFilter['report_type'] == 'product' ||
+            this.viewDataFilter['report_type'] == 'category' ||
+            this.viewDataFilter['report_type'] == 'manufacturer'
+        ) {
+          itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
+        } else {
+          itemLable = item['Discount'] / (item['Total Sales'] + item['Discount']);
+        }
         break;
-      case "Return percent" :
+      case "Return percent":
         itemLable = item['Return count'] / (item['Item Sold'] + item['Return count']);
         break;
       default :
