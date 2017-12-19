@@ -700,7 +700,7 @@ export class SaleReportService {
           return parseFloat(item[this._sortData]);
         }
       }]);
-      if (this.isSortAsc) {
+      if (!this.isSortAsc) {
         //noinspection TypeScriptUnresolvedFunction
         listDataSoft = _.reverse(listDataSoft);
       }
