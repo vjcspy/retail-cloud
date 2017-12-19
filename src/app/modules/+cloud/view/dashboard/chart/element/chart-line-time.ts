@@ -105,7 +105,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
       },
   
       tooltip: {
-        padding: 25,
+        padding: 20,
         borderRadius: 8,
         useHTML: true,
         style:{

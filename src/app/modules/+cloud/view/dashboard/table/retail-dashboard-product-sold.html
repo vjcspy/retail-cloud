@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let item of getDataProductSold()">
-        <th colspan="2">{{item['name']}}</th>
+        <th colspan="2">{{item['data_report_value']['name']}}</th>
         <td>{{current_currency}}{{item['revenue'] | number:'1.2-2'}}</td>
         <td>{{item['item_sold'] | number:'1.0-0'}}</td>
         <td>{{current_currency}}{{item['discount_amount'] | number:'1.2-2'}}</td>

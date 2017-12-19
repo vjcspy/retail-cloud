@@ -73,7 +73,7 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
     
     switch (period) {
       case '7d':
-        end_date = moment(end_date, "Do MMM YYYY").add(change_granularity, 'days').format("Do MMM YYYY");
+        end_date = moment(start_date, "Do MMM YYYY").add(change_granularity, 'days').format("Do MMM YYYY");
         this.setEndTimePeriod(end_date);
         this.setStartTimePeriod(end_date);
         this.granularity = end_date;
@@ -126,6 +126,8 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   
   setGranularity(period, change_granularity = null) {
     if (period !== this.getPeriodValue() || !_.isEmpty(change_granularity)) {
+      if (period !== this.getPeriodValue())
+        this.setStartTimePeriod(moment().format("Do MMM YYYY"));
       this.dashboardReportService.viewDataFilter['period'] = period;
       change_granularity = ReportDashboardHelper.getValueNextPrevGranularity(change_granularity);
       

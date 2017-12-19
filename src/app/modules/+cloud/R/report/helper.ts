@@ -249,8 +249,8 @@ export class ReportHelper {
     return {
       data: data,
       isMultiSelect: false,
-      label: "Sale Report",
-      value: "report_type"
+      label: "List Extra Data",
+      value: "list_extra_data"
     }
   }
   
