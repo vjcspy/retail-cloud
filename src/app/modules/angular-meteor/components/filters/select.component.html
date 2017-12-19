@@ -1,0 +1,8 @@
+<div class="form-group col-lg-3 col-md-4 col-sm-6">
+  <label>{{filterConfig['name']}}</label>
+  <select #selectElem class="form-control" [multiple]="filterConfig['multiple'] === true ? 'multiple' : false">
+    <option *ngFor="let option of filterConfig['dataOptions']" [value]="option['value']" [selected]="option['value'] === filterValue">
+      {{option['name']}}
+    </option>
+  </select>
+</div>

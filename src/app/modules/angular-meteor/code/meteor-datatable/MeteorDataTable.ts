@@ -7,6 +7,7 @@ export class MeteorDataTable {
   protected collection: MongoObservable.Collection<any>;
   protected _dtTable: any;
   protected _meteorDataTableSubscription: Subscription;
+  protected filterComponents;
   
   constructor(protected elementSelector: any,
               protected dataTableOptions: Object,
@@ -18,6 +19,7 @@ export class MeteorDataTable {
         this.collection = collection;
         this.resolve();
       });
+      this.handleTableFilter();
     }
   }
   
@@ -33,11 +35,11 @@ export class MeteorDataTable {
           vm.callBackSubject.emit({type: 'CLICK_EDIT', data: jQuery(this).attr('data-id')});
         });
       }, 100);
-        setTimeout(() => {
-            this.elementSelector.on('click', '.meteor-table-bt-detail', function () {
-                vm.callBackSubject.emit({type: 'CLICK_DETAIL', data: jQuery(this).attr('data-id')});
-            });
-        }, 100);
+      setTimeout(() => {
+        this.elementSelector.on('click', '.meteor-table-bt-detail', function () {
+          vm.callBackSubject.emit({type: 'CLICK_DETAIL', data: jQuery(this).attr('data-id')});
+        });
+      }, 100);
       setTimeout(() => {
         this.elementSelector.on('click', '.meteor-table-bt-remove', function () {
           vm.callBackSubject.emit({type: 'CLICK_REMOVE', data: jQuery(this).attr('data-id')});
@@ -54,7 +56,7 @@ export class MeteorDataTable {
       options = this.getDefaultOption();
     }
     // add Column action
-    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['detail'] === true || _.isObject(options['actionsColumn']['detail']) ||options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit']) || options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove']))) {
+    if (options.hasOwnProperty('actionsColumn') && (options['actionsColumn']['detail'] === true || _.isObject(options['actionsColumn']['detail']) || options['actionsColumn']['edit'] === true || _.isObject(options['actionsColumn']['edit']) || options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove']))) {
       let _numOfColumn = _.size(options.columns);
       options.columns.push({data: "_id", title: "Actions"});
       
@@ -74,9 +76,9 @@ export class MeteorDataTable {
                                          options['actionsColumn']['edit']['name'] : 'Edit'} </a>`;
                                      }
                                      if (options['actionsColumn']['detail'] === true || _.isObject(options['actionsColumn']['detail'])) {
-                                           _html += `<a class="link-action meteor-table-bt-detail" data-id="${data}">${options['actionsColumn']['detail'].hasOwnProperty('name') ?
-                                               options['actionsColumn']['detail']['name'] : 'Detail'} </a>`;
-                                       }
+                                       _html += `<a class="link-action meteor-table-bt-detail" data-id="${data}">${options['actionsColumn']['detail'].hasOwnProperty('name') ?
+                                         options['actionsColumn']['detail']['name'] : 'Detail'} </a>`;
+                                     }
                                      if (options['actionsColumn']['remove'] === true || _.isObject(options['actionsColumn']['remove'])) {
                                        _html += ` <a class="meteor-table-bt-remove link-action" data-toggle="modal" data-id="${data}">${options['actionsColumn']['remove']['name'] ?
                                          options['actionsColumn']['remove']['name'] : 'Remove'}</a>`;
@@ -100,9 +102,21 @@ export class MeteorDataTable {
         let _selector = {};
         _.forEach(request['columns'], (v, index) => {
           if (v['searchable'] === true && !!v['search']['value']) {
-            this.collectionSelector[v['data']] = new RegExp(v['search']['value']);
+            _selector[v['data']] = new RegExp(v['search']['value']);
           }
         });
+        
+        if (_.isArray(this.filterComponents)) {
+          _.forEach(this.filterComponents, (filterComp) => {
+            if (filterComp['value'] != null) {
+              if (filterComp.hasOwnProperty('filter')) {
+                _selector = _.merge(_selector, filterComp['filter'](filterComp));
+              } else {
+                _selector[filterComp['data']] = new RegExp(filterComp['value']);
+              }
+            }
+          });
+        }
         // sort
         let options = {};
         if (_.size(request['order']) === 1) {
@@ -140,4 +154,12 @@ export class MeteorDataTable {
     return this._meteorDataTableSubscription;
   }
   
+  protected handleTableFilter() {
+    this.callBackSubject.subscribe((data) => {
+      if (data['type'] === 'START_FILTER') {
+        this.filterComponents = data['data'];
+        this._dtTable.draw();
+      }
+    });
+  }
 }

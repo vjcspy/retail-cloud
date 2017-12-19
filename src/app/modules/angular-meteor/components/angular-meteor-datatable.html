@@ -1,15 +1,40 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableConfig['canCreateNew'] !== false">
-    <div class="block block-themed block-rounded pull-right">
-      <div class="block-header bg-gray-lighter">
-        <div class="block-options-simple">
-          <button class="btn btn-xs btn-success" type="button" (click)="newRecord()">
-            <i class="fa fa-clone"></i>&nbsp;Create new
-          </button>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="sale-reports">
+      <div class="panel-filter clearfix">
+        <div class="fillter-top">
+          <div class="gray-bg clearfix">
+            <div class="dropdown filter filter-main">
+              <button *ngIf="getFilterComponentData().length > 0" class="btn btn-default btn-filter-main" id="filter-main" type="button" (click)="data.filterPopupState = !data.filterPopupState">
+                <i class="fa fa-filter fa-fw"></i>
+              </button>
+            </div>
+            <div *ngIf="tableConfig['canCreateNew'] !== false" class="pull-right">
+              <button class="btn btn-xs btn-success" type="button" (click)="newRecord()">
+                <i class="fa fa-clone"></i>&nbsp;Create new
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="filter-fields animated fadeIn" [hidden]="!data.filterPopupState">
+          <i class="icon-arr ion-arrow-up-b"></i>
+          <form action="" class="">
+            <div class="row">
+              <div *ngFor="let filter of getFilterComponentData()">
+                <angular-meteor-datatable-text-filter *ngIf="filter['type'] === 'text'" [filterConfig]="filter" [(filterValue)]="filter['value']"></angular-meteor-datatable-text-filter>
+                <angular-meteor-datatable-select-field *ngIf="filter['type'] === 'select'" [filterConfig]="filter" [(filterValue)]="filter['value']"></angular-meteor-datatable-select-field>
+              </div>
+            </div>
+            <div class="group-btn">
+              <button class="btn btn-orange" type="button" (click)="data.filterPopupState = !data.filterPopupState">Close filter</button>
+              <button class="btn btn-primary" (click)="angularMeteorFilterData()">Apply filter</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="block">
       <div class="block-content">

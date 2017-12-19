@@ -52,7 +52,7 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {data: "username", title: "Username", searchable: true},
         {data: "emails", title: "Emails", searchable: true},
         {data: "has_license", title: "Roles"},
-        {data: "has_license", title: "Status"},
+        {data: "status", title: "Status"},
       ],
       columnDefs: [
         {
@@ -64,6 +64,24 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
             } else {
               return "";
             }
+          },
+          izFilter: {
+            name: "Name",
+            type: 'text',
+            filter: (filterComp) => {
+              return {
+                $or: [{'profile.first_name': new RegExp(filterComp['value'], 'gi')},
+                  {'profile.last_name': new RegExp(filterComp['value'], 'gi')}]
+              };
+            }
+          }
+        },
+        {
+          className: "username",
+          targets: [1],
+          izFilter: {
+            name: 'Username',
+            type: 'text',
           }
         },
         {
@@ -89,7 +107,6 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
               }
               
               const role = _.find(vm.roles, (r) => r['code'] === hasLicense[0]['shop_role']);
-              console.log(vm.roles);
               return role ? role['name'] : 'NONE';
             } else {
               return "NONE";
@@ -99,8 +116,37 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {
           className: "status",
           targets: [4],
-          render(hasLicense) {
-            return _.size(hasLicense) === 1 && parseInt(hasLicense[0]['status']) === 1 ? "Active" : "Deactive";
+          render(status) {
+            if (typeof  status !== 'undefined') {
+              return parseInt(status) === 1 ? 'Active' : 'Deactive';
+            } else {
+              return "Active";
+            }
+          },
+          izFilter: {
+            name: 'Status',
+            type: 'select',
+            dataOptions: [
+              {
+                name: "Please select...",
+                value: null
+              },
+              {
+                name: 'Active',
+                value: 1
+              },
+              {
+                name: 'Deactive',
+                value: 0
+              }
+            ],
+            filter: (filterComp) => {
+              if (parseInt(filterComp['value']) === 1) {
+                return {};
+              } else {
+                return {status: 0};
+              }
+            }
           }
         }
       ],

@@ -1,0 +1,4 @@
+<div class="form-group col-lg-3 col-md-4 col-sm-6">
+  <label>{{filterConfig['name']}}</label>
+  <input class="form-control" type="text" placeholder="" [value]="filterValue" (change)="filterValueChange.emit($event.target['value'])">
+</div>

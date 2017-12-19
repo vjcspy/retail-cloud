@@ -29,7 +29,8 @@
       "source-map",
       "uglify-js",
       "webpack",
-      "meteor-typings"
+      "meteor-typings",
+      "datatables.net"
     ]
   },
   "exclude": [
