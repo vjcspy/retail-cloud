@@ -109,25 +109,11 @@ export const CLOUD_ROUTES: Routes = [
               },
               {
                 path: 'create',
-                component: ProductFormComponent
+                component: ProductGeneralComponent
               },
               {
-                path: 'edit',
-                component: ProductFormComponent,
-                children: [
-                  {
-                    path: ':id',
-                    component: ProductGeneralComponent,
-                  },
-                  {
-                    path: 'general/:id',
-                    component: ProductGeneralComponent,
-                  },
-                  {
-                    path: 'api/:id',
-                    component: ProductApiComponent,
-                  },
-                ]
+                path: 'edit/:id',
+                component: ProductGeneralComponent
               }
             ]
           },
