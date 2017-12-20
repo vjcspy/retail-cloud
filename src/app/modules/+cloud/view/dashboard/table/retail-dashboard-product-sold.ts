@@ -52,7 +52,7 @@ export class RetailDashBoardTableProductSold {
     this.saleReportService.viewDataFilter['compare_from'] = moment(this.reportDashBoardService.viewDataFilter['dateStart'], "Do MMM YYYY");
     this.initDateRangeForSaleReport();
     
-    this.router.navigate(['/cloud/default/sale-report']);
+    this.router.navigate(['/cloud/default/salereport']);
   }
   
   getCompareValueSaleReport() {

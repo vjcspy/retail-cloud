@@ -4,6 +4,7 @@ import {CloudComponent} from "./cloud.component";
 import {AuthGuard} from "../../services/router-guard/auth-guard";
 import {CloudSaleReportPage} from "./view/report/report.component";
 import {DashboardPage} from "./view/dashboard/dashboard";
+import {PermissionGuard} from "../../services/router-guard/permission-guard";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -17,17 +18,15 @@ export const CLOUD_ROUTES: Routes = [
         children: [
           {
             path: 'dashboard',
-            component: DashboardPage
+            component: DashboardPage,
+            canActivate: [PermissionGuard]
           },
           {
-            path: 'sale-report',
-            component: CloudSaleReportPage
+            path: 'salereport',
+            component: CloudSaleReportPage,
+            canActivate: [PermissionGuard]
           }
         ]
-      },
-      {
-        path: 'report',
-        component: CloudSaleReportPage
       },
     ]
   }

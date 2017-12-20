@@ -16,14 +16,14 @@
         <li>
           <a class="nav-submenu" data-toggle="nav-submenu">
             <i class="ion-pie-graph"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/dashboard" routerLinkActive="active">Dashboard</span>
+            <span class="sidebar-mini-hide" (click)="openDashboard()">Dashboard</span>
           </a>
         </li>
         <!--<li *ngIf="authenticate.isUser(accountState.user)">-->
         <li>
           <a class="nav-submenu" data-toggle="nav-submenu">
             <i class="ion-social-buffer"></i>
-            <span class="sidebar-mini-hide" routerLink="/cloud/default/sale-report" routerLinkActive="active">Sales Report</span>
+            <span class="sidebar-mini-hide" (click)="openSalesReport()">Sales Report</span>
           </a>
         </li>
       </ul>

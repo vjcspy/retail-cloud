@@ -4,6 +4,7 @@ import {Subscription} from "rxjs/Subscription";
 import {AccountActions} from "../R/account/account.actions";
 import {AppStorage} from "./storage";
 import {Permission} from "./user/Permission";
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthenticateService {
@@ -35,13 +36,13 @@ export class AuthenticateService {
   }
   
   userCan(permission: string) {
-    return true;
-    // let localUser        = this.storage.localRetrieve('user');
-    // let activePermission = localUser['permission'];
-    // if (_.indexOf(activePermission, Permission.getOrderClientStatus(permission)) != -1) {
-    //   return true;
-    // }
-    // return false;
+    // return true;
+    let localUser        = this.storage.localRetrieve('user');
+    let activePermission = localUser['permission'];
+    if (_.indexOf(activePermission, Permission.getOrderClientStatus(permission)) != -1) {
+      return true;
+    }
+    return false;
   }
   
   private _whenAccountUpdate(accountUser) {
