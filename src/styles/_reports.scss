@@ -212,9 +212,9 @@
 	    .datatable-col-header-row{
 			color: $white;
 			background-color: #92a1ab;
-			height: 55px;
 			border-top-left-radius: 7px;
 			border-top-right-radius: 7px;
+			height: 50px;
 			th{
 				font-size: 20px;
 				font-weight: 700;
@@ -460,11 +460,11 @@
 					}
 					.datatable-col-aggs-header-outer{
 						text-align: center;
-						line-height: 50px;
+						/* line-height: 50px; */
 						position: relative;
 						display: inline-block;
-						height: 100%;
-						width: 100%;
+						/* height: 100%;
+						width: 100%; */
 						padding: 3px 0;
 						overflow-wrap: normal;
 					}
@@ -476,9 +476,10 @@
 						text-transform: uppercase;
 						-webkit-transform: rotate(-180deg);
 						transform: rotate(-180deg);
-						height: 100%;
-						width: 100%;
+						/* height: 100%;
+						width: 100%; */
 						font-weight: 300;
+						text-align: center;
 					}
 	   			}
 	   		}
@@ -731,7 +732,7 @@
 		}
 		//filter-fields
 		.filter-fields{
-			background-color: $border-color;
+			background-color: #fff;
 			padding: 15px 20px;
 			margin-top: 15px;
 			border-radius: 4px;
@@ -742,7 +743,7 @@
 				top: -20px;
 				left: 12px;
 				font-size: 30px;
-				color: $border-color;
+				color: #fff;
 			}
 			.form-group{
 				margin-bottom: 30px;
@@ -751,6 +752,22 @@
 				}
 				.form-control{
 					font-weight: 400;
+					background-color: #e9eef1;
+					&:focus {
+						background-color: #d6dde1;
+					}
+					&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+						color: transparent;
+					}
+					&::-moz-placeholder { /* Firefox 19+ */
+					color: transparent;
+					}
+					&:-ms-input-placeholder { /* IE 10+ */
+					color: transparent;
+					}
+					&:-moz-placeholder { /* Firefox 18- */
+					color: transparent;
+					}
 				}
 				.select2-container {
 					.select2-selection--multiple{
@@ -771,8 +788,15 @@
 				}
 			}
 			.group-btn{
-				border-top: 2px solid #999;
+				border-top: 1px solid #d6dde1;
 				padding-top: 20px;
+				.btn {
+					padding: 5px 0;
+				} 
+				i {
+					margin-right: 8px;
+					font-size: 20px;
+				}
 			}
 
 		}
