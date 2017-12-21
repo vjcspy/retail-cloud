@@ -52,6 +52,7 @@ export class CloudSaleReportItemComponent {
       } else {
         this.service.getMoreItemData(this.item['value']);
       }
+      this.item['display_item_detail'] = true;
     }
   }
   
@@ -67,7 +68,7 @@ export class CloudSaleReportItemComponent {
   }
   
   customizeChevron() {
-    if (this.service.viewDataFilter['display_item_detail'] || this.item['display_item_detail'] == true) {
+    if (this.item['display_item_detail'] == true) {
       return false;
     }
     return true;
