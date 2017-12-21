@@ -172,16 +172,16 @@
 
 		tbody{
 	    	.datatable-row{
-		    	&:nth-child(2n+2){
+		    	/* &:nth-child(2n+2){
 		    		background-color: #f0f0f0;
-		    	}
+		    	} */
 	    	}
 	    	&:nth-child(2n+1){
 	    		/* background-color: #befaf6; */
 	    		.datatable-row{
-	    			&:nth-child(2n+2){
+	    			/* &:nth-child(2n+2){
 			    		background-color: $white;
-			    	}
+			    	} */
 			    	/* &:nth-child(2n+1){
 			    		background-color: #f0f0f0;
 			    	} */
@@ -370,7 +370,7 @@
 				padding-right: 14px;
 	    	}
 	    	td,th{
-				background-color: rgba(65,65,65,.04);
+				background-color: #f0f4f7;
 				border-top-width: 1px;
 				border-bottom-width: 1px;
 				font-size: 14px;
@@ -386,6 +386,7 @@
 
 	    }
 		.datatable-row-col-totals {
+			color: #333 !important;
 			th {
 				text-align: left;
 				padding-left: 20px;
@@ -396,15 +397,13 @@
 				padding-right: 14px;
 			}
 			td, th {
-				background-color: rgba(65, 65, 65, .04);
+				background-color: #f0f4f7;
 				border-top-width: 1px;
 				border-bottom-width: 1px;
 				font-size: 15px;
 				font-weight: 700;
 				&:last-child {
 					border-right-width: 1px;
-
-					//border-bottom-right-radius: 7px;
 				}
 			}
 			.datatable-row-col-totals--start {
@@ -412,7 +411,7 @@
 			}
 		}
 		.total_summary_report {
-			background-color: #f0f4f7 !important;
+			background-color: #fff !important;
 			tr {
 				&:last-child {
 					border-collapse: collapse !important;
@@ -446,7 +445,8 @@
 	   		th{
 	   			&.datatable-col-aggs-header{
 					width: 50px;
-					height: 150px;
+					/* height: 150px; */
+					white-space: nowrap;
 					text-align: center;
 					color: $white;
 					background-color: #92a1ab;
@@ -637,6 +637,7 @@
 						display: inline-block;
 						margin: 6px 2px 0;
 						padding: 6px 9px;
+						float: none;
 					}
 					.txt-num{
 						width: 70px;
