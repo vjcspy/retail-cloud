@@ -139,7 +139,12 @@ export class FormValidationService {
                 isValid: false,
                 mess: !!mess ? mess : ""
               };
-              
+              return false;
+            }else if (_.size(value) == 1 && value[0] == ""){
+              validationInfo = {
+                isValid: false,
+                mess: !!mess ? mess : ""
+              };
               return false;
             }
           }

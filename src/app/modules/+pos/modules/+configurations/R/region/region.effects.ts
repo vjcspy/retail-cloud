@@ -122,7 +122,7 @@ export class ConfigurationsRegionEffects {
                                             region.addData(data['items'][0]);
                                             return Observable.fromPromise(region.save(data['items'][0]))
                                                              .switchMap(() => {
-                                                               this.notify.success("save_outlet_data_successfully");
+                                                               this.notify.success("Region data saved successfully");
                                                                // this.regionService.editRegionFormData = region;
                                                                this._routerActions.go('pos/configurations/default/pos/region/grid');
                                                                return Observable.from([

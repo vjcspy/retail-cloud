@@ -1,6 +1,6 @@
 <div class="acr-row add-register">
   <div class="acr-head">
-    <h2 class="click" (click)="back()">
+    <h2 class="click" (click)="back()" style="max-width: 10%">
       <span class="icon-left click"></span>
       {{!!getRegion()['id'] ? ("Edit Region"|translate):("New Region"|translate)}}
     </h2>
@@ -9,26 +9,30 @@
     <div class="inner">
       <ul class="fr-control" style="width:80% !important;">
         <li>
-          <label class="require">{{ 'Region Name' | translate }}</label>
+          <label>{{ 'Region Name' | translate }}</label>
           <retail-text [(model)]="getRegion()['region_name']"
                        [formKey]="'region_edit_data'"
                        [validation]="'required'"></retail-text>
         </li>
         <li>
           <label>{{ 'List of Outlet' | translate }}</label>
-          <retail-select2 [elementData]="getOutletSelect()" [multiple]="true"
+          <retail-select2 [elementData]="getOutletSelect()" [multiple]="true" [validation]="'required'" [formKey]="'region_edit_data'"
                           [(model)]="getRegion()['assigned_outlets']"></retail-select2>
         </li>
       </ul>
     </div>
   </div>
 </div>
-<div class="bottom-bar" style="right: inherit !important">
+<!--<div class="bottom-bar" style="right: inherit !important">-->
+<!--<div class="bottom-bar" style="right: auto !important;">-->
+  <!--<button *ngIf="!!getRegion()['id']" class="red" (click)="confirmDeleteRegion()">-->
+    <!--{{ 'Delete' | translate }}-->
+  <!--</button>-->
+<!--</div>-->
+<div class="bottom-bar" style="width: auto;">
   <button *ngIf="!!getRegion()['id']" class="red" (click)="confirmDeleteRegion()">
     {{ 'Delete' | translate }}
   </button>
-</div>
-<div class="bottom-bar">
   <button (click)="saveRegion()">
     {{getRegion()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
   </button>

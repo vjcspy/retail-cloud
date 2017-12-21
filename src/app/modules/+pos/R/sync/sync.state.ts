@@ -3,6 +3,7 @@ import {makeTypedFactory, TypedRecord} from "typed-immutable-record";
 export interface PosOrderSync {
   outlet_id: number;
   register_id: number;
+  retail_user :string;
   retail_note: string;
   reference_number: string;
   user_id: string;
@@ -40,6 +41,7 @@ export const posOrderSyncFactory = makeTypedFactory<PosOrderSync, PosOrderSyncRe
   {
     outlet_id: null,
     register_id: null,
+    retail_user :null,
     retail_note: null,
     reference_number: null,
     user_id: null,

@@ -9,6 +9,7 @@ import {ConfigurationsRegionActions} from "../../../../../R/region/region.action
              // moduleId: module.id,
              selector: 'configurations-default-pos-region-grid-table',
              templateUrl: 'table.component.html',
+             styleUrls: ['table.component.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 

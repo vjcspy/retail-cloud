@@ -8,6 +8,7 @@ import {RouterActions} from "../../../../../../../../../R/router/router.actions"
              // moduleId: module.id,
              selector: 'configurations-default-pos-outlet-register-grid-table',
              templateUrl: 'table.component.html',
+             styleUrls: ['table.component.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
