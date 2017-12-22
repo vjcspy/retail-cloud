@@ -201,7 +201,7 @@
                 <label for="modal-version-descriptions">Descriptions</label>
               </th>
               <td>
-                <textarea class="form-control" id="modal-version-descriptions" name="modal-version-descriptions" cols="30" rows="10" placeholder="Descriptions" [(ngModel)]="version.descriptions"></textarea>
+                <ck-editor  id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions" [(ngModel)]="version.descriptions" [config]="config"></ck-editor>
               </td>
             </tr>
               <tr>
@@ -209,7 +209,7 @@
                       <label for="modal-version-changelog">Change Log</label>
                   </th>
                   <td>
-                      <textarea class="form-control" id="modal-version-changelog" name="modal-version-changelog" cols="30" rows="10" placeholder="Change Log"[ngModel]="version.changelog"></textarea>
+                     <ck-editor  id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"  [ngModel]="version.changelog" [config]="config"></ck-editor>
                   </td>
               </tr>
           </table>
