@@ -466,11 +466,12 @@ export class SaleReportService {
           .subscribe(
             (data) => {
               if (_.isObject(data)) {
-                this.convertData(data['items'], data['group_data'], data['base_currency']);
                 if (data['date_ranger']){
                   this.viewDataFilter['current_dateStart'] = data['date_ranger']['date_start'];
                   this.viewDataFilter['current_dateEnd'] = data['date_ranger']['date_end'];
                 }
+                this.convertData(data['items'], data['group_data'], data['base_currency']);
+              
                 this.viewState.isOverLoad = true ;
                 this.viewState.isOverLoadReport = false ;
                 this.updateOverLoadSteam().next();

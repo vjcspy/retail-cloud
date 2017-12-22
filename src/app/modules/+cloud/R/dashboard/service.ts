@@ -168,13 +168,13 @@ export class DashboardReportService {
     return this.stream.update_view;
   }
   
-  updateStatus(){
-    if(!this.stream.hasOwnProperty('update_status')){
-      this.stream.update_status = new Subject();
-      this.stream.update_status = <any>this.stream.update_status.share();
-    }
-    return this.stream.update_status;
-  }
+  // updateStatus(){
+  //   if(!this.stream.hasOwnProperty('update_status')){
+  //     this.stream.update_status = new Subject();
+  //     this.stream.update_status = <any>this.stream.update_status.share();
+  //   }
+  //   return this.stream.update_status;
+  // }
   
 }
 
