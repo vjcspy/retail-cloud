@@ -41,10 +41,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   protected validation;
   protected jFormVersion;
   protected validVersion;
-  protected displayApiTab: string = 'none';
-  protected displayGeneralTab: string = 'block';
-  protected activeClass1: string = 'active';
-  protected activeClass2: string = '';
+  protected versionForAll;
+  protected tab: string = 'general';
   public productState$: Observable<ProductState>;
   
   constructor(public productCollection: ProductCollection,
@@ -185,6 +183,12 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                             $(e).closest('tr').removeClass('has-error');
                                             $(e).closest('.help-block').remove();
                                         },
+                                        rules:        {
+                                            'product-api-version': {
+                                                  required: true,
+                                                  pattern:  /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+                                                      }
+                                                  },
                                     });
     // $(document).ready(() => {
     //   $(document).on('show.bs.modal', '#modal-product-versions', () => {
@@ -214,18 +218,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   goBack() {
     this.routerActions.go('cloud/default/product/list');
   }
-  showGeneralTab() {
-  this.displayApiTab = 'none';
-  this.displayGeneralTab = 'block';
-  this.activeClass1 = 'active';
-  this.activeClass2 = '';
-  }
-  showApiTab() {
-      this.displayApiTab = 'block';
-      this.displayGeneralTab = 'none';
-      this.activeClass2 = 'active';
-      this.activeClass1 = '';
-  }
   editVersion(vIndex) {
     // this.resetModalVersion();
       if(vIndex === -1) {
@@ -238,11 +230,9 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
       jQuery('#modal-product-versions')['modal']('show');
   }
     isSelectedLicense(id) {
-      console.log(this.version['license_compatible']);
       return _.isArray(this.version['license_compatible']) && _.indexOf(this.version['license_compatible'].map((_v) => _v['license_id']), id) > -1;
     }
     isSelectedApi(version) {
-        console.log(_.isArray(this.version['api_compatible']));
         return _.isArray(this.version['api_compatible']) && _.indexOf(this.version['api_compatible'].map((_a) => _a['version']), version) > -1;
     }
   saveVersion() {
@@ -251,7 +241,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           let apiCompatible      = jQuery('#modal-version-api').val();
           if (this.type === 'specified') {
               if (_.isArray(licensesCompatible)) {
-                  this.version['license_compatible'] = licensesCompatible.map(function (license_id) {
+                  this.version['license_compatible'] = licensesCompatible.map( (license_id) => {
                       let rObj           = {};
                       rObj['license_id'] = license_id;
                       return rObj;
@@ -264,7 +254,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               this.version['license_compatible'] = [];
           }
           if (_.isArray(apiCompatible)) {
-              this.version['api_compatible'] = apiCompatible.map(function (version) {
+              this.version['api_compatible'] = apiCompatible.map( (version) => {
                   let apiObj = {};
                   apiObj['version'] = version;
                   return apiObj;
@@ -276,7 +266,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           if (this.versionId === -1) {
               this.version['directory_path'] = 'unknown';
               this.product.versions.push(this.version);
-              console.log(this.product.versions);
           } else {
               this.product.versions[this.versionId] = this.version;
           }
@@ -295,7 +284,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     this.versionId = -1;
     this.version = {};
     this.type = 'all';
-    console.log(this.version);
     jQuery('#modal-product-versions')['modal']('show');
   }
     closeVersionModal(): void {
@@ -305,7 +293,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     showProductApi(index) {
         this.apiVersionId = index;
         this.apiVersion = Object.assign({} , this.product['api_versions'][this.apiVersionId]);
-        console.log(this.apiVersion);
         jQuery('#modal-product-api')['modal']('show');
     }
     
@@ -323,10 +310,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
             if (this.apiVersionId === -1) {
                 this.apiVersion['directory_path'] = 'unknown';
                 this.product['api_versions'].push(this.apiVersion);
-                console.log(this.product.versions);
             } else {
                 this.product['api_versions'][this.apiVersionId] = this.apiVersion;
-                console.log(this.product.versions);
             }
             this.closeApiModal();
         }
@@ -338,7 +323,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
         if (this.jForm.valid()) {
             let pricings = jQuery("#val-pricings").val();
             if (_.isArray(pricings)) {
-                this.product['has_pricing'] = pricings.map(function (id) {
+                this.product['has_pricing'] = pricings.map( (id) => {
                     let rObj           = {};
                     rObj['pricing_id'] = id;
                     return rObj;
@@ -347,6 +332,13 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                 this.notify.error("wrong_format_pricing");
                 return;
             }
+            this.versionForAll = _.find(this.product['versions'], (v) => {
+                return v['license_compatible'].length < 1;
+            });
+            if (!this.versionForAll) {
+                this.notify.error("Product need at least one version apply for all licenses");
+                return false;
+            }
             this.productActions.saveProduct(this.product);
             this.goBack();
         }
@@ -354,8 +346,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     
     displayLicenses() {
       if(this.type === "specified") {
-          return true;
+          return 'block';
       }
-      return false;
+      return 'none';
     }
 }
