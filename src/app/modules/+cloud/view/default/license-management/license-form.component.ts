@@ -151,7 +151,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     });
     
     // user select2
-    jQuery('#val-owner')['select2']().on('change', function (e) {
+    jQuery('#val-owner')['select2']().on('change', (e) => {
       jQuery(this)['valid']();
       vm.license['shop_owner_id'] = jQuery(this).val();
       vm.changeDetectorRef.detectChanges();
