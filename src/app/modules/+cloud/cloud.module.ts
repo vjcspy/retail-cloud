@@ -13,13 +13,14 @@ import {CLOUD_SERVICES} from "./services/index";
 import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braintree.module";
 import {MenuActions} from "./R/menu/actions";
 import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
-
+import { CKEditorModule } from 'ngx-ckeditor';
 @NgModule({
             imports: [
               ShareModule,
               AngularMeteorModule,
               RouterModule.forChild(CLOUD_ROUTES),
               PaymentBraintreeModule,
+              CKEditorModule,
               ...R_EFFECTS,
             ],
             exports: [],

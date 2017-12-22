@@ -5,19 +5,19 @@
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
           <ul class="nav nav-tabs">
-            <li class="{{activeClass1}}">
-              <a (click)="showGeneralTab()" >
+            <li [ngClass]="{'active': tab ==='general'}">
+              <a (click)="tab ='general'" >
                 {{ isEditingProduct() ? "Update Product" : "Create Product"}}
               </a>
             </li>
-            <li class="{{activeClass2}}">
-              <a  (click)="showApiTab()">API Management</a>
+            <li [ngClass]="{'active': tab ==='api'}">
+              <a  (click)=" tab = 'api'">API Management</a>
             </li>
           </ul>
         </div>
 <div class="panel-body">
   <!-- General tab -->
-  <div id="generalTab" class="tab-content" [ngStyle]="{'display':displayGeneralTab}">
+  <div id="generalTab" class="tab-content" [hidden]="tab !== 'general'">
     <div class="tab-pane fade in active" id="tab1default">
       <form class="js-validation-product form-horizontal">
         <div class="form-content">
@@ -96,7 +96,7 @@
     </div>
   </div>
   <!-- API tab -->
-  <div id="apiTab"  class="tab-content" [ngStyle]="{'display':displayApiTab}">
+  <div id="apiTab"  class="tab-content" [hidden]="tab !== 'api'">
     <div class="tab-pane fade in active form-content" id="api-management">
       <button class="btn btn-xs btn-success" (click)="resetModalApi()" style="margin-left: 0;">Create New</button>
 
@@ -166,7 +166,7 @@
                   <option value="all">All Licenses</option>
                   <option value="specified">Specified Licenses</option>
                 </select>
-                <select multiple="multiple" class="form-control" name="modal-version-specified-licenses" id="modal-version-specified-licenses" required style="width: 100%;" *ngIf="displayLicenses()">
+                <select multiple="multiple" class="form-control" name="modal-version-specified-licenses" id="modal-version-specified-licenses" required style="width: 100%;" [ngStyle]="{'display': displayLicenses()}">
                   <option *ngFor="let license of licenses" [value]="license['_id']" [selected]="isSelectedLicense(license._id)">
                     {{ license.key + ' | ' + license.shop_owner_username }}
                   </option>
@@ -201,7 +201,7 @@
                 <label for="modal-version-descriptions">Descriptions</label>
               </th>
               <td>
-                <textarea class="form-control" id="modal-version-descriptions" name="modal-version-descriptions" cols="30" rows="10" placeholder="Descriptions" [(ngModel)]="version.descriptions"></textarea>
+                <ck-editor  id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions" [(ngModel)]="version.descriptions" [config]="config"></ck-editor>
               </td>
             </tr>
               <tr>
@@ -209,7 +209,7 @@
                       <label for="modal-version-changelog">Change Log</label>
                   </th>
                   <td>
-                      <textarea class="form-control" id="modal-version-changelog" name="modal-version-changelog" cols="30" rows="10" placeholder="Change Log"[ngModel]="version.changelog"></textarea>
+                     <ck-editor  id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"  [ngModel]="version.changelog" [config]="config"></ck-editor>
                   </td>
               </tr>
           </table>
