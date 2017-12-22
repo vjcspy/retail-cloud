@@ -13,6 +13,7 @@ import {CLOUD_SERVICES} from "./services/index";
 import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braintree.module";
 import {MenuActions} from "./R/menu/actions";
 import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
+import {FileUploadModule} from "ng2-file-upload";
 
 @NgModule({
             imports: [
@@ -20,6 +21,7 @@ import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
               AngularMeteorModule,
               RouterModule.forChild(CLOUD_ROUTES),
               PaymentBraintreeModule,
+              FileUploadModule,
               ...R_EFFECTS,
             ],
             exports: [],
