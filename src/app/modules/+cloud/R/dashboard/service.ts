@@ -52,10 +52,12 @@ export class DashboardReportService {
       dateStart: moment().format("Do MMM YYYY"),
       dateEnd: moment().format("Do MMM YYYY")
     };
-    this.viewData       = {
+    this.viewData = {
       list_date_filter: [],
       items: [],
-      topUser : []
+      topUser : [],
+      product_sold : [],
+      product_trend_data : []
     };
   }
   
@@ -87,7 +89,7 @@ export class DashboardReportService {
   private postDashboardReport(report) {
     let defer = $q.defer();
     this.viewState.isOverLoad = false ;
-    // this.updateStatus().next();
+    this.updateView().next();
 
     let _query = this.apiUrlManager.get('dashboard', this.baseUrl);
     this.requestService.makePost(_query, report)
@@ -117,7 +119,9 @@ export class DashboardReportService {
     this.viewData = {
       list_date_filter: [],
       items: [],
-      topUser : []
+      topUser : [],
+      product_sold : [],
+      product_trend_data : []
     };
     this.viewData['current_currency'] = itemsData['current_currency'];
     this.viewData['list_date_filter'] = itemsData['list_date_filter'];
@@ -164,13 +168,13 @@ export class DashboardReportService {
     return this.stream.update_view;
   }
   
-  // updateStatus(){
-  //   if(!this.stream.hasOwnProperty('update_status')){
-  //     this.stream.update_status = new Subject();
-  //     this.stream.update_status = <any>this.stream.update_status.share();
-  //   }
-  //   return this.stream.update_status;
-  // }
+  updateStatus(){
+    if(!this.stream.hasOwnProperty('update_status')){
+      this.stream.update_status = new Subject();
+      this.stream.update_status = <any>this.stream.update_status.share();
+    }
+    return this.stream.update_status;
+  }
   
 }
 

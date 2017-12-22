@@ -38,7 +38,7 @@
 		</div>
 	</div>
   <div class="dashboard-primary-content">
-    <div class="dashboard-container clearfix">
+    <div class="dashboard-container clearfix" *ngIf="!checkChartDataExsit()">
       <!--<retail-dashboard-chart [typeChart]="typeChart.value"-->
                               <!--[data_view]="getViewData(typeChart.value)"-->
                               <!--[period]="getPeriodValue()"-->
