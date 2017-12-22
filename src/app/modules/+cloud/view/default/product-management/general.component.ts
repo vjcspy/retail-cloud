@@ -24,16 +24,27 @@ import {UPLOAD_CLIENT_PACKAGE_URL} from '../../../../../../../config/constant.js
 
 export class ProductGeneralComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public product  = {
-    pricings:    [],
+    has_pricing:    [],
     versions:    [],
-    apiVersions: []
+    api_versions: []
   };
   public prices   = [];
-  public data     = {};
   public licenses = [];
-  
+  protected version = {};
+  public type: String;
+  protected versionId;
+  protected apiVersion = {};
+  protected apiVersionId;
+  protected jFormApi;
+  protected validApi;
+  protected jForm;
   protected validation;
-  
+  protected jFormVersion;
+  protected validVersion;
+  protected displayApiTab: string = 'none';
+  protected displayGeneralTab: string = 'block';
+  protected activeClass1: string = 'active';
+  protected activeClass2: string = '';
   public productState$: Observable<ProductState>;
   
   constructor(public productCollection: ProductCollection,
@@ -84,22 +95,13 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   ngAfterViewInit() {
     let url = this.router.url;
-    $('ul.nav-tabs li:first-child').attr('class', 'active');
-    $('ul.nav-tabs li:nth-child(2)').attr('class', '');
-    $('ul.nav-tabs li:first-child a').attr('href', '/#' + url);
-    
-    if( url.search('general') !== -1 ) {
-      url = url.replace('general', 'api');
-    } else {
-      url = url.replace('edit', 'edit/api');
-    }
-    $('ul.nav-tabs li:nth-child(2) a').attr('href', '/#' + url);
   }
   
   private initPageJs() {
     let vm          = this;
     let apiUrl      = UPLOAD_CLIENT_PACKAGE_URL;
-    this.validation = jQuery('.js-validation-product')['validate']({
+    this.jForm = jQuery('.js-validation-product');
+    this.validation = this.jForm['validate']({
       errorClass:   'help-block text-right animated fadeInDown',
       errorElement: 'div',
       errorPlacement(error, e) {
@@ -146,28 +148,10 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           required: 'Please select at least choose one pricing',
         },
       },
-      submitHandler() {
-        let pricings = jQuery("#val-pricings").val();
-        
-        if (_.isArray(pricings)) {
-          _.forEach(pricings, (pricing_id) => {
-            if (_.isArray(vm.product['has_pricing'])) {
-              vm.product['has_pricing'].push({pricing_id});
-            } else {
-              vm.product['has_pricing'] = [];
-            }
-          });
-        } else {
-          vm.notify.error("wrong_format_pricing");
-          return;
-        }
-        
-        console.log(vm.product);
-        vm.productActions.saveProduct(vm.product);
-      }
     });
     
-    $('#product-version')['validate']({
+    this.jFormVersion = jQuery('#product-version');
+    this.validVersion = this.jFormVersion['validate']({
       errorClass:   'help-block text-left animated fadeInDown',
       errorElement: 'div',
       highlight(e) {
@@ -184,150 +168,43 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           pattern:  /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
         }
       },
-      submitHandler() {
-        let versionId = $('#modal-version-id').val();
-        let license  = {
-          type:  $('#modal-version-licenses option:selected').val(),
-          licenses: []
-        };
-        if ($('#modal-version-licenses option:selected').val() === 'specified') {
-          license.licenses = $('#modal-version-specified-licenses').val();
-        }
-        
-        let path = '';
-        if (versionId === '-1') {
-          let file = $('#modal-version-path')[0]['files'][0];
-          if (typeof(file) !== 'undefined') {
-            let formData = new FormData();
-            formData.append('fileAbc', file, file.name);
-            
-            // uploadFile(data, updateProduct())
-            $.ajax({
-              url:         apiUrl,
-              type:        'POST',
-              data:        formData,
-              cache:       false,
-              dataType:    'json',
-              processData: false, // Don't process the files
-              contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-              success:     (data, textStatus, jqXHR) => {
-                path = data.data.path;
-                
-                vm.product.versions.push(
-                  {
-                    name:         $('#modal-version-name').val(),
-                    version:      $('#modal-version-version').val(),
-                    licenses:    license,
-                    api:          $('#modal-version-api').val(),
-                    path,
-                    descriptions: $('#modal-version-descriptions').val(),
-                    apiVersions:  {},
-                    created_at:   moment().toDate(),
-                    updated_at:   moment().toDate(),
-                  }
-                );
-                vm.changeDetectorRef.detectChanges();
-                vm.disableLoadingModal();
-                $('.close').click();
-              },
-              error:       (jqXHR, textStatus, errorThrown) => {
-                console.log('error: ', textStatus);
-                alert('Sorry, Cannot upload package !');
-                vm.disableLoadingModal();
-                $('.close').click();
-              }
-            });
-          }
-        } else {
-          let file = $('#modal-version-path')[0]['files'][0];
-          if (typeof(file) !== 'undefined') {
-            let formData = new FormData();
-            formData.append('fileAbc', file, file.name);
-            
-            // uploadFile(data, updateProduct())
-            $.ajax({
-              url:         apiUrl,
-              type:        'POST',
-              data:        formData,
-              cache:       false,
-              dataType:    'json',
-              processData: false, // Don't process the files
-              contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-              success:     (data, textStatus, jqXHR) => {
-                path = data.data.path;
-                
-                vm.product.versions[versionId].name         = $('#modal-version-name').val();
-                vm.product.versions[versionId].version      = $('#modal-version-version').val();
-                vm.product.versions[versionId].licenses     = license;
-                vm.product.versions[versionId].api          = $('#modal-version-api').val();
-                vm.product.versions[versionId].path         = path;
-                vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
-                vm.product.versions[versionId].updated_at   = moment().toDate();
-                
-                vm.changeDetectorRef.detectChanges();
-                vm.disableLoadingModal();
-                $('.close').click();
-              },
-              error:       (jqXHR, textStatus, errorThrown) => {
-                console.log('error: ', textStatus);
-                alert('Sorry, Cannot upload package !');
-                vm.disableLoadingModal();
-                $('.close').click();
-              }
-            });
-          } else {
-            // updateProduct()
-            
-            vm.product.versions[versionId].name         = $('#modal-version-name').val();
-            vm.product.versions[versionId].version      = $('#modal-version-version').val();
-            vm.product.versions[versionId].licenses     = license;
-            vm.product.versions[versionId].api          = $('#modal-version-api').val();
-            vm.product.versions[versionId].descriptions = $('#modal-version-descriptions').val();
-            vm.product.versions[versionId].updated_at   = moment().toDate();
-            
-            vm.changeDetectorRef.detectChanges();
-            vm.disableLoadingModal();
-            $('.close').click();
-          }
-        }
-        
-        vm.loadingModal();
-      },
     });
     
     jQuery("#val-pricings")['select2']();
-    jQuery("#modal-version-api")['select2']();
-    jQuery("#modal-version-specified-licenses")['select2']();
-    
-    $(document).ready(() => {
-      $(document).on('show.bs.modal', '#modal-product-versions', () => {
-        if ($('#modal-version-licenses option:selected').val() === 'specified') {
-          $('#modal-version-specified-licenses').next().css('display', 'block');
-        } else {
-          $('#modal-version-specified-licenses').next().css('display', 'none');
-        }
-      });
-      
-      $('#modal-version-licenses').on('change', () => {
-        if ($('#modal-version-licenses option:selected').val() === 'specified') {
-          $('#modal-version-specified-licenses').next().css('display', 'block');
-        } else {
-          $('#modal-version-specified-licenses').next().css('display', 'none');
-        }
-      });
-    });
+    // jQuery("#modal-version-api")['select2']();
+    // jQuery("#modal-version-specified-licenses")['select2']();
+    this.jFormApi = jQuery('#product-api');
+    this.validApi = this.jFormApi['validate']({
+                                        errorClass:   'help-block text-left animated fadeInDown',
+                                        errorElement: 'div',
+                                        highlight(e) {
+                                            $(e).closest('tr').removeClass('has-error').addClass('has-error');
+                                            $(e).closest('.help-block').remove();
+                                        },
+                                        success(e) {
+                                            $(e).closest('tr').removeClass('has-error');
+                                            $(e).closest('.help-block').remove();
+                                        },
+                                    });
+    // $(document).ready(() => {
+    //   $(document).on('show.bs.modal', '#modal-product-versions', () => {
+    //     if ($('#modal-version-licenses option:selected').val() === 'specified') {
+    //       $('#modal-version-specified-licenses').next().css('display', 'block');
+    //     } else {
+    //       $('#modal-version-specified-licenses').next().css('display', 'none');
+    //     }
+    //   });
+    //
+    //   $('#modal-version-licenses').on('change', () => {
+    //     if ($('#modal-version-licenses option:selected').val() === 'specified') {
+    //       $('#modal-version-specified-licenses').next().css('display', 'block');
+    //     } else {
+    //       $('#modal-version-specified-licenses').next().css('display', 'none');
+    //     }
+    //   });
+    // });
     
     // vm.changeDetectorRef.detectChanges();
-  }
-  
-  loadingModal() {
-    $('button.modal-add-version').addClass('disabled');
-    $('button.modal-add-version').append(' <i class="fa fa-spinner fa-spin"></i>');
-  }
-  
-  disableLoadingModal() {
-    $('button.modal-add-version').removeClass('disabled');
-    $('button.modal-add-version').text('Save');
   }
   
   isEditingProduct() {
@@ -337,22 +214,75 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   goBack() {
     this.routerActions.go('cloud/default/product/list');
   }
-  
-  editVersion(vIndex) {
-    this.resetModalVersion();
-    let license = this.product.versions[vIndex]['licenses'] ? this.product.versions[vIndex]['licenses'] : {type: '', licenses: ''};
-    
-    $('#modal-version-id').val(vIndex);
-    $('#modal-version-name').val(this.product.versions[vIndex]['name']);
-    $('#modal-version-version').val(this.product.versions[vIndex]['version']);
-    $('#modal-version-licenses').val(license.type);
-    $('#modal-version-specified-licenses').val(license.licenses).trigger('change');
-    $('#modal-version-api').val(this.product.versions[vIndex]['api']).trigger('change');
-    $('#modal-version-path').removeAttr('required');
-    $('#modal-version-path-display').text(this.product.versions[vIndex]['path']);
-    $('#modal-version-descriptions').val(this.product.versions[vIndex]['descriptions']);
+  showGeneralTab() {
+  this.displayApiTab = 'none';
+  this.displayGeneralTab = 'block';
+  this.activeClass1 = 'active';
+  this.activeClass2 = '';
   }
-  
+  showApiTab() {
+      this.displayApiTab = 'block';
+      this.displayGeneralTab = 'none';
+      this.activeClass2 = 'active';
+      this.activeClass1 = '';
+  }
+  editVersion(vIndex) {
+    // this.resetModalVersion();
+      if(vIndex === -1) {
+        this.type = 'all';
+      } else {
+          this.versionId = vIndex;
+          this.version   = Object.assign({}, this.product.versions[this.versionId]);
+          this.type      = this.product.versions[vIndex]['license_compatible'].length > 0 ? 'specified' : 'all';
+      }
+      jQuery('#modal-product-versions')['modal']('show');
+  }
+    isSelectedLicense(id) {
+      console.log(this.version['license_compatible']);
+      return _.isArray(this.version['license_compatible']) && _.indexOf(this.version['license_compatible'].map((_v) => _v['license_id']), id) > -1;
+    }
+    isSelectedApi(version) {
+        console.log(_.isArray(this.version['api_compatible']));
+        return _.isArray(this.version['api_compatible']) && _.indexOf(this.version['api_compatible'].map((_a) => _a['version']), version) > -1;
+    }
+  saveVersion() {
+      if (this.jFormVersion.valid()) {
+          let licensesCompatible = jQuery('#modal-version-specified-licenses').val();
+          let apiCompatible      = jQuery('#modal-version-api').val();
+          if (this.type === 'specified') {
+              if (_.isArray(licensesCompatible)) {
+                  this.version['license_compatible'] = licensesCompatible.map(function (license_id) {
+                      let rObj           = {};
+                      rObj['license_id'] = license_id;
+                      return rObj;
+                  });
+              } else {
+                  this.notify.error("wrong_format_licensesCompatible");
+                  return;
+              }
+          } else {
+              this.version['license_compatible'] = [];
+          }
+          if (_.isArray(apiCompatible)) {
+              this.version['api_compatible'] = apiCompatible.map(function (version) {
+                  let apiObj = {};
+                  apiObj['version'] = version;
+                  return apiObj;
+              });
+          } else {
+              this.notify.error("wrong_format_licensesCompatible");
+              return;
+          }
+          if (this.versionId === -1) {
+              this.version['directory_path'] = 'unknown';
+              this.product.versions.push(this.version);
+              console.log(this.product.versions);
+          } else {
+              this.product.versions[this.versionId] = this.version;
+          }
+          this.closeVersionModal();
+      }
+  }
   removeVersion(version) {
     _.remove(this.product.versions, version);
   }
@@ -360,19 +290,72 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   isSelectedPrice(id) {
     return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
-  
   resetModalVersion() {
-    this.disableLoadingModal();
-    
-    $('#modal-version-id').val(-1);
-    $('#modal-version-name').val('');
-    $('#modal-version-version').val('');
-    $('#modal-version-licenses').val('all');
-    $('#modal-version-specified-licenses').val('').trigger('change');
-    $('#modal-version-api').val('').trigger('change');
-    $('#modal-version-path').val('');
-    $('#modal-version-path-display').text('unset');
-    $('#modal-version-descriptions').val('');
-    $('.close').click();
+    // this.disableLoadingModal();
+    this.versionId = -1;
+    this.version = {};
+    this.type = 'all';
+    console.log(this.version);
+    jQuery('#modal-product-versions')['modal']('show');
   }
+    closeVersionModal(): void {
+    jQuery('#modal-product-versions')['modal']('hide');
+    }
+    
+    showProductApi(index) {
+        this.apiVersionId = index;
+        this.apiVersion = Object.assign({} , this.product['api_versions'][this.apiVersionId]);
+        console.log(this.apiVersion);
+        jQuery('#modal-product-api')['modal']('show');
+    }
+    
+    resetModalApi() {
+        this.apiVersion = {};
+        this.apiVersionId = -1;
+        jQuery('#modal-product-api')['modal']('show');
+    }
+    
+    removeProductApi(apiVersion) {
+        _.remove(this.product['api_versions'], apiVersion);
+    }
+    saveProductApi() {
+        if (this.jFormApi.valid()) {
+            if (this.apiVersionId === -1) {
+                this.apiVersion['directory_path'] = 'unknown';
+                this.product['api_versions'].push(this.apiVersion);
+                console.log(this.product.versions);
+            } else {
+                this.product['api_versions'][this.apiVersionId] = this.apiVersion;
+                console.log(this.product.versions);
+            }
+            this.closeApiModal();
+        }
+    }
+    closeApiModal(): void {
+        jQuery('#modal-product-api')['modal']('hide');
+    }
+    saveProduct() {
+        if (this.jForm.valid()) {
+            let pricings = jQuery("#val-pricings").val();
+            if (_.isArray(pricings)) {
+                this.product['has_pricing'] = pricings.map(function (id) {
+                    let rObj           = {};
+                    rObj['pricing_id'] = id;
+                    return rObj;
+                });
+            } else {
+                this.notify.error("wrong_format_pricing");
+                return;
+            }
+            this.productActions.saveProduct(this.product);
+            this.goBack();
+        }
+    }
+    
+    displayLicenses() {
+      if(this.type === "specified") {
+          return true;
+      }
+      return false;
+    }
 }
