@@ -8,6 +8,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Idle, DEFAULT_INTERRUPTSOURCES} from '@ng-idle/core';
 import {Keepalive} from '@ng-idle/keepalive';
 import {AccountActions} from "../../R/account/account.actions";
+import {ToastsManager} from "ng2-toastr";
 
 @Component({
              // moduleId: module.id,
@@ -27,10 +28,12 @@ export class PosComponent implements OnInit, OnDestroy {
               protected accountActions : AccountActions,
               protected translate: TranslateService,
               private notify: NotifyManager,
+              private toast : ToastsManager,
               protected idle: Idle, private keepalive: Keepalive) {
     this.translate.use('en');
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
+    this.toast.clearAllToasts();
     console.log('%c POS v1.0.1.201710201902 ', 'background: #222; color: #bada55');
   }
   
