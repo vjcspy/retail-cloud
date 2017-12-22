@@ -92,13 +92,13 @@ export class SaleReportService {
     };
     
     this._sortData = "Revenue";
-    this.isSortAsc = false;
+    this.isSortAsc = true;
     this.measure_selected = [];
   }
   
   initSortDefaultValue(){
     this._sortData = "Revenue";
-    this.isSortAsc = false;
+    this.isSortAsc = true;
   }
   
   initRequestReportData(filter = null, item_filter = null) {
