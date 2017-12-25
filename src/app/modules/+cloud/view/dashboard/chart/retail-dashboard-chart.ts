@@ -62,7 +62,7 @@ export class RetailDashboardChart {
         let totalAverageRevenue = this.calculateAverageWidget('revenue', 'quantity');
         data.chart_data.push(totalAverageRevenue);
       } else if (this.typeChart === 'discount_percent') {
-        let totalDiscountPercent = this.calculateAverageWidget('discount', 'revenue');
+        let totalDiscountPercent = this.calculateAverageWidget('discount', 'grand_total');
         data.chart_data.push(totalDiscountPercent);
       } else {
         let totalWidget = this.calculatedTotalWidget(this.viewData);
@@ -79,7 +79,7 @@ export class RetailDashboardChart {
     let divisorData = _.find(this.dashboardReportService.viewData['items'], (row) => { return row['type'] === divisor; });
     let totalDivisor = this.calculatedTotalWidget(divisorData);
   
-    let totalAverageRevenue = totalDividend.map(function(n, i) { return n / (totalDivisor[i] === 0 ? 1 : totalDivisor[i]); });
+    let totalAverageRevenue = totalDividend.map(function(n, i) { return n / ((totalDivisor[i] + n) === 0 ? 1 : (totalDivisor[i] + n)); });
     
     return totalAverageRevenue;
   }
