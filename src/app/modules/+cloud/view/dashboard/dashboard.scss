@@ -1,10 +1,17 @@
 .dashboard-heading {
   float: left;
+  h1 {
+    font-size: 28px;
+    font-weight: 300;
+    color: #333;
+    text-transform: capitalize;
+  }
 }
 
 .dashboard-actions {
   float: right;
   margin: 10px auto;
+  font-size: 13px;
 }
 
 .dashboard-date-content {
@@ -15,15 +22,40 @@
     display: inline-block;
     vertical-align: middle;
     line-height: inherit;
+    
     li {
       float: left;
       display: list-item;
       margin: 0;
+      &.scope span {
+        border: none;
+      }
+      &.scope + li,
       &:first-child {
         margin-left: 0;
+        a {
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+        }
+        
         .button {
           border-left: 1px #d7d7d7 solid;
+          padding: 10 15px;
+          &.next-date, &.prev-date {
+            background: transparent;
+            &:hover {
+              background: #92a1ab;
+            }
+            
+          }
         }
+      }
+      &:last-child {
+        a {
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+        }
+        
       }
       span {
         display: inline-block;
@@ -40,16 +72,16 @@
         border-width: 1px 1px 1px 0;
         border-style: solid;
         margin: 0;
-        padding: 10px;
+        padding: 10px 15px;
         background-color: #fff;
-        color: #000;
+        color: #555;
         &.secondary {
-          background-color: #f5f5f5;
-          color: #b5b5b5;
+          background-color: #92a1ab;
+          color: #fff;
         }
         &:hover {
-          background-color: #f2f2f2;
-          color: #969696;
+          background-color: #92a1ab;
+          color: #fff;
         }
       }
     }
@@ -69,7 +101,7 @@
     width: 100%;
     color: #414141;
     border: #D7D7D7 0 solid;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
     background-color: #fff;
     border: 1px solid #d7d7d7;
@@ -81,12 +113,16 @@
     position: relative;
     tr {
       height: 45px;
+      
     }
     tr,
     th,
     td {
       text-align: center;
       font-weight: 400;
+      border: #e4e3e4 1px solid;
+      border-left-width: 0;
+      border-right-width: 0;
     }
     thead th,
     tbody td {
@@ -99,6 +135,9 @@
       border-bottom: 1px solid #d7d7d7;
       &.datatable-sorting-up {
         position: relative;
+        a {
+          color: #1a958b;
+        }
         &:after {
           font-size: 10px;
           margin-left: 5px;
@@ -127,9 +166,9 @@
       padding: 0 54px 0 20px;
     }
 
-    tbody tr:nth-child(2n+1) {
+    /* tbody tr:nth-child(2n+1) {
       background-color: rgba(65, 65, 65, .03);
-    }
+    } */
     tbody tr:hover {
       background-color: rgba(0, 138, 232, .06);
     }

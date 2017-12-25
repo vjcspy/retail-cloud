@@ -15,6 +15,7 @@
     display: inline-block;
     vertical-align: middle;
     line-height: inherit;
+    
     li {
       float: left;
       display: list-item;
@@ -23,6 +24,13 @@
         margin-left: 0;
         .button {
           border-left: 1px #d7d7d7 solid;
+          &.next-date, &.prev-date {
+            background: transparent;
+            &:hover {
+              background: #92a1ab;
+            }
+            
+          }
         }
       }
       span {
@@ -69,7 +77,7 @@
     width: 100%;
     color: #414141;
     border: #D7D7D7 0 solid;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
     background-color: #fff;
     border: 1px solid #d7d7d7;
@@ -81,12 +89,16 @@
     position: relative;
     tr {
       height: 45px;
+      
     }
     tr,
     th,
     td {
       text-align: center;
       font-weight: 400;
+      border: #e4e3e4 1px solid;
+      border-left-width: 0;
+      border-right-width: 0;      
     }
     thead th,
     tbody td {
@@ -127,9 +139,9 @@
       padding: 0 54px 0 20px;
     }
 
-    tbody tr:nth-child(2n+1) {
+    /* tbody tr:nth-child(2n+1) {
       background-color: rgba(65, 65, 65, .03);
-    }
+    } */
     tbody tr:hover {
       background-color: rgba(0, 138, 232, .06);
     }
@@ -156,9 +168,14 @@
   .view-full-report {
     text-align: center;
     margin: 20px 0;
-    color: #11b4a8;
-    font-size: 24px;
-    text-decoration: underline;
+    a {
+      background: #30a59c;
+      font-size: 14px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 10px 20px;
+    }
   }
 }
 
@@ -260,7 +277,7 @@
   margin: 0 10px;
   padding-top: 1em;
   border: 1px solid #d7d7d7;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #fff;
   h1,
   h2,
@@ -271,18 +288,18 @@
     margin-right: 2rem;
     margin-bottom: 25px;
     line-height: 1em;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    color: #969696;
+    color: #999;
     text-transform: uppercase
   }
   h2 {
     line-height: 0;
     display: inline-block;
     font-weight: 300;
-    font-size: 40px;
-    letter-spacing: 2px;
-    color: #4b4b4b;
+    font-size: 48px;
+    letter-spacing: 0px;
+    color: #555;
   }
   h3 {
     font-weight: 400;
@@ -314,10 +331,11 @@
     }
     .change {
       padding-left: 15px;
-      margin-bottom: 3px
+      margin-bottom: 3px;
+      font-weight: 600;
     }
     &.positive {
-      color: #1fa79d;
+      color: #1fa69d;
       &:before {
         top: 2px;
         border-bottom-color: #1fa79d;
