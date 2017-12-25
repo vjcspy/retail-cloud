@@ -12,6 +12,7 @@ import {AccountService} from "../../R/account/account.service";
 
 export class CloudComponent extends AbstractSubscriptionComponent implements OnInit {
   constructor(private accountService: AccountService) {
+    //new report
     super();
   }
   
