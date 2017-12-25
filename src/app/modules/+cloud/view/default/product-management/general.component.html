@@ -179,52 +179,53 @@
                       </th>
                       <td>
 
-                <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api"  style="width: 100%;" >
-                  <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
-                          [selected]="isSelectedApi(apiVersion.version)">
-                    {{ apiVersion.version }}
-                  </option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="package">Package</label>
-              </th>
-              <td>
-                <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display">{{version['directory_path']}}</code>
-                <input type="file" class="form-control" id="package" name="package" ng2FileSelect [uploader]="connectPosUploader"  style="margin-top: 10px;" ><div class="progress" style="margin-top: 5px">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                               aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                            70%
+                        <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api" style="width: 100%;">
+                          <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
+                                  [selected]="isSelectedApi(apiVersion.version)">
+                            {{ apiVersion.version }}
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="package">Package</label>
+                      </th>
+                      <td>
+                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display">{{version['directory_path']}}</code>
+                        <input type="file" class="form-control" id="package" name="package" ng2FileSelect [uploader]="connectPosUploader" style="margin-top: 10px;">
+                        <div *ngIf="!!connectPosUploader.queue[0]">
+                          <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosUploader.queue[0].progress + '%' }"></div>
                           </div>
                         </div>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-descriptions">Descriptions</label>
-              </th>
-              <td>
-                <ck-editor id="modal-version-descriptions" name="modal-version-descriptions"  placeholder="Descriptions" [(ngModel)]="version['descriptions']"[config]="config"></ck-editor>
-              </td>
-            </tr>
-              <tr>
-                  <th>
-                      <label for="modal-version-changelog">Change Log</label>
-                  </th>
-                  <td>
-                      <ck-editor id="modal-version-changelog" name="modal-version-changelog"  placeholder="Change Log"[ngModel]="version.changelog"[config]="config"></ck-editor>
-                  </td>
-              </tr>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="closeVersionModal()"  >Close</button>
-          <button type="submit" class="btn btn-primary modal-add-version" (click)="saveVersion()">Save</button>
-        </div>
-      </div>
-    </form>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="modal-version-descriptions">Descriptions</label>
+                      </th>
+                      <td>
+                        <textarea [froalaEditor] [(froalaModel)]="version['descriptions']" id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="modal-version-changelog">Change Log</label>
+                      </th>
+                      <td>
+                        <textarea [froalaEditor] [(froalaModel)]="version['changelog']" id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"></textarea>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" (click)="closeVersionModal()">Close</button>
+                  <button type="submit" class="btn btn-primary modal-add-version" (click)="saveVersion()">Save</button>
+                </div>
+              </div>
+            </form>
 
           </div>
         </div>

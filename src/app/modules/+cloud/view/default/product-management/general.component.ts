@@ -7,7 +7,6 @@ import {NotifyManager} from "../../../../../services/notify-manager";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {PriceCollection} from "../../../../../services/meteor-collections/prices";
 import {LicenseCollection} from "../../../../../services/meteor-collections/licenses";
-import * as moment from 'moment';
 import * as _ from 'lodash';
 import {ProductActions} from "../../../R/product/actions";
 import {ProductState} from "../../../R/product/state";
@@ -53,6 +52,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                         });
   
   protected config;
+  
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
               public licenseCollection: LicenseCollection,
@@ -65,15 +65,17 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               protected store$: Store<any>) {
     super();
     this.productState$ = this.store$.select('product');
-    this.config = {toolbar :
-          [
-              { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-              { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
-              { name: 'insert', items: [ 'Image', 'Flash', 'Table'] },
-              '/',
-              { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-              { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-          ]};
+    this.config        = {
+      toolbar:
+        [
+          {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat']},
+          {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight']},
+          {name: 'insert', items: ['Image', 'Flash', 'Table']},
+          '/',
+          {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
+          {name: 'colors', items: ['TextColor', 'BGColor']},
+        ]
+    };
   }
   
   ngOnInit() {
@@ -114,12 +116,16 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   protected initFileUploader() {
     this.connectPosUploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      const data = JSON.parse(response);
-      if (!!data && !!data['path']) {
-        this.version['directory_path'] = response['path'];
-        this.notify.success("upload_package_successfully");
-        this.changeDetectorRef.detectChanges();
-      } else {
+      try {
+        const data = JSON.parse(response);
+        if (!!data && !!data['path']) {
+          this.version['directory_path'] = data['path'];
+          this.notify.success("upload_package_successfully");
+          this.changeDetectorRef.detectChanges();
+        } else {
+          this.notify.error("upload_package_fail");
+        }
+      } catch (e) {
         this.notify.error("upload_package_fail");
       }
     };

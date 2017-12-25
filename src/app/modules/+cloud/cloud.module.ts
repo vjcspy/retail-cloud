@@ -14,7 +14,8 @@ import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braint
 import {MenuActions} from "./R/menu/actions";
 import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
 import {FileUploadModule} from "ng2-file-upload";
-import { CKEditorModule } from 'ngx-ckeditor';
+import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
+// import { CKEditorModule } from 'ngx-ckeditor';
 
 @NgModule({
             imports: [
@@ -23,7 +24,7 @@ import { CKEditorModule } from 'ngx-ckeditor';
               RouterModule.forChild(CLOUD_ROUTES),
               PaymentBraintreeModule,
               FileUploadModule,
-              CKEditorModule,
+              FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
               ...R_EFFECTS,
             ],
             exports: [],
