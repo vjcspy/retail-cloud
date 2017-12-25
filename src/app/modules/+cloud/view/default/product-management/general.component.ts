@@ -30,28 +30,20 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   };
   public prices         = [];
   public licenses       = [];
-  protected version     = {};
-  public type: String;
-  protected versionId;
-  protected apiVersion  = {};
-  protected apiVersionId;
-  protected jFormApi;
-  protected validApi;
-  protected jForm;
-  protected validation;
-  protected jFormVersion;
-  protected validVersion;
-  protected versionForAll;
-  protected tab: string = 'general';
+  public data           = {
+    tabView: 'general'
+  };
+  public productVersion = {license_compatible_type: 'specified'};
+  public productApi     = {};
   public productState$: Observable<ProductState>;
   
+  protected validation = {};
+  
   connectPosUploader = new FileUploader({
-                                          url: 'http://lava.dev/upload',
+                                          url: 'https://demo.connectpos.com/upload',
                                           autoUpload: true,
                                           headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                         });
-  
-  protected config;
   
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
@@ -65,17 +57,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               protected store$: Store<any>) {
     super();
     this.productState$ = this.store$.select('product');
-    this.config        = {
-      toolbar:
-        [
-          {name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat']},
-          {name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight']},
-          {name: 'insert', items: ['Image', 'Flash', 'Table']},
-          '/',
-          {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-          {name: 'colors', items: ['TextColor', 'BGColor']},
-        ]
-    };
   }
   
   ngOnInit() {
@@ -111,7 +92,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   }
   
   ngAfterViewInit() {
-    this.initFileUploader();
+  
   }
   
   protected initFileUploader() {
@@ -119,7 +100,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
       try {
         const data = JSON.parse(response);
         if (!!data && !!data['path']) {
-          this.version['directory_path'] = data['path'];
+          this.productVersion['directory_path'] = data['path'];
           this.notify.success("upload_package_successfully");
           this.changeDetectorRef.detectChanges();
         } else {
@@ -136,196 +117,206 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   }
   
   private initPageJs() {
-    let vm          = this;
-    this.jForm      = jQuery('.js-validation-product');
-    this.validation = this.jForm['validate']({
-                                               errorClass: 'help-block text-right animated fadeInDown',
-                                               errorElement: 'div',
-                                               errorPlacement(error, e) {
-                                                 jQuery(e).parents('.form-group > div').append(error);
-                                               },
-                                               highlight(e) {
-                                                 let elem = jQuery(e);
+    let vm = this;
+    this.initFileUploader();
+    this.validation['productInfo'] = jQuery('#js-validation-product')['validate']({
+                                                                                    errorClass: 'help-block text-right animated fadeInDown',
+                                                                                    errorElement: 'div',
+                                                                                    errorPlacement(error, e) {
+                                                                                      jQuery(e).parents('.form-group > div').append(error);
+                                                                                    },
+                                                                                    highlight(e) {
+                                                                                      let elem = jQuery(e);
         
-                                                 elem.closest('.form-group').removeClass('has-error').addClass('has-error');
-                                                 elem.closest('.help-block').remove();
-                                               },
-                                               success(e) {
-                                                 let elem = jQuery(e);
+                                                                                      elem.closest('.form-group')
+                                                                                          .removeClass('has-error')
+                                                                                          .addClass('has-error');
+                                                                                      elem.closest('.help-block').remove();
+                                                                                    },
+                                                                                    success(e) {
+                                                                                      let elem = jQuery(e);
         
-                                                 elem.closest('.form-group').removeClass('has-error');
-                                                 elem.closest('.help-block').remove();
-                                               },
-                                               rules: {
-                                                 'val-product_name': {
-                                                   required: true
-                                                 },
-                                                 'val-product_code': {
-                                                   required: true
-                                                 },
-                                                 'val-version_name': {
-                                                   required: true
-                                                 },
-                                                 'val-version': {
-                                                   required: true
-                                                 },
-                                                 'val-pricings': {
-                                                   required: true,
-                                                   minlength: 1
-                                                 },
-                                               },
-                                               messages: {
-                                                 'val-product_name': {
-                                                   required: 'Please enter product name',
-                                                 },
-                                                 'val-product_code': {
-                                                   required: 'Please enter product code',
-                                                 },
-                                                 'val-pricings': {
-                                                   required: 'Please select at least choose one pricing',
-                                                 },
-                                               },
-                                             });
+                                                                                      elem.closest('.form-group').removeClass('has-error');
+                                                                                      elem.closest('.help-block').remove();
+                                                                                    },
+                                                                                    rules: {
+                                                                                      'val-product_name': {
+                                                                                        required: true
+                                                                                      },
+                                                                                      'val-product_code': {
+                                                                                        required: true
+                                                                                      },
+                                                                                      'val-version_name': {
+                                                                                        required: true
+                                                                                      },
+                                                                                      'val-version': {
+                                                                                        required: true
+                                                                                      },
+                                                                                      'val-pricings': {
+                                                                                        required: true,
+                                                                                        minlength: 1
+                                                                                      },
+                                                                                    },
+                                                                                    messages: {
+                                                                                      'val-product_name': {
+                                                                                        required: 'Please enter product name',
+                                                                                      },
+                                                                                      'val-product_code': {
+                                                                                        required: 'Please enter product code',
+                                                                                      },
+                                                                                      'val-pricings': {
+                                                                                        required: 'Please select at least choose one pricing',
+                                                                                      },
+                                                                                    },
+                                                                                    submitHandler: () => {
+                                                                                      let pricings = jQuery("#val-pricings").val();
+                                                                                      if (_.isArray(pricings)) {
+                                                                                        vm.product['has_pricing'] = pricings.map((pricing_id) => {
+                                                                                          return {pricing_id};
+                                                                                        });
+                                                                                      } else {
+                                                                                        vm.notify.error("wrong_format_pricing");
+                                                                                        return;
+                                                                                      }
+        
+                                                                                      vm.productActions.saveProduct(this.product);
+                                                                                    }
+                                                                                  });
     
-    this.jFormVersion = jQuery('#product-version');
-    this.validVersion = this.jFormVersion['validate']({
-                                                        errorClass: 'help-block text-left animated fadeInDown',
-                                                        errorElement: 'div',
-                                                        highlight(e) {
-                                                          $(e).closest('tr').removeClass('has-error').addClass('has-error');
-                                                          $(e).closest('.help-block').remove();
-                                                        },
-                                                        success(e) {
-                                                          $(e).closest('tr').removeClass('has-error');
-                                                          $(e).closest('.help-block').remove();
-                                                        },
-                                                        rules: {
-                                                          'modal-version-version': {
-                                                            required: true,
-                                                            pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
-                                                          }
-                                                        },
-                                                      });
+    this.validation['productVersion'] = jQuery('#product-version')['validate']({
+                                                                                 errorClass: 'help-block text-left animated fadeInDown',
+                                                                                 errorElement: 'div',
+                                                                                 highlight(e) {
+                                                                                   $(e).closest('tr').removeClass('has-error').addClass('has-error');
+                                                                                   $(e).closest('.help-block').remove();
+                                                                                 },
+                                                                                 success(e) {
+                                                                                   $(e).closest('tr').removeClass('has-error');
+                                                                                   $(e).closest('.help-block').remove();
+                                                                                 },
+                                                                                 rules: {
+                                                                                   'modal-version-version': {
+                                                                                     required: true,
+                                                                                     pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+                                                                                   }
+                                                                                 },
+                                                                                 submitHandler: () => {
+                                                                                   let licensesCompatible = jQuery('#version-specified-licenses')
+                                                                                     .val();
+                                                                                   let apiCompatible      = jQuery('#version-api-compatible').val();
+                                                                                   if (this.productVersion['license_compatible_type'] === 'specified') {
+                                                                                     if (_.isArray(licensesCompatible)) {
+                                                                                       vm.productVersion['license_compatible'] = licensesCompatible.map((license_id) => {
+                                                                                         return {license_id};
+                                                                                       });
+                                                                                     } else {
+                                                                                       vm.notify.error("wrong_format_licensesCompatible");
+                                                                                       return;
+                                                                                     }
+                                                                                   } else {
+                                                                                     vm.productVersion['license_compatible'] = [];
+                                                                                   }
+                                                                                   if (_.isArray(apiCompatible)) {
+                                                                                     vm.productVersion['api_compatible'] = apiCompatible.map((version) => {
+                                                                                       return {version};
+                                                                                     });
+                                                                                   } else {
+                                                                                     vm.notify.error("wrong_format_licensesCompatible");
+                                                                                     return;
+                                                                                   }
+                                                                                   if (_.indexOf(this.product.versions, this.productVersion) === -1) {
+                                                                                     vm.product.versions.push(this.productVersion);
+                                                                                   }
+                                                                                   vm.closeProductVersionModal();
+                                                                                   vm.changeDetectorRef.detectChanges();
+                                                                                 }
+                                                                               });
+    
+    this.validation['productApi'] = jQuery('#product-api')['validate']({
+                                                                         errorClass: 'help-block text-left animated fadeInDown',
+                                                                         errorElement: 'div',
+                                                                         highlight(e) {
+                                                                           $(e).closest('tr').removeClass('has-error').addClass('has-error');
+                                                                           $(e).closest('.help-block').remove();
+                                                                         },
+                                                                         success(e) {
+                                                                           $(e).closest('tr').removeClass('has-error');
+                                                                           $(e).closest('.help-block').remove();
+                                                                         },
+                                                                         rules: {
+                                                                           'product-api-version': {
+                                                                             required: true,
+                                                                             pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+                                                                           }
+                                                                         },
+                                                                         submitHandler: () => {
+                                                                           if (_.indexOf(this.product.api_versions, this.productApi) === -1) {
+                                                                             vm.product['api_versions'].push(this.productApi);
+                                                                           }
+                                                                           vm.closeApiModal();
+                                                                           vm.changeDetectorRef.detectChanges();
+                                                                         }
+                                                                       });
     
     jQuery("#val-pricings")['select2']();
-    // jQuery("#modal-version-api")['select2']();
-    // jQuery("#modal-version-specified-licenses")['select2']();
-    this.jFormApi = jQuery('#product-api');
-    this.validApi = this.jFormApi['validate']({
-                                                errorClass: 'help-block text-left animated fadeInDown',
-                                                errorElement: 'div',
-                                                highlight(e) {
-                                                  $(e).closest('tr').removeClass('has-error').addClass('has-error');
-                                                  $(e).closest('.help-block').remove();
-                                                },
-                                                success(e) {
-                                                  $(e).closest('tr').removeClass('has-error');
-                                                  $(e).closest('.help-block').remove();
-                                                },
-                                                rules: {
-                                                  'product-api-version': {
-                                                    required: true,
-                                                    pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
-                                                  }
-                                                },
-                                              });
-  }
-  
-  isEditingProduct() {
-    return !!this.product && !!this.product['_id'];
   }
   
   goBack() {
     this.routerActions.go('cloud/default/product/list');
   }
   
-  editVersion(vIndex) {
-    // this.resetModalVersion();
-    if (vIndex === -1) {
-      this.type = 'all';
+  editVersion(pVersion: string) {
+    if (pVersion === 'createNew') {
+      this.productVersion = {
+        license_compatible_type: 'all'
+      };
     } else {
-      this.versionId = vIndex;
-      this.version   = Object.assign({}, this.product.versions[this.versionId]);
-      this.type      = this.product.versions[vIndex]['license_compatible'].length > 0 ? 'specified' : 'all';
+      const version = _.find(this.product['versions'], (_pv) => _pv['version'] === pVersion);
+      if (version) {
+        this.productVersion                            = version;
+        this.productVersion['license_compatible_type'] = _.size(this.productVersion['license_compatible']) > 0 ? 'specified' : 'all';
+      } else {
+        this.notify.error("can_not_find_version");
+      }
     }
     jQuery('#modal-product-versions')['modal']('show');
+    setTimeout(() => {
+      jQuery("#version-api-compatible")['select2']();
+      jQuery("#version-specified-licenses")['select2']();
+    });
   }
   
-  isSelectedLicense(id) {
-    return _.isArray(this.version['license_compatible']) && _.indexOf(this.version['license_compatible'].map((_v) => _v['license_id']), id) > -1;
+  isSelectedLicenseCompatible(id) {
+    return _.isArray(this.productVersion['license_compatible']) && _.indexOf(this.productVersion['license_compatible'].map((_v) => _v['license_id']), id) > -1;
   }
   
   isSelectedApi(version) {
-    return _.isArray(this.version['api_compatible']) && _.indexOf(this.version['api_compatible'].map((_a) => _a['version']), version) > -1;
-  }
-  
-  saveVersion() {
-    if (this.jFormVersion.valid()) {
-      let licensesCompatible = jQuery('#modal-version-specified-licenses').val();
-      let apiCompatible      = jQuery('#modal-version-api').val();
-      if (this.type === 'specified') {
-        if (_.isArray(licensesCompatible)) {
-          this.version['license_compatible'] = licensesCompatible.map((license_id) => {
-            let rObj           = {};
-            rObj['license_id'] = license_id;
-            return rObj;
-          });
-        } else {
-          this.notify.error("wrong_format_licensesCompatible");
-          return;
-        }
-      } else {
-        this.version['license_compatible'] = [];
-      }
-      if (_.isArray(apiCompatible)) {
-        this.version['api_compatible'] = apiCompatible.map((version) => {
-          let apiObj        = {};
-          apiObj['version'] = version;
-          return apiObj;
-        });
-      } else {
-        this.notify.error("wrong_format_licensesCompatible");
-        return;
-      }
-      if (this.versionId === -1) {
-        this.version['directory_path'] = 'unknown';
-        this.product.versions.push(this.version);
-      } else {
-        this.product.versions[this.versionId] = this.version;
-      }
-      this.closeVersionModal();
-    }
-  }
-  
-  removeVersion(version) {
-    _.remove(this.product.versions, version);
+    return _.isArray(this.productVersion['api_compatible']) && _.indexOf(this.productVersion['api_compatible'].map((_a) => _a['version']), version) > -1;
   }
   
   isSelectedPrice(id) {
     return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
   
-  resetModalVersion() {
-    // this.disableLoadingModal();
-    this.versionId = -1;
-    this.version   = {};
-    this.type      = 'all';
-    jQuery('#modal-product-versions')['modal']('show');
+  removeVersion(version) {
+    _.remove(this.product.versions, version);
   }
   
-  closeVersionModal(): void {
+  closeProductVersionModal(): void {
     jQuery('#modal-product-versions')['modal']('hide');
   }
   
-  showProductApi(index) {
-    this.apiVersionId = index;
-    this.apiVersion   = Object.assign({}, this.product['api_versions'][this.apiVersionId]);
-    jQuery('#modal-product-api')['modal']('show');
-  }
-  
-  resetModalApi() {
-    this.apiVersion   = {};
-    this.apiVersionId = -1;
+  editProductApi(productApiVersion: string) {
+    if (productApiVersion === 'createNew') {
+      this.productApi = {};
+    } else {
+      const productApi = _.find(this.product['api_versions'], (_apiV) => _apiV['version'] === productApiVersion);
+      if (productApi) {
+        this.productApi = productApi;
+      } else {
+        this.notify.error("can_not_find_api_version");
+      }
+    }
     jQuery('#modal-product-api')['modal']('show');
   }
   
@@ -333,51 +324,11 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     _.remove(this.product['api_versions'], apiVersion);
   }
   
-  saveProductApi() {
-    if (this.jFormApi.valid()) {
-      if (this.apiVersionId === -1) {
-        this.apiVersion['directory_path'] = 'unknown';
-        this.product['api_versions'].push(this.apiVersion);
-      } else {
-        this.product['api_versions'][this.apiVersionId] = this.apiVersion;
-      }
-      this.closeApiModal();
-    }
-  }
-  
   closeApiModal(): void {
     jQuery('#modal-product-api')['modal']('hide');
   }
   
-  saveProduct() {
-    if (this.jForm.valid()) {
-      let pricings = jQuery("#val-pricings").val();
-      if (_.isArray(pricings)) {
-        this.product['has_pricing'] = pricings.map((id) => {
-          let rObj           = {};
-          rObj['pricing_id'] = id;
-          return rObj;
-        });
-      } else {
-        this.notify.error("wrong_format_pricing");
-        return;
-      }
-      this.versionForAll = _.find(this.product['versions'], (v) => {
-        return v['license_compatible'].length < 1;
-      });
-      if (!this.versionForAll) {
-        this.notify.error("Product need at least one version apply for all licenses");
-        return false;
-      }
-      this.productActions.saveProduct(this.product);
-      this.goBack();
-    }
-  }
-  
-  displayLicenses() {
-    if (this.type === "specified") {
-      return 'block';
-    }
-    return 'none';
+  save() {
+    jQuery('#js-validation-product').submit();
   }
 }
