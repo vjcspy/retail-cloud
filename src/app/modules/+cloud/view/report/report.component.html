@@ -17,20 +17,20 @@
                            (modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>
           </div>
         </div>
-        <div class="form-group select-pay-report">
-          <div class="input-group">
-            <report-select [elementData]="getListReportType()"
-                           [(model)]="getDataFilter()['report_type']"
-                           (modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>
-          </div>
-        </div>
+        <!--<div class="form-group select-pay-report">-->
+          <!--<div class="input-group">-->
+            <!--<report-select [elementData]="getListReportType()"-->
+                           <!--[(model)]="getDataFilter()['report_type']"-->
+                           <!--(modelChange)="saleReportService.getSaleReport(false, false, true)"></report-select>-->
+          <!--</div>-->
+        <!--</div>-->
         <div class="date-range-wrap">
           <div class="calendar-group input-group">
              <span class="input-group-addon"><i class="ion-ios-calendar-outline"></i></span>
              <report-time-select [model]="getDataFilter()"></report-time-select>
           </div>
         </div>
-        <div class="form-group select-card-method" *ngIf="getDataFilter()['report_type'] === 'category'" style="padding: 0px 60px; width: 300px">
+        <div class="form-group select-card-method" *ngIf="getDataFilter()['report_type'] === 'category'" style="padding: 0px 40px; width: 300px">
           <div class="input-group">
             <span style="padding: 6px 12px;font-size: 14px;font-weight: normal;line-height: 1;color: #ffffff;text-align: center;display: table-cell;border-radius: 4px;vertical-align: middle;">
               Extra info</span>
@@ -53,7 +53,7 @@
         </div>
         <div class="dropdown filter report-filter search-filter open">
             <button class="btn btn-custom" data-toggle="dropdown">Customize</button>
-           
+
             <ul class="dropdown-menu filter-dropdown">
               <li class="arrow">
                   <i class="icon-arr ion-arrow-up-b"></i>
@@ -61,16 +61,20 @@
               <li class="search-form">
                 <form class="form-horizontal">
                   <i class=" ion-ios-search"></i>
-                  <input class="form-control" placeholder="Search Setting" type="text">
+                  <input class="form-control" placeholder="Search Setting" type="text"
+                         [(ngModel)]="searchString"
+                         name="searchString"
+                         (keyup)="searchMeasure($event.target.value)">
                 </form>
               </li>
                 <li class="filter-all">
-                    <input id="filter-date" type="checkbox">
+                    <input id="filter-date" type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();">
                     <label for="filter-date">All</label>
                 </li>
-                <li class="">
-                    <input type="checkbox" id="outlet">
-                    <label for="outlet">Outlet</label>
+                <li class="" *ngFor="let measure_data of measures; trackBy:trackByValue">
+                    <input type="checkbox" id="{{measure_data.measure_data['value']}}" [(ngModel)]="measure_data.selected"
+                           (change)="checkIfAllSelected(measure_data);">
+                    <label for="{{measure_data.measure_data['value']}}">{{measure_data.measure_data['label']}}</label>
                 </li>
             </ul>
         </div>

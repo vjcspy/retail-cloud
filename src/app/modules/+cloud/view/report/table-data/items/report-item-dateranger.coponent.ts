@@ -1,20 +1,28 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnInit, ChangeDetectorRef} from '@angular/core';
 import * as _ from "lodash";
 import {SaleReportService} from "../../../../R/report/service";
+import {AbstractRxComponent} from "../../../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: '[sale-report-dateranger-item]',
              templateUrl: 'report-item-dateranger.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class CloudSaleReportDateRangerItemComponent {
+export class CloudSaleReportDateRangerItemComponent extends AbstractRxComponent implements OnInit {
   @Input('list_date') list_date       = [];
   @Input('item') item                 = [];
   @Input('colspanFooter') colspanFooter ;
   @Input('firstItem') firstValue = [];
   @Input('rowSpan') rowSpan: number;
   
-  constructor(protected service: SaleReportService) {
+  constructor(protected service: SaleReportService, protected changeDetector: ChangeDetectorRef) {
+    super();
+  }
+  
+  ngOnInit() {
+    this._subscription['update_view']  =  this.service.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
   }
   
   protected checkReportType(item) {

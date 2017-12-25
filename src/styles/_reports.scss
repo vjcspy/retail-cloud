@@ -100,7 +100,7 @@
 			.dropdown-menu {
 				left: 0;
 				padding: 0;
-				
+
 				.arrow {
 					padding: 0;
 					position: absolute;
@@ -116,7 +116,7 @@
 					form {
 						position: relative;
 					}
-					
+
 					input {
 						background: #fff;
 						height: 30px;
@@ -140,7 +140,7 @@
 					right: 0;
 					left: auto;
 				}
-				
+
 			}
 		}
 	}
@@ -535,7 +535,7 @@
 			}
 		}
 		.input-group {
-			display: block;
+			display: table;
 		}
 		.input-group-addon {
 			border: none;
@@ -774,7 +774,7 @@
 				padding-top: 20px;
 				.btn {
 					padding: 5px 0;
-				} 
+				}
 				i {
 					margin-right: 8px;
 					font-size: 20px;

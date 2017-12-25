@@ -5,6 +5,7 @@ import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import {SaleReportService} from "../../R/report/service";
 import {ReportHelper} from "../../R/report/helper";
 import {Observable} from "rxjs/Observable";
+import {fakeAsync} from "@angular/core/testing";
 @Component({
              selector: 'sale-report',
              templateUrl: 'report.component.html',
@@ -13,9 +14,34 @@ import {Observable} from "rxjs/Observable";
              ],
            })
 export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
+  selectedAll: any;
+  measures: any;
+  searchString: any;
+  
   constructor(protected saleReportService: SaleReportService ,protected changeDetector: ChangeDetectorRef ,
               protected reportHelper: ReportHelper) {
     super();
+    this.initMeasures();
+  }
+  
+  protected initMeasures(search: boolean = false) {
+    if (!this.measures || !!search) {
+      this.measures = this.getListMeasureByReportType(this.getDataFilter()['report_type'])['data'].map(function (measure) {
+        return {
+          measure_data: measure,
+          position: measure['id'],
+          selected: false
+        };
+      });
+      _.forEach(this.measures, (measure) => {
+        if (_.indexOf(this.getDataFilter()['measures'], measure.measure_data['label']) !== -1) {
+          return measure.selected = true;
+        }
+      });
+      _.remove(this.measures, function (measure_label) {
+        return measure_label['measure_data']['label'] === 'base_row_total_product';
+      });
+    }
   }
   
   ngOnInit() {
@@ -25,12 +51,89 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     });
   
     this._subscription['update_view']  =  this.saleReportService.updateView().subscribe(() => {
+      if (_.isEmpty(this.searchString)) {
+        this.initMeasures(true);
+      } else {
+        this.searchMeasure(this.searchString);
+      }
       this.changeDetector.detectChanges();
     });
   }
   
+  trackByValue(index, measure) {
+    return measure;
+  }
+  
+  selectAll() {
+    this.saleReportService.viewDataFilter['measures'] = [];
+    for (let i = 0; i < this.measures.length; i++) {
+      this.measures[i].selected = this.selectedAll;
+      if (this.selectedAll === true) {
+        this.saleReportService.viewDataFilter['measures'].push(this.measures[i].measure_data['label']);
+      } else {
+        this.saleReportService.viewDataFilter['measures'] = [];
+      }
+    }
+    this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
+  }
+  checkIfAllSelected(measure) {
+    this.searchMeasure(this.searchString);
+  
+    _.forEach(this.measures, function (mea) {
+      if (mea['measure_data']['label'] === measure['measure_data']['label']){
+        mea.selected = true;
+      }
+    });
+    this.selectedAll = this.measures.every(function(item:any) {
+      return item.selected === true;
+    });
+  
+    if (measure.selected === true) {
+      this.saleReportService.viewDataFilter['measures'].splice(measure.position-1, 0,  measure.measure_data['label']);
+    } else {
+      _.remove(this.saleReportService.viewDataFilter['measures'], function(measure_label) {
+        return measure_label === measure.measure_data['label'];
+      });
+    }
+    this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
+    
+    this.saleReportService.updateView().next();
+  }
+  
   changeMeasure(): void {
     this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
+  }
+  
+  searchMeasure(searchString) {
+    this.initMeasures(true);
+    let measuresSearch = this.measures.filter((measure) => {
+      if (!!searchString) {
+        //noinspection TypeScriptUnresolvedFunction
+        searchString = _.split(searchString, " ");
+      
+        let reString = "";
+        _.forEach(searchString, (v) => {
+          if (!_.isString(v)) {
+            return true;
+          }
+          v = _.toLower(v);
+          // escape regular expression special characters
+          v = v.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+          reString += ".*(" + v + "){1}";
+        });
+        reString += ".*";
+        let re = new RegExp(reString, "gi");
+        
+        if (!re.test(_.toLower(measure.measure_data['label']))) {
+          return false;
+        }
+      }
+      return true;
+    });
+    this.measures = measuresSearch;
+    this.selectedAll = this.measures.every(function(item:any) {
+      return item.selected === true;
+    });
   }
   
   getListReportType(){
@@ -132,11 +235,14 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   
   checkDisableFilter() {
     let measures = this.saleReportService.viewDataFilter['measures'];
-    if (this.saleReportService.viewDataFilter['report_type'] == 'sales_summary' && measures.length <= 2){
+    if (this.saleReportService.viewDataFilter['report_type'] == 'sales_summary' && measures.length <= 2 || measures.length === 0){
       if ((_.head(measures) == 'First Sale' && _.last(measures) == 'Last Sale') ||
           (_.head(measures) == 'First Sale' && measures.length == 1) ||
           (_.head(measures) == 'Last Sale' && measures.length == 1)
       ){
+        this.saleReportService.enableFilter = false;
+        return true;
+      } else if (measures.length === 0) {
         this.saleReportService.enableFilter = false;
         return true;
       }

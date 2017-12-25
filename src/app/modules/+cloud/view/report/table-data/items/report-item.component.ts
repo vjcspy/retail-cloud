@@ -1,15 +1,16 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SaleReportService} from "../../../../R/report/service";
 import {ReportHelper} from "../../../../R/report/helper";
 import * as _ from "lodash";
+import {AbstractRxComponent} from "../../../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: '[sale-report-item]',
              templateUrl: 'report-item.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class CloudSaleReportItemComponent {
+export class CloudSaleReportItemComponent extends AbstractRxComponent implements OnInit {
   @Input('list_date') list_date       = [];
   @Input('data_filter') data_filter = [];
   @Input('measures') measures = [];
@@ -21,7 +22,15 @@ export class CloudSaleReportItemComponent {
   @Input('is_item_has_detail_data') canViewDetail: boolean;
   @Input('detail_item_value') detail_item_value: boolean;
   
-  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {}
+  constructor(protected service: SaleReportService, protected route: ActivatedRoute, protected changeDetector: ChangeDetectorRef) {
+    super();
+  }
+  
+  ngOnInit() {
+    this._subscription['update_view']  =  this.service.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
+  }
   
   getFullnameUserReport(userId) {
     //     let userReport     = _.find(this.route.snapshot.data['users'], (row) => row['_id'] == userId);

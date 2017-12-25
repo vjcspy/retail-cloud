@@ -14,16 +14,22 @@ import * as moment from "moment";
            })
 
 
-export class DashboardPage extends AbstractRxComponent implements OnInit {
+export class DashboardPage extends AbstractRxComponent implements OnInit , AfterViewInit {
   public granularity: string;
   constructor(public dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
     super();
+    changeDetector.detach();
+  }
+
+  ngAfterViewInit(){
     this.initDefaultGranularity(this.getPeriodValue());
     this.dashboardReportService.getDashboardReport();
-    changeDetector.detach();
   }
   
   ngOnInit() {
+    this._subscription['update_status']  =  this.dashboardReportService.updateStatus().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
     this._subscription['update_view']  =  this.dashboardReportService.updateView().subscribe(() => {
       this.changeDetector.detectChanges();
     });
@@ -56,6 +62,10 @@ export class DashboardPage extends AbstractRxComponent implements OnInit {
   
   protected getListScope() {
     return ReportDashboardHelper.getListScope();
+  }
+  
+  checkChartDataExsit() {
+    return _.isEmpty(this.dashboardReportService.viewData['items']);
   }
   
   protected getViewData(widget = null){
