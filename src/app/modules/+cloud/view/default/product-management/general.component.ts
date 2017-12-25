@@ -52,6 +52,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                           headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                         });
   
+  protected config;
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
               public licenseCollection: LicenseCollection,
@@ -64,6 +65,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
               protected store$: Store<any>) {
     super();
     this.productState$ = this.store$.select('product');
+    this.config = {toolbar :
+          [
+              { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+              { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+              { name: 'insert', items: [ 'Image', 'Flash', 'Table'] },
+              '/',
+              { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+              { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+          ]};
   }
   
   ngOnInit() {

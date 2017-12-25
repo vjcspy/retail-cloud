@@ -14,6 +14,7 @@ import {PaymentBraintreeModule} from "./modules/payment-braintree/payment-braint
 import {MenuActions} from "./R/menu/actions";
 import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
 import {FileUploadModule} from "ng2-file-upload";
+import { CKEditorModule } from 'ngx-ckeditor';
 
 @NgModule({
             imports: [
@@ -22,6 +23,7 @@ import {FileUploadModule} from "ng2-file-upload";
               RouterModule.forChild(CLOUD_ROUTES),
               PaymentBraintreeModule,
               FileUploadModule,
+              CKEditorModule,
               ...R_EFFECTS,
             ],
             exports: [],
