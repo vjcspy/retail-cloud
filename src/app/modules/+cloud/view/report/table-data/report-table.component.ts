@@ -67,6 +67,10 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     this.saleReportService.viewData['columnForFilter'] = this.viewData['additionData'];
   }
   
+  getLabelDateRange() {
+    return this.saleReportService.viewDataFilter['compare_value'];
+  }
+  
   checkSummaryType() {
     return (this.data_filter['report_type'] == 'sales_summary') ? 1 : 0;
   }

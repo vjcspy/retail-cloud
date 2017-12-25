@@ -1,14 +1,15 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnInit, ChangeDetectorRef} from '@angular/core';
 import {SaleReportService} from "../../../../R/report/service";
 import {ReportHelper} from "../../../../R/report/helper";
 import * as _ from "lodash";
+import {AbstractRxComponent} from "../../../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: '[sale-report-item-detail]',
              templateUrl: 'report-item-detail.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class CloudSaleReportItemDetailComponent {
+export class CloudSaleReportItemDetailComponent extends AbstractRxComponent implements OnInit {
   @Input('list_date') list_date       = [];
   @Input('data_filter') data_filter   = [];
   @Input('measures') measures         = [];
@@ -23,7 +24,15 @@ export class CloudSaleReportItemDetailComponent {
     return true;
   }
   
-  constructor(protected service: SaleReportService) {}
+  constructor(protected service: SaleReportService, protected changeDetector: ChangeDetectorRef) {
+    super();
+  }
+  
+  ngOnInit() {
+    this._subscription['update_view']  =  this.service.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
+  }
   
   protected checkIsNumberDecimals(value){
     if (value == null || value == 'N/A' || isNaN(value)|| typeof value == 'undefined' || value == '--' || typeof value == 'string')
