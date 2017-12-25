@@ -129,7 +129,10 @@ export class DashboardReportService {
     this.viewData['topUser'] = itemsData['top_User'];
     this.viewData['product_sold'] = itemsData['product_sold'];
     this.viewData['product_trend_data'] = itemsData['product_sold_trend_data'];
-    _.forEach(ReportDashboardHelper.getWidgets()['data'], widget => {
+    
+    let widgetColection = ReportDashboardHelper.getWidgets()['data'];
+    widgetColection.push({id: 7, label: "Grand Total", value: "grand_total"});
+    _.forEach(widgetColection, widget => {
       let data = {
         name: widget['label'],
         type: widget['value'],
