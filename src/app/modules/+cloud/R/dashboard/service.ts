@@ -18,6 +18,7 @@ export class DashboardReportService {
   public baseUrl: string;
 
   protected stream               = {
+    update_status : new Subject(),
     update_view: new Subject(),
     change_scope : new Subject()
   };
@@ -89,7 +90,7 @@ export class DashboardReportService {
   private postDashboardReport(report) {
     let defer = $q.defer();
     this.viewState.isOverLoad = false ;
-    this.updateView().next();
+    this.updateStatus().next();
 
     let _query = this.apiUrlManager.get('dashboard', this.baseUrl);
     this.requestService.makePost(_query, report)
@@ -168,13 +169,13 @@ export class DashboardReportService {
     return this.stream.update_view;
   }
   
-  // updateStatus(){
-  //   if(!this.stream.hasOwnProperty('update_status')){
-  //     this.stream.update_status = new Subject();
-  //     this.stream.update_status = <any>this.stream.update_status.share();
-  //   }
-  //   return this.stream.update_status;
-  // }
+  updateStatus(){
+    if(!this.stream.hasOwnProperty('update_status')){
+      this.stream.update_status = new Subject();
+      this.stream.update_status = <any>this.stream.update_status.share();
+    }
+    return this.stream.update_status;
+  }
   
 }
 
