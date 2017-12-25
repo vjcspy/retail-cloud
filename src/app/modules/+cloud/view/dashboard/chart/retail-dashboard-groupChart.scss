@@ -1,6 +1,6 @@
  .retail-dashboard-chart, .retail-dashboard-chart-container {
     float: left;
-    width: 33%;
+    width: calc(100%/3);
     margin-bottom: 20px;
     .widget {
       margin: 0 10px;
