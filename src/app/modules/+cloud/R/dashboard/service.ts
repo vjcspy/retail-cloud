@@ -180,5 +180,23 @@ export class DashboardReportService {
     return this.stream.update_status;
   }
   
+  convertTotalData(data, typeChart) {
+    if (typeChart === "discount_percent") {
+      let discount_percent = 100 * data;
+      return Math.round(discount_percent * 100) / 100 + '%';
+    } else if (typeChart === "customer_count" || typeChart === "quantity") {
+      return Math.round(data * 100) / 100;
+    } else {
+      if (1000 <= data && data < 1000000) {
+        return this.viewData['current_currency'] + Math.round((data / 1000) * 100) / 100 + 'k';
+      } else if (1000000 <= data && data < 1000000000) {
+        return this.viewData['current_currency'] + Math.round((data / 1000000) * 100) / 100 + 'm';
+      } else if (data >= 1000000000) {
+        return this.viewData['current_currency'] + Math.round((data / 1000000000) * 100) / 100;
+      } else {
+        return this.viewData['current_currency'] + Math.round(data * 100) / 100;
+      }
+    }
+  }
 }
 
