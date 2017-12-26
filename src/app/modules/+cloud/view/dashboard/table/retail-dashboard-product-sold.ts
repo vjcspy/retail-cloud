@@ -81,4 +81,8 @@ export class RetailDashBoardTableProductSold {
       return data;
     }
   }
+  
+  checkIsDecimalsItemSold(item_sold) {
+    return item_sold % 1 !== 0;
+  }
 }
