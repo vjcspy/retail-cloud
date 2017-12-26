@@ -115,7 +115,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
       },
   
       tooltip: {
-        padding: 20,
+        padding: 15,
         borderRadius: 8,
         useHTML: true,
         style:{
@@ -123,26 +123,46 @@ export class ChartLineTime implements OnDestroy, OnInit {
         },
         valueDecimals: 2,
         formatter: function () {
+          let data = this.y;
           let currency_symbol = '';
           let discount_symbol = '';
-          switch (type_chart) {
-            case 'discount_percent':
-              discount_symbol = '%';
-              this.y = _.round(this.y*100, 2);
-              this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-              break;
-            case 'customer_count':
-              currency_symbol = '';
-              break;
-            case 'quantity':
-              currency_symbol = '';
-              break;
-            default:
-              currency_symbol = current_currency;
-              this.y = _.round(this.y, 2);
-              this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-              break;
+          if (type_chart === "discount_percent") {
+            let discount_percent = 100 * data;
+            this.y = Math.round(discount_percent * 100) / 100;
+            discount_symbol = '%';
+          } else if (type_chart === "customer_count" || type_chart === "quantity") {
+            currency_symbol = '';
+            this.y =  Math.round(data * 100) / 100;
+          } else {
+            currency_symbol = current_currency;
+            if (1000 <= data && data < 1000000) {
+              this.y =  Math.round((data / 1000) * 100) / 100 + 'k';
+            } else if (1000000 <= data && data < 1000000000) {
+              this.y =  Math.round((data / 1000000) * 100) / 100 + 'm';
+            } else if (data >= 1000000000) {
+              this.y =  Math.round((data / 1000000000) * 100) / 100 + 'b';
+            } else {
+              this.y =  Math.round(data * 100) / 100;
+            }
           }
+          // switch (type_chart) {
+          //   case 'discount_percent':
+          //     discount_symbol = '%';
+          //     this.y = _.round(this.y*100, 2);
+          //     this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+          //     break;
+          //   case 'customer_count':
+          //     currency_symbol = '';
+          //     break;
+          //   case 'quantity':
+          //     currency_symbol = '';
+          //     break;
+          //   default:
+          //     currency_symbol = current_currency;
+          //     this.y = _.round(this.y, 2);
+          //     this.y = this.y.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+          //     break;
+          // }
           return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">'+ currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
                  '<p style="font-size: 13px; text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM,' +
                  ' YYYY') + '</p>';
