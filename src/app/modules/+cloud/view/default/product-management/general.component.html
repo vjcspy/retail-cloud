@@ -5,279 +5,287 @@
       <div class="panel with-nav-tabs panel-default">
         <div class="panel-heading">
           <ul class="nav nav-tabs">
-            <li [ngClass]="{'active': tab ==='general'}">
-              <a (click)="tab ='general'" >
-                {{ isEditingProduct() ? "Update Product" : "Create Product"}}
+            <li [ngClass]="{'active': data.tabView ==='general'}">
+              <a (click)="data.tabView ='general'">
+                {{ !!product['_id'] ? "Update Product" : "Create Product"}}
               </a>
             </li>
-            <li [ngClass]="{'active': tab ==='api'}">
-              <a  (click)=" tab = 'api'">API Management</a>
+            <li [ngClass]="{'active': data.tabView ==='api'}">
+              <a (click)=" data.tabView = 'api'">API Management</a>
             </li>
           </ul>
         </div>
-<div class="panel-body">
-  <!-- General tab -->
-  <div id="generalTab" class="tab-content" [hidden]="tab !== 'general'">
-    <div class="tab-pane fade in active" id="tab1default">
-      <form class="js-validation-product form-horizontal">
-        <div class="form-content">
-          <div class="form-group">
-            <label class="control-label" for="val-product_code">Product Code</label>
-            <div class="element">
-              <input type="text" class="form-control" id="val-product_code" name="val-product_code"
-                     placeholder="Enter Product Code.." [(ngModel)]="product['code']">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="val-product_name">Product Name</label>
-            <div class="element">
-              <input type="text" class="form-control" id="val-product_name" name="val-product_name"
-                     placeholder="Enter Product Name.." [(ngModel)]="product['name']">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label" for="val-product_des">Description</label>
-            <div class="element">
+        <div class="panel-body">
+          <!-- General tab -->
+          <div id="generalTab" class="tab-content" [hidden]="data.tabView !== 'general'">
+            <div class="tab-pane fade in active" id="tab1default">
+              <form class="js-validation-product form-horizontal" id="js-validation-product" #productInfo="ngForm">
+                <div class="form-content">
+                  <div class="form-group">
+                    <label class="control-label" for="val-product_code">Product Code</label>
+                    <div class="element">
+                      <input type="text" class="form-control" id="val-product_code" name="val-product_code"
+                             placeholder="Enter Product Code.." [(ngModel)]="product['code']">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="val-product_name">Product Name</label>
+                    <div class="element">
+                      <input type="text" class="form-control" id="val-product_name" name="val-product_name"
+                             placeholder="Enter Product Name.." [(ngModel)]="product['name']">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="val-product_des">Description</label>
+                    <div class="element">
                             <textarea class="form-control" id="val-product_des" name="val-product_des" rows="6"
                                       placeholder="Product's Description Here.." [(ngModel)]="product['description']">
                             </textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="val-pricings">Pricings</label>
+                    <div class="element">
+                      <select multiple="multiple" class="form-control val-pricings" id="val-pricings" style="width: 100%;" name="val-pricings">
+                        <option *ngFor="let price of prices" [value]="price['_id']" [selected]="isSelectedPrice(price._id)">
+                          {{price['display_name']}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Versions of Product</label>
+                    <div class="element">
+                      <button type="button" (click)="editVersion('createNew')" class="btn btn-sm add-version">Add Version</button>
+                    </div>
+                  </div>
+
+                  <table class="table table-bordered tbl-version" *ngIf="product.versions && product.versions.length > 0">
+                    <tr>
+                      <th>Version</th>
+                      <th>Name</th>
+                      <th>API Compatible</th>
+                      <th>Path</th>
+                      <th width="130">Action</th>
+                    </tr>
+                    <tr *ngFor="let version of product.versions">
+                      <td>
+                        {{version.version}}
+                      </td>
+                      <td>
+                        {{version.name}}
+                      </td>
+                      <td>
+                        <code *ngFor="let api of version.api_compatible">{{api.version}}</code>
+                      </td>
+                      <td>
+                        {{version.directory_path}}
+                      </td>
+                      <td>
+                        <button class="btn btn-default" type="button" title="View Version" (click)="editVersion(version['version'])">
+                          <i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeVersion(version)">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </form>
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label" for="val-pricings">Pricings</label>
-            <div class="element">
-              <select multiple="multiple" class="form-control val-pricings" id="val-pricings" style="width: 100%;" name="val-pricings">
-                <option *ngFor="let price of prices" [value]="price['_id']" [selected]="isSelectedPrice(price._id)">
-                  {{price['display_name']}}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Versions of Product</label>
-            <div class="element">
-              <button type="button" (click)="resetModalVersion()" class="btn btn-sm add-version">Add Version</button>
-            </div>
-          </div>
+          <!-- API tab -->
+          <div id="apiTab" class="tab-content" [hidden]="data.tabView !== 'api'">
+            <div class="tab-pane fade in active form-content" id="api-management">
+              <button class="btn btn-xs btn-success" (click)="editProductApi('createNew')" style="margin-left: 0;">Create New</button>
 
-          <table class="table table-bordered tbl-version" *ngIf="product.versions && product.versions.length > 0">
-            <tr>
-              <th>Version</th>
-              <th>Name</th>
-              <th>API Compatible</th>
-              <th>Path</th>
-              <th width="130">Action</th>
-            </tr>
-            <tr *ngFor="let version of product.versions;let i = index">
-              <td>
-                {{version.version}}
-              </td>
-              <td>
-                {{version.name}}
-              </td>
-              <td>
-                <code *ngFor="let api of version.api_compatible">{{api.version}}</code>
-              </td>
-              <td>
-                {{version.directory_path}}
-              </td>
-              <td>
-                <button class="btn btn-default" type="button" title="View Version" (click)="editVersion(i)">
-                  <i class="fa fa-eye"></i>
-                </button>
-                <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeVersion(version)">
-                  <i class="fa fa-times"></i>
-                </button>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- API tab -->
-  <div id="apiTab"  class="tab-content" [hidden]="tab !== 'api'">
-    <div class="tab-pane fade in active form-content" id="api-management">
-      <button class="btn btn-xs btn-success" (click)="resetModalApi()" style="margin-left: 0;">Create New</button>
-
-      <table id="list-product-api" class="table table-bordered">
-        <tr>
-          <th>Version</th>
-          <th>Name</th>
-          <th width="120">Actions</th>
-        </tr>
-        <tr *ngFor="let api of product.api_versions;let i = index">
-          <td>
-            <code>{{api.version}}</code>
-          </td>
-          <td>
-            {{api.name}}
-          </td>
-          <td>
-            <button class="btn btn-default" type="button" title="View Version"  (click)="showProductApi(i)">
-              <i class="fa fa-eye"></i>
-            </button>
-            <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeProductApi(api)">
-              <i class="fa fa-times"></i>
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- modal for product version -->
-<div id="modal-product-versions" class="modal fade" role="dialog" >
-  <div class="row">
-
-    <!-- Modal content-->
-    <form id="product-version">
-      <div class="col-md-offset-2 col-md-8 modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" (click)="closeVersionModal()">&times;</button>
-          <h4 class="modal-title text-center">PRODUCT VERSION</h4>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <tr>
-              <th>
-                <label for="modal-version-version">Version</label>
-              </th>
-              <td>
-                <input type="hidden" name="modal-version-id" id="modal-version-id" value="-1" [(ngModel)]="versionId">
-                <input type="text" class="form-control" id="modal-version-version" name="modal-version-version" required placeholder="Version of Product" [(ngModel)]="version.version">
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-name">Name</label>
-              </th>
-              <td>
-                <input type="text" class="form-control" id="modal-version-name" name="modal-version-name" required placeholder="Version Name" [(ngModel)]="version.name">
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-licenses">Licenses</label>
-              </th>
-              <td>
-                <select class="form-control" name="modal-version-licenses" id="modal-version-licenses" required style="margin-bottom: 10px;" [(ngModel)]="type">
-                  <option value="all">All Licenses</option>
-                  <option value="specified">Specified Licenses</option>
-                </select>
-                <select multiple="multiple" class="form-control" name="modal-version-specified-licenses" id="modal-version-specified-licenses" required style="width: 100%;" [ngStyle]="{'display': displayLicenses()}">
-                  <option *ngFor="let license of licenses" [value]="license['_id']" [selected]="isSelectedLicense(license._id)">
-                    {{ license.key + ' | ' + license.shop_owner_username }}
-                  </option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-api">API Compatible</label>
-              </th>
-              <td>
-
-                <select multiple="multiple" class="form-control" name="modal-version-api" id="modal-version-api"  style="width: 100%;" >
-                  <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
-                          [selected]="isSelectedApi(apiVersion.version)">
-                    {{ apiVersion.version }}
-                  </option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-path">Package</label>
-              </th>
-              <td>
-                <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display"></code>
-                <input type="file" class="form-control" id="modal-version-path" name="modal-version-path"  style="margin-top: 10px;" >
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label for="modal-version-descriptions">Descriptions</label>
-              </th>
-              <td>
-                <ck-editor  id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions" [(ngModel)]="version.descriptions" [config]="config"></ck-editor>
-              </td>
-            </tr>
-              <tr>
-                  <th>
-                      <label for="modal-version-changelog">Change Log</label>
-                  </th>
+              <table id="list-product-api" class="table table-bordered">
+                <tr>
+                  <th>Version</th>
+                  <th>Name</th>
+                  <th width="120">Actions</th>
+                </tr>
+                <tr *ngFor="let api of product.api_versions">
                   <td>
-                     <ck-editor  id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"  [ngModel]="version.changelog" [config]="config"></ck-editor>
+                    <code>{{api.version}}</code>
                   </td>
-              </tr>
-          </table>
+                  <td>
+                    {{api.name}}
+                  </td>
+                  <td>
+                    <button class="btn btn-default" type="button" title="View Version" (click)="editProductApi(api['version'])">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-default btn-orange" type="button" title="Remove Version" (click)="removeProductApi(api)">
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="closeVersionModal()"  >Close</button>
-          <button type="submit" class="btn btn-primary modal-add-version" (click)="saveVersion()">Save</button>
-        </div>
-      </div>
-    </form>
 
-  </div>
-</div>
-<!-- end product-version-modal -->
+        <!-- modal for product version -->
+        <div id="modal-product-versions" class="modal fade" role="dialog">
+          <div class="row">
 
-<!-- modal for product api -->
-<div id="modal-product-api" class="modal fade" role="dialog">
-  <div class="row">
-    <!-- Modal content-->
-    <form id="product-api">
-      <div class="col-md-offset-2 col-md-8 modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" (click)="closeApiModal()">&times;</button>
-          <h4 class="modal-title text-center">PRODUCT API</h4>
+            <!-- Modal content-->
+            <form id="product-version">
+              <div class="col-md-offset-2 col-md-8 modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" (click)="closeProductVersionModal()">&times;</button>
+                  <h4 class="modal-title text-center">PRODUCT VERSION</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table">
+                    <tr>
+                      <th>
+                        <label for="product-version-version">Version</label>
+                      </th>
+                      <td>
+                        <input type="text" class="form-control" id="product-version-version" name="product-version-version" required placeholder="Version of Product" [(ngModel)]="productVersion.version">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="product-version-name">Name</label>
+                      </th>
+                      <td>
+                        <input type="text" class="form-control" id="product-version-name" name="product-version-name" required placeholder="Version Name" [(ngModel)]="productVersion.name">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="modal-version-licenses">Licenses</label>
+                      </th>
+                      <td>
+                        <select class="form-control" name="modal-version-licenses" id="modal-version-licenses" required style="margin-bottom: 10px;" [(ngModel)]="productVersion['license_compatible_type']">
+                          <option value="all">All Licenses</option>
+                          <option value="specified">Specified Licenses</option>
+                        </select>
+                        <div [hidden]="productVersion['license_compatible_type'] == 'all'">
+                          <select multiple="multiple" class="form-control" name="version-specified-licenses" id="version-specified-licenses" style="width: 100%;">
+                            <option *ngFor="let license of licenses" [value]="license['_id']" [selected]="isSelectedLicenseCompatible(license._id)">
+                              {{ license.key + ' | ' + license.shop_owner_username }}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="product-version-api-compatible">API Compatible</label>
+                      </th>
+                      <td>
+                        <select multiple="multiple" class="form-control" name="product-version-api-compatible" id="product-version-api-compatible" style="width: 100%;">
+                          <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
+                                  [selected]="isSelectedApi(apiVersion.version)">
+                            {{ apiVersion.version }}
+                          </option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="package">Package</label>
+                      </th>
+                      <td>
+                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code>{{productVersion['directory_path']}}</code>
+                        <input type="file" class="form-control" id="package" name="package" ng2FileSelect [uploader]="connectPosUploader" style="margin-top: 10px;">
+                        <div *ngIf="!!connectPosUploader.queue[0]">
+                          <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosUploader.queue[0].progress + '%' }"></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="modal-version-descriptions">Descriptions</label>
+                      </th>
+                      <td>
+                        <textarea [froalaEditor] [(froalaModel)]="productVersion['descriptions']" id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label for="modal-version-changelog">Change Log</label>
+                      </th>
+                      <td>
+                        <textarea [froalaEditor] [(froalaModel)]="productVersion['changelog']" id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"></textarea>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary modal-add-version">Done</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
         </div>
-        <div class="modal-body">
-          <table class="table">
-            <tr>
-              <th width="150">
-                <label class="control-label" for="product-api-version">Version</label>
-              </th>
-              <td>
-                <input type="hidden" name="product-api-index" id="product-api-index" value="-1" [(ngModel)]="apiVersionId">
-                <input type="text" class="form-control" id="product-api-version" name="product-api-version" required placeholder="Version of Product" [(ngModel)]="apiVersion.version">
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label class="control-label" for="product-api-name">Version Name</label>
-              </th>
-              <td>
-                <input type="text" class="form-control" id="product-api-name" name="product-api-name" required placeholder="Version Name" [(ngModel)]="apiVersion.name">
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <label class="control-label" for="product-api-package">Upload Package</label>
-              </th>
-              <td>
-                <input type="file" class="form-control" id="product-api-package" name="product-api-package" required>
-              </td>
-            </tr>
-          </table>
+        <!-- end product-version-modal -->
+
+        <!-- modal for product api -->
+        <div id="modal-product-api" class="modal fade" role="dialog">
+          <div class="row">
+            <!-- Modal content-->
+            <form id="product-api">
+              <div class="col-md-offset-2 col-md-8 modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" (click)="closeApiModal()">&times;</button>
+                  <h4 class="modal-title text-center">PRODUCT API</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table">
+                    <tr>
+                      <th width="150">
+                        <label class="control-label" for="product-api-version">Version</label>
+                      </th>
+                      <td>
+                        <input type="text" class="form-control" id="product-api-version" name="product-api-version" required placeholder="Version of API" [(ngModel)]="productApi['version']">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label class="control-label" for="product-api-name">Name</label>
+                      </th>
+                      <td>
+                        <input type="text" class="form-control" id="product-api-name" name="product-api-name" required placeholder="Version Name" [(ngModel)]="productApi['name']">
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>
+                        <label class="control-label" for="product-api-package">Upload Package</label>
+                      </th>
+                      <td>
+                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code>{{productApi['directory_path']}}</code>
+                        <input type="file" class="form-control" id="product-api-package" name="product-api-package" ng2FileSelect [uploader]="connectPosApiUploader" style="margin-top: 10px;">
+                        <div *ngIf="!!connectPosApiUploader.queue[0]">
+                          <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosApiUploader.queue[0].progress + '%' }"></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Done</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="closeApiModal()">Close</button>
-          <button type="submit" class="btn btn-primary" (click)="saveProductApi()">Save</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-<!-- end -->
+        <!-- end -->
 
       </div>
       <div class="group-btn tac line-top">
         <button type="button" (click)="goBack()" class="btn btn-default">Cancel</button>
-        <button type="submit" [ladda]="(productState$ |async)?.processing" (click)="saveProduct()" class="btn btn-primary">Save</button>
+        <button type="submit" [ladda]="(productState$ |async)?.processing" class="btn btn-primary" (click)="save()">Save</button>
       </div>
     </div>
   </div>

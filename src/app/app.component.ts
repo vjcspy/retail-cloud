@@ -31,6 +31,8 @@ import {AuthenticateService} from "./services/authenticate";
                '../../node_modules/bootstrap-daterangepicker/daterangepicker.css',
                '../../node_modules/ladda/dist/ladda.min.css',
                '../../node_modules/animate.css/animate.min.css',
+               '../../node_modules/froala-editor/css/froala_editor.pkgd.min.css',
+               '../../node_modules/froala-editor/css/froala_style.min.css',
                '../assets/icon/icomoon/style.css',
              ],
              template: `
