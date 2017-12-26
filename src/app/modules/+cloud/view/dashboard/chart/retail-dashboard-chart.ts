@@ -79,7 +79,12 @@ export class RetailDashboardChart {
     let divisorData = _.find(this.dashboardReportService.viewData['items'], (row) => { return row['type'] === divisor; });
     let totalDivisor = this.calculatedTotalWidget(divisorData);
   
-    let totalAverageRevenue = totalDividend.map(function(n, i) { return n / ((totalDivisor[i] + n) === 0 ? 1 : (totalDivisor[i] + n)); });
+    let totalAverageRevenue = [];
+    if (this.typeChart === 'discount_percent') {
+      totalAverageRevenue = totalDividend.map(function (n, i) { return n / ((totalDivisor[i] + n) === 0 ? 1 : (totalDivisor[i] + n)); });
+    } else if (this.typeChart === 'average_sales') {
+      totalAverageRevenue = totalDividend.map(function (n, i) { return n / (totalDivisor[i] === 0 ? 1 : totalDivisor[i]); });
+    }
     
     return totalAverageRevenue;
   }
