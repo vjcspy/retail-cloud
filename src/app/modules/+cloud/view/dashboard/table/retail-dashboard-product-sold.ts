@@ -85,4 +85,8 @@ export class RetailDashBoardTableProductSold {
   checkIsDecimalsItemSold(item_sold) {
     return item_sold % 1 !== 0;
   }
+  
+  getStyle(measure) {
+    return measure === 'trend' ? 'center' : 'right';
+  }
 }

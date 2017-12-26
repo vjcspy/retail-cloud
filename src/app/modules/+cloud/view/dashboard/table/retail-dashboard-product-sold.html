@@ -8,6 +8,7 @@
         <th *ngFor="let measure of getListMeasure()['data']"
             [ngClass]="{'datatable-sorting-up': (sort_desc == true && measure.value === 'revenue'),
             'datatable-sorting-down': (sort_desc == false && measure.value === 'revenue')}"
+            [style.text-align]="getStyle(measure.value)"
             (click)="sortAmount(measure.value)"><a>{{measure.label}}</a>
         </th>
       </tr>
