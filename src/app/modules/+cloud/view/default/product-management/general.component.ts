@@ -39,11 +39,16 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   protected validation = {};
   
-  connectPosUploader = new FileUploader({
-                                          url: 'https://demo.connectpos.com/upload',
-                                          autoUpload: true,
-                                          headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
-                                        });
+  connectPosUploader    = new FileUploader({
+                                             url: 'https://demo.connectpos.com/upload',
+                                             autoUpload: true,
+                                             headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
+                                           });
+  connectPosApiUploader = new FileUploader({
+                                             url: 'https://demo.connectpos.com/api-upload',
+                                             autoUpload: true,
+                                             headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
+                                           });
   
   constructor(public productCollection: ProductCollection,
               public priceCollection: PriceCollection,
@@ -96,7 +101,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   }
   
   protected initFileUploader() {
-    this.connectPosUploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+    this.connectPosUploader.onCompleteItem    = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       try {
         const data = JSON.parse(response);
         if (!!data && !!data['path']) {
@@ -110,8 +115,25 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
         this.notify.error("upload_package_fail");
       }
     };
+    this.connectPosApiUploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      try {
+        const data = JSON.parse(response);
+        if (!!data && !!data['path']) {
+          this.productApi['directory_path'] = data['path'];
+          this.notify.success("upload_package_successfully");
+          this.changeDetectorRef.detectChanges();
+        } else {
+          this.notify.error("upload_package_fail");
+        }
+      } catch (e) {
+        this.notify.error("upload_package_fail");
+      }
+    };
     
-    this.connectPosUploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+    this.connectPosUploader.onErrorItem    = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      this.notify.error('can_not_upload_package');
+    };
+    this.connectPosApiUploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       this.notify.error('can_not_upload_package');
     };
   }
@@ -195,15 +217,18 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                    $(e).closest('.help-block').remove();
                                                                                  },
                                                                                  rules: {
-                                                                                   'modal-version-version': {
+                                                                                   'product-version-version': {
                                                                                      required: true,
                                                                                      pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+                                                                                   },
+                                                                                   'product-version-name': {
+                                                                                     required: true
                                                                                    }
                                                                                  },
                                                                                  submitHandler: () => {
                                                                                    let licensesCompatible = jQuery('#version-specified-licenses')
                                                                                      .val();
-                                                                                   let apiCompatible      = jQuery('#version-api-compatible').val();
+                                                                                   let apiCompatible      = jQuery('#product-version-api-compatible').val();
                                                                                    if (this.productVersion['license_compatible_type'] === 'specified') {
                                                                                      if (_.isArray(licensesCompatible)) {
                                                                                        vm.productVersion['license_compatible'] = licensesCompatible.map((license_id) => {
@@ -247,11 +272,17 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                            'product-api-version': {
                                                                              required: true,
                                                                              pattern: /^[0-9]{1}.[0-9]{1,2}.[0-9]{1,2}$/
+                                                                           },
+                                                                           'product-api-name': {
+                                                                             required: true,
                                                                            }
                                                                          },
                                                                          submitHandler: () => {
-                                                                           if (_.indexOf(this.product.api_versions, this.productApi) === -1) {
-                                                                             vm.product['api_versions'].push(this.productApi);
+                                                                           if (_.indexOf(vm.product.api_versions, vm.productApi) === -1) {
+                                                                             if (!_.isArray(vm.product)) {
+                                                                               vm.product['api_versions'] = [];
+                                                                             }
+                                                                             vm.product['api_versions'].push(vm.productApi);
                                                                            }
                                                                            vm.closeApiModal();
                                                                            vm.changeDetectorRef.detectChanges();
@@ -281,7 +312,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     }
     jQuery('#modal-product-versions')['modal']('show');
     setTimeout(() => {
-      jQuery("#version-api-compatible")['select2']();
+      jQuery("#product-version-api-compatible")['select2']();
       jQuery("#version-specified-licenses")['select2']();
     });
   }

@@ -142,18 +142,18 @@
                   <table class="table">
                     <tr>
                       <th>
-                        <label for="modal-version-version">Version</label>
+                        <label for="product-version-version">Version</label>
                       </th>
                       <td>
-                        <input type="text" class="form-control" id="modal-version-version" name="modal-version-version" required placeholder="Version of Product" [(ngModel)]="productVersion.version">
+                        <input type="text" class="form-control" id="product-version-version" name="product-version-version" required placeholder="Version of Product" [(ngModel)]="productVersion.version">
                       </td>
                     </tr>
                     <tr>
                       <th>
-                        <label for="modal-version-name">Name</label>
+                        <label for="product-version-name">Name</label>
                       </th>
                       <td>
-                        <input type="text" class="form-control" id="modal-version-name" name="modal-version-name" required placeholder="Version Name" [(ngModel)]="productVersion.name">
+                        <input type="text" class="form-control" id="product-version-name" name="product-version-name" required placeholder="Version Name" [(ngModel)]="productVersion.name">
                       </td>
                     </tr>
                     <tr>
@@ -176,10 +176,10 @@
                     </tr>
                     <tr>
                       <th>
-                        <label for="version-api-compatible">API Compatible</label>
+                        <label for="product-version-api-compatible">API Compatible</label>
                       </th>
                       <td>
-                        <select multiple="multiple" class="form-control" name="version-api-compatible" id="version-api-compatible" style="width: 100%;">
+                        <select multiple="multiple" class="form-control" name="product-version-api-compatible" id="product-version-api-compatible" style="width: 100%;">
                           <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
                                   [selected]="isSelectedApi(apiVersion.version)">
                             {{ apiVersion.version }}
@@ -192,14 +192,13 @@
                         <label for="package">Package</label>
                       </th>
                       <td>
-                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code id="modal-version-path-display">{{productVersion['directory_path']}}</code>
+                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code>{{productVersion['directory_path']}}</code>
                         <input type="file" class="form-control" id="package" name="package" ng2FileSelect [uploader]="connectPosUploader" style="margin-top: 10px;">
                         <div *ngIf="!!connectPosUploader.queue[0]">
                           <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosUploader.queue[0].progress + '%' }"></div>
                           </div>
                         </div>
-
                       </td>
                     </tr>
                     <tr>
@@ -221,8 +220,7 @@
                   </table>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" (click)="closeProductVersionModal()">Close</button>
-                  <button type="submit" class="btn btn-primary modal-add-version">Save</button>
+                  <button type="submit" class="btn btn-primary modal-add-version">Done</button>
                 </div>
               </div>
             </form>
@@ -248,15 +246,15 @@
                         <label class="control-label" for="product-api-version">Version</label>
                       </th>
                       <td>
-                        <input type="text" class="form-control" id="product-api-version" name="product-api-version" required placeholder="Version of Product" [(ngModel)]="productApi.version">
+                        <input type="text" class="form-control" id="product-api-version" name="product-api-version" required placeholder="Version of API" [(ngModel)]="productApi['version']">
                       </td>
                     </tr>
                     <tr>
                       <th>
-                        <label class="control-label" for="product-api-name">Version Name</label>
+                        <label class="control-label" for="product-api-name">Name</label>
                       </th>
                       <td>
-                        <input type="text" class="form-control" id="product-api-name" name="product-api-name" required placeholder="Version Name" [(ngModel)]="productApi.name">
+                        <input type="text" class="form-control" id="product-api-name" name="product-api-name" required placeholder="Version Name" [(ngModel)]="productApi['name']">
                       </td>
                     </tr>
                     <tr>
@@ -264,14 +262,19 @@
                         <label class="control-label" for="product-api-package">Upload Package</label>
                       </th>
                       <td>
-                        <input type="file" class="form-control" id="product-api-package" name="product-api-package" required>
+                        <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code>{{productApi['directory_path']}}</code>
+                        <input type="file" class="form-control" id="product-api-package" name="product-api-package" ng2FileSelect [uploader]="connectPosApiUploader" style="margin-top: 10px;">
+                        <div *ngIf="!!connectPosApiUploader.queue[0]">
+                          <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosApiUploader.queue[0].progress + '%' }"></div>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   </table>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" (click)="closeApiModal()">Close</button>
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" class="btn btn-primary">Done</button>
                 </div>
               </div>
             </form>
