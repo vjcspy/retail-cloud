@@ -90,7 +90,12 @@ export class BarChart implements OnDestroy, OnInit {
       plotOptions: {
         series: {
           pointWidth: 33,
-          stacking: 'percent'
+          stacking: 'percent',
+          states: {
+            hover: {
+              enabled: false
+            }
+          }
         }
       },
       tooltip: {
