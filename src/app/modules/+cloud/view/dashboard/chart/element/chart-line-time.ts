@@ -54,7 +54,7 @@ export class ChartLineTime implements OnDestroy, OnInit {
     let chartLineTime = this.initChartLineTime(this.typeChart);
     if (this.chartEl && this.chartEl.nativeElement) {
       chartLineTime.chart = {
-        type: 'line',
+        type: 'area',
         renderTo: this.chartEl.nativeElement
       };
       
@@ -77,12 +77,22 @@ export class ChartLineTime implements OnDestroy, OnInit {
       xAxis: {
         categories: this.getListDataFilter(),
         labels: {
-          autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90]
+          autoRotation: [-10, -20, -30, -40, -50, -60, -70, -80, -90],
+          style: {
+            color:'#777',
+            fontSize: '13px'
+          }
         }
       },
       yAxis: {
         title: {
           text: ''
+        },
+        labels: {
+          style: {
+            color:'#777',
+            fontSize: '13px'
+          }
         }
       },
       plotOptions: {
@@ -134,13 +144,16 @@ export class ChartLineTime implements OnDestroy, OnInit {
               break;
           }
           return '<b style="font-size: 30px; text-align: center; font-weight: 100; margin: 0 auto; display: block">'+ currency_symbol + this.y + discount_symbol + '</b><br/><br/>' +
-                 '<p style="text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM, YYYY') + '</p>';
+                 '<p style="font-size: 13px; text-align: center; margin: 0 auto; display: block">' + moment(this.x, 'Do MMM').format('ddd Do MMM,' +
+                 ' YYYY') + '</p>';
         }
       },
   
       series: [{
         name: this.getTitleDashBoardChart(),
-        data: this.totalValues
+        data: this.totalValues,
+        color: '#3cb4ab',
+        fillOpacity: 0.15
       }],
   
       responsive: {
