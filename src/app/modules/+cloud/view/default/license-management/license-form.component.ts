@@ -13,6 +13,7 @@ import {ConstrainDataHelper} from "../../../services/constrain-data-helper";
 import {ValidateData} from "../../../services/validate-data";
 import {UserCollection} from "../../../../../services/meteor-collections/users";
 import {LicenseActions} from "../../../R/license/actions";
+import * as moment from 'moment';
 
 @Component({
              // moduleId: module.id,
@@ -137,6 +138,9 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     
     // datepicker
     _.forEach(this.licenseHasProducts, (p) => {
+      if (!p['expiry_date']) {
+        p['expiry_date'] = moment().toDate();
+      }
       jQuery("#val-expire_date" + p['product_id'])['daterangepicker']({
                                                                         startDate: p['expiry_date'],
                                                                         locale: {
@@ -240,7 +244,7 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
   }
   
   isPricingOfProduct(pricing, product) {
-    return _.isArray(product['has_pricing']) && _.indexOf(_.map(product['has_pricing'], (_p) => _p['pricing_id']), pricing['_id']) > 0;
+    return _.isArray(product['has_pricing']) && _.indexOf(_.map(product['has_pricing'], (_p) => _p['pricing_id']), pricing['_id']) > -1;
   }
   
   public isEditingLicense(): boolean {
@@ -249,6 +253,15 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     }
     
     return this.data['isEditingLicense'];
+  }
+  
+  currentSelectedPricing() {
+    return _.find(this.prices, (_p) => _p['_id'] === this.license['pricing_id']);
+  }
+  
+  isNotSelectTrial(): boolean {
+    const pricing = this.currentSelectedPricing();
+    return !!pricing && pricing['type'] !== 'trial';
   }
   
   goBack() {

@@ -131,7 +131,7 @@
               </div>
             </td>
             <td>
-              <div class="form-group">
+              <div class="form-group" *ngIf="isNotSelectTrial()">
                 <select class="form-control" [(ngModel)]="product['billing_cycle']" id="val-product_billing_cycle"
                         name="{{'product_billing_cycle' + product['billing_cycle']}}"
                         style="width: 100%;"

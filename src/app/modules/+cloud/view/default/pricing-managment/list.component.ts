@@ -17,15 +17,13 @@ export class PricingListComponent implements OnInit {
       {data: "type", title: "Type"},
       {data: "cost_monthly", title: "Cost Monthly"},
       {data: "cost_annually", title: "Cost Yearly"},
-      {data: "cost_adding", title: "Cost of adding new active user"},
-      // {data: "visibility", title: "Visibility"},
     
     ],
     columnDefs: [
       {
         className: "text-center",
         orderable: false,
-        targets: [0, 1, 2, 3, 4],
+        targets: [0, 1, 2, 3],
         render(data) {
           if (data) {
             return data;
@@ -34,17 +32,6 @@ export class PricingListComponent implements OnInit {
           }
         }
       },
-      // {
-      //   className: "text-center",
-      //   orderable: false, targets: [5],
-      //   render(data) {
-      //     if (data === 0) {
-      //       return `<span class="label label-success">Hidden</span>`;
-      //     } else if (data === 1) {
-      //       return `<span class="label label-danger">Show to customer</span>`;
-      //     }
-      //   }
-      // }
     ],
     bFilter: true,
     sDom: 'ltp'
