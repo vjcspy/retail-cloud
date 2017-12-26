@@ -77,6 +77,17 @@ export class AccountActions {
     
     return action;
   }
+    static ACTION_USER_SEND_RESET_PASSWORD_FAILED = 'ACTION_USER_SEND_RESET_PASSWORD_FAILED';
+    
+    sendResetPasswordFailed(dispatch: boolean = true): Action {
+        const action = {type: AccountActions.ACTION_USER_SEND_RESET_PASSWORD_FAILED, payload: {}};
+        
+        if (dispatch === true) {
+            this.store$.dispatch(action);
+        }
+        
+        return action;
+    }
   
   static ACTION_USER_REGISTER = 'ACTION_REGISTER';
   
