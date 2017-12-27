@@ -83,7 +83,7 @@ export class AccountEffects {
                                                        .map(() => {
                                                          return this.accountActions.goLoginPage(false, false);
                                                        })
-                                                       .catch((e) => Observable.of(this.rootActions.error("", false)));
+                                                       .catch((e) => Observable.of(this.accountActions.sendResetPasswordFailed(false)));
                                     });
   
   @Effect() resetPassword = this.actions$

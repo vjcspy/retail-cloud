@@ -135,7 +135,6 @@
             <form id="product-version">
               <div class="col-md-offset-2 col-md-8 modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" (click)="closeProductVersionModal()">&times;</button>
                   <h4 class="modal-title text-center">PRODUCT VERSION</h4>
                 </div>
                 <div class="modal-body">
@@ -179,7 +178,7 @@
                         <label for="product-version-api-compatible">API Compatible</label>
                       </th>
                       <td>
-                        <select multiple="multiple" class="form-control" name="product-version-api-compatible" id="product-version-api-compatible" style="width: 100%;">
+                        <select multiple="multiple" class="form-control" name="product-version-api-compatible" id="product-version-api-compatible" style="width: 100%;" required>
                           <option *ngFor="let apiVersion of product.api_versions" [value]="apiVersion['version']"
                                   [selected]="isSelectedApi(apiVersion.version)">
                             {{ apiVersion.version }}
@@ -206,7 +205,7 @@
                         <label for="modal-version-descriptions">Descriptions</label>
                       </th>
                       <td>
-                        <textarea [froalaEditor] [(froalaModel)]="productVersion['descriptions']" id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions"></textarea>
+                        <textarea [froalaEditor]="options" [(froalaModel)]="productVersion['descriptions']" id="modal-version-descriptions" name="modal-version-descriptions" placeholder="Descriptions"></textarea>
                       </td>
                     </tr>
                     <tr>
@@ -214,7 +213,7 @@
                         <label for="modal-version-changelog">Change Log</label>
                       </th>
                       <td>
-                        <textarea [froalaEditor] [(froalaModel)]="productVersion['changelog']" id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"></textarea>
+                        <textarea [froalaEditor]="options" [(froalaModel)]="productVersion['changelog']" id="modal-version-changelog" name="modal-version-changelog" placeholder="Change Log"></textarea>
                       </td>
                     </tr>
                   </table>
@@ -236,7 +235,6 @@
             <form id="product-api">
               <div class="col-md-offset-2 col-md-8 modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" (click)="closeApiModal()">&times;</button>
                   <h4 class="modal-title text-center">PRODUCT API</h4>
                 </div>
                 <div class="modal-body">

@@ -18,6 +18,7 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     case AccountActions.ACTiON_USER_REGISTER_SUCCESS:
     case AccountActions.ACTION_GO_LOGIN_PAGE:
     case AccountActions.ACTION_SAVE_USER_PROFILE_FAIL:
+    case AccountActions.ACTION_USER_SEND_RESET_PASSWORD_FAILED:
     case AccountActions.ACTION_SAVE_USER_PROFILE_SUCCESS:
       return state.set('isProcessing', false);
     
