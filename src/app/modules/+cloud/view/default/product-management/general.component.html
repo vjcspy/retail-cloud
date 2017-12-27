@@ -188,11 +188,11 @@
                     </tr>
                     <tr>
                       <th>
-                        <label for="package">Package</label>
+                        <label for="product_version_package">Package</label>
                       </th>
                       <td>
                         <i class="indicator glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i><code>{{productVersion['directory_path']}}</code>
-                        <input type="file" class="form-control" id="package" name="package" ng2FileSelect [uploader]="connectPosUploader" style="margin-top: 10px;">
+                        <input type="file" class="form-control" id="product_version_package" name="product_version_package" ng2FileSelect [uploader]="connectPosUploader" style="margin-top: 10px;">
                         <div *ngIf="!!connectPosUploader.queue[0]">
                           <div class="progress" style="margin-bottom: 0;margin-top: 5px;height: 4px;">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': connectPosUploader.queue[0].progress + '%' }"></div>

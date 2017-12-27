@@ -278,6 +278,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                    if (_.indexOf(this.product.versions, this.productVersion) === -1) {
                                                                                      vm.product.versions.push(this.productVersion);
                                                                                    }
+                                                                                   this.connectPosUploader.clearQueue();
+                                                                                   jQuery('#product_version_package').val('');
                                                                                    jQuery('#modal-product-versions')['modal']('hide');
                                                                                    vm.changeDetectorRef.detectChanges();
                                                                                  }
@@ -321,6 +323,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                              }
                                                                              vm.product['api_versions'].push(vm.productApi);
                                                                            }
+                                                                             this.connectPosApiUploader.clearQueue();
+                                                                             jQuery('#product-api-package').val('');
                                                                              jQuery('#modal-product-api')['modal']('hide');
                                                                              vm.changeDetectorRef.detectChanges();
                                                                          }
@@ -335,6 +339,11 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   editVersion(pVersion: string) {
     if (pVersion === 'createNew') {
+      if(!_.isArray(this.product['api_versions']) || this.product['api_versions'].length < 1) {
+          this.notify.error("can_not_find_api_version_please_create_api_version_first");
+          this.data.tabView = 'api';
+          return;
+      }
       this.productVersion = {
         license_compatible_type: 'all'
       };
