@@ -53,7 +53,7 @@ export class AccountLicenseListComponent extends AbstractSubscriptionComponent i
               const pricing = pricingCollection.collection.findOne({"_id": p['pricing_id']});
               const product = productCollection.collection.findOne({"_id": p['product_id']});
               
-              if (!!plan && !!pricing && !!product) {
+              if (!!pricing && !!product) {
                 this.licenseProduct.push({
                                            productName: product['name'],
                                            pricingName: pricing['display_name'],
