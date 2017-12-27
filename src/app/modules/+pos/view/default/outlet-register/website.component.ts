@@ -55,7 +55,7 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
       return;
     }
     
-    if (_.isString($event) && $event !== 'null' && this.baseUrl !== $event) {
+    if (_.isString($event) && $event !== 'null' && !!$event && this.baseUrl !== $event) {
       this.baseUrl = $event;
       this.generalActions.selectWebsite(this.baseUrl);
     } else {

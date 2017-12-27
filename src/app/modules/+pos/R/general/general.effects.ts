@@ -52,7 +52,7 @@ export class PosGeneralEffects {
                                 let listUrl                      = List.of();
                                 const urls                       = accountState.license.licenseHasPos['base_url'];
                                 _.forEach(urls, (url) => {
-                                  if (parseInt(url['status']) === 1) {
+                                  if ((parseInt(url['status']) === 1 || url['in_use'] === true) && url['is_valid'] !== false) {
                                     listUrl = listUrl.push({
                                                              url: url['url'],
                                                              is_default: false,
