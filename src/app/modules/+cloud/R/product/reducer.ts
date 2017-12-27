@@ -5,6 +5,7 @@ import {ProductActions} from "./actions";
 export const productReducer: ActionReducer<ProductStateRecord> = (state = productStateFactory(), action) => {
   switch (action.type) {
     case ProductActions.ACTION_SAVE_PRODUCT:
+    case ProductActions.ACTION_UPLOAD_FILE:
       return state.set('processing', true);
     
     case ProductActions.ACTION_SAVE_PRODUCT_FAIL:
