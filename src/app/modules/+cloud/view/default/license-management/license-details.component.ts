@@ -66,7 +66,7 @@ export class LicenseDetailsComponent extends AbstractSubscriptionComponent imple
                                                                  purchaseDate: p['purchase_date'],
                                                                  expiryDate: p['expiry_date'],
                                                                  productId: p['product_id'],
-                                                                 status: licenses['status'],
+                                                                 status: p['status'],
                                                                  product_version: licenses['product_version']
                                                              });
                                 } else {
@@ -85,7 +85,7 @@ export class LicenseDetailsComponent extends AbstractSubscriptionComponent imple
         );
     }
     
-    getLicensStatus(status) {
+    getProductStatus(status) {
         if (isNaN(status)) {
             return "";
         } else {

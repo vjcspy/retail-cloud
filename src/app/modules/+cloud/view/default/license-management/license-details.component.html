@@ -27,7 +27,7 @@
                         <td>{{productLicense['additionEntity']}}</td>
                         <td>{{productLicense['purchaseDate'] | amCalendar}}</td>
                         <td>{{productLicense['expiryDate'] | amCalendar}}</td>
-                        <td>{{getLicensStatus(productLicense['status'])}}</td>
+                        <td>{{getProductStatus(productLicense['status'])}}</td>
 
                         <td>
                             <a class="link-action meteor-table-bt-edit" (click)="viewEdit(productLicense['productId'])">Edit</a>
