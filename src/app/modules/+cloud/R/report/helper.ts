@@ -143,7 +143,7 @@ export class ReportHelper {
       },
       {
         id: 17,
-        label: "Return percent",
+        label: "Refund percent",
         value: "return_percent",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
@@ -152,7 +152,7 @@ export class ReportHelper {
       },
       {
         id: 18,
-        label: "Return count",
+        label: "Refund count",
         value: "return_count",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
