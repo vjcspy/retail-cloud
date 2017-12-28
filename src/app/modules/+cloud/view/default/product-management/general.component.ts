@@ -39,13 +39,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   public productState$: Observable<ProductState>;
   
   protected validation = {};
-  
+  public apiDelete;
+  public versionDelete;
   public options: Object = {
         charCounterCount: true,
         toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertTable', 'spellChecker', 'undo', 'redo'],
         toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
         toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
         toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+        height: 200,
   };
     
     connectPosUploader    = new FileUploader({
@@ -375,8 +377,17 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
   
-  removeVersion(version) {
-    _.remove(this.product.versions, version);
+  openPopupModalDeleteVersion(version) {
+        this.versionDelete = version;
+        $('#delete-version')['modal']('show');
+  }
+  
+  closePopupModalDeleteVersion() {
+        $('#delete-version')['modal']('hide');
+    }
+  removeVersion() {
+    _.remove(this.product.versions, this.versionDelete);
+    this.closePopupModalDeleteVersion();
   }
   
   editProductApi(productApiVersion: string) {
@@ -392,9 +403,25 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     }
     jQuery('#modal-product-api')['modal']('show');
   }
+  openPopupModalDeleteApi(api) {
+        this.apiDelete = api;
+        $('#delete-api')['modal']('show');
+  }
   
-  removeProductApi(apiVersion) {
-    _.remove(this.product['api_versions'], apiVersion);
+  closePopupModalDeleteApi() {
+        $('#delete-api')['modal']('hide');
+  }
+  removeProductApi() {
+    const apiWasCompatible = _.find(this.product.versions, (_pv) => {
+        return _.find(_pv['api_compatible'], (_pva) => _pva['version'] === this.apiDelete['version']);
+    });
+    if (apiWasCompatible) {
+        this.notify.error("cannot_delete_api_was_compatible");
+        this.closePopupModalDeleteApi();
+        return;
+    }
+    _.remove(this.product['api_versions'], this.apiDelete);
+    this.closePopupModalDeleteApi();
   }
   
   save() {
