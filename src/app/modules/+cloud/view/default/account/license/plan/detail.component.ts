@@ -20,10 +20,11 @@ import {ShopManageActions} from "../../../../../R/shop/actions";
            })
 
 export class AccountLicensePlanDetailComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
-  licenseHasProduct: any;
+  licenseHasProduct;
   product: any;
+  productVerisons: any;
   pricing: any;
-  
+  versionInfo: any;
   private validationElem;
   protected urlDelete;
   
@@ -59,7 +60,7 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
           if (this.licenseHasProduct) {
             this.product = productCollection.collection.findOne({"_id": this.licenseHasProduct['product_id']});
             this.pricing = pricingCollection.collection.findOne({"_id": this.licenseHasProduct['pricing_id']});
-            
+            this.productVerisons = this.product['versions'];
             this.elemRef.detectChanges();
             setTimeout(() => {
               this.initPageJs();
@@ -141,5 +142,8 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
       this.validationElem.destroy();
     }
     super.ngOnDestroy();
+  }
+  showVersionInfo() {
+      this.versionInfo = _.find(this.productVerisons, (_v) => _v['version'] === this.licenseHasProduct['product_version']);
   }
 }

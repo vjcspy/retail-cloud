@@ -62,11 +62,11 @@
           <div class="form-group">
             <label class="control-label">Change Version:</label>
             <div class="element s-row">
-              <select class="form-control" name="" disabled style="width: auto">
-                <option value="">1.0.0 - current</option>
-                <option value="">2.0</option>
+              <select class="form-control" name="versions"  style="width: auto"  [(ngModel)]="licenseHasProduct['product_version']">
+                <option value="lasted">Lasted</option>
+                <option *ngFor="let version of productVerisons" [value]="version['version']">{{version['version']}}</option>
               </select>
-              <a class="link-action">(Version info)</a>
+              <a class="link-action" (click)="showVersionInfo()" data-toggle="modal" data-target="#modal-product-versions">(Version info)</a>
             </div>
           </div>
           <div class="form-group">
@@ -156,3 +156,23 @@
     </div>
   </div>
 </div>
+<!--View Version Infor-->
+<div id="modal-product-versions" class="modal fade" role="dialog" *ngIf="!!versionInfo" >
+  <div class="row" >
+    <form id="version-info" >
+      <div class="col-md-offset-2 col-md-8 modal-content" >
+        <div class="modal-header">
+          <h4 class="modal-title text-center">CHANGE LOG</h4>
+        </div>
+        <div class="modal-body" >
+          <div [innerHTML] ="versionInfo['changelog']" style="height: 600px; overflow: scroll"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary modal-add-version" data-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+<!-- end product-version-modal -->
