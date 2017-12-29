@@ -63,7 +63,7 @@
             <label class="control-label">Change Version:</label>
             <div class="element s-row">
               <select class="form-control" name="versions"  style="width: auto"  [(ngModel)]="licenseHasProduct['product_version']">
-                <option value="lasted">Lasted</option>
+                <option value="" >Lasted</option>
                 <option *ngFor="let version of productVerisons" [value]="version['version']">{{version['version']}}</option>
               </select>
               <a class="link-action" (click)="showVersionInfo()" data-toggle="modal" data-target="#modal-product-versions">(Version info)</a>
