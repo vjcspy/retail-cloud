@@ -13,7 +13,7 @@
       <p class="noted">
         {{getOrder()['retail_note']}}
       </p>
-      <textarea [(ngModel)]="getOrder()['retail_note']"></textarea>
+      <textarea [(ngModel)]="getOrder()['retail_note']" [disabled]="!checkOrderBelongToOutlet()"></textarea>
     </div>
 
     <div class="customer-info" [ngClass]="{active: getOrder()['is_active_customer']}">
@@ -139,7 +139,7 @@
       </div><!--end total-blk-->
     </div><!--end payment-info-->
   </div><!--end order-list-inner-->
-  <div class="bottom-bar">
+  <div class="bottom-bar" *ngIf="checkOrderBelongToOutlet()">
     <button (click)="markAsReSynnc()" *ngIf="getOrder()['pushed'] == 3" [ladda]="ordersState.detail.isResolvingReorder">
       {{ 'Mark As ReSync' | translate }}
     </button>

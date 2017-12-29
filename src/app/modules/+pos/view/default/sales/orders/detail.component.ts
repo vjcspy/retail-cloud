@@ -14,6 +14,7 @@ import {QuoteRefundActions} from "../../../../R/quote/refund/refund.actions";
 import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions";
 import {OfflineService} from "../../../../../share/provider/offline";
 import {AppStorage} from "../../../../../../services/storage";
+import {PosGeneralState} from "../../../../R/general/general.state";
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-order-detail',
@@ -28,6 +29,7 @@ export class PosDefaultSalesOrdersDetailComponent {
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
+  @Input() posGeneralState: PosGeneralState;
   
   constructor(protected authenticateService: AuthenticateService,
               public orderService: OrderService,
@@ -151,7 +153,7 @@ export class PosDefaultSalesOrdersDetailComponent {
       let name = this.getOrder()['customer']['name'];
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
-        //username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
+        // username: this.userCollection.getUserNameById(this.getOrder()['user_id']),
         username: this.storage.localRetrieve("user")['username'],
         inclDiscountPerItemInDiscount: this.configState.posRetailConfig.inclDiscountPerItemInDiscount
       };
@@ -168,4 +170,12 @@ export class PosDefaultSalesOrdersDetailComponent {
       return false;
     }
   }
+  
+  checkOrderBelongToOutlet(): boolean {
+    let store_id: string = this.posGeneralState.store['id'];
+    let store_order_id: string = this.getOrder()['store_id'];
+    
+    return (!!store_id && !!store_order_id && store_order_id === store_id) ? true : false;
+  }
+  
 }
