@@ -282,10 +282,10 @@ export class SaleReportService {
       case "Cart Value" :
         itemLable = item['Revenue'] / item['Order Count'];
         break;
-      case "Cart Value (incl tax)" :
+      case "Cart Value (Incl Tax)" :
         itemLable = item['Total Sales'] / item['Order Count'];
         break;
-      case "Discount percent":
+      case "Discount Percent":
         if (this.viewDataFilter['report_type'] == 'product' ||
             this.viewDataFilter['report_type'] == 'category' ||
             this.viewDataFilter['report_type'] == 'manufacturer'
@@ -295,8 +295,8 @@ export class SaleReportService {
           itemLable = item['Discount'] / (item['Total Sales'] + item['Discount']);
         }
         break;
-      case "Return percent":
-        itemLable = item['Return count'] / (item['Item Sold'] + item['Return count']);
+      case "Refund Percent":
+        itemLable = item['Refund Count'] / (item['Item Sold'] + item['Refund Count']);
         break;
       default :
         itemLable = item[measureLabel];
@@ -407,13 +407,13 @@ export class SaleReportService {
                 totalOrderCount += parseFloat(itemValue['order_count']);
                 additionalItem[item['dateRanger']] = (totalOrderCount == 0) ? "--" : (grandTotal / totalOrderCount);
               }
-              if (additionalData['label'] == "Discount percent") {
+              if (additionalData['label'] == "Discount Percent") {
                 // itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
                 totalDiscountAmount += parseFloat(itemValue['discount_amount']);
                 totalInvoiced += parseFloat(itemValue['base_row_total_product']);
                 additionalItem[item['dateRanger']] = ((totalInvoiced + totalDiscountAmount) == 0) ? "--" : (totalDiscountAmount / (totalInvoiced + totalDiscountAmount));
               }
-              if (additionalData['label'] == "Return percent") {
+              if (additionalData['label'] == "Refund Percent") {
                 totalReturnAmount += parseFloat(itemValue['return_count']);
                 totalItemSold += parseFloat(itemValue['item_sold']);
                 additionalItem[item['dateRanger']] = (totalItemSold == 0) ? "--" : (totalReturnAmount / totalItemSold);
@@ -428,7 +428,7 @@ export class SaleReportService {
   
   checkCalculateMeasureData(measureLabel) {
     if (measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (incl tax)" || measureLabel == "Discount percent" || measureLabel == "Return percent") {
+        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent") {
       return false;
     }
     return true;

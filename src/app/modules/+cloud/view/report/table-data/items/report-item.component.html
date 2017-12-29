@@ -44,7 +44,7 @@
 <td class="datatable-table-total" *ngFor="let measure of measures">
   <div class="price-wrap" style="white-space: nowrap;"><span [hidden]="!checkShowSymbolCurrency(measure, item[measure])">
   {{service.viewData['symbol_currency']}}</span>
-    {{checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount percent' || measure == 'Return percent') ? (item[measure] | percent:'1.2-2') :
+    {{checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount Percent' || measure == 'Refund Percent') ? (item[measure] | percent:'1.2-2') :
     ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!checkNullValue(item[measure]) ? item[measure] : '__')}}
   </div>
 </td>
