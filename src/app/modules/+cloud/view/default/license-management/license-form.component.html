@@ -145,7 +145,7 @@
                 <div class="form-material">
                   <input class="form-control" type="text" name="{{'val-addition_entity'+product['addition_entity']}}"
                          id="{{ 'val-addition_entity' + product['addition_entity'] }}"
-                         placeholder="Enter addition entity.." [(ngModel)]="product['addition_entity']">
+                         placeholder="Enter addition entity.." [(ngModel)]="product['addition_entity']" [min]="1">
                 </div>
               </div>
             </td>
