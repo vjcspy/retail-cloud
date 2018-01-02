@@ -10,6 +10,7 @@ import {RootActions} from "../root.actions";
 import {RouterActions} from "../router/router.actions";
 import {AuthenticateService} from "../../services/authenticate";
 import {AccountState} from "./account.state";
+import {AppStorage} from "../../services/storage";
 
 
 @Injectable()
@@ -20,6 +21,7 @@ export class AccountEffects {
               protected accountActions: AccountActions,
               protected accountService: AccountService,
               protected authenticate: AuthenticateService,
+              protected appStorage: AppStorage,
               protected rootActions: RootActions,
               protected routerActions: RouterActions) { }
   
@@ -64,8 +66,10 @@ export class AccountEffects {
                          .switchMap(() => {
                            return Observable.fromPromise(this.accountService.logout())
                                             .map(() => {
-                                              this.accountService.removeStorage();
-                                              location.reload(true);
+                                              this.appStorage.localClear();
+                                              setTimeout(() => {
+                                                location.reload(true);
+                                              }, 200);
                                               return this.accountActions.goLoginPage(false, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
