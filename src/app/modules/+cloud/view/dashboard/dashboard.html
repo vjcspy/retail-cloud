@@ -1,0 +1,71 @@
+<div class="retail-dashboard">
+	<div class="dashboard-date-content">
+		<div class="clearfix">
+			<div class="pull-left gray-bg dashboard-row">
+				<div class="dashboard-heading">
+					<h1>Retail Dashboard</h1>
+				</div>
+			</div>
+			<div class="pull-right dashboard-actions">
+        <!--<dashboard-granularity></dashboard-granularity>-->
+        <ul class="button-group granularity-selector">
+          <li *ngFor="let period of getListTimePeriodPicker()['data']">
+            <a class="button" [ngClass]="{secondary: getPeriodValue() == period.value}" (click)="setGranularity(period.value)"> {{period.label}} </a>
+          </li>
+        </ul>
+        <ul class="button-group">
+          <li>
+            <a disabled class="button prev-date" (click)="setGranularity(getPeriodValue(), 'prev')">
+              <i class="ion-ios-arrow-left"></i>
+            </a>
+          </li>
+          <li>
+            <a class="button date day">{{granularity}}</a>
+          </li>
+          <li>
+            <a class="button next-date" (click)="setGranularity(getPeriodValue(), 'next')" [ngClass]="{'disabled':!canShiftUp()}">
+              <i class="ion-ios-arrow-right"></i>
+            </a>
+          </li>
+        </ul>
+				<ul class="button-group">
+					<li class="scope"><span>Scope:</span></li>
+					<li *ngFor="let scope of getListScope()['data']">
+						<a class="button" [ngClass]="{secondary: getScopeValue() == scope.value}" (click)="changeScopeValue(scope.value)">{{scope.label}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+  <div class="dashboard-primary-content">
+    <div class="dashboard-container clearfix" *ngIf="!checkChartDataExsit()">
+      <!--<retail-dashboard-chart [typeChart]="typeChart.value"-->
+                              <!--[data_view]="getViewData(typeChart.value)"-->
+                              <!--[period]="getPeriodValue()"-->
+                              <!--[current_currency] = "getCurrentCurrency()"-->
+                              <!--*ngFor="let typeChart of getListTypeChart()['data']; trackBy:trackByValue"-->
+                              <!--class="retail-dashboard-chart-container"></retail-dashboard-chart>-->
+      <retail-dashboard-groupChart></retail-dashboard-groupChart>
+    </div>
+  </div>
+  <retail-dashboard-table-product-trend [data_view]="getProductTrend()"
+                                        [current_currency] = "getCurrentCurrency()"></retail-dashboard-table-product-trend>
+  <retail-dashboard-table-topUser [data_view]="getViewData()['topUser']"
+                                  [current_currency] = "getCurrentCurrency()"> </retail-dashboard-table-topUser>
+</div>
+<div class="popup-overlay" style="z-index: 9998" [ngClass]="{open:!isOverLoad()}">
+  <div class="sk-circle">
+    <div class="sk-circle1 sk-child"></div>
+    <div class="sk-circle2 sk-child"></div>
+    <div class="sk-circle3 sk-child"></div>
+    <div class="sk-circle4 sk-child"></div>
+    <div class="sk-circle5 sk-child"></div>
+    <div class="sk-circle6 sk-child"></div>
+    <div class="sk-circle7 sk-child"></div>
+    <div class="sk-circle8 sk-child"></div>
+    <div class="sk-circle9 sk-child"></div>
+    <div class="sk-circle10 sk-child"></div>
+    <div class="sk-circle11 sk-child"></div>
+    <div class="sk-circle12 sk-child"></div>
+  </div>
+</div>

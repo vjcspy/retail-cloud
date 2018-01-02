@@ -1,0 +1,33 @@
+<div class="dashboard-secondary-content">
+  <div class="dashboard-database">
+    <h2>Products sold</h2>
+    <table class="datatable">
+      <thead>
+      <tr>
+        <th colspan="2">Product</th>
+        <th *ngFor="let measure of getListMeasure()['data']"
+            [ngClass]="{'datatable-sorting-up': (sort_desc == true && measure.value === 'revenue'),
+            'datatable-sorting-down': (sort_desc == false && measure.value === 'revenue')}"
+            [style.text-align]="getStyle(measure.value)"
+            (click)="sortAmount(measure.value)"><a>{{measure.label}}</a>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of getDataProductSold()">
+        <th colspan="2">{{item['data_report_value']['name']}}</th>
+        <td>{{current_currency}}{{item['revenue'] | number:'1.2-2'}}</td>
+        <td>{{item['item_sold'] | number:'1.2-2'}}</td>
+        <td>{{current_currency}}{{item['discount_amount'] | number:'1.2-2'}}</td>
+        <td>
+          <product-trend [typeChart]="typeChart"
+                         [data_product_trend]="getDataProductTrend(item['sku'])">
+          </product-trend>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="datatable-no-results" *ngIf="getDataProductSold().length === 0"> No data available for this period. </div>
+    <div class="view-full-report"><a (click)="goToSaleReport()">View full report</a> </div>
+  </div>
+</div>

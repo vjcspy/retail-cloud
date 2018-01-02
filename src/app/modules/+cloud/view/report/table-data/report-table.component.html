@@ -2,8 +2,8 @@
   <thead>
   <tr class="datatable-col-header-row">
     <th [attr.colspan]="getColspanForHeader()"></th>
-    <th [hidden]="isDateRanger()" [attr.colspan]="data_view['list_date_filter'].length" class="border">2017</th>
-    <th class="datatable-row-aggs-header" [attr.colspan]="data_filter['measures'].length">Totals By {{getLabelForTitle()}}</th>
+    <th [hidden]="isDateRanger()" [attr.colspan]="data_view['list_date_filter'].length" class="border">{{getLabelDateRange()}} </th>
+        <th class="datatable-row-aggs-header" [attr.colspan]="data_filter['measures'].length" *ngIf="data_filter['measures'].length > 0">Totals By {{getLabelForTitle()}}</th>
   </tr>
   <tr class="datatable-col-labels-row">
     <th [attr.colspan]="getColspanForTitle(addition['value'])" class="datatable-row-label-label "
@@ -34,7 +34,7 @@
     </th>
 
     <th [hidden]="isDateRanger()" class="datatable-row-label-label  datatable-row-label-label--last"
-        style="text-align: center"
+        style="text-align: right"
         *ngFor="let date  of data_view['list_date_filter']">
       {{date}}
     </th>

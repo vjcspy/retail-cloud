@@ -85,10 +85,10 @@ export class CloudReportTimeSelectComponent implements AfterViewInit {
             if (this.period_data['compare_value'] == "hour") {
                 return moment(data).format('llll');
             } else {
-                return moment(data).format('MMM Do YY');
+                return moment(data).format('MMM DD, YYYY');
             }
         }
-        return moment(data).format('MMM Do YY');
+        return moment(data).format('MMM DD, YYYY');
     }
 
     convertCurrentDateDisplay(data) {
@@ -96,10 +96,10 @@ export class CloudReportTimeSelectComponent implements AfterViewInit {
             if (this.model['compare_value'] == "hour") {
                 return moment(data).format('llll');
             } else {
-                return moment(data).format('MMM Do YY');
+              return moment(data).format('MMM DD, YYYY');
             }
         }
-        return moment(data).format('MMM Do YY');
+      return moment(data).format('MMM DD, YYYY');
     }
 
     checkData() {

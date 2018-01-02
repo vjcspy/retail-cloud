@@ -1,20 +1,28 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnInit, ChangeDetectorRef} from '@angular/core';
 import * as _ from "lodash";
 import {SaleReportService} from "../../../../R/report/service";
+import {AbstractRxComponent} from "../../../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: '[sale-report-dateranger-item]',
              templateUrl: 'report-item-dateranger.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class CloudSaleReportDateRangerItemComponent {
+export class CloudSaleReportDateRangerItemComponent extends AbstractRxComponent implements OnInit {
   @Input('list_date') list_date       = [];
   @Input('item') item                 = [];
   @Input('colspanFooter') colspanFooter ;
   @Input('firstItem') firstValue = [];
   @Input('rowSpan') rowSpan: number;
   
-  constructor(protected service: SaleReportService) {
+  constructor(protected service: SaleReportService, protected changeDetector: ChangeDetectorRef) {
+    super();
+  }
+  
+  ngOnInit() {
+    this._subscription['update_view'] = this.service.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
   }
   
   protected checkReportType(item) {
@@ -45,9 +53,10 @@ export class CloudSaleReportDateRangerItemComponent {
   
   checkShowSymbolCurrency(measureLabel, value){
     if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (incl tax)" || measureLabel == "Discount percent" || measureLabel == "Return percent"|| measureLabel == "Customer Count" ||
+        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"||
+        measureLabel == "Customer Count" ||
         measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count" ||
-        measureLabel == "Return count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
+        measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
         this.checkIsNumberDecimals(value) == false) {
       return false;
     } else

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AbstractSubscriptionComponent} from "../../code/AbstractSubscriptionComponent";
 import {AccountService} from "../../R/account/account.service";
+import {ToastsManager} from "ng2-toastr";
 
 @Component({
              // moduleId: module.id,
@@ -11,8 +12,9 @@ import {AccountService} from "../../R/account/account.service";
            })
 
 export class CloudComponent extends AbstractSubscriptionComponent implements OnInit {
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService , private toast : ToastsManager) {
     super();
+    this.toast.clearAllToasts();
   }
   
   ngOnInit() {

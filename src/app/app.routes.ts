@@ -10,7 +10,7 @@ import {NotLoggedGuard} from "./services/router-guard/not-logged-guard";
 export const ROUTES: Routes = [
   {
     path: '',
-    redirectTo: '/cloud/default/sale-report',
+    redirectTo: '/cloud/default/dashboard',
     pathMatch: 'full'
   },
   {

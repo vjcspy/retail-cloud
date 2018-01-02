@@ -78,7 +78,7 @@ export class ReportHelper {
       },
       {
         id: 9,
-        label: "Cart Value (incl tax)",
+        label: "Cart Value (Incl Tax)",
         value: "cart_value_incl_tax",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
@@ -102,7 +102,7 @@ export class ReportHelper {
       },
       {
         id: 12,
-        label: "Discount percent",
+        label: "Discount Percent",
         value: "discount_percent",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
@@ -143,7 +143,7 @@ export class ReportHelper {
       },
       {
         id: 17,
-        label: "Return percent",
+        label: "Refund Percent",
         value: "return_percent",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
@@ -152,7 +152,7 @@ export class ReportHelper {
       },
       {
         id: 18,
-        label: "Return count",
+        label: "Refund Count",
         value: "return_count",
         is_default: false,
         not_available_for: _.unionBy(ReportHelper.REPORT_TYPE_COLUMN_PAYMENT,
@@ -280,6 +280,36 @@ export class ReportHelper {
       label: "Order Status",
       value: "order_status"
     };
+  }
+  
+  static getAdditionalData(report_type: string = 'product') {
+    let list_additional_data = [];
+    switch (report_type) {
+      case 'product':
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+          {id: 2, label: "SKU", value: "sku"},
+          {id: 3, label: "Product Type", value: "product_type"},
+          {id: 4, label: "Manufacturer", value: "manufacturer"},
+        ];
+        break;
+      case 'customer':
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+          {id: 2, label: "Email", value: "customer_email"},
+          {id: 3, label: "Customer Group", value: "customer_group_code"},
+          {id: 4, label: "Telephone", value: "customer_telephone"},
+        ];
+        break;
+      default:
+        list_additional_data = [
+          {id: 1, label: "Name", value: "name"},
+        ];
+        break;
+    }
+    return {
+      data: list_additional_data,
+    }
   }
   
   static getListDayOfWeek(): Object {

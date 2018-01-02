@@ -91,13 +91,13 @@ export class SaleReportService {
     };
     
     this._sortData = "Revenue";
-    this.isSortAsc = false;
+    this.isSortAsc = true;
     this.measure_selected = [];
   }
   
   initSortDefaultValue(){
     this._sortData = "Revenue";
-    this.isSortAsc = false;
+    this.isSortAsc = true;
   }
   
   initRequestReportData(filter = null, item_filter = null) {
@@ -142,10 +142,15 @@ export class SaleReportService {
       report_type['item_details'] = [];
       report_type['display_item_detail'] = false;
       report_type['name'] = _.isObject(report_type_data['value']) ? report_type_data['value']['name'] : (report_type_data['value'] == 'N/A' ? (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') : report_type_data['value']);
-      
+  
       // add them value de filter doi voi nhung data can hien thi them data
-      if (this.viewDataFilter['report_type'] == "payment_method" || this.viewDataFilter['report_type'] == "order_status" ||
-          this.viewDataFilter['report_type'] == "register" || this.viewDataFilter['report_type'] == "customer" || this.viewDataFilter['report_type'] == "region") {
+      if (this.viewDataFilter['report_type'] == "payment_method" ||
+          this.viewDataFilter['report_type'] == "order_status" ||
+          this.viewDataFilter['report_type'] == "register" ||
+          this.viewDataFilter['report_type'] == "customer" ||
+          this.viewDataFilter['report_type'] == "region" ||
+          this.viewDataFilter['report_type'] == "outlet" ||
+          this.viewDataFilter['report_type'] == "category") {
         report_type['value'] = report_type_data['data'];
       }
       
@@ -271,14 +276,22 @@ export class SaleReportService {
       case "Cart Value" :
         itemLable = item['Revenue'] / item['Order Count'];
         break;
-      case "Cart Value (incl tax)" :
+      case "Cart Value (Incl Tax)" :
         itemLable = item['Total Sales'] / item['Order Count'];
         break;
-      case "Discount percent":
+      case "Discount Percent":
+        if (this.viewDataFilter['report_type'] == 'product' ||
+            this.viewDataFilter['report_type'] == 'category' ||
+            this.viewDataFilter['report_type'] == 'manufacturer'
+        ) {
+          itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
+        } else {
+          itemLable = item['Discount'] / (item['Total Sales'] + item['Discount']);
+        }
         itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
         break;
-      case "Return percent" :
-        itemLable = item['Return count'] / (item['Item Sold'] + item['Return count']);
+      case "Refund Percent" :
+        itemLable = item['Refund Count'] / (item['Item Sold'] + item['Refund Count']);
         break;
       default :
         itemLable = item[measureLabel];
@@ -395,7 +408,7 @@ export class SaleReportService {
                 totalInvoiced += parseFloat(itemValue['base_row_total_product']);
                 additionalItem[item['dateRanger']] = ((totalInvoiced + totalDiscountAmount) == 0) ? "--" : (totalDiscountAmount / (totalInvoiced + totalDiscountAmount));
               }
-              if (additionalData['label'] == "Return percent") {
+              if (additionalData['label'] == "Refund Percent") {
                 totalReturnAmount += parseFloat(itemValue['return_count']);
                 totalItemSold += parseFloat(itemValue['item_sold']);
                 additionalItem[item['dateRanger']] = (totalItemSold == 0) ? "--" : (totalReturnAmount / totalItemSold);
@@ -410,7 +423,7 @@ export class SaleReportService {
   
   checkCalculateMeasureData(measureLabel) {
     if (measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (incl tax)" || measureLabel == "Discount percent" || measureLabel == "Return percent") {
+        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount percent" || measureLabel == "Refund Percent") {
       return false;
     }
     return true;
@@ -448,11 +461,12 @@ export class SaleReportService {
           .subscribe(
             (data) => {
               if (_.isObject(data)) {
-                this.convertData(data['items'], data['group_data'], data['base_currency']);
                 if (data['date_ranger']){
                   this.viewDataFilter['current_dateStart'] = data['date_ranger']['date_start'];
                   this.viewDataFilter['current_dateEnd'] = data['date_ranger']['date_end'];
                 }
+                this.convertData(data['items'], data['group_data'], data['base_currency']);
+
                 this.viewState.isOverLoad = true ;
                 this.viewState.isOverLoadReport = false ;
                 this.updateOverLoadSteam().next();
@@ -651,13 +665,13 @@ export class SaleReportService {
   }
   
   resolveItemDisplay(measureLabel: string = null,isFilter = false) {
-      if (isFilter) {
-        if (measureLabel != this._sortData) {
-          this.isSortAsc = true;
-        } else {
-          this.isSortAsc = !this.isSortAsc;
-        }
+    if (isFilter) {
+      if (measureLabel == this._sortData) {
+        this.isSortAsc = !this.isSortAsc;
+      } else {
+        this.isSortAsc = true;
       }
+    }
       if(measureLabel != null){
       this._sortData = measureLabel;
       }

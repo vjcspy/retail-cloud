@@ -1,15 +1,16 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, OnInit, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SaleReportService} from "../../../../R/report/service";
 import {ReportHelper} from "../../../../R/report/helper";
 import * as _ from "lodash";
+import {AbstractRxComponent} from "../../../../../share/core/AbstractRxComponent";
 
 @Component({
              selector: '[sale-report-item]',
              templateUrl: 'report-item.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class CloudSaleReportItemComponent {
+export class CloudSaleReportItemComponent extends AbstractRxComponent implements OnInit {
   @Input('list_date') list_date       = [];
   @Input('data_filter') data_filter = [];
   @Input('measures') measures = [];
@@ -21,7 +22,14 @@ export class CloudSaleReportItemComponent {
   @Input('is_item_has_detail_data') canViewDetail: boolean;
   @Input('detail_item_value') detail_item_value: boolean;
   
-  constructor(protected service: SaleReportService, protected route: ActivatedRoute) {
+  constructor(protected service: SaleReportService, protected route: ActivatedRoute, protected changeDetector: ChangeDetectorRef) {
+    super();
+  }
+  
+  ngOnInit() {
+    this._subscription['update_view'] = this.service.updateView().subscribe(() => {
+      this.changeDetector.detectChanges();
+    });
   }
   
   getFullnameUserReport(userId) {
@@ -43,17 +51,6 @@ export class CloudSaleReportItemComponent {
   }
   
   protected selectMoreInfo(is_total: boolean = false) {
-    // if (this.data_filter['report_type'] == "payment_method" && this.item.hasOwnProperty('value') && this.item['value'] == "retailmultiple") {
-    // if (this.service.viewData['list_item_detail'].length == 0 || this.item['value'] != this.detail_item_value ) {
-    //     if(is_total){
-    //       // for sales summary
-    //         this.service.getMoreItemData('Totals');
-    //     }else{
-    //     this.service.getMoreItemData(this.item['value']);
-    //     }
-    // } else {
-    //     this.service.viewDataFilter['display_item_detail'] = !this.service.viewDataFilter['display_item_detail'];
-    // }
     if (this.item.hasOwnProperty('item_details') && this.item['item_details'].length != 0 ) {
       this.item['display_item_detail'] = !this.item['display_item_detail'];
       this.service.resolveItemDisplay();
@@ -64,6 +61,7 @@ export class CloudSaleReportItemComponent {
       } else {
         this.service.getMoreItemData(this.item['value']);
       }
+      this.item['display_item_detail'] = true;
     }
   }
   
@@ -79,7 +77,7 @@ export class CloudSaleReportItemComponent {
   }
   
   customizeChevron() {
-    if (this.service.viewDataFilter['display_item_detail'] && this.item['display_item_detaiil'] == true) {
+    if (this.item['display_item_detail'] == true) {
       return false;
     }
     return true;
@@ -89,6 +87,13 @@ export class CloudSaleReportItemComponent {
     let report_type = this.service.viewDataFilter['report_type'];
     let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
     return reportColumn['label'];
+  }
+  
+  getLabelForAdditionalData(additionalData) {
+    let list_additional_data = [];
+    let report_type          = this.data_filter['report_type'];
+    let additionalColumn     = _.find(ReportHelper.getAdditionalData(report_type)['data'], (row) => row['value'] == additionalData);
+    return additionalColumn['label'];
   }
   
   checkIsNumberDecimals(value){
@@ -105,9 +110,9 @@ export class CloudSaleReportItemComponent {
   
   checkShowSymbolCurrency(measureLabel, value){
     if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (incl tax)" || measureLabel == "Discount percent" || measureLabel == "Return percent"|| measureLabel == "Customer Count" ||
+        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"|| measureLabel == "Customer Count" ||
         measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count" ||
-        measureLabel == "Return count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
+        measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
         this.checkIsNumberDecimals(value) == false) {
       return false;
     } else

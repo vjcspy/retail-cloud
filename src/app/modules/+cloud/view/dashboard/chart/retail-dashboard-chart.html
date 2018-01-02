@@ -1,0 +1,25 @@
+<div class="retail-dashboard-chart">
+  <div class='widget'>
+    <h1>{{getTitleDashBoardChart()}}</h1>
+    <!--<h2>{{typeChart === 'discount_percent' ? (getDataChangeValue()['total'] | percent:'1.2-2') :-->
+      <!--(typeChart === 'quantity' || typeChart === 'customer_count' ? (getDataChangeValue()['total'] | number:'1.0-0') :-->
+      <!--current_currency + (getDataChangeValue()['total'] | number:'1.2-2'))-->
+      <!--}}</h2>-->
+    <h2 *ngIf="viewData['data'].length == 0">0</h2>
+    <h2 *ngIf="viewData['data'].length != 0">{{dashboardReportService.convertTotalData(getDataChangeValue()['total'] ,typeChart)}}</h2>
+    <h3 [ngClass]="{neutral: getDataChangeValue()['change'] === 0, negative: getDataChangeValue()['change'] === -1, positive: getDataChangeValue()['change'] === 1}">
+      <div class="change">{{getDataChangeValue()['change'] === 0 ? getLabelForChange()['label_change'] : getDataChangeValue()['percent']  | percent:'1.2-2'}}</div>
+      <div class="relation">Previous {{getLabelForChange()['label_previous'].label}}</div>
+    </h3>
+    <div class="bar-chart">
+      <bar-chart [data_bar_chart]="getDataBarChart()"
+                 [current_currency] = "current_currency"></bar-chart>
+    </div>
+    <div class="chart-line-time">
+      <chart-line-time [typeChart]="typeChart"
+                       [data_chart_line_time]="getDataChartLineTime()"
+                       [current_currency] = "current_currency"
+      ></chart-line-time>
+    </div>
+  </div>
+</div>

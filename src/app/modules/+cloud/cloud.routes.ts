@@ -3,6 +3,7 @@ import {DefaultContainerComponent} from "./view/default-container.component";
 import {CloudComponent} from "./cloud.component";
 import {AuthGuard} from "../../services/router-guard/auth-guard";
 import {CloudSaleReportPage} from "./view/report/report.component";
+import {DashboardPage} from "./view/dashboard/dashboard";
 
 export const CLOUD_ROUTES: Routes = [
   {
@@ -15,19 +16,15 @@ export const CLOUD_ROUTES: Routes = [
         component: DefaultContainerComponent,
         children: [
           {
-            path: 'sale-report',
-            component: CloudSaleReportPage
+            path: 'dashboard',
+            component: DashboardPage,
+          },
+          {
+            path: 'salereport',
+            component: CloudSaleReportPage,
           }
         ]
       },
-      {
-        path: 'report',
-        component: CloudSaleReportPage
-      },
-      {
-        path: 'sale-report',
-        component: CloudSaleReportPage
-      }
     ]
   }
 ];
