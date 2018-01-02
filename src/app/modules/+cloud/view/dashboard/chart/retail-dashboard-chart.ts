@@ -48,25 +48,26 @@ export class RetailDashboardChart {
   getDataChartLineTime() {
     if (typeof  this.viewData != "undefined" && typeof  this.typeChart != "undefined") {
       let data = {
-        scope_Names: [],
         chart_data: [],
         chart_type: this.typeChart
       };
-      _.forEach(this.viewData['data'], item => {
-        if (item.hasOwnProperty('chartData') && item.hasOwnProperty('scopeName')) {
-          data.scope_Names.push(item['scopeName']);
+      if (_.isArray(this.viewData['data']) && this.viewData['data'].length == 0) {
+        if (this.dashboardReportService.viewDataFilter['period'] === "7d") {
+          data.chart_data.push([0, 0, 0, 0, 0, 0]);
+        } else {
+          data.chart_data.push([0, 0, 0, 0, 0]);
         }
-      });
-      
-      if (this.typeChart === 'average_sales') {
-        let totalAverageRevenue = this.calculateAverageWidget('revenue', 'quantity');
-        data.chart_data.push(totalAverageRevenue);
-      } else if (this.typeChart === 'discount_percent') {
-        let totalDiscountPercent = this.calculateAverageWidget('discount', 'grand_total');
-        data.chart_data.push(totalDiscountPercent);
       } else {
-        let totalWidget = this.calculatedTotalWidget(this.viewData);
-        data.chart_data.push(totalWidget);
+        if (this.typeChart === 'average_sales') {
+          let totalAverageRevenue = this.calculateAverageWidget('revenue', 'quantity');
+          data.chart_data.push(totalAverageRevenue);
+        } else if (this.typeChart === 'discount_percent') {
+          let totalDiscountPercent = this.calculateAverageWidget('discount', 'grand_total');
+          data.chart_data.push(totalDiscountPercent);
+        } else {
+          let totalWidget = this.calculatedTotalWidget(this.viewData);
+          data.chart_data.push(totalWidget);
+        }
       }
       return data;
     }
@@ -79,7 +80,12 @@ export class RetailDashboardChart {
     let divisorData = _.find(this.dashboardReportService.viewData['items'], (row) => { return row['type'] === divisor; });
     let totalDivisor = this.calculatedTotalWidget(divisorData);
   
-    let totalAverageRevenue = totalDividend.map(function(n, i) { return n / ((totalDivisor[i] + n) === 0 ? 1 : (totalDivisor[i] + n)); });
+    let totalAverageRevenue = [];
+    if (this.typeChart === 'discount_percent') {
+      totalAverageRevenue = totalDividend.map(function (n, i) { return n / ((totalDivisor[i] + n) === 0 ? 1 : (totalDivisor[i] + n)); });
+    } else if (this.typeChart === 'average_sales') {
+      totalAverageRevenue = totalDividend.map(function (n, i) { return n / (totalDivisor[i] === 0 ? 1 : totalDivisor[i]); });
+    }
     
     return totalAverageRevenue;
   }

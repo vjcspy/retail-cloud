@@ -1,10 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild, OnDestroy, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, OnDestroy, Input, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core';
 import * as moment from 'moment';
 import * as $q from "q";
 import * as _ from "lodash";
 import {RequestService} from "../../../../services/request";
 import {ApiManager} from "../../../../services/api-manager";
-
 const Highcharts = require('highcharts/highcharts.src');
 import 'highcharts/adapters/standalone-framework.src';
 import {DashboardReportService} from "../../../../R/dashboard/service";
@@ -13,6 +12,10 @@ import {DashboardReportService} from "../../../../R/dashboard/service";
              // moduleId: module.id,
              selector: 'bar-chart',
              templateUrl: 'bar-chart.html',
+             encapsulation: ViewEncapsulation.None,
+             styleUrls: [
+               './bar-chart.scss'
+             ],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class BarChart implements OnDestroy, OnInit {
@@ -87,9 +90,12 @@ export class BarChart implements OnDestroy, OnInit {
       plotOptions: {
         series: {
           pointWidth: 33,
-          // pointPadding: 0,
-          // groupPadding: 0,
-          stacking: 'percent'
+          stacking: 'percent',
+          states: {
+            hover: {
+              enabled: false
+            }
+          }
         }
       },
       tooltip: {
@@ -103,7 +109,7 @@ export class BarChart implements OnDestroy, OnInit {
           // data: [this.maxItem - 0, this.maxItem - 2113.4],
           value: this.scope_Names,
           // value: this.value,
-          color: '#d9d9d9',
+          color: '#eee',
           dataLabels: {
             formatter: function () {
               if (chartType === "discount_percent") {
@@ -128,8 +134,9 @@ export class BarChart implements OnDestroy, OnInit {
             style: {
               textOutline: 'transparent !important',
               stroke: 'transparent',
-              color: '#666666',
-              fontWeight: '300',
+              color: '#555',
+              font: '13',
+              fontWeight: 'normal',
             },
             enabled: true,
             align: 'right',
@@ -140,7 +147,8 @@ export class BarChart implements OnDestroy, OnInit {
           name: 'Value',
           data: this.chart_data,
           // data: this.item,
-          color: '#1fa79d',
+          color: '#b2dfdb',
+          className : 'creportchart_value',
           dataLabels: {
             formatter: function () {
               return this.x;
@@ -148,8 +156,11 @@ export class BarChart implements OnDestroy, OnInit {
             style: {
               textOutline: 'transparent !important',
               stroke: 'transparent',
-              color: '#666666',
-              fontWeight: '300',
+              color: '#555',
+              font: '13',
+              fontWeight: 'bold',
+              height: '30px',
+              fontSize: '13',
             },
             enabled: true,
             align: 'left',
