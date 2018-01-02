@@ -8,7 +8,7 @@ export class TyroPayment {
     posProductInfo: {
       posProductVendor: "SMART-OSC",
       posProductName: "ConnectPOS",
-      posProductVersion: "1.0.0"
+      posProductVersion: "1.1.5"
     }
   };
   private iClient: any;
