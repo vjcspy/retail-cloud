@@ -58,17 +58,18 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   
   printReceipt(typePrint: string = 'receipt') {
     this.closeAllAdditionButton();
+    let customerReceipt: any = null;
+    let merchantReceipt: any = null;
+    if (this.posStepState.listPayment3rdData.count() > 0) {
+      const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
+      customerReceipt              = payment3rd.customerReceipt;
+      merchantReceipt              = payment3rd.merchantReceipt;
+    }
+    
     if (typePrint === 'receipt' || typePrint === 'gift') {
-      let customerReceipt: any = null;
-      let merchantReceipt: any = null;
-      if (this.posStepState.listPayment3rdData.count() > 0) {
-        const payment3rd: Payment3rd = this.posStepState.listPayment3rdData.first();
-        customerReceipt              = payment3rd.customerReceipt;
-        merchantReceipt              = payment3rd.merchantReceipt;
-      }
       this.receiptActions.printSalesReceipt(this.posStepState.orderOffline, typePrint, customerReceipt, merchantReceipt);
     } else if (typePrint === 'refund') {
-      this.receiptActions.printSalesReceipt(this.posStepState.orderRefund, 'receipt');
+      this.receiptActions.printSalesReceipt(this.posStepState.orderRefund, 'receipt', customerReceipt, merchantReceipt);
     }
   }
   
@@ -79,7 +80,8 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       if (re.test(email) === false) {
         return this.notify.warning("email_not_valid");
       }
-      let name = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer().getData('last_name');
+      let name           = this.posQuoteState.quote.getCustomer().getData('first_name') + ' ' + this.posQuoteState.quote.getCustomer()
+                                                                                                    .getData('last_name');
       let settingReceipt = {
         receiptSetting: this.configState.receipt,
         // username: this.userCollection.getUserNameById(this.posStepState.orderOffline['user_id']),

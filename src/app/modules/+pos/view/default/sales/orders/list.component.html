@@ -31,16 +31,16 @@
     </div>
     <div class="selectbox-wrap">
       <retail-select [disabled]="ordersState.list.isSearchOnline || !authService.userCan('search_order')" [elementData]="orderService.getPaymentStatusElem()"
-                     [defaultText]="'Payment status'"
+                     [defaultText]="('Payment status' | translate)"
                      [model]="ordersState.list.searchOrderPaymentStatus"
                      (modelChange)="searchOrderStatus({searchOrderPaymentStatus:$event})">
       </retail-select>
       <retail-select [disabled]="ordersState.list.isSearchOnline || !authService.userCan('search_order')" [elementData]="orderService.getShipmentStatusElem()"
-                     [defaultText]="'Shipment status'"
+                     [defaultText]="('Shipment status' | translate)"
                      [model]="ordersState.list.searchOrderShipmentStatus"
                      (modelChange)="searchOrderStatus({searchOrderShipmentStatus:$event})">
       </retail-select>
-      <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="'Sync status'"
+      <retail-select [elementData]="orderService.getSyncStatusElem(ordersState.list.isSearchOnline)" [defaultText]="('Sync status' | translate)"
                      [model]="ordersState.list.searchOrderSyncStatus"
                      [disabled]="!authService.userCan('search_order')"
                      (modelChange)="searchOrderStatus({searchOrderSyncStatus:$event})">

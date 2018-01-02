@@ -3,6 +3,9 @@ import {
 } from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormValidationService} from "../../share/provider/form-validation";
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import {Timezone} from "../../+pos/core/framework/General/DateTime/Timezone";
 
 @Component({
              //moduleId: module.id,
@@ -11,8 +14,10 @@ import {FormValidationService} from "../../share/provider/form-validation";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() validation: string = "";
+  @Input() validation: string   = "";
   @Input() formKey: string;
+  @Input() minDate: any;
+  @Input() useTimezone: boolean = false;
   @ViewChild('dateSelect') elementData: ElementRef;
   
   modelValue;
@@ -43,15 +48,36 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
   
   ngAfterViewInit(): void {
-    if (this.model.data_date != null) {
-      jQuery(this.elementData.nativeElement)['daterangepicker']({
-                                                                  "singleDatePicker": true,
-                                                                  "timePicker": 'date',
-                                                                  "autoUpdateInput": true,
-                                                                  format: 'DD/MM/YYYY',
-                                                                  "opens": "center",
-                                                                  startDate: this.model.data_date,
-                                                                }, (start, end, label) => {
+    let options = {
+      "singleDatePicker": true,
+      "timePicker": 'date',
+      "autoUpdateInput": true,
+      format: 'DD/MM/YYYY',
+      "opens": "center",
+    };
+    
+    if (this.minDate) {
+      options['minDate'] = this.minDate;
+    }
+    
+    if (_.isEmpty(this.model)) {
+      let current = moment();
+      if (this.useTimezone) {
+        current = Timezone.convertTimeToStoreTime(current);
+      }
+      this.model.month     = current.month();
+      this.model.day       = current.date();
+      this.model.year      = current.year();
+      this.model.data_date = current.format("MM/DD/YYYY");
+    }
+    
+    if (this.model.hasOwnProperty('data_date') && this.model.data_date != null) {
+      options['startDate'] = this.model.data_date;
+      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start) => {
+        if (this.useTimezone) {
+          start = Timezone.convertTimeToStoreTime(start);
+        }
+        
         this._dateTime       = start;
         this.model.month     = start.month();
         this.model.day       = start.date();
@@ -60,24 +86,15 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
         this.changeDetector.detectChanges();
       });
     } else {
-      jQuery(this.elementData.nativeElement)['daterangepicker']({
-                                                                  "singleDatePicker": true,
-                                                                  "timePicker": 'date',
-                                                                  format: 'DD/MM/YYYY',
-                                                                  "autoUpdateInput": false,
-                                                                  "opens": "center",
-                                                                }, (start, end, label) => {
+      jQuery(this.elementData.nativeElement)['daterangepicker'](options, (start) => {
+        if (this.useTimezone) {
+          start = Timezone.convertTimeToStoreTime(start);
+        }
         this._dateTime       = start;
         this.model.month     = start.month() + 1;
         this.model.day       = start.date();
         this.model.year      = start.year();
         this.model.data_date = start.format("MM/DD/YYYY");
-        // this.model = {
-        //     month: start.month(),
-        //     day: start.date(),
-        //     year: start.year(),
-        //     data_date: start.format("MM/DD/YYYY"),
-        // };
         this.changeDetector.detectChanges();
       });
     }
@@ -94,8 +111,9 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
   }
   
   ngOnDestroy(): void {
-    if (typeof this._validateSubscription != "undefined")
+    if (typeof this._validateSubscription !== "undefined") {
       this._validateSubscription.unsubscribe();
+    }
   }
   
   protected _validateElement(needValid): boolean {
@@ -116,8 +134,9 @@ export class RetailDateSelectComponent implements OnInit, OnDestroy, AfterViewIn
   getOutputTime() {
     if (this._dateTime) {
       return this._dateTime.format("MM/DD/YYYY");
-    } else
+    } else {
       return "";
+    }
   }
   
   triggerDatePicker() {

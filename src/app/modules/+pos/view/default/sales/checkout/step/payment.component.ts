@@ -52,6 +52,7 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   
   back() {
     this.posQuoteState.quote.setData('reward_point', Object.assign({}, {use_reward_point: false}));
+    this.posQuoteState.quote.setData('gift_card', Object.assign({}, {...this.posQuoteState.quote.getGiftCardData()}, {is_delete: true}));
     this.posStepActions.back();
   }
 }

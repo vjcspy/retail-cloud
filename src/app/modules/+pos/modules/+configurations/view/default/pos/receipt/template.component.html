@@ -114,9 +114,9 @@
         <div class="switch-button">
           <input type="checkbox"
                  name="oreder-barcode"
-                 [(ngModel)]="configurationsReceiptState.receipt['enable_barcode']"
-                 [checked]="!!configurationsReceiptState.receipt['enable_barcode']"
-                 (ngModelChange)="onChangeBarcodeSymbology()">
+                 [ngModel]="isChecked(configurationsReceiptState.receipt['enable_barcode'])"
+                 [checked]="isChecked(configurationsReceiptState.receipt['enable_barcode'])"
+                 (ngModelChange)="configurationsReceiptState.receipt['enable_barcode'] = $event;onChangeBarcodeSymbology()">
           <span></span>
         </div>
       </li>
@@ -131,8 +131,10 @@
         <div class="switch-button">
           <input type="checkbox"
                  name="enable_power_text"
-                 [(ngModel)]="configurationsReceiptState.receipt['enable_power_text']"
-                 [checked]="!!configurationsReceiptState.receipt['enable_power_text']"/>
+                 [ngModel]="isChecked(configurationsReceiptState.receipt['enable_power_text'])"
+                 [checked]="isChecked(configurationsReceiptState.receipt['enable_power_text'])"
+                 (ngModelChange)="configurationsReceiptState.receipt['enable_power_text'] = $event"
+          />
           <span></span>
         </div>
       </li>
@@ -278,7 +280,7 @@
 </div><!--end invoice-->
 <div class="bottom-bar">
   <!--<button class="red" [ladda]="configurationsReceiptState.isSaving || isSavingImage">-->
-    <!--{{ 'Delete' | translate }}-->
+  <!--{{ 'Delete' | translate }}-->
   <!--</button>-->
   <button [ladda]="configurationsReceiptState.isSaving || isSavingImage" (click)="saveReceipt()">
     {{ 'Save' | translate }}

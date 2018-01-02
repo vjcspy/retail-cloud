@@ -42,7 +42,7 @@ export class Order {
         return "Partially Refund";
       
       case Order.RETAIL_ORDER_FULLY_REFUND:
-        return "Fully Refund";
+        return "Fully Refunded";
       
       case Order.RETAIL_ORDER_EXCHANGE_SHIPPED:
         return "Exchange - Shipped";

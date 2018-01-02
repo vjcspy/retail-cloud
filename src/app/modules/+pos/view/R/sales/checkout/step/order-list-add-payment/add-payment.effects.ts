@@ -9,7 +9,7 @@ import {List} from "immutable";
 import {OrderListAddPaymentService} from "./add-payment.service";
 import {PosStepActions} from "../step.actions";
 import {MoneySuggestion} from "../../../../../../services/helper/money-suggestion";
-import {CheckoutStep, PaymentMethod, PosStepState} from "../step.state";
+import {CheckoutStep, Payment3rd, PaymentMethod, PosStepState} from "../step.state";
 import {Timezone} from "../../../../../../core/framework/General/DateTime/Timezone";
 import {PosGeneralState} from "../../../../../../R/general/general.state";
 import * as _ from 'lodash';
@@ -18,6 +18,7 @@ import {RootActions} from "../../../../../../../../R/root.actions";
 import {EntityActions} from "../../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../../database/xretail/db/order";
 import {ListActions} from "../../../orders/list/list.actions";
+import {ReceiptActions} from "../../../receipts/receipt.actions";
 
 @Injectable()
 export class OrderListAddPaymentEffects {
@@ -34,6 +35,7 @@ export class OrderListAddPaymentEffects {
               private rootActions: RootActions,
               private addPaymentActions: OrderListAddPaymentActions,
               private entityActions: EntityActions,
+              private receiptActions: ReceiptActions,
               private orderListActions: ListActions) { }
   
   @Effect() prepareOrderDataToAdd = this.actions$
@@ -99,11 +101,18 @@ export class OrderListAddPaymentEffects {
                                                         return Observable.fromPromise(this.addPaymentService.updateOrderToDB(order, 'order_id'))
                                                                          .flatMap(() => {
                                                                            this.notify.success("take_payment_success");
-                                                                           return Observable.from([
-                                                                                                    this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
-                                                                                                    this.addPaymentActions.addPaymentSuccess(order, false),
-                                                                                                    this.orderListActions.selectOrderDetail(order, false)
-                                                                                                  ]);
+          
+                                                                           let ob = [
+                                                                             this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
+                                                                             this.addPaymentActions.addPaymentSuccess(order, false),
+                                                                             this.orderListActions.selectOrderDetail(order, false)
+                                                                           ];
+                                                                           if (posStepState.listPayment3rdData.count() > 0) {
+                                                                             const payment3rd: Payment3rd           = posStepState.listPayment3rdData.first();
+                                                                             let {customerReceipt, merchantReceipt} = payment3rd;
+                                                                             ob.push(this.receiptActions.printSalesReceipt(posStepState.orderOffline, 'receipt', customerReceipt, merchantReceipt, false));
+                                                                           }
+                                                                           return Observable.from(ob);
                                                                          });
                                                       } else {
         

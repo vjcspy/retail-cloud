@@ -1,11 +1,7 @@
 import * as _ from "lodash";
 
-export class DataObject{
+export class DataObject {
   // abstract identify: string;
-  
-  getFirst(): any {
-    return this[0];
-  }
   
   getData(key?: string): any {
     if (typeof key === "undefined") {

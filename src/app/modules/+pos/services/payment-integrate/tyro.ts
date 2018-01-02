@@ -6,9 +6,9 @@ export class TyroPayment {
   protected config = {
     apiKey: 'provide by tyro',
     posProductInfo: {
-      posProductVendor: "SMART OSC",
-      posProductName: "X-Retail",
-      posProductVersion: "1.0.0"
+      posProductVendor: "SMART-OSC",
+      posProductName: "ConnectPOS",
+      posProductVersion: "1.1.5"
     }
   };
   private iClient: any;
@@ -33,7 +33,7 @@ export class TyroPayment {
   pair(tid, mid, callBack: (response: any) => void) {
     this.config['tid'] = tid;
     this.config['mid'] = mid;
-    this.getIClientInstance(true).pairTerminal(this.config['tid'], this.config['mid'], (response) => {
+    this.getIClientInstance(true).pairTerminal(this.config['mid'], this.config['tid'], (response) => {
       if (response && response.hasOwnProperty('status') && response['status'] === 'inProgress') {
         this.notify.info(response['message'], 'In Progress');
       }

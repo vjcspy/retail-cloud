@@ -1,7 +1,6 @@
 import {Action, ActionReducer} from "@ngrx/store";
 import {posQuoteStateFactory, PosQuoteStateRecord} from "./quote.state";
 import {PosQuoteActions} from "./quote.actions";
-import * as _ from 'lodash';
 import {DataObject} from "../../core/framework/General/DataObject";
 import {List} from "immutable";
 import {PosSyncActions} from "../sync/sync.actions";
@@ -29,7 +28,8 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state;
     
     case PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE:
-      return state.set('items', state.items.filter((item: DataObject) => parseInt(item.getData('qty')) > 0));
+      // return state.set('items', state.items.filter((item: DataObject) => parseInt(item.getData('qty')) > 0));
+      return state.set('items', state.items.filter((item: DataObject) => item.getData('qty') > 0));
     
     case PosQuoteActions.ACTION_UPDATE_QUOTE_ITEMS:
       let items: List<DataObject> = action.payload['items'];

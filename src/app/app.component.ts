@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ViewContainerRef,
   ViewEncapsulation
 } from "@angular/core";
@@ -11,6 +11,7 @@ import {AbstractSubscriptionComponent} from "./code/AbstractSubscriptionComponen
 import {DialogService} from "./modules/dialog/dialog.service";
 import {RetailTranslate} from "./modules/share/provider/retail-translate";
 import {NotifyManager} from "./services/notify-manager";
+import {AppService} from "./app.service";
 
 /**
  * App Component
@@ -39,11 +40,13 @@ export class AppComponent extends AbstractSubscriptionComponent {
               vcr: ViewContainerRef,
               protected notify: NotifyManager,
               protected translate: RetailTranslate,
+              protected changedetector: ChangeDetectorRef,
               private dialogService: DialogService) {
     super();
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
+<<<<<<< HEAD
     this.loginMeteor();
   }
   
@@ -59,6 +62,7 @@ export class AppComponent extends AbstractSubscriptionComponent {
         });
       });
     }
+    AppService.$changeDetector = this.changedetector;
   }
   
   protected resolveLanguage() {

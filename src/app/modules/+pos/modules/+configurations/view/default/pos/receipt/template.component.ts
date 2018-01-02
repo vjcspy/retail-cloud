@@ -210,4 +210,8 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       this.configurationsReceiptActions.saveReceipt(this.configurationsReceiptState.receipt);
     }, true);
   }
+  
+  isChecked(value) {
+    return value === true || parseInt(value) === 1;
+  }
 }

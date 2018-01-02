@@ -6,7 +6,7 @@
         <div class="list-mode-top clearfix">
           <div class="search-box">
             <span class="icon-search"></span>
-            <input placeholder="Search by customer name , email and order's note"
+            <input placeholder="{{('Search by customer name , email and order\'s note' | translate)}}"
                    type="text"
                    (keyup)="cartActionBarActions.searchOrderOnhold($event.target.value)"
                    [ngModel]="cartActionBarState.orderOnholdSearchString"

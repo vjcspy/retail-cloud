@@ -37,6 +37,7 @@ import {QuoteRefundActions} from "./refund/refund.actions";
 import {RealtimeActions} from "../entities/realtime/realtime.actions";
 import {TaxDB} from "../../database/xretail/db/tax";
 import {SettingDB} from "../../database/xretail/db/setting";
+import {AppService} from "../../../../app.service";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -113,6 +114,7 @@ export class PosQuoteEffects {
                                       case 'configurable':
                                       case 'bundle':
                                       case 'grouped':
+                                      case 'aw_giftcard':
                                         return {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                           payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
@@ -251,7 +253,7 @@ export class PosQuoteEffects {
                                                            .setShippingAddress((quoteState as PosQuoteState).shippingAdd)
                                                            .setBillingAddress((quoteState as PosQuoteState).billingAdd);
         
-                                                      if (quote.getCustomer()['id'] == (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
+                                                      if (quote.getCustomer()['id'] === (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
                                                         quote.setUseDefaultCustomer(true);
                                                       } else {
                                                         quote.setUseDefaultCustomer(false);
@@ -272,6 +274,9 @@ export class PosQuoteEffects {
                                                       });
         
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
+                                                      
+                                                      // fix unknown issue when using bar code scanner
+                                                      AppService.$changeDetector.detectChanges();
         
                                                       return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
@@ -523,7 +528,7 @@ export class PosQuoteEffects {
             await groupedType.resolveAssociatedProducts(groupedProduct);
             break;
           default:
-            throw new GeneralException("We not yet support type of this product.");
+            break;
         }
       }).then(() => resolve());
     });

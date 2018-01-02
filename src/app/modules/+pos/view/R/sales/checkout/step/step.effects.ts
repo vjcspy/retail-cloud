@@ -185,7 +185,7 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
                               this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER);
-                              
+    
                               const posStepState: PosStepState      = <any>z[1];
                               const posQuoteState: PosQuoteState    = <any>z[2];
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
@@ -208,7 +208,7 @@ export class PosStepEffects {
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.of(this.refundActions.loadCreditmemo(posQuoteState.creditmemo['order_id'], true, false));
                               } else {
-                                if (posQuoteState.items.count() > 0 && (!posQuoteState.quote.getRewardPointData() || posQuoteState.quote.getRewardPointData()['use_reward_point'] !== true)) {
+                                if (posQuoteState.items.count() > 0 && !posQuoteState.quote.needSaveOnline()) {
                                   return Observable.fromPromise(this.syncService.saveOrderOffline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
@@ -220,7 +220,7 @@ export class PosStepEffects {
                                                                             ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
-                                } else if (posQuoteState.items.count() > 0 && posQuoteState.quote.getRewardPointData()['use_reward_point'] === true) {
+                                } else if (posQuoteState.items.count() > 0) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .map((data) => {
                                                      return data['data']['orderOffline'];

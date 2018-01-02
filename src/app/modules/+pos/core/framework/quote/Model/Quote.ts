@@ -86,7 +86,7 @@ export class Quote extends DataObject {
         }
       });
     
-    EventManager.dispatch('sales_quote_product_add_after', {items: items});
+    EventManager.dispatch('sales_quote_product_add_after', {items});
     
     return parentItem;
   }
@@ -103,16 +103,19 @@ export class Quote extends DataObject {
       _data['options'] = customOption;
     }
     
-    if (item.getData('product').getTypeId() == 'configurable') {
+    if (item.getData('product').getTypeId() === 'configurable') {
       _data['attributes_info'] = item.getData('product').getData("product_options_attributes_info");
     }
     
-    if (item.getParentItem() && item.getParentItem().getData('product').getTypeId() == 'bundle') {
+    if (item.getParentItem() && item.getParentItem().getData('product').getTypeId() === 'bundle') {
       _data = {
         option_label: item.getProduct().getData('option_label'),
         option_id: item.getProduct().getData('option_id')
       };
     }
+    
+    EventManager.dispatch('quote_product_options', {data: _data, item});
+    
     item.setData('product_options', _data);
     
     return this;
@@ -121,8 +124,9 @@ export class Quote extends DataObject {
   getItemByProduct(product: Product): Item | boolean {
     _.forEach(
       this.getAllItems(), (item: Item) => {
-        if (item.representProduct(product))
+        if (item.representProduct(product)) {
           return item;
+        }
       });
     return false;
   }
@@ -131,7 +135,7 @@ export class Quote extends DataObject {
     let items = [];
     _.forEach(
       this._items, (item: Item) => {
-        if (item.getData('is_deleted') != true) {
+        if (item.getData('is_deleted') !== true) {
           items.push(item);
         }
       });
@@ -141,7 +145,7 @@ export class Quote extends DataObject {
   getAllVisibleItems(): Item[] {
     let items = [];
     _.forEach(this._items, (item: Item) => {
-      if (item.getData('is_deleted') != true && !item.getParentItem()) {
+      if (item.getData('is_deleted') !== true && !item.getParentItem()) {
         items.push(item);
       }
     });
@@ -179,9 +183,10 @@ export class Quote extends DataObject {
     
     _.forEach(
       this.getAllAddresses(), (address: Address) => {
-        //FIXME: remove after. Now, we only collect total in shipping address
-        if (address.getData('address_type') == Address.TYPE_BILLING)
+        // FIXME: remove after. Now, we only collect total in shipping address
+        if (address.getData('address_type') === Address.TYPE_BILLING) {
           return true;
+        }
         
         address.setData('subtotal', 0);
         address.setData('base_subtotal', 0);
@@ -272,7 +277,7 @@ export class Quote extends DataObject {
     let _address = null;
     _.forEach(
       this._addresses, (address: Address) => {
-        if (address.getData('address_type') == type && !address.getData('is_deleted')) {
+        if (address.getData('address_type') === type && !address.getData('is_deleted')) {
           _address = address;
           return false;
         }
@@ -440,6 +445,10 @@ export class Quote extends DataObject {
     return this.getData('synced_items');
   }
   
+  needSaveOnline(): boolean {
+    return (this.getRewardPointData() && this.getRewardPointData()['use_reward_point']) || (this.getGiftCardData() && this.getGiftCardData()['base_giftcard_amount']);
+  }
+  
   isVirtual() {
     let isVirtual  = true;
     let countItems = 0;
@@ -453,6 +462,6 @@ export class Quote extends DataObject {
         return isVirtual = false;
       }
     });
-    return countItems == 0 ? false : isVirtual;
+    return countItems === 0 ? false : isVirtual;
   }
 }

@@ -8,6 +8,7 @@ export interface OptionData {
   bundle_option: Object;
   bundle_option_qty: Object;
   super_group: Object;
+  gift_card: Object;
 }
 
 export interface OptionDataRecord extends TypedRecord<any>, OptionData {}
@@ -18,7 +19,8 @@ export const optionDataFactory = makeTypedFactory<OptionData, OptionDataRecord>(
     super_attribute: {},
     bundle_option: {},
     bundle_option_qty: {},
-    super_group: {}
+    super_group: {},
+    gift_card: {},
   });
 
 export interface ProductOptionsState {
