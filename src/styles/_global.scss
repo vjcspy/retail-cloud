@@ -17,7 +17,7 @@ h1,h2,h3{
     font-weight: 600;
 }
 h1 {
-    font-size: 18px;
+    font-size: 18px;   
     text-transform: uppercase;
     a {
         color: $aqua;
@@ -27,13 +27,12 @@ h1 {
 
 h2 {
     font-size: 16px;
-
+    
 }
 
 h3 {
     font-size: 14px;
 }
-
 .container-fluid {
     padding-left: 20px;
     padding-right: 20px;
@@ -148,7 +147,7 @@ a {
     -moz-box-shadow: none;
     &:hover,
     &:focus,
-    &:active{
+    &:active{        
         border: none;
         outline: none !important;
         box-shadow: none;
@@ -164,7 +163,7 @@ a {
     &:hover,
     &:focus,
     &:active{
-        background-color: $btn-primary-bg-hover;
+        background-color: $btn-primary-bg-hover;        
     }
 }
 
@@ -193,14 +192,14 @@ a {
     }
 }
 
-.btn-default:active:hover,
-.btn-default.active:hover,
-.open > .dropdown-toggle.btn-default:hover,
-.btn-default:active:focus,
-.btn-default.active:focus,
-.open > .dropdown-toggle.btn-default:focus,
-.btn-default:active.focus,
-.btn-default.active.focus,
+.btn-default:active:hover, 
+.btn-default.active:hover, 
+.open > .dropdown-toggle.btn-default:hover, 
+.btn-default:active:focus, 
+.btn-default.active:focus, 
+.open > .dropdown-toggle.btn-default:focus, 
+.btn-default:active.focus, 
+.btn-default.active.focus, 
 .open > .dropdown-toggle.btn-default.focus
 {
     box-shadow: none;
@@ -216,7 +215,7 @@ a {
 .box560 {
     width: 560px;
     margin: 0 auto;
-
+   
 }
 .select2-container--default{
     .select2-selection--single{
@@ -242,10 +241,10 @@ a {
     margin-bottom: 10px;
 }
 
-.group-btn.line-top{
+.group-btn.line-top{    
     // padding-top: 25px;
     // margin-top: 25px;
-    // border-top: 2px solid #f5f5f5;
+    // border-top: 2px solid #f5f5f5;   
 }
 .control-label {
     text-align: left !important;
@@ -297,7 +296,7 @@ label {
         padding: 10px 15px;
         vertical-align: top;
         &.action{
-            text-align: center;
+            text-align: center;            
             white-space: nowrap
         }
 
@@ -307,14 +306,14 @@ label {
     }
     th {
         text-transform: uppercase;
-        font-weight: 700;
+        font-weight: 700;        
         border-bottom-width: 1px;
         vertical-align: middle;
         color: $table-color;
         padding-top: 20px;
         padding-bottom: 20px;
-
-    }
+        
+    }    
     @include sm {
         font-size: 12px;
     }
@@ -339,11 +338,11 @@ label {
             width: calc(100% - 250px);
             text-align: right;
             label{
-                font-weight: 600;
+                font-weight: 600;                
                 margin-bottom: 0;
             }
         }
-    }
+    } 
 
 
 }
@@ -352,7 +351,7 @@ label {
     margin: 0 3px 0 7px;
     line-height: 1;
 }
-.modal {
+.modal {    
     .modal-content{
         padding: 30px 40px;
     }
@@ -366,7 +365,7 @@ label {
         @include sm{
             width: 90%;
         }
-    }
+    }  
     .modal-header{
         padding:0 0 20px 0;
         border-bottom: 2px solid $light-gray;
@@ -386,16 +385,16 @@ label {
         padding: 0;
 
     }
-
+    
     .gray-bg{
         .modal-header{
             border-bottom: none;
         }
-
+        
         .modal-footer{
             border-top: none;
         }
-
+        
 
     }
 }
@@ -409,14 +408,14 @@ label {
 }
  .gray-bg .form-content{
     padding:20px 30px;
-    background: $light-gray;
+    background: $light-gray;            
     text-align: center;
     border-radius: 4px;
     border: none;
-    padding-bottom: 0;
+    padding-bottom: 0; 
 
 }
-.url-link{
+.url-link{    
     word-break: break-all;
 }
 .expir-date{
@@ -453,18 +452,18 @@ label {
 .bootstrap-select {
     .dropdown-toggle {
         padding-left: 12px;
-        font-size: 14px;
-        text-transform: none;
-        padding: 9px 12px;
-        background-color: $light-gray;
+        font-size: 14px;      
+        text-transform: none; 
+        padding: 9px 12px; 
+        background-color: $light-gray; 
         &:focus{
             outline: none !important;
-            background-color: $light-gray;
+            background-color: $light-gray; 
         }
         &:hover{
             background-color: $light-gray;
         }
-
+        
     }
     .dropdown-menu li a {
         padding-left: 12px;
@@ -494,7 +493,7 @@ label {
 
 // TABs
 .tabs-content{
-
+    
 }
 
 .nav-tabs{
@@ -530,20 +529,20 @@ label {
                     visibility: inherit;
                 }
             }
-        }
+        } 
         &.active,
         &:hover,
         &:focus{
-            border-bottom: solid 2px $aqua !important;
+            border-bottom: solid 2px $aqua !important; 
             a{
                 background: none;
-                border: none;
+                border: none;                              
                 color: $aqua;
 
                 &:hover,
                 &:focus{
                     background: none;
-                    border: none;
+                    border: none;                                              
                     color: $aqua;
                     line-height: 28px;
                     padding-top: 2px;
@@ -554,7 +553,7 @@ label {
 
 }
 .tab-content{
-    min-height: 150px;
+    min-height: 150px;    
     ul{
         margin: 0;
         padding: 0;
@@ -576,7 +575,7 @@ label {
         background: #3cbfae;
     }
     // height: 32px;
-
+    
     border: none;
     border-radius: 32px;
     padding: 5px 5px;
@@ -603,39 +602,39 @@ label {
         }
 
     }
-
+    
     &.bootstrap-switch-off{
         background: #c2c2c2;
-
+        
     }
 }
 
 .msg-notice{
     color: $orange;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 600;       
 }
 //icon moon
 .state-ico,
 .ico-success{
-   font-style: normal;
+   font-style: normal; 
    font-family: "icomoon";
    line-height: 1;
 }
-.state-ico {
+.state-ico {  
     &:before {
         content: "\e900";
     }
 }
 .ico-success
-{
+{   
     &:before {
         content: "\e901";
     }
 }
 
 .number-spinner{
-    background: $light-gray;
+    background: $light-gray; 
     text-align: center;
     height: 40px;
     line-height: 40px;
@@ -647,7 +646,7 @@ label {
         height: 40px;
         background: $form-gray;
         display: inline-block;
-        cursor: pointer;
+        cursor: pointer;                
         color: $aqua;
         &.ion-minus{
             border-radius: 4px 0 0 4px;
@@ -658,9 +657,9 @@ label {
             float: right;
         }
     }
-    .num-value{
-        display: inline-block;
-        font-weight: 600;
+    .num-value{        
+        display: inline-block; 
+        font-weight: 600;       
     }
 
 }
@@ -672,13 +671,13 @@ label {
       position: absolute;
       visibility: hidden;
     }
-    label{
-      position: relative;
+    label{      
+      position: relative;      
       padding:0 0 0 55px;
       color: #a0a8b4;
       font-weight: 600;
       text-transform: uppercase;
-      margin: 10px auto;
+      margin: 10px auto;      
       z-index: 9;
       cursor: pointer;
       -webkit-transition: all 0.25s linear;
@@ -714,7 +713,7 @@ label {
         -webkit-transition: background 0.25s linear;
     }
     input[type=radio]:checked{
-        ~ .check {
+        ~ .check {          
           &:before{
             background: $aqua;
           }
@@ -722,11 +721,11 @@ label {
         ~ label{
           color: $color-text;
         }
-    }
+    } 
 
 
 }
-
+ 
 
 
 // radio style  -- End
@@ -739,9 +738,9 @@ label {
 
     }
 
-
+    
     td{
-
+        
         &.in-range{
             background-color: #ccfbf8;
         }
@@ -760,7 +759,7 @@ label {
 
 .go-top-button {
     color:$aqua;
-    z-index: 9999;
+    z-index: 9999;    
     position: fixed;
     right: 10px;
     cursor: pointer;
@@ -785,3 +784,4 @@ label {
 .go-top-button{
 
 }
+                  

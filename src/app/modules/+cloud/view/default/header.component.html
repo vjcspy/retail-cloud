@@ -20,13 +20,27 @@
 
       <ul class="nav navbar-nav">
         <li>
-          <label for="baseUrl">{{'Please select website' | translate}}</label>
-          <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)"
-                  [(disabled)]="salesReportService.viewState['isOverLoadReport']">
-          <option *ngFor="let item of accountState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>
-          </select>
+          <a href="http://sales.connectpos.com" title="connectpos">
+            <i class="ion-ios-monitor-outline"></i>Connectpos
+          </a>
+        </li>
+        <!--<li *ngIf="data.isUser">-->
+        <li>
+          <a routerLink="/cloud/default/dashboard" title="c-report">
+            <i class="ion-ios-paper-outline"></i>C-report
+          </a>
         </li>
       </ul>
+
+      <!--<ul class="nav navbar-nav">-->
+        <!--<li>-->
+          <!--<label for="baseUrl">{{'Please select website' | translate}}</label>-->
+          <!--<select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)"-->
+                  <!--[(disabled)]="salesReportService.viewState['isOverLoadReport']">-->
+          <!--<option *ngFor="let item of accountState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>-->
+          <!--</select>-->
+        <!--</li>-->
+      <!--</ul>-->
       <div class="nav navbar-nav navbar-right">
         <div class="user">
           <div class="img"><img src="assets/img/default-avatar.png" alt="Avatar"></div>
@@ -34,9 +48,24 @@
             <span class="name">{{accountState.user['username']}}</span>
             <span class="role">({{accountState.user['roles']['cloud_group']}})</span>
           </div>
-          <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing">
+          <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing"  *ngIf="!hasWebsite()">
             Logout
             <i class="ion-log-out"></i>
+          </div>
+
+          <div class="dropdown bootstrap-select open" *ngIf="hasWebsite()"  >
+            <div class="anchor" data-toggle="dropdown"  [ladda]="accountState.isProcessing" style="width: 100% !important;">
+              {{baseUrl}}
+              <span class="bs-caret"><span class="caret"></span></span>
+            </div>
+            <ul class="dropdown-menu">
+              <li *ngFor="let item of accountState.urls" (click)="selectWebsite(item['url'])" >
+                <span>{{item['url']}}</span>
+              </li>
+              <li class="signout">
+                <div (click)="accountActions.logout()">Sign out</div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
