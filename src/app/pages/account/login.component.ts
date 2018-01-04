@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
-  public baseUrls = ["magento2demo2.connectpos.com","tlspos.ispx.smartosc.com","mage2ee.local"]
+  public baseUrls = ["magento2demo2.connectpos.com","tlspos.ispx.smartosc.com","mage2ee.local","tls.local"];
   public baseUrl;
-  public isAutoLogout :boolean;
+  public isAutoLogout: boolean;
   
   accountState$: Observable<AccountState>;
   

@@ -25,10 +25,10 @@ export class PosComponent implements OnInit, OnDestroy {
   constructor(private reducerManagement: ReducerManagement,
               private offline: OfflineService,
               protected appService: AppService,
-              protected accountActions : AccountActions,
+              protected accountActions: AccountActions,
               protected translate: TranslateService,
               private notify: NotifyManager,
-              private toast : ToastsManager,
+              private toast: ToastsManager,
               protected idle: Idle, private keepalive: Keepalive) {
     this.translate.use('en');
     this.reducerManagement.replaceReducer('posReducer', posReducer());
@@ -43,7 +43,7 @@ export class PosComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
-    let a :boolean = true;
+    let a: boolean = true;
     this.idle.setIdle(15*60);
     // this.idle.setIdle(1*5);
     this.idle.setTimeout(2);
