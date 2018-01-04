@@ -1,11 +1,8 @@
-import {Component, OnInit, Input, ChangeDetectorRef} from '@angular/core';
-import {AccountState} from "../../../../R/account/account.state";
+import {Component, OnInit, Input, ChangeDetectorRef, HostListener} from '@angular/core';
 import * as _ from "lodash";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import {SaleReportService} from "../../R/report/service";
 import {ReportHelper} from "../../R/report/helper";
-import {Observable} from "rxjs/Observable";
-import {fakeAsync} from "@angular/core/testing";
 @Component({
              selector: 'sale-report',
              templateUrl: 'report.component.html',
@@ -17,8 +14,10 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   selectedAll: any;
   measures: any;
   searchString: any;
+  isDisplayCustomize: boolean = false;
   
-  constructor(protected saleReportService: SaleReportService ,protected changeDetector: ChangeDetectorRef ,
+  constructor(protected saleReportService: SaleReportService,
+              protected changeDetector: ChangeDetectorRef,
               protected reportHelper: ReportHelper) {
     super();
     this.initMeasures();
@@ -60,11 +59,21 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     });
   }
   
+  @HostListener('document:click', ['$event.target'])
+  onClick(target) {
+    if (target.className.indexOf('btn-custom') === -1) {
+      if (target.className.indexOf('customize-column') === -1) {
+        this.isDisplayCustomize = false;
+      }
+    }
+  }
+  
   trackByValue(index, measure) {
     return measure;
   }
   
   selectAll() {
+    this.selectedAll = !this.selectedAll;
     this.saleReportService.viewDataFilter['measures'] = [];
     for (let i = 0; i < this.measures.length; i++) {
       this.measures[i].selected = this.selectedAll;
@@ -77,6 +86,12 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
   }
   checkIfAllSelected(measure) {
+    let measureData = _.find(this.measures, function(measure_label) {
+      return measure['measure_data']['value'] === measure_label['measure_data']['value'];
+    });
+    if (!!measureData) {
+      measure.selected = !measureData.selected;
+    }
     this.searchMeasure(this.searchString);
   
     _.forEach(this.measures, function (mea) {
