@@ -22,8 +22,9 @@ import {ShopManageActions} from "../../../../../R/shop/actions";
 export class AccountLicensePlanDetailComponent extends AbstractSubscriptionComponent implements OnInit, OnDestroy {
   licenseHasProduct: any;
   product: any;
+  productVerisons: any;
   pricing: any;
-  
+  versionInfo: any;
   private validationElem;
   protected urlDelete;
   
@@ -53,14 +54,17 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
         const {productId}                                        = params;
         const pricingCollection: MongoObservable.Collection<any> = z[2];
         const productCollection: MongoObservable.Collection<any> = z[3];
-        
         if (_.size(licenses) === 1 && !!productId && _.isArray(licenses[0]['has_product']) && _.size(licenses[0]['has_product']) > 0) {
           this.licenseHasProduct = _.find(licenses[0]['has_product'], (licenseHasProduct) => licenseHasProduct['product_id'] === productId);
+          if (!this.licenseHasProduct['product_version']) {
+              this.licenseHasProduct['product_version'] = '';
+          }
           if (this.licenseHasProduct) {
             this.product = productCollection.collection.findOne({"_id": this.licenseHasProduct['product_id']});
             this.pricing = pricingCollection.collection.findOne({"_id": this.licenseHasProduct['pricing_id']});
-            
+            this.productVerisons = this.product['versions'];
             this.elemRef.detectChanges();
+            console.log(this.licenseHasProduct);
             setTimeout(() => {
               this.initPageJs();
             });
@@ -141,5 +145,8 @@ export class AccountLicensePlanDetailComponent extends AbstractSubscriptionCompo
       this.validationElem.destroy();
     }
     super.ngOnDestroy();
+  }
+  showVersionInfo() {
+      this.versionInfo = _.find(this.productVerisons, (_v) => _v['version'] === this.licenseHasProduct['product_version']);
   }
 }
