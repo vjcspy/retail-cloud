@@ -46,7 +46,6 @@ export class AppComponent extends AbstractSubscriptionComponent {
     this.resolveLanguage();
     this.dialogService.setRootViewContainerRef(vcr);
     this.toastr.setRootViewContainerRef(vcr);
-<<<<<<< HEAD
     this.loginMeteor();
   }
   
