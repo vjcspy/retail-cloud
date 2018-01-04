@@ -39,13 +39,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   public productState$: Observable<ProductState>;
   
   protected validation = {};
-  
+  public apiDelete;
+  public versionDelete;
   public options: Object = {
         charCounterCount: true,
         toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'insertTable', 'spellChecker', 'undo', 'redo'],
         toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
         toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
         toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+        height: 200,
   };
     
     connectPosUploader    = new FileUploader({
@@ -278,6 +280,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                    if (_.indexOf(this.product.versions, this.productVersion) === -1) {
                                                                                      vm.product.versions.push(this.productVersion);
                                                                                    }
+                                                                                   this.connectPosUploader.clearQueue();
+                                                                                   jQuery('#product_version_package').val('');
                                                                                    jQuery('#modal-product-versions')['modal']('hide');
                                                                                    vm.changeDetectorRef.detectChanges();
                                                                                  }
@@ -321,6 +325,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                              }
                                                                              vm.product['api_versions'].push(vm.productApi);
                                                                            }
+                                                                             this.connectPosApiUploader.clearQueue();
+                                                                             jQuery('#product-api-package').val('');
                                                                              jQuery('#modal-product-api')['modal']('hide');
                                                                              vm.changeDetectorRef.detectChanges();
                                                                          }
@@ -335,6 +341,11 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   editVersion(pVersion: string) {
     if (pVersion === 'createNew') {
+      if(!_.isArray(this.product['api_versions']) || this.product['api_versions'].length < 1) {
+          this.notify.error("can_not_find_api_version_please_create_api_version_first");
+          this.data.tabView = 'api';
+          return;
+      }
       this.productVersion = {
         license_compatible_type: 'all'
       };
@@ -366,8 +377,17 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     return _.isArray(this.product['has_pricing']) && _.indexOf(this.product['has_pricing'].map((_p) => _p['pricing_id']), id) > -1;
   }
   
-  removeVersion(version) {
-    _.remove(this.product.versions, version);
+  openPopupModalDeleteVersion(version) {
+        this.versionDelete = version;
+        $('#delete-version')['modal']('show');
+  }
+  
+  closePopupModalDeleteVersion() {
+        $('#delete-version')['modal']('hide');
+    }
+  removeVersion() {
+    _.remove(this.product.versions, this.versionDelete);
+    this.closePopupModalDeleteVersion();
   }
   
   editProductApi(productApiVersion: string) {
@@ -383,9 +403,25 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
     }
     jQuery('#modal-product-api')['modal']('show');
   }
+  openPopupModalDeleteApi(api) {
+        this.apiDelete = api;
+        $('#delete-api')['modal']('show');
+  }
   
-  removeProductApi(apiVersion) {
-    _.remove(this.product['api_versions'], apiVersion);
+  closePopupModalDeleteApi() {
+        $('#delete-api')['modal']('hide');
+  }
+  removeProductApi() {
+    const apiWasCompatible = _.find(this.product.versions, (_pv) => {
+        return _.find(_pv['api_compatible'], (_pva) => _pva['version'] === this.apiDelete['version']);
+    });
+    if (apiWasCompatible) {
+        this.notify.error("cannot_delete_api_was_compatible");
+        this.closePopupModalDeleteApi();
+        return;
+    }
+    _.remove(this.product['api_versions'], this.apiDelete);
+    this.closePopupModalDeleteApi();
   }
   
   save() {
