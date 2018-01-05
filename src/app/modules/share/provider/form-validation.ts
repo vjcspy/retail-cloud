@@ -46,7 +46,7 @@ export class FormValidationService {
     },
     {
       id: "applicant-reference-number",
-      mess: "Wrong ARN format. Please click here for more information"
+      mess: "Please input a valid Applicant Reference Number"
     }
   ];
   
