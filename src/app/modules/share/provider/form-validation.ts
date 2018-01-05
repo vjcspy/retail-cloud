@@ -235,7 +235,7 @@ export class FormValidationService {
           if (value == "" || (!_isReferenceNumberUK && !_isReferenceNumberSCH && !_isReferenceNumberAUS)) {
             validationInfo = {
               isValid: false,
-              mess: !!mess ? mess : ""
+              mess: !!mess ? (value == "" ? "Please fill the Applicant Reference Number!" : mess) : ""
             };
             return false;
           }
