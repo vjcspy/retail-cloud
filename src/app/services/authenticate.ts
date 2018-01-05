@@ -1,26 +1,36 @@
 import {Injectable} from '@angular/core';
 import {MeteorObservable} from "meteor-rxjs";
-import {Subscription} from "rxjs/Subscription";
 import {AccountActions} from "../R/account/account.actions";
+import {AppStorage} from "./storage";
+import {NotifyManager} from "./notify-manager";
+import {GeneralException} from "../code/GeneralException";
 
 @Injectable()
 export class AuthenticateService {
   private _user;
-  private _subscribeAccount: Subscription;
+  protected trackingWhenUserChange;
   
-  static SUPERADMIN = "super_admin";
-  static ADMIN      = "admin";
-  static SALES      = "sales";
-  static AGENCY     = "agency";
-  static USER       = "user";
-  
-  constructor(protected accountActions: AccountActions) {}
+  constructor(protected storage: AppStorage, protected notify: NotifyManager,protected accountActions: AccountActions) {}
   
   get user() {
-    if (typeof this._user === 'undefined') {
-      const user = Meteor.user() || null;
-      this._user = user;
-      this._whenAccountUpdate();
+    if (typeof this.trackingWhenUserChange === 'undefined') {
+      this.trackingWhenUserChange = MeteorObservable.autorun().subscribe(() => {
+        const user = Meteor.user();
+        if (user) {
+          this._user = user;
+        }
+      });
+    }
+    if (!this._user) {
+      let localUser = this.storage.localRetrieve('user');
+      if (localUser) {
+        this._user = localUser;
+      } else {
+        let meteorUser = Meteor.user();
+        if (meteorUser) {
+          this._user = meteorUser;
+        }
+      }
     }
     
     return this._user;
@@ -46,16 +56,21 @@ export class AuthenticateService {
     return true;
   }
   
-  subscribeAccountChange() {
-    if (typeof this._subscribeAccount === 'undefined') {
-      MeteorObservable.autorun().subscribe(() => {
-        this.user = Meteor.user();
-        this._whenAccountUpdate();
-      });
-    }
-  }
-  
-  private _whenAccountUpdate() {
-    this.accountActions.saveAccount(this.user);
-  }
+  // resolveGeneralDataFromStorage() {
+  //   const outlet   = this.storage.localRetrieve('user');
+  //   const baseUrl  = this.storage.localRetrieve('baseUrl');
+  //
+  //   let user = this.user;
+  //
+  //   if (!user) {
+  //     throw new GeneralException("Can't find user");
+  //   }
+  //   user = Object.assign({}, {...user}, {id: user['_id']});
+  //
+  //   if (!!baseUrl) {
+  //     return { baseUrl, user};
+  //   } else {
+  //     return null;
+  //   }
+  // }
 }

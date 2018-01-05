@@ -12,7 +12,7 @@ import {ToastsManager} from "ng2-toastr";
            })
 
 export class CloudComponent extends AbstractSubscriptionComponent implements OnInit {
-  constructor(private accountService: AccountService , private toast : ToastsManager) {
+  constructor(private accountService: AccountService , private toast: ToastsManager) {
     super();
     this.toast.clearAllToasts();
   }

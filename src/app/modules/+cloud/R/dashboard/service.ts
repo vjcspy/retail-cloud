@@ -164,7 +164,7 @@ export class DashboardReportService {
     return this.stream.change_scope;
   }
 
-  updateView(){
+  updateView() {
     if(!this.stream.hasOwnProperty('update_view')){
     this.stream.update_view = new Subject();
     this.stream.update_view = <any>this.stream.update_view.share();
@@ -172,7 +172,7 @@ export class DashboardReportService {
     return this.stream.update_view;
   }
   
-  updateStatus(){
+  updateStatus() {
     if(!this.stream.hasOwnProperty('update_status')){
       this.stream.update_status = new Subject();
       this.stream.update_status = <any>this.stream.update_status.share();
@@ -199,4 +199,3 @@ export class DashboardReportService {
     }
   }
 }
-

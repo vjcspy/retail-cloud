@@ -4,6 +4,7 @@ import {DashboardReportService} from "../../R/dashboard/service";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import * as _ from "lodash";
 import * as moment from "moment";
+import {AppStorage} from "../../../../services/storage";
 @Component({
              selector: 'z-dashboard',
              templateUrl: 'dashboard.html',
@@ -13,17 +14,18 @@ import * as moment from "moment";
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 
-
 export class DashboardPage extends AbstractRxComponent implements OnInit , AfterViewInit {
   public granularity: string;
-  constructor(public dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef) {
+  constructor(public dashboardReportService: DashboardReportService ,protected changeDetector: ChangeDetectorRef,protected storage: AppStorage) {
     super();
     changeDetector.detach();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.initDefaultGranularity(this.getPeriodValue());
-    this.dashboardReportService.getDashboardReport();
+    if (this.storage.localRetrieve('baseUrl')) {
+      this.dashboardReportService.getDashboardReport();
+    }
   }
   
   ngOnInit() {

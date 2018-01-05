@@ -3,9 +3,9 @@ import {List} from "immutable";
 
 export interface AccountState {
   user: any;
-  license :any;
+  license: any;
   urls: List<any>;
-  default_url :any;
+  default_url: any;
   isProcessing: boolean;
   redirect: string;
 }
@@ -19,6 +19,6 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
     urls: List.of(),
     default_url :null,
     isProcessing: false,
-    redirect: 'cloud/default'
+    redirect: '/cloud/default/dashboard'
   }
 );

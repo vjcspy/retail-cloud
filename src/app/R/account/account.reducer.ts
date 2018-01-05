@@ -6,7 +6,6 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
   switch (action.type) {
     case AccountActions.ACTION_LOGIN:
     case AccountActions.ACTION_USER_REGISTER:
-    case AccountActions.ACTION_LOGOUT:
     case AccountActions.ACTION_USER_SEND_RESET_PASSWORD:
     case AccountActions.ACTION_USER_RESET_PASSWORD:
       return state.set('isProcessing', true);
@@ -29,7 +28,9 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
                   .set('default_url', action.payload['defaultUrl']);
       
     case AccountActions.ACTION_CHANGE_URL:
-      return state.set('default_url' , action.payload['default_url']);
+      return state.set('default_url', action.payload['default_url']);
+    case AccountActions.ACTION_LOGOUT:
+      return accountStateFactory();
     default:
       return state;
   }

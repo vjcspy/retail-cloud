@@ -7,7 +7,6 @@ import {ProductCollection} from "../../services/meteor-collections/products";
 import {AccountActions} from "./account.actions";
 import {AppStorage} from "../../services/storage";
 import {GeneralException} from "../../code/GeneralException";
-import {AccountState} from "./account.state";
 import {RequestService} from "../../services/request";
 import {ApiManager} from "../../services/api-manager";
 
@@ -17,7 +16,7 @@ export class AccountService {
   protected subscriptionLicense: Subscription;
   
   constructor(protected storage: AppStorage,
-              protected requestService : RequestService,
+              protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
               protected licenseCollection: LicenseCollection,
               protected productCollection: ProductCollection,
@@ -74,8 +73,8 @@ export class AccountService {
     });
   }
   
-  removeStorage(){
-    this.storage.localClear('baseUrl');
+  saveUserToStorage(user: any): void {
+    this.storage.localStorage('user', user);
   }
   
   requestSendForgotPassword(email: string) {

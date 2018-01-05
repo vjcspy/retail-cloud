@@ -48,7 +48,7 @@
             <span class="name">{{accountState.user['username']}}</span>
             <span class="role">({{accountState.user['roles']['cloud_group']}})</span>
           </div>
-          <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing"  *ngIf="!hasWebsite()">
+          <div *ngIf="!hasWebsite()" class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing" >
             Logout
             <i class="ion-log-out"></i>
           </div>

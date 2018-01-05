@@ -31,6 +31,18 @@ export class AccountEffects {
                         .switchMap((z) => {
                           return Observable.fromPromise(this.accountService.login(z[0].payload['user']))
                                            .map(() => {
+                                             const user = Meteor.user();
+                                             this.accountService.saveUserToStorage(user);
+  
+                                             const redirect = (z[1] as AccountState).redirect;
+                                          
+                                             if (_.isString(redirect)) {
+                                               if (redirect.indexOf("http") > -1) {
+                                                 window.location.replace(redirect);
+                                               } else {
+                                                 this.routerActions.go(redirect);
+                                               }
+                                             }
                                              return this.accountActions.loginSuccess(false);
                                            })
                                            .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
@@ -43,7 +55,7 @@ export class AccountEffects {
                                          )
                                          .withLatestFrom(this.store$.select('account'))
                                          .map((z: any) => {
-                                           window.location.reload(true);
+                                           // window.location.reload(true);
     
                                            return this.accountActions.saveAccount(this.authenticate.user, false);
                                          });

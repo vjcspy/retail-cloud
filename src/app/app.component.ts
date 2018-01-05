@@ -44,7 +44,7 @@ export class AppComponent extends AbstractSubscriptionComponent {
     super();
     this.resolveLanguage();
     this.toastr.setRootViewContainerRef(vcr);
-    this.authenticate.subscribeAccountChange();
+    // this.authenticate.subscribeAccountChange();
   }
   
   protected resolveLanguage() {
