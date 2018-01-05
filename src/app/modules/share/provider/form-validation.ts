@@ -43,6 +43,10 @@ export class FormValidationService {
     {
       id: "p-not-decimal-num",
       mess: "This is integer number field"
+    },
+    {
+      id: "applicant-reference-number",
+      mess: "Wrong ARN format. Please click here for more information"
     }
   ];
   
@@ -210,6 +214,25 @@ export class FormValidationService {
           let decimal    = /^(?:[-+]?[0-9]|)+\.[0-9]+$/;
           let _isDecimal = decimal.test(value);
           if (value == "" || isNaN(value) || parseFloat(value) <= 0 || _isDecimal) {
+            validationInfo = {
+              isValid: false,
+              mess: !!mess ? mess : ""
+            };
+            return false;
+          }
+          break;
+  
+        case "applicant-reference-number":
+          mess = _.find(this.validations, (v) => v['id'] == 'applicant-reference-number');
+          if (mess)
+            mess = mess['mess'];
+          let reference_number_UK    = /[GWF]{1}\d{9}$/;
+          let reference_number_SCH   = /[M]{1}\d{8}$/;
+          let reference_number_AUS   = /\w{3}[-]{1}\w{2}[-]{1}\d{2}[-]{1}\d{6}[-]{1}\w{1}$/;
+          let _isReferenceNumberUK  = reference_number_UK.test(value);
+          let _isReferenceNumberSCH = reference_number_SCH.test(value);
+          let _isReferenceNumberAUS = reference_number_AUS.test(value);
+          if (value == "" || (!_isReferenceNumberUK && !_isReferenceNumberSCH && !_isReferenceNumberAUS)) {
             validationInfo = {
               isValid: false,
               mess: !!mess ? mess : ""
