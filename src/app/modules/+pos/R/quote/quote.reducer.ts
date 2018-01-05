@@ -102,7 +102,7 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
   
     case PosQuoteActions.ACTION_ADD_REFERENCE_NUMBER:
       state.quote.setData('reference_number', action.payload['reference_number']);
-      return state;
+      return state.set('valid_reference_number', action.payload['valid_reference_number']);
     
     case IntegrateGCActions.ACTION_USE_GIFT_CARD:
       return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']}, {is_delete: false})));

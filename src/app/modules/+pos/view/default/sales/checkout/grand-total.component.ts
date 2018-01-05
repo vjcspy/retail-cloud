@@ -31,7 +31,7 @@ export class PosDefaultSalesCheckoutGrandTotalComponent {
     if (this.authService.userCan('create_order')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
         if (_.isEmpty(this.quoteState.quote.getData('reference_number')) || !this._validProperty.isValid) {
-          this.notify.warning(this._validProperty.mess);
+          // this.notify.warning(this._validProperty.mess);
         } else {
           this.posSyncActions.syncCurrentOrder();
         }

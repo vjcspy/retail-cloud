@@ -226,9 +226,9 @@ export class FormValidationService {
           mess = _.find(this.validations, (v) => v['id'] == 'applicant-reference-number');
           if (mess)
             mess = mess['mess'];
-          let reference_number_UK    = /[GWF]{1}\d{9}$/;
-          let reference_number_SCH   = /[M]{1}\d{8}$/;
-          let reference_number_AUS   = /[A-Za-z0-9]{3}[-]{1}[A-Za-z0-9]{2}[-]{1}\d{2}[-]{1}\d{6}[-]{1}[A-Za-z0-9]{1}$/;
+          let reference_number_UK    = /^[G]{1}[W]{1}[F]{1}\d{9}$/;
+          let reference_number_SCH   = /^[M]{1}\d{8}$/;
+          let reference_number_AUS   = /^[A-Za-z0-9]{3}[-]{1}[A-Za-z0-9]{2}[-]{1}\d{2}[-]{1}\d{6}[-]{1}[A-Za-z0-9]{1}$/;
           let _isReferenceNumberUK  = reference_number_UK.test(value);
           let _isReferenceNumberSCH = reference_number_SCH.test(value);
           let _isReferenceNumberAUS = reference_number_AUS.test(value);

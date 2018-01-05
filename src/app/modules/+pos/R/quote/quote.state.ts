@@ -24,6 +24,7 @@ export interface PosQuoteState {
   creditmemo: Object;
   
   grandTotal: number; // Phải tính trong cả 2 trường hợp là refund và không refund
+  valid_reference_number: boolean;
 }
 
 export interface PosQuoteStateRecord extends TypedRecord<any>, PosQuoteState {}
@@ -45,5 +46,6 @@ export const posQuoteStateFactory = makeTypedFactory<PosQuoteState, PosQuoteStat
   
                                                                                            creditmemo: null,
   
-                                                                                           grandTotal: 0
+                                                                                           grandTotal: 0,
+                                                                                           valid_reference_number: false
                                                                                          });

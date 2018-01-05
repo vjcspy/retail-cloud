@@ -175,7 +175,7 @@ export class PosDefaultSalesOrdersDetailComponent {
     let store_id: string = this.posGeneralState.store['id'];
     let store_order_id: string = this.getOrder()['store_id'];
     
-    return (!!store_id && !!store_order_id && store_order_id === store_id) ? true : false;
+    return (!!store_id && !!store_order_id && store_order_id === store_id) ? true : (!store_order_id ? true : false);
   }
   
 }

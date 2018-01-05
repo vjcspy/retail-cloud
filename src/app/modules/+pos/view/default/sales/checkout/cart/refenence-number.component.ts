@@ -26,7 +26,7 @@ export class PosDefaultSalesCheckoutCartReferenceNumberComponent {
     this._validProperty = <any>this.formValidationService.validate('applicant-reference-number', $event.target['value']);
     if (!this._validProperty.isValid) {
       this.notify.warning(this._validProperty.mess);
-      this.posQuoteActions.addReferenceNumber($event.target['value']);
+      this.posQuoteActions.addReferenceNumber($event.target['value'], this._validProperty.isValid);
     } else {
       this.posQuoteActions.addReferenceNumber($event.target['value']);
     }
