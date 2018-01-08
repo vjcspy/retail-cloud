@@ -29,23 +29,9 @@
             <span class="name">{{accountState.user['username']}}</span>
             <span class="role">({{accountState.user['role']}})</span>
           </div>
-          <div class="dropdown bootstrap-select open">
-              <div class="anchor" data-toggle="dropdown">
-                  www.smartosc.com
-                  <span class="bs-caret"><span class="caret"></span></span>
-              </div>
-              <ul class="dropdown-menu">
-                  <li>
-                    <span>http://lazada.vn</span>
-                  </li>
-                  <li>
-                    <span>http://www.lazada.vn</span>
-                  </li>
-                  <li>
-                    <span>http://123.vn</span>
-                  </li>
-                  <li class="signout">Sign out</li>
-              </ul>
+          <div class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing">
+            Logout
+            <i class="ion-log-out"></i>
           </div>
         </div>
       </div>

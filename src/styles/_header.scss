@@ -38,17 +38,17 @@ header {
 .navbar-right {
     .user {
         position: relative;
-        padding: 10px 70px 10px 60px;  
+        padding: 10px 20px 10px 60px;
         //display: flex;
         //align-items: center;
     }
-    .img {        
+    .img {
         margin-right: 10px;
         position: absolute;
         left:0;
     }
 
-    img {
+   img {
         width: 48px;
         height: 48px;
         border-radius: 50%;
@@ -56,7 +56,7 @@ header {
     }
     .logout-btn{
         font-weight: bold;
-        color: #fff;        
+        color: #fff;
         background: $aqua;
         display: inline-block;
         padding: 2px 5px;
@@ -77,11 +77,16 @@ header {
             color: $aqua;
         }
     }
-    .open .dropdown-toggle {
+    .bootstrap-select {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      text-align: left;
+      &.open .dropdown-toggle {
         box-shadow: none;
         background-color: transparent;
-    }
-    .btn {
+      }
+      .btn {
         outline: none;
         background-color: transparent;
         border: none;
@@ -89,80 +94,66 @@ header {
         text-transform: none;
         margin-left: 0;
         .caret {
-            top: 10px !important;
-            right: 10px !important;
+          top: 10px !important;
+          right: 10px !important;
         }
         &:active:focus {
-            box-shadow: none;
-            background-color: transparent;
-            outline: none;
+          box-shadow: none;
+          background-color: transparent;
+          outline: none;
         }
         &:focus {
-            outline: none;
+          outline: none;
         }
-    }
-    .dropdown {
+      }
+      .dropdown-menu {
         box-shadow: none;
         border: none;
-        .bs-caret {
-            position: absolute;
-            right: -33px;
-            top: -10px;
+        &.open{
+          background:rgba(45,185,175,.85);
+          min-width: 280px;
+          border-radius: 10px;
+          padding: 10px 10px 20px 10px;
+        }
 
-        }
-        .caret {
-            border-top: 7px dashed;
-            border-right: 7px solid transparent;
-            border-left: 7px solid transparent;
-        }
-        .dropdown-menu {
-            background: #e9eef1;
-            margin: 0;
-            padding: 0;
-            border: none;
-            right: -51px;
-            &::before {
-                width: 0;
-                height: 0;
-                content: "";
-                position: absolute;
-                top: -8px;
-                right: 17px;
-                border-left: 8px solid transparent;
-                border-right: 8px solid transparent;
-                border-bottom: 8px solid #e9eef1;
-            }
+        &.inner{
+          background: none;
         }
         li{
-            padding: 0 30px;
-            margin-top: -1px;
-            span {
-                color: $white;
-                display: block;
-                word-break: break-word;
-                white-space: normal;
-                border-bottom: 1px solid #ccd4d9;
-                padding: 15px 0;
-                color: #333;
+          a {
+            color: $white;
+            word-break: break-word;
+            white-space: normal;
+            &:hover,
+            &:focus {
+              background-color:#3fded3;
+              color: $white;
+              font-weight: 400;
+
             }
-            &:hover {
-                background: #ccd4d9;
+          }
+          &.selected{
+            a{
+              background: none;
+              font-weight: bold;
+
             }
-            &.signout{
-                background: #3a465c;
-                padding: 15px 0;
-                text-transform: uppercase;
-                text-align: center;
-                color: #30a59c;
-                font-weight: 600;
-                border-bottom-left-radius: 4px;
-                border-bottom-right-radius: 4px;
-            }
-            &:first-child {
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-            }
+          }
         }
-        
+
+
+        .logout{
+          background: #10a499;
+          display: inline-block;
+          border-radius: 4px;
+          padding: 5px 10px;
+          margin-top: 15px;
+          font-weight: bold;
+          margin-left: 13px;
+          &:hover{
+            font-weight: bold;
+          }
+        }
+      }
     }
 }
