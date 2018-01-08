@@ -24,8 +24,7 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
       return state.set('license', action.payload['license']);
   
     case AccountActions.ACTION_RESOLVED_URLS:
-      return state.set('urls', action.payload['urls'])
-                  .set('default_url', action.payload['defaultUrl']);
+      return state.set('urls', action.payload['urls']);
       
     case AccountActions.ACTION_CHANGE_URL:
       return state.set('default_url', action.payload['default_url']);

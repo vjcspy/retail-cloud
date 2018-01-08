@@ -45,8 +45,8 @@
         <div class="user">
           <div class="img"><img src="assets/img/default-avatar.png" alt="Avatar"></div>
           <div class="personal-info">
-            <span class="name">{{accountState.user['username']}}</span>
-            <span class="role">({{accountState.user['roles']['cloud_group']}})</span>
+            <span class="name">{{storage.localRetrieve('email')}}</span>
+            <span class="role">({{storage.localRetrieve('user')['roles']['cloud_group']}})</span>
           </div>
           <div *ngIf="!hasWebsite()" class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing" >
             Logout

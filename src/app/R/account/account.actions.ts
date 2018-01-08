@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from "@ngrx/store";
-import {Actions} from "@ngrx/effects";
 
 @Injectable()
 export class AccountActions {
@@ -164,8 +163,8 @@ export class AccountActions {
   
   static ACTION_RESOLVED_URLS  =  'ACTION_RESOLVED_URLS';
 
-  resolvedUrls(urls,defaultUrl, dispatch: boolean = true): Action {
-    const action = {type: AccountActions.ACTION_RESOLVED_URLS, payload: {urls,defaultUrl}};
+  resolvedUrls(urls, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.ACTION_RESOLVED_URLS, payload: {urls}};
 
     if (dispatch === true) {
       this.store$.dispatch(action);

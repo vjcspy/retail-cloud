@@ -12,7 +12,6 @@ import {AuthenticateService} from "../../services/authenticate";
 import {AccountState} from "./account.state";
 import {AppStorage} from "../../services/storage";
 
-
 @Injectable()
 export class AccountEffects {
   
@@ -81,7 +80,7 @@ export class AccountEffects {
                                               this.appStorage.localClear();
                                               setTimeout(() => {
                                                 location.reload(true);
-                                              }, 200);
+                                              }, 100);
                                               return this.accountActions.goLoginPage(false, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
@@ -128,10 +127,9 @@ export class AccountEffects {
                               .map((z) => {
                                 const accountState: AccountState = <any>z[1];
                                 let listUrl                      = List.of();
-                                let defaultUrl = "";
                                 const urls                       = accountState.license['base_url'];
                                 _.forEach(urls, (url) => {
-                                  if (parseInt(url['status']) === 1) {
+                                  if (parseInt(url['status']) === 1 ) {
                                     listUrl = listUrl.push({
                                                              url: url['url'],
                                                              is_default: false,
@@ -139,10 +137,7 @@ export class AccountEffects {
                                                            });
                                   }
                                 });
-                              if(listUrl.count() > 1){
-                                defaultUrl = listUrl.get(0)['url'];
-                              }
-                                return this.accountActions.resolvedUrls(listUrl ,defaultUrl, false);
+                                return this.accountActions.resolvedUrls(listUrl, false);
                               });
   
 }
