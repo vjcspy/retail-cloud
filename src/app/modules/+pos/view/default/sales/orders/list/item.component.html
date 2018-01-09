@@ -2,7 +2,7 @@
   <div class="value">
     <h3 class="status" *ngIf="order['retail_status']">{{orderService.getClientStatus(order['retail_status'])|translate}}</h3>
     <h3 class="status" *ngIf="!order['retail_status']">{{order['status']}}</h3>
-    <p class="price">{{order['totals']['grand_total'] | priceFormat}}</p>
+    <p class="price">{{order['totals']['grand_total'] | priceOrderDetailFormat: store['price_format']}}</p>
   </div>
   <div class="info">
     <h3 class="name">{{!!checkoutAsGuest ? (order['customer']['name'] | translate) : order['customer']['name']}}</h3>

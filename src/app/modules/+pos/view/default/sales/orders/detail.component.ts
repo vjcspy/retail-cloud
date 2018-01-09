@@ -15,6 +15,11 @@ import {OrderDetailActions} from "../../../R/sales/orders/detail/detail.actions"
 import {OfflineService} from "../../../../../share/provider/offline";
 import {AppStorage} from "../../../../../../services/storage";
 import {PosGeneralState} from "../../../../R/general/general.state";
+import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {List} from "immutable";
+import {StoreDB} from "../../../../database/xretail/db/store";
+import {Store as CoreStore} from "../../../../core/framework/store/Model/Store";
+
 @Component({
              // moduleId: module.id,
              selector: 'pos-default-sales-order-detail',
@@ -26,10 +31,12 @@ export class PosDefaultSalesOrdersDetailComponent {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
+  store: CoreStore = null;
   
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
   @Input() posGeneralState: PosGeneralState;
+  @Input() storeState: PosEntitiesState;
   
   constructor(protected authenticateService: AuthenticateService,
               public orderService: OrderService,
@@ -165,7 +172,7 @@ export class PosDefaultSalesOrdersDetailComponent {
   
   checkoutAsGuest(): boolean {
     if (this.getOrder().hasOwnProperty('customer')) {
-      return parseInt(this.getOrder()['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId());
+      return (parseInt(this.getOrder()['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId()) || (this.getOrder()['customer']['email'] === 'guest@sales.connectpos.com'));
     } else {
       return false;
     }
@@ -174,6 +181,13 @@ export class PosDefaultSalesOrdersDetailComponent {
   checkOrderBelongToOutlet(): boolean {
     let store_id: string = this.posGeneralState.store['id'];
     let store_order_id: string = this.getOrder()['store_id'];
+    
+    let store_id_filter = !!store_order_id ? store_order_id : store_id;
+  
+    let stores: List<StoreDB> = this.storeState.stores.items;
+    let storeOrder = stores.find((o) => parseInt(o['id'] + '') === parseInt(store_id_filter + ''));
+    let store = new CoreStore();
+    this.store = store.mapWithParent(storeOrder);
     
     return (!!store_id && !!store_order_id && store_order_id === store_id) ? true : (!store_order_id ? true : false);
   }

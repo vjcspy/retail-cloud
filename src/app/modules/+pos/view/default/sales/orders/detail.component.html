@@ -1,6 +1,6 @@
 <div class="order-list-detail" *ngIf="getOrder()['retail_id'] || getOrder()['increment_id']">
   <div class="top-bar">
-    <div class="grand-total">{{getOrder()['totals']['grand_total'] | priceFormat}}</div>
+    <div class="grand-total">{{getOrder()['totals']['grand_total'] | priceOrderDetailFormat: store['price_format']}}</div>
   </div>
   <div class="order-list-inner" perfectScroll>
     <div class="notification"
@@ -72,7 +72,7 @@
     </div><!--end customer-info-->
 
     <div class="order-info">
-      <pos-default-sales-orders-detail-items *ngFor="let item of getOrder()['items']" [item]="item" [configState]="configState"></pos-default-sales-orders-detail-items>
+      <pos-default-sales-orders-detail-items *ngFor="let item of getOrder()['items']" [item]="item" [configState]="configState" [store]="store"></pos-default-sales-orders-detail-items>
     </div>
 
     <div class="payment-info">
@@ -89,7 +89,7 @@
               <p>{{ 'Transaction Reference' | translate }}: {{payment['data']['transactionReference']}}</p>
             </div>
             <p>{{payment['created_at'] |datetimeFormat:'detail'}}</p>
-            <p>{{payment['amount']|priceFormat}}</p>
+            <p>{{payment['amount']|priceOrderDetailFormat: store['price_format']}}</p>
           </div>
         </div>
       </div><!--end info-->
@@ -98,47 +98,47 @@
           <p class="t-txt">{{configState.setting.tax.displaySalesSubtotalExclTax()? ("Subtotal"|translate) : ("Subtotal Incl.tax"|translate)}}</p>
           <p class="t-value">
             {{(configState.setting.tax.displaySalesSubtotalExclTax()? getOrder()['totals']['subtotal'] :
-            getOrder()['totals']['subtotal_incl_tax']) | priceFormat}}
+            getOrder()['totals']['subtotal_incl_tax']) | priceOrderDetailFormat: store['price_format']}}
           </p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{configState.setting.tax.displaySalesShippingExclTax()? ("Shipping"|translate) : ("Shipping Incl.tax"|translate)}}</p>
           <p class="t-value">
             {{(configState.setting.tax.displaySalesShippingExclTax()? getOrder()['totals']['shipping'] :
-            getOrder()['totals']['shipping_incl_tax']) | priceFormat}}
+            getOrder()['totals']['shipping_incl_tax']) | priceOrderDetailFormat: store['price_format']}}
           </p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Tax' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['tax'] | priceFormat}}</p>
+          <p class="t-value">{{getOrder()['totals']['tax'] | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Discount' | translate }}</p>
-          <p class="t-value">{{(getOrder()['totals']['discount'] + getOrder()['totals']['retail_discount_pert_item']) | priceFormat}}</p>
+          <p class="t-value">{{(getOrder()['totals']['discount'] + getOrder()['totals']['retail_discount_pert_item']) | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row" *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">
           <p class="t-txt">{{ 'Reward Point' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['reward_point_discount_amount'] | priceFormat}}</p>
+          <p class="t-value">{{getOrder()['totals']['reward_point_discount_amount'] | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row" *ngIf="!!getOrder()['totals']['gift_card_discount_amount']">
           <p class="t-txt">{{ 'Gift card' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceFormat}}</p>
+          <p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Grand total' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['grand_total'] | priceFormat}}</p>
+          <p class="t-value">{{getOrder()['totals']['grand_total'] | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row grand">
           <p class="t-txt">{{ 'Total paid' | translate }}</p>
-          <p class="t-value">{{getTotalPaidBaseOnPayment() | priceFormat}}</p>
+          <p class="t-value">{{getTotalPaidBaseOnPayment() | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Remain' | translate }}</p>
-          <p class="t-value">{{(getOrder()['totals']['grand_total'] - getTotalPaidBaseOnPayment()) | priceFormat}}</p>
+          <p class="t-value">{{(getOrder()['totals']['grand_total'] - getTotalPaidBaseOnPayment()) | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
         <div class="total-row refunded" *ngIf="getOrder()['totals']['total_refunded']">
           <p class="t-txt">{{ 'Total Refunded' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['total_refunded'] | priceFormat}}</p>
+          <p class="t-value">{{getOrder()['totals']['total_refunded'] | priceOrderDetailFormat: store['price_format']}}</p>
         </div>
       </div><!--end total-blk-->
     </div><!--end payment-info-->

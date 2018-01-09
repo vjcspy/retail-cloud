@@ -57,7 +57,8 @@
           {{!!orderGrouped['today'] ? ('Today' | translate) : orderGrouped['timestamp']}}
         </div>
         <pos-default-sales-orders-list-item *ngFor="let order of orderGrouped['orders'];trackBy:trackById" [order]="order"
-                                            [ordersState]="ordersState" [configState]="configState$ | async"></pos-default-sales-orders-list-item>
+                                            [ordersState]="ordersState" [configState]="configState$ | async"
+                                            [storeState]="storeState$ | async" [posGeneralState]="generalState$ | async"></pos-default-sales-orders-list-item>
       </div>
 
     </div>

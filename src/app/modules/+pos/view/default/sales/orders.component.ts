@@ -8,6 +8,7 @@ import {PosGeneralState} from "../../../R/general/general.state";
 import {PosSyncState} from "../../../R/sync/sync.state";
 import {PosStepState} from "../../R/sales/checkout/step/step.state";
 import {ReceiptState} from "../../R/sales/receipts/receipt.state";
+import {PosEntitiesState} from "../../../R/entities/entities.state";
 
 @Component({
              // moduleId: module.id,
@@ -21,6 +22,7 @@ export class PosDefaultSalesOrdersComponent implements OnInit {
   quoteState$: Observable<PosQuoteState>;
   generalState$: Observable<PosGeneralState>;
   posSyncState$: Observable<PosSyncState>;
+  storeState$: Observable<PosEntitiesState>;
   
   posStepState$: Observable<PosStepState>;
   receiptState$: Observable<ReceiptState>;
@@ -34,6 +36,7 @@ export class PosDefaultSalesOrdersComponent implements OnInit {
     this.posSyncState$ = this.store$.select('sync');
     this.posStepState$ = this.store$.select('step');
     this.receiptState$ = this.store$.select('receipt');
+    this.storeState$   = this.store$.select('entities');
   }
   
   ngOnInit() { }

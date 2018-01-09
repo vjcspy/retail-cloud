@@ -18,7 +18,7 @@
       <span class="click" *ngIf="isHaveOption()" (click)="item['active_options'] = !item['active_options']">{{ 'See Option' | translate }}</span>
     </div>
     <p class="price">
-      {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
+      {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceOrderDetailFormat: store['price_format']}}
     </p>
     <!--div class="h-pos"><span class="click" *ngIf="isHaveOption()" (click)="item['active_options'] = !item['active_options']">See Option</span></div-->
   </div>
@@ -47,7 +47,7 @@
                     </span>
           </div>
           <p class="price">
-            {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceFormat}}
+            {{(configState.setting.tax.displaySalesPricesExclTax() ? item['row_total'] : item['row_total_incl_tax'])| priceOrderDetailFormat: store['price_format']}}
           </p>
         </div>
       </div>

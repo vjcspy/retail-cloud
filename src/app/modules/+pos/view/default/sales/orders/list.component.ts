@@ -10,6 +10,8 @@ import {PosConfigState} from "../../../../R/config/config.state";
 import {Observable} from "rxjs/Observable";
 import {Store} from "@ngrx/store";
 import {AuthenticateService} from "../../../../../../services/authenticate";
+import {PosEntitiesState} from "../../../../R/entities/entities.state";
+import {PosGeneralState} from "../../../../R/general/general.state";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +21,8 @@ import {AuthenticateService} from "../../../../../../services/authenticate";
            })
 export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChanges {
   configState$: Observable<PosConfigState>;
-  
+  storeState$: Observable<PosEntitiesState>;
+  generalState$: Observable<PosGeneralState>;
   @Input() ordersState: OrdersState;
   
   @ViewChild('dateSelectFrom') dateSelectFrom: ElementRef;
@@ -34,6 +37,8 @@ export class PosDefaultSalesOrdersListComponent implements AfterViewInit, OnChan
               public orderService: OrderService,
               private store$: Store<any>) {
     this.configState$  = this.store$.select('config');
+    this.storeState$  = this.store$.select('entities');
+    this.generalState$ = this.store$.select('general');
   }
   
   ngOnChanges(changes: SimpleChanges): void {

@@ -11,6 +11,8 @@ import * as _ from 'lodash';
 export class PosDefaultSalesOrdersDetailItemsComponent implements OnInit {
   @Input() item: Object;
   @Input() configState: PosConfigState;
+  @Input() store: Object;
+  
   protected _data = {};
   
   constructor() { }
