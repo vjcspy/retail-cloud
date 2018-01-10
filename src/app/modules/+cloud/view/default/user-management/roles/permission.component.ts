@@ -12,6 +12,7 @@ import {RouterActions} from "../../../../../../R/router/router.actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {Store} from "@ngrx/store";
 import {ShopManageState} from "../../../../R/shop/state";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
              // moduleId: module.id,
@@ -98,9 +99,28 @@ export class PermissionComponent extends AbstractSubscriptionComponent implement
       }));
   }
   
+  checkHidden(sec, per) {
+      if (sec['name'] === 'Reports') {
+          if (sec['permissions'][0]['is_active'] === false && per['permission'] !== 'access_to_xreport') {
+              return true;
+          }
+      }
+  }
+  
   save() {
     if (!!this.role['code']) {
-      this.shopManageActions.savePermission(this.permissions, this.role['code']);
+        const reportGroup = _.find(this.permissions, (grp) => {
+            return grp.group === 'report';
+        });
+        const reportSection = _.find(reportGroup['sections'], (sec) => {
+            return sec['name'] === 'Reports';
+        });
+        _.forEach(reportSection['permissions'], (per) => {
+          if (reportSection['permissions'][0]['is_active'] === false && per['permission'] !== 'access_to_xreport') {
+            per['is_active'] = false;
+          }
+        });
+        this.shopManageActions.savePermission(this.permissions, this.role['code']);
     } else {
       this.notify.error("can_not_find_role");
     }
