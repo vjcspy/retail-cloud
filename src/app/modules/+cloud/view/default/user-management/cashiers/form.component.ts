@@ -76,13 +76,14 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
             
             if (_.size(this.user['has_license']) === 1) {
               this.user['role'] = _.first(this.user['has_license'])['shop_role'];
+              this.user['status']=_.first(this.user['has_license'])['status'];
             }
           } else {
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
             this.back();
           }
         }
-        
+        console.log(this.user);
         const licenses = licenseCollection.collection.find().fetch();
         if (_.size(licenses) === 1) {
           this.license  = _.first(licenses);
