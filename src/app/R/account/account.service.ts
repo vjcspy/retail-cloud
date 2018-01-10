@@ -28,6 +28,7 @@ export class AccountService {
           resolve();
         }
       });
+      MeteorObservable.call('user.send_verification', user).subscribe(() => resolve(), (e)=>reject);
     });
   }
   
