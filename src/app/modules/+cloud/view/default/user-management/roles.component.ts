@@ -29,7 +29,7 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
   public roles: any[] = [];
   public license;
   private _vaidation: any;
-  
+  public editView: boolean;
   constructor(protected licenseCollection: LicenseCollection,
               protected changeDetectorRef: ChangeDetectorRef,
               protected shopMangeActions: ShopManageActions,
@@ -87,7 +87,8 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
                                                                     },
                                                                     rules: {
                                                                       'name': {
-                                                                        required: true
+                                                                        required: true,
+                                                                        pattern: /^[a-zA-Z0-9 ]+$/
                                                                       },
                                                                       'code': {
                                                                         required: true
@@ -96,6 +97,7 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
                                                                     messages: {
                                                                       'name': {
                                                                         required: 'Please enter role name',
+                                                                        pattern: 'Not allow special char'
                                                                       },
                                                                       'code': {
                                                                         required: 'Please enter code',
@@ -109,19 +111,32 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
     };
     initFormMaterial();
   }
-  
-  editRole(code?: string) {
+    randomString() {
+        let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+        let string_length = 17;
+        let randomstring = '';
+        for (let i=0; i<string_length; i++) {
+            let rnum = Math.floor(Math.random() * chars.length);
+            randomstring += chars.substring(rnum,rnum+1);
+        }
+        return randomstring;
+    }
+    
+    editRole(code?: string) {
     if (!!code) {
-      this.role = _.find(this.roles, (rol) => {
+      this.editView = true;
+      this.role = Object.assign({}, _.find(this.roles, (rol) => {
         return rol['code'] === code;
-      });
+      })
+      );
       if (this.role) {
         jQuery(this.modalRole.nativeElement)['modal']('show');
       }
     } else {
+      this.editView = false;
       this.role = {
         name: null,
-        code: null
+        code: this.randomString()
       };
       jQuery(this.modalRole.nativeElement)['modal']('show');
     }
