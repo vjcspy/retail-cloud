@@ -26,6 +26,10 @@ export class DashboardPage extends AbstractRxComponent implements OnInit , After
     if (this.storage.localRetrieve('baseUrl')) {
       this.dashboardReportService.getDashboardReport();
     }
+    // else{
+    //   this.dashboardReportService.viewState['isOverLoad'] = false;
+    //   this.changeDetector.detectChanges();
+    // }
   }
   
   ngOnInit() {
