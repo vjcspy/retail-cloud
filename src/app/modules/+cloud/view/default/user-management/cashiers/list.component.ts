@@ -119,10 +119,9 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
             render(hasLicense) {
                 if (_.size(hasLicense) > 0) {
                     const license = _.first(hasLicense);
-                    // return parseInt(license['status']) === 1 ? "Active" : "Deactive";
-                    if (parseInt(license['status'])===1) {
+                    if (parseInt(license['status']) === 1) {
                       return `<span class="label label-success">Activated</span>`;
-                    } else if (parseInt(license['status'])===0) {
+                    } else if (parseInt(license['status']) === 0) {
                       return `<span class="label label-danger">Deactivated</span>`;
                     }
                 }else {
@@ -147,11 +146,11 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
               }
             ],
             filter: (filterComp) => {
-              if (parseInt(filterComp['value']) === 1) {
-                return {status: 1};
-              } else if (parseInt(filterComp['value'])=== 0) {
-                return {status: 0};
-              }
+                if (parseInt(filterComp['value']) === 1) {
+                    return {'has_license': {$elemMatch: {status: 1}}};
+                } else if (parseInt(filterComp['value']) === 0) {
+                    return {'has_license': {$elemMatch: {status: 0}}};
+                }
             }
           }
         }
