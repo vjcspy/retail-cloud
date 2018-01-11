@@ -20,7 +20,7 @@
               <div class="row" *ngFor="let section of group.sections">
                 <div class="col-left"><label>{{section['name']}}</label></div>
                 <div class="col-right" *ngFor="let permission of section.permissions">
-                  <div class="clearfix switch-state">
+                  <div class="clearfix switch-state" [hidden]="checkHidden(section, permission)">
                     <label>{{permission.name}}</label>
                     <iz-bootstrap-switch [(model)]="permission['is_active']"></iz-bootstrap-switch>
                   </div>

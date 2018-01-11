@@ -24,7 +24,10 @@ export class ShopManageEffects {
                            .switchMap((z: any) => {
                              const action = z;
                              return Observable.fromPromise(this.shopManageService.saveRole(action.payload['role']))
-                                              .map(() => this.shopManageActions.saveRoleSuccess(false))
+                                              .map(() => {
+                                                  this.notify.success('save_role_successfully');
+                                                  return this.shopManageActions.saveRoleSuccess(false);
+                                              })
                                               .catch((e) => {
                                                 const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                 this.notify.error(reason);
@@ -39,7 +42,10 @@ export class ShopManageEffects {
                              .switchMap((z: any) => {
                                const action: Action = z;
                                return Observable.fromPromise(this.shopManageService.deleteRole(action.payload['role']))
-                                                .map(() => this.shopManageActions.deleteRoleSuccess(false))
+                                                .map(() => {
+                                                    this.notify.success('delete_role_successfully');
+                                                    return this.shopManageActions.deleteRoleSuccess(false);
+                                                })
                                                 .catch((e) => {
                                                   const reason = e && e['reason'] ? e['reason'] : e['error'];
                                                   this.notify.error(reason);

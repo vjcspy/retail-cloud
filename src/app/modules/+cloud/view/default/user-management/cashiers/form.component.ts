@@ -58,7 +58,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
           this.userCollection.getCollectionObservable(),
           this.licenseCollection.getCollectionObservable(),
           this.productCollection.getCollectionObservable()
-        ).subscribe((z: any) => {
+        ).debounceTime(1000)
+        .subscribe((z: any) => {
         const params                                             = z[0];
         const userCollection: MongoObservable.Collection<any>    = z[1];
         const licenseCollection: MongoObservable.Collection<any> = z[2];
@@ -76,13 +77,13 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
             
             if (_.size(this.user['has_license']) === 1) {
               this.user['role'] = _.first(this.user['has_license'])['shop_role'];
+              this.user['status']=_.first(this.user['has_license'])['status'];
             }
           } else {
             this.notify.error("sory_we_can_not_find_this_user_with_id: " + params['id']);
             this.back();
           }
         }
-        
         const licenses = licenseCollection.collection.find().fetch();
         if (_.size(licenses) === 1) {
           this.license  = _.first(licenses);
@@ -155,11 +156,13 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     },
                                                                     'username': {
                                                                       required: true,
-                                                                      minlength: 5
+                                                                      minlength: 6,
+                                                                      pattern: /^[a-zA-Z0-9]*$/
                                                                     },
                                                                     'email': {
                                                                       required: true,
-                                                                      email: true
+                                                                      email: true,
+                                                                        pattern:"[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
                                                                     },
                                                                     status: {
                                                                       required: true
@@ -168,11 +171,13 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                   messages: {
                                                                     'username': {
                                                                       required: 'Please enter a username',
-                                                                      minlength: 'Your username must consist of at least 5 characters'
+                                                                      minlength: 'Your username must consist of at least 6 characters',
+                                                                        pattern: 'Not allow special char'
                                                                     },
                                                                     'email': {
                                                                       required: 'Please enter an email address',
-                                                                      EMAIL: 'Please enter a valid email address'
+                                                                      EMAIL: 'Please enter a valid email address',
+                                                                      pattern:'Your email should have correct format'
                                                                     },
                                                                     'lastname': {
                                                                       required: 'Please enter a last name',
@@ -192,7 +197,6 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                   },
                                                                   submitHandler: () => {
                                                                     vm.user['cashier_products'] = jQuery('#cashier_products').val();
-        
                                                                     this.shopManage.saveCashier(vm.user);
                                                                   }
                                                                 });

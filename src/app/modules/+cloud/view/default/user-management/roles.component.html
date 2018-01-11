@@ -67,18 +67,10 @@
   <div class="modal-dialog">
     <div class="modal-content gray-bg ">
       <div class="modal-header">
-        <h2 class="modal-title">{{!!role && !!role['code'] ? 'Edit Role' : 'New Role'}}</h2>
+          <h2 class="modal-title">{{!!editView ? 'Edit Role' : 'New Role'}}</h2>
       </div>
       <div class="modal-body">
         <form class="js-validation-role form-horizontal">
-          <div class="form-content clearfix">
-            <div class="form-group">
-              <label class="control-label" for="name">Code:</label>
-              <div class="element">
-                <input type="text" class="form-control" id="code" name="code" [(ngModel)]="role['code']">
-              </div>
-            </div>
-          </div>
           <div class="form-content clearfix">
             <div class="form-group">
               <label class="control-label" for="name">Name:</label>

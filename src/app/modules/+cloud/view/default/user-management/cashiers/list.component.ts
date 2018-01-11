@@ -52,7 +52,7 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {data: "username", title: "Username", searchable: true},
         {data: "emails", title: "Emails", searchable: true},
         {data: "has_license", title: "Roles"},
-        {data: "status", title: "Status"},
+        {data: "has_license", title: "Status"},
       ],
       columnDefs: [
         {
@@ -116,13 +116,18 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
         {
           className: "status",
           targets: [4],
-          render(status) {
-            if (typeof  status !== 'undefined') {
-              return parseInt(status) === 1 ? 'Active' : 'Deactive';
-            } else {
-              return "Active";
-            }
-          },
+            render(hasLicense) {
+                if (_.size(hasLicense) > 0) {
+                    const license = _.first(hasLicense);
+                    if (parseInt(license['status']) === 1) {
+                      return `<span class="label label-success">Activated</span>`;
+                    } else if (parseInt(license['status']) === 0) {
+                      return `<span class="label label-danger">Deactivated</span>`;
+                    }
+                }else {
+                    return "Deactive";
+                }
+            },
           izFilter: {
             name: 'Status',
             type: 'select',
@@ -141,11 +146,11 @@ export class CashierListComponent extends AbstractSubscriptionComponent implemen
               }
             ],
             filter: (filterComp) => {
-              if (parseInt(filterComp['value']) === 1) {
-                return {};
-              } else {
-                return {status: 0};
-              }
+                if (parseInt(filterComp['value']) === 1) {
+                    return {'has_license': {$elemMatch: {status: 1}}};
+                } else if (parseInt(filterComp['value']) === 0) {
+                    return {'has_license': {$elemMatch: {status: 0}}};
+                }
             }
           }
         }

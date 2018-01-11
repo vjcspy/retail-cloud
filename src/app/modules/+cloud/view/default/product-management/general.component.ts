@@ -284,6 +284,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                    jQuery('#product_version_package').val('');
                                                                                    jQuery('#modal-product-versions')['modal']('hide');
                                                                                    vm.changeDetectorRef.detectChanges();
+                                                                                   vm.notify.success("product_version_save_success");
                                                                                  }
                                                                                });
     
@@ -329,6 +330,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                              jQuery('#product-api-package').val('');
                                                                              jQuery('#modal-product-api')['modal']('hide');
                                                                              vm.changeDetectorRef.detectChanges();
+                                                                             vm.notify.success("api_version_save_success");
                                                                          }
                                                                        });
     
