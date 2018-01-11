@@ -157,7 +157,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     'username': {
                                                                       required: true,
                                                                       minlength: 6,
-                                                                      pattern: /^[a-zA-Z0-9 ]+$/
+                                                                      pattern: /^[a-zA-Z0-9]*$/
                                                                     },
                                                                     'email': {
                                                                       required: true,
