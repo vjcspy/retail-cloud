@@ -58,7 +58,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
           this.userCollection.getCollectionObservable(),
           this.licenseCollection.getCollectionObservable(),
           this.productCollection.getCollectionObservable()
-        ).subscribe((z: any) => {
+        ).debounceTime(1000)
+        .subscribe((z: any) => {
         const params                                             = z[0];
         const userCollection: MongoObservable.Collection<any>    = z[1];
         const licenseCollection: MongoObservable.Collection<any> = z[2];
@@ -83,7 +84,6 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
             this.back();
           }
         }
-        console.log(this.user);
         const licenses = licenseCollection.collection.find().fetch();
         if (_.size(licenses) === 1) {
           this.license  = _.first(licenses);
@@ -193,7 +193,6 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                   },
                                                                   submitHandler: () => {
                                                                     vm.user['cashier_products'] = jQuery('#cashier_products').val();
-        
                                                                     this.shopManage.saveCashier(vm.user);
                                                                   }
                                                                 });
