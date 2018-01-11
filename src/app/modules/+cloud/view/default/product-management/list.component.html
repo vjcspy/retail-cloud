@@ -1,4 +1,4 @@
-<div class="list-page min-page">
+<div class="list-page min-page" *ngIf="resolvedData">
   <angular-meteor-datatable [collectionObservable]="productsCollection.getCollectionObservable()"
                             [tableConfig]="tableConfig" (event)="handleEvent($event)">
 
