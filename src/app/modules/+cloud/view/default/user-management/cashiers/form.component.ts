@@ -156,7 +156,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     },
                                                                     'username': {
                                                                       required: true,
-                                                                      minlength: 5
+                                                                      minlength: 6
                                                                     },
                                                                     'email': {
                                                                       required: true,
@@ -169,7 +169,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                   messages: {
                                                                     'username': {
                                                                       required: 'Please enter a username',
-                                                                      minlength: 'Your username must consist of at least 5 characters'
+                                                                      minlength: 'Your username must consist of at least 6 characters'
                                                                     },
                                                                     'email': {
                                                                       required: 'Please enter an email address',
