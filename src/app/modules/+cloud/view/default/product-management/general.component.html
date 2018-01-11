@@ -165,7 +165,8 @@
                           <option value="specified">Specified Licenses</option>
                         </select>
                         <div [hidden]="productVersion['license_compatible_type'] == 'all'">
-                          <select multiple="multiple" class="form-control" name="version-specified-licenses" id="version-specified-licenses" style="width: 100%;">
+                          <select multiple="multiple" class="form-control" name="version-specified-licenses" id="version-specified-licenses"
+                                  style="width: 100%;" required>
                             <option *ngFor="let license of licenses" [value]="license['_id']" [selected]="isSelectedLicenseCompatible(license._id)">
                               {{ license.key + ' | ' + license.shop_owner_username }}
                             </option>
