@@ -161,7 +161,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     },
                                                                     'email': {
                                                                       required: true,
-                                                                      email: true
+                                                                      email: true,
+                                                                        pattern:"[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
                                                                     },
                                                                     status: {
                                                                       required: true
@@ -175,7 +176,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                     },
                                                                     'email': {
                                                                       required: 'Please enter an email address',
-                                                                      EMAIL: 'Please enter a valid email address'
+                                                                      EMAIL: 'Please enter a valid email address',
+                                                                      pattern:'Your email should have correct format'
                                                                     },
                                                                     'lastname': {
                                                                       required: 'Please enter a last name',
