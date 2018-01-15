@@ -297,7 +297,6 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                          errorClass: 'help-block text-left animated fadeInDown',
                                                                          errorElement: 'div',
                                                                          highlight(e) {
-                                                                           console.log(e);
                                                                            $(e).closest('tr').removeClass('has-error').addClass('has-error');
                                                                            $(e).closest('.help-block').remove();
                                                                          },
