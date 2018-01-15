@@ -34,10 +34,12 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   public data           = {
     tabView: 'general'
   };
-  public productVersion = {license_compatible_type: 'specified'};
+  public productVersion = {};
+  public productVersionEdit = {};
   public productApi     = {};
+  public productApiEdit = {};
   public productState$: Observable<ProductState>;
-  
+  public index;
   protected validation = {};
   public apiDelete;
   public versionDelete;
@@ -270,21 +272,22 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                          vm.notify.error("product_version_missing_directory_path");
                                                                                          return;
                                                                                    }
-                                                                                   const versionDifferent = _.filter(this.product['versions'], (_vd) => { return (_vd) !== this.productVersion; });
+                                                                                   const versionDifferent = _.filter(this.product['versions'], (_vd) => { return (_vd) !== this.productVersionEdit; });
     
                                                                                    const versionExist = _.find(versionDifferent, (_pv) => _pv['version'] === vm.productVersion['version']);
                                                                                    if (!!versionExist) {
                                                                                          vm.notify.error("Version_product_already_exist");
                                                                                          return;
                                                                                    }
-                                                                                   if (_.indexOf(this.product.versions, this.productVersion) === -1) {
+                                                                                   const index = _.indexOf(this.product.versions, this.productVersionEdit);
+                                                                                   if (index === -1) {
                                                                                      vm.product.versions.push(this.productVersion);
+                                                                                   } else {
+                                                                                     vm.product.versions[index] = this.productVersion;
                                                                                    }
                                                                                    this.connectPosUploader.clearQueue();
-                                                                                   jQuery('#product_version_package').val('');
+                                                                                   jQuery('#product-version-package').val('');
                                                                                    jQuery('#modal-product-versions')['modal']('hide');
-                                                                                   this.productVersion['descriptions'] = '';
-                                                                                   this.productVersion['changelog'] = '';
                                                                                    vm.changeDetectorRef.detectChanges();
                                                                                    vm.notify.success("product_version_save_success");
                                                                                  }
@@ -294,6 +297,7 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                          errorClass: 'help-block text-left animated fadeInDown',
                                                                          errorElement: 'div',
                                                                          highlight(e) {
+                                                                           console.log(e);
                                                                            $(e).closest('tr').removeClass('has-error').addClass('has-error');
                                                                            $(e).closest('.help-block').remove();
                                                                          },
@@ -316,18 +320,21 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                  vm.notify.error("api_version_missing_directory_path");
                                                                                  return;
                                                                              }
-                                                                             const versionApiDifferent = _.filter(this.product['api_versions'], (_vad) => { return (_vad) !== this.productApi; });
+                                                                             const versionApiDifferent = _.filter(this.product['api_versions'], (_vad) => { return (_vad) !== this.productApiEdit; });
                                                                              const versionApiExist = _.find(versionApiDifferent, (_av) => _av['version'] === vm.productApi['version']);
                                                                              if (!!versionApiExist) {
                                                                                  vm.notify.error("Version_api_already_exist");
                                                                                  return;
                                                                              }
-                                                                             if (_.indexOf(vm.product.api_versions, vm.productApi) === -1) {
+                                                                             const index = _.indexOf(vm.product.api_versions, vm.productApiEdit);
+                                                                             if (index === -1) {
                                                                              if (!_.isArray(vm.product['api_versions'])) {
                                                                                vm.product['api_versions'] = [];
                                                                              }
                                                                              vm.product['api_versions'].push(vm.productApi);
-                                                                           }
+                                                                           } else {
+                                                                                 vm.product['api_versions'][index] = vm.productApi;
+                                                                             }
                                                                              this.connectPosApiUploader.clearQueue();
                                                                              jQuery('#product-api-package').val('');
                                                                              jQuery('#modal-product-api')['modal']('hide');
@@ -350,13 +357,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
           this.data.tabView = 'api';
           return;
       }
-      this.productVersion = {
-        license_compatible_type: 'all'
-      };
+      this.productVersionEdit = {};
+      this.productVersion = {};
+      this.productVersion['license_compatible_type'] = 'all';
+      jQuery('#product-version-api-compatible').val('');
+      jQuery('#version-specified-licenses').val('');
     } else {
-      const version = _.find(this.product['versions'], (_pv) => _pv['version'] === pVersion);
-      if (version) {
-        this.productVersion                            = version;
+      this.productVersionEdit = _.find(this.product['versions'], (_pv) => _pv['version'] === pVersion);
+      if (this.productVersionEdit) {
+        this.productVersion                            = Object.assign({}, this.productVersionEdit);
         this.productVersion['license_compatible_type'] = _.size(this.productVersion['license_compatible']) > 0 ? 'specified' : 'all';
       } else {
         this.notify.error("can_not_find_version");
@@ -368,7 +377,18 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
       jQuery("#version-specified-licenses")['select2']();
     });
   }
-  
+  closeModalVersion() {
+      jQuery('#modal-product-versions')['modal']('hide');
+      this.validation['productVersion'].resetForm();
+      jQuery('#product-version').find('.has-error').removeClass('has-error');
+      this.productVersion = {};
+      this.productVersion['descriptions'] = '';
+      this.productVersion['changelog'] = '';
+      jQuery('#product-version-api-compatible').val('');
+      jQuery('#version-specified-licenses').val('');
+      this.connectPosUploader.clearQueue();
+      jQuery('#product-version-package').val('');
+  }
   isSelectedLicenseCompatible(id) {
     return _.isArray(this.productVersion['license_compatible']) && _.indexOf(this.productVersion['license_compatible'].map((_v) => _v['license_id']), id) > -1;
   }
@@ -396,16 +416,25 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   
   editProductApi(productApiVersion: string) {
     if (productApiVersion === 'createNew') {
+      this.productApiEdit = {};
       this.productApi = {};
     } else {
-      const productApi = _.find(this.product['api_versions'], (_apiV) => _apiV['version'] === productApiVersion);
-      if (productApi) {
-        this.productApi = productApi;
+      this.productApiEdit = _.find(this.product['api_versions'], (_apiV) => _apiV['version'] === productApiVersion);
+      
+      if (this.productApiEdit) {
+        this.productApi = Object.assign({}, this.productApiEdit);
       } else {
         this.notify.error("can_not_find_api_version");
       }
     }
     jQuery('#modal-product-api')['modal']('show');
+  }
+  closeModalApi() {
+      jQuery('#modal-product-api')['modal']('hide');
+      this.validation['productApi'].resetForm();
+      jQuery('#modal-product-api').find('.has-error').removeClass('has-error');
+      this.connectPosApiUploader.clearQueue();
+      jQuery('#product-api-package').val('');
   }
   openPopupModalDeleteApi(api) {
         this.apiDelete = api;

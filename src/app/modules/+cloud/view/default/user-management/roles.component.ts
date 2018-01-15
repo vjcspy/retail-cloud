@@ -121,7 +121,11 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
         }
         return randomstring;
     }
-    
+    closeRole() {
+        jQuery(this.modalRole.nativeElement)['modal']('hide');
+        this._vaidation.resetForm();
+        jQuery('.js-validation-role').find(".has-error").removeClass('has-error');
+    }
     editRole(code?: string) {
     if (!!code) {
       this.editView = true;
