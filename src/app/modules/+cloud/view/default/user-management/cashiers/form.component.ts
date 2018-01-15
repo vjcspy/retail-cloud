@@ -25,14 +25,15 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
   public user     = {
     profile: {
       first_name: "",
-      last_name: ""
+      last_name: "",
+        phone: ""
     },
     status: 1
   };
   public roles: any[];
   public license;
   public products = [];
-  
+  public checked: boolean = true;
   private _vaidation;
   
   public shopManage$: Observable<ShopManageState>;
@@ -159,11 +160,23 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                       minlength: 6,
                                                                       pattern: /^[a-zA-Z0-9]*$/
                                                                     },
+                                                                    'phone': {
+                                                                      required: true,
+                                                                      minlength:10
+                                                                    },
                                                                     'email': {
                                                                       required: true,
                                                                       email: true,
                                                                         pattern:"[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
                                                                     },
+                                                                    'register-password':{
+                                                                      required: true,
+                                                                      minlength:8
+                                                                    },
+                                                                    'register-password2': {
+                                                                      required: true,
+                                                                      equalTo: '#register-password'
+                                                                      },
                                                                     status: {
                                                                       required: true
                                                                     }
@@ -179,6 +192,15 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                       EMAIL: 'Please enter a valid email address',
                                                                       pattern:'Your email should have correct format'
                                                                     },
+                                                                    'register-password': {
+                                                                        required: 'Please provide a password',
+                                                                        minlength: 'Your password must be at least 8 characters long'
+                                                                    },
+                                                                    'register-password2': {
+                                                                        required: 'Please provide a password',
+                                                                        minlength: 'Your password must be at least 8 characters long',
+                                                                        equalTo: 'Please enter the same password as above'
+                                                                    },
                                                                     'lastname': {
                                                                       required: 'Please enter a last name',
                                                                     },
@@ -189,7 +211,8 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                       required: 'Please enter a first name',
                                                                     },
                                                                     'phone': {
-                                                                      PHONE: 'Phone is invalid'
+                                                                      required: 'Phone is required',
+                                                                      minlength: 'Your phone number must consist of at least 10 characters'
                                                                     },
                                                                     'status': {
                                                                       required: 'Status is required'
@@ -198,6 +221,7 @@ export class CashierFormComponent extends AbstractSubscriptionComponent implemen
                                                                   submitHandler: () => {
                                                                     vm.user['cashier_products'] = jQuery('#cashier_products').val();
                                                                     this.shopManage.saveCashier(vm.user);
+                                                                    
                                                                   }
                                                                 });
     jQuery('#cashier_products')['select2']();

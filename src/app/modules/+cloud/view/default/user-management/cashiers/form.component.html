@@ -35,6 +35,33 @@
                      [disabled]="!!user['_id']">
             </div>
           </div>
+          <div class="form-group" [hidden]="!!user['_id']">
+            <div class="element">
+              <input type="checkbox" class="form-control" id="checkbox" name="checkbox"
+                      [checked]="checked" (change)="checked = !checked">
+            </div>
+            <label class="control-label" for="checkbox">Auto generate password</label>
+          </div>
+          <div class="form-group" *ngIf="!checked">
+            <label class="control-label" for="register-password">Password:</label>
+            <div class="element">
+              <input type="password" class="form-control" id="register-password" name="register-password" [(ngModel)] ="user['password']"
+                     [disabled]="!!user['_id']">
+            </div>
+          </div>
+          <div class="form-group" *ngIf="!checked">
+            <label class="control-label" for="register-password2">Comfirm Password:</label>
+            <div class="element">
+              <input type="password" class="form-control" id="register-password2" name="register-password2"
+                     [disabled]="!!user['_id']">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="phone">Phone Number:</label>
+            <div class="element">
+              <input type="number" class="form-control" id="phone" name="phone" [(ngModel)] ="user.profile.phone">
+            </div>
+          </div>
           <div class="form-group">
             <label class="control-label" for="role">Role:</label>
             <div class="element">
