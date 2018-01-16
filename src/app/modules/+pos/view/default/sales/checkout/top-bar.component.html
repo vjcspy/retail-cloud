@@ -6,7 +6,7 @@
         </span>
     </span>
   <span class="icon-link" (click)="openPopupCustomSale()">
-      <span class="icon-edit-sale">
+      <span class="icon-edit-sale" [ngClass]="{disabled: !customsalesPermission()}">
           <span class="tooltiptext-bottom">{{'Custom Sale' | translate}}</span>
       </span>
     </span>

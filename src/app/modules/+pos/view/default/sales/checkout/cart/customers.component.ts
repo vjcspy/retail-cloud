@@ -54,4 +54,11 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
       this.notify.error("not_have_permission_to_create_new_customer");
     }
   }
+  
+  createCustomerPermission() {
+    if (this.authenticateService.userCan('create_new_customer') && this.offline.online) {
+      return true;
+    }
+    return false;
+  }
 }

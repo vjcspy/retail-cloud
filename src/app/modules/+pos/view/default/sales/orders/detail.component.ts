@@ -110,7 +110,7 @@ export class PosDefaultSalesOrdersDetailComponent {
         }, 250);
       }
     } else {
-      this.notify.error("you_do_not_have_permission_to_perform_this_action");
+      this.notify.error("you_do_not_have_permission_to_make_refund");
     }
   }
   

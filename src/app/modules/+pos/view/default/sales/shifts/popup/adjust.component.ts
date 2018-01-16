@@ -35,7 +35,7 @@ export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
   }
   
   adjustShift() {
-    if (this.authenticate.userCan('open_and_close_register')) {
+    // if (this.authenticate.userCan('open_and_close_register')) {
       if (this._data.isIn === null) {
         this.notify.warning("please_define_action_when_adjust_shift");
         
@@ -44,8 +44,8 @@ export class PosDefaultSalesShiftsPopupAdjustComponent implements OnInit {
       this.formValidation.submit('popup-adjust-shift', () => {
         this.shiftDetailActions.adjustShift(this.shiftState.detail.shift, this._data);
       }, true)
-    } else {
-      this.notify.warning("not_have_permission_to_close_shift");
-    }
+    // } else {
+    //   this.notify.warning("not_have_permission_to_close_shift");
+    // }
   }
 }

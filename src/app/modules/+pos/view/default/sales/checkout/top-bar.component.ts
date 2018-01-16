@@ -80,6 +80,13 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
     }
   }
   
+  customsalesPermission() {
+    if(this.authenticateService.userCan('allow_using_custom_sale')){
+      return true;
+    }
+    return false;
+  }
+  
   openPopupShipping() {
     if (this.authenticateService.userCan('make_shipment')) {
       if (this.canAddShipment()) {
@@ -91,7 +98,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   }
   
   canAddShipment() {
-    return this.quoteState.items.count() > 0 && this.quoteState.customer && !!this.quoteState.customer['id'];
+    return this.quoteState.items.count() > 0 && this.quoteState.customer && !!this.quoteState.customer['id'] && this.authenticateService.userCan('make_shipment');
   }
   
   checkEnter($event) {

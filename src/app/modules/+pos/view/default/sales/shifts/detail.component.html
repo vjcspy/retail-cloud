@@ -50,7 +50,7 @@
             <span class="value">{{ 'Open Shift' | translate }}</span>
           </div>
           <div class="total-row">
-            <p class="t-txt">            
+            <p class="t-txt">
               {{shiftState.detail.shift['user_open_name']}}
               <em>"{{shiftState.detail.shift['open_note']}}"</em>
             </p>
@@ -176,10 +176,10 @@
   <div class="bottom-bar">
     <button (click)="printShiftReport()">{{ 'Print Report' | translate }}
     </button>
-    <button *ngIf="shiftIsOpening()" (click)="adjustShift()">
+    <button *ngIf="shiftIsOpening()" (click)="adjustShift()" [ngClass]="{disable:!authenticateService.userCan('make_adjustment_on_register')}">
       {{ 'Adjust' | translate }}
     </button>
-    <button *ngIf="shiftIsOpening()" (click)="closeShift()">
+    <button *ngIf="shiftIsOpening()" (click)="closeShift()" [ngClass]="{disable:!authenticateService.userCan('open_and_close_register')}">
       {{ 'Close Shift' | translate }}
     </button>
   </div>

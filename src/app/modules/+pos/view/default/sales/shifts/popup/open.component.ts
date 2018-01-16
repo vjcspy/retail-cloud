@@ -39,12 +39,12 @@ export class PosDefaultSalesShiftsPopupOpenComponent implements OnInit {
   }
   
   openShift() {
-    if (this.authenticate.userCan('open_and_close_register')) {
+    // if (this.authenticate.userCan('open_and_close_register')) {
       this.formValidation.submit('popup-open-shift', () => {
         this.shiftDetailActions.openShift(this._data);
       }, true)
-    } else {
-      this.notify.warning("not_have_permission_to_close_shift");
-    }
+    // } else {
+    //   this.notify.warning("not_have_permission_to_close_shift");
+    // }
   }
 }
