@@ -93,7 +93,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
                       filter: (filterComp) => {
                           // filterComp: {data: column, value: // gia tri filter hien tai}
                           
-                          if ((filterComp['value'])) {
+                          if (parseInt(filterComp['value'])!==0) {
                             return {'has_product': {$elemMatch: {product_id: filterComp['value']}}};
                             
                           }
@@ -141,6 +141,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
           bFilter: true,
           sDom: 'ltp'
       };
+      console.log(this.tableConfig);
   }
   
   ngOnInit() {
