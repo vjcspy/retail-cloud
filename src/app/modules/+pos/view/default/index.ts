@@ -59,6 +59,7 @@ import {PosDefaultSalesCheckoutCartItemsItemComponent} from "./sales/checkout/ca
 import {PosDefaultSalesCheckoutCartRefundItemsItemComponent} from "./sales/checkout/cart/refund-items/item.component";
 import {CheckoutGiftCardComponent} from "./sales/checkout/step/payment/gift-card.component";
 import {PosDefaultSalesCheckoutPopupProductDetailGiftCardComponent} from "./sales/checkout/popup/product-detail/gift-card.component";
+import {PosDefaultOutletRegisterDefaultComponent} from "./outlet-register/default.component";
 
 export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultTheme,
@@ -66,6 +67,7 @@ export const DEFAULT_VIEW_COMPONENTS = [
   PosDefaultSalesPage,
   
   PosDefaultSalesOutletRegisterComponent,
+  PosDefaultOutletRegisterDefaultComponent,
   PosDefaultOutletRegisterWebsiteComponent,
   PosDefaultOutletRegisterOutletsComponent,
   

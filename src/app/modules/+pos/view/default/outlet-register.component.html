@@ -4,11 +4,8 @@
     <div class="container">
       <div class="outlet-wrap">
         <div class="domain-list">
-
-          <pos-default-outlet-register-website [generalState]="generalState$ | async" [pullState]="pullState$ | async"></pos-default-outlet-register-website>
-
-          <pos-default-outlet-register-outlets [entitiesState]="entitiesState$ | async" [pullState]="pullState$ | async"></pos-default-outlet-register-outlets>
-
+          <pos-default-outlet-register [generalState]="generalState$ | async" [pullState]="pullState$ | async"
+                                       [entitiesState]="entitiesState$ | async"></pos-default-outlet-register>
         </div>
       </div>
     </div>

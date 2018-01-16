@@ -32,7 +32,6 @@ export class AccountEffects {
                            return Observable.fromPromise(this.authService.signIn(z[0].payload['user']))
                                             .map(() => {
                                               this.accountService.subscribePermission(true);
-                                              // if (this.authService.userCan("access_to_connectpos")) {
                                               const user = Meteor.user();
                                               this.accountService.saveUserToStorage(user);
                                               const redirect = (z[1] as AccountState).redirect;
@@ -44,9 +43,6 @@ export class AccountEffects {
                                                 }
                                               }
                                                 return this.accountActions.loginSuccess(user, false);
-                                              // } else {
-                                              //   this.notify.error("not_have_permission_to_access_to_connectpos");
-                                              // }
                                             })
                                             .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                          });
