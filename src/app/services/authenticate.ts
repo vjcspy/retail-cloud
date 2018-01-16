@@ -49,7 +49,12 @@ export class AuthenticateService {
   
   userCan(permission: string) {
     let listPermission      = this.storage.localRetrieve('permission');
-    const currentPermission = _.find(listPermission, role => {
+    let role  = listPermission['role'];
+    let permissions = listPermission['permissions'];
+    if(role === "owner"){
+      return true;
+    }
+    const currentPermission = _.find(permissions, role => {
       return role['permission'] === permission;
     });
     if (!!currentPermission) {

@@ -87,14 +87,31 @@ export class AccountService {
                         const licenseHasRole = _.find(licenses[0]['has_roles'], role => {
                           return role['code'] === currentUser['has_license'][0]['shop_role'];
                         });
-                        if (licenseHasRole) {
-                          this.storage.localStorage('permission', licenseHasRole['has_permissions']);
-                          // this.accountActions.saveLicenseData({licenseHasPos, licenses});
+                        if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
+                          let permissions: any;
+                          if (typeof licenseHasRole === 'undefined') {
+                            permissions = {};
+                          } else {
+                            permissions = licenseHasRole['has_permissions'];
+                          }
+                          this.storage.localStorage('permission',
+                          {
+                            "role": currentUser['has_license'][0]['license_permission'],
+                            "permissions": permissions
+                          });
                         } else {
                           this.notify.error("we_can_not_find_your_role_permission");
                         }
-              
-              
+                        // if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
+                        //   let permission = {
+                        //     "role": currentUser['has_license'][0]['license_permission'],
+                        //     'permission': licenseHasRole['has_permissions']
+                        //   };
+                        //   this.storage.localStorage('permission',permission);
+                        //   // this.accountActions.saveLicenseData({licenseHasPos, licenses});
+                        // } else {
+                        //   this.notify.error("we_can_not_find_your_role_permission");
+                        // }
                       }
             
                     } else {
