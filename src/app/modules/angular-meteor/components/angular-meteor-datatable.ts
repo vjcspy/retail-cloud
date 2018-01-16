@@ -94,4 +94,28 @@ export class AngularMeteorDataTableComponent extends AbstractSubscriptionCompone
   angularMeteorFilterData() {
     this.event.emit({type: "START_FILTER", data: [...this.filterComponents]});
   }
+    
+    angularMeteorResetFilterData(): void {
+        this.filterComponents = [];
+        if (_.isArray(this.tableConfig['columnDefs'])) {
+            const columnData      = this.tableConfig['columns'];
+            this.filterComponents = _.reduce(this.tableConfig['columnDefs'], (results, columnDef: Object) => {
+                if (columnDef.hasOwnProperty('izFilter')) {
+                    const filter = columnDef['izFilter'];
+                    _.forEach(columnDef['targets'], (columnIndex) => {
+                        const column  = columnData[columnIndex];
+                        const existed = _.find(results, (f) => f['data'] === column['data']);
+                        if (!existed) {
+                            filter['value'] = null;
+                            results.push(Object.assign({}, {...filter}, {data: column['data']}));
+                        }
+                    });
+                }
+                
+                return results;
+            }, []);
+        }
+        this.angularMeteorFilterData();
+    }
+    
 }

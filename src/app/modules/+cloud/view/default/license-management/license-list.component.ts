@@ -92,9 +92,12 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
                       dataOptions: this.licenseProduct,
                       filter: (filterComp) => {
                           // filterComp: {data: column, value: // gia tri filter hien tai}
-                          if (parseInt(filterComp['value']) !== 0) {
-                              return {'has_product': {$elemMatch: {product_id: filterComp['value']}}};
+                          
+                          if (parseInt(filterComp['value'])!==0) {
+                            return {'has_product': {$elemMatch: {product_id: filterComp['value']}}};
+                            
                           }
+                          
                       }
                   }
               },
@@ -138,6 +141,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
           bFilter: true,
           sDom: 'ltp'
       };
+      console.log(this.tableConfig);
   }
   
   ngOnInit() {
@@ -149,26 +153,21 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
         const productCollection: MongoObservable.Collection<any> = z[0];
         const licenseCollection: MongoObservable.Collection<any> = z[1];
         this.products                                            = productCollection.collection.find().fetch();
-        const  license = licenseCollection.collection.findOne();
-        if (license) {
-            if (_.isArray(license['has_product'])) {
+        if (this.products) {
                 this.licenseProduct = [];
                 this.licenseProduct.push({
                                              name : "Please select...",
                                              value: 0
                                          });
-                _.forEach(license['has_product'], (p) => {
-                   const product = productCollection.collection.findOne({"_id": p['product_id']});
-                   if (!!product) {
+                _.forEach(this.products, (p) => {
                        this.licenseProduct.push({
-                           name : product['name'],
-                           value: p['product_id']
+                           name : p['name'],
+                           value: p['_id']
                                                 });
-                   } else {
-                       this.notify.error("Error", "can_not_find_product");
-                   }
                 });
-            }
+            
+        }else {
+            this.notify.error("Error", "can_not_find_product");
         }
         this.resolvedData = true;
         this.initTable();

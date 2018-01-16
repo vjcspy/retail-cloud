@@ -283,6 +283,8 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
                                                                                    this.connectPosUploader.clearQueue();
                                                                                    jQuery('#product_version_package').val('');
                                                                                    jQuery('#modal-product-versions')['modal']('hide');
+                                                                                   this.productVersion['descriptions'] = '';
+                                                                                   this.productVersion['changelog'] = '';
                                                                                    vm.changeDetectorRef.detectChanges();
                                                                                    vm.notify.success("product_version_save_success");
                                                                                  }
