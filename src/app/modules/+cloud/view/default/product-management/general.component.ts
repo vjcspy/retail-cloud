@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, AfterViewInit} from '@angular/core';
+import {ChangeDetectionStrategy,HostListener, ChangeDetectorRef, Component, OnInit, AfterViewInit} from '@angular/core';
 import {ProductCollection} from "../../../../../services/meteor-collections/products";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
@@ -348,7 +348,15 @@ export class ProductGeneralComponent extends AbstractSubscriptionComponent imple
   goBack() {
     this.routerActions.go('cloud/default/product/list');
   }
-  
+  @HostListener('document:click', ['$event.target'])
+  onClick(target) {
+      if (target.id.indexOf('modal-product-api') > -1) {
+            this.closeModalApi();
+      }
+      if (target.id.indexOf('modal-product-versions') > -1) {
+          this.closeModalVersion();
+      }
+  }
   editVersion(pVersion: string) {
     if (pVersion === 'createNew') {
       if(!_.isArray(this.product['api_versions']) || this.product['api_versions'].length < 1) {
