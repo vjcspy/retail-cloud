@@ -7,6 +7,7 @@ import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscri
 import {Observable} from "rxjs/Observable";
 import {MongoObservable} from "meteor-rxjs";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {UserCollection} from "../../../../../services/meteor-collections/users";
 
 @Component({
              // moduleId: module.id,
@@ -17,12 +18,14 @@ import {NotifyManager} from "../../../../../services/notify-manager";
 
 export class LicenseListComponent extends AbstractSubscriptionComponent implements OnInit {
   resolvedData: boolean = false;
+  protected user;
   protected products;
   protected license;
   public licenseProduct: any[] = [];
   public tableConfig = {};
   
   constructor(public licenseCollection: LicenseCollection,
+              public userCollection: UserCollection,
               protected productCollection: ProductCollection,
               protected detechChange: ChangeDetectorRef,
               protected routerActions: RouterActions,
@@ -37,6 +40,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
           columns: [
               {data: "_id", title: "License ID"},
               {data: "key", title: "License Key", searchable: true},
+              {data: "shop_owner_username", title: "Full Name"},
               {data: "shop_owner_username", title: "Shop owner", searchable: true},
               {data: "has_product", title: "Products", searchable: true},
               {data: "status", title: "Status"}
@@ -56,7 +60,23 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
                   }
               },
               {
-                  targets: [2], render: data => data ? data : "",
+                  targets: [2],
+                  render: (data, type, row) => {
+                      const user = _.find(this.user, (_user) => _user['username'] === data);
+                      if (user) {
+                          let u = user['profile'] ? user['profile'] : '';
+                          if (u !== '') {
+                              return (u['first_name'] || '') + ' ' + (u['last_name'] || '');
+                          } else {
+                              return "";
+                          }
+                      } else {
+                          return "";
+                      }
+                      }
+              },
+              {
+                  targets: [3], render: data => data ? data : "",
                   izFilter: {
                       name: "Shop Owner",
                       type: 'text',
@@ -70,7 +90,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
               },
               {
                   className: "", orderable: false,
-                  targets: [3],
+                  targets: [4],
                   render: (data, type, row) => {
                       let _html = "";
                       let text  = "";
@@ -103,7 +123,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
               },
               {
                   className: "text-center",
-                  orderable: false, targets: [4],
+                  orderable: false, targets: [5],
                   render: data => {
                       if (parseInt(data) === 1) {
                           return `<span class="label label-success">Activated</span>`;
@@ -148,11 +168,14 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
     this.subscribeObservable("_", () =>
       Observable.combineLatest(
         this.productCollection.getCollectionObservable(),
-        this.licenseCollection.getCollectionObservable()
+        this.licenseCollection.getCollectionObservable(),
+        this.userCollection.getCollectionObservable(),
       ).subscribe((z: any) => {
         const productCollection: MongoObservable.Collection<any> = z[0];
         const licenseCollection: MongoObservable.Collection<any> = z[1];
+        const userCollection: MongoObservable.Collection<any>    = z[2];
         this.products                                            = productCollection.collection.find().fetch();
+        this.user                                                = userCollection.collection.find().fetch();
         if (this.products) {
                 this.licenseProduct = [];
                 this.licenseProduct.push({
