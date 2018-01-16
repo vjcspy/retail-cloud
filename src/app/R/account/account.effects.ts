@@ -10,6 +10,7 @@ import {AccountState} from "./account.state";
 import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
 import {AppStorage} from "../../services/storage";
+import {NotifyManager} from "../../services/notify-manager";
 
 @Injectable()
 export class AccountEffects {
@@ -17,6 +18,7 @@ export class AccountEffects {
   constructor(protected store$: Store<any>,
               protected actions$: Actions,
               protected authService: AuthenticateService,
+              protected notify: NotifyManager,
               protected accountActions: AccountActions,
               protected accountService: AccountService,
               protected appStorage: AppStorage,
@@ -29,9 +31,10 @@ export class AccountEffects {
                          .switchMap((z) => {
                            return Observable.fromPromise(this.authService.signIn(z[0].payload['user']))
                                             .map(() => {
+                                              this.accountService.subscribePermission(true);
+                                              // if (this.authService.userCan("access_to_connectpos")) {
                                               const user = Meteor.user();
                                               this.accountService.saveUserToStorage(user);
-      
                                               const redirect = (z[1] as AccountState).redirect;
                                               if (_.isString(redirect)) {
                                                 if (redirect.indexOf("http") > -1) {
@@ -40,8 +43,10 @@ export class AccountEffects {
                                                   this.routerActions.go(redirect);
                                                 }
                                               }
-      
-                                              return this.accountActions.loginSuccess(user, false);
+                                                return this.accountActions.loginSuccess(user, false);
+                                              // } else {
+                                              //   this.notify.error("not_have_permission_to_access_to_connectpos");
+                                              // }
                                             })
                                             .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                          });
@@ -65,4 +70,14 @@ export class AccountEffects {
                                 return this.rootActions.nothing("Go login page", false);
                               });
   
+  @Effect() redirectLoginPage = this.actions$.ofType(AccountActions.REDIRECT_LOGOIN_PAGE)
+                             .map(() => {
+                               return Observable.fromPromise(this.authService.signOut())
+                                                .map(() => {
+                                                  this.appStorage.localClear();
+                                                  this.routerActions.go('/account/login');
+                                                  return this.rootActions.nothing("Go login page", false);
+                                                })
+                                                .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
+                             })
 }

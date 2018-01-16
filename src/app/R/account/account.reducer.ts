@@ -7,6 +7,7 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
   switch (action.type) {
     case AccountActions.ACTION_LOGIN:
     case AccountActions.ACTION_LOGOUT:
+    case AccountActions.REDIRECT_LOGOIN_PAGE:
       return state.set('isLogging', true)
                   .set('license', {
                     licenseHasPos: null,

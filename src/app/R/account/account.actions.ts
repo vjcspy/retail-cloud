@@ -77,6 +77,17 @@ export class AccountActions {
     return action;
   }
   
+  static REDIRECT_LOGOIN_PAGE = 'REDIRECT_LOGOIN_PAGE';
+  redirectLoginPage(redirect, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.REDIRECT_LOGOIN_PAGE, payload: {redirect}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   static SAVE_LICENSE_DATA = 'SAVE_LICENSE_DATA';
   
   saveLicenseData(license, dispatch: boolean = true): Action {

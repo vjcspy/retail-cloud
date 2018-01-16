@@ -79,7 +79,8 @@ export class AccountService {
                   .subscribe(([licenseCollection, userCollection]) => {
                     // subscribe role permission :
                     const users       = userCollection.collection.find({}).fetch();
-                    let storageUser   = this.storage.localRetrieve('user');
+                    // let storageUser   = this.storage.localRetrieve('user');
+                    let storageUser   = Meteor.user();
                     const currentUser = _.find(users, u => u['username'] === storageUser['username']);
                     if (currentUser) {
                       const licenses = licenseCollection.collection.find({}).fetch();
