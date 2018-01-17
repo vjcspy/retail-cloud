@@ -63,7 +63,7 @@
 </div>
 
 <!-- Popup modal HTML -->
-<div id="Edit-role-modal" class="modal fade" #modalRole>
+<div id="Edit-role-modal" class="modal fade" #modalRole role="dialog">
   <div class="modal-dialog">
     <div class="modal-content gray-bg ">
       <div class="modal-header">
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="group-btn tac">
-            <button type="button" class="btn btn-default" data-dismiss="modal" [ladda]="(shopManageState$ | async).isProcessing">Cancel</button>
+            <button type="button" class="btn btn-default" (click)="closeRole()" [ladda]="(shopManageState$ | async).isProcessing">Cancel</button>
             <button type="submit" class="btn btn-primary" [ladda]="(shopManageState$ | async).isProcessing">Confirm</button>
           </div>
         </form>

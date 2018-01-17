@@ -131,7 +131,7 @@
               </div>
             </td>
             <td>
-              <div class="form-group" *ngIf="isNotSelectTrial()">
+              <div class="form-group" *ngIf="isNotSelectTrial(product)">
                 <select class="form-control" [(ngModel)]="product['billing_cycle']" id="val-product_billing_cycle"
                         name="{{'product_billing_cycle' + product['billing_cycle']}}"
                         style="width: 100%;"
@@ -182,14 +182,14 @@
             <td>
               <div class="form-group">
                 <div class="form-material">
-                  {{ product.purchase_date ? (product.purchase_date | amCalendar) : '' }}
+                  {{ product.purchase_date ? (product.purchase_date | amCalendar:'LL') : '' }}
                 </div>
               </div>
             </td>
             <td>
               <div class="form-group">
                 <div class="form-material">
-                  {{ product.last_invoice ? (product.last_invoice | amCalendar) : '' }}
+                  {{ product.last_invoice ? (product.last_invoice | amCalendar:'LL') : '' }}
                 </div>
               </div>
             </td>

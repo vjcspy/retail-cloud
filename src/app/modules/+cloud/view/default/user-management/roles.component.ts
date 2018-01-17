@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy,HostListener, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AbstractSubscriptionComponent} from "../../../../../code/AbstractSubscriptionComponent";
 import {LicenseCollection} from "../../../../../services/meteor-collections/licenses";
 import {Observable} from "rxjs/Observable";
@@ -111,6 +111,12 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
     };
     initFormMaterial();
   }
+    @HostListener('document:click', ['$event.target'])
+    onClick(target) {
+        if(target.id.indexOf('Edit-role-modal') > -1) {
+            this.closeRole();
+        }
+    }
     randomString() {
         let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
         let string_length = 17;
@@ -121,7 +127,11 @@ export class RolesComponent extends AbstractSubscriptionComponent implements OnI
         }
         return randomstring;
     }
-    
+    closeRole() {
+        jQuery(this.modalRole.nativeElement)['modal']('hide');
+        this._vaidation.resetForm();
+        jQuery('.js-validation-role').find(".has-error").removeClass('has-error');
+    }
     editRole(code?: string) {
     if (!!code) {
       this.editView = true;
