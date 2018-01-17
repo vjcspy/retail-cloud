@@ -33,7 +33,7 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
   
   public initTable() {
       this.tableConfig = {
-          actionsColumn: {edit: true, detail: true},
+          actionsColumn: {edit: true, detail: false},
           columns: [
               {data: "_id", title: "License ID"},
               {data: "key", title: "License Key", searchable: true},
