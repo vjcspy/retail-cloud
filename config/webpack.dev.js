@@ -20,7 +20,7 @@ const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlug
  * Webpack Constants
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-const HOST = process.env.HOST || 'localhost';
+const HOST = process.env.HOST || 'pos.cloud.local';
 const PORT = process.env.PORT || 1233;
 const PUBLIC = process.env.PUBLIC_DEV || HOST + ':' + PORT;
 const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
