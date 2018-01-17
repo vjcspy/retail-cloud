@@ -27,8 +27,8 @@ export const POS_ROUTES: Routes = [
             children: [
               {
                 path: 'checkout', component: PosDefaultSalesCheckoutComponent,
-                canActivate: [PermissionGuard],
-                data: {permission: "access_to_connectpos"}
+                // canActivate: [PermissionGuard],
+                // data: {permission: "access_to_connectpos"}
               },
               {
                 path: 'orders', component: PosDefaultSalesOrdersComponent,
@@ -44,8 +44,8 @@ export const POS_ROUTES: Routes = [
           },
           {
             path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent,
-            canActivate: [PermissionGuard],
-            data: {permission: "access_to_connectpos"}
+            // canActivate: [PermissionGuard],
+            // data: {permission: "access_to_connectpos"}
           },
         ]
       },

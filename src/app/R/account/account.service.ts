@@ -90,16 +90,23 @@ export class AccountService {
                         });
                         if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
                           let permissions: any;
+                          let cposPermission : boolean;
                           if (typeof licenseHasRole === 'undefined') {
                             permissions = {};
+                            cposPermission = true;
                           } else {
-                            permissions = licenseHasRole['has_permissions'];
+                            permissions    = licenseHasRole['has_permissions'];
+                            let accessCPOS = _.find(licenseHasRole['has_permissions'], role => {
+                              return role['permission'] == "access_to_connectpos"
+                            });
+                            if (!!accessCPOS) {
+                              cposPermission = accessCPOS['is_active'];
+                            } else {
+                              cposPermission = false;
+                            }
                           }
-                          this.storage.localStorage('permission',
-                          {
-                            "role": currentUser['has_license'][0]['license_permission'],
-                            "permissions": permissions
-                          });
+                          this.accountActions.checkCposPermission({cposPermission});
+                          this.storage.localStorage('permission', {"role": currentUser['has_license'][0]['license_permission'], "permissions": permissions});
                         } else {
                           this.notify.error("we_can_not_find_your_role_permission");
                         }

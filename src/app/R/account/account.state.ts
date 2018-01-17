@@ -10,6 +10,7 @@ export interface AccountState {
   license: {
     licenseHasPos: any;
   };
+  cposPermission: boolean;
   isLogging: boolean;
   redirect: string;
 }
@@ -26,6 +27,7 @@ export const accountStateFactory = makeTypedFactory<AccountState, AccountStateRe
     license: {
       licenseHasPos: null,
     },
+    cposPermission: false,
     isLogging: false,
     redirect: 'pos/default/sales/checkout'
   }

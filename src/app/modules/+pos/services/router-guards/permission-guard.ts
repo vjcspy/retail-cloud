@@ -22,9 +22,10 @@ export class PermissionGuard implements CanActivate {
     let listPermission = this.storage.localRetrieve('permission');
     // đối với trường hợp lúc mới bắt đầu login( chưa kip nghe được permission từ meteor)
     if (!listPermission) {
-      this.storage.localClear();
-      this.accountActions.redirectLoginPage(false, false);
-      this.notify.error("not_have_permission_to_" + current);
+      // this.storage.localClear();
+      // this.accountActions.redirectLoginPage(false, false);
+      this.routerActions.go('pos/default/outlet-register');
+      // this.notify.error("not_have_permission_to_" + current);
       return false;
     }
     
@@ -56,9 +57,9 @@ export class PermissionGuard implements CanActivate {
         return false;
       }
     } else {
-      this.storage.localClear();
-      this.routerActions.go('/account/login');
-      this.notify.error("not_have_permission_to_access_to_connectpos");
+      // this.storage.localClear();
+      this.routerActions.go('pos/default/outlet-register');
+      // this.notify.error("not_have_permission_to_access_to_connectpos");
       return false;
     }
     

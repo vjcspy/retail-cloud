@@ -5,6 +5,7 @@ import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as _ from 'lodash';
 import {PosGeneralState} from "../../../R/general/general.state";
+import {AccountState} from "../../../../../R/account/account.state";
 
 @Component({
              // moduleId: module.id,
@@ -16,9 +17,14 @@ export class PosDefaultOutletRegisterDefaultComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() pullState: PosPullState;
   @Input() generalState: PosGeneralState;
+  @Input() accountState: AccountState;
   
   constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager) { }
   
   ngOnInit() { }
+  
+  hasCposPermission() {
+    return this.accountState.cposPermission;
+  }
   
 }

@@ -66,14 +66,4 @@ export class AccountEffects {
                                 return this.rootActions.nothing("Go login page", false);
                               });
   
-  @Effect() redirectLoginPage = this.actions$.ofType(AccountActions.REDIRECT_LOGOIN_PAGE)
-                             .map(() => {
-                               return Observable.fromPromise(this.authService.signOut())
-                                                .map(() => {
-                                                  this.appStorage.localClear();
-                                                  this.routerActions.go('/account/login');
-                                                  return this.rootActions.nothing("Go login page", false);
-                                                })
-                                                .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
-                             })
 }

@@ -77,9 +77,10 @@ export class AccountActions {
     return action;
   }
   
-  static REDIRECT_LOGOIN_PAGE = 'REDIRECT_LOGOIN_PAGE';
-  redirectLoginPage(redirect, dispatch: boolean = true): Action {
-    const action = {type: AccountActions.REDIRECT_LOGOIN_PAGE, payload: {redirect}};
+  static SAVE_CPOS_PERMISSION = 'SAVE_CPOS_PERMISSION';
+  
+  checkCposPermission(cpos_permission, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.SAVE_CPOS_PERMISSION, payload: {cpos_permission}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);
