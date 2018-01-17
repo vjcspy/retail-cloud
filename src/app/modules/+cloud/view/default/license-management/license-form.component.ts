@@ -254,15 +254,15 @@ export class LicenseFormComponent extends AbstractSubscriptionComponent implemen
     
     return this.data['isEditingLicense'];
   }
-  
-  currentSelectedPricing() {
-    return _.find(this.prices, (_p) => _p['_id'] === this.license['pricing_id']);
-  }
-  
-  isNotSelectTrial(): boolean {
-    const pricing = this.currentSelectedPricing();
-    return !!pricing && pricing['type'] !== 'trial';
-  }
+    
+    currentSelectedPricing(product) {
+        return _.find(this.prices, (_p) => _p['_id'] === product['pricing_id']);
+    }
+    
+    isNotSelectTrial(product): boolean {
+        const pricing = this.currentSelectedPricing(product);
+        return !!pricing && pricing['type'] !== 'trial';
+    }
   
   goBack() {
     this.routerActions.go('cloud/default/license/list');

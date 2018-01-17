@@ -161,7 +161,6 @@ export class LicenseListComponent extends AbstractSubscriptionComponent implemen
           bFilter: true,
           sDom: 'ltp'
       };
-      console.log(this.tableConfig);
   }
   
   ngOnInit() {
