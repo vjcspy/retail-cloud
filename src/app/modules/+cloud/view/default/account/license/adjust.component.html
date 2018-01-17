@@ -68,6 +68,14 @@
 
           <div class="block-item line-bottom" *ngIf="isNotSelectTrial()">
             <div class="form-group">
+              <label class="control-label">Number of Cycle:</label>
+              <div class="element number-spinner">
+                <span class="num-btn ion-minus" (click)="changeNumberOfCycle(-1)"></span>
+                <span class="num-value">{{getNumberOfCycle()}}</span>
+                <span class="num-btn ion-plus" (click)="changeNumberOfCycle(+1)"></span>
+              </div>
+            </div>
+            <div class="form-group">
               <label class="control-label">Number of Register:</label>
               <div class="element number-spinner">
                 <span class="num-btn ion-minus" (click)="changeAdditionEntity(-1)"></span>

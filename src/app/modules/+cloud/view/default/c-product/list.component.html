@@ -1,14 +1,78 @@
-<div class="row">
-  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" *ngFor="let p of products">
-    <div class="card">
-      <img class="card-img-top" src="holder.js/300x300?theme=vine" alt="Card image cap">
-      <div class="card-body">
-        <p class="card-text">{{p['name']}}</p>
-        <p>
-          <button [disabled]="!p['canTrial']" href="#" class="btn btn-primary" role="button" (click)="adjustPlan(p['_id'])">Trial</button>
-          <button [disabled]="!p['canPurchase']" href="#" class="btn btn-primary" role="button" (click)="adjustPlan(p['_id'])">Purchase</button>
-        </p>
+<div class="connect-pos-cont min-page" *ngIf="getCPos()">
+  <div class="clearfix">
+    <div class="table-title pull-left">{{getCPos()['name']}}</div>
+    <div class="pull-right">
+      <button *ngIf="getCPos()['canPurchase']" type='button' class="btn btn-default btn-orange" (click)="adjustPlan(getCPos()['_id'])">Purchase
+      </button>
+    </div>
+  </div>
+  <div class="white-box">
+    <div class="plan-wrap clearfix">
+      <div class="col-sm-4">
+        <div class="planbox">
+          <h3 class="title">
+            Standard
+          </h3>
+          <div class="price-wrap">
+            <span class="currency">$19</span>
+            <span class="sep">/</span>
+            <span class="mo">mo</span>
+          </div>
+          <ul>
+            <li>Billed in USD annually</li>
+            <li>Single outlet</li>
+            <li>1 active user</li>
+            <li>Unlimited Registers</li>
+            <li>24/7 Support</li>
+            <li>Free update</li>
+            <li>Basic reporting</li>
+          </ul>
+        </div>
       </div>
+      <div class="col-sm-4">
+        <div class="planbox">
+          <h3 class="title">
+            Premium
+          </h3>
+          <div class="price-wrap">
+            <span class="currency">$39</span>
+            <span class="sep">/</span>
+            <span class="mo">mo</span>
+          </div>
+          <ul>
+            <li>Billed in USD annually</li>
+            <li>Multiple outlet</li>
+            <li>3 active users</li>
+            <li>Unlimited Registers</li>
+            <li>24/7 Support</li>
+            <li>Free update</li>
+            <li>Advanced reporting</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="planbox">
+          <h3 class="title">
+            Life-time
+          </h3>
+          <div class="price-wrap">
+            <span class="currency">$699</span>
+          </div>
+          <ul>
+            <li>&nbsp;</li>
+            <li>Multiple outlet</li>
+            <li>1 active user</li>
+            <li>Unlimited Registers</li>
+            <li>24/7 Support</li>
+            <li>1-year free update</li>
+            <li>Basic reporting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="group-btn tac">
+      <button [disabled]="!getCPos()['canTrial']" type="button" class="btn btn-default" (click)="adjustPlan(getCPos()['_id'])">Trial</button>
+      <button type="button" class="btn btn-primary" (click)="demo(getCPos()['code'])">Demo</button>
     </div>
   </div>
 </div>

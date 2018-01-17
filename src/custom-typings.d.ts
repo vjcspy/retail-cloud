@@ -50,6 +50,7 @@ declare var NProgress: any;
 declare var Offline: any;
 declare var TYRO: any;
 declare var JsBarcode: any;
+declare var paypal: any;
 /*
  // for legacy tslint etc to understand rename 'modern-lru' with your package
  // then comment out `declare module '*';`. For each new module copy/paste
@@ -113,8 +114,11 @@ interface WebpackModule {
 
 interface WebpackRequire {
   (id: string): any;
+  
   (paths: string[], callback: (...modules: any[]) => void): void;
+  
   ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
+  
   context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }
 
@@ -128,7 +132,11 @@ interface ErrorStackTraceLimit {
 
 // Extend typings
 interface NodeRequire extends WebpackRequire {}
+
 interface ErrorConstructor extends ErrorStackTraceLimit {}
+
 interface NodeRequireFunction extends Es6PromiseLoader {}
+
 interface NodeModule extends WebpackModule {}
+
 interface Global extends GlobalEnvironment {}

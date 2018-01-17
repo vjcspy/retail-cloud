@@ -24,7 +24,7 @@
             <div class="col-sm-6">
               <ul>
                 <li class="clearfix radio-btn" *ngFor="let p of (checkoutState$ | async)?.payments"
-                    [ngClass]="{active: paymentMethod == p['id'],'payment-wall': p['id'] =='payment-wall','paypal': p['id'] =='braintree'}">
+                    [ngClass]="{active: paymentMethod == p['id'],'payment-wall': p['id'] =='payment-wall','paypal': (p['id'] =='braintree' || p['id'] =='paypal')}">
                   <input type="radio" [id]="p['id']" [value]="p['id']" name="paymentMethod" [(ngModel)]="paymentMethod">
                   <label [for]="p['id']">{{p['data']['name']}}</label>
                   <div class="check">
@@ -49,7 +49,9 @@
         <div class="credit-card-info" *ngIf="paymentMethod == 'braintree'">
           <braintree-payment-component></braintree-payment-component>
         </div>
-
+        <div class="credit-card-info" *ngIf="paymentMethod == 'paypal'">
+          <paypal-button-component></paypal-button-component>
+        </div>
       </div>
     </div>
   </div>

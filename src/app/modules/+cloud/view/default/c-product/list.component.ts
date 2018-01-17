@@ -99,6 +99,19 @@ export class CProductListComponent extends AbstractSubscriptionComponent impleme
     );
   }
   
+  getCPos() {
+    return _.find(this.products, (p) => p['code'] === 'xpos');
+  }
+  
+  demo(productCode) {
+    switch (productCode) {
+      case "xpos":
+        return window.location.href = "https://sales.connectpos.com";
+      default:
+        alert("Not support this product");
+    }
+  }
+  
   adjustPlan(productId) {
     this.routerActions.go('cloud/default/account/license/adjust', productId);
   }

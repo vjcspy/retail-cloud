@@ -24,7 +24,8 @@ import {PricingService} from "../../../../R/pricing/service";
 export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit {
   public plan           = {
     addition_entity: 1,
-    cycle: 2
+    cycle: 2,
+    num_of_cycle: 1
   };
   public productLicense = {};
   public product;
@@ -189,6 +190,24 @@ export class AccountLicenseAdjustComponent extends AbstractSubscriptionComponent
     }
     
     this.calculateTotal();
+  }
+  
+  changeNumberOfCycle(value: number) {
+    this.plan['num_of_cycle'] += value;
+    
+    if (_.isNaN(this.plan['num_of_cycle']) || this.plan['num_of_cycle'] < 1) {
+      this.plan['num_of_cycle'] = 1;
+    }
+    
+    this.calculateTotal();
+  }
+  
+  getNumberOfCycle() {
+    if (_.isNaN(this.plan['num_of_cycle']) || this.plan['num_of_cycle'] < 1) {
+      this.plan['num_of_cycle'] = 1;
+    }
+    
+    return this.plan['num_of_cycle'];
   }
   
   submitOrder() {

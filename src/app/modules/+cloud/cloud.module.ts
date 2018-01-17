@@ -15,6 +15,8 @@ import {MenuActions} from "./R/menu/actions";
 import {CLOUD_METEOR_COLLECTION} from "./meteor-collections/index";
 import {FileUploadModule} from "ng2-file-upload";
 import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
+import {PaymentPaypalModule} from "./modules/payment-paypal/payment-paypal.module";
+
 // import { CKEditorModule } from 'ngx-ckeditor';
 
 @NgModule({
@@ -23,6 +25,7 @@ import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
               AngularMeteorModule,
               RouterModule.forChild(CLOUD_ROUTES),
               PaymentBraintreeModule,
+              PaymentPaypalModule,
               FileUploadModule,
               FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
               ...R_EFFECTS,
