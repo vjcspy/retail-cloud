@@ -34,16 +34,16 @@ export class MenuService {
       ]);
     }
   
-    if (this.auth.isUser(null)) {
-      menu.push(...[
-        {
-          path: '/cloud/default/c-product/list',
-          name: 'Connect Products',
-          iconClass: 'ion-social-buffer',
-          priority: 3,
-        },
-      ]);
-    }
+    // if (this.auth.isUser(null)) {
+    //   menu.push(...[
+    //     {
+    //       path: '/cloud/default/c-product/list',
+    //       name: 'Connect Products',
+    //       iconClass: 'ion-social-buffer',
+    //       priority: 3,
+    //     },
+    //   ]);
+    // }
     
     if (this.auth.hasLicense(null) && (this.auth.userCan('access_to_user_management') || this.auth.userCan('view_edit_create_delete_role'))) {
       let _user: MenuElemInterface = {
