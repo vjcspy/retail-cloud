@@ -61,7 +61,6 @@ export class ProductListComponent extends AbstractSubscriptionComponent implemen
                         const licensesActive = _.reduce(this.licenses, (result, license) => {
                             return result += _.find(license['has_product'], (product) => product['product_id'] === data) ? 1 : 0;
                         }, 0);
-                        console.log(licensesActive);
                         return licensesActive;
                     },
                     targets: [3],
@@ -85,8 +84,6 @@ export class ProductListComponent extends AbstractSubscriptionComponent implemen
                 this.initTable();
                 this.detechChange.detectChanges();
             }));
-        
-        console.log(this.licenses);
     }
     
     handleEvent($event) {
