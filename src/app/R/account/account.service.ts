@@ -6,6 +6,7 @@ import {ProductCollection} from "../../services/meteor-collections/products";
 import {NotifyManager} from "../../services/notify-manager";
 import * as _ from 'lodash';
 import {AccountActions} from "./account.actions";
+import * as Cookies from "js-cookie";
 
 @Injectable()
 export class AccountService {
@@ -63,5 +64,30 @@ export class AccountService {
     }
     
     return this.subscriptionLicense;
+  }
+  
+  saveVersionToCookie(): Promise<any> {
+    return new Promise(((resolve) => {
+      Observable.combineLatest(this.licenseCollection.getCollectionObservable(), this.productCollection.getCollectionObservable())
+                .subscribe(([licenseCollection, productCollection]) => {
+                  const products = productCollection.collection.find({}).fetch();
+                  if (products) {
+                    const posProduct = _.find(products, p => p['code'] === 'xpos');
+                    if (posProduct) {
+                      const licenses = licenseCollection.collection.find({}).fetch();
+                      if (_.size(licenses) === 1) {
+                        const licenseHasPos = _.find(licenses[0]['has_product'], p => {
+                          return p['product_id'] === posProduct['_id'];
+                        });
+              
+                        if (licenseHasPos) {
+                          Cookies.set('pos_version', licenseHasPos['product_version'], {path: '/', domain: "cloud.local"});
+                        }
+                      }
+                    }
+                  }
+                  resolve();
+                });
+    }));
   }
 }
