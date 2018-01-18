@@ -84,9 +84,9 @@ export class AccountService {
                           Cookies.set('pos_version', licenseHasPos['product_version'], {path: '/', domain: "cloud.local"});
                         }
                       }
+                      resolve();
                     }
                   }
-                  resolve();
                 });
     }));
   }
