@@ -81,7 +81,7 @@ export class AccountService {
                         });
               
                         if (licenseHasPos) {
-                          Cookies.set('pos_version', licenseHasPos['product_version'], {path: '/', domain: "cloud.local"});
+                          Cookies.set('pos_version', licenseHasPos['product_version'], {path: '/', /*domain: "cloud.local"*/});
                         }
                       }
                       resolve();
