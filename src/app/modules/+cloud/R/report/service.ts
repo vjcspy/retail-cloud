@@ -139,85 +139,96 @@ export class SaleReportService {
       item['dateRanger'] = dateRangerConvert;
     });
     // start get data group by report type value
-    _.forEach(group_data_report_type, (report_type_data) => {
-      let report_type     = [];
-      report_type['item_details'] = [];
-      report_type['display_item_detail'] = false;
-      report_type['name'] = _.isObject(report_type_data['value']) ? report_type_data['value']['name'] : (report_type_data['value'] == 'N/A' ? (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') : report_type_data['value']);
+    if (!_.isEmpty(group_data_report_type)) {
+      _.forEach(group_data_report_type, (report_type_data) => {
+        let report_type                    = [];
+        report_type['item_details']        = [];
+        report_type['display_item_detail'] = false;
+        report_type['name']                =
+          _.isObject(report_type_data['value']) ?
+            report_type_data['value']['name'] :
+            (report_type_data['value'] == 'N/A' ?
+              (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') :
+              report_type_data['value']);
   
-      if(this.viewDataFilter['report_type'] == "user"){
-        report_type['name'] = this.userCollection.getUserNameById(report_type_data['value']);
-      }
-      // add them value de filter doi voi nhung data can hien thi them data
-      if (this.viewDataFilter['report_type'] == "payment_method" ||
-          this.viewDataFilter['report_type'] == "order_status" ||
-          this.viewDataFilter['report_type'] == "register" ||
-          this.viewDataFilter['report_type'] == "customer" ||
-          this.viewDataFilter['report_type'] == "region" ||
-          this.viewDataFilter['report_type'] == "outlet" ||
-          this.viewDataFilter['report_type'] == "category") {
-        report_type['value'] = report_type_data['data'];
-      }
-      
-      if (this.viewDataFilter['report_type'] == 'customer') {
-        report_type['customer_email']      = report_type_data['value']['email'];
-        report_type['customer_telephone']  = report_type_data['value']['phone'];
-        report_type['customer_group_code'] = report_type_data['value']['customer_group_code'];
-        report_type['total_shipping_amount']  = report_type_data['value']['total_shipping_amount'];
-      }
-      
-      if (this.viewDataFilter['report_type'] == 'register' || this.viewDataFilter['report_type'] == 'sales_summary') {
-        report_type['total_shipping_amount']  = report_type_data['total_shipping_amount'];
-      }
-      
-      if (this.viewDataFilter['report_type'] == 'product') {
-        report_type['sku']          = report_type_data['value']['sku'];
-        report_type['product_type'] = report_type_data['value']['product_type'];
-        report_type['manufacturer'] = report_type_data['value']['manufacturer'];
-      }
-      _.forEach(itemsData, (item) => {
-        let model = _.find(item['value'], function (option) {
-          if (_.isObject(option) && option.hasOwnProperty('data_report_type') &&
-              option['data_report_type'] == report_type_data['data'])
-            return option;
-        });
-        if (model) {
-          if (this.viewDataFilter['report_type'] == 'payment_method' || this.viewDataFilter['report_type'] == 'shipping_method') {
-            report_type[item['dateRanger']] = parseFloat(model['grand_total']);
-          } else {
-            report_type[item['dateRanger']] = parseFloat(model['revenue']);
-          }
-          _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
-            if (this.checkCalculateMeasureData(measure['label'])) {
-              if (measure['label'] == "First Sale") {
-                if (model[measure['value']]) {
-                  if (!report_type.hasOwnProperty(measure['label']) || model[measure['value']] < report_type[measure['label']]) {
-                    report_type[measure['label']] = model[measure['value']];
+        if(this.viewDataFilter['report_type'] == "user"){
+          report_type['name'] = this.userCollection.getUserNameById(report_type_data['value']);
+        }
+        // add them value de filter doi voi nhung data can hien thi them data
+        if (this.viewDataFilter['report_type'] == "payment_method" ||
+            this.viewDataFilter['report_type'] == "order_status" ||
+            this.viewDataFilter['report_type'] == "register" ||
+            this.viewDataFilter['report_type'] == "customer" ||
+            this.viewDataFilter['report_type'] == "region" ||
+            this.viewDataFilter['report_type'] == "outlet" ||
+            this.viewDataFilter['report_type'] == "category") {
+          report_type['value'] = report_type_data['data'];
+        }
+    
+        if (this.viewDataFilter['report_type'] == 'customer') {
+          report_type['customer_email']        = report_type_data['value']['email'];
+          report_type['customer_telephone']    = report_type_data['value']['phone'];
+          report_type['customer_group_code']   = report_type_data['value']['customer_group_code'];
+          report_type['total_shipping_amount'] = report_type_data['value']['total_shipping_amount'];
+        }
+    
+        if (this.viewDataFilter['report_type'] == 'reference_number') {
+          report_type['outlet'] = report_type_data['value']['outlet'];
+        }
+    
+        if (this.viewDataFilter['report_type'] == 'register' || this.viewDataFilter['report_type'] == 'sales_summary') {
+          report_type['total_shipping_amount'] = report_type_data['total_shipping_amount'];
+        }
+    
+        if (this.viewDataFilter['report_type'] == 'product') {
+          report_type['sku']          = report_type_data['value']['sku'];
+          report_type['product_type'] = report_type_data['value']['product_type'];
+          report_type['manufacturer'] = report_type_data['value']['manufacturer'];
+        }
+        _.forEach(itemsData, (item) => {
+          let model = _.find(item['value'], function (option) {
+            if (_.isObject(option) && option.hasOwnProperty('data_report_type') &&
+                option['data_report_type'] == report_type_data['data'])
+              return option;
+          });
+          if (model) {
+            if (this.viewDataFilter['report_type'] == 'payment_method' || this.viewDataFilter['report_type'] == 'shipping_method') {
+              report_type[item['dateRanger']] = parseFloat(model['grand_total']);
+            } else {
+              report_type[item['dateRanger']] = parseFloat(model['revenue']);
+            }
+            _.forEach(this.reportHelper.getListMeasureByReportType(this.viewDataFilter['report_type'])['data'], (measure) => {
+              if (this.checkCalculateMeasureData(measure['label'])) {
+                if (measure['label'] == "First Sale") {
+                  if (model[measure['value']]) {
+                    if (!report_type.hasOwnProperty(measure['label']) || model[measure['value']] < report_type[measure['label']]) {
+                      report_type[measure['label']] = model[measure['value']];
+                    }
                   }
-                }
-              }else if( measure['label'] == "Last Sale"){
-                if (model[measure['value']]) {
-                  if (!report_type.hasOwnProperty(measure['label']) || model[measure['value']] > report_type[measure['label']]) {
-                    report_type[measure['label']] = model[measure['value']];
+                } else if (measure['label'] == "Last Sale") {
+                  if (model[measure['value']]) {
+                    if (!report_type.hasOwnProperty(measure['label']) || model[measure['value']] > report_type[measure['label']]) {
+                      report_type[measure['label']] = model[measure['value']];
+                    }
                   }
-                }
-              } else {
-                if (!report_type.hasOwnProperty(measure['label'])) {
-                  report_type[measure['label']] = parseFloat(model[measure['value']]);
                 } else {
-                  report_type[measure['label']] += parseFloat(model[measure['value']]);
+                  if (!report_type.hasOwnProperty(measure['label'])) {
+                    report_type[measure['label']] = parseFloat(model[measure['value']]);
+                  } else {
+                    report_type[measure['label']] += parseFloat(model[measure['value']]);
+                  }
                 }
               }
-            }
-          });
-          
-        } else {
-          report_type[item['dateRanger']] = "--"
-        }
+            });
+        
+          } else {
+            report_type[item['dateRanger']] = "--"
+          }
+        });
+        // Object.assign()
+        this.viewData['items'].push(report_type);
       });
-      // Object.assign()
-      this.viewData['items'].push(report_type);
-    });
+    }
     
     // convert data
     _.forEach(this.viewData['items'], (item)=> {
@@ -339,7 +350,7 @@ export class SaleReportService {
       this.viewData['totalInHontical'][measure['label']] = totalInHontical[measure['label']];
     });
     if( this.viewDataFilter['report_type'] == 'sales_summary' ){
-      this.viewData['totalInHontical']['total_shipping_amount'] = this.viewData['items'][0]['total_shipping_amount'];
+      this.viewData['totalInHontical']['total_shipping_amount'] = (!_.isEmpty(this.viewData['items']) && this.viewData['items'][0].hasOwnProperty('total_shipping_amount')) ? this.viewData['items'][0]['total_shipping_amount'] : 0;
     }
   }
   
