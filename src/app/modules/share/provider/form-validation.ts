@@ -43,6 +43,10 @@ export class FormValidationService {
     {
       id: "p-not-decimal-num",
       mess: "This is integer number field"
+    },
+    {
+      id: "is-compare",
+      mess: "This is compare field"
     }
   ];
   
@@ -205,6 +209,20 @@ export class FormValidationService {
           let decimal    = /^(?:[-+]?[0-9]|)+\.[0-9]+$/;
           let _isDecimal = decimal.test(value);
           if (value == "" || isNaN(value) || parseFloat(value) <= 0 || _isDecimal) {
+            validationInfo = {
+              isValid: false,
+              mess: !!mess ? mess : ""
+            };
+            return false;
+          }
+          break;
+        case "is-compare":
+          mess = _.find(this.validations, (v) => v['id'] == 'is-compare');
+          if (mess)
+            mess = mess['mess'];
+          let compare    = /^[<>=]?[ ]*[$]?[ ]*([0-9]?[ ]*[,]?[ ]*)*(?:[0-9]|)+\.*[0-9]*$/;
+          let _isCompare = compare.test(value);
+          if (!_isCompare && !_.isEmpty(value)) {
             validationInfo = {
               isValid: false,
               mess: !!mess ? mess : ""
