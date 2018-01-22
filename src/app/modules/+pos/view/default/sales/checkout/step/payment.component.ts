@@ -7,6 +7,7 @@ import {IntegrateRpState} from "../../../../../R/integrate/rp/integrate-rp.state
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {PosSyncState} from "../../../../../R/sync/sync.state";
 import * as _ from "lodash"
+import {NotifyManager} from "../../../../../../../services/notify-manager";
 
 @Component({
              // moduleId: module.id,
@@ -20,7 +21,7 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
   
-  constructor(public posStepActions: PosStepActions, public offlineService: OfflineService) { }
+  constructor(public posStepActions: PosStepActions, public offlineService: OfflineService, protected notify: NotifyManager) { }
   
   ngOnInit() { }
   
@@ -41,9 +42,17 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   }
   
   disableClickSaveOrder(): boolean {
-    return this.isUseTyroAndPaidOver() || this.posStepState.isChecking3rd || this.posStepState.isSavingOrder
+    return this.posStepState.isChecking3rd || this.posStepState.isSavingOrder
            || (!this.posConfigState.posRetailConfig.allowPartialPayment && this.posStepState.totals.remain >= 0.01 && !this.posQuoteState.info.isRefunding)
            || (this.posQuoteState.info.isRefunding && Math.abs(this.posStepState.totals.remain) > 0.01);
+  }
+  
+  complete() {
+    if (this.isUseTyroAndPaidOver()) {
+      this.notify.error("overpay_is_not_allowed_when_tyro_is_chosen");
+      return;
+    }
+    this.posStepActions.userSaveOrder();
   }
   
   protected isUseTyroAndPaidOver() {

@@ -429,5 +429,6 @@
     "not_have_permission_to_make_shipment" : "You do NOT have permission to make shipment",
     "sorry_we_can_not_select_base_url" : "Please select a valid website URL",
     "please_select_outlet_before": "Please go back and select a register before applying any settings",
-    "language_will_update_after_refresh_page" : "Please refresh the page to update the language!"
+    "language_will_update_after_refresh_page" : "Please refresh the page to update the language!",
+    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen"
 }

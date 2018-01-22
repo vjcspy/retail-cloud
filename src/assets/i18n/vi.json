@@ -426,5 +426,6 @@
     "not_have_permission_to_allow_using_custom_sale" : "Xin lỗi. Bạn không được phép sử dụng sản phẩm mới",
     "not_have_permission_to_make_shipment" : "Xin lỗi. Bạn không có quyền vận chuyển đơn hàng",
     "sorry_we_can_not_select_base_url" : "Xin lỗi! Chúng tôi không thể chọn url",
-    "please_select_outlet_before": "Please select outlet before"
+    "please_select_outlet_before": "Please select outlet before",
+    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen"
 }
