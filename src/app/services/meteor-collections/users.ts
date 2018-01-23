@@ -12,7 +12,7 @@ export class UserCollection extends AbstractCollection {
     if (cashier) {
       return cashier['username'];
     } else {
-      return " Unknown";
+      return "User Id : "+ id;
     }
   }
   
