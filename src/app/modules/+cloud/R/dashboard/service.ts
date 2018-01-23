@@ -9,6 +9,7 @@ import {RequestService} from "../../../../services/request";
 import {NotifyManager} from "../../../../services/notify-manager";
 import {LocalStorage} from "ngx-webstorage";
 import {ReportDashboardHelper} from "./helper";
+import {UserCollection} from "../../../../services/meteor-collections/users";
 // import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
 
 @Injectable()
@@ -33,6 +34,7 @@ export class DashboardReportService {
   constructor(protected toast: NotifyManager,
               protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
+              protected userCollection: UserCollection,
               protected router: Router){
     this.resolveDefaultData();
   }
@@ -124,6 +126,17 @@ export class DashboardReportService {
       product_sold : [],
       product_trend_data : []
     };
+    if(itemsData.hasOwnProperty('top_User') && _.isArray(itemsData['top_User'])){
+      // _.forEach(users, (user) => {
+      //   elementData.data.push({
+      //                           label: user['username'],
+      //                           value: user['_id']
+      //                         });
+      // });
+      _.forEach(itemsData['top_User'] , (user)=>{
+      user['username'] = this.userCollection.getUserNameById(user['id']);
+      });
+    }
     this.viewData['current_currency'] = itemsData['current_currency'];
     this.viewData['list_date_filter'] = itemsData['list_date_filter'];
     this.viewData['topUser'] = itemsData['top_User'];

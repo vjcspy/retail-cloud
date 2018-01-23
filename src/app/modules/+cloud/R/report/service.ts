@@ -11,6 +11,7 @@ import {NotifyManager} from "../../../../services/notify-manager";
 import {ReportHelper} from "./helper";
 import {LocalStorage} from "ngx-webstorage";
 import {OnlineOfflineModeService} from "../../../../services/online-offline-mode.service";
+import {UserCollection} from "../../../../services/meteor-collections/users";
 
 @Injectable()
 export class SaleReportService {
@@ -43,6 +44,7 @@ export class SaleReportService {
               protected requestService: RequestService,
               protected apiUrlManager: ApiManager,
               protected reportHelper: ReportHelper,
+              protected userCollection: UserCollection,
               protected router: Router){
     this.resolveDefaultData();
   }
@@ -143,6 +145,9 @@ export class SaleReportService {
       report_type['display_item_detail'] = false;
       report_type['name'] = _.isObject(report_type_data['value']) ? report_type_data['value']['name'] : (report_type_data['value'] == 'N/A' ? (this.viewDataFilter['report_type'] != 'sales_summary' ? ('No ' + this.getLabelForTitle()) : 'Totals') : report_type_data['value']);
   
+      if(this.viewDataFilter['report_type'] == "user"){
+        report_type['name'] = this.userCollection.getUserNameById(report_type_data['value']);
+      }
       // add them value de filter doi voi nhung data can hien thi them data
       if (this.viewDataFilter['report_type'] == "payment_method" ||
           this.viewDataFilter['report_type'] == "order_status" ||
