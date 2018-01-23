@@ -300,11 +300,10 @@ export class SaleReportService {
             this.viewDataFilter['report_type'] == 'category' ||
             this.viewDataFilter['report_type'] == 'manufacturer'
         ) {
-          itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
+          itemLable = item['Discount'] / (item['Revenue'] + item['Discount']);
         } else {
           itemLable = item['Discount'] / (item['Total Sales'] + item['Discount']);
         }
-        itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
         break;
       case "Refund Percent" :
         itemLable = item['Refund Count'] / (item['Item Sold'] + item['Refund Count']);
@@ -421,7 +420,8 @@ export class SaleReportService {
               if (additionalData['label'] == "Discount percent") {
                 // itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
                 totalDiscountAmount += parseFloat(itemValue['discount_amount']);
-                totalInvoiced += parseFloat(itemValue['base_row_total_product']);
+                // totalInvoiced += parseFloat(itemValue['base_row_total_product']);
+                totalInvoiced += parseFloat(itemValue['revenue']);
                 additionalItem[item['dateRanger']] = ((totalInvoiced + totalDiscountAmount) == 0) ? "--" : (totalDiscountAmount / (totalInvoiced + totalDiscountAmount));
               }
               if (additionalData['label'] == "Refund Percent") {

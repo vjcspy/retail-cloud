@@ -3,7 +3,7 @@ import * as moment from "moment";
 
 
 export class ReportHelper {
-  static REPORT_TYPE_COLUMN_ORDER = ['user','outlet','register','customer','customer_group','magento_website','magento_storeview','product','manufacturer','category','order_status','currency','day_of_week','hour','region','reference_number'];
+  static REPORT_TYPE_COLUMN_ORDER = ['user','outlet','register','customer','customer_group','magento_website','magento_storeview','product','manufacturer','category','order_status','currency','day_of_week','hour'];
   static REPORT_TYPE_COLUMN_PRODUCT = ['product','manufacturer','category','order_status'];
   static REPORT_TYPE_COLUMN_PAYMENT = ['payment_method'];
   static REPORT_TYPE_COLUMN_SHIPPING = ['shipping_method'];
@@ -231,9 +231,7 @@ export class ReportHelper {
         {id: 15, label: "Order Status", value: "order_status"},
         {id: 16, label: "Currency", value: "currency"},
         {id: 17, label: "Day of week", value: "day_of_week"},
-        {id: 18, label: "Hour", value: "hour"},
-        {id: 19, label: "Region", value: "region"},
-        {id: 20, label: "Applicant Reference Number", value: "reference_number"},
+        {id: 18, label: "Hour", value: "hour"}
       ],
       isMultiSelect: false,
       label: "Sale Report",
