@@ -184,10 +184,9 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   protected isdisplayMoreData($item) {
     if (this.data_filter['report_type'] == "register" ||
         this.data_filter['report_type'] == "customer" ||
-        this.data_filter['report_type'] == "sales_summary" ||
-        this.data_filter['report_type'] == "region" ||
-        this.data_filter['report_type'] == "outlet" ||
-        this.data_filter['report_type'] == "category") {
+        this.data_filter['report_type'] == "sales_summary"
+        // || this.data_filter['report_type'] == "category"
+    ) {
       return false;
     }
     return true;
