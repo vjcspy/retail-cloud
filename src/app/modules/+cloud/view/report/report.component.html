@@ -43,28 +43,32 @@
           </button>
         </div>
         <div class="dropdown filter report-filter search-filter open">
-          <button class="btn btn-custom" data-toggle="dropdown">Customize</button>
-          <ul class="dropdown-menu filter-dropdown">
+          <button class="btn btn-custom" (click)="isDisplayCustomize = !isDisplayCustomize">Customize</button>
+          <ul class="dropdown-menu filter-dropdown" *ngIf="isDisplayCustomize">
             <li class="arrow">
               <i class="icon-arr ion-arrow-up-b"></i>
             </li>
             <li class="search-form">
               <form class="form-horizontal">
                 <i class=" ion-ios-search"></i>
-                <input class="form-control" placeholder="Search Measure" type="text"
+                <input class="form-control search-customize-column" placeholder="Search Measure" type="text"
                        [(ngModel)]="searchString"
                        name="searchString"
                        (keyup)="searchMeasure($event.target.value)">
               </form>
             </li>
-            <li class="filter-all">
-              <input id="filter-date" type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();">
-              <label for="filter-date">All</label>
+            <li class="filter-all" (click)="selectAll()">
+              <div class="div-customize-column">
+                <input class="all-customize-column" id="filter-date" type="checkbox" [checked]="selectedAll">
+                <label for="filter-date" class="all-text-customize-column">All</label>
+              </div>
             </li>
-            <li class="" *ngFor="let measure_data of measures; trackBy:trackByValue">
-              <input type="checkbox" id="{{measure_data.measure_data['value']}}" [(ngModel)]="measure_data.selected"
-                     (change)="checkIfAllSelected(measure_data);">
-              <label for="{{measure_data.measure_data['value']}}">{{measure_data.measure_data['label']}}</label>
+            <li class="customize-column" *ngFor="let measure_data of measures; trackBy:trackByValue" (click)="checkIfAllSelected(measure_data);">
+              <div class="div-customize-column">
+                <input type="checkbox" id="{{measure_data.measure_data['value']}}" [checked]="measure_data.selected"
+                       class="checkbox-customize-column">
+                <label for="{{measure_data.measure_data['value']}}">{{measure_data.measure_data['label']}}</label>
+              </div>
             </li>
           </ul>
         </div>
