@@ -72,8 +72,8 @@
 
   <!--&lt;!&ndash;body for total column&ndash;&gt;-->
   <tbody class="total_summary_report" style="background-color: #666;">
-  <tr style="color: #ffffff;"
-      [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()"
+  <!--<tr style="color: #ffffff;"-->
+  <tr [hidden]="saleReportService.viewDataFilter['report_type'] == 'category' || checkDataNullForHidden()"
       [ngClass]="{'datatable-col-totals-row': checkDisplayProductForSalesSummary() == true, 'datatable-row-col-totals' : checkDisplayProductForSalesSummary() == false }"
       sale-report-item
       [is_date_ranger]="isDateRanger()"
