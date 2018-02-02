@@ -610,7 +610,7 @@ export class SaleReportService {
   convertDetailItemData(itemsData, group_data_report_type , itemDetail) {
     let itemSeach ;
     
-    if(itemDetail == "Totals"){
+    if(itemDetail == "Totals" && this.viewDataFilter['report_type'] == 'sales_summary'){
       // item detail cho sale summary
       itemSeach =  this.viewData['totalInHontical'];
     }else{
@@ -625,6 +625,7 @@ export class SaleReportService {
     }
     if(!!itemSeach){
     itemSeach['item_details'] = [];
+    let report_date_value = [];
     // start get data group by report type value
     _.forEach(group_data_report_type, (report_type_data) => {
       let report_type = [];
@@ -636,6 +637,11 @@ export class SaleReportService {
               option['data_report_type'] == report_type_data['data'])
             return option;
         });
+        if(this.viewDataFilter['report_type'] == 'payment_method'){
+          if (_.indexOf(report_date_value, ReportHelper.convertDate(item['data'], compare_value)) < 0) {
+            report_date_value.push(ReportHelper.convertDate(item['data'], compare_value));
+          }
+        }
         if (model) {
           // dang de la grand_total vi chi co 1 truong hop get them data la payment_method
           if (this.viewDataFilter['report_type'] == "payment_method") {
@@ -663,7 +669,7 @@ export class SaleReportService {
             }
           });
         } else {
-          report_type[ReportHelper.convertDate(item['data'], compare_value)] = "--"
+          report_type[ReportHelper.convertDate(item['data'], compare_value)] = "--";
         }
       });
       // Object.assign()
@@ -672,6 +678,38 @@ export class SaleReportService {
     _.forEach(itemSeach['item_details'], (item)=> {
       this.calculateItemData(item);
     });
+      if (this.viewDataFilter['report_type'] == "payment_method") {
+        let grand_total_refund_group = [];
+        _.forEach(report_date_value, (value) => {
+          grand_total_refund_group[value] = 0;
+        });
+        grand_total_refund_group['grand_total_refund'] = 0;
+        _.forEach(itemSeach['item_details'], (item) => {
+          grand_total_refund_group['grand_total_refund'] += item['Total Sales'];
+          _.forEach(report_date_value, (value) => {
+            if (!!item[value] && item[value] != "--"){
+              grand_total_refund_group[value] += item[value];
+            }
+          });
+        });
+        
+        let refundNotCposData = [];
+        refundNotCposData['Total Sales'] = itemSeach['Total Sales'] - grand_total_refund_group['grand_total_refund'];
+        if (refundNotCposData['Total Sales'] != 0 ){
+          refundNotCposData['name'] = "Refund not from pos";
+          refundNotCposData['Order Count'] = "--";
+          
+          _.forEach(report_date_value, (value) => {
+            if (itemSeach[value] ==  "--"){
+              refundNotCposData[value] = itemSeach[value];
+            }else{
+              refundNotCposData[value] = itemSeach[value] - grand_total_refund_group[value];
+            }});
+        
+          itemSeach['item_details'].push(refundNotCposData);
+        }
+    
+      }
       itemSeach['display_item_detail'] = true;
       if(itemDetail != "Totals"){
       this.viewData['items'].unshift(itemSeach);

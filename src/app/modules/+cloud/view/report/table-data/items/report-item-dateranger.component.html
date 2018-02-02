@@ -7,5 +7,8 @@
 <th [attr.colspan]="colspanFooter-1" class="datatable-col-aggs-label">{{item['name']}}</th>
 <td  class="price-wrap" style="white-space: nowrap;" class="datatable-col-aggs datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
   <span [hidden]="!checkShowSymbolCurrency(item['name'], item[date])">{{service.viewData['symbol_currency']}}</span>
-  {{checkIsNumberDecimals(item[date]) ? ((item['name'] == 'Discount percent' || item['name'] == 'Return percent') ? (item[date] | percent:'1.2-2') : ((item['name'] == 'Order Count' || item['name'] == 'Customer Count')? (item[date] | number): (item[date] | number:'1.2-2'))) : (!checkNullValue(item[date]) ? item[date] : '__')}}</td>
+  {{checkIsNumberDecimals(item[date]) ? ((item['name'] == 'Discount percent' || item['name'] == 'Return percent' || item['name'] == 'Margin') ?
+  (item[date] | percent:'1.2-2') :
+  ((item['name'] == 'Order Count' || item['name'] == 'Customer Count')? (item[date] | number): (item[date] | number:'1.2-2'))) :
+  (!checkNullValue(item[date]) ? item[date] : '__')}}</td>
 <!--<td colspan="14" class="datatable-cell-empty"></td>-->

@@ -3,10 +3,12 @@
 <td [hidden]="isDateRanger()" class="datatable-cell datatable-cell--nullable datatable-cell--section-start" *ngFor="let date of list_date">
     <span [hidden]="!checkShowSymbolCurrency(item['name'], item[date])">
       {{base_currency_code}}</span>{{checkIsNumberDecimals(item[date]) ? (item[date] | number :'1.2-2') :
-  (!checkNullValue(item[date]) ? item[date] : '__')}}
+  (checkNullValue(item[date]) ? item[date] : '__')}}
 </td>
 <td class="datatable-table-total" *ngFor="let measure of measures">
   <span [hidden]="!checkShowSymbolCurrency(measure, item[measure])">
-    {{base_currency_code}}</span>{{checkIsNumberDecimals(item[measure]) ? ((measure == 'Discount Percent' || measure == 'Refund Percent') ?
+    {{base_currency_code}}</span>
+  {{checkIsNumberDecimals(item[measure] , measure) ? ((measure == 'Discount Percent' || measure == 'Refund Percent' || measure == 'Margin') ?
   (item[measure] | percent:'1.2-2') :
-  ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) : (!checkNullValue(item[measure]) ? item[measure] : '__')}}</td>
+  ((measure == 'Order Count' || measure == 'Customer Count')? (item[measure] | number): (item[measure] | number:'1.2-2'))) :
+  (checkNullValue(item[measure],measure)  ? item[measure] : '__')}}</td>
