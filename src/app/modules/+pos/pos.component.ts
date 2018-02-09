@@ -22,6 +22,6 @@ export class PosComponent {
     this.translate.use('en');
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
-    console.log('%c TLS-POS v1.0.1.201711011505 ', 'background: #222; color: #bada55');
+    console.log('%c POS v1.0.1.201802091710 ', 'background: #222; color: #bada55');
   }
 }
