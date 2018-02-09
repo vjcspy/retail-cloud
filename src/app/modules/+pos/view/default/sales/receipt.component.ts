@@ -11,11 +11,11 @@ import * as JsBarcode from 'jsbarcode';
 import {ReceiptActions} from "../../R/sales/receipts/receipt.actions";
 
 @Component({
-             // moduleId: module.id,
-             selector: 'pos-default-sales-receipt',
-             templateUrl: 'receipt.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  // moduleId: module.id,
+  selector: 'pos-default-sales-receipt',
+  templateUrl: 'receipt.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionComponent implements OnInit {
   @ViewChild('receiptElem') receiptElem: ElementRef;
   @Input() posConfigState: PosConfigState;
@@ -53,11 +53,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     if (myWindow) {
       myWindow.document.write(this.getHtml());
       myWindow.document.close();
-      // myWindow.focus();
-      // setTimeout(() => {
-      //   myWindow.print();npm 
-      //   myWindow.close();
-      // }, 1000);
+      myWindow.focus();
+      setTimeout(() => {
+        myWindow.print();
+        myWindow.close();
+      }, 1000);
     } else {
       this.notify.info("allow_new_page_print_receipt");
     }
@@ -148,8 +148,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   getPaymentTitle(payment) {
     if (payment['type'] === 'credit_card') {
       return payment['title'] + (parseInt(payment['is_purchase']) === 0 ? " Refund" : "") + (payment['data'] && !!payment['data']['ref'] ?
-          (": Ref# " + payment['data']['ref']) :
-          "");
+        (": Ref# " + payment['data']['ref']) :
+        "");
     } else {
       return payment['title'] + (parseInt(payment['is_purchase']) === 0 ? " Refund" : "");
     }
@@ -157,10 +157,10 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 
   getDiscount() {
     return (this.getOrder()['totals']['discount'] ?
-        parseFloat(this.getOrder()['totals']['discount']) :
-        0) + ((this.posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && this.getOrder()['totals']['retail_discount_pert_item']) ?
-        parseFloat(this.getOrder()['totals']['retail_discount_pert_item']) :
-        0);
+      parseFloat(this.getOrder()['totals']['discount']) :
+      0) + ((this.posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && this.getOrder()['totals']['retail_discount_pert_item']) ?
+      parseFloat(this.getOrder()['totals']['retail_discount_pert_item']) :
+      0);
   }
 
   protected getRemainingData() {
@@ -251,7 +251,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                 -ms-text-size-adjust: 100% !important;
                 -webkit-font-smoothing: antialiased !important;
                 font-family: 'Open Sans', sans-serif;
-                font-weight: 400; color: #333 !important;
+                font-weight: 400; color: #000 !important;
                 margin: 0; padding: 10px 0;
                  background:none !important;
             }
@@ -288,7 +288,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
 				max-width: 100%; height: auto;
         border-radius: 10px 10px 0 0;
 			}
-            .bottom-br {font-size: 18px; padding: 12px 10px 10px;}
+            .bottom-br {font-size: 14px; padding: 12px 10px 10px;}
             .bottom-br p {margin: 0 0 12px; font-size: 11px;}
             .bottom-br .footer-img {
               background: #88E3A4;
@@ -306,11 +306,11 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .inner h2 {font-weight: 800; font-size: 18px; text-align: center; margin-top: 0;}
             .client-info {
                 position: relative;
-                font-size: 13px; line-height: normal;
+                font-size: 11px; line-height: normal;
                 margin: 20px 0 10px;
 
             }
-            .client-info h3 {font-size: 14px;}
+            .client-info h3 {font-size: 11px;}
             .client-info p {margin: 0;}
             .client-info p.email {word-wrap: break-word; }
             /*.name, .email {padding-right: 100px;}*/
@@ -325,9 +325,10 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             }
             /*.timer span {display: block; white-space: nowrap;}*/
 
-            .invoice-table {border: #4F4F4F solid 3px; border-width: 3px 0;}
-            .invoice-table th, .invoice-table h4 {font-size: 14px;}
-            .invoice-table td {font-size: 14px; }
+            .invoice-table {border: #4F4F4F solid 2px; border-width: 2px 0;}
+            .invoice-table th, .invoice-table h4 {font-size: 12px;}
+            .invoice-table td {font-size: 12px; }
+            /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
                 padding: 0; text-align: center;                
@@ -362,30 +363,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
               font-size: 12px;
               text-align: left;
             }
-            .barcode-table {border: #4F4F4F solid 3px; border-width: 3px 0 0 0;}
-            .barcode-table thead th {
-              padding: 10px 0;
-              text-transform: uppercase;
-              font-size: 15px;
-            }
-            .barcode-table thead th.c-left {
-              text-align: left;
-            }
-            .barcode-table thead th.c-right {
-              text-align: right;
-            }
-            .barcode-table .c-code table {
-              width: 100%;
-            }
-            .barcode-table .c-code {
-              border: #4F4F4F solid 1px;
-              border-width: 1px 0 0 0;
-              padding: 10px 0;
-            }
-            .barcode-table .c-code td {
-              text-transform: uppercase;
-              font-size: 15px;
-            }
+            
       </style>
       
       
