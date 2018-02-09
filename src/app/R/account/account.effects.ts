@@ -6,11 +6,10 @@ import {Observable} from "rxjs";
 import {AuthenticateService} from "../../services/authenticate";
 import {AccountService} from "./account.service";
 import {RootActions} from "../root.actions";
-import {AccountState} from "./account.state";
-import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
 import {AppStorage} from "../../services/storage";
 import {NotifyManager} from "../../services/notify-manager";
+import {AccountState} from "./account.state";
 
 @Injectable()
 export class AccountEffects {
@@ -24,7 +23,7 @@ export class AccountEffects {
               protected appStorage: AppStorage,
               protected rootActions: RootActions,
               protected routerActions: RouterActions) { }
-  
+
   @Effect() login  = this.actions$
                          .ofType(AccountActions.ACTION_LOGIN)
                          .withLatestFrom(this.store$.select('account'))
@@ -58,6 +57,17 @@ export class AccountEffects {
                                             })
                                             .catch((e) => Observable.of(this.accountActions.logoutFailed(false)));
                          });
+
+  @Effect() loginSuccess = this.actions$
+                               .ofType(AccountActions.ACTION_LOGIN_SUCCESS)
+                               .switchMap((z: any) => {
+                                 return Observable.fromPromise(this.accountService.saveVersionToCookie())
+                                                  .map(() => {
+                                                    window.location.reload(true);
+      
+                                                    return this.rootActions.nothing("");
+                                                  });
+                               });
   
   @Effect() goLoginPage = this.actions$.ofType(AccountActions.ACTION_GO_LOGIN_PAGE)
                               .map(() => {

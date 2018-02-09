@@ -2,6 +2,7 @@ import {Routes} from "@angular/router";
 import {PageNotFound} from "./pages/404";
 import {LoginComponent} from "./pages/account/login.component";
 import {AccountComponent} from "./pages/account/account.component";
+import {NotLoggedGuard} from "./services/router-guard/not-logged-guard";
 
 export const ROUTES: Routes = [
   {
@@ -15,7 +16,8 @@ export const ROUTES: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [NotLoggedGuard],
       }
     ]
   },

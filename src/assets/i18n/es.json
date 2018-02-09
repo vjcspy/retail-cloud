@@ -554,5 +554,6 @@
   "sorry_we_can_not_select_base_url" : "Seleccione una URL de sitio web válida.",
   "please_select_outlet_before": "Vuelve y selecciona un registro antes de aplicar cualquier configuración.",
   "language_will_update_after_refresh_page" : "¡Actualiza la página para actualizar el idioma!",
-  "app_has_crashed,please_manually_refresh_if_app_not_responding" : "La aplicación se ha bloqueado, actualiza manualmente si la aplicación no responde"
+  "app_has_crashed,please_manually_refresh_if_app_not_responding" : "La aplicación se ha bloqueado, actualiza manualmente si la aplicación no responde",
+  "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen"
 }
