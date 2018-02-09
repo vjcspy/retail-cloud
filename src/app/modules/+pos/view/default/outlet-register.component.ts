@@ -6,6 +6,7 @@ import {PosEntitiesState} from "../../R/entities/entities.state";
 import {Observable} from "rxjs";
 import {AccountService} from "../../../../R/account/account.service";
 import {PosPullState} from "../../R/entities/pull.state";
+import {TutorialService} from "../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,7 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   protected pullState$: Observable<PosPullState>;
   
   
-  constructor(private store$: Store<any>, private accountService: AccountService) {
+  constructor(private store$: Store<any>, private accountService: AccountService, private tourService: TutorialService) {
     super();
     this.generalState$  = this.store$.select('general');
     this.entitiesState$ = this.store$.select('entities');
@@ -28,5 +29,11 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   
   ngOnInit() {
     this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 12) {
+        this.tourService.tour.resume();
+        this.tourService.tour.next();
+      }
+    }, 100);
   }
 }

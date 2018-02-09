@@ -27,7 +27,10 @@ import {AppService} from "./app.service";
                "../../node_modules/ng2-toastr/ng2-toastr.css",
                '../../node_modules/select2/dist/css/select2.css',
                '../../node_modules/froala-editor/css/froala_editor.pkgd.min.css',
-               '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css'
+               '../../node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css',
+               '../../node_modules/bootstrap-tour/build/css/bootstrap-tour.css',
+               '../../node_modules/bootstrap-tour/build/css/bootstrap-tour-standalone.css',
+               '../../src/app/modules/+pos/modules/+tutorial/tutorial.component.scss',
              ],
              template: `
                <router-outlet></router-outlet>

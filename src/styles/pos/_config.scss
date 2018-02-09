@@ -213,12 +213,12 @@
   }
 }
 .sort-product, .sort-category {
-  .box-content {    
+  .box-content {
       .option-list li {
         width: 48%;
         &:nth-of-type(odd) {width: 52%;padding-right: 4%}
       }
-    
+
   }
 }
 
@@ -373,7 +373,7 @@
 
 
 .outlet-table {
-  background: $white;  
+  background: $white;
   @include border-radius(6px);
   th, td {
     position: relative; padding: 10px;font-size: 13px; text-align: left;border-bottom: 1px solid $border;
@@ -381,10 +381,10 @@
   }
   tr {
     &:nth-of-type(2n+2) {
-      td{background: $cbkg; }          
+      td{background: $cbkg; }
     }
     &:hover{
-      td{background: #eee;}  
+      td{background: #eee;}
     }
   }
   th {
@@ -393,7 +393,7 @@
     &:last-child {padding-left: 25px;@include border-radius(0 6px 0 0);}
   }
   td {
-    input {text-align: center;}    
+    input {text-align: center;}
     p{
       margin-bottom: 5px;
     }
@@ -410,7 +410,7 @@
 
 
 .new-outlet {
-  .outlet-info, 
+  .outlet-info,
   .outlet-address {
     .fr-control {
       margin: 8px 0 0;
@@ -420,7 +420,7 @@
 
         label {width: 120px; padding-right: 10px;}
         &:nth-of-type(odd) {
-          margin-right: 10%;          
+          margin-right: 10%;
         }
         &.ctrl-spec {
           label {
@@ -445,6 +445,21 @@
       li {width: 298px;}
     }
     .tabs-content {padding-left: 0; padding-right: 0;}
+  }
+}
+
+.xcontainer-wrapper .setting-blk{
+  .add-register,
+  .new-outlet {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .bottom-bar {
+      position: absolute;
+      left: auto;
+      width: auto;
+      display: inline-block;
+    }
   }
 }
 
@@ -489,15 +504,15 @@
       }
     }
   }
-  .left-menu-side {    
+  .left-menu-side {
       padding-top: 0;}
-  .xcontainer-inner {    
-    .setting-blk {  
-      padding-bottom: 65px;      
-      .accordion-blk {        
+  .xcontainer-inner {
+    .setting-blk {
+      padding-bottom: 65px;
+      .accordion-blk {
         height: 100%;
         position: relative;
-        padding-top: 30px;              
+        padding-top: 30px;
       }
       @include xlarge{
         padding-bottom: 0;
@@ -511,7 +526,7 @@
   .menu-toggle {position: absolute; left: 0; top: 14px;}
   .setting-blk {
     margin-left: 280px;
-    overflow: hidden;   
+    overflow: hidden;
     .bottom-bar {
         text-align: right;
         position: fixed;
@@ -519,7 +534,7 @@
         right: 35px;
         bottom: 15px;
         left: inherit;
-        
+
       button {min-width: 117px;}
     }
     .accordion-blk {
@@ -546,14 +561,14 @@
           width: 100%;
         }
       }
-      
+
     }
   }
   button{
     &.btn-danger{
       background: #c9302c;
       &:hover{
-        background: #12203A;        
+        background: #12203A;
       }
     }
   }

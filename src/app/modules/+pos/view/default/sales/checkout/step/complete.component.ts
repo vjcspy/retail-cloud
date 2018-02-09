@@ -9,6 +9,7 @@ import {ReceiptState} from "../../../../R/sales/receipts/receipt.state";
 import {UserCollection} from "../../../../../../../services/meteor-collections/users";
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {OfflineService} from "../../../../../../share/provider/offline";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -27,9 +28,16 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
   customerEmail: string    = '';
   public isRefundExchange  = false;
   
-  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection, private offline: OfflineService) { }
+  constructor(public posStepActions: PosStepActions, public receiptActions: ReceiptActions, private notify: NotifyManager, protected userCollection: UserCollection, private offline: OfflineService, private tourService: TutorialService) { }
   
   ngOnInit() {
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 20) {
+        this.tourService.tour.resume();
+        this.tourService.tour.next();
+      }
+    }, 100);
+    
     if (!this.posQuoteState.quote.getUseDefaultCustomer()) {
       this.customerEmail = this.posQuoteState.quote.getCustomer().getData('email');
     }

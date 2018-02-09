@@ -38,6 +38,7 @@ import {RealtimeActions} from "../entities/realtime/realtime.actions";
 import {TaxDB} from "../../database/xretail/db/tax";
 import {SettingDB} from "../../database/xretail/db/setting";
 import {AppService} from "../../../../app.service";
+import {TutorialService} from "../../modules/+tutorial/tutorial.service";
 
 @Injectable()
 export class PosQuoteEffects {
@@ -49,7 +50,8 @@ export class PosQuoteEffects {
               private notify: NotifyManager,
               private quoteCustomer: QuoteCustomerService,
               private progress: ProgressBarService,
-              private offlineService: OfflineService) {}
+              private offlineService: OfflineService,
+              private tourService: TutorialService) {}
   
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
@@ -164,6 +166,11 @@ export class PosQuoteEffects {
                                           }
                                         }
                                       }
+                                      setTimeout(() => {
+                                        if (this.tourService.tour.getCurrentStep() === 14) {
+                                          this.tourService.tour.next();
+                                        }
+                                      });
     
                                       return this.quoteActions.updateQuoteItems(items, true, false);
                                     });
@@ -194,6 +201,12 @@ export class PosQuoteEffects {
                                       } else {
                                         return this.quoteService.checkShiftOpenInSV(<any>z[1])
                                                    .map((data) => {
+                                                     setTimeout(() => {
+                                                       if (this.tourService.tour.getCurrentStep() === 8) {
+                                                         this.tourService.tour.resume();
+                                                         this.tourService.tour.goTo(9);
+                                                       }
+                                                     });
                                                      return this.quoteActions.updateQuoteInfo({isShiftOpening: !!data['is_open']}, false);
                                                    });
                                       }

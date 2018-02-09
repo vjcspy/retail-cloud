@@ -1,6 +1,7 @@
 <div id="grid-product-perfect-scroll" class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
   <div class="grid-mode">
-    <div *ngFor="let product of checkoutProductState.productGridProducts" class="item animated fadeIn"
+    <div *ngFor="let product of checkoutProductState.productGridProducts; let i = index;" class="item animated fadeIn"
+         id="{{i == 1 ? 'product-add-to-cart-tutorial' : ''}}"
          [ngStyle]="checkoutProductState.productGridStyles">
       <span class="tags sale" *ngIf="isSales(product)"><img src="assets/img/sale-icon.png" alt=""/></span>
       <span class="tags soldout" *ngIf="isOutOfStock(product)"><img src="assets/img/soldout-icon.png" alt=""/></span>

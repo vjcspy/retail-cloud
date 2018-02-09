@@ -8,6 +8,7 @@ import {PosGeneralState} from "../../../R/general/general.state";
 import {PosSyncState} from "../../../R/sync/sync.state";
 import {PosStepState} from "../../R/sales/checkout/step/step.state";
 import {ReceiptState} from "../../R/sales/receipts/receipt.state";
+import {TutorialService} from "../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -25,7 +26,7 @@ export class PosDefaultSalesOrdersComponent implements OnInit {
   posStepState$: Observable<PosStepState>;
   receiptState$: Observable<ReceiptState>;
   
-  constructor(private store$: Store<any>) {
+  constructor(private store$: Store<any>, private tourService: TutorialService) {
     this.ordersState$  = this.store$.select('orders');
     this.configState$  = this.store$.select('config');
     this.configState$  = this.store$.select('config');
@@ -36,6 +37,10 @@ export class PosDefaultSalesOrdersComponent implements OnInit {
     this.receiptState$ = this.store$.select('receipt');
   }
   
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.tourService.tour.getCurrentStep() === 22) {
+      this.tourService.tour.end();
+    }
+  }
   
 }

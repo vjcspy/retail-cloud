@@ -6,6 +6,7 @@ import {ShiftActions} from "../../../R/sales/shifts/shift.actions";
 import {ShiftListActions} from "../../../R/sales/shifts/list/list.actions";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {TutorialService} from "../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -21,13 +22,18 @@ export class PosDefaultSalesShiftsListComponent implements OnInit {
               protected shiftActions: ShiftActions,
               protected notify: NotifyManager,
               public authenticateService: AuthenticateService,
-              protected shiftListActions: ShiftListActions) { }
+              protected shiftListActions: ShiftListActions,
+              private tourService: TutorialService) { }
   
   ngOnInit() { }
   
   openShiftPopup() {
     if (this.authenticateService.userCan('open_and_close_register')) {
       this.shiftActions.changeStatePopup(SHIFT_POPUP.OPEN_POPUP);
+      setTimeout(() => {
+        this.tourService.tour.resume();
+        this.tourService.tour.next();
+      }, 100);
     } else {
       this.notify.error("not_have_permission_to_open_shift");
     }
@@ -37,5 +43,10 @@ export class PosDefaultSalesShiftsListComponent implements OnInit {
     if (!this.shiftState.list.isLoadingFromServer) {
       this.shiftListActions.loadMoreShift();
     }
+  }
+  
+  openLeftMenu() {
+    this.tourService.tour.pause();
+    this.menuLeftActions.changeOpenState(true);
   }
 }

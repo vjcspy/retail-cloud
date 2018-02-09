@@ -35,3 +35,6 @@ import 'styles/css/animate.css';
 
 // jQuery-Scanner-Detection
 import 'jQuery-Scanner-Detection';
+
+import 'bootstrap-tour/build/js/bootstrap-tour.js';
+import 'bootstrap-tour/build/js/bootstrap-tour-standalone.js';

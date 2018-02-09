@@ -12,6 +12,7 @@ import {AuthenticateService} from "../../../../../../../../../services/authentic
 import {FormValidationService} from "../../../../../../../../share/provider/form-validation";
 import {NotifyManager} from "../../../../../../../../../services/notify-manager";
 import {UserCollection} from "../../../../../../../../../services/meteor-collections/users";
+import {TutorialService} from "../../../../../../+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -32,7 +33,8 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
               private authenticate: AuthenticateService,
               private formValidation: FormValidationService,
               private notify: NotifyManager,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private tourService: TutorialService) { }
   
   ngOnInit(): void {
     this.route
@@ -81,6 +83,7 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   saveOutlet() {
     if (this.authenticate.userCan('change_register_information')) {
       this.formValidation.submit('outlet_edit_address', () => {
+        this.tourService.tour.pause();
         this.configurationsOutletActions.saveOutlet(this.getEditOutletFormData().outlet, this.getEditOutletFormData().registers);
       }, true);
     } else {

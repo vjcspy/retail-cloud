@@ -9,7 +9,9 @@
     </div>
   </div>
   <div class="pull-right button-group">
-    <button type="button" class="btn-setting" (click)="go('pos/configurations/default/pos/outlet/grid')">{{'SETTING'| translate}} <i class="icon-nav-setting"></i>
+    <button type="button" class="btn-setting" id="setting-tutorial" (click)="goSetting()">{{'SETTING'|
+      translate}} <i
+      class="icon-nav-setting"></i>
     </button>
     <button type="button" class="btn-logout" (click)="accountActions.logout()">{{'LOGOUT'| translate}} <i class="fa fa-sign-out"></i></button>
   </div>

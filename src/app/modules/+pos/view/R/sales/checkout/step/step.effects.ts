@@ -21,6 +21,7 @@ import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
 import {TrackingService} from "../../../../../services/tracking/tracking-service";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Injectable()
 export class PosStepEffects {
@@ -37,7 +38,8 @@ export class PosStepEffects {
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
               private entityActions: EntityActions,
-              private trackingService: TrackingService) { }
+              private trackingService: TrackingService,
+              private tourService: TutorialService) { }
   
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
@@ -131,6 +133,11 @@ export class PosStepEffects {
                                       if (action.type === PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER) {
                                         moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + action.payload['payment']['amount']);
                                       }
+                                      setTimeout(() => {
+                                        if (this.tourService.tour.getCurrentStep() === 19) {
+                                          this.tourService.tour.next();
+                                        }
+                                      });
     
                                       return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                     });

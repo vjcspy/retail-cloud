@@ -10,7 +10,8 @@ import {TranslateService} from "@ngx-translate/core";
              // moduleId: module.id,
              selector: 'pos',
              template: `
-               <router-outlet></router-outlet>`,
+               <router-outlet></router-outlet>,
+               <tutorial></tutorial>`,
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class PosComponent {

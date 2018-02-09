@@ -1,6 +1,6 @@
-<div class="acr-row new-outlet">
+<div class="acr-row new-outlet" id="form-add-new-outlet-tutorial" style="height: 100%; width: 100%">
   <div class="acr-head">
-    <h2 class="click" (click)="back()">
+    <h2 class="click" (click)="back()" id="click-to-back-new-outlet-tutorial">
       <span class="icon-left click"></span>
       {{!!getEditOutletFormData()['outlet']['id'] ? ("Edit Outlet"|translate):("New Outlet"|translate)}}
     </h2>
@@ -10,7 +10,7 @@
       <div class="tabs-blk">
         <ul class="tabs-header">
           <li [ngClass]="{active: tabState === 'info'}"
-              (click)=" tabState = 'info'">
+              (click)=" tabState = 'info'" id="outlet-information-tutorial">
             {{ 'Outlet Information' | translate }}
           </li>
           <li [ngClass]="{active: tabState === 'address'}"
@@ -81,7 +81,7 @@
                           [ngClass]="{active: register['is_active']}">
                     {{register['name']}}
                   </button>
-                  <button class="square orange" (click)="editRegister({})">
+                  <button class="square orange" (click)="editRegister({})" id="add-new-register-tutorial">
                     {{ 'Add Register' | translate }}
                   </button>
                 </div>
@@ -142,9 +142,9 @@
       </div>
     </div>
   </div>
-</div>
-<div class="bottom-bar">
-  <button (click)="saveOutlet()" [ladda]="configurationsState.outlets.editForm.isSaving">
-    {{!!getEditOutletFormData()['outlet']['id'] ? ('Save'|translate) : ('Create New'|translate)}}
-  </button>
+  <div class="bottom-bar">
+    <button (click)="saveOutlet()" [ladda]="configurationsState.outlets.editForm.isSaving">
+      {{!!getEditOutletFormData()['outlet']['id'] ? ('Save'|translate) : ('Create New'|translate)}}
+    </button>
+  </div>
 </div>

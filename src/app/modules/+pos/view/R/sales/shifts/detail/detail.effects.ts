@@ -9,6 +9,7 @@ import {ShiftDetailActions} from "./detail.actions";
 import * as _ from 'lodash';
 import {Observable} from "rxjs";
 import {PosQuoteActions} from "../../../../../R/quote/quote.actions";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Injectable()
 export class ShiftDetailEffects {
@@ -18,7 +19,8 @@ export class ShiftDetailEffects {
               private detailService: ShiftDetailService,
               private shiftDetailActions: ShiftDetailActions,
               private shiftListActions: ShiftListActions,
-              private posQuoteActions: PosQuoteActions) { }
+              private posQuoteActions: PosQuoteActions,
+              private tourService: TutorialService) { }
   
   @Effect() calculateShiftDetail = this.actions$
                                        .ofType(
@@ -76,6 +78,7 @@ export class ShiftDetailEffects {
     
                               return this.detailService.createOpenShiftRequest(action.payload['shiftOpenData'], <any>z[1])
                                          .map((data) => {
+                                           this.tourService.tour.next();
                                            if (_.isArray(data.items) && _.size(data.items) == 1) {
                                              return this.shiftDetailActions.openShiftSuccess(data.items[0], false);
                                            } else {

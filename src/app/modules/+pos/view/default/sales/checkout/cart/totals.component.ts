@@ -9,6 +9,7 @@ import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {AuthenticateService} from "../../../../../../../services/authenticate";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -25,7 +26,8 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
               private notify: NotifyManager,
               private syncActions: PosSyncActions,
               protected authService: AuthenticateService,
-              private refundActions: QuoteRefundActions) { }
+              private refundActions: QuoteRefundActions,
+              private tourService: TutorialService) { }
   
   ngOnInit() { }
   
@@ -102,5 +104,14 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
   changeDiscountType(isDiscountValue: boolean = true) {
     this.quoteState.quote.setData('is_value_discount_whole_order',isDiscountValue);
     this.cartTotalsActions.changeDiscountType(isDiscountValue);
+  }
+  
+  openCartValue() {
+    this.cartTotalsActions.toggleBlockTotalState();
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 16) {
+        this.tourService.tour.next();
+      }
+    }, 100);
   }
 }

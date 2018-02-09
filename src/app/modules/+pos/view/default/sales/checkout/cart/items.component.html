@@ -8,7 +8,7 @@
         <span class="c-user">{{!!checkoutAsGuest() ? (getCustomerInfo(true)['customerName'] | translate) : getCustomerInfo(true)['customerName']}}</span>
         <span class="c-mail">{{getCustomerInfo()['customerEmail']}}</span>
       </div>
-      <span class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),
+      <span id="customer-icon-action-tutorial" class="customer-icon-action icon" (click)="customerAction($event,true)" [ngClass]="{'icon-minus': quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId(),
       'icon-plus':!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()}">
         <span class="tooltiptext-left" *ngIf="quoteState.customer && quoteState.customer['id'] && quoteState.customer['id'] !== configState.setting.customer.getDefaultCustomerId()">{{ 'Remove Customer' | translate }}</span>
         <span class="tooltiptext-left" *ngIf="!quoteState.customer || quoteState.customer['id'] === configState.setting.customer.getDefaultCustomerId()">{{ 'Add Customer' | translate }}</span>

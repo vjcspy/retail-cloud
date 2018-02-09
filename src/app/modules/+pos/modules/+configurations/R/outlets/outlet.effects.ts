@@ -19,6 +19,7 @@ import {routerActions} from "@ngrx/router-store";
 import {RouterActions} from "../../../../../../R/router/router.actions";
 import {ConfigurationsState} from "../index";
 import {PosGeneralState} from "../../../../R/general/general.state";
+import {TutorialService} from "../../../+tutorial/tutorial.service";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
@@ -30,7 +31,8 @@ export class ConfigurationsOutletEffects {
               private router: Router,
               private _routerActions: RouterActions,
               private notify: NotifyManager,
-              private entityActions: EntityActions) { }
+              private entityActions: EntityActions,
+              private tourService: TutorialService) { }
   
   @Effect() resolveOutletGrid = this.actions$
                                     .ofType(

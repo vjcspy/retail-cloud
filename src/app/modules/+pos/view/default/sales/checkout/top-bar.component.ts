@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AbstractSubscriptionComponent} from "../../../../../../code/AbstractSubscriptionComponent";
 import {CheckoutProductState} from "../../../R/sales/checkout/product/product.state";
 import {PosConfigState} from "../../../../R/config/config.state";
@@ -12,6 +12,7 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {CheckoutProductService} from "../../../R/sales/checkout/product/product.service";
 import {Subject} from "rxjs/Subject";
+import {TutorialService} from "../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -19,7 +20,7 @@ import {Subject} from "rxjs/Subject";
              templateUrl: 'top-bar.component.html',
              changeDetection: ChangeDetectionStrategy.OnPush
            })
-export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements AfterViewInit, OnDestroy {
+export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscriptionComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() checkoutProductState: CheckoutProductState;
   @Input() configState: PosConfigState;
   @Input() quoteState: PosQuoteState;
@@ -34,8 +35,19 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
               protected notify: NotifyManager,
               public authenticateService: AuthenticateService,
               protected checkoutPopupActions: CheckoutPopupActions,
-              protected checkoutProductService: CheckoutProductService) {
+              protected checkoutProductService: CheckoutProductService,
+              private tourService: TutorialService) {
     super();
+  }
+  
+  ngOnInit() {
+    if (this.tourService.tour.getCurrentStep() === 12) {
+      this.tourService.tour.resume();
+      this.tourService.tour.goTo(13);
+    } else if (this.tourService.tour.getCurrentStep() === 21) {
+      this.tourService.tour.resume();
+      this.tourService.tour.next();
+    }
   }
   
   ngAfterViewInit(): void {
@@ -112,5 +124,9 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
     super.ngOnDestroy();
     
     this.checkoutProductService.disableHandleScanner();
+  }
+  
+  openLeftBarMenu() {
+    this.menuLeftActions.changeOpenState(true)
   }
 }

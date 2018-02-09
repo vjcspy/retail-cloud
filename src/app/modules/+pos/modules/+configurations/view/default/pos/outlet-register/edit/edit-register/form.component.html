@@ -1,4 +1,4 @@
-<div class="acr-row add-register">
+<div class="acr-row add-register" id="form-add-new-register-tutorial">
   <div class="acr-head">
     <h2 class="click" (click)="back()">
             <span class="icon-left">
@@ -38,12 +38,13 @@
       </ul>
     </div>
   </div>
-</div>
-<div class="bottom-bar">
-  <!--<button *ngIf="!!getRegister()['id']" class="red" (click)="confirmDeleteRegister()" [hidden]="getRegister()['id']==0">-->
+  <div class="bottom-bar">
+    <!--<button *ngIf="!!getRegister()['id']" class="red" (click)="confirmDeleteRegister()" [hidden]="getRegister()['id']==0">-->
     <!--{{ 'Delete' | translate }}-->
-  <!--</button>-->
-  <button (click)="saveRegister()" [ladda]="configurationsState.outlets.editForm.isSaving">
-    {{getRegister()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
-  </button>
+    <!--</button>-->
+    <button (click)="saveRegister()" [ladda]="configurationsState.outlets.editForm.isSaving">
+      {{getRegister()['id']!=0 ? ('Save'|translate) : ('Add'|translate)}}
+    </button>
+  </div>
 </div>
+

@@ -7,6 +7,7 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
 import {RouterActions} from "../../../../../R/router/router.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
+import {TutorialService} from "../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -24,7 +25,8 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   constructor(public accountActions: AccountActions,
               protected notify: NotifyManager,
               public generalActions: PosGeneralActions,
-              protected routerActions: RouterActions) { }
+              protected routerActions: RouterActions,
+              private tourService: TutorialService) { }
   
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.baseUrl || this.baseUrl === "") {
@@ -69,5 +71,14 @@ export class PosDefaultOutletRegisterWebsiteComponent implements OnChanges, Afte
   
   go(path: string) {
     this.routerActions.go(path);
+  }
+  
+  goSetting() {
+    this.go('pos/configurations/default/pos/outlet/grid');
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 1) {
+        this.tourService.tour.next();
+      }
+    }, 100);
   }
 }

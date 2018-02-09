@@ -21,6 +21,7 @@ import {PosSyncActions} from "../../../R/sync/sync.actions";
 import {ReceiptState} from "../../R/sales/receipts/receipt.state";
 import {CheckoutPopupState} from "../../R/sales/checkout/popup/popup.state";
 import {RootState} from "../../../../../R/root.state";
+import {TutorialService} from "../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -46,7 +47,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   receiptState$: Observable<ReceiptState>;
   checkoutPopupState$: Observable<CheckoutPopupState>;
   
-  constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router, private syncActions: PosSyncActions) {
+  constructor(private store$: Store<PosState>, private pullActions: PosPullActions, private router: Router, private syncActions: PosSyncActions, private tourService: TutorialService) {
     super();
     
     this.entitiesState$ = this.store$.select('entities');
@@ -68,6 +69,7 @@ export class PosDefaultSalesCheckoutComponent extends AbstractSubscriptionCompon
   }
   
   ngOnInit() {
+    this.tourService.tour.pause();
     this.syncActions.autoSyncOfflineOrder();
   }
   

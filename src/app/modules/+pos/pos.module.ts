@@ -14,6 +14,7 @@ import {DragScrollModule} from "angular2-drag-scroll";
 
 import "../../../styles/pos.scss";
 import {PosErrorHandler} from "./services/pos-error-handler";
+import {TourComponent} from "./modules/+tutorial/tutorial.component";
 
 @NgModule({
             imports: [
@@ -27,6 +28,7 @@ import {PosErrorHandler} from "./services/pos-error-handler";
             exports: [],
             declarations: [
               PosComponent,
+              TourComponent,
               ...DEFAULT_VIEW_COMPONENTS,
               ...POS_DIRECTIVES,
               ...POS_PIPES

@@ -8,6 +8,7 @@ import {PosConfigState} from "../../../../../R/config/config.state";
 import {PosSyncState} from "../../../../../R/sync/sync.state";
 import * as _ from "lodash"
 import {NotifyManager} from "../../../../../../../services/notify-manager";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -21,9 +22,16 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
   
-  constructor(public posStepActions: PosStepActions, public offlineService: OfflineService, protected notify: NotifyManager) { }
+  constructor(public posStepActions: PosStepActions, public offlineService: OfflineService, protected notify: NotifyManager, private tourService: TutorialService) { }
   
-  ngOnInit() { }
+  ngOnInit() {
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 18) {
+        this.tourService.tour.resume();
+        this.tourService.tour.next();
+      }
+    }, 100);
+  }
   
   showRewardPointPayment() {
     return this.posConfigState.posRetailConfig.isIntegrateRP && this.posQuoteState.items.count() > 0 && !this.posQuoteState.quote.getUseDefaultCustomer();
@@ -48,6 +56,7 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   }
   
   complete() {
+    this.tourService.tour.pause();
     if (this.isUseTyroAndPaidOver()) {
       this.notify.error("overpay_is_not_allowed_when_tyro_is_chosen");
       return;

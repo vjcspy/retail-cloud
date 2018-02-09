@@ -4,6 +4,7 @@ import {PosGeneralActions} from "../../../R/general/general.actions";
 import {PosPullState} from "../../../R/entities/pull.state";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as _ from 'lodash';
+import {TutorialService} from "../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -15,7 +16,7 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() pullState: PosPullState;
   
-  constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager) { }
+  constructor(protected generalActions: PosGeneralActions, private notify: NotifyManager, private tourService: TutorialService) { }
   
   ngOnInit() { }
   
@@ -25,6 +26,7 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
       
       return;
     } else {
+      this.tourService.tour.pause();
       this.generalActions.selectOutletRegister(outletId, registerId);
     }
   }

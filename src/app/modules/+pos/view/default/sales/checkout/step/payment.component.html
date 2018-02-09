@@ -9,7 +9,8 @@
     <div class="control-bar">
       <button *ngFor="let payment of posStepState.paymentMethodCanUse;trackBy:trackById"
               [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))"
-              (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge">
+              (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge"
+              id="{{payment['type'] == 'cash' ? 'cash-payment-tutorial': null}}">
                         <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',
                               'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',
@@ -46,7 +47,7 @@
         <span class="txt">{{ 'Points earned' | translate }}</span>
       </div>
     </div>
-    <button [disabled]="disableClickSaveOrder()" class="huge" (click)="complete()" [ladda]="posStepState.isSavingOrder">
+    <button [disabled]="disableClickSaveOrder()" class="huge" (click)="complete()" [ladda]="posStepState.isSavingOrder" id="complete-order-tutorial">
       {{checkActionOrder() ? ("Complete" | translate) : ("Partial" | translate)}}
     </button>
   </div>
