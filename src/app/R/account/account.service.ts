@@ -39,35 +39,34 @@ export class AccountService {
         this.subscriptionLicense.unsubscribe();
       }
       
-      this.subscriptionLicense =
-        Observable.combineLatest(this.licenseCollection.getCollectionObservable(), this.productCollection.getCollectionObservable())
-                  .subscribe(([licenseCollection, productCollection]) => {
-                    const products = productCollection.collection.find({}).fetch();
-                    if (products) {
-                      const posProduct = _.find(products, p => p['code'] === 'xpos');
-                      if (posProduct) {
-                        const licenses = licenseCollection.collection.find({}).fetch();
-                        if (_.size(licenses) === 1) {
-                          this.storage.localStorage('license', _.first(licenses));
-                
-                          const licenseHasPos = _.find(licenses[0]['has_product'], p => {
-                            return p['product_id'] === posProduct['_id'];
-                          });
-                
-                          if (licenseHasPos) {
-                            this.accountActions.saveLicenseData({licenseHasPos, licenses});
-                          } else {
-                            this.notify.error("we_can_not_find_your_license");
-                          }
-                        } else {
-                          // this.toasts.error("Can't get license information");
-                          // throw new GeneralException("Can't find license");
-                        }
-                      }
-                    } else {
-                      return;
-                    }
-                  });
+      this.subscriptionLicense = Observable.combineLatest(this.licenseCollection.getCollectionObservable(), this.productCollection.getCollectionObservable())
+                                           .subscribe(([licenseCollection, productCollection]) => {
+                                             const products = productCollection.collection.find({}).fetch();
+                                             if (products) {
+                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
+                                               if (posProduct) {
+                                                 const licenses = licenseCollection.collection.find({}).fetch();
+                                                 if (_.size(licenses) === 1) {
+                                                   this.storage.localStorage('license', _.first(licenses));
+              
+                                                   const licenseHasPos = _.find(licenses[0]['has_product'], p => {
+                                                     return p['product_id'] === posProduct['_id'];
+                                                   });
+              
+                                                   if (licenseHasPos) {
+                                                     this.accountActions.saveLicenseData({licenseHasPos, licenses});
+                                                   } else {
+                                                     this.notify.error("we_can_not_find_your_license");
+                                                   }
+                                                 } else {
+                                                   // this.toasts.error("Can't get license information");
+                                                   // throw new GeneralException("Can't find license");
+                                                 }
+                                               }
+                                             } else {
+                                               return;
+                                             }
+                                           });
     }
     
     return this.subscriptionLicense;
@@ -97,7 +96,7 @@ export class AccountService {
                         if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
                           // truong hop current user la shop owner
                           if (typeof licenseHasRole === 'undefined') {
-                            permissions    = {};
+                            permissions = {};
                             cposPermission = true;
                           } else {
                             permissions    = licenseHasRole['has_permissions'];
@@ -111,13 +110,12 @@ export class AccountService {
                             }
                           }
                         } else {
-                          permissions    = {};
-                          cposPermission = false;
+                            permissions = {};
+                            cposPermission = false;
                           // this.notify.error("we_can_not_find_your_role_permission");
                         }
                         this.accountActions.checkCposPermission({cposPermission});
-                        this.storage.localStorage('permission',
-                                                  {"role": currentUser['has_license'][0]['license_permission'], "permissions": permissions});
+                        this.storage.localStorage('permission', {"role": currentUser['has_license'][0]['license_permission'], "permissions": permissions});
                         // if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
                         //   let permission = {
                         //     "role": currentUser['has_license'][0]['license_permission'],
@@ -146,25 +144,25 @@ export class AccountService {
       }
       
       this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
-                                           .subscribe(([productCollection]) => {
-                                             const products = productCollection.collection.find({}).fetch();
-                                             if (products) {
-                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
-                                               if (posProduct) {
-                                                 if (apiVersion != null) {
-                                                   let checkVersion = _.find(posProduct['versions'], v => v['version'] === apiVersion);
-                                                   console.log(checkVersion);
-                                                   if (!checkVersion) {
-                                                     this.notify.warning("connectpos_version_not_compat_api_version");
-                                                   }
-                                                 } else {
-                                                   this.notify.warning("connectpos_version_not_compat_api_version");
-                                                 }
-                                               }
-                                             } else {
-                                               return;
-                                             }
-                                           });
+                                        .subscribe(([productCollection]) => {
+                                          const products = productCollection.collection.find({}).fetch();
+                                          if (products) {
+                                            const posProduct = _.find(products, p => p['code'] === 'xpos');
+                                            if (posProduct) {
+                                              if (apiVersion != null) {
+                                                let checkVersion = _.find(posProduct['versions'], v => v['version'] === apiVersion);
+                                                console.log(checkVersion);
+                                                if(!checkVersion){
+                                                  this.notify.warning("connectpos_version_not_compat_api_version");
+                                                }
+                                              } else {
+                                                this.notify.warning("connectpos_version_not_compat_api_version");
+                                              }
+                                            }
+                                          } else {
+                                            return;
+                                          }
+                                        });
     }
     return this.subscriptionLicense;
   }

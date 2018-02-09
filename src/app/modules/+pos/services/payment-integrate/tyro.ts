@@ -12,24 +12,24 @@ export class TyroPayment {
     }
   };
   private iClient: any;
-
+  
   constructor(private notify: NotifyManager) {}
-
+  
   initConfig(data) {
     this.config = Object.assign({}, this.config, data);
   }
-
+  
   isIntegratedReceipt() {
     return this.config.hasOwnProperty('payment_data') && this.config['payment_data']['integratedReceipt'] === true;
   }
-
+  
   getIClientInstance(force: boolean = false): any {
     if (force || typeof this.iClient === "undefined") {
       this.iClient = new TYRO.IClient(this.config.apiKey, this.config.posProductInfo);
     }
     return this.iClient;
   }
-
+  
   pair(tid, mid, callBack: (response: any) => void) {
     this.config['tid'] = tid;
     this.config['mid'] = mid;
@@ -49,10 +49,10 @@ export class TyroPayment {
         this.config['integrationKey'] = response['integrationKey'];
       }
     });
-
+    
     return this.config;
   }
-
+  
   requestTerminalInfo(tid, mid, callBack: (info) => void) {
     if (!tid) {
       tid = this.config['tid'];
@@ -60,7 +60,7 @@ export class TyroPayment {
     if (!mid) {
       mid = this.config['mid'];
     }
-
+    
     this.getIClientInstance(true).terminalInfo((response) => {
       if (response && response.hasOwnProperty('status') && response['status'] === 'inProgress') {
         this.notify.info(response['message'], 'In Progress');
