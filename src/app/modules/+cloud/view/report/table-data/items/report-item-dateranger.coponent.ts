@@ -46,18 +46,18 @@ export class CloudSaleReportDateRangerItemComponent extends AbstractRxComponent 
       return true;
   }
   
-  checkNullValue(value) {
+  checkNullValue(value , name) {
     if (value == null || value == 'N/A' || value == "NaN" || typeof value === 'undefined' || value == NaN)
+      return true;
+    if((name == 'First Sale' || name == 'Last Sale') && value == 0)
       return true;
   }
   
   checkShowSymbolCurrency(measureLabel, value){
-    if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"||
-        measureLabel == "Customer Count" ||
-        measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count" ||
-        measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
-        this.checkIsNumberDecimals(value) == false) {
+    if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"||
+        measureLabel == "Customer Count" || measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"||
+        measureLabel == "Order Count" || measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"||
+        measureLabel == "Order Count") || this.checkIsNumberDecimals(value) == false) {
       return false;
     } else
       return true;

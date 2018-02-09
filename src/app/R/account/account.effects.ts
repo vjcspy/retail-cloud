@@ -129,7 +129,7 @@ export class AccountEffects {
                                 let listUrl                      = List.of();
                                 const urls                       = accountState.license['base_url'];
                                 _.forEach(urls, (url) => {
-                                  if (parseInt(url['status']) === 1 ) {
+                                  if (url['in_use'] === true && url['is_valid'] === true ) {
                                     listUrl = listUrl.push({
                                                              url: url['url'],
                                                              is_default: false,

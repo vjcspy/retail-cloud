@@ -109,11 +109,10 @@ export class CloudSaleReportItemComponent extends AbstractRxComponent implements
   }
   
   checkShowSymbolCurrency(measureLabel, value){
-    if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"|| measureLabel == "Customer Count" ||
-        measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count" ||
-        measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"|| measureLabel == "Order Count") ||
-        this.checkIsNumberDecimals(value) == false) {
+    if ((measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent"||
+        measureLabel == "Customer Count" || measureLabel == "First Sale" || measureLabel == "Item Sold" || measureLabel == "Last Sale"||
+        measureLabel == "Order Count" || measureLabel == "Refund Count" || measureLabel == "Item Sold" || measureLabel == "Last Sale"||
+        measureLabel == "Order Count") || this.checkIsNumberDecimals(value) == false) {
       return false;
     } else
       return true;

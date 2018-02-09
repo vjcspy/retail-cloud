@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractCollection} from "../../code/meteor/AbstractCollection";
 import * as _ from 'lodash';
+import {identifierName} from "@angular/compiler";
 
 @Injectable()
 export class UserCollection extends AbstractCollection {
@@ -8,6 +9,9 @@ export class UserCollection extends AbstractCollection {
   protected $collectionExisted  = true;
   
   getUserNameById(id) {
+    if (id ===  "N/A" || id == null) {
+      return "Created at magento website";
+    }
     const cashier = this.getCollection().findOne({_id: id});
     if (cashier) {
       return cashier['username'];
