@@ -15,6 +15,8 @@ export class AccountService {
   
   protected subscriptionPermission: Subscription;
   
+  protected subscriptionVersion: Subscription;
+  
   constructor(protected storage: AppStorage,
               protected licenseCollection: LicenseCollection,
               protected productCollection: ProductCollection,
@@ -88,16 +90,17 @@ export class AccountService {
                         const licenseHasRole = _.find(licenses[0]['has_roles'], role => {
                           return role['code'] === currentUser['has_license'][0]['shop_role'];
                         });
+                        let permissions: any;
+                        let cposPermission: boolean;
                         if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
-                          let permissions: any;
-                          let cposPermission : boolean;
+                          // truong hop current user la shop owner
                           if (typeof licenseHasRole === 'undefined') {
                             permissions = {};
                             cposPermission = true;
                           } else {
                             permissions    = licenseHasRole['has_permissions'];
-                            let accessCPOS = _.find(licenseHasRole['has_permissions'], role => {
-                              return role['permission'] == "access_to_connectpos"
+                            let accessCPOS = _.find(permissions, role => {
+                              return role['permission'] == "access_to_connectpos";
                             });
                             if (!!accessCPOS) {
                               cposPermission = accessCPOS['is_active'];
@@ -105,11 +108,13 @@ export class AccountService {
                               cposPermission = false;
                             }
                           }
-                          this.accountActions.checkCposPermission({cposPermission});
-                          this.storage.localStorage('permission', {"role": currentUser['has_license'][0]['license_permission'], "permissions": permissions});
                         } else {
-                          this.notify.error("we_can_not_find_your_role_permission");
+                            permissions = {};
+                            cposPermission = false;
+                          // this.notify.error("we_can_not_find_your_role_permission");
                         }
+                        this.accountActions.checkCposPermission({cposPermission});
+                        this.storage.localStorage('permission', {"role": currentUser['has_license'][0]['license_permission'], "permissions": permissions});
                         // if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
                         //   let permission = {
                         //     "role": currentUser['has_license'][0]['license_permission'],
@@ -129,5 +134,35 @@ export class AccountService {
     }
     
     return this.subscriptionPermission;
+  }
+  
+  subscribeVersion(resubscribe: boolean = false, apiVersion: string = null) {
+    if (typeof this.subscriptionVersion === 'undefined' || resubscribe === true) {
+      if (this.subscriptionVersion) {
+        this.subscriptionVersion.unsubscribe();
+      }
+      
+      this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
+                                        .subscribe(([productCollection]) => {
+                                          const products = productCollection.collection.find({}).fetch();
+                                          if (products) {
+                                            const posProduct = _.find(products, p => p['code'] === 'xpos');
+                                            if (posProduct) {
+                                              if (apiVersion != null) {
+                                                let checkVersion = _.find(posProduct['versions'], v => v['version'] === apiVersion);
+                                                console.log(checkVersion);
+                                                if(!checkVersion){
+                                                  this.notify.warning("connectpos_version_not_compat_api_version");
+                                                }
+                                              } else {
+                                                this.notify.warning("connectpos_version_not_compat_api_version");
+                                              }
+                                            }
+                                          } else {
+                                            return;
+                                          }
+                                        });
+    }
+    return this.subscriptionLicense;
   }
 }

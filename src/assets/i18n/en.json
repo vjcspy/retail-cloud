@@ -431,5 +431,6 @@
   "not_have_permission_to_create_new_customer" :"You do not have permission to create new customer",
   "not_have_permission_to_allow_using_custom_sale" :"You do not have permission to add Custom Sale",
   "not_have_permission_to_access_to_connectpos" : "You do not have permission to access to ConnectPOS",
-  "not_have_permission_to_access_to_connectpos_settings" : "You do not have permission to access to ConnectPOS settings"
+  "not_have_permission_to_access_to_connectpos_settings" : "You do not have permission to access to ConnectPOS settings",
+  "connectpos_version_not_compat_api_version" : "Your ConnectPOS version is not compatible with your installed API. Please contact your Shop Owner or our support to get help!"
 }

@@ -10,12 +10,14 @@ import * as _ from 'lodash';
 import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {ProductDB} from "../../database/xretail/db/product";
+import {AccountService} from "../../../../R/account/account.service";
 
 @Injectable()
 export class PosEntitiesService {
   
   constructor(private databaseManager: DatabaseManager,
               private requestService: RequestService,
+              private accountService: AccountService,
               private apiManager: ApiManager) { }
   
   getEntityDataInformation(entity: string): Promise<EntityInformation> {
@@ -95,6 +97,10 @@ export class PosEntitiesService {
           .makeGet(url)
           .subscribe(
             async (data) => {
+              if (entity.apiUrlCode === "retailConfig" && entity.currentPage === 1) {
+                let version: any = <any> data['version'];
+                this.accountService.subscribeVersion( true, version);
+              }
               let items: any = <any> data['items'];
           
               // Product Pull DataInfo
