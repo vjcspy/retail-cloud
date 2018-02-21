@@ -3,7 +3,7 @@ import {AppStorage} from "./storage";
 import {MeteorObservable} from "meteor-rxjs";
 import {NotifyManager} from "./notify-manager";
 import {AccountActions} from "../R/account/account.actions";
-
+import * as _ from 'lodash';
 @Injectable()
 export class AuthenticateService {
   private _user;
@@ -48,7 +48,19 @@ export class AuthenticateService {
   }
   
   userCan(permission: string) {
-    return true;
+    let listPermission      = this.storage.localRetrieve('permission');
+    let role  = listPermission['role'];
+    let permissions = listPermission['permissions'];
+    if(role === "owner"){
+      return true;
+    }
+    const currentPermission = _.find(permissions, role => {
+      return role['permission'] === permission;
+    });
+    if (!!currentPermission) {
+      return currentPermission['is_active'];
+    }
+    return false;
   }
   
   signIn(user: any): Promise<any> {

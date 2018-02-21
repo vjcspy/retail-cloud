@@ -77,6 +77,18 @@ export class AccountActions {
     return action;
   }
   
+  static SAVE_CPOS_PERMISSION = 'SAVE_CPOS_PERMISSION';
+  
+  checkCposPermission(cpos_permission, dispatch: boolean = true): Action {
+    const action = {type: AccountActions.SAVE_CPOS_PERMISSION, payload: {cpos_permission}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
+  
   static SAVE_LICENSE_DATA = 'SAVE_LICENSE_DATA';
   
   saveLicenseData(license, dispatch: boolean = true): Action {

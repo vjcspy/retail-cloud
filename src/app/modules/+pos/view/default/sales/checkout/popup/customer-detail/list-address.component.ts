@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.actions";
 import {NotifyManager} from "../../../../../../../../services/notify-manager";
 import {AuthenticateService} from "../../../../../../../../services/authenticate";
+import {PosConfigState} from "../../../../../../R/config/config.state";
 
 @Component({
              // moduleId: module.id,
@@ -18,6 +19,7 @@ import {AuthenticateService} from "../../../../../../../../services/authenticate
 export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent implements OnInit {
   @Input() checkoutPopupState: CheckoutPopupState;
   @Input() quoteState: PosQuoteState;
+  @Input() posConfigState: PosConfigState;
   
   public currentAddressId;
   public shippingAmount;
@@ -80,10 +82,15 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailListAddressComponent impl
   }
   
   addEditAddress(address = {}) {
+    let currentCustomer = this.quoteState.customer;
     if (_.isEmpty(address) || this.authenticateService.userCan('change_customer_information')) {
       this.checkoutPopupActions.addNewCustomerAddress(address);
     } else {
+      if (currentCustomer['id'] == this.posConfigState.setting.customer.getDefaultCustomerId()) {
+        this.checkoutPopupActions.addNewCustomerAddress(address);
+      }else{
       this.toastr.error("not_have_permission_to_change_customer_information");
+      }
     }
   }
   

@@ -30,7 +30,8 @@ export const accountReducer: ActionReducer<AccountStateRecord> = (state = accoun
     
     case AccountActions.SAVE_LICENSE_DATA:
       return state.set('license', {licenseHasPos: action.payload['license']['licenseHasPos']});
-    
+    case AccountActions.SAVE_CPOS_PERMISSION:
+      return state.set('cposPermission', action.payload['cpos_permission']['cposPermission']);
     default:
       return state;
   }

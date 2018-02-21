@@ -46,13 +46,13 @@ export class PosDefaultSalesShiftsPopupCloseComponent {
   }
   
   closeShift() {
-    if (this.authenticate.userCan('open_and_close_register')) {
+    // if (this.authenticate.userCan('open_and_close_register')) {
       this.formValidation.submit('popup-close-shift', () => {
         this.shiftDetailActions.closeShift(this.shiftState.detail.shift, this._data);
       }, true);
-    } else {
-      this.notify.warning("not_have_permission_to_close_shift");
-    }
+    // } else {
+    //   this.notify.warning("not_have_permission_to_close_shift");
+    // }
   }
   
   cancel() {

@@ -21,6 +21,7 @@
   </div>
   <div class="c-bottom">
     <button class="gray" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
-    <button [disabled]="!offline.online" (click)="createNewCustomer()">{{ 'Create New' | translate }}</button>
+    <!--<button (click)="createNewCustomer()"  [disabled]="!createCustomerPermission()">{{ 'Create New' | translate }}</button>-->
+    <button (click)="createNewCustomer()"  [ngClass]="{disable: !createCustomerPermission()}">{{ 'Create New' | translate }}</button>
   </div>
 </div>

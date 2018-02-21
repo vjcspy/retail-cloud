@@ -15,13 +15,13 @@
       </span>
     </li>
     <li>
-      <span class="click" [ngClass]="{disabled: !offline.online}" (click)="openShift()">
+      <span class="click" (click)="openShift()" [ngClass]="{disable: !offline.online ||!authenticateService.userCan('view_register')}">
           <span class="icon-nav-shift"></span>
           <span>{{'shifts' | translate}}</span>
       </span>
     </li>
     <li>
-            <span class="click" (click)="openOrders()">
+            <span class="click" (click)="openOrders()" [ngClass]="{disable: !authenticateService.userCan('view_order_list')}">
                 <span class="icon-nav-orderlist"></span>
               <span>{{'order list' | translate}}</span>
             </span>
