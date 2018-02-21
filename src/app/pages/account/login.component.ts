@@ -20,27 +20,27 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @LocalStorage()
   public email;
   public password;
-  
+
   accountState$: Observable<AccountState>;
-  
+
   constructor(protected accountActions: AccountActions, protected routerActions: RouterActions, protected store$: Store<any>) {
     this.accountState$ = this.store$.select('account');
   }
-  
+
   ngOnInit() {
     this.initPageJs();
   }
-  
+
   ngAfterViewInit(): void {
     if (!this.email || this.email === 'cashier') {
       this.email    = 'cashier';
       this.password = 'cashier123';
     }
   }
-  
+
   protected validate;
   protected jForm;
-  
+
   private initPageJs() {
     this.jForm    = jQuery('.js-validation-login');
     this.validate = this.jForm['validate']({
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                                },
                                                'login-password': {
                                                  required: true,
-                                                 minlength: 8
+                                                 minlength: 6
                                                }
                                              },
                                              messages: {
@@ -78,9 +78,9 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                                }
                                              }
                                            });
-    
+
   }
-  
+
   login() {
     if (this.jForm.valid()) {
       this.accountActions.login({
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
                                 });
     }
   }
-  
+
   ngOnDestroy(): void {
     this.validate.destroy();
   }
