@@ -15,14 +15,14 @@ import {NotifyManager} from "../../../../../services/notify-manager";
 
 @Injectable()
 export class RealtimeEffects {
-  
+
   constructor(private actions$: Actions,
               private store$: Store<any>,
               private notify: NotifyManager,
               private realtimeService: RealtimeService,
               private realtimeActions: RealtimeActions,
               private rootActions: RootActions) { }
-  
+
   @Effect() subscribeRealtimeChange = this.actions$
                                           .ofType(
                                             PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
@@ -51,14 +51,14 @@ export class RealtimeEffects {
                                           .map((z: any) => {
                                             const action: Action                                                       = <any>z[0];
                                             this.realtimeService.subscribeRealtimeEntity[action.payload['entityCode']] = z[1]['baseUrl'];
-    
+
                                             return z;
                                           })
                                           .flatMap(([action, generalState, entitiesState]) => {
                                             const entityCode     = (action as Action).payload['entityCode'];
                                             const entity         = entitiesState[entityCode];
                                             const currentBaseUrl = generalState['baseUrl'];
-    
+
                                             return this.realtimeService
                                                        .realtimeEntityObservable(entityCode, <any>generalState)
                                                        .withLatestFrom(this.store$.select('general'))
@@ -67,7 +67,7 @@ export class RealtimeEffects {
                                                        })
                                                        .map(([realtimeData]) => {
                                                          const {needRemove, needUpdate, entityInfo, newCacheTime} = realtimeData;
-      
+
                                                          let ob = [];
                                                          if (needRemove.count() > 0) {
                                                            ob.push(this.realtimeActions.realtimeNeedRemove({
@@ -77,7 +77,7 @@ export class RealtimeEffects {
                                                                                                              newCacheTime
                                                                                                            }, false));
                                                          }
-      
+
                                                          if (needUpdate.count() > 0) {
                                                            ob.push(this.realtimeActions.realtimeNeedUpdate({
                                                                                                              needUpdate,
@@ -86,15 +86,15 @@ export class RealtimeEffects {
                                                                                                              newCacheTime
                                                                                                            }, false));
                                                          }
-      
+
                                                          return ob;
                                                        })
                                                        .filter((ob) => _.size(ob) > 0)
                                                        .flatMap((ob) => {
                                                          return Observable.from(ob);
-                                                       })
+                                                       });
                                           });
-  
+
   @Effect() handleNeedRemove = this.actions$
                                    .ofType(
                                      RealtimeActions.ACTION_REALTIME_NEED_REMOVE
@@ -108,7 +108,7 @@ export class RealtimeEffects {
                                                       })
                                                       .map(() => this.realtimeActions.realtimeRemovedEntityDB(entity.entityCode, needRemove, false));
                                    });
-  
+
   @Effect() handleNeedUpdate = this.actions$
                                    .ofType(
                                      RealtimeActions.ACTION_REALTIME_NEED_UPDATE
@@ -119,12 +119,12 @@ export class RealtimeEffects {
                                      const generalState: PosGeneralState = z[1];
                                      const entity: Entity                = action.payload['realtimeData']['entity'];
                                      const needUpdate: List<any>         = action.payload['realtimeData']['needUpdate'];
-    
+
                                      if (entity.isDependStore && (!generalState.store || isNaN(generalState.store['id']) || parseFloat(generalState.store['id']) < 1)) {
                                        // this.notify.warning("will_not_update_realtime_beacause_not_yet_selected_store");
                                        return Observable.of(this.rootActions.nothing('will_not_update_realtime_beacause_not_yet_selected_store', false));
                                      }
-    
+
                                      return this.realtimeService
                                                 .createRequestPullUpdateEntity(entity, needUpdate, action.payload['realtimeData']['newCacheTime'], generalState)
                                                 .flatMap((itemsData) => {

@@ -27,13 +27,11 @@ export const POS_ROUTES: Routes = [
             children: [
               {
                 path: 'checkout', component: PosDefaultSalesCheckoutComponent,
-                // canActivate: [PermissionGuard],
-                // data: {permission: "access_to_connectpos"}
               },
               {
                 path: 'orders', component: PosDefaultSalesOrdersComponent,
                 canActivate: [PermissionGuard],
-                data: { permission: "view_order_list"}
+                data: {permission: "view_order_list"}
               },
               {
                 path: 'shifts', component: PosDefaultSalesShiftsComponent,
@@ -44,8 +42,6 @@ export const POS_ROUTES: Routes = [
           },
           {
             path: 'outlet-register', component: PosDefaultSalesOutletRegisterComponent,
-            // canActivate: [PermissionGuard],
-            // data: {permission: "access_to_connectpos"}
           },
         ]
       },

@@ -14,36 +14,30 @@ export class PermissionGuard implements CanActivate {
               protected storage: AppStorage,
               protected accountActions: AccountActions,
               protected generalService: PosGeneralService,
-              protected routerActions: RouterActions) {}
-  
-  
+              protected routerActions: RouterActions) {
+  }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     let current        = route.data["permission"];
     let listPermission = this.storage.localRetrieve('permission');
     // đối với trường hợp lúc mới bắt đầu login( chưa kip nghe được permission từ meteor)
     if (!listPermission) {
-      // this.storage.localClear();
-      // this.accountActions.redirectLoginPage(false, false);
+      console.log(route);
       this.routerActions.go('pos/default/outlet-register');
-      // this.notify.error("not_have_permission_to_" + current);
       return false;
     }
-    
+
     let role        = listPermission['role'];
     let permissions = listPermission['permissions'];
     // truong hop la shop owner
     if (role === "owner") {
       return true;
     }
-    
-    let cposPermission = _.find(permissions, function (p) {
-      return p['permission'] === "access_to_connectpos";
-    });
-    
+
+    let cposPermission = _.find(permissions, p => p['permission'] === "access_to_connectpos");
+
     if (!!cposPermission && cposPermission['is_active']) {
-      let permission = _.find(permissions, function (p) {
-        return p['permission'] === current;
-      });
+      let permission = _.find(permissions, p => p['permission'] === current);
       if (!!permission && permission['is_active']) {
         return true;
       } else {
@@ -57,11 +51,9 @@ export class PermissionGuard implements CanActivate {
         return false;
       }
     } else {
-      // this.storage.localClear();
       this.routerActions.go('pos/default/outlet-register');
-      // this.notify.error("not_have_permission_to_access_to_connectpos");
       return false;
     }
-    
+
   }
 }

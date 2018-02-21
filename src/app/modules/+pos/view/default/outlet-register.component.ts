@@ -9,18 +9,17 @@ import {PosPullState} from "../../R/entities/pull.state";
 import {AccountState} from "../../../../R/account/account.state";
 
 @Component({
-             // moduleId: module.id,
-             selector: 'pos-default-sales-outlet-register',
-             templateUrl: 'outlet-register.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  // moduleId: module.id,
+  selector: 'pos-default-sales-outlet-register',
+  templateUrl: 'outlet-register.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscriptionComponent implements OnInit {
   protected generalState$: Observable<PosGeneralState>;
   protected entitiesState$: Observable<PosEntitiesState>;
   protected pullState$: Observable<PosPullState>;
   protected accountState$: Observable<AccountState>;
-  
-  
+
   constructor(private store$: Store<any>, private accountService: AccountService) {
     super();
     this.generalState$  = this.store$.select('general');
@@ -28,7 +27,7 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
     this.pullState$     = this.store$.select('pull');
     this.accountState$  = this.store$.select('account');
   }
-  
+
   ngOnInit() {
     this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
   }

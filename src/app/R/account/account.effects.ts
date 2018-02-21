@@ -14,7 +14,7 @@ import {NotifyManager} from "../../services/notify-manager";
 
 @Injectable()
 export class AccountEffects {
-  
+
   constructor(protected store$: Store<any>,
               protected actions$: Actions,
               protected authService: AuthenticateService,
@@ -23,7 +23,8 @@ export class AccountEffects {
               protected accountService: AccountService,
               protected appStorage: AppStorage,
               protected rootActions: RootActions,
-              protected routerActions: RouterActions) { }
+              protected routerActions: RouterActions) {
+  }
 
   @Effect() login  = this.actions$
                          .ofType(AccountActions.ACTION_LOGIN)
@@ -31,7 +32,6 @@ export class AccountEffects {
                          .switchMap((z) => {
                            return Observable.fromPromise(this.authService.signIn(z[0].payload['user']))
                                             .map(() => {
-                                              this.accountService.subscribePermission(true);
                                               const user = Meteor.user();
                                               this.accountService.saveUserToStorage(user);
                                               const redirect = (z[1] as AccountState).redirect;
@@ -42,7 +42,7 @@ export class AccountEffects {
                                                   this.routerActions.go(redirect);
                                                 }
                                               }
-                                                return this.accountActions.loginSuccess(user, false);
+                                              return this.accountActions.loginSuccess(user, false);
                                             })
                                             .catch((e) => Observable.of(this.accountActions.loginFailed(false)));
                          });
@@ -65,16 +65,16 @@ export class AccountEffects {
                                  return Observable.fromPromise(this.accountService.saveVersionToCookie())
                                                   .map(() => {
                                                     window.location.reload(true);
-      
+
                                                     return this.rootActions.nothing("");
                                                   });
                                });
-  
+
   @Effect() goLoginPage = this.actions$.ofType(AccountActions.ACTION_GO_LOGIN_PAGE)
                               .map(() => {
                                 this.routerActions.go('/account/login');
-    
+
                                 return this.rootActions.nothing("Go login page", false);
                               });
-  
+
 }

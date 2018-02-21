@@ -14,35 +14,35 @@ import {AccountService} from "../../../../R/account/account.service";
 
 @Injectable()
 export class PosEntitiesService {
-  
+
   constructor(private databaseManager: DatabaseManager,
               private requestService: RequestService,
               private accountService: AccountService,
               private apiManager: ApiManager) { }
-  
+
   getEntityDataInformation(entity: string): Promise<EntityInformation> {
     return new Promise(async (resolve, reject) => {
       let db = this.databaseManager.getDbInstance();
       try {
         let entityInfo = await db['entityInformation'].where('id').equals(entity).first();
-        
+
         return resolve(entityInfo);
       } catch (e) {
         reject(e);
       }
     });
-    
+
   }
-  
+
   async getStateCurrentEntityDb(generalState: PosGeneralState, entity: Entity): Promise<GeneralMessage> {
     const entityCode = entity.entityCode;
-    
+
     let entityDataInfo = await this.getEntityDataInformation(entity.entityCode);
-    
+
     if (entity.isDependStore === true && (!generalState.store || parseInt(generalState.store['id']) < 1)) {
       throw new GeneralException("please_select_outlet_before");
     }
-    
+
     // if difference store id will flush
     if (entityDataInfo
         && (
@@ -53,7 +53,7 @@ export class PosEntitiesService {
       await this.whenNotValidDb(entityCode);
       entityDataInfo = null;
     }
-    
+
     // never init before
     if (!entityDataInfo || !entityDataInfo.hasOwnProperty('id')) {
       // First time pull data so we init default value
@@ -65,53 +65,49 @@ export class PosEntitiesService {
       entityDataInfo.storeId     = entity.isDependStore === true ? generalState.store['id'] : null;
       entityDataInfo.base_url    = generalState.baseUrl;
       await entityDataInfo.save(true);
-      
+
       return {data: {notValidDB: true}};
     }
-    
+
     return entityDataInfo.hasOwnProperty('id')
            && entityDataInfo.id === entityCode
            && entityDataInfo.isFinished === true
            && (entity.isDependStore !== true || entityDataInfo.storeId === generalState.store['id']) ?
       {data: {isFinished: true}} : {data: {isFinished: false, currentPage: entityDataInfo.currentPage}};
   }
-  
+
   protected async whenNotValidDb(entity: string): Promise<any> {
     // console.log("Not valid db entity: " + entity);
     await this.deleteEntityInfo(entity);
   }
-  
+
   async deleteEntityInfo(entity: string): Promise<any> {
     let db: RetailDB = this.databaseManager.getDbInstance();
     await db[entity].clear();
     await db.entityInformation.where('id').equals(entity).delete();
   }
-  
+
   async pullAndSaveDb(entity: Entity, generalState: PosGeneralState): Promise<GeneralMessage> {
     return new Promise((resolve, reject) => {
       let url            = this.apiManager.get(entity.apiUrlCode, generalState.baseUrl);
       const nextPagePull = (entity.currentPage + 1);
       url += url.indexOf("?") > -1 ? "&" : "?" + entity.query;
-      
+
       this.requestService
           .makeGet(url)
           .subscribe(
             async (data) => {
-              if (entity.apiUrlCode === "retailConfig" && entity.currentPage === 1) {
-                let version: any = <any> data['version'];
-                this.accountService.subscribeVersion( true, version);
-              }
               let items: any = <any> data['items'];
-          
+
               // Product Pull DataInfo
               let entityInfo: EntityInformation = await this.getEntityDataInformation(entity.entityCode);
-          
+
               if (_.isEmpty(items)) {
                 // finished
                 entityInfo.isFinished = true;
                 entityInfo.cache_time = data['cache_time'];
                 await entityInfo.save();
-            
+
                 return resolve({error: false, data: {isFinished: true}});
               } else {
                 // not yet finished
@@ -122,19 +118,19 @@ export class PosEntitiesService {
                   console.log("add entities to cache failed" + entity.entityCode + ", try to put again");
                   await db[entity.entityCode].bulkPut(items);
                 }
-            
+
                 const additionData = {
                   lastPageNumber: data['last_page_number'],
                   totalCount: data['total_count'],
                   isLoadFromCache: data['is_load_from_cache']
                 };
-            
+
                 // save data pull success
                 entityInfo.currentPage  = nextPagePull;
                 entityInfo.cache_time   = data['cache_time'];
                 entityInfo.additionData = additionData;
                 await entityInfo.save();
-            
+
                 return resolve({
                                  error: false,
                                  data: {
@@ -152,12 +148,12 @@ export class PosEntitiesService {
           );
     });
   }
-  
+
   async getDataFromLocalDB(entitiesCode: Iterator<any>): Promise<GeneralMessage> {
     return new Promise(async (resolve) => {
       let data         = {};
       let db: RetailDB = this.databaseManager.getDbInstance();
-      
+
       let entityCode;
       entityCode = entitiesCode.next();
       while (entityCode.done === false) {
@@ -166,28 +162,28 @@ export class PosEntitiesService {
         data[entityCode['value']]         = {items, ...entityInfo, entityCode: entityCode['value']};
         entityCode                        = entitiesCode.next();
       }
-      
+
       return resolve({data});
     });
   }
-  
+
   async getProductFilteredBySetting(productsEntity: Entity, retailConfigEntity: Entity, settingEntity: Entity): Promise<GeneralMessage> {
     return new Promise((resolve) => {
       const products     = productsEntity.items;
       let productsFiltered: any;
       let retailConfig   = retailConfigEntity.items.find((v) => v['key'] === 'pos');
       let productSetting = settingEntity.items.find((v) => v['key'] === 'product');
-      
+
       retailConfig   = retailConfig ? retailConfig['value'] : {};
       productSetting = productSetting ? productSetting['value'] : {};
-      
+
       let visibility: any     = true;
       let type: any           = true;
       let sort: any           = true;
       let isSortAsc: any      = true;
       let showOutOfStock: any = true;
       let showDisabled: any   = true;
-      
+
       if (retailConfig.hasOwnProperty('xretail/pos/show_product_by_visibility')) {
         visibility = retailConfig['xretail/pos/show_product_by_visibility'];
       }
@@ -210,7 +206,7 @@ export class PosEntitiesService {
         if (product.getData('id') === productSetting['custom_sale_product_id']) {
           return false;
         }
-        
+
         // load visibility
         if (visibility !== true) {
           if (_.indexOf(visibility, product.getData('visibility')) === -1) {
@@ -236,7 +232,7 @@ export class PosEntitiesService {
         }
         return true;
       });
-      
+
       if (sort !== true) {
         productsFiltered = productsFiltered.sortBy((product) => {
           if (sort === 'price' || sort === 'id') {
@@ -251,9 +247,9 @@ export class PosEntitiesService {
           productsFiltered = productsFiltered.reverse();
         }
       }
-      
+
       return resolve({data: {productsFiltered}});
     });
   }
-  
+
 }
