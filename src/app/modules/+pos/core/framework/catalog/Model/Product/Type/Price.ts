@@ -88,7 +88,7 @@ export class Price {
         let allGroupsId = GroupManagement.CUST_GROUP_ALL;
 
         let prices = product.getTierPriceRawAsArray();
-        if (prices == null || !_.isArray(prices)) {
+        if (prices == null || (!_.isObject(prices) && !_.isArray(prices))) {
             if (qty !== null) {
                 return product.getPrice();
             } else {
