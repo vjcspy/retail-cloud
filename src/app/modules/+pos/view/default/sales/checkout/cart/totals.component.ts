@@ -42,6 +42,14 @@ export class PosDefaultSalesCheckoutCartTotalsComponent implements OnInit {
     return _result;
   }
   
+  changePopup() {
+    if (this.authService.userCan('add_discount')) {
+      this.cartTotalsActions.changeDiscountPopupState(true);
+    } else {
+      this.notify.error('not_have_permission_to_add_discount')
+    }
+  }
+  
   updateOrderDiscount(type: string, $event: any) {
     let value = $event.target['value'];
     if (type === 'discount_whole_order') {

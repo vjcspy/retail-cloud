@@ -112,6 +112,10 @@
 .left-menu-link {
     padding:0;
     margin-top: 20px;
+    .disable{
+      opacity:.5;
+      cursor: not-allowed;
+    }
     li {
         font-family: $boldFont;
         font-size: 15px; color: $gray40;
@@ -717,6 +721,10 @@
     bottom: 10px;
     @include hoz-pos;
     width: 252px;
+    .disable{
+      opacity:.5;
+      cursor: not-allowed;
+    }
   }
   .customer-row-wrap{
     position: relative;
@@ -3293,6 +3301,10 @@ ul.has-list {
     text-align: center;
     button, .button-group {
       display: inline-block; min-width: 114px; line-height: inherit;
+    }
+    .disable{
+      opacity:.5;
+      cursor: not-allowed;
     }
   }
   .order-list-inner,

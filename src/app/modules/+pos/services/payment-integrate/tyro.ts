@@ -4,7 +4,7 @@ import {NotifyManager} from "../../../../services/notify-manager";
 @Injectable()
 export class TyroPayment {
   protected config = {
-    apiKey: 'provide by tyro',
+    apiKey: 'q6AsVDU0sOOvn9iaLFJnQwUELDKNafxv',
     posProductInfo: {
       posProductVendor: "SMART-OSC",
       posProductName: "ConnectPOS",

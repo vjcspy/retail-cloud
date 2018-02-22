@@ -24,7 +24,7 @@
               </div>
             </div>
           </li>
-          <li class="button-group col-xs-12">
+          <li class="button-group col-xs-12" style="padding-right: 0px;margin-top: 0px">
             <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isLogging">{{'Login' | translate}}</button>
           </li>
         </ul>

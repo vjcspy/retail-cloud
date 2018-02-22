@@ -49,31 +49,31 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openCart() {
-    if (this.authenticateService.userCan('access_to_connectpos')) {
+    // if (this.authenticateService.userCan('access_to_connectpos')) {
       this.go('pos/default/sales/checkout');
-    } else {
-      this.notify.error("not_have_permission_to_access_to_connectpos");
-    }
+    // } else {
+    //   this.notify.error("not_have_permission_to_access_to_connectpos");
+    // }
   }
   
   openShift() {
-    if (this.authenticateService.userCan('view_register')) {
+    // if (this.authenticateService.userCan('view_register')) {
       if (this.offline.online) {
         this.go('pos/default/sales/shifts');
       }
-    } else {
-      this.notify.error("not_have_permission_to_view_register");
-    }
+    // } else {
+    //   this.notify.error("not_have_permission_to_view_register");
+    // }
   }
   
   goPosSetting() {
-    if (this.authenticateService.userCan('access_to_connectpos_settings')) {
+    // if (this.authenticateService.userCan('access_to_connectpos_settings')) {
       if (this.offline.online) {
         this.go('pos/configurations/default/general');
       }
-    } else {
-      this.notify.error("not_have_permission_to_access_to_connectpos_settings");
-    }
+    // } else {
+    //   this.notify.error("not_have_permission_to_access_to_connectpos_settings");
+    // }
   }
   
   changeOutlet() {
@@ -83,11 +83,11 @@ export class PosDefaultMenuLeftComponent implements OnInit {
   }
   
   openOrders() {
-    if (this.authenticateService.userCan('view_order_list')) {
+    // if (this.authenticateService.userCan('view_order_list')) {
       this.go('pos/default/sales/orders');
-    } else {
-      this.notify.error("not_have_permission_to_view_order_list");
-    }
+    // } else {
+    //   this.notify.error("not_have_permission_to_view_order_list");
+    // }
   }
   
   flushCache() {

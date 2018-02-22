@@ -109,7 +109,7 @@
 
         <div class="total-row has-popover" [ngClass]="{open: cartTotalsState.isOpeningPopupDiscount}" [clickOutSide]="cartTotalsState.isOpeningPopupDiscount" (outside)="cartTotalsActions.changeDiscountPopupState($event)">
           <div class="t-txt discount-txt">
-      <span class="click" (click)="cartTotalsActions.changeDiscountPopupState(true)">
+      <span class="click" (click)="changePopup()">
         {{ 'Discount' | translate }}
       </span>
             <div *ngIf="cartTotalsState.isOpeningPopupDiscount" class="popover-wrapper color down discount">
@@ -129,8 +129,7 @@
                                     %
                 </span>
                       <input [value]="quoteState.quote.getData('discount_whole_order')" enterBlur inputSelectText
-                             (blur)="updateOrderDiscount('discount_whole_order',$event)" type="text"
-                             [disabled]="!authService.userCan('add_discount')"/>
+                             (blur)="updateOrderDiscount('discount_whole_order',$event)" type="text"/>
                     </div>
                     <div class="sbot-row">
                       <input type="text" [ngModel]="quoteState.quote.getData('coupon_code')" enterBlur inputSelectText

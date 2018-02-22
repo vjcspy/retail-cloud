@@ -142,7 +142,8 @@
     <button (click)="reorder()" [ladda]="ordersState.detail.isResolvingReorder">
       {{ 'Duplicate' | translate }}
     </button>
-    <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()" [ladda]="ordersState.detail.isResolvingReorder">
+    <button *ngIf="getOrder()['can_creditmemo']" (click)="refund()" [ladda]="ordersState.detail.isResolvingReorder"
+            [ngClass]="{disable: !authService.userCan('make_refund')}">
       {{ 'Refund' | translate }}
     </button>
     <button *ngIf="getOrder()['can_ship']" (click)="ship()" [ladda]="ordersState.detail.isResolvingReorder">
