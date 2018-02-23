@@ -24,13 +24,9 @@
               </div>
             </div>
           </li>
-          <li class="button-group col-xs-12">
+          <!--<li class="button-group col-xs-12" style="padding-right: 0px;margin-top: 0px">-->
+          <li class="button-group col-xs-12" style="padding-right: 15px;padding-left: 15px;margin-top: 0px">
             <button type="submit" (click)="login()" [disabled]="isLoading" [ladda]="(accountState$ |async)?.isProcessing">Login</button>
-          </li>
-          <li class="btn-links col-xs-12">
-            <a (click)="routerActions.go('account/register')" class="click">Register</a>
-            <span class="sep">|</span>
-            <a (click)="routerActions.go('account/reset')" class="click">Forgot password?</a>
           </li>
         </ul>
       </form>

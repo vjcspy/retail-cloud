@@ -48,13 +48,15 @@
             <span class="name">{{storage.localRetrieve('email')}}</span>
             <span class="role">({{storage.localRetrieve('user')['roles']['cloud_group']}})</span>
           </div>
-          <div *ngIf="!hasWebsite()" class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing" >
+          <!--<div *ngIf="!hasWebsite()" class="logout-btn" (click)="accountActions.logout()" [ladda]="accountState.isProcessing" >-->
+          <div *ngIf="!hasWebsite()" class="logout-btn" (click)="accountActions.logout()">
             Logout
             <i class="ion-log-out"></i>
           </div>
 
           <div class="dropdown bootstrap-select " *ngIf="hasWebsite()"  >
-            <div class="anchor" data-toggle="dropdown"  [ladda]="accountState.isProcessing" style="width: 100% !important;">
+            <!--<div class="anchor" data-toggle="dropdown"  [ladda]="accountState.isProcessing" style="width: 100% !important;">-->
+            <div class="anchor" data-toggle="dropdown" style="width: 100% !important;">
               {{baseUrl}}
               <span class="bs-caret"><span class="caret"></span></span>
             </div>

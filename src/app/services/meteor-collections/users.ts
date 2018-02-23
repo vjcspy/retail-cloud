@@ -5,7 +5,7 @@ import {identifierName} from "@angular/compiler";
 
 @Injectable()
 export class UserCollection extends AbstractCollection {
-  protected $collection: string = "users";
+  protected $collection: string = "usersreport";
   protected $collectionExisted  = true;
   
   getUserNameById(id) {

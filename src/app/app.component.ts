@@ -22,6 +22,7 @@ import {AuthenticateService} from "./services/authenticate";
              styleUrls: [
                './app.component.css',
                '../../node_modules/bootstrap/dist/css/bootstrap.css',
+               '../../node_modules/ladda/dist/ladda.min.css',
                '../../node_modules/font-awesome/css/font-awesome.min.css',
                '../../node_modules/ionicons/css/ionicons.css',
                '../../node_modules/ng2-toastr/ng2-toastr.css',

@@ -15,6 +15,7 @@ import {AuthenticateService} from "../../services/authenticate";
 @Component({
              selector: 'sign-in',
              templateUrl: 'login.component.html',
+             styleUrls: ['css/signin.scss'],
              changeDetection: ChangeDetectionStrategy.OnPush
            })
 export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
