@@ -139,6 +139,12 @@ export class ConfigurationsOutletEffects {
                                                              .switchMap(() => {
                                                                this.notify.success("save_outlet_data_successfully");
                                                                this.outletService.editOutletFormData = <any>{outlet, registers: outlet['registers']};
+                                                               setTimeout(() => {
+                                                                 if (this.tourService.tour.getCurrentStep() === 3) {
+                                                                   this.tourService.tour.resume();
+                                                                   this.tourService.tour.next();
+                                                                 }
+                                                               }, 100);
                                                                return Observable.from([
                                                                                         this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
                                                                                         this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
@@ -157,6 +163,12 @@ export class ConfigurationsOutletEffects {
                                  const action                                      = z;
                                  const register                                    = action.payload['register'];
                                  this.outletService.editOutletFormData['register'] = register;
+  
+                                 setTimeout(() => {
+                                   if (this.tourService.tour.getCurrentStep() === 4) {
+                                     this.tourService.tour.next();
+                                   }
+                                 }, 100);
     
                                  return this.configurationsOutletActions.resolveEditOutletForm({register}, false);
                                });
@@ -188,6 +200,11 @@ export class ConfigurationsOutletEffects {
                                                                .switchMap(() => {
                                                                  this.notify.success("save_register_data_successfully");
                                                                  this._routerActions.go('pos/configurations/default/pos/outlet/edit', outlet['id']);
+                                                                 setTimeout(() => {
+                                                                   if (this.tourService.tour.getCurrentStep() === 5) {
+                                                                     this.tourService.tour.next();
+                                                                   }
+                                                                 }, 100);
                                                                  return Observable.from([
                                                                                           this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
                                                                                           this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),

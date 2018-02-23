@@ -83,6 +83,9 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
   saveOutlet() {
       this.formValidation.submit('outlet_edit_address', () => {
         this.tourService.tour.pause();
+        if (this.tourService.tour.getCurrentStep() === 3) {
+          jQuery('#outlet-information-tutorial').trigger('click');
+        }
         this.configurationsOutletActions.saveOutlet(this.getEditOutletFormData().outlet, this.getEditOutletFormData().registers);
       }, true);
   }

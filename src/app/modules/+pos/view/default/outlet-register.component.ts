@@ -32,7 +32,7 @@ export class PosDefaultSalesOutletRegisterComponent extends AbstractSubscription
   ngOnInit() {
     this.subscribeObservable('urls', () => this.accountService.subscribeLicense(true));
     setTimeout(() => {
-      if (this.tourService.tour.getCurrentStep() === 12) {
+      if (this.tourService.tour.getCurrentStep() === 6 || this.tourService.tour.getCurrentStep() === 12) {
         this.tourService.tour.resume();
         this.tourService.tour.next();
       }

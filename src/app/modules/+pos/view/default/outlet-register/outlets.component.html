@@ -1,7 +1,7 @@
 <div class="outlets" *ngIf="entitiesState.outlet.items.count()>0">
   <div *ngFor="let outlet of getEnableOutletOrRegister(entitiesState.outlet.items); let i = index;">
     <div class="outlet-list" *ngIf="getEnableOutletOrRegister(outlet['registers'],false).length > 0">
-      <div class="oulet-index" id="{{i == 0 ? 'outlet-index': ''}}">
+      <div class="oulet-index" id="outlet-index">
         <i class="icon-outlet"></i>
         <span class="outlet-title">{{outlet['name']}}</span>
       </div>
