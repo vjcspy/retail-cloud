@@ -152,7 +152,11 @@ export class TutorialService {
                            element: "#customer-icon-action-tutorial",
                            title: "Welcome to ConnectPOS!",
                            content: "Check out with guest customers, or click here to search and create a new one.",
-                           backdrop: true
+                           backdrop: true,
+                           onShown: () => {
+                             jQuery(".btn[data-role=next]").css("display", "none");
+                             jQuery(".popover").removeClass( "right" ).addClass( "left customer-tutorial" );
+                           }
                          },
                          {
                            element: "#cart-value-tutorial",

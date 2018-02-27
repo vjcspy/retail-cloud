@@ -8,6 +8,7 @@ import {CartCustomerActions} from "../../../../R/sales/checkout/cart/customer.ac
 import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 import {CheckoutPopupActions} from "../../../../R/sales/checkout/popup/popup.actions";
 import {CheckoutPopup} from "../../../../R/sales/checkout/popup/popup.state";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -25,13 +26,15 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
   
   constructor(protected posQuoteActions: PosQuoteActions,
               protected cartCustomerActions: CartCustomerActions,
-              protected checkoutPopupActions: CheckoutPopupActions) { }
+              protected checkoutPopupActions: CheckoutPopupActions,
+              protected tourService: TutorialService) { }
   
   trackByProduct(index, item) {
     return item.getData('product');
   }
   
   customerAction($event, iconAction: boolean = false) {
+    this.tourService.tour.pause();
     const customer = this.quoteState.customer;
     
     if (iconAction === false && $event.target.className.indexOf('customer-icon-action') === -1) {
