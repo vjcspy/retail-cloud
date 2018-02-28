@@ -35,6 +35,8 @@ export class PosDefaultSalesCheckoutCartItemsComponent {
   
   customerAction($event, iconAction: boolean = false) {
     this.tourService.tour.pause();
+    jQuery(".tour-backdrop").css("display", "none");
+    jQuery(".popover").css("display", "none");
     const customer = this.quoteState.customer;
     
     if (iconAction === false && $event.target.className.indexOf('customer-icon-action') === -1) {
