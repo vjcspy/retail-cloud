@@ -11,7 +11,7 @@ export class AddGiftcardType extends Event {
 class AddGiftcardTypeObserver implements ObserverInterface {
   execute(observe: any): void {
     let {productType, factory} = observe;
-    if (productType === 'aw_giftcard') {
+    if (productType === 'aw_giftcard' || productType === 'aw_giftcard2') {
       factory[productType] = new Giftcard();
     }
   }

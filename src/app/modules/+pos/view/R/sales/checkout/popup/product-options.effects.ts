@@ -183,7 +183,7 @@ export class ProductOptionsEffects {
                                                                                   .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
-                                                             if (productOptionsState.product.getTypeId() === 'aw_giftcard') {
+                                                             if (productOptionsState.product.getTypeId() === 'aw_giftcard' || productOptionsState.product.getTypeId() === 'aw_giftcard2') {
                                                                productOptionsState.buyRequest
                                                                                   .setData('gift_card', productOptionsState.optionData.gift_card);
                                                              }

@@ -214,9 +214,12 @@ export class PosEntitiesService {
           }
         }
         if (type !== true) {
-          if (_.indexOf(type, product.getData('type_id')) === -1) {
-            return false;
+          if (_.indexOf(type, "aw_giftcard") > -1 && _.indexOf(type, "aw_giftcard2") === -1 ) {
+            type.push("aw_giftcard2");
           }
+            if (_.indexOf(type, product.getData('type_id')) === -1) {
+              return false;
+            }
         }
         // FiX XRT-187 : show out of stock product
         if (parseInt(showOutOfStock) !== 1 || _.isNull(showOutOfStock)) {
