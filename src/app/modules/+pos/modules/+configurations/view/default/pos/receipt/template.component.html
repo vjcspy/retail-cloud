@@ -262,12 +262,12 @@
   </div>
   <div class="bottom-br">
     <div [innerHtml]="configurationsReceiptState.receipt['footer']"></div>
-    <img [hidden]="!isChecked(configurationsReceiptState.receipt['enable_barcode'])" id="barcode"/>
+    <img [hidden]="!configurationsReceiptState.receipt['enable_barcode']" id="barcode"/>
     <div class="footer-img" *ngIf="configurationsReceiptState.receipt['footer_image_status'] == 1">
       <img *ngIf="!configurationsReceiptState.receipt['footer_url']" src="assets/img/img-footer-default.png" alt="SmartOSC"/>
       <img *ngIf="configurationsReceiptState.receipt['footer_url']" [src]="configurationsReceiptState.receipt['footer_url']"/>
     </div>
-    <p class="copy-right" *ngIf="isChecked(configurationsReceiptState.receipt['enable_power_text'])">Power by SmartOSC &copy; 2017</p>
+    <p class="copy-right" *ngIf="!!configurationsReceiptState.receipt['enable_power_text']">Power by SmartOSC &copy; 2017</p>
   </div>
 </div><!--end invoice-->
 <div class="bottom-bar">
