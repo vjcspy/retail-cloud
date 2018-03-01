@@ -217,6 +217,7 @@ export class PosEntitiesService {
           if (_.indexOf(type, "aw_giftcard") > -1 && _.indexOf(type, "aw_giftcard2") === -1 ) {
             type.push("aw_giftcard2");
           }
+          
             if (_.indexOf(type, product.getData('type_id')) === -1) {
               return false;
             }
