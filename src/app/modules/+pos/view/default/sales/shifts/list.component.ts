@@ -47,6 +47,7 @@ export class PosDefaultSalesShiftsListComponent implements OnInit {
   
   openLeftMenu() {
     this.tourService.tour.pause();
+    this.tourService.dispatchPauseTour();
     this.menuLeftActions.changeOpenState(true);
   }
 }

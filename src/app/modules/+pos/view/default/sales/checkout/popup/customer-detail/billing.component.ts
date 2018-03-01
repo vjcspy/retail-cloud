@@ -8,6 +8,7 @@ import {CheckoutPopupActions} from "../../../../../R/sales/checkout/popup/popup.
 import {FormValidationService} from "../../../../../../../share/provider/form-validation";
 import {EntityCustomerActions} from "../../../../../../R/entities/entity/customer.actions";
 import {AuthenticateService} from "../../../../../../../../services/authenticate";
+import {TutorialService} from "../../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -27,7 +28,8 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   constructor(protected checkoutPopupActions: CheckoutPopupActions,
               protected entityCustomerActions: EntityCustomerActions,
               protected authService: AuthenticateService,
-              protected formValidation: FormValidationService) { }
+              protected formValidation: FormValidationService,
+              protected tourService: TutorialService) { }
   
   changeBillingState(state) {
     if (state !== 'others') {
@@ -65,6 +67,12 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   
   save() {
     this.formValidation.submit('pos-address-form-' + this.type, () => {
+      setTimeout(() => {
+        if (this.tourService.tour.getCurrentStep() === 15) {
+          this.tourService.tour.resume();
+          this.tourService.tour.goTo(16);
+        }
+      }, 500);
       this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer, this.checkoutPopupState.customerPopup.editAddress);
     }, true);
   }

@@ -142,7 +142,7 @@ export class TutorialService {
                          {
                            element: "#product-add-to-cart-tutorial",
                            title: "Welcome to ConnectPOS!",
-                           content: "To add products to cart, you can also click on the product",
+                           content: "To add products to cart, click on the product",
                            backdrop: true,
                            onShown: () => {
                              jQuery(".btn[data-role=next]").css("display", "none");
@@ -171,7 +171,11 @@ export class TutorialService {
                            element: "#cart-value-for-see-tutorial",
                            title: "Welcome to ConnectPOS!",
                            content: "This is the total value of the cart",
-                           backdrop: true
+                           backdrop: true,
+                           onShown: () => {
+                             jQuery(".popover").removeClass( "right" ).addClass( "top value-cart-tutorial" );
+                             jQuery(".arrow").addClass( "arrow-value-cart-tutorial" );
+                           }
                          },
                          {
                            element: "#bottom-bar",
@@ -223,5 +227,10 @@ export class TutorialService {
     
     // Start the tour
     this.tour.start();
+  }
+  
+  dispatchPauseTour(): void {
+    jQuery(".tour-backdrop").css("display", "none");
+    jQuery(".popover").css("display", "none");
   }
 }

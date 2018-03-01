@@ -11,6 +11,7 @@ import {Customer} from "../../../../../core/framework/customer/Model/Customer";
 import {OfflineService} from "../../../../../../share/provider/offline";
 import {AuthenticateService} from "../../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -28,7 +29,8 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
               protected offline: OfflineService,
               protected notify: NotifyManager,
               public authenticateService: AuthenticateService,
-              protected checkoutPopupActions: CheckoutPopupActions) {
+              protected checkoutPopupActions: CheckoutPopupActions,
+              protected tourService: TutorialService) {
     super();
   }
   
@@ -60,5 +62,25 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
       return true;
     }
     return false;
+  }
+  
+  cancelAction() {
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 15) {
+        this.tourService.tour.resume();
+        this.tourService.tour.goTo(16);
+      }
+    }, 100);
+    this.cartCustomerActions.updateActionCartState('inSearchCustomers',false);
+  }
+  
+  setCustomerToQuote(customer) {
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 15) {
+        this.tourService.tour.resume();
+        this.tourService.tour.goTo(16);
+      }
+    }, 100);
+    this.quoteActions.setCustomerToQuote(customer);
   }
 }

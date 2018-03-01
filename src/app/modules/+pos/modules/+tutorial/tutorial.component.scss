@@ -5,6 +5,26 @@
   z-index: 9999 !important;
 }
 .customer-tutorial {
-  left: 1570px !important;
-  top: 40px !important;
+  @media only screen and (max-width: 1920px) {
+    left: 82% !important;
+    top: 40px !important;
+  }
+  @media only screen and (max-width: 1366px) {
+    left: 75% !important;
+    top: 40px !important;
+  }
+}
+
+.value-cart-tutorial{
+  @media only screen and (max-height: 1080px) {
+      top: 65% !important;
+      left: 70% !important;
+  }
+  @media only screen and (max-height: 980px) {
+      top: 50% !important;
+      left: 70% !important;
+  }
+}
+.arrow-value-cart-tutorial{
+  top: 100% !important;
 }

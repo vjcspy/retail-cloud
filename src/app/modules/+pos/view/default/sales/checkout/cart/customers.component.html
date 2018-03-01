@@ -6,7 +6,7 @@
   </div>
   <div class="customer-row-wrap" perfectScroll>
     <div *ngFor="let customer of cartCustomerState.cartCustomers;trackBy:customerTrackBy">
-      <div *ngIf="customer['id'] != configState.setting.customer.getDefaultCustomerId()" class="customer-row animated fadeIn" (click)="quoteActions.setCustomerToQuote(customer)">
+      <div *ngIf="customer['id'] != configState.setting.customer.getDefaultCustomerId()" class="customer-row animated fadeIn" (click)="setCustomerToQuote(customer)">
         <div class="customer-head">
         <span class="avatar-img click">
           <img src="assets/img/avatar.png">
@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="c-bottom">
-    <button class="gray" (click)="cartCustomerActions.updateActionCartState('inSearchCustomers',false)">{{ 'Cancel' | translate }}</button>
+    <button class="gray" (click)="cancelAction()">{{ 'Cancel' | translate }}</button>
     <button (click)="createNewCustomer()"  [ngClass]="{disable: !createCustomerPermission()}">{{ 'Create New' | translate }}</button>
   </div>
 </div>

@@ -100,4 +100,13 @@ export class PosDefaultSalesCheckoutStepCompleteComponent implements OnInit {
       this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }
   }
+  
+  newOrder() {
+    setTimeout(() => {
+      if (this.tourService.tour.getCurrentStep() === 21) {
+        this.tourService.tour.next();
+      }
+    });
+    this.posStepActions.newOrder();
+  }
 }
