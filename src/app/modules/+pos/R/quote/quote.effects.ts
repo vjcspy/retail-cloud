@@ -472,17 +472,25 @@ export class PosQuoteEffects {
     if (_.isObject(option1) && _.isObject(option2)) {
       let isMatch = true;
       _.forEach(option1, (v, k) => {
-        if (!option2.hasOwnProperty(k) || !_.isEqual(option2[k], v)) {
-          return isMatch = false;
+        if (option2.hasOwnProperty(k)) {
+          if (_.isEqual(option2[k].split(","), v) || _.isEqual(option2[k], v)) {} else {
+            return isMatch = false;
+          }
         }
       });
       if (!isMatch) {
         return false;
       }
       
-      _.forEach(option2, (v, k) => {
-        if (!option1.hasOwnProperty(k) || !_.isEqual(option1[k], v)) {
-          return isMatch = false;
+      _.forEach(option2, (v: any, k) => {
+        if (option1.hasOwnProperty(k)) {
+          let valueCompare;
+          if (typeof v === "string") {
+            valueCompare = v.split(",");
+          }
+          if (_.isEqual(option1[k], valueCompare) || _.isEqual(option1[k], v)) {} else {
+            return isMatch = false;
+          }
         }
       });
       
