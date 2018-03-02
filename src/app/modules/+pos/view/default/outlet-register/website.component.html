@@ -1,16 +1,21 @@
-<div class="clearfix outlet-top" *ngIf="hasWebsite()">
-  <div class="pull-left domain-select">
+<div class="clearfix outlet-top">
+  <div class="pull-left domain-select" *ngIf="hasWebsite()">
     <div class="form-group">
       <label for="baseUrl">{{'Website' | translate}}</label>
-      <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl" (ngModelChange)="selectWebsite($event)" [disabled]="pullState.isPullingChain">
+      <select id="baseUrl" name="baseUrl" class="form-control" [ngModel]="baseUrl"
+              (ngModelChange)="selectWebsite($event)" [disabled]="pullState.isPullingChain">
         <option value="null">{{'Please select website'| translate}}</option>
-        <option *ngFor="let item of generalState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">{{item['url']}}</option>
+        <option *ngFor="let item of generalState.urls" [value]="item['url']" [selected]="baseUrl == item['url']">
+          {{item['url']}}
+        </option>
       </select>
     </div>
   </div>
   <div class="pull-right button-group">
-    <button type="button" class="btn-setting" (click)="go('pos/configurations/default/pos/outlet/grid')">{{'SETTING'| translate}} <i class="icon-nav-setting"></i>
+    <button type="button" class="btn-setting" (click)="go('pos/configurations/default/pos/outlet/grid')">{{'SETTING'|
+      translate}} <i class="icon-nav-setting"></i>
     </button>
-    <button type="button" class="btn-logout" (click)="accountActions.logout()">{{'LOGOUT'| translate}} <i class="fa fa-sign-out"></i></button>
+    <button type="button" class="btn-logout" (click)="accountActions.logout()">{{'LOGOUT'| translate}} <i
+      class="fa fa-sign-out"></i></button>
   </div>
 </div>
