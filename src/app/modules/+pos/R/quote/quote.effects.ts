@@ -49,31 +49,32 @@ export class PosQuoteEffects {
               private notify: NotifyManager,
               private quoteCustomer: QuoteCustomerService,
               private progress: ProgressBarService,
-              private offlineService: OfflineService) {}
-  
+              private offlineService: OfflineService) {
+  }
+
   @Effect() setCustomerToQuote = this.actions$
                                      .ofType(PosQuoteActions.ACTION_SET_CUSTOMER_TO_QUOTE)
                                      .withLatestFrom(this.store$.select('general'))
                                      .withLatestFrom(this.store$.select('entities'),
-                                                     ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                       ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                      .map(([action, generalState, entitiesState]) => {
                                        const customer                              = (action as Action).payload.customer;
                                        const needResolveBilling                    = (action as Action).payload.needResolveBilling;
                                        const needResolveShipping                   = (action as Action).payload.needResolveShipping;
                                        const customerGroups: List<CustomerGroupDB> = (entitiesState as PosEntitiesState).customerGroup.items;
                                        const customerGroup                         = customerGroups.find((group: CustomerGroupDB) => parseInt(group['id']) === parseInt(customer['customer_group_id'] + ''));
-    
+
                                        if (customerGroup) {
                                          customer.setData('tax_class_id', customerGroup['tax_class_id']);
                                        }
-    
+
                                        this.quoteService.setCustomerToQuote(customer);
-    
+
                                        let {shippingAdd, billingAdd} = this.quoteService.getDefaultAddressOfCustomer(customer, (generalState as PosGeneralState).outlet);
-    
+
                                        return this.quoteActions.setAddressToQuote(shippingAdd, billingAdd, needResolveBilling, needResolveShipping, false);
                                      });
-  
+
   @Effect() selectItemToAdd = this.actions$.ofType(PosQuoteActions.ACTION_SELECT_PRODUCT_TO_ADD)
                                   .withLatestFrom(this.store$.select('sync'))
                                   .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
@@ -82,7 +83,7 @@ export class PosQuoteEffects {
                                       this.notify.warning("please_open_shift");
                                       return false;
                                     }
-    
+
                                     return true;
                                   })
                                   .filter(([action, syncState]) => (syncState as PosSyncState).isSyncing === false)
@@ -90,14 +91,14 @@ export class PosQuoteEffects {
                                     const product: Product         = _.clone(action.payload['product']);
                                     const forceProductCustomOption = action.payload['forceProductCustomOptions'];
                                     let buyRequest                 = new DataObject();
-    
+
                                     if (!!action.payload['config']) {
                                       buyRequest.addData(action.payload['config']);
                                     }
                                     buyRequest.setData('qty', action.payload['qty'])
                                               .setData('product_id', product.getData('id'))
                                               .setData('product', product);
-    
+
                                     switch (product.getTypeId()) {
                                       case 'virtual':
                                       case 'simple':
@@ -121,17 +122,17 @@ export class PosQuoteEffects {
                                         };
                                       default:
                                     }
-    
+
                                     return this.quoteActions.addItemBuyRequestToQuote(buyRequest, false, false);
                                   });
-  
+
   @Effect() addItemBuyRequest = this.actions$
                                     .ofType(PosQuoteActions.ACTION_ADD_ITEM_BUY_REQUEST_TO_QUOTE)
                                     .withLatestFrom(this.store$.select('quote'))
                                     .map(([action, quoteState]) => {
                                       const buyRequest = action['payload']['buyRequest'];
                                       let items        = quoteState['items'];
-    
+
                                       if (buyRequest.getData('super_group')) {
                                         _.forEach(buyRequest.getData('super_group'), async (qty, productId) => {
                                           if (qty !== '' && _.isNumber(parseFloat(qty))) {
@@ -143,7 +144,7 @@ export class PosQuoteEffects {
                                               childBuyRequest.setData('qty', qty)
                                                              .setData('product_id', productId)
                                                              .setData('product', childProduct);
-            
+
                                               let info = this._getItemByBuyRequest(childBuyRequest, items);
                                               items    = info['items'];
                                               if (info['isMatching'] === false) {
@@ -164,10 +165,10 @@ export class PosQuoteEffects {
                                           }
                                         }
                                       }
-    
+
                                       return this.quoteActions.updateQuoteItems(items, true, false);
                                     });
-  
+
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
                                       PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
@@ -179,13 +180,13 @@ export class PosQuoteEffects {
                                         return action.payload['entityCode'] === ShiftDB.getCode();
                                       } else {
                                         return ['/pos/default/sales/checkout',
-                                                '/pos/default/sales/shifts'
-                                               ].indexOf(action.payload['path']) > -1;
+                                          '/pos/default/sales/shifts'
+                                        ].indexOf(action.payload['path']) > -1;
                                       }
                                     })
                                     .withLatestFrom(this.store$.select('general'))
                                     .withLatestFrom(this.store$.select('entities'),
-                                                    ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                      ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                     .switchMap((z) => {
                                       if ((z[0] as Action).type === PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS) {
                                         const shifts: List<any> = (z[2] as PosEntitiesState).shifts.items;
@@ -198,7 +199,7 @@ export class PosQuoteEffects {
                                                    });
                                       }
                                     }).catch((e) => Observable.of(this.rootActions.error("Check shift failed", e, false)));
-  
+
   @Effect() removeShipping = this.actions$
                                  .ofType(
                                    PosQuoteActions.ACTION_REMOVE_SHIPPING,
@@ -208,10 +209,10 @@ export class PosQuoteEffects {
                                  .map((z: any) => {
                                    const customer                = (z[1] as PosQuoteState).quote.getCustomer();
                                    let {shippingAdd, billingAdd} = this.quoteService.getDefaultAddressOfCustomer(customer, (z[2] as PosGeneralState).outlet);
-    
+
                                    return this.quoteActions.setAddressToQuote(shippingAdd, billingAdd, false, true, false);
                                  });
-  
+
   @Effect() resolveQuote = this.actions$
                                .ofType(
                                  PosQuoteActions.ACTION_NEED_RESOLVE_QUOTE,
@@ -229,38 +230,38 @@ export class PosQuoteEffects {
                                    if ([TaxDB.getCode(), SettingDB.getCode()].indexOf(action.payload['entityCode']) === -1) {
                                      return false;
                                    }
-      
+
                                    return true;
                                  }
-    
+
                                  return true;
                                })
                                .withLatestFrom(this.store$.select('quote'))
                                .withLatestFrom(this.store$.select('config'),
-                                               ([action, quoteState], configState) => [action, quoteState, configState])
+                                 ([action, quoteState], configState) => [action, quoteState, configState])
                                .withLatestFrom(this.store$.select('general'),
-                                               ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
+                                 ([action, quoteState, configState], generalState) => [action, quoteState, configState, generalState])
                                .switchMap(([action, quoteState, configState, generalState]) => {
                                  const quote: Quote = (quoteState as PosQuoteState).quote;
-    
+
                                  if (quote.getCustomer() && quote.getCustomer().getId()) {
                                    const items: List<DataObject> = (quoteState as PosQuoteState).items;
-      
+
                                    return Observable.fromPromise(this.prepareAddProductToQuote(items))
                                                     .switchMap(() => {
                                                       quote.removeAllAddresses()
                                                            .removeAllItems()
                                                            .setShippingAddress((quoteState as PosQuoteState).shippingAdd)
                                                            .setBillingAddress((quoteState as PosQuoteState).billingAdd);
-        
+
                                                       if (quote.getCustomer()['id'] === (configState as PosConfigState).setting.customer.getDefaultCustomerId()) {
                                                         quote.setUseDefaultCustomer(true);
                                                       } else {
                                                         quote.setUseDefaultCustomer(false);
                                                       }
-        
+
                                                       let errorActions = [];
-        
+
                                                       items.forEach((item: DataObject) => {
                                                         try {
                                                           ObjectManager.getInstance()
@@ -272,25 +273,28 @@ export class PosQuoteEffects {
                                                           errorActions.push(this.quoteActions.quoteAddItemError(item, false));
                                                         }
                                                       });
-        
+
                                                       quote.setTotalsCollectedFlag(false).collectTotals();
-                                                      
+
                                                       // fix unknown issue when using bar code scanner
                                                       AppService.$changeDetector.detectChanges();
-        
+
                                                       return Observable.from([{type: PosQuoteActions.ACTION_RESOLVE_QUOTE}, ...errorActions]);
                                                     });
                                  } else if (!!(generalState as PosGeneralState).outlet['enable_guest_checkout']) {
                                    let customer = new Customer();
                                    Object.assign(customer, (configState as PosConfigState).setting.customer.getDefaultCustomer());
                                    quote.setUseDefaultCustomer(true);
-      
+
                                    return Observable.of(this.quoteActions.setCustomerToQuote(customer, true, true, false));
                                  } else {
-                                   return Observable.of({type: RootActions.ACTION_ERROR, payload: {mess: "Not allow guest checkout"}});
+                                   return Observable.of({
+                                     type: RootActions.ACTION_ERROR,
+                                     payload: {mess: "Not allow guest checkout"}
+                                   });
                                  }
                                });
-  
+
   @Effect() reorder = this.actions$
                           .ofType(PosQuoteActions.ACTION_REORDER)
                           .debounceTime(1000)
@@ -300,30 +304,30 @@ export class PosQuoteEffects {
                           .switchMap((z) => {
                             const action: Action              = <any>z[0];
                             const configState: PosConfigState = <any>z[2];
-    
+
                             const allItems: List<ProductDB> = (z[1] as PosEntitiesState).products.items;
-    
+
                             // resolve items
                             let items = List.of();
                             _.forEach(action.payload['orderData']['items'], (item) => {
                               let _buyRequest = new DataObject();
                               _buyRequest.addData(item['buy_request']);
-      
+
                               // if (_buyRequest.hasOwnProperty('discount_per_item') ||
                               // _buyRequest.hasOwnProperty('retail_discount_per_items_percent')) { _buyRequest.setData("discount_per_item", 0);
                               // _buyRequest.setData("retail_discount_per_items_percent", 0); }
-      
+
                               // if (_buyRequest.hasOwnProperty('custom_price')) {
                               //   _buyRequest.setData("custom_price", null);
                               // }
-      
+
                               let product;
                               if (parseInt(_buyRequest.getData('product_id')) !== parseInt(configState.setting.product.getCustomSaleProduct()['id'])) {
                                 product = allItems.find((i) => parseInt(i['id'] + '') === parseInt(_buyRequest.getData('product_id')));
                               } else {
                                 product = configState.setting.product.getCustomSaleProduct();
                               }
-      
+
                               if (product) {
                                 let p = new Product();
                                 p.mapWithParent(product);
@@ -333,26 +337,26 @@ export class PosQuoteEffects {
                                 return Observable.of(this.rootActions.error("we_can_not_find_product_with_id_" + _buyRequest.getData('product_id')));
                               }
                             });
-    
+
                             let ob = [];
                             if (items.count() > 0) {
                               ob.push(this.quoteActions.updateQuoteItems(items, true, false));
                             }
-    
+
                             // Resolve retail note
                             let retail_note = action.payload['orderData']['retail_note'];
                             if (retail_note) {
                               this.quoteService.setNoteToQuote(retail_note);
                             }
-    
+
                             // Resolve customer
                             let customer = action.payload['orderData']['customer'];
                             if (parseInt(configState.setting.customer.getDefaultCustomerId()) === parseInt(customer + '')) {
                               let c = new Customer();
                               c.mapWithParent(configState.setting.customer.getDefaultCustomer());
-      
+
                               ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
-      
+
                               return Observable.from(ob);
                             } else if (configState.posRetailConfig.useCustomerOnlineMode) {
                               this.progress.start();
@@ -362,9 +366,9 @@ export class PosQuoteEffects {
                                                   customer = data['items'][0];
                                                   let c    = new Customer();
                                                   c.mapWithParent(customer);
-          
+
                                                   ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
-          
+
                                                   return Observable.from(ob);
                                                 } else {
                                                   return Observable.of(this.rootActions.error("we_can't_not_find_customer_when_reorder"));
@@ -386,27 +390,27 @@ export class PosQuoteEffects {
                               }
                               let c = new Customer();
                               c.mapWithParent(customer);
-      
+
                               ob.unshift(this.quoteActions.setCustomerToQuote(c, true, true, false));
-      
+
                               return Observable.from(ob);
                             }
                           });
-  
+
   private _getItemByBuyRequest(buyRequest: DataObject, items: List<DataObject>) {
     let isMatching = false;
-    
+
     // Custom sale is always considered as a new product
     if (buyRequest.getData('custom_sale')) {
       return {items, isMatching};
     }
-    
+
     if (buyRequest.getData('product').getTypeId() === 'grouped') {
       // Grouped product will be converted before add to cart
       isMatching = true;
       return {items, isMatching};
     }
-    
+
     items = <any>items.map((itemBuyRequest: DataObject) => {
       if (this._representBuyRequest(itemBuyRequest, buyRequest) && !isMatching) {
         isMatching = true;
@@ -434,15 +438,15 @@ export class PosQuoteEffects {
       }
       return itemBuyRequest;
     });
-    
+
     return {items, isMatching};
   }
-  
+
   private _representBuyRequest(itemBuyRequest: DataObject, buyRequest: DataObject) {
     if (parseInt(itemBuyRequest.getData('product_id')) !== parseInt(buyRequest.getData('product_id'))) {
       return false;
     }
-    
+
     // check options:
     if (buyRequest.getData('options') || itemBuyRequest.getData('options')) {
       if (!this._compareOptions(buyRequest.getData('options'), itemBuyRequest.getData('options'))) {
@@ -467,39 +471,36 @@ export class PosQuoteEffects {
     }
     return true;
   }
-  
-  private _compareOptions(option1: Object, option2: Object) {
+
+  private _compareOptions(option1: Object, option2: Object): boolean {
     if (_.isObject(option1) && _.isObject(option2)) {
       let isMatch = true;
       _.forEach(option1, (v, k) => {
-        if (option2.hasOwnProperty(k)) {
-          if (_.isEqual(option2[k].split(","), v) || _.isEqual(option2[k], v)) {} else {
-            return isMatch = false;
-          }
+        if (!option2.hasOwnProperty(k) || (!_.isEqual(option2[k], v) && !_.isEqual(option2[k].split(","), v))) {
+          return isMatch = false;
         }
       });
+
       if (!isMatch) {
-        return false;
-      }
-      
-      _.forEach(option2, (v: any, k) => {
-        if (option1.hasOwnProperty(k)) {
+        return isMatch;
+      } else {
+        _.forEach(option2, (v: any, k) => {
           let valueCompare;
           if (typeof v === "string") {
             valueCompare = v.split(",");
           }
-          if (_.isEqual(option1[k], valueCompare) || _.isEqual(option1[k], v)) {} else {
+          if (!option1.hasOwnProperty(k) || (!_.isEqual(option1[k], v) && !_.isEqual(option1[k], valueCompare))) {
             return isMatch = false;
           }
-        }
-      });
-      
+        });
+      }
+
       return isMatch;
     } else {
       return false;
     }
   }
-  
+
   private async prepareAddProductToQuote(items: List<DataObject>) {
     return new Promise((resolve) => {
       AsyncHelper.forEach(items.toArray(), async (buyRequest: DataObject) => {
@@ -509,23 +510,23 @@ export class PosQuoteEffects {
             break;
           case 'configurable':
             const configurableProduct: Product = buyRequest.getData('product');
-            
+
             let configurableType = new Configurable();
             await configurableType.resolveConfigurable(buyRequest, configurableProduct);
             break;
           case 'bundle':
             let bundleProduct: Product;
             bundleProduct = buyRequest.getData('product');
-            
+
             let bundleType;
             bundleType = <Bundle>bundleProduct.getTypeInstance();
             bundleType.resolveBundle(buyRequest, bundleProduct);
-            
+
             break;
           case 'grouped':
             let groupedProduct: Product;
             groupedProduct = buyRequest.getData('product');
-            
+
             let groupedType = <Grouped> groupedProduct.getTypeInstance();
             await groupedType.resolveAssociatedProducts(groupedProduct);
             break;
