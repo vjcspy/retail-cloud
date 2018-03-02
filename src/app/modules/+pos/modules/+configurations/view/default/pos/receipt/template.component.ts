@@ -21,7 +21,7 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
   @Input() entitiesState: PosEntitiesState;
   @Input() configurationsReceiptState: ConfigurationsReceiptState;
   @Input() generalState: PosGeneralState;
-  
+
   public logoImg: FileUploader;
   public footerImg: FileUploader;
   public isSavingImage: boolean = false;
@@ -46,24 +46,24 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       'redo'
     ],
   };
-  
+
   constructor(private configurationsReceiptActions: ConfigurationsReceiptActions,
               private apiUrl: ApiManager,
               private notify: NotifyManager,
               private formValidation: FormValidationService) { }
-  
+
   ngOnInit() {
     this.initFileUploader();
   }
-  
+
   protected initFileUploader() {
     this.logoImg                  = new FileUploader({
-                                                       url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl),
+                                                       url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl) + `?forceFullPageCache=${Date.now()}`,
                                                        autoUpload: true,
                                                        headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                                      });
     this.footerImg                = new FileUploader({
-                                                       url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl),
+                                                       url: this.apiUrl.getUploaderUrl(this.generalState.baseUrl) + `?forceFullPageCache=${Date.now()}`,
                                                        autoUpload: true,
                                                        headers: [{name: "Access-Control-Allow-Origin", value: "*"}]
                                                      });
@@ -90,11 +90,11 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
         this.notify.error('can_not_save_image');
       };
   }
-  
+
   getReceiptSelectElem() {
     return ReceiptHelper.getReceiptTemplateSelect(this.entitiesState.receipts.items.toArray(), true);
   }
-  
+
   selectReceipt(id) {
     let receipt: any;
     if (isNaN(id)) {
@@ -116,11 +116,11 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
         barcode_symbology: 'CODE128',
         enable_power_text: true
       };
-      
+
     } else {
       receipt = this.entitiesState.receipts.items.find((r) => parseInt(r['id']) === parseInt(id));
     }
-    
+
     if (receipt) {
       this.configurationsReceiptActions.selectReceipt(receipt);
       setTimeout(() => {
@@ -128,7 +128,7 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       }, 250);
     }
   }
-  
+
   getStatusImageSelectElem() {
     return {
       data: [
@@ -137,7 +137,7 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       ]
     };
   }
-  
+
   getCustomerInfoSelectElem() {
     return {
       data: [
@@ -148,7 +148,7 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       ]
     };
   }
-  
+
   getTotalElementSelectElem() {
     return {
       data: [
@@ -157,11 +157,11 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       ]
     };
   }
-  
+
   onChangeBarcodeSymbology() {
     this.initBarcode();
   }
-  
+
   getBarcodeSymbologyElemSelect() {
     return {
       data: [
@@ -177,12 +177,12 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       ]
     };
   }
-  
+
   private initBarcode() {
     if (!this.configurationsReceiptState.receipt['enable_barcode']) {
       return;
     }
-    
+
     if (this.configurationsReceiptState.receipt['barcode_symbology']) {
       let defaultWidth = 2;
       if (_.indexOf(["CODE39", "CODE128A", "CODE128B"], this.configurationsReceiptState.receipt['barcode_symbology']) > -1) {
@@ -203,13 +203,13 @@ export class ConfigurationsDefaultPosReceiptTemplateComponent implements OnInit 
       });
     }
   }
-  
+
   saveReceipt() {
     this.formValidation.submit('retail-receipt', async () => {
       this.configurationsReceiptActions.saveReceipt(this.configurationsReceiptState.receipt);
     }, true);
   }
-  
+
   isChecked(value) {
     return value === true || parseInt(value) === 1;
   }
