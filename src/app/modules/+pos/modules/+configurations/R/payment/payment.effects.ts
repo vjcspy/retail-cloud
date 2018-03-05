@@ -4,7 +4,6 @@ import {Actions, Effect} from "@ngrx/effects";
 import {Router} from "@angular/router";
 import {ConfigurationsPaymentService} from "./payment.service";
 import {ConfigurationsPaymentActions} from "./payment.actions";
-import * as _ from 'lodash';
 import {PaymentDB} from "../../../../database/xretail/db/payment";
 import {Observable} from "rxjs/Observable";
 import {EntityActions} from "../../../../R/entities/entity/entity.actions";
@@ -13,6 +12,7 @@ import {PosEntitiesActions} from "../../../../R/entities/entities.actions";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {RetailConfigActions} from "../retail-config/retail-config.actions";
 import * as _ from 'lodash';
+import {PosStepService} from "../../../../view/R/sales/checkout/step/step.service";
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
@@ -24,6 +24,7 @@ export class ConfigurationsPaymentEffects {
               private entityActions: EntityActions,
               private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
+              private posStepService: PosStepService,
               private router: Router) {
   }
 
@@ -42,7 +43,7 @@ export class ConfigurationsPaymentEffects {
                                         if (entitiesState.payment.isFinished === true) {
                                           payment                                           = true;
                                           this.configurationsPaymentService.paymentSnapshot = <any>entitiesState.payment.items
-                                                                                                                .filter((v) => _.indexOf(['gift_card', 'reward_point', 'pay_pal'], v['type']) < 0);
+                                                                                                                .filter((v) => this.posStepService.isPaymentCanUse(v));
 
                                         }
 

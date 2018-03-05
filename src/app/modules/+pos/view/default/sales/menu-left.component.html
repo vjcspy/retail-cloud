@@ -3,8 +3,8 @@
   <div class="account-side">
     <span class="icon-user-bold"></span>
     <div class="user-name">
-      <p class="name">{{getUserName()}}</p>
-      <p class="txt">{{getOutletRegisterData()}}</p>
+      <p class="name">{{getUserName() + getRole()}}</p>
+      <p class="txt" style="font-size: 11px">{{"Outlet/Register: " + getOutletRegisterData()}}</p>
     </div>
   </div>
   <ul class="left-menu-link">
@@ -15,13 +15,15 @@
       </span>
     </li>
     <li>
-      <span class="click" (click)="openShift()" [ngClass]="{disable: !offline.online ||!authenticateService.userCan('view_register')}">
+      <span class="click" (click)="openShift()"
+            [ngClass]="{disable: !offline.online ||!authenticateService.userCan('view_register')}">
           <span class="icon-nav-shift"></span>
           <span>{{'shifts' | translate}}</span>
       </span>
     </li>
     <li>
-            <span class="click" (click)="openOrders()" [ngClass]="{disable: !authenticateService.userCan('view_order_list')}">
+            <span class="click" (click)="openOrders()"
+                  [ngClass]="{disable: !authenticateService.userCan('view_order_list')}">
                 <span class="icon-nav-orderlist"></span>
               <span>{{'order list' | translate}}</span>
             </span>
