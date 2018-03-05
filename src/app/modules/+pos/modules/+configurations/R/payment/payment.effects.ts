@@ -12,10 +12,11 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {PosEntitiesActions} from "../../../../R/entities/entities.actions";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {RetailConfigActions} from "../retail-config/retail-config.actions";
+import * as _ from 'lodash';
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private configurationsPaymentService: ConfigurationsPaymentService,
@@ -23,8 +24,9 @@ export class ConfigurationsPaymentEffects {
               private entityActions: EntityActions,
               private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
-              private router: Router) { }
-  
+              private router: Router) {
+  }
+
   @Effect() takeSnapshotPayment = this.actions$
                                       .ofType(
                                         PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
@@ -39,12 +41,14 @@ export class ConfigurationsPaymentEffects {
                                         let payment                           = false;
                                         if (entitiesState.payment.isFinished === true) {
                                           payment                                           = true;
-                                          this.configurationsPaymentService.paymentSnapshot = entitiesState.payment.items;
+                                          this.configurationsPaymentService.paymentSnapshot = <any>entitiesState.payment.items
+                                                                                                                .filter((v) => _.indexOf(['gift_card', 'reward_point', 'pay_pal'], v['type']) < 0);
+
                                         }
-    
+
                                         return Observable.from([this.retailConfigActions.isLoadedDepend({payment}, false)]);
                                       });
-  
+
   @Effect() savePayment = this.actions$
                               .ofType(
                                 ConfigurationsPaymentActions.ACTION_SAVE_PAYMENT
@@ -62,9 +66,9 @@ export class ConfigurationsPaymentEffects {
                                              this.notify.success("save_payment_successfully");
                                              return Observable.fromPromise(payment.savPayments(items))
                                                               .switchMap(() => Observable.from([
-                                                                                                 this.configurationsPaymentActions.savePaymentSuccess(items, false),
-                                                                                                 this.entityActions.pushManyEntity(items, PaymentDB.getCode(), 'id', false)
-                                                                                               ]))
+                                                                this.configurationsPaymentActions.savePaymentSuccess(items, false),
+                                                                this.entityActions.pushManyEntity(items, PaymentDB.getCode(), 'id', false)
+                                                              ]))
                                                               .catch((e) => Observable.of(this.configurationsPaymentActions.savePaymentFailed('save_payment_failed', e, false)));
                                            })
                                            .catch((e) => Observable.of(this.configurationsPaymentActions.savePaymentFailed('save_payment_failed_from_sv', e, false)));
