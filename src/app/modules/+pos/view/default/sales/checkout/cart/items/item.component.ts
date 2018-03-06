@@ -102,4 +102,11 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
       return '/assets/img/no-image.jpg';
     }
   }
+  
+  checkIsGiftCard() {
+    if (this.item.getProduct().getTypeId() === 'aw_giftcard2' || this.item.getProduct().getTypeId() === 'aw_giftcard') {
+      return true;
+    }
+    return false;
+  }
 }
