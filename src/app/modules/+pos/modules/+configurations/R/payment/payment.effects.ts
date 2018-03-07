@@ -12,7 +12,7 @@ import {PosEntitiesActions} from "../../../../R/entities/entities.actions";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {RetailConfigActions} from "../retail-config/retail-config.actions";
 import * as _ from 'lodash';
-import {PosStepService} from "../../../../view/R/sales/checkout/step/step.service";
+import {RetailDataHelper} from "../../../../services/retail-data-helper";
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
@@ -24,7 +24,7 @@ export class ConfigurationsPaymentEffects {
               private entityActions: EntityActions,
               private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
-              private posStepService: PosStepService,
+              private retailDataHelper: RetailDataHelper,
               private router: Router) {
   }
 
@@ -43,7 +43,7 @@ export class ConfigurationsPaymentEffects {
                                         if (entitiesState.payment.isFinished === true) {
                                           payment                                           = true;
                                           this.configurationsPaymentService.paymentSnapshot = <any>entitiesState.payment.items
-                                                                                                                .filter((v) => this.posStepService.isPaymentCanUse(v));
+                                                                                                                .filter((v) => this.retailDataHelper.isPaymentCanUse(v));
 
                                         }
 

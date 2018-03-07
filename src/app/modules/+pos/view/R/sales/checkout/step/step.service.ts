@@ -52,8 +52,4 @@ export class PosStepService {
   getvalidatedAmountPayment(methodAmount: any): number {
     return (isNaN(methodAmount) || !methodAmount) ? 0 : parseFloat(methodAmount + '');
   }
-
-  isPaymentCanUse(p) {
-    return _.indexOf(['gift_card', 'reward_point', 'pay_pal'], p['type']) < 0;
-  }
 }

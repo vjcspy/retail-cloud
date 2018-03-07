@@ -21,6 +21,7 @@ import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
 import {TrackingService} from "../../../../../services/tracking/tracking-service";
+import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 
 @Injectable()
 export class PosStepEffects {
@@ -37,6 +38,7 @@ export class PosStepEffects {
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
               private entityActions: EntityActions,
+              private retailDataHelper:RetailDataHelper,
               private trackingService: TrackingService) {
   }
 
@@ -51,7 +53,7 @@ export class PosStepEffects {
                                        if (p['type'] === 'cash') {
                                          cashPaymentId = p['id'];
                                        }
-                                       if (!!p.is_active && this.stepService.isPaymentCanUse(p)) {
+                                       if (!!p.is_active && this.retailDataHelper.isPaymentCanUse(p)) {
                                          paymentMethodCanUse = paymentMethodCanUse.push(p);
                                        }
                                      });

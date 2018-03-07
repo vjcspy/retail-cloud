@@ -21,7 +21,8 @@ export class RealtimeEffects {
               private notify: NotifyManager,
               private realtimeService: RealtimeService,
               private realtimeActions: RealtimeActions,
-              private rootActions: RootActions) { }
+              private rootActions: RootActions) {
+  }
 
   @Effect() subscribeRealtimeChange = this.actions$
                                           .ofType(
@@ -29,7 +30,7 @@ export class RealtimeEffects {
                                           )
                                           .withLatestFrom(this.store$.select('general'))
                                           .withLatestFrom(this.store$.select('entities'),
-                                                          ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                            ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                           .filter((z) => {
                                             const action: Action = <any>z[0];
                                             const entityCode     = action.payload['entityCode'];
@@ -71,20 +72,20 @@ export class RealtimeEffects {
                                                          let ob = [];
                                                          if (needRemove.count() > 0) {
                                                            ob.push(this.realtimeActions.realtimeNeedRemove({
-                                                                                                             needRemove,
-                                                                                                             entityInfo,
-                                                                                                             entity,
-                                                                                                             newCacheTime
-                                                                                                           }, false));
+                                                             needRemove,
+                                                             entityInfo,
+                                                             entity,
+                                                             newCacheTime
+                                                           }, false));
                                                          }
 
                                                          if (needUpdate.count() > 0) {
                                                            ob.push(this.realtimeActions.realtimeNeedUpdate({
-                                                                                                             needUpdate,
-                                                                                                             entityInfo,
-                                                                                                             entity,
-                                                                                                             newCacheTime
-                                                                                                           }, false));
+                                                             needUpdate,
+                                                             entityInfo,
+                                                             entity,
+                                                             newCacheTime
+                                                           }, false));
                                                          }
 
                                                          return ob;
@@ -138,4 +139,19 @@ export class RealtimeEffects {
                                                 })
                                                 .catch(() => Observable.of(this.rootActions.error('realtime_failed', null, false)));
                                    });
+
+  @Effect() recheckRealtime = this.actions$
+                                  .ofType(
+                                    RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB,
+                                    RealtimeActions.ACTION_REALTIME_REMOVED_ENTITY_DB,
+                                  )
+                                  .map((action: Action) => {
+                                    setTimeout(() => {
+                                      // if this already checked realtime, will trigger check realtime mannualy.
+                                      this.realtimeService.triggerCheckRealtime(action.payload['entityCode']);
+                                    });
+
+                                    return this.rootActions.nothing('rotate_the_realtime_handle', false);
+                                  });
+
 }
