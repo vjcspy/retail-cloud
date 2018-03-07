@@ -1,9 +1,9 @@
 <div class="clearfix outlet-top" *ngIf="!hasCposPermission()">
-  <!--<div class="pull-left domain-select">-->
-    <!--<div class="form-group">-->
-      <!--<label style="color: red" >{{'not_have_permission_to_access_to_connectpos' | translate}}</label>-->
-    <!--</div>-->
-  <!--</div>-->
+  <div class="pull-left">
+    <div class="form-group">
+      <label style="color: red" >{{'not_have_permission_to_access_to_connectpos' | translate}}</label>
+    </div>
+  </div>
   <div class="pull-right button-group">
     <button type="button" class="btn-logout" (click)="accountActions.logout()">{{'LOGOUT'| translate}} <i class="fa fa-sign-out"></i></button>
   </div>
