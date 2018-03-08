@@ -59,7 +59,7 @@ export class RealtimeService {
                                                         cache_time: {$gt: parseInt(entityInfo['cache_time'] + "")},
                                                         "data.entity": entityCode,
                                                         base_url: {'$regex': generalState.baseUrl}
-                                                      }, {sort: {date_created: -1}, limit: 20})
+                                                      }, {limit: 40})
                                                       .fetch();
                            let needRemove = List.of();
                            let needUpdate = List.of();
