@@ -134,6 +134,7 @@ export class PosDefaultSalesCheckoutTopBarComponent extends AbstractSubscription
   }
   
   openLeftBarMenu() {
+    this.tourService.tour.end();
     this.menuLeftActions.changeOpenState(true)
   }
 }

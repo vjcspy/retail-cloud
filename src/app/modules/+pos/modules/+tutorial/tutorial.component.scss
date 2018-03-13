@@ -25,6 +25,28 @@
       left: 70% !important;
   }
 }
+
+.pay-cart-tutorial {
+  @media only screen and (max-height: 1080px) {
+    top: 75% !important;
+    left: 70% !important;
+  }
+  @media only screen and (max-height: 980px) {
+    top: 65% !important;
+    left: 70% !important;
+  }
+}
+
+.complete-cart-tutorial {
+  @media only screen and (max-height: 1080px) {
+    top: 72% !important;
+    left: 83% !important;
+  }
+  @media only screen and (max-height: 980px) {
+    top: 60% !important;
+    left: 75% !important;
+  }
+}
 .arrow-value-cart-tutorial{
   top: 100% !important;
 }

@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {delay} from "q";
 
 @Injectable()
 export class TutorialService {
@@ -184,6 +185,8 @@ export class TutorialService {
                            backdrop: true,
                            onShown: () => {
                              jQuery(".btn[data-role=next]").css("display", "none");
+                             jQuery(".popover").removeClass( "right" ).addClass( "top pay-cart-tutorial" );
+                             jQuery(".arrow").addClass( "arrow-value-cart-tutorial" );
                            }
                          },
                          {
@@ -202,6 +205,8 @@ export class TutorialService {
                            backdrop: true,
                            onShown: () => {
                              jQuery(".btn[data-role=next]").css("display", "none");
+                             jQuery(".popover").removeClass( "right" ).addClass( "top complete-cart-tutorial" );
+                             jQuery(".arrow").addClass( "arrow-value-cart-tutorial" );
                            }
                          },
                          {
@@ -232,5 +237,9 @@ export class TutorialService {
   dispatchPauseTour(): void {
     jQuery(".tour-backdrop").css("display", "none");
     jQuery(".popover").css("display", "none");
+  }
+  
+  enableNextButton(): void {
+    jQuery(".popover.popover-navigation.btn[data-role=next]").css("display", "none");
   }
 }
