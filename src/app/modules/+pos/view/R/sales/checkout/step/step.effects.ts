@@ -38,7 +38,7 @@ export class PosStepEffects {
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
               private entityActions: EntityActions,
-              private retailDataHelper:RetailDataHelper,
+              private retailDataHelper: RetailDataHelper,
               private trackingService: TrackingService) {
   }
 
@@ -235,7 +235,7 @@ export class PosStepEffects {
                                 } else if (posQuoteState.items.count() > 0) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .map((data) => {
-                                                     return data['data']['orderOffline'];
+                                                     return data['data']['orderOnline'];
                                                    })
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
@@ -246,7 +246,9 @@ export class PosStepEffects {
                                                        this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
                                                      ]);
                                                    })
-                                                   .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
+                                                   .catch((e) => {
+                                                     return Observable.of(this.stepActions.saveOrderFailed(e, true, false))
+                                                   });
                                 } else {
                                   return Observable.of(this.stepActions.savedOrder(null, false, false));
                                 }
