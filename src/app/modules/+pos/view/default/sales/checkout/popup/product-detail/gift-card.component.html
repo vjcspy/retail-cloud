@@ -14,7 +14,7 @@
                  [formKey]="'pos-product-detail'">
     </retail-text>
   </li>
-  <li *ngIf="getGiftCardOptionConfig()['getGiftcardTemplates']">
+  <li *ngIf=" !getGiftCardOptionConfig()['isPhysicalValue'] && getGiftCardOptionConfig()['getGiftcardTemplates']">
     <label>Template<span style="display: inline-block">*</span></label>
     <retail-select [model]="giftCardOption['aw_gc_template']" (modelChange)="updateGiftCardOption('aw_gc_template',$event)"
                    [elementData]="data.selectElem.templates"
@@ -22,7 +22,7 @@
                    [validation]="'require'">
     </retail-select>
   </li>
-  <li *ngIf="getGiftCardOptionConfig()['isAllowEmail']">
+  <li>
     <label>Sender Name <span style="display: inline-block">*</span></label>
     <retail-text [model]="giftCardOption['aw_gc_sender_name']" (modelChange)="updateGiftCardOption('aw_gc_sender_name',$event)"
                  [validation]="'require' "
