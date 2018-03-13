@@ -22,7 +22,6 @@ export class PermissionGuard implements CanActivate {
     let listPermission = this.storage.localRetrieve('permission');
     // đối với trường hợp lúc mới bắt đầu login( chưa kip nghe được permission từ meteor)
     if (!listPermission) {
-      console.log(route);
       this.routerActions.go('pos/default/outlet-register');
       return false;
     }
