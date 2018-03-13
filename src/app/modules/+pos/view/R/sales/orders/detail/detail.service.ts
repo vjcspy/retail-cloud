@@ -5,12 +5,17 @@ import {PosGeneralState} from "../../../../../R/general/general.state";
 
 @Injectable()
 export class OrderDetailService {
-  
+
   constructor(private request: RequestService,
               private apiManager: ApiManager) { }
-  
+
   createShipRequest(order_id, generalState: PosGeneralState) {
     return this.request
-               .makePost(this.apiManager.get('shipment', generalState.baseUrl), {order_id, store_id: generalState.store['id']})
+               .makePost(this.apiManager.get('shipment', generalState.baseUrl), {order_id, store_id: generalState.store['id']});
+  }
+
+  createNoteOrderRequest(noteData, generalState: PosGeneralState) {
+    return this.request
+      .makePost(this.apiManager.get('updateOrderNote', generalState.baseUrl), {noteData});
   }
 }
