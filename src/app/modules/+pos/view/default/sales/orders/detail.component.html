@@ -112,9 +112,13 @@
           <p class="t-txt">{{ 'Reward Point' | translate }}</p>
           <p class="t-value">{{getOrder()['totals']['reward_point_discount_amount'] | priceFormat}}</p>
         </div>
-        <div class="total-row" *ngIf="!!getOrder()['totals']['gift_card_discount_amount']">
-          <p class="t-txt">{{ 'Gift card' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceFormat}}</p>
+        <!--<div class="total-row" *ngIf="!!getOrder()['totals']['gift_card_discount_amount']">-->
+          <!--<p class="t-txt">{{ 'Gift card' | translate }}</p>-->
+          <!--<p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceFormat}}</p>-->
+        <!--</div>-->
+        <div class="total-row" *ngFor="let giftcard of getOrder()['totals']['gift_card']">
+          <p class="t-txt">{{ 'Gift card' | translate }} ({{giftcard['gift_card_code']}})</p>
+          <p class="t-value">{{giftcard['gift_card_amount'] | priceFormat}}</p>
         </div>
         <div class="total-row">
           <p class="t-txt">{{ 'Grand total' | translate }}</p>
