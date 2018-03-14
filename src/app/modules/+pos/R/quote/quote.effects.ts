@@ -167,7 +167,7 @@ export class PosQuoteEffects {
                                       }
 
                                       return this.quoteActions.updateQuoteItems(items, true, false);
-                                    });
+                                    }).catch((e) => Observable.of(this.rootActions.error("Option validation failed to add product to cart", e, false))) ;
 
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(

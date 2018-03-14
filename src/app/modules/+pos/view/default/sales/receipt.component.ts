@@ -9,6 +9,7 @@ import {ReceiptService} from "../../R/sales/receipts/receipt.service";
 import {NotifyManager} from "../../../../../services/notify-manager";
 import * as JsBarcode from 'jsbarcode';
 import {ReceiptActions} from "../../R/sales/receipts/receipt.actions";
+import {RetailDataHelper} from "../../../services/retail-data-helper";
 
 @Component({
   // moduleId: module.id,
@@ -39,6 +40,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
                  .debounceTime(300)
                  .subscribe(() => {
                    this.initBarcode();
+                   this.initBarcodeGiftCard();
                    if (['receipt', 'gift'].indexOf(this.receiptState.salesReceipt.typePrint) > -1) {
                      this.print();
                    } else if (this.receiptState.salesReceipt.typePrint === 'email') {
@@ -92,6 +94,25 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       return !Number.isInteger(item['qty_refunded'] || 0);
     }
     return !Number.isInteger(item['qty_ordered'] || 0);
+  }
+
+  getGiftCardCode() {
+    const gcProducts = _.filter(this.getOrder()['items'], (i) => _.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, i['type_id']) > -1);
+    if (_.isArray(gcProducts)) {
+      const gc = _.map(gcProducts, (i) => {
+        const code = _.find(i['product_options']['options'], o => o['label'] === "aw_gc_created_codes");
+        if (code) {
+          return {
+            code: code['value'][0]
+          };
+        } else {
+          return {};
+        }
+      });
+      return gc;
+    } else {
+      return [];
+    }
   }
 
   getConfigurableOption(item) {
@@ -189,7 +210,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   getCountryNameFromId(country_id: string) {
     if (!this.getOrder().hasOwnProperty(country_id)) {
       let arr = _.filter(CountryHelper.getCountrySelect()['data'], (value, key) => {
-        return value['value'] == country_id;
+        return value['value'] === country_id;
 
       });
       if (arr) {
@@ -199,6 +220,19 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
       }
     }
     return this.getOrder()[country_id];
+  }
+
+  protected initBarcodeGiftCard() {
+    if (this.getGiftCardCode().length > 0) {
+      _.forEach(this.getGiftCardCode(), (gc) => {
+        JsBarcode("#" + gc['code'], gc['code'], {
+          format: 'CODE128',
+          width: 1,
+          height: 40,
+          displayValue: true
+        });
+      });
+    }
   }
 
   protected initBarcode() {
