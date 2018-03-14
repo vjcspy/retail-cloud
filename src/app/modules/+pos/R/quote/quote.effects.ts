@@ -168,6 +168,7 @@ export class PosQuoteEffects {
                                       }
                                       setTimeout(() => {
                                         if (this.tourService.tour.getCurrentStep() === 14) {
+                                          this.tourService.tour.resume();
                                           this.tourService.tour.next();
                                         }
                                       });

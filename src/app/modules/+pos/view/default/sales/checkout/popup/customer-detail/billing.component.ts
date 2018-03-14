@@ -67,12 +67,6 @@ export class PosDefaultSalesCheckoutPopupCustomerDetailBillingComponent {
   
   save() {
     this.formValidation.submit('pos-address-form-' + this.type, () => {
-      setTimeout(() => {
-        if (this.tourService.tour.getCurrentStep() === 15) {
-          this.tourService.tour.resume();
-          this.tourService.tour.goTo(16);
-        }
-      }, 500);
       this.entityCustomerActions.saveCustomerAddress(this.checkoutPopupState.customerPopup.customer, this.checkoutPopupState.customerPopup.editAddress);
     }, true);
   }

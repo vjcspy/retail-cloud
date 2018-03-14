@@ -22,6 +22,7 @@ export class ConfigurationsDefaultContainerComponent {
   
   goToCheckOut() {
     this.tourService.tour.pause();
+    this.tourService.dispatchPauseTour();
     this.go('pos/default/sales/checkout');
   }
 }

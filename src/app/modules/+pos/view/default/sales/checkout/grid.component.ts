@@ -3,6 +3,7 @@ import {CheckoutProductState} from "../../../R/sales/checkout/product/product.st
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {ProductHelper} from "../../../../core/framework/catalog/Helper/Product";
+import {TutorialService} from "../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -16,7 +17,8 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   @Input() checkoutProductState: CheckoutProductState;
   
   constructor(protected checkoutProductActions: CheckoutProductActions,
-              protected quoteActions: PosQuoteActions) {}
+              protected quoteActions: PosQuoteActions,
+              protected tourService: TutorialService) {}
   
   ngAfterViewInit(): void {
     this._onResize();
@@ -56,4 +58,11 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
   onResize($event) {
     this._onResize();
   }
+  
+  selectProductToAdd(product) {
+    this.tourService.tour.pause();
+    this.tourService.dispatchPauseTour();
+    this.quoteActions.selectProductToAdd(product);
+  }
+  
 }

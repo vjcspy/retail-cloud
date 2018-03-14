@@ -43,6 +43,12 @@ export class ConfigurationsDefaultPosOutletRegisterEditFormComponent implements 
           return params.get('id');
         })
         .subscribe((outletId: any) => {
+          setTimeout(() => {
+            if (this.tourService.tour.getCurrentStep() === 2) {
+              this.tourService.tour.resume();
+              this.tourService.tour.next();
+            }
+          });
           this.configurationsOutletActions.editOutlet(outletId);
         });
   }

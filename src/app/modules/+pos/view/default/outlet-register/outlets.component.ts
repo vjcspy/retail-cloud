@@ -27,6 +27,7 @@ export class PosDefaultOutletRegisterOutletsComponent implements OnInit {
       return;
     } else {
       this.tourService.tour.pause();
+      this.tourService.dispatchPauseTour();
       this.generalActions.selectOutletRegister(outletId, registerId);
     }
   }

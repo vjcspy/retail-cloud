@@ -22,11 +22,8 @@ export class ConfigurationsDefaultPosOutletRegisterGridComponent {
   }
   
   newOutlet() {
+    this.tourService.tour.pause();
+    this.tourService.dispatchPauseTour();
     this.routerActions.go('pos/configurations/default/pos/outlet/edit', 0);
-    setTimeout(() => {
-      if (this.tourService.tour.getCurrentStep() === 2) {
-        this.tourService.tour.next();
-      }
-    }, 100);
   }
 }

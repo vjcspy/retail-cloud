@@ -1,13 +1,13 @@
 <div id="grid-product-perfect-scroll" class="grid-product-inner" [ngStyle]="checkoutProductState.productsStyles" #gridProductInner perfectScroll (scrollEnd)="loadMorePage()">
   <div class="grid-mode">
     <div *ngFor="let product of checkoutProductState.productGridProducts; let i = index;" class="item animated fadeIn"
-         id="{{i == 1 ? 'product-add-to-cart-tutorial' : ''}}"
+         id="{{checkoutProductState.productGridProducts.size > 1 ? (i == 1 ? 'product-add-to-cart-tutorial' : '') : (i == 0 ? 'product-add-to-cart-tutorial' : '')}}"
          [ngStyle]="checkoutProductState.productGridStyles">
       <span class="tags sale" *ngIf="isSales(product)"><img src="assets/img/sale-icon.png" alt=""/></span>
       <span class="tags soldout" *ngIf="isOutOfStock(product)"><img src="assets/img/soldout-icon.png" alt=""/></span>
       <span class="show-label" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)"><span>{{ 'View Details' | translate }}</span></span>
 
-      <div class="inner" (click)="quoteActions.selectProductToAdd(product)">
+      <div class="inner" (click)="selectProductToAdd(product)">
         <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
         <h3 class="product-name"><span>{{product['name']}}</span></h3>
         <span class="icon-addcart"></span>

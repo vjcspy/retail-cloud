@@ -138,7 +138,10 @@ export class TutorialService {
                            element: "#search-product-tutorial",
                            title: "Welcome to ConnectPOS!",
                            content: "To find a particular product, type keywords in the search bar.",
-                           backdrop: true
+                           backdrop: true,
+                           onShown: () => {
+                             jQuery(".btn[data-role=next]").css("display", "none").addClass('next-button-search-tutorial');
+                           }
                          },
                          {
                            element: "#product-add-to-cart-tutorial",
@@ -240,6 +243,6 @@ export class TutorialService {
   }
   
   enableNextButton(): void {
-    jQuery(".popover.popover-navigation.btn[data-role=next]").css("display", "none");
+    jQuery(".next-button-search-tutorial").css("display", "inline-block");
   }
 }

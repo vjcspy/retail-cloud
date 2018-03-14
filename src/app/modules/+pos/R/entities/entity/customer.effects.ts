@@ -11,6 +11,7 @@ import {EntityActions} from "./entity.actions";
 import {OfflineService} from "../../../../share/provider/offline";
 import {PosEntitiesState} from "../entities.state";
 import {PosConfigState} from "../../config/config.state";
+import {TutorialService} from "../../../modules/+tutorial/tutorial.service";
 
 @Injectable()
 export class EntityCustomerEffects {
@@ -21,7 +22,8 @@ export class EntityCustomerEffects {
               private entityActions: EntityActions,
               private notify: NotifyManager,
               private offline: OfflineService,
-              private entityCustomerActions: EntityCustomerActions) { }
+              private entityCustomerActions: EntityCustomerActions,
+              private tourService: TutorialService) { }
   
   @Effect() saveCustomerAddress = this.actions$
                                       .ofType(
@@ -58,7 +60,12 @@ export class EntityCustomerEffects {
                                                        return Observable.fromPromise(customerDb.save(c))
                                                                         .switchMap(() => {
                                                                           this.notify.success("save_customer_successfully");
-          
+                                                                          setTimeout(() => {
+                                                                            if (this.tourService.tour.getCurrentStep() === 15) {
+                                                                              this.tourService.tour.resume();
+                                                                              this.tourService.tour.goTo(16);
+                                                                            }
+                                                                          }, 500);
                                                                           return Observable.from([
                                                                                                    this.entityActions.pushEntity(customerDb, CustomerDB.getCode(), 'id', false),
                                                                                                    this.entityCustomerActions.saveCustomerAddressSuccessfully(customerDb, addressType, false)

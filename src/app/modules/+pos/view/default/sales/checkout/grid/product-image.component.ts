@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Observable, Subject} from "rxjs";
 import {AbstractSubscriptionComponent} from "../../../../../../../code/AbstractSubscriptionComponent";
+import {TutorialService} from "../../../../../modules/+tutorial/tutorial.service";
 
 @Component({
              // moduleId: module.id,
@@ -14,11 +15,16 @@ export class PosDefaultSalesCheckoutGridProductImageComponent extends AbstractSu
   protected img          = new Image();
   private _resizeSubject = new Subject();
   
+  constructor(private tourService: TutorialService) {
+    super();
+  }
+  
   get resizeSubject(): Observable<any> {
     return this._resizeSubject.asObservable().share();
   }
   
   ngOnInit() {
+    this.tourService.enableNextButton();
     if (!this.imageUrl) {
       this.imageUrl = "../assets/img/no-image1.png";
     }
