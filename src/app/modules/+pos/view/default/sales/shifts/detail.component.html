@@ -1,6 +1,8 @@
 <div class="cashdrawer-detail" *ngIf="shiftState.detail.shift">
   <div class="top-bar">
-    <div class="grand-total">{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) | priceFormat}}</div>
+    <div class="grand-total">{{(shiftState.detail.amounts.totals.sales + shiftState.detail.amounts.totals.refund) |
+      priceFormat}}
+    </div>
   </div><!--end top-bar-->
   <div class="cashdrawer-inner" perfectScroll>
     <div class="table-total">
@@ -15,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let payment of shiftState.detail.amounts.paymentUsed">
+        <tr *ngFor="let payment of getListPaymentCanUse()">
           <td>
              <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',
@@ -102,21 +104,15 @@
     <div class="reward-points">
       <div class="total-blk">
         <div class="total-row">
-          <h3 class="t-txt">{{ 'Reward Point' | translate }}</h3>
+          <h3 class="t-txt" style="width: 100%">{{ 'Reward Point & Gift Card' | translate }}</h3>
         </div>
         <div class="total-row">
-          <p class="t-txt">{{ 'Points earned' | translate }}</p>
-          <p class="t-value">{{shiftState.detail.shift['point_earned']}}</p>
+          <p class="t-txt">{{ 'RP earned' | translate }}</p>
+          <p class="t-value">-</p>
         </div>
         <div class="total-row">
-          <p class="t-txt">{{ 'Points spent' | translate }}</p>
-          <p class="t-value">{{shiftState.detail.shift['point_spent']}}</p>
-        </div>
-        <div class="total-row">
-          <p class="t-txt">{{ 'Differences' | translate }}</p>
-          <p class="t-value refund">
-            {{shiftState.detail.shift['point_earned'] - shiftState.detail.shift['point_spent']}}
-          </p>
+          <p class="t-txt">{{ 'RP spent amount' | translate }}</p>
+          <p class="t-value">{{getRewardPointSpent() | priceFormat}}</p>
         </div>
       </div>
     </div>
@@ -125,10 +121,12 @@
       <div class="total-blk">
         <div class="total-row">
           <p class="t-txt">{{ 'Total Tax' | translate }}</p>
-          <p class="t-value" *ngIf="!!shiftState.detail.shift['total_order_tax']">{{shiftState.detail.shift['total_order_tax']  | priceFormat}}</p>
+          <p class="t-value" *ngIf="!!shiftState.detail.shift['total_order_tax']">
+            {{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
           <p class="t-value" *ngIf="!shiftState.detail.shift['total_order_tax']">-</p>
         </div>
-        <div class="total-row" *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
+        <div class="total-row"
+             *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
           <p class="t-txt" style="font-size: 12px; padding-left: 3%;">{{ taxDetail['label']}}</p>
           <p class="t-value" style="float: right; font-size: 12px;">{{taxDetail['value'] | priceFormat}}</p>
         </div>
@@ -138,10 +136,12 @@
       <div class="total-blk">
         <div class="total-row">
           <p class="t-txt">{{ 'Total Tax' | translate }}</p>
-          <p class="t-value" *ngIf="!!shiftState.detail.shift['total_order_tax']">{{shiftState.detail.shift['total_order_tax']  | priceFormat}}</p>
+          <p class="t-value" *ngIf="!!shiftState.detail.shift['total_order_tax']">
+            {{shiftState.detail.shift['total_order_tax'] | priceFormat}}</p>
           <p class="t-value" *ngIf="!shiftState.detail.shift['total_order_tax']">-</p>
         </div>
-        <div class="total-row" *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
+        <div class="total-row"
+             *ngFor="let taxDetail of shiftDetailService.convertTaxDetail(shiftState.detail.shift['detail_tax'])">
           <p class="t-txt" style="font-size: 12px; padding-left: 3%;">{{ taxDetail['label']}}</p>
           <p class="t-value" style="float: right; font-size: 12px">{{taxDetail['value'] | priceFormat}}</p>
         </div>
@@ -156,7 +156,8 @@
         <div class="total-row">
           <p class="t-txt">{{ 'Differences' | translate }}</p>
           <p class="t-value">
-            {{((shiftState.detail.shift['total_counted_amount'] || 0) - (shiftState.detail.shift['total_expected_amount'] || 0)) | priceFormat}}
+            {{((shiftState.detail.shift['total_counted_amount'] || 0) -
+            (shiftState.detail.shift['total_expected_amount'] || 0)) | priceFormat}}
           </p>
         </div>
         <div class="total-row grand">
@@ -166,7 +167,8 @@
         <div class="total-row grand">
           <p class="t-txt">{{ 'Amount Left In' | translate }}</p>
           <p class="t-value">
-            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) | priceFormat}}
+            {{(shiftState.detail.shift['total_counted_amount'] - shiftState.detail.shift['take_out_amount']) |
+            priceFormat}}
           </p>
         </div>
       </div>
@@ -176,10 +178,12 @@
   <div class="bottom-bar">
     <button (click)="printShiftReport()">{{ 'Print Report' | translate }}
     </button>
-    <button *ngIf="shiftIsOpening()" (click)="adjustShift()" [ngClass]="{disable:!authenticateService.userCan('make_adjustment_on_register')}">
+    <button *ngIf="shiftIsOpening()" (click)="adjustShift()"
+            [ngClass]="{disable:!authenticateService.userCan('make_adjustment_on_register')}">
       {{ 'Adjust' | translate }}
     </button>
-    <button *ngIf="shiftIsOpening()" (click)="closeShift()" [ngClass]="{disable:!authenticateService.userCan('open_and_close_register')}">
+    <button *ngIf="shiftIsOpening()" (click)="closeShift()"
+            [ngClass]="{disable:!authenticateService.userCan('open_and_close_register')}">
       {{ 'Close Shift' | translate }}
     </button>
   </div>

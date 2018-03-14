@@ -5,25 +5,27 @@ import {RetailConfigState} from "../../../../R/retail-config/retail-config.state
 import {ProductSetting} from "../../../../../../core/framework/setting/ProductSetting";
 import {TaxClassHelper} from "../../../../../../core/framework/tax/Helper/TaxClass";
 import * as _ from 'lodash';
+import {RetailDataHelper} from "../../../../../../services/retail-data-helper";
 
 @Component({
-             // moduleId: module.id,
-             selector: 'product-category-settings',
-             templateUrl: 'settings.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  // moduleId: module.id,
+  selector: 'product-category-settings',
+  templateUrl: 'settings.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class PosConfigurationsDefaultPosProductCategorySettingsComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() retailConfigState: RetailConfigState;
-  
+
   protected _data = {};
-  
-  constructor(public retailConfigService: RetailConfigService) { }
-  
+
+  constructor(public retailConfigService: RetailConfigService) {
+  }
+
   ngOnInit() {
     this.initProductCategoryConfigurationData();
   }
-  
+
   protected initProductCategoryConfigurationData() {
     this._data = {
       show_product_by_type: {
@@ -158,17 +160,17 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         data: TaxClassHelper.getProductTaxClassElementData()['data']
       }
     };
-    
+
     if (this.getRetailConfigSnapshot()['pos']['xretail/pos/integrate_gc'] === 'aheadWorld') {
       this._data['show_product_by_type']['data'].push({
-                                                        label: "Gift card",
-                                                        value: 'aw_giftcard'
-                                                      });
+        label: "Gift card",
+        value: _.join(RetailDataHelper.GIFT_CARD_TYPE_ID, ",")
+      });
     }
   }
-  
+
   protected _productAttributes;
-  
+
   getProductAttributesSelect() {
     if (typeof this._productAttributes === 'undefined') {
       let attributes = ProductSetting.getProductAttributesSelect();
@@ -178,19 +180,19 @@ export class PosConfigurationsDefaultPosProductCategorySettingsComponent impleme
         this._productAttributes = {
           data: []
         };
-        
+
         _.forEach(this.getRetailConfigSnapshot()['pos']['productAttributes'], (attr) => {
           this._productAttributes['data']
             .push({
-                    value: attr['value'],
-                    label: attr['label']
-                  });
+              value: attr['value'],
+              label: attr['label']
+            });
         });
       }
     }
     return this._productAttributes;
   }
-  
+
   getRetailConfigSnapshot() {
     return this.retailConfigService.retailConfigSnapshot;
   }

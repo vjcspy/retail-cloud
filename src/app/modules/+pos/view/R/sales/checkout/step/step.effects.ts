@@ -21,12 +21,13 @@ import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
 import {TrackingService} from "../../../../../services/tracking/tracking-service";
+import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 
 @Injectable()
 export class PosStepEffects {
-  
+
   private moneySuggestion = new MoneySuggestion();
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private notify: NotifyManager,
@@ -37,8 +38,10 @@ export class PosStepEffects {
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
               private entityActions: EntityActions,
-              private trackingService: TrackingService) { }
-  
+              private retailDataHelper: RetailDataHelper,
+              private trackingService: TrackingService) {
+  }
+
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
                                    .withLatestFrom(this.store$.select('entities'))
@@ -50,45 +53,51 @@ export class PosStepEffects {
                                        if (p['type'] === 'cash') {
                                          cashPaymentId = p['id'];
                                        }
-                                       if (!!p.is_active) {
+                                       if (!!p.is_active && this.retailDataHelper.isPaymentCanUse(p)) {
                                          paymentMethodCanUse = paymentMethodCanUse.push(p);
                                        }
                                      });
-    
+
                                      return this.stepActions.savePaymentMethodCanUseFromDB(paymentMethodCanUse, cashPaymentId, false);
                                    });
-  
+
   @Effect() initCheckoutStepData = this.actions$.ofType(PosSyncActions.ACTION_SYNC_ORDER_SUCCESS)
                                        .withLatestFrom(this.store$.select('quote'))
                                        .filter((z: any) => z[0]['payload']['goStep'] === true)
                                        .map((z) => {
                                          const posQuoteState: PosQuoteState = <any>z[1];
-    
+
                                          if (posQuoteState.info.isRefunding && !this.offlineService.online) {
                                            this.notify.error('can_not_refund_in_offline_mode');
-      
-                                           return {type: RootActions.ACTION_NOTHING, payload: {mess: "can_not_refund_in_offline_mode"}};
+
+                                           return {
+                                             type: RootActions.ACTION_NOTHING,
+                                             payload: {mess: "can_not_refund_in_offline_mode"}
+                                           };
                                          }
-    
+
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
                                            let totals            = this.stepService.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
                                            const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
-      
+
                                            return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                          }
-    
-                                         return {type: RootActions.ACTION_ERROR, payload: {mess: "can't init checkout step data"}};
+
+                                         return {
+                                           type: RootActions.ACTION_ERROR,
+                                           payload: {mess: "can't init checkout step data"}
+                                         };
                                        });
-  
+
   @Effect() checkMethodWhenUserSelect = this.actions$.ofType(PosStepActions.ACTION_USER_SELECT_PAYMENT_METHOD)
                                             .withLatestFrom(this.store$.select('quote'))
                                             .withLatestFrom(this.store$.select('config'),
-                                                            ([action, quoteState], configState) => [action, quoteState, configState])
+                                              ([action, quoteState], configState) => [action, quoteState, configState])
                                             .withLatestFrom(this.store$.select('step'),
-                                                            ([action, quoteState, configState], stepState) => [action,
-                                                                                                               quoteState,
-                                                                                                               configState,
-                                                                                                               stepState])
+                                              ([action, quoteState, configState], stepState) => [action,
+                                                quoteState,
+                                                configState,
+                                                stepState])
                                             .map((z) => {
                                               const paymentToAdd: PaymentMethod = (z[0] as any).payload['payment'];
                                               const quoteState: PosQuoteState   = <any>z[1];
@@ -108,13 +117,16 @@ export class PosStepEffects {
                                                   is_purchase: quoteState.info.isRefunding ? 0 : 1,
                                                   payment_data: paymentToAdd['payment_data'] // config data of payment
                                                 };
-      
+
                                                 return this.stepActions.addPaymentMethodToOrder(payment, false);
                                               } else {
-                                                return {type: RootActions.ACTION_NOTHING, payload: {mess: "Can't add more payment method"}};
+                                                return {
+                                                  type: RootActions.ACTION_NOTHING,
+                                                  payload: {mess: "Can't add more payment method"}
+                                                };
                                               }
                                             });
-  
+
   @Effect() checkChangeTotals = this.actions$
                                     .ofType(
                                       PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER,
@@ -126,21 +138,21 @@ export class PosStepEffects {
                                       const action: Action          = z[0];
                                       let totals                    = this.stepService.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
                                       let moneySuggestion           = stepState.moneySuggestion;
-    
+
                                       // Retrieve amount before payment added
                                       if (action.type === PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER) {
                                         moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + action.payload['payment']['amount']);
                                       }
-    
+
                                       return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
                                     });
-  
+
   @Effect() checkBeforeSaveOrder = this.actions$
                                        .ofType(PosStepActions.ACTION_START_SAVE_ORDER)
                                        .withLatestFrom(this.store$.select('step'))
                                        .map((z) => {
                                          const stepState: PosStepState = <any>z[1];
-    
+
                                          // checking 3rd payment
                                          let isChecking3rd = false;
                                          stepState.listPayment3rdData.forEach((payment) => {
@@ -149,10 +161,10 @@ export class PosStepEffects {
                                              return false;
                                            }
                                          });
-    
+
                                          return this.stepActions.saveDataCheckingBeforeSaveOrder(isChecking3rd, false);
                                        });
-  
+
   @Effect() resolve3rdPayment = this.actions$
                                     .ofType(
                                       PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
@@ -162,16 +174,16 @@ export class PosStepEffects {
                                     .filter((z) => (z[1] as PosStepState).isChecking3rd === true)
                                     .map((z) => {
                                       const stepState: PosStepState = <any>z[1];
-    
+
                                       const payment3rdData = stepState.listPayment3rdData.find((payment) => payment.inUse && !payment.isPaySuccess);
-    
+
                                       if (payment3rdData) {
                                         return this.stepActions.process3rdPayment(payment3rdData, false);
                                       } else {
                                         return this.stepActions.resolvedAll3rdPayment(false);
                                       }
                                     });
-  
+
   @Effect() saveOrder = this.actions$
                             .ofType(
                               PosStepActions.ACTION_CHECK_BEFORE_SAVE_ORDER,
@@ -185,26 +197,26 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
                               this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER);
-    
+
                               const posStepState: PosStepState      = <any>z[1];
                               const posQuoteState: PosQuoteState    = <any>z[2];
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
-    
+
                               // Save order function
                               if (posStepState.totals.remain < -0.01) {
                                 paymentInUse = paymentInUse.push({
-                                                                   id: posStepState.cashPaymentId,
-                                                                   type: "cash",
-                                                                   title: "Change",
-                                                                   // We save to payment data in order, not payment_transaction, so need this field
-                                                                   is_purchase: 1,
-                                                                   amount: posStepState.totals.remain,
-                                                                   isChanging: false,
-                                                                   created_at: Timezone.getCurrentStringTime(true)
-                                                                 });
+                                  id: posStepState.cashPaymentId,
+                                  type: "cash",
+                                  title: "Change",
+                                  // We save to payment data in order, not payment_transaction, so need this field
+                                  is_purchase: 1,
+                                  amount: posStepState.totals.remain,
+                                  isChanging: false,
+                                  created_at: Timezone.getCurrentStringTime(true)
+                                });
                               }
                               posQuoteState.quote.setPaymentData(paymentInUse.toJS());
-    
+
                               if (posQuoteState.info.isRefunding) {
                                 return Observable.of(this.refundActions.loadCreditmemo(posQuoteState.creditmemo['order_id'], true, false));
                               } else {
@@ -213,28 +225,30 @@ export class PosStepEffects {
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
                                                      order.addData(orderOffline);
-          
+
                                                      return Observable.from([
-                                                                              this.stepActions.savedOrder(orderOffline, true, false),
-                                                                              this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
-                                                                            ]);
+                                                       this.stepActions.savedOrder(orderOffline, true, false),
+                                                       this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
+                                                     ]);
                                                    })
                                                    .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
                                 } else if (posQuoteState.items.count() > 0) {
                                   return Observable.fromPromise(this.syncService.saveOrderOnline(<any>z[2], <any>z[3], <any>z[4]))
                                                    .map((data) => {
-                                                     return data['data']['orderOffline'];
+                                                     return data['data']['orderOnline'];
                                                    })
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
                                                      order.addData(orderOffline);
-          
+
                                                      return Observable.from([
-                                                                              this.stepActions.savedOrder(orderOffline, false, false),
-                                                                              this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
-                                                                            ]);
+                                                       this.stepActions.savedOrder(orderOffline, false, false),
+                                                       this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
+                                                     ]);
                                                    })
-                                                   .catch((e) => Observable.of(this.stepActions.saveOrderFailed(e, true, false)));
+                                                   .catch((e) => {
+                                                     return Observable.of(this.stepActions.saveOrderFailed(e, true, false))
+                                                   });
                                 } else {
                                   return Observable.of(this.stepActions.savedOrder(null, false, false));
                                 }

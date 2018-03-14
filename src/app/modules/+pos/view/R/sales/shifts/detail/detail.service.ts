@@ -7,40 +7,45 @@ import {ApiManager} from "../../../../../../../services/api-manager";
 import {PosGeneralState} from "../../../../../R/general/general.state";
 import {AuthenticateService} from "../../../../../../../services/authenticate";
 import {Subject} from "rxjs";
+import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 
 @Injectable()
 export class ShiftDetailService {
   protected printShiftReportSubject = new Subject();
-  
+
   constructor(private requestService: RequestService,
               private api: ApiManager,
-              private authenticate: AuthenticateService) { }
-  
+              private retailDataHelper: RetailDataHelper,
+              private authenticate: AuthenticateService) {
+  }
+
   getPrintReportObservable() {
     return this.printShiftReportSubject.asObservable().debounceTime(200).share();
   }
-  
+
   printShiftReport() {
     this.printShiftReportSubject.next();
   }
-  
+
   getTransactionAmounts(shift: any, payments: List<any>): Object {
     let paymentUsed: any = List.of();
     let totals           = {sales: 0, refund: 0, inOut: 0, counted: 0};
-    
+
     const cashPayment = payments.find((p) => p['type'] === 'cash');
     if (cashPayment) {
       paymentUsed = paymentUsed.push({
-                                       id: cashPayment['id'],
-                                       type: cashPayment['type'],
-                                       title: cashPayment['title'],
-                                       sales: 0,
-                                       refund: 0,
-                                     });
+        id: cashPayment['id'],
+        type: cashPayment['type'],
+        title: cashPayment['title'],
+        sales: 0,
+        refund: 0,
+      });
     }
-    
+
     // Sales, refund
     _.forEach(shift['transactions'], (payment: any) => {
+      const paymentMethod = payments.find((p) => parseInt(p['id']) === parseInt(payment['payment_id']));
+
       const paymentExistedIndex = paymentUsed.findIndex((p) => parseInt(p['id']) === parseInt(payment['payment_id']));
       if (paymentExistedIndex > -1) {
         let p = paymentUsed.get(paymentExistedIndex);
@@ -51,7 +56,6 @@ export class ShiftDetailService {
         }
         paymentUsed = paymentUsed.set(paymentExistedIndex, p);
       } else {
-        const paymentMethod = payments.find((p) => parseInt(p['id']) === parseInt(payment['payment_id']));
         if (paymentMethod) {
           let p = {
             id: paymentMethod['id'],
@@ -70,27 +74,27 @@ export class ShiftDetailService {
           // throw new GeneralException("Can't find payment method data in transaction");
         }
       }
-      
+
     });
-    
+
     // Totals
-    
+
     totals.sales  = paymentUsed.reduce((result, p) => {
       return result + p.sales;
     }, 0);
     totals.refund = paymentUsed.reduce((result, p) => {
       return result + p.refund;
     }, 0);
-    
+
     // Counted:
     if (shift.data && shift['data']['counted']) {
       totals.counted = 0;
       _.forEach(shift['data']['counted'], (_c) => totals.counted += parseFloat(_c));
     }
-    
+
     totals.inOut = 0;
     _.forEach(shift['in_out'], (inOut) => {
-      if (inOut['is_in'] == 1) {
+      if (parseInt(inOut['is_in']) === 1) {
         totals.inOut += parseFloat(inOut['amount']);
       } else {
         totals.inOut -= parseFloat(inOut['amount']);
@@ -99,7 +103,7 @@ export class ShiftDetailService {
     paymentUsed = paymentUsed.sortBy((p) => p['title']);
     return {totals, paymentUsed};
   }
-  
+
   createCloseShiftRequest(shift, data, generalState: PosGeneralState) {
     return this.requestService.makePost(this.api.get('close-shift', generalState.baseUrl), {
       outlet_id: generalState.outlet['id'],
@@ -107,10 +111,10 @@ export class ShiftDetailService {
       user_id: generalState.user['id'],
       user_name: this.authenticate.getUserName(),
       shift_id: shift['id'],
-      data: data
+      data
     });
   }
-  
+
   createOpenShiftRequest(data, generalState: PosGeneralState) {
     return this.requestService.makePost(this.api.get('open-shift', generalState.baseUrl), {
       outlet_id: generalState.outlet['id'],
@@ -121,7 +125,7 @@ export class ShiftDetailService {
       note: data['note']
     });
   }
-  
+
   createAdjustShiftRequest(shift, data, generalState: PosGeneralState) {
     return this.requestService.makePost(this.api.get('adjust-shift', generalState.baseUrl), {
       shift_id: shift['id'],
@@ -138,12 +142,12 @@ export class ShiftDetailService {
   convertTaxDetail(detail_tax) {
     let listObject = detail_tax;
     let arr        = [];
-    _.map(listObject, function (key, value) {
+    _.map(listObject, (key, value) => {
 
       arr.push({
-                 label: value,
-                 value: key
-               })
+        label: value,
+        value: key
+      });
     });
     return arr;
   }

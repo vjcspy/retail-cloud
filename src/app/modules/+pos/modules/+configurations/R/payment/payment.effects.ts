@@ -4,7 +4,6 @@ import {Actions, Effect} from "@ngrx/effects";
 import {Router} from "@angular/router";
 import {ConfigurationsPaymentService} from "./payment.service";
 import {ConfigurationsPaymentActions} from "./payment.actions";
-import * as _ from 'lodash';
 import {PaymentDB} from "../../../../database/xretail/db/payment";
 import {Observable} from "rxjs/Observable";
 import {EntityActions} from "../../../../R/entities/entity/entity.actions";
@@ -12,10 +11,12 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 import {PosEntitiesActions} from "../../../../R/entities/entities.actions";
 import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {RetailConfigActions} from "../retail-config/retail-config.actions";
+import * as _ from 'lodash';
+import {RetailDataHelper} from "../../../../services/retail-data-helper";
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private configurationsPaymentService: ConfigurationsPaymentService,
@@ -23,8 +24,10 @@ export class ConfigurationsPaymentEffects {
               private entityActions: EntityActions,
               private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
-              private router: Router) { }
-  
+              private retailDataHelper: RetailDataHelper,
+              private router: Router) {
+  }
+
   @Effect() takeSnapshotPayment = this.actions$
                                       .ofType(
                                         PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
@@ -39,12 +42,14 @@ export class ConfigurationsPaymentEffects {
                                         let payment                           = false;
                                         if (entitiesState.payment.isFinished === true) {
                                           payment                                           = true;
-                                          this.configurationsPaymentService.paymentSnapshot = entitiesState.payment.items;
+                                          this.configurationsPaymentService.paymentSnapshot = <any>entitiesState.payment.items
+                                                                                                                .filter((v) => this.retailDataHelper.isPaymentCanUse(v));
+
                                         }
-    
+
                                         return Observable.from([this.retailConfigActions.isLoadedDepend({payment}, false)]);
                                       });
-  
+
   @Effect() savePayment = this.actions$
                               .ofType(
                                 ConfigurationsPaymentActions.ACTION_SAVE_PAYMENT
@@ -62,9 +67,9 @@ export class ConfigurationsPaymentEffects {
                                              this.notify.success("save_payment_successfully");
                                              return Observable.fromPromise(payment.savPayments(items))
                                                               .switchMap(() => Observable.from([
-                                                                                                 this.configurationsPaymentActions.savePaymentSuccess(items, false),
-                                                                                                 this.entityActions.pushManyEntity(items, PaymentDB.getCode(), 'id', false)
-                                                                                               ]))
+                                                                this.configurationsPaymentActions.savePaymentSuccess(items, false),
+                                                                this.entityActions.pushManyEntity(items, PaymentDB.getCode(), 'id', false)
+                                                              ]))
                                                               .catch((e) => Observable.of(this.configurationsPaymentActions.savePaymentFailed('save_payment_failed', e, false)));
                                            })
                                            .catch((e) => Observable.of(this.configurationsPaymentActions.savePaymentFailed('save_payment_failed_from_sv', e, false)));
