@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {LicenseCollection} from "../../../../services/meteor-collections/licenses";
-import {AppStorage} from "../../../../services/storage";
+import {LicenseCollection} from "../meteor-collections/licenses";
+import {AppStorage} from "../storage";
 import * as _ from 'lodash';
-import {AuthenticateService} from "../../../../services/authenticate";
+import {AuthenticateService} from "../authenticate";
 
 @Injectable()
 export class TrackingService {
@@ -20,28 +20,45 @@ export class TrackingService {
     if (this.getLicenseKey()) {
       switch (event) {
         case TrackingService.EVENT_SYNC_ORDER:
-          return this._syncOrderTracking();
+          return this._syncOrderTracking(data);
 
         case TrackingService.EVENT_SAVE_ORDER:
-          return this._saveOrderTracking();
+          return this._saveOrderTracking(data);
 
         default:
       }
     }
   }
 
-  private _syncOrderTracking() {
+  loginTracking() {
+    const user = this.authService.user ? this.authService.user : {};
+    mixpanel.identify(this.getIdentifier()['id']);
+    const data = {
+      // "$email": this.getIdentifier()['email'],    // only special properties need the $
+
+      // "$created": "2011-03-16 16:53:54",
+      "$last_login": new Date(),         // properties can be dates...
+      ...this.getIdentifier()
+    };
+    mixpanel.people.set(data);
+  }
+
+  private _syncOrderTracking(data?: Object) {
     setTimeout(() => {
-      mixpanel.identify(this.getLicenseKey());
+      // mixpanel.identify(this.getIdentifier()['id']);
       mixpanel.track('Create Pay', {...this.getIdentifier()});
       ga('send', 'event', 'Create Pay', 'Account Create Pay', 'Account Create Pay Complete');
     });
   }
 
-  private _saveOrderTracking() {
+  private _saveOrderTracking(data?: Object) {
+    let totals = {};
+    if (data.hasOwnProperty('orderOffline') && data['orderOffline'].hasOwnProperty('totals')) {
+      totals = data['orderOffline']['totals'];
+    }
     setTimeout(() => {
-      mixpanel.identify(this.getLicenseKey());
-      mixpanel.track('Order', {...this.getIdentifier()});
+      // mixpanel.identify(this.getIdentifier()['id']);
+      mixpanel.track('Order', {...this.getIdentifier(), ...totals});
       ga('send', 'event', 'Order', 'Account Order', 'Account Order Complete');
 
     });
@@ -49,8 +66,8 @@ export class TrackingService {
 
   protected getIdentifier() {
     const user  = this.authService.user ? this.authService.user : {};
-    const email = _.isArray(user['emails']) ? user['emails'][0] : null;
-    return {licenseKey: this.getLicenseKey(), username: user['username'], email};
+    const email = _.isArray(user['emails']) ? user['emails'][0]['address'] : null;
+    return {licenseKey: this.getLicenseKey(), username: user['username'], email, id: user['_id']};
   }
 
   protected getLicenseKey() {
