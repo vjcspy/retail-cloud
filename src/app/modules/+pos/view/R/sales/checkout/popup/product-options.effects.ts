@@ -13,6 +13,7 @@ import {ProductOptionsService} from "./product-options.service";
 import {ProductOptionsState} from "./product-options.state";
 import {Observable} from "rxjs";
 import {PosSyncState} from "../../../../../R/sync/sync.state";
+import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 
 @Injectable()
 export class ProductOptionsEffects {
@@ -183,7 +184,7 @@ export class ProductOptionsEffects {
                                                                                   .setData('bundle_option', {...productOptionsState.optionData.bundle_option})
                                                                                   .setData('bundle_option_qty', {...productOptionsState.optionData.bundle_option_qty});
                                                              }
-                                                             if (productOptionsState.product.getTypeId() === 'aw_giftcard' || productOptionsState.product.getTypeId() === 'aw_giftcard2') {
+                                                             if (_.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, productOptionsState.product.getTypeId()) > -1){
                                                                productOptionsState.buyRequest
                                                                                   .setData('gift_card', productOptionsState.optionData.gift_card);
                                                              }

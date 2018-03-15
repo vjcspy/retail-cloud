@@ -3,6 +3,7 @@ import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-
 import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
 import * as _ from 'lodash';
 import {FormValidationService} from "../../../../../../share/provider/form-validation";
+import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 
 @Component({
              // moduleId: module.id,
@@ -70,5 +71,12 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
     this.formValidation.cancel('pos-product-detail', () => {
       this.productOptionsActions.cancelProductOptions();
     });
+  }
+  
+  isGiftCardProduct(){
+    if(_.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID , this.productOptionsState.product.getTypeId()) > -1){
+      return true;
+    }
+    return false;
   }
 }

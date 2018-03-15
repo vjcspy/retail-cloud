@@ -9,6 +9,7 @@ import {Item} from "../../../../../../core/framework/quote/Model/Quote/Item";
 import * as _ from 'lodash';
 import {CartItemState} from "../../../../../R/sales/checkout/cart/item.state";
 import {AuthenticateService} from "../../../../../../../../services/authenticate";
+import {RetailDataHelper} from "../../../../../../services/retail-data-helper";
 
 @Component({
              // moduleId: module.id,
@@ -104,7 +105,7 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
   }
   
   checkIsGiftCard() {
-    if (this.item.getProduct().getTypeId() === 'aw_giftcard2' || this.item.getProduct().getTypeId() === 'aw_giftcard') {
+    if (_.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID ,this.item.getProduct().getTypeId()) > -1) {
       return true;
     }
     return false;

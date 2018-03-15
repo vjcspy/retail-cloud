@@ -100,7 +100,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     const gcProducts = _.filter(this.getOrder()['items'], (i) => _.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, i['type_id']) > -1);
     if (_.isArray(gcProducts)) {
       const gc = _.map(gcProducts, (i) => {
-        const code = _.find(i['product_options']['options'], o => o['label'] === "aw_gc_created_codes");
+        const code = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_created_codes");
         if (code) {
           return {
             code: code['value'][0]
@@ -310,7 +310,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .c-left {text-align: left!important;}
             .c-right {text-align: right!important;}
             .c-center {text-align: center!important;}
-            .invoice {                
+            .invoice {
                 max-width: 420px; margin: 0 auto;
                 background: #FFF;
                 /*border-radius: 10px;*/
@@ -365,7 +365,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
-                padding: 0; text-align: center;                
+                padding: 0; text-align: center;
             }
             .invoice-table th {
                 font-weight: 400;

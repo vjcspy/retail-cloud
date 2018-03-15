@@ -5,7 +5,7 @@ import * as _ from "lodash";
 export class RetailDataHelper {
 
   // gift card type_id in 3rd extension
-  static GIFT_CARD_TYPE_ID = ['aw_giftcard'];
+  static GIFT_CARD_TYPE_ID = ['aw_giftcard', 'aw_giftcard2'];
 
   isPaymentCanUse(p) {
     return _.indexOf(['gift_card', 'reward_point', 'pay_pal'], p['type']) < 0;
