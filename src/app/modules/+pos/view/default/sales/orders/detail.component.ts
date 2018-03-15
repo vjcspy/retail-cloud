@@ -26,10 +26,10 @@ export class PosDefaultSalesOrdersDetailComponent {
     totalPaid: {}, // cache total paid of order
     countryName: {}
   };
-  
+
   @Input() configState: PosConfigState;
   @Input() ordersState: OrdersState;
-  
+
   constructor(public orderService: OrderService,
               protected quoteActions: PosQuoteActions,
               protected routerActions: RouterActions,
@@ -41,7 +41,7 @@ export class PosDefaultSalesOrdersDetailComponent {
               protected refundActions: QuoteRefundActions,
               protected userCollection: UserCollection,
               protected addPaymentActions: OrderListAddPaymentActions) { }
-  
+
   getPayment() {
     let payments = [];
     _.forEach(this.getOrder()['payment'], (payment) => {
@@ -51,16 +51,31 @@ export class PosDefaultSalesOrdersDetailComponent {
     });
     return payments;
   }
-  
+
   getPaymentTitle(payment) {
     return payment['title'] + (payment['data'] && !!payment['data']['ref'] ?
         (": Ref# " + payment['data']['ref']) : "") + (parseInt(payment['is_purchase']) === 0 ? " REFUND" : "");
   }
-  
+
+  addNoteOrder () {
+    if(this.ordersState.detail.order['add_note'] === true) {
+      let noteData = {
+        "order_id": this.ordersState.detail.order['order_id'],
+        "retail_note": this.ordersState.detail.order['retail_note']
+      };
+
+      this.detailActions.noteOrder(this.getOrder(), noteData);
+      this.ordersState.detail.order['add_note'] = false;
+
+    } else {
+      this.ordersState.detail.order['add_note'] = true;
+    }
+  }
+
   getOrder() {
     return this.ordersState.detail.order;
   }
-  
+
   getTotalPaidBaseOnPayment() {
     let paid = 0;
     _.forEach(this.getPayment(), (p) => {
@@ -68,33 +83,33 @@ export class PosDefaultSalesOrdersDetailComponent {
         paid += parseFloat(p['amount']);
       }
     });
-    
+
     return paid;
   }
-  
+
   getCountryNameFromId(country_id: string) {
     return CountryHelper.getCountryNameFromId(country_id);
   }
-  
+
   getRegionSelectedByCountryId(countryId, regionId) {
     return CountryHelper.getRegionSelected(countryId, regionId);
   }
-  
+
   reorder() {
     this.routerActions.go('pos/default/sales/checkout');
     setTimeout(() => {
       this.quoteActions.reorder({customer: parseInt(this.getOrder()['customer']['id']), items: this.getOrder()['items']});
     }, 250);
   }
-  
+
   printReceipt(type: string = 'receipt') {
     this.receiptActions.printSalesReceipt(this.getOrder(), type);
   }
-  
+
   addPayments() {
     this.addPaymentActions.needAddPayment(this.getOrder());
   }
-  
+
   refund() {
     if (!this.offline.online) {
       this.notify.warning("sorry_you_can_not_perform_this_action_in_offline");
@@ -113,14 +128,14 @@ export class PosDefaultSalesOrdersDetailComponent {
       this.notify.error("not_have_permission_to_make_refund");
     }
   }
-  
+
   markAsReSynnc() {
     if (!this.getOrder()['id']) {
       delete this.getOrder()['id'];
     }
     this.detailActions.markAsReSync(this.getOrder());
   }
-  
+
   ship() {
     if (!this.offline.online) {
       this.notify.warning("sorry_you_can_not_perform_this_action_in_offline");
@@ -128,7 +143,7 @@ export class PosDefaultSalesOrdersDetailComponent {
     }
     this.detailActions.shipOrder(this.getOrder());
   }
-  
+
   sendEmailReceipt() {
     if (this.offline.online) {
       const email = this.getOrder()['customer']['email'];
@@ -147,7 +162,7 @@ export class PosDefaultSalesOrdersDetailComponent {
       this.notify.warning("sorry_you_can_not_send_email_in_offline");
     }
   }
-  
+
   checkoutAsGuest(): boolean {
     if (this.getOrder().hasOwnProperty('customer')) {
       return parseInt(this.getOrder()['customer']['id']) === parseInt(this.configState.setting.customer.getDefaultCustomerId());
