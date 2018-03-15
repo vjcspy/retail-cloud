@@ -71,6 +71,24 @@
                 <span></span>
               </div>
             </li>
+            <li *ngIf="payment['type'] === 'cash'">
+              <label>{{ 'Round to' | translate }}</label>
+              <retail-select [elementData]="dataSelect.roundTo"
+                             [(model)]="payment['payment_data']['round_to']"
+                             [formKey]="'payment_edit_data'"
+                             [validation]="'required'"></retail-select>
+            </li>
+            <li *ngIf="payment['type'] === 'cash' && payment['payment_data']['round_to'] !== '0.01_cash_denomination'">
+              <label>{{ 'Rounding Rule' | translate }}</label>
+              <retail-select [elementData]="dataSelect.roundingRule"
+                             [(model)]="payment['payment_data']['rounding_rule']"
+                             [formKey]="'payment_edit_data'"
+                             [validation]="'required'"></retail-select>
+              <div class="icon-link">
+                <i class="icon-trash"></i>
+                <span class="tooltiptext-top">{{dataSelect.tooltipRoundingCash.data[payment['payment_data']['round_to']]}}</span>
+              </div>
+            </li>
           </ul>
         </div>
       </div>

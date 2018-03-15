@@ -26,6 +26,32 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
         {label: "iclientsimulator.test", value: "iclientsimulator"},
         {label: "iclient.test", value: "iclient"},
       ]
+    },
+    roundTo: {
+      data: [
+        {label: "0.01 Cash Denomination", value: "0.01_cash_denomination"},
+        {label: "0.05 Cash Denomination", value: "0.05_cash_denomination"},
+        {label: "0.10 Cash Denomination", value: "0.10_cash_denomination"},
+        {label: "0.50 Cash Denomination", value: "0.50_cash_denomination"},
+        {label: "1 Cash Denomination", value: "1_cash_denomination"}
+      ]
+    },
+    roundingRule: {
+      data: [
+        {label: "Round midpoint down", value: "round_midpoint_down"},
+        {label: "Round midpoint up", value: "round_midpoint_up"},
+        {label: "Always round down", value: "always_round_down"},
+        {label: "Always round up", value: "always_round_up"}
+      ]
+    },
+    tooltipRoundingCash: {
+      data: {
+        "0.01_cash_denomination" : "0.01_cash_denomination",
+        "0.05_cash_denomination" : "0.05_cash_denomination",
+        "0.10_cash_denomination" : "0.10_cash_denomination",
+        "0.50_cash_denomination" : "0.50_cash_denomination",
+        "1_cash_denomination" : "1_cash_denomination",
+      }
     }
   };
   
