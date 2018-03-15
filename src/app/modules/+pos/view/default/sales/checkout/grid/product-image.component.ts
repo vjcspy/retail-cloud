@@ -30,6 +30,7 @@ export class PosDefaultSalesCheckoutGridProductImageComponent extends AbstractSu
     }
     
     this.subscribeObservable('handle_resize', () => this._resizeSubject.debounceTime(250).subscribe(() => {
+      this.tourService.enableNextButton();
       if (!!this.img) {
         this.resizeMyImg(this.img.width, this.img.height);
       }

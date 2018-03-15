@@ -21,6 +21,9 @@ export class PosDefaultSalesCheckoutGridComponent implements AfterViewInit {
               protected tourService: TutorialService) {}
   
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.tourService.enableNextButton();
+    }, 1000);
     this._onResize();
   }
   
