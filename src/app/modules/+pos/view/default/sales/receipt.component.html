@@ -55,20 +55,20 @@
       <table *ngIf="getGiftCardCode().length > 0" class="barcode-table" width="100%" border="0" cellspacing="0" cellpadding="0">
         <thead>
         <tr>
-          <th class="c-left" style="font-size: 12px;font-weight: 600;">Giftcard barcode</th>
+          <th class="c-left">{{'Giftcode' | translate }}</th>
+          <th class="c-right">{{'Barcode' | translate }}</th>
         </tr>
         </thead>
-        <tbody>
-        <tr *ngFor="let gc of getGiftCardCode()">
-          <td colspan="2" class="c-code">
-            <table style="margin: auto;">
-              <tr>
-                <td rowspan="2">
-                  <img  id="{{'SM'+gc['code']}}"/>
-                </td>
-              </tr>
-            </table>
-          </td>
+        <tbody *ngFor="let gc of getGiftCardCode();trackBy:trackById">
+        <tr>
+          <td class="c-left"><h4>CODE: {{gc['code']}}</h4></td>
+          <td class="c-right" rowspan="3"><img id="{{'SM'+gc['code']}}"/></td>
+        </tr>
+        <tr>
+          <td class="c-left">EXP : {{ gc['expiry_date']}}</td>
+        </tr>
+        <tr>
+          <td class="c-left">Amount : ${{ gc['amount'] }}</td>
         </tr>
         </tbody>
       </table>
@@ -169,6 +169,9 @@
           <td class="c-right">
             {{getDiscount() | priceFormat}}
           </td>
+        <tr *ngFor="let giftcard of getOrder()['totals']['gift_card']">
+          <td class="c-left" colspan="2">{{ 'Gift card' | translate }} ({{giftcard['gift_card_code']}})</td>
+          <td class="c-right">{{giftcard['gift_card_amount'] | priceFormat}}</td>
         </tr>
         <tr *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">
           <td class="c-left" colspan="2">{{ 'Reward Point' | translate }}</td>
