@@ -225,7 +225,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   protected initBarcodeGiftCard() {
     if (this.getGiftCardCode().length > 0) {
       _.forEach(this.getGiftCardCode(), (gc) => {
-        JsBarcode("#" + gc['code'], gc['code'], {
+        //html5 do not support id attributes starting with numbers
+        JsBarcode("#SM" + gc['code'], gc['code'], {
           format: 'CODE128',
           width: 1,
           height: 40,
