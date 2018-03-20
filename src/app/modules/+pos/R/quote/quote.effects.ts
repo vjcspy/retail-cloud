@@ -332,6 +332,7 @@ export class PosQuoteEffects {
                                 let p = new Product();
                                 p.mapWithParent(product);
                                 _buyRequest.setData('product', p);
+                                _buyRequest.setData('retail_discount_per_items_percent', 0);
                                 items = items.push(_buyRequest);
                               } else {
                                 return Observable.of(this.rootActions.error("we_can_not_find_product_with_id_" + _buyRequest.getData('product_id')));
