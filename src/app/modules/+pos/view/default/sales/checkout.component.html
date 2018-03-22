@@ -4,9 +4,9 @@
 
   <pos-default-sales-checkout-category [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-category>
 
-  <pos-default-sales-checkout-grid *ngIf="(checkoutProductState$ | async)?.isGridMode" [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-grid>
+  <pos-default-sales-checkout-grid *ngIf="(checkoutProductState$ | async)?.isGridMode" [checkoutProductState]="checkoutProductState$ | async" [posQuoteState]="quoteState$ | async"></pos-default-sales-checkout-grid>
 
-  <pos-default-sales-checkout-list *ngIf="!(checkoutProductState$ | async)?.isGridMode" [checkoutProductState]="checkoutProductState$ | async"></pos-default-sales-checkout-list>
+  <pos-default-sales-checkout-list *ngIf="!(checkoutProductState$ | async)?.isGridMode" [checkoutProductState]="checkoutProductState$ | async" [posQuoteState]="quoteState$ | async"></pos-default-sales-checkout-list>
 
 </div>
 <div class="cart-product">

@@ -280,6 +280,7 @@
   /*float: right;
   width: 36.0176%;*/
   padding-bottom: 75px;
+  z-index: 1;
   .top-bar {
     .cart-info {
       overflow: hidden;
@@ -4133,4 +4134,9 @@ ul.has-list {
     }
   }
 }
-
+.popup-content .desc-bottom .btn-disable{
+  pointer-events: none;
+}
+.btn-hide-add-to-cart {
+  display: none !important;
+}

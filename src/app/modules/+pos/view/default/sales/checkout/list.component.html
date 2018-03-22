@@ -17,11 +17,11 @@
         </li>
       </ul>
       <ul class="items animated fadeIn" *ngFor="let product of checkoutProductState.productGridProducts;trackBy: trackByItemFn;">
-        <div class="list-addcart" (click)="addToCart(product,$event)">
+        <div class="list-addcart" (click)="(posQuoteState.info.isShiftOpening)?addToCart(product,$event):'javascirpt:void(0)'">
           <a class="btn-detail" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)">
             {{ 'View detail' | translate}}
           </a>
-          <div class="btn-addcart">
+          <div [ngClass]="(posQuoteState.info.isShiftOpening) ? 'btn-add-to-cart': 'btn-hide-add-to-cart'"  class="btn-addcart">
             <i class="icon-addcart"></i>
             <span class="cart" >{{'Add to cart' | translate}}</span>
           </div>

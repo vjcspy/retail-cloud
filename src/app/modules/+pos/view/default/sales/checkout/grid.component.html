@@ -6,10 +6,10 @@
       <span class="tags soldout" *ngIf="isOutOfStock(product)"><img src="assets/img/soldout-icon.png" alt=""/></span>
       <span class="show-label" (click)="quoteActions.selectProductToAdd(product,1,false,null, true)"><span>{{ 'View Details' | translate }}</span></span>
 
-      <div class="inner" (click)="quoteActions.selectProductToAdd(product)">
+      <div class="inner" (click)="(posQuoteState.info.isShiftOpening)?quoteActions.selectProductToAdd(product):'javascirpt:void(0)'">
         <pos-default-sales-checkout-grid-product-image [imageUrl]="product['origin_image']"></pos-default-sales-checkout-grid-product-image>
         <h3 class="product-name"><span>{{product['name']}}</span></h3>
-        <span class="icon-addcart"></span>
+        <span [ngClass]="(posQuoteState.info.isShiftOpening) ? 'btn-add-to-cart': 'btn-hide-add-to-cart'" class="icon-addcart"></span>
       </div>
     </div>
   </div>

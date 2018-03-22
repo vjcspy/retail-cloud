@@ -3,6 +3,7 @@ import {CheckoutProductState} from "../../../R/sales/checkout/product/product.st
 import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {CheckoutProductActions} from "../../../R/sales/checkout/product/product.actions";
 import {ProductHelper} from "../../../../core/framework/catalog/Helper/Product";
+import {PosQuoteState} from "../../../../R/quote/quote.state";
 
 @Component({
              // moduleId: module.id,
@@ -12,31 +13,32 @@ import {ProductHelper} from "../../../../core/framework/catalog/Helper/Product";
            })
 export class PosDefaultSalesCheckoutListComponent implements OnInit {
   @Input() checkoutProductState: CheckoutProductState;
-  
+  @Input() posQuoteState: PosQuoteState;
+
   constructor(protected quoteActions: PosQuoteActions,
               protected checkoutProductActions: CheckoutProductActions) { }
-  
+
   ngOnInit() { }
-  
+
   protected trackByItemFn(index, product) {
     return product['id'];
   }
-  
+
   addToCart(product, $event) {
     const className = $event.target.className;
     if (!!className && className.indexOf('btn-detail') === -1) {
       this.quoteActions.selectProductToAdd(product);
     }
   }
-  
+
   isSales(product) {
     return ProductHelper.isSales(product);
   }
-  
+
   isOutOfStock(product) {
     return ProductHelper.isOutOfStock(product);
   }
-  
+
   loadMorePage() {
     setTimeout(() => {
       this.checkoutProductActions.loadMorePage();
