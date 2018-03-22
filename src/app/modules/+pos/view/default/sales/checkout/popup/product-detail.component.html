@@ -188,7 +188,7 @@
         </div>
         <div class="desc-bottom">
           <button class="gray" (click)="cancelProductOption()">{{ 'Cancel' | translate }}</button>
-          <button (click)="confirmProductOption()">
+          <button (click)="(posQuoteState.info.isShiftOpening)?confirmProductOption():'javascript:void(0)'" [ngClass]="(posQuoteState.info.isShiftOpening)?'':'gray btn-disable'">
             {{productOptionsState.currentProcessing === 'ADD_NEW' ? ('Add to Cart' | translate) : ('Update Item'|translate)}}
           </button>
         </div>
