@@ -3,24 +3,31 @@ import {ProductOptionsActions} from "../../../../R/sales/checkout/popup/product-
 import {ProductOptionsState} from "../../../../R/sales/checkout/popup/product-options.state";
 import * as _ from 'lodash';
 import {FormValidationService} from "../../../../../../share/provider/form-validation";
+import {PosConfigState} from "../../../../../R/config/config.state";
 
 @Component({
-             // moduleId: module.id,
-             selector: 'pos-default-sales-checkout-popup-product-detail',
-             templateUrl: 'product-detail.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  // moduleId: module.id,
+  selector: 'pos-default-sales-checkout-popup-product-detail',
+  templateUrl: 'product-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnInit {
   @Input() productOptionsState: ProductOptionsState;
-  
+  @Input() posConfigState: PosConfigState;
+
   indexImage: number = 0;
-  
+
   constructor(public productOptionsActions: ProductOptionsActions,
-              protected formValidation: FormValidationService) { }
-  
+              protected formValidation: FormValidationService) {
+  }
+
   ngOnInit() {
   }
-  
+
+  isIntegrateWarehouse() {
+    return this.posConfigState.posRetailConfig.isIntegrateWH == true;
+  }
+
   changeIndexImage(isIncrease) {
     if (isIncrease === 1) {
       if (this.indexImage < (this.productOptionsState.product.media_gallery.length - 1)) {
@@ -32,9 +39,9 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
       }
     }
   }
-  
+
   private _attributes;
-  
+
   convertAttributeObjectToArray() {
     if (typeof this._attributes === 'undefined') {
       if (this.productOptionsState.product.getTypeId() == 'configurable') {
@@ -46,7 +53,7 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
     }
     return this._attributes;
   }
-  
+
   changeQty(isIncrease: boolean = true) {
     const currentQty = this.productOptionsState.buyRequest.getData('qty');
     if (isIncrease) {
@@ -57,15 +64,15 @@ export class PosDefaultSalesCheckoutPopupProductDetailComponent implements OnIni
       }
     }
   }
-  
+
   hasImageGallery() {
     return _.isArray(this.productOptionsState.product.media_gallery)
   }
-  
+
   confirmProductOption() {
-      this.productOptionsActions.confirmProductOptions();
+    this.productOptionsActions.confirmProductOptions();
   }
-  
+
   cancelProductOption() {
     this.formValidation.cancel('pos-product-detail', () => {
       this.productOptionsActions.cancelProductOptions();

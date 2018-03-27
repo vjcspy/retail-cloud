@@ -24,8 +24,10 @@ export interface PosConfigState {
     allowPartialPayment: boolean;
     isIntegrateRP: boolean;
     isIntegrateGC: boolean;
+    isIntegrateWH: boolean;
     rpType: string;
     gcType: string;
+    whType: string;
     inclDiscountPerItemInDiscount: boolean
     sortCategoryBaseOn: string;
     sortCategorySorting: string;
@@ -50,7 +52,8 @@ export interface PosConfigState {
   receipt: Object;
 }
 
-export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
+export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {
+}
 
 export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigStateRecord>(
   {
@@ -70,8 +73,10 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       allowPartialPayment: true,
       isIntegrateRP: false,
       isIntegrateGC: false,
+      isIntegrateWH: false,
       rpType: 'aheadWorld',
       gcType: 'aheadWorld',
+      whType: 'none',
       inclDiscountPerItemInDiscount: false,
       sortCategoryBaseOn: 'name',
       sortCategorySorting: 'asc',
