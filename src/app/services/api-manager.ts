@@ -11,7 +11,7 @@ export class ApiManager {
     retailConfig: 'retail-setting',
     outlet: 'outlet',
     register: 'register',
-    
+
     /*Pos*/
     products: "product",
     category: "category",
@@ -45,14 +45,23 @@ export class ApiManager {
     "permission": "permission",
     customerDetail: "customer-detail",
     updateCustomerWishlist: "update-wishlist",
-    'product-cache': 'product-cache'
+    'product-cache': 'product-cache',
+    'warehouse-item': "warehouse-item"
   };
-  
-  get(apiKey, baseUrl: string): string {
+
+  protected _baseUrl;
+
+  get(apiKey, baseUrl: string = null): string {
+    if (baseUrl) {
+      this._baseUrl = baseUrl;
+    } else {
+      baseUrl = this._baseUrl;
+    }
+
     if (!_.isString(baseUrl)) {
       throw new GeneralException("can_get_base_url");
     }
-    
+
     if (this._apiUrl.hasOwnProperty(apiKey)) {
       if (baseUrl.indexOf("http") === -1) {
         baseUrl = this._isSecureHttp ?
@@ -61,20 +70,20 @@ export class ApiManager {
           baseUrl;
       }
       return baseUrl +
-             "/" +
-             this._middleUrl +
-             "/" +
-             this._apiUrl[apiKey];
+        "/" +
+        this._middleUrl +
+        "/" +
+        this._apiUrl[apiKey];
     } else {
       throw new GeneralException("API not yet config");
     }
   }
-  
+
   getUploaderUrl(baseUrl: string) {
     if (!_.isString(baseUrl)) {
       throw new GeneralException("can_get_base_url");
     }
-    
+
     if (baseUrl.indexOf("http") > -1) {
       return baseUrl + "/xrest/v1/uploader";
     } else {

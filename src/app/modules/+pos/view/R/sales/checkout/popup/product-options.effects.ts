@@ -16,18 +16,23 @@ import {PosSyncState} from "../../../../../R/sync/sync.state";
 
 @Injectable()
 export class ProductOptionsEffects {
-  
-  constructor(private store$: Store<any>, private actions$: Actions, private productOptionsService: ProductOptionsService, private quoteActions: PosQuoteActions) { }
-  
+
+  constructor(private store$: Store<any>,
+              private actions$: Actions,
+              private productOptionsService: ProductOptionsService,
+              private quoteActions: PosQuoteActions,
+              private productOptionActions: ProductOptionsActions) {
+  }
+
   @Effect() retrieveProductDataForPopup = this.actions$.ofType(PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS)
                                               .withLatestFrom(this.store$.select('productOptions'))
                                               .withLatestFrom(this.store$.select('entities'),
-                                                              ([action, productOptions], entitiesState) => [action, productOptions, entitiesState])
+                                                ([action, productOptions], entitiesState) => [action, productOptions, entitiesState])
                                               .map(([action, productOptionsState, entitiesState]) => {
                                                 const taxClass: List<TaxClassDB> = entitiesState[TaxClassDB.getCode()]['items'];
                                                 const product: Product           = productOptionsState['product'];
                                                 product.setTaxClassName(ProductHelper.getProductTaxClass(product.tax_class_id, taxClass));
-    
+
                                                 // get Image for child of bundle product
                                                 if (product.getTypeId() === 'bundle' && !product.getData('childBundleImages')) {
                                                   let childBundleImages           = {};
@@ -39,7 +44,7 @@ export class ProductOptionsEffects {
                                                       const childProduct = products.find((p) => parseInt(p.id + '') === parseInt(selection['entity_id'] + ''));
                                                       if (childProduct) {
                                                         childBundleImages[selection['entity_id']] = childProduct['origin_image'];
-            
+
                                                         // add data of product to selection, because need tier_prices data when collect total.
                                                         Object.assign(selection, {...childProduct});
                                                       } else {
@@ -47,10 +52,10 @@ export class ProductOptionsEffects {
                                                       }
                                                     });
                                                   });
-      
+
                                                   product.setData('childBundleImages', childBundleImages);
                                                 }
-    
+
                                                 // get associate of group product
                                                 if (product.getTypeId() === 'grouped' && !product.getData('associatedProducts')) {
                                                   let associatedProducts          = [];
@@ -67,10 +72,10 @@ export class ProductOptionsEffects {
                                                       associatedProducts.push(a);
                                                     }
                                                   });
-      
+
                                                   product.setData('associatedProducts', associatedProducts);
                                                 }
-    
+
                                                 // create select data for each attribute in super_attribute
                                                 if (product.getTypeId() === 'configurable' && !product.getData('attributeSelectData')) {
                                                   let attributeSelectData = {};
@@ -86,24 +91,27 @@ export class ProductOptionsEffects {
                                                       isMultiSelect: false,
                                                       isDisabled: this.productOptionsService.isDisableAttribute(product, attribute, (productOptionsState as ProductOptionsState).optionData.super_attribute)
                                                     };
-        
+
                                                     _.forEach(attribute['options'], (option: Object) => {
                                                       _selectData.data.push({
-                                                                              value: option['id'],
-                                                                              label: option['label'],
-                                                                              disabled: this.productOptionsService.isDisableOption(product, option, (productOptionsState as ProductOptionsState).optionData.super_attribute)
-                                                                            });
+                                                        value: option['id'],
+                                                        label: option['label'],
+                                                        disabled: this.productOptionsService.isDisableOption(product, option, (productOptionsState as ProductOptionsState).optionData.super_attribute)
+                                                      });
                                                     });
-        
+
                                                     attributeSelectData[attribute['id']] = _selectData;
                                                   });
-      
+
                                                   product.setData('attributeSelectData', attributeSelectData);
                                                 }
-    
-                                                return {type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION, payload: {product}};
+
+                                                return {
+                                                  type: ProductOptionsActions.ACTION_RETRIEVE_PRODUCT_INFORMATION,
+                                                  payload: {product}
+                                                };
                                               });
-  
+
   @Effect() handleWhenChangeOptionConfigurable = this.actions$.ofType(ProductOptionsActions.ACTION_UPDATE_PRODUCT_OPTION_DATA)
                                                      .filter((action: Action) => {
                                                        return action.payload['optionType'] === 'super_attribute' && !_.isEmpty(action.payload['optionValue']);
@@ -112,7 +120,7 @@ export class ProductOptionsEffects {
                                                      .map(([action, productOptionsState]) => {
                                                        const product: Product = productOptionsState['product'];
                                                        let super_attribute    = {};
-    
+
                                                        // when user select attribute, all attribute standing behind will be remove
                                                        _.forEach(productOptionsState['optionData'].super_attribute, (value, key) => {
                                                          super_attribute[key] = value;
@@ -120,7 +128,7 @@ export class ProductOptionsEffects {
                                                            return false;
                                                          }
                                                        });
-    
+
                                                        if (product.getTypeId() === 'configurable') {
                                                          let attributeSelectData = {};
                                                          _.forEach(product.x_options['configurable']['attributes'], (attribute: Object) => {
@@ -135,36 +143,36 @@ export class ProductOptionsEffects {
                                                              isMultiSelect: false,
                                                              isDisabled: this.productOptionsService.isDisableAttribute(product, attribute, super_attribute)
                                                            };
-        
+
                                                            _.forEach(attribute['options'], (option: Object) => {
                                                              option['attribute_id'] = attribute['id'];
                                                              _selectData.data.push({
-                                                                                     value: option['id'],
-                                                                                     label: option['label'],
-                                                                                     disabled: this.productOptionsService.isDisableOption(product, option, super_attribute)
-                                                                                   });
+                                                               value: option['id'],
+                                                               label: option['label'],
+                                                               disabled: this.productOptionsService.isDisableOption(product, option, super_attribute)
+                                                             });
                                                            });
-        
+
                                                            attributeSelectData[attribute['id']] = _selectData;
                                                          });
-      
+
                                                          product.setData('attributeSelectData', attributeSelectData);
                                                        }
-    
+
                                                        return {
                                                          type: ProductOptionsActions.ACTION_RE_INIT_SUPER_ATTRIBUTE_SELECT_DATA,
                                                          payload: {product, super_attribute}
                                                        };
                                                      });
-  
+
   @Effect() confirmProductOptions = this.actions$.ofType(ProductOptionsActions.ACTION_CONFIRM_PRODUCT_OPTIONS)
                                         .withLatestFrom(this.store$.select('productOptions'))
                                         .withLatestFrom(this.store$.select('sync'),
-                                                        ([action, productOptions], syncState) => [action, productOptions, syncState])
+                                          ([action, productOptions], syncState) => [action, productOptions, syncState])
                                         .filter((z) => (z[2] as PosSyncState).isSyncing === false)
                                         .switchMap((z) => {
                                           const productOptionsState: ProductOptionsState = <any>z[1];
-    
+
                                           return Observable.fromPromise(this.productOptionsService.confirmProductOptionsForm())
                                                            .map(() => {
                                                              if (!_.isEmpty(productOptionsState['product'].customizable_options)) {
@@ -195,6 +203,30 @@ export class ProductOptionsEffects {
                                                                };
                                                              }
                                                            });
-    
+
                                         });
+
+  @Effect() warehouseItem = this.actions$
+                                .ofType(ProductOptionsActions.ACTION_GET_WAREHOUSE_ITEM)
+                                .withLatestFrom(this.store$.select('productOptions'))
+                                .withLatestFrom(this.store$.select('sync'),
+                                  ([action, productOptions], syncState) => [action, productOptions, syncState])
+                                .filter((z) => (z[2] as PosSyncState).isSyncing === false)
+                                .switchMap(z => {
+                                  const productOptionsState: ProductOptionsState = <any>z[1];
+
+                                  return this.productOptionsService.getWarehouseItem(productOptionsState.product['id'])
+                                             .filter((data) => !!data && _.isArray(data["items"]))
+                                             .map(data => data['items'])
+                                             .map((warehouseItem) => {
+                                               return this.productOptionActions.getWarehouseItemAfter({
+                                                 isSuccess: true,
+                                                 warehouseItem
+                                               }, false);
+                                             })
+                                             .catch((e) => Observable.of(this.productOptionActions.getWarehouseItemAfter({
+                                               isSuccess: false,
+                                               e
+                                             }, false)));
+                                });
 }

@@ -22,8 +22,9 @@ export class PosEntitiesEffects {
               private store: Store<PosState>,
               private rootActions: RootActions,
               private posEntityService: PosEntitiesService,
-              private entitiesActions: PosEntitiesActions) {}
-  
+              private entitiesActions: PosEntitiesActions) {
+  }
+
   @Effect() initEntityBeforeGetFromSV$ = this.action$
                                              .ofType(
                                                PosEntitiesActions.ACTION_INIT_ENTITY_FROM_LOCAL_DB,
@@ -31,7 +32,7 @@ export class PosEntitiesEffects {
                                              )
                                              .withLatestFrom(this.store.select('general'))
                                              .withLatestFrom(this.store.select('entities'),
-                                                             ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                               ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                              .filter((z) => {
                                                return (z[2] as PosEntitiesState)[(z[0] as Action).payload['entityCode']]['isLoadedFromDB'] !== true;
                                              })
@@ -46,7 +47,7 @@ export class PosEntitiesEffects {
                                                                   return Observable.of(this.rootActions.error(e.getMessage(), e, false));
                                                                 });
                                              });
-  
+
   @Effect() pullEntityDataFromServer$ = this.action$
                                             .ofType(
                                               // Trigger từ actions
@@ -58,7 +59,7 @@ export class PosEntitiesEffects {
                                             )
                                             .withLatestFrom(this.store.select('general'))
                                             .withLatestFrom(this.store.select('entities'),
-                                                            ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                              ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                             .withLatestFrom(this.store.select('pull'), ([action, generalState, entitiesState], pullState) => {
                                               return [action, generalState, entitiesState, pullState];
                                             })
@@ -82,11 +83,12 @@ export class PosEntitiesEffects {
                                                                    }
                                                                  })
                                                                  .catch((e: GeneralException) => {
+                                                                   console.log(e);
                                                                    return Observable.of(this.rootActions.error(e.getMessage(), e, false));
                                                                  });
                                               }
                                             });
-  
+
   @Effect() pullEntityNextPage$ = this.action$
                                       .ofType(
                                         PosEntitiesActions.ACTION_PULL_ENTITY_NEXT_PAGE,
@@ -94,35 +96,35 @@ export class PosEntitiesEffects {
                                       )
                                       .withLatestFrom(this.store.select('general'))
                                       .withLatestFrom(this.store.select('entities'),
-                                                      ([action, generalState], entitiesState) => [action, generalState, entitiesState])
+                                        ([action, generalState], entitiesState) => [action, generalState, entitiesState])
                                       .flatMap((z) => {
-                                                 const action: Action                  = <any>z[0];
-                                                 const generalState: PosGeneralState   = <any>z[1];
-                                                 const entitiesState: PosEntitiesState = <any>z[2];
-    
-                                                 if (action.type === PosEntitiesActions.ACTION_PULL_CANCEL) {
-                                                   return Observable.of({
-                                                                          type: RootActions.ACTION_NOTHING,
-                                                                          payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
-                                                                        });
-                                                 } else {
-                                                   const entity: Entity = entitiesState[action.payload.entityCode];
-                                                   if (entity.limitPage > 0 && entity.currentPage >= entity.limitPage) {
-                                                     return Observable.of(this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false));
-                                                   } else {
-                                                     return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entity, generalState))
-                                                                      .map((pullData: GeneralMessage) => {
-                                                                        return pullData.data['isFinished'] === true ?
-                                                                          this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
-                                                                          this.entitiesActions.pullEntityPageSuccess(action.payload.entityCode, pullData.data['items'], pullData.data['additionData'], false);
-                                                                      })
-                                                                      .catch(() => Observable.of(this.entitiesActions.pullEntityFailed(action.payload.entityCode, false))
-                                                                      );
-                                                   }
-                                                 }
-                                               }
+                                          const action: Action                  = <any>z[0];
+                                          const generalState: PosGeneralState   = <any>z[1];
+                                          const entitiesState: PosEntitiesState = <any>z[2];
+
+                                          if (action.type === PosEntitiesActions.ACTION_PULL_CANCEL) {
+                                            return Observable.of({
+                                              type: RootActions.ACTION_NOTHING,
+                                              payload: {entityCode: action.payload.entityCode, mess: "Cancel Pull"}
+                                            });
+                                          } else {
+                                            const entity: Entity = entitiesState[action.payload.entityCode];
+                                            if (entity.limitPage > 0 && entity.currentPage >= entity.limitPage) {
+                                              return Observable.of(this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false));
+                                            } else {
+                                              return Observable.fromPromise(this.posEntityService.pullAndSaveDb(entity, generalState))
+                                                               .map((pullData: GeneralMessage) => {
+                                                                 return pullData.data['isFinished'] === true ?
+                                                                   this.entitiesActions.pullEntitySuccess(action.payload['entityCode'], false) :
+                                                                   this.entitiesActions.pullEntityPageSuccess(action.payload.entityCode, pullData.data['items'], pullData.data['additionData'], false);
+                                                               })
+                                                               .catch(() => Observable.of(this.entitiesActions.pullEntityFailed(action.payload.entityCode, false))
+                                                               );
+                                            }
+                                          }
+                                        }
                                       );
-  
+
   @Effect() resolveProductFilteredBySetting = this.action$
                                                   .ofType(
                                                     PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
@@ -140,18 +142,22 @@ export class PosEntitiesEffects {
                                                                        return this.entitiesActions.filteredProducts(mes.data['productsFiltered'], false);
                                                                      });
                                                   });
-  
+
   protected createQueryPull(entity: Entity, generalState: PosGeneralState) {
     let _query = '';
     _.forEach(entity.propertyFilter, (val, key) => {
       _query += `&searchCriteria[${key}]=${val}`;
     });
     _query += `&searchCriteria[pageSize]=${entity.pageSize}&searchCriteria[currentPage]=${entity.currentPage + 1}`;
-    
+
     if (!!generalState.store && !!generalState.store['id']) {
       _query += "&searchCriteria[storeId]=" + generalState.store['id']
-                + "&searchCriteria[outletId]=" + generalState.outlet['id']
-                + "&searchCriteria[registerId]=" + generalState.register['id'];
+        + "&searchCriteria[outletId]=" + generalState.outlet['id']
+        + "&searchCriteria[registerId]=" + generalState.register['id'];
+    }
+
+    if (!!generalState.outlet && !!generalState.outlet['warehouse_id']) {
+      _query += "&searchCriteria[warehouse_id]=" + generalState.outlet['warehouse_id'];
     }
     return _query;
   }
