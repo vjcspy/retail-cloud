@@ -7,87 +7,90 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class ConfigurationsViewRouterEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private router: Router,
-              private pullActions: PosPullActions) { }
-  
+              private pullActions: PosPullActions) {
+  }
+
   @Effect() whenGoProductCategory = this.actions$
                                         .ofType(routerActions.UPDATE_LOCATION)
                                         .filter((action: Action) => action.payload['path'] === '/pos/configurations/default/pos/product-category')
                                         .map(() => {
                                           return this.pullActions.pullEntities([
-                                                                                 'retailConfig',
-                                                                                 // 'settings',
-                                                                                 'taxClass',
-                                                                               ], false);
+                                            'retailConfig',
+                                            // 'settings',
+                                            'taxClass',
+                                          ], false);
                                         });
-  
+
   @Effect() whenGoCustomer = this.actions$
                                  .ofType(routerActions.UPDATE_LOCATION)
                                  .filter((action: Action) => action.payload['path'] === '/pos/configurations/default/pos/customer')
                                  .map(() => {
                                    return this.pullActions.pullEntities([
-                                                                          'retailConfig',
-                                                                          'countries',
-                                                                        ], false);
+                                     'retailConfig',
+                                     'countries',
+                                   ], false);
                                  });
-  
+
   @Effect() whenGoOutlet = this.actions$
                                .ofType(routerActions.UPDATE_LOCATION)
                                .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/outlet', false))
                                .map(() => {
                                  return this.pullActions.pullEntities([
-                                                                        'outlet',
-                                                                        'countries',
-                                                                        'stores',
-                                                                        'receipts',
-                                                                      ], false);
+                                   'retailConfig',
+                                   'outlet',
+                                   'countries',
+                                   'stores',
+                                   'receipts',
+                                   'warehouse'
+                                 ], false);
                                });
-  
+
   @Effect() whenGoPayment = this.actions$
                                 .ofType(routerActions.UPDATE_LOCATION)
                                 .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/payment', false))
                                 .map(() => {
                                   return this.pullActions.pullEntities([
-                                                                         'payment',
-                                                                       ], false);
+                                    'payment',
+                                  ], false);
                                 });
-  
+
   @Effect() whenGoCheckout = this.actions$
                                  .ofType(routerActions.UPDATE_LOCATION)
                                  .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/checkout', false))
                                  .map(() => {
                                    return this.pullActions.pullEntities([
-                                                                          'retailConfig',
-                                                                        ], false);
+                                     'retailConfig',
+                                   ], false);
                                  });
-  
+
   @Effect() whenGoIntegration = this.actions$
                                     .ofType(routerActions.UPDATE_LOCATION)
                                     .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/integration', false))
                                     .map(() => {
                                       return this.pullActions.pullEntities([
-                                                                             'retailConfig',
-                                                                           ], false);
+                                        'retailConfig',
+                                      ], false);
                                     });
-  
+
   @Effect() whenGoReceipt = this.actions$
                                 .ofType(routerActions.UPDATE_LOCATION)
                                 .filter((action: Action) => this.router.isActive('pos/configurations/default/pos/receipt', false))
                                 .map(() => {
                                   return this.pullActions.pullEntities([
-                                                                         'receipts'
-                                                                       ], false);
+                                    'receipts'
+                                  ], false);
                                 });
-  
+
   @Effect() whenGoPullPerformance = this.actions$
                                         .ofType(routerActions.UPDATE_LOCATION)
                                         .filter((action: Action) => this.router.isActive('pos/configurations/default/advanced/pull-performance', false))
                                         .map(() => {
                                           return this.pullActions.pullEntities([
-                                                                                 'stores'
-                                                                               ], false);
+                                            'stores'
+                                          ], false);
                                         });
 }

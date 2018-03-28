@@ -20,10 +20,10 @@ import {Router} from "@angular/router";
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
-import {TrackingService} from "../../../../../services/tracking/tracking-service";
 import {RetailDataHelper} from "../../../../../services/retail-data-helper";
 import {PosConfigState} from "../../../../../R/config/config.state";
 import {PosEntitiesState} from "../../../../../R/entities/entities.state";
+import {TrackingService} from "../../../../../../../services/tracking/tracking-service";
 
 @Injectable()
 export class PosStepEffects {
@@ -202,8 +202,6 @@ export class PosStepEffects {
                             .filter((z) => (z[1] as PosStepState).checkoutStep === CheckoutStep.PAYMENT)
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
-                              this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER);
-
                               const posStepState: PosStepState      = <any>z[1];
                               const posQuoteState: PosQuoteState    = <any>z[2];
                               const entitiesState: PosEntitiesState = <any>z[5];
@@ -254,6 +252,8 @@ export class PosStepEffects {
                                                      let order = new OrderDB();
                                                      order.addData(orderOffline);
 
+                                                     this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER,{orderOffline});
+
                                                      return Observable.from([
                                                        this.stepActions.savedOrder(orderOffline, true, false),
                                                        this.entityActions.pushEntity(order, OrderDB.getCode(), null, false)
@@ -268,6 +268,8 @@ export class PosStepEffects {
                                                    .flatMap((orderOffline) => {
                                                      let order = new OrderDB();
                                                      order.addData(orderOffline);
+
+                                                     this.trackingService.tracking(TrackingService.EVENT_SAVE_ORDER,{orderOffline});
 
                                                      return Observable.from([
                                                        this.stepActions.savedOrder(orderOffline, false, false),

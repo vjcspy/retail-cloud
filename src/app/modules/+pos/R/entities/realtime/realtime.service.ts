@@ -158,6 +158,10 @@ export class RealtimeService {
       url += "&searchCriteria[outletId]=" + generalState.outlet['id'];
     }
 
+    if (!!generalState.outlet && !!generalState.outlet['warehouse_id']) {
+      url += "&searchCriteria[warehouse_id]=" + generalState.outlet['warehouse_id'];
+    }
+
     return this.requestService
                .makeGet(url);
   }

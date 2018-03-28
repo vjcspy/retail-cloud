@@ -1,4 +1,5 @@
-<div id="productInfo" class="popup-wrapper animated fadeIn" [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">
+<div id="productInfo" class="popup-wrapper animated fadeIn"
+     [ngClass]="{'open': productOptionsState.isOpenProductDetailPopup}">
   <div class="popup-content">
     <div class="product-information">
       <div class="media-blk">
@@ -25,13 +26,17 @@
         <div class="tabs-blk">
           <!--tabs header-->
           <ul class="tabs-header">
-            <li [ngClass]="{active: productOptionsState.tabView ==='option'}" (click)="productOptionsActions.changeTabView('option')">
+            <li [ngClass]="{active: productOptionsState.tabView ==='option'}"
+                (click)="productOptionsActions.changeTabView('option')">
               {{ 'Option' | translate }}
             </li>
-            <li [ngClass]="{active: productOptionsState.tabView ==='detail'}" (click)="productOptionsActions.changeTabView('detail')">
+            <li [ngClass]="{active: productOptionsState.tabView ==='detail'}"
+                (click)="productOptionsActions.changeTabView('detail')">
               {{ 'Detail' | translate }}
             </li>
-            <li class="disabled">{{ 'Warehouse' | translate }}</li>
+            <li [ngClass]="{disabled: !isIntegrateWarehouse()}" (click)="productOptionsActions.getWarehouseItem()">{{
+              'Warehouse' | translate }}
+            </li>
           </ul>
           <div id="option" class="tabs-content"
                [ngClass]="{'d-show': productOptionsState.tabView ==='option','d-hide':productOptionsState.tabView !=='option'}">
@@ -47,28 +52,37 @@
                   <li *ngIf="productOptionsState.product.getTypeId()!='grouped'">
                     <label>{{ 'Quantity' | translate }}</label>
                     <div class="quantity-blk">
-                      <span class="icon-minus" [ngClass]="{disable: productOptionsState.buyRequest.getData('qty') <= 1}" (click)="changeQty(false)"></span>
+                      <span class="icon-minus" [ngClass]="{disable: productOptionsState.buyRequest.getData('qty') <= 1}"
+                            (click)="changeQty(false)"></span>
                       <span class="icon-plus" (click)="changeQty()"></span>
                       <input [value]="productOptionsState.buyRequest.getData('qty')" type="text" name="qty">
                     </div>
                   </li>
-                  <pos-default-sales-checkout-popup-product-detail-customizable-options *ngFor="let option of productOptionsState.product['customizable_options']" [option]="option" [productOptionsState]="productOptionsState">
+                  <pos-default-sales-checkout-popup-product-detail-customizable-options
+                    *ngFor="let option of productOptionsState.product['customizable_options']" [option]="option"
+                    [productOptionsState]="productOptionsState">
                   </pos-default-sales-checkout-popup-product-detail-customizable-options>
 
                   <div *ngIf="productOptionsState.product.getTypeId()==='configurable'">
-                    <pos-default-sales-checkout-popup-product-detail-super-attribute *ngFor="let attribute of convertAttributeObjectToArray()"
-                                                                                     [attribute]="attribute"
-                                                                                     [productOptionsState]="productOptionsState">
+                    <pos-default-sales-checkout-popup-product-detail-super-attribute
+                      *ngFor="let attribute of convertAttributeObjectToArray()"
+                      [attribute]="attribute"
+                      [productOptionsState]="productOptionsState">
                     </pos-default-sales-checkout-popup-product-detail-super-attribute>
                   </div>
-                  <pos-default-sales-checkout-popup-product-detail-super-group *ngIf="productOptionsState.product.getTypeId()==='grouped'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-super-group>
-                  <pos-default-sales-checkout-popup-product-detail-gift-card *ngIf="productOptionsState.product.getTypeId()==='aw_giftcard'" [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-gift-card>
+                  <pos-default-sales-checkout-popup-product-detail-super-group
+                    *ngIf="productOptionsState.product.getTypeId()==='grouped'"
+                    [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-super-group>
+                  <pos-default-sales-checkout-popup-product-detail-gift-card
+                    *ngIf="productOptionsState.product.getTypeId()==='aw_giftcard'"
+                    [productOptionsState]="productOptionsState"></pos-default-sales-checkout-popup-product-detail-gift-card>
                 </ul>
               </form>
               <div *ngIf="productOptionsState.product.getTypeId() === 'bundle'">
-                <pos-default-sales-checkout-popup-product-detail-bundle-options *ngFor="let option of productOptionsState.product.x_options['bundle']['options']"
-                                                                                [option]="option"
-                                                                                [productOptionsState]="productOptionsState">
+                <pos-default-sales-checkout-popup-product-detail-bundle-options
+                  *ngFor="let option of productOptionsState.product.x_options['bundle']['options']"
+                  [option]="option"
+                  [productOptionsState]="productOptionsState">
                 </pos-default-sales-checkout-popup-product-detail-bundle-options>
               </div>
             </div>
@@ -87,12 +101,18 @@
               <div class="info-row">
                 <table class="table">
                   <tr>
+                    <td>{{ 'ID' | translate }}</td>
+                    <td>{{productOptionsState.product['id']}}</td>
+                  </tr>
+                  <tr>
                     <td>{{ 'Qty' | translate }}</td>
                     <td>{{productOptionsState.product.stock_items['qty'] | number:'1.2-2'}}</td>
                   </tr>
                   <tr>
                     <td>{{ 'In stock' | translate }}</td>
-                    <td>{{productOptionsState.product.stock_items['is_in_stock'] == '1'? ("Yes"|translate) : ("No"|translate)}}</td>
+                    <td>{{productOptionsState.product.stock_items['is_in_stock'] == '1'? ("Yes"|translate) :
+                      ("No"|translate)}}
+                    </td>
                   </tr>
                   <tr>
                     <td>{{ 'Attribute set id' | translate }}</td>
@@ -145,42 +165,14 @@
                 <p class="sku">{{ 'Product-SKU' | translate }}</p>
                 <p class="sku-val">WSKB2019</p>
               </div>
-              <div class="info-row">
-                <table>
-                  <tr>
-                    <td>{{ 'Quantity' | translate }} in {{ 'Outlet' | translate }} A</td>
-                    <td>100</td>
-                  </tr>
-                  <tr>
-                    <td>{{ 'Quantity' | translate }} in {{ 'Outlet' | translate }} A</td>
-                    <td>100</td>
-                  </tr>
-                </table>
-              </div>
               <table class="table">
                 <tr>
                   <th>{{ 'Outlet' | translate }}</th>
                   <th>{{ 'Inventory Count' | translate }}</th>
                 </tr>
-                <tr>
-                  <td>{{ 'Outlet' | translate }} A</td>
-                  <td>25</td>
-                </tr>
-                <tr>
-                  <td>{{ 'Outlet' | translate }} Nguyen Chi Thanh</td>
-                  <td>31</td>
-                </tr>
-                <tr>
-                  <td>{{ 'Outlet' | translate }} Westlake</td>
-                  <td>12</td>
-                </tr>
-                <tr>
-                  <td>{{ 'Outlet' | translate }} Hang Khay</td>
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>{{ 'Outlet' | translate }} Trang Tien</td>
-                  <td>50</td>
+                <tr *ngFor="let item of productOptionsState.warehouseItem">
+                  <td>{{ item['outlet_name'] }} A</td>
+                  <td>{{item['warehouse_stock']['physical_quantity']}}</td>
                 </tr>
               </table>
             </div>
@@ -189,7 +181,8 @@
         <div class="desc-bottom">
           <button class="gray" (click)="cancelProductOption()">{{ 'Cancel' | translate }}</button>
           <button (click)="confirmProductOption()">
-            {{productOptionsState.currentProcessing === 'ADD_NEW' ? ('Add to Cart' | translate) : ('Update Item'|translate)}}
+            {{productOptionsState.currentProcessing === 'ADD_NEW' ? ('Add to Cart' | translate) : ('Update
+            Item'|translate)}}
           </button>
         </div>
       </div>
