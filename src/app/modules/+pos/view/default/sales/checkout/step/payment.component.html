@@ -21,7 +21,7 @@
   </div>
   <div class="checkout-table" perfectScroll="">
     <div class="checkout-row" *ngFor="let selectedPayment of posStepState.paymentMethodUsed">
-      <checkout-cash *ngIf="selectedPayment['type'] =='cash'" [posStepState]="posStepState" [method]="selectedPayment"></checkout-cash>
+      <checkout-cash *ngIf="selectedPayment['type'] =='cash'" [posStepState]="posStepState" [posConfigState]="posConfigState" [method]="selectedPayment"></checkout-cash>
       <checkout-credit-card *ngIf="selectedPayment['type'] =='credit_card'" [method]="selectedPayment" [posStepState]="posStepState"></checkout-credit-card>
       <checkout-payment-tyro *ngIf="selectedPayment['type'] =='tyro' && offlineService.online" [method]="selectedPayment" [posStepState]="posStepState"></checkout-payment-tyro>
     </div>
@@ -36,6 +36,11 @@
   </div>
   <div class="content-bot">
     <div class="info-checkout">
+      <div class="info-row cash-rounding-checkout" *ngIf="posStepState.totals.rounding !== 0">
+                        <span class="value">
+                            {{(posStepState.totals.rounding | priceFormat)}}</span>
+        <span class="txt">{{'Cash Rounding'|translate}}</span>
+      </div>
       <div class="info-row">
                         <span class="value">
                             {{(posStepState.totals.remain | priceFormat)}}</span>

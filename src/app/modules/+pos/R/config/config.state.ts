@@ -48,6 +48,10 @@ export interface PosConfigState {
   };
   orderCount: Object;
   receipt: Object;
+  roundingCash: {
+    roundTo: string;
+    roundingRule: string;
+  };
 }
 
 export interface PosConfigStateRecord extends TypedRecord<any>, PosConfigState {}
@@ -93,5 +97,9 @@ export const posConfigStateFactory = makeTypedFactory<PosConfigState, PosConfigS
       product: null
     },
     orderCount: {},
-    receipt: {}
+    receipt: {},
+    roundingCash: {
+      roundTo: "0.01_cash_denomination",
+      roundingRule: null
+    }
   });

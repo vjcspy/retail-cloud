@@ -149,7 +149,7 @@
         </tr>
         </tbody>
         <tfoot *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
-        <tr *ngFor="let payment of getOrder()['payment']">
+        <tr *ngFor="let payment of getPayment()">
           <td colspan="2" class="c-left">{{getPaymentTitle(payment)}}</td>
           <td class="c-right">{{payment['amount'] | priceFormat}}</td>
         </tr>

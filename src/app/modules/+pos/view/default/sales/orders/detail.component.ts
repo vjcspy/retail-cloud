@@ -49,6 +49,19 @@ export class PosDefaultSalesOrdersDetailComponent {
         payments.push(payment);
       }
     });
+    let roundingPayment = _.filter(payments, (payment) => {
+      return payment['type'] === 'rounding_cash';
+    });
+    _.remove(payments, (payment) => {
+      return payment['type'] === 'rounding_cash';
+    });
+    if (!!roundingPayment && _.isArray(roundingPayment)) {
+      _.forEach(_.reverse(roundingPayment), (payment) => {
+        if (_.isObject(payment)) {
+          payments.unshift(payment);
+        }
+      });
+    }
     return payments;
   }
 

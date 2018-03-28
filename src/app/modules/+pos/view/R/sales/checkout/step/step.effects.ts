@@ -22,6 +22,8 @@ import {EntityActions} from "../../../../../R/entities/entity/entity.actions";
 import {OrderDB} from "../../../../../database/xretail/db/order";
 import {TrackingService} from "../../../../../services/tracking/tracking-service";
 import {RetailDataHelper} from "../../../../../services/retail-data-helper";
+import {PosConfigState} from "../../../../../R/config/config.state";
+import {PosEntitiesState} from "../../../../../R/entities/entities.state";
 
 @Injectable()
 export class PosStepEffects {
@@ -63,6 +65,8 @@ export class PosStepEffects {
 
   @Effect() initCheckoutStepData = this.actions$.ofType(PosSyncActions.ACTION_SYNC_ORDER_SUCCESS)
                                        .withLatestFrom(this.store$.select('quote'))
+                                       .withLatestFrom(this.store$.select('config'),
+                                                       ([action, quoteState], configState) => [action, quoteState, configState])
                                        .filter((z: any) => z[0]['payload']['goStep'] === true)
                                        .map((z) => {
                                          const posQuoteState: PosQuoteState = <any>z[1];
@@ -77,7 +81,7 @@ export class PosStepEffects {
                                          }
 
                                          if (posQuoteState.items.count() > 0 || posQuoteState.info.isRefunding) {
-                                           let totals            = this.stepService.calculateTotals(<any>List.of(), posQuoteState.grandTotal);
+                                           let totals            = this.stepService.calculateTotals(<any>z[2], <any>List.of(), posQuoteState.grandTotal);
                                            const moneySuggestion = this.moneySuggestion.getSuggestion(posQuoteState.grandTotal);
 
                                            return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
@@ -102,6 +106,7 @@ export class PosStepEffects {
                                               const paymentToAdd: PaymentMethod = (z[0] as any).payload['payment'];
                                               const quoteState: PosQuoteState   = <any>z[1];
                                               let amount                        = this.stepService.canAddMorePaymentMethod(paymentToAdd, <any>z[3], <any>z[2], <any>quoteState);
+                                              let refundAmount                  = this.stepService.roundingRefundAmount(paymentToAdd, quoteState.creditmemo ? quoteState.creditmemo['totals']['grand_total'] : 0, <any>z[2]);
                                               if (amount !== false) {
                                                 let payment = {
                                                   id: paymentToAdd['id'],
@@ -109,7 +114,7 @@ export class PosStepEffects {
                                                   title: paymentToAdd.title,
                                                   // code: Date.now(),
                                                   amount: parseFloat(<any>amount),
-                                                  refund_amount: quoteState.creditmemo ? quoteState.creditmemo['totals']['grand_total'] : 0,
+                                                  refund_amount: refundAmount,
                                                   data: {},
                                                   isChanging: paymentToAdd.allow_amount_tendered && !quoteState.info.isRefunding,
                                                   allow_amount_tendered: paymentToAdd.allow_amount_tendered,
@@ -133,15 +138,15 @@ export class PosStepEffects {
                                       PosStepActions.ACTION_REMOVE_PAYMENT_METHOD_FROM_ORDER,
                                       PosStepActions.ACTION_CHANGE_AMOUNT_PAYMENT)
                                     .withLatestFrom(this.store$.select('step'))
-                                    .map((z) => {
-                                      const stepState: PosStepState = <any>z[1];
-                                      const action: Action          = z[0];
-                                      let totals                    = this.stepService.calculateTotals(stepState.paymentMethodUsed, stepState.totals.grandTotal);
-                                      let moneySuggestion           = stepState.moneySuggestion;
+                                    .withLatestFrom(this.store$.select('config'),
+                                                    ([action, stepState], configState) => [action, stepState, configState])
+                                    .map(([action, stepState, configState]) => {
+                                      let totals                    = this.stepService.calculateTotals(configState as PosConfigState, (stepState as PosStepState).paymentMethodUsed, (stepState as PosStepState).totals.grandTotal);
+                                      let moneySuggestion           = (stepState as PosStepState).moneySuggestion;
 
                                       // Retrieve amount before payment added
-                                      if (action.type === PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER) {
-                                        moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + action.payload['payment']['amount']);
+                                      if ((action as Action).type === PosStepActions.ACTION_ADD_PAYMENT_METHOD_TO_ORDER) {
+                                        moneySuggestion = this.moneySuggestion.getSuggestion(totals.remain + (action as Action).payload['payment']['amount']);
                                       }
 
                                       return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
@@ -193,6 +198,7 @@ export class PosStepEffects {
                             .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
                             .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                             .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
+                            .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
                             .filter((z) => (z[1] as PosStepState).checkoutStep === CheckoutStep.PAYMENT)
                             .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                             .switchMap((z) => {
@@ -200,7 +206,16 @@ export class PosStepEffects {
 
                               const posStepState: PosStepState      = <any>z[1];
                               const posQuoteState: PosQuoteState    = <any>z[2];
+                              const entitiesState: PosEntitiesState = <any>z[5];
+                              const payments: List<PaymentDB>       = entitiesState[PaymentDB.getCode()].items;
                               let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
+                              let roundingCashPaymentId             = null;
+                              
+                              payments.forEach((p) => {
+                                if (p['type'] === 'rounding_cash') {
+                                  roundingCashPaymentId = p['id'];
+                                }
+                              });
 
                               // Save order function
                               if (posStepState.totals.remain < -0.01) {
@@ -215,6 +230,19 @@ export class PosStepEffects {
                                   created_at: Timezone.getCurrentStringTime(true)
                                 });
                               }
+                              if (posStepState.totals.rounding !== 0) {
+                                paymentInUse = paymentInUse.push({
+                                   id: roundingCashPaymentId,
+                                   type: "rounding_cash",
+                                   title: "Cash Rounding",
+                                   // We save to payment data in order, not payment_transaction, so need this field
+                                   is_purchase: posQuoteState.info.isRefunding ? 0 : 1,
+                                   amount: posStepState.totals.rounding,
+                                   isChanging: false,
+                                   created_at: Timezone.getCurrentStringTime(true)
+                                 });
+                              }
+                              
                               posQuoteState.quote.setPaymentData(paymentInUse.toJS());
 
                               if (posQuoteState.info.isRefunding) {

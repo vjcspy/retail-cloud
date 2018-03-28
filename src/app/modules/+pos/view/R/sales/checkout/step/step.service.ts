@@ -6,20 +6,37 @@ import {PosQuoteState} from "../../../../../R/quote/quote.state";
 import {NotifyManager} from "../../../../../../../services/notify-manager";
 import {NumberHelper} from "../../../../../services/helper/number-helper";
 import * as _ from "lodash";
+import {RoundingCash} from "../../../../../services/helper/rounding-cash";
 
 @Injectable()
 export class PosStepService {
+  private roundingCash = new RoundingCash();
 
   constructor(private notify: NotifyManager) {
   }
 
-  calculateTotals(paymentInUse: List<PaymentMethod>, grandTotal: number) {
+  calculateTotals(configState: PosConfigState, paymentInUse: List<PaymentMethod>, grandTotal: number) {
     let totalPaid = 0;
     paymentInUse.forEach((p) => {
       totalPaid += this.getvalidatedAmountPayment(p.amount);
     });
-    let remain = grandTotal - totalPaid;
-    return {totalPaid, remain, grandTotal};
+    
+    let cashRounded = 0;
+    paymentInUse.forEach((p) => {
+      if (['cash'].indexOf(p['type']) >= 0) {
+        cashRounded += this.getvalidatedAmountPayment(p.amount);
+      }
+    });
+  
+    this.roundingCash.setConfigRoundingCash(configState.roundingCash);
+    let _amount = this.roundingCash.getRoundingCash(grandTotal);
+    
+    let rounding = 0;
+    if (Math.abs(cashRounded) > 0 && (Math.abs(NumberHelper.round(totalPaid)) > Math.abs(NumberHelper.round(grandTotal)) || (Math.abs(NumberHelper.round(_amount)) < Math.abs(NumberHelper.round(grandTotal)) && ((Math.abs(NumberHelper.round(totalPaid)) === Math.abs(NumberHelper.round(_amount)) || (Math.abs(NumberHelper.round(totalPaid)) > Math.abs(NumberHelper.round(_amount)))))))) {
+      rounding = grandTotal - _amount;
+    }
+    let remain = NumberHelper.round(grandTotal - totalPaid - rounding);
+    return {totalPaid, remain, grandTotal, rounding};
   }
 
   canAddMorePaymentMethod(method: PaymentMethod, stepState: PosStepState, configState: PosConfigState, quoteState: PosQuoteState): number | boolean {
@@ -45,8 +62,25 @@ export class PosStepService {
     if (_currentAmount >= gt && !quoteState.info.isRefunding) {
       return false;
     }
+    
+    let _amount = gt - _currentAmount;
+    
+    // Retrieve cash rounding
+    if (['cash'].indexOf(method['type']) >= 0) {
+      this.roundingCash.setConfigRoundingCash(configState.roundingCash);
+      _amount = this.roundingCash.getRoundingCash(_amount);
+    }
 
-    return NumberHelper.round((gt - _currentAmount), 2);
+    return NumberHelper.round((_amount), 2);
+  }
+  
+  roundingRefundAmount(method: PaymentMethod, amount, configState: PosConfigState): number {
+    if (['cash'].indexOf(method['type']) >= 0) {
+      this.roundingCash.setConfigRoundingCash(configState.roundingCash);
+      amount = this.roundingCash.getRoundingCash(amount);
+  
+    }
+    return amount;
   }
 
   getvalidatedAmountPayment(methodAmount: any): number {

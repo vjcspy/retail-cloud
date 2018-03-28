@@ -19,6 +19,8 @@ import {EntityActions} from "../../../../../../R/entities/entity/entity.actions"
 import {OrderDB} from "../../../../../../database/xretail/db/order";
 import {ListActions} from "../../../orders/list/list.actions";
 import {ReceiptActions} from "../../../receipts/receipt.actions";
+import {PaymentDB} from "../../../../../../database/xretail/db/payment";
+import {PosEntitiesState} from "../../../../../../R/entities/entities.state";
 
 @Injectable()
 export class OrderListAddPaymentEffects {
@@ -40,16 +42,17 @@ export class OrderListAddPaymentEffects {
   
   @Effect() prepareOrderDataToAdd = this.actions$
                                         .ofType(OrderListAddPaymentActions.ACTION_NEED_ADD_PAYMENT)
+                                        .withLatestFrom(this.store$.select('config'))
                                         .filter(() => {
                                           if (!this.offlineService.online) {
                                             this.notify.error('can_not_refund_in_offline_mode');
                                           }
                                           return this.offlineService.online;
                                         })
-                                        .map((action) => {
-                                          // const action: Action  = z[0];
+                                        .map((z) => {
+                                          const action: Action  = z[0];
                                           const order           = action.payload['order'];
-                                          const totals          = this.stepService.calculateTotals(<any>List.of(), this.orderListAddPaymentService.getTotalDue(order));
+                                          const totals          = this.stepService.calculateTotals(<any>z[1], <any>List.of(), this.orderListAddPaymentService.getTotalDue(order));
                                           const moneySuggestion = this.moneySuggestion.getSuggestion(totals['grandTotal']);
     
                                           return this.stepActions.updatedCheckoutPaymentData(totals, moneySuggestion, false);
@@ -63,14 +66,23 @@ export class OrderListAddPaymentEffects {
                               .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
                               .withLatestFrom(this.store$.select('general'), (z, z1) => [...z, z1])
                               .withLatestFrom(this.store$.select('config'), (z, z1) => [...z, z1])
+                              .withLatestFrom(this.store$.select('entities'), (z, z1) => [...z, z1])
                               .filter((z) => (z[1] as PosStepState).checkoutStep === CheckoutStep.TAKE_PAYMENT)
                               .filter((z) => (z[1] as PosStepState).isChecking3rd === false)
                               .filter((z) => !!(z[1] as PosStepState).orderOffline && !isNaN((z[1] as PosStepState).orderOffline['order_id']))
                               .switchMap((z) => {
                                 const posStepState: PosStepState      = <any>z[1];
                                 const generalState: PosGeneralState   = <any>z[3];
+                                const entitiesState: PosEntitiesState = <any>z[5];
+                                const payments: List<PaymentDB>       = entitiesState[PaymentDB.getCode()].items;
                                 let paymentInUse: List<PaymentMethod> = posStepState.paymentMethodUsed;
-    
+                                let roundingCashPaymentId             = null;
+  
+                                payments.forEach((p) => {
+                                  if (p['type'] === 'rounding_cash') {
+                                    roundingCashPaymentId = p['id'];
+                                  }
+                                });
                                 // Save order function
                                 if (posStepState.totals.remain < -0.01) {
                                   paymentInUse = paymentInUse.push({
@@ -82,6 +94,18 @@ export class OrderListAddPaymentEffects {
                                                                      amount: posStepState.totals.remain,
                                                                      isChanging: false,
                                                                      created_at: Timezone.getCurrentStringTime()
+                                                                   });
+                                }
+                                if (posStepState.totals.rounding !== 0) {
+                                  paymentInUse = paymentInUse.push({
+                                                                     id: roundingCashPaymentId,
+                                                                     type: "rounding_cash",
+                                                                     title: "Cash Rounding",
+                                                                     // We save to payment data in order, not payment_transaction, so need this field
+                                                                     is_purchase: 1,
+                                                                     amount: posStepState.totals.rounding,
+                                                                     isChanging: false,
+                                                                     created_at: Timezone.getCurrentStringTime(true)
                                                                    });
                                 }
                                 let data             = {};

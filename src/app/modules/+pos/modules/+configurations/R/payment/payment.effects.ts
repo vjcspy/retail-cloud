@@ -13,6 +13,7 @@ import {PosEntitiesState} from "../../../../R/entities/entities.state";
 import {RetailConfigActions} from "../retail-config/retail-config.actions";
 import * as _ from 'lodash';
 import {RetailDataHelper} from "../../../../services/retail-data-helper";
+import {PosConfigActions} from "../../../../R/config/config.actions";
 
 @Injectable()
 export class ConfigurationsPaymentEffects {
@@ -25,6 +26,7 @@ export class ConfigurationsPaymentEffects {
               private notify: NotifyManager,
               private retailConfigActions: RetailConfigActions,
               private retailDataHelper: RetailDataHelper,
+              private posConfigActions: PosConfigActions,
               private router: Router) {
   }
 
@@ -65,9 +67,11 @@ export class ConfigurationsPaymentEffects {
                                            .switchMap((items) => {
                                              let payment = new PaymentDB();
                                              this.notify.success("save_payment_successfully");
+                                             let cashPayment = _.find(items, (p) => p['type'] === 'cash');
                                              return Observable.fromPromise(payment.savPayments(items))
                                                               .switchMap(() => Observable.from([
                                                                 this.configurationsPaymentActions.savePaymentSuccess(items, false),
+                                                                this.posConfigActions.saveCashPaymentRoundingData(cashPayment['payment_data'], false),
                                                                 this.entityActions.pushManyEntity(items, PaymentDB.getCode(), 'id', false)
                                                               ]))
                                                               .catch((e) => Observable.of(this.configurationsPaymentActions.savePaymentFailed('save_payment_failed', e, false)));

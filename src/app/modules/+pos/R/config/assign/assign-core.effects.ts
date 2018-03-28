@@ -19,6 +19,7 @@ import {ShippingSetting} from "../../../core/framework/setting/ShippingSetting";
 import {StoreDB} from "../../../database/xretail/db/store";
 import {StoreHelper} from "../../../core/framework/store/Helper/StoreHelper";
 import {RealtimeActions} from "../../entities/realtime/realtime.actions";
+import {PaymentDB} from "../../../database/xretail/db/payment";
 
 @Injectable()
 export class AssignConfigCoreEffects {
@@ -70,6 +71,19 @@ export class AssignConfigCoreEffects {
                                       })
                                       .filter((posConfig) => !!posConfig)
                                       .map((posConfig) => this.configActions.initPosRetailConfig(posConfig['value'], false));
+  
+  @Effect() initPaymentConfig = this.actions$
+                                      .ofType(
+                                        PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
+                                      )
+                                      .filter((action) => action.payload['entityCode'] === PaymentDB.getCode())
+                                      .withLatestFrom(this.store$.select('entities'))
+                                      .map((z) => {
+                                        const paymentConfig = (z[1] as PosEntitiesState).payment.items;
+                                        return paymentConfig.find((c) => c['type'] === 'cash');
+                                      })
+                                      .filter((cashConfig) => !!cashConfig)
+                                      .map((cashConfig) => this.configActions.saveCashPaymentRoundingData(cashConfig['payment_data'], false));
   
   @Effect() saveCountryData = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                   .filter((action: Action) => action.payload['entityCode'] === CountryDB.getCode())

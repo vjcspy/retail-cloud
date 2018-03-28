@@ -20,7 +20,7 @@
         <tr *ngFor="let payment of getListPaymentCanUse()">
           <td>
              <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
-                              'icon-wallet':payment['type'] == 'cash',
+                              'icon-wallet':payment['type'] == 'cash' || payment['type'] == 'rounding_cash',
                               'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',
                               'icon-diamond':payment['type'] == 'reward_point'}">
                         </span>

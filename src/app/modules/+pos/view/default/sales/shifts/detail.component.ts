@@ -52,7 +52,7 @@ export class PosDefaultSalesShiftDetailComponent {
   }
 
   getListPaymentCanUse() {
-    return this.shiftState.detail.amounts.paymentUsed.filter((p) => this.retailDataHelper.isPaymentCanUse(p));
+    return this.shiftState.detail.amounts.paymentUsed.filter((p) => this.retailDataHelper.isPaymentCanUse(p, true));
   }
 
   getRewardPointSpent() {

@@ -2053,6 +2053,9 @@ h2.p-head {padding: 18px 20px;}
           width: 205px;
         }
       }
+      td.close-shift-round-cash {
+        padding-bottom: 10px;
+      }
     }
 
     &.first {
@@ -2525,6 +2528,10 @@ h2.p-head {padding: 18px 20px;}
       border-bottom: #A5A5A5 solid 1px;
       &.disabled {color: #B9B8B8;}
       &:last-child {border-bottom: none;}
+    }
+    .cash-rounding-checkout {
+      padding-bottom: 5px;
+      border-bottom: #A5A5A5;
     }
     .txt, .value {float: left; width: 48%;}
     .value {float: right; text-align: right;}

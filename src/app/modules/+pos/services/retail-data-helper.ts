@@ -7,7 +7,13 @@ export class RetailDataHelper {
   // gift card type_id in 3rd extension
   static GIFT_CARD_TYPE_ID = ['aw_giftcard'];
 
-  isPaymentCanUse(p) {
-    return _.indexOf(['gift_card', 'reward_point', 'pay_pal'], p['type']) < 0;
+  isPaymentCanUse(p, forceForShiftReport: boolean = false) {
+    let paymentsType = ['gift_card', 'reward_point', 'paypal', 'rounding_cash'];
+    if (!!forceForShiftReport) {
+      _.remove(paymentsType, (type) => {
+        return type === 'rounding_cash';
+      });
+    }
+    return _.indexOf(paymentsType, p['type']) < 0;
   }
 }

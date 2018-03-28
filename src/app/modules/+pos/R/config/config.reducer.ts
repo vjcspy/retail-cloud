@@ -17,6 +17,9 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
     
     case PosConfigActions.ACTION_INIT_POS_REAIL_CONFIG:
       return state.set('posRetailConfig', resolveConfig(action.payload['configs']));
+      
+    case PosConfigActions.ACTION_SAVE_CASH_PAYMENT_ROUNDING_DATA:
+      return state.set('roundingCash', resolveRoundingConfig(action.payload['payment']));
     
     default:
       return state;
@@ -109,4 +112,20 @@ function resolveConfig(posSetting) {
     configData.useCustomerOnlineMode = posSetting['xretail/pos/use_customer_online_mode'] === true || parseInt(posSetting['xretail/pos/use_customer_online_mode']) === 1;
   }
   return configData;
+}
+
+function resolveRoundingConfig(payment) {
+  let roundingCash: any = {
+    roundTo: "0.01_cash_denomination",
+    roundingRule: null
+  };
+  
+  if (payment.hasOwnProperty('round_to')) {
+    roundingCash.roundTo = payment['round_to'];
+  }
+  
+  if (payment.hasOwnProperty('rounding_rule')) {
+    roundingCash.roundingRule = payment['rounding_rule'];
+  }
+  return roundingCash;
 }

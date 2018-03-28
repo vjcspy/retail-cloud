@@ -78,4 +78,16 @@ export class PosConfigActions {
     
     return action;
   }
+  
+  static ACTION_SAVE_CASH_PAYMENT_ROUNDING_DATA = 'ACTION_SAVE_CASH_PAYMENT_ROUNDING_DATA';
+  
+  saveCashPaymentRoundingData(payment, dispatch: boolean = true): Action {
+    const action = {type: PosConfigActions.ACTION_SAVE_CASH_PAYMENT_ROUNDING_DATA, payload: {payment}};
+    
+    if (dispatch === true) {
+      this.store$.dispatch(action);
+    }
+    
+    return action;
+  }
 }

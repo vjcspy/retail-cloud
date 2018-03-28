@@ -72,6 +72,24 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   getOrder(): Object {
     return this.receiptState.salesReceipt.orderOffline;
   }
+  
+  getPayment() {
+    let payments = this.receiptState.salesReceipt.orderOffline['payment'];
+    let roundingPayment = _.filter(payments, (payment) => {
+      return payment['type'] === 'rounding_cash';
+    });
+    _.remove(payments, (payment) => {
+      return payment['type'] === 'rounding_cash';
+    });
+    if (!!roundingPayment && _.isArray(roundingPayment)) {
+      _.forEach(_.reverse(roundingPayment), (payment) => {
+        if (_.isObject(payment)) {
+          payments.unshift(payment);
+        }
+      });
+    }
+    return payments;
+  }
 
   checkoutAsGuest(): boolean {
     if (this.getOrder().hasOwnProperty('customer')) {
@@ -310,7 +328,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             .c-left {text-align: left!important;}
             .c-right {text-align: right!important;}
             .c-center {text-align: center!important;}
-            .invoice {                
+            .invoice {
                 max-width: 420px; margin: 0 auto;
                 background: #FFF;
                 /*border-radius: 10px;*/
@@ -365,7 +383,7 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
             /*.invoice-table td.c-left {font-size: 10px;}*/
             .invoice-table h4 {margin: 0;}
             .invoice-table th, .invoice-table td {
-                padding: 0; text-align: center;                
+                padding: 0; text-align: center;
             }
             .invoice-table th {
                 font-weight: 400;

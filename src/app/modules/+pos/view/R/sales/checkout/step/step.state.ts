@@ -36,7 +36,8 @@ export interface PosStepState {
     grandTotal: number;
     totalPaid: number;
     remain: number;
-  },
+    rounding: number;
+  };
   cashPaymentId: number;
   paymentMethodCanUse: List<Object>;
   paymentMethodUsed: List<PaymentMethod>;
@@ -54,7 +55,7 @@ export interface PosStepStateRecord extends TypedRecord<any>, PosStepState {}
 export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRecord>(
   {
     checkoutStep: CheckoutStep.NONE,
-    totals: {totalPaid: 0, remain: null, grandTotal: 0},
+    totals: {totalPaid: 0, remain: null, grandTotal: 0, rounding: 0},
     cashPaymentId: null,
     paymentMethodCanUse: <any>List.of(),
     paymentMethodUsed: <any>List.of(),
