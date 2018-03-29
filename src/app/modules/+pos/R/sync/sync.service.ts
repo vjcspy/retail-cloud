@@ -15,10 +15,12 @@ import {DatabaseManager} from "../../../../services/database-manager";
 import {GeneralMessage} from "../../services/general/message";
 import {StringHelper} from "../../services/helper/string-helper";
 import {Order} from "../../core/framework/sales/Model/Order";
+import {RoundingCash} from "../../services/helper/rounding-cash";
 
 @Injectable()
 export class PosSyncService {
-
+  private roundingCash = new RoundingCash();
+  
   constructor(private onlineOffline: OfflineService,
               private requestService: RequestService,
               private apiManager: ApiManager,
@@ -128,9 +130,13 @@ export class PosSyncService {
       created_at: Timezone.getCurrentStringTime(true)
     };
 
+    let _amountExchange;
     // when exchange will fixed one payment method and amount
-    if (quote.getData('is_exchange') === true && _.isArray(orderOffline['payment']) && _.size(orderOffline['payment']) === 1) {
-      orderOffline['payment'][0]['amount']      = quote.getShippingAddress()['grand_total'];
+    if (quote.getData('is_exchange') === true && _.isArray(orderOffline['payment']) && _.size(orderOffline['payment']) < 3) {
+      this.roundingCash.setConfigRoundingCash(configState.roundingCash);
+      _amountExchange = this.roundingCash.getRoundingCash(quote.getShippingAddress()['grand_total']);
+      
+      orderOffline['payment'][0]['amount']      = _amountExchange;
       orderOffline['payment'][0]['is_purchase'] = 1;
     }
 

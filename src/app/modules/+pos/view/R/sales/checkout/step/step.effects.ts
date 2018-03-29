@@ -228,7 +228,7 @@ export class PosStepEffects {
                                   created_at: Timezone.getCurrentStringTime(true)
                                 });
                               }
-                              if (posStepState.totals.rounding !== 0) {
+                              if (posStepState.totals.rounding !== 0 && !posQuoteState.info.isRefunding || (posQuoteState.info.isRefunding && posQuoteState.items.count() === 0)) {
                                 paymentInUse = paymentInUse.push({
                                    id: roundingCashPaymentId,
                                    type: "rounding_cash",
