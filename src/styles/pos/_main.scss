@@ -1087,6 +1087,7 @@
             position: relative;
             opacity: 0.5;
             &.active {border: #DADADA solid 1px; opacity: 1;}
+            &:hover {opacity: 0.8;}
             img{
               position: absolute;
               @include center-pos;
