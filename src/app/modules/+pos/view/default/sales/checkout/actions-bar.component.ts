@@ -7,6 +7,7 @@ import {PosQuoteActions} from "../../../../R/quote/quote.actions";
 import {CartActionBarActions} from "../../../R/sales/checkout/cart/action-bar.actions";
 import {PosSyncWishlistActions} from "../../../../R/sync/actions/wishlist.actions";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {CartItemActions} from "../../../R/sales/checkout/cart/item.actions";
 
 @Component({
              // moduleId: module.id,
@@ -19,31 +20,32 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
   @Input() quoteState: PosQuoteState;
   @Input() cartCustomerState: CartCustomerState;
   @ViewChild('actionsContainer') actionsContainer: ElementRef;
-  
+
   constructor(protected cartCustomerActions: CartCustomerActions,
+              public cartItemActions: CartItemActions,
               public posQuoteActions: PosQuoteActions,
               public cartActionBarActions: CartActionBarActions,
               public posSyncWishlistActions: PosSyncWishlistActions,
               protected toastr:NotifyManager) {}
-  
+
   ngOnInit() { }
-  
+
   @HostListener('document:click', ['$event.target']) onClick(target) {
     if (target.className.indexOf('icon-more2') > -1) {
       return;
     }
-    
+
     if (this.actionsContainer && !this.actionsContainer.nativeElement.contains(target)) {
       if (this.cartActionBarState.isOpenActions === true) {
         this.cartActionBarActions.changeModeActionPopup(false);
       }
     }
   }
-  
+
   openOnholdPopup(isOpen: boolean = true) {
     this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_ORDER_ONHOLD : null);
   }
-  
+
   isOpeningOnholdPopup() {
     return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_ORDER_ONHOLD;
   }
@@ -57,7 +59,7 @@ export class PosDefaultSalesCheckoutActionBarComponent implements OnInit {
       this.cartActionBarActions.changeModePopup(isOpen === true ? CartActionBarPopup.POPUP_NOTE : null);
     }
   }
-  
+
   isOpenNotePopup() {
     return this.cartActionBarState.isOpeningPopup === CartActionBarPopup.POPUP_NOTE;
   }
