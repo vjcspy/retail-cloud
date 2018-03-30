@@ -18,20 +18,20 @@ export class OrderDB extends DataObject {
   shipping_address: Object;
   totals: Object;
   created_at: string;
-  
+
   static getFields(): string {
     return "++id,order_id,increment_id,status,retail_id,retail_status,retail_note,sync_data,pushed,can_creditmemo,can_ship,can_invoice,customer,items,billing_address,shipping_address,totals";
   }
-  
+
   static getCode(): string {
     return 'orders';
   }
-  
+
   save(order: any = null, key = 'id'): Promise<any> {
     let e = order === null ? this : order;
     return new Promise((resolve, reject) => {
       if (key !== 'id') {
-        window['retailDB'].orders.where(key).aboveOrEqual(e[key]).modify(e).then(() => {
+        window['retailDB'].orders.where(key).equals(e[key]).modify(e).then(() => {
           return resolve();
         }, (e) => {
           return reject(e);

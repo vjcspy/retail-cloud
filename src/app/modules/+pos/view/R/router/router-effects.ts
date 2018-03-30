@@ -9,12 +9,12 @@ import {PosConfigState} from "../../../R/config/config.state";
 
 @Injectable()
 export class PosViewRouterEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private pullActions: PosPullActions,
               private router: Router) { }
-  
+
   @Effect() whenGoCheckout                = this.actions$
                                                 .ofType(
                                                   routerActions.UPDATE_LOCATION
@@ -39,7 +39,7 @@ export class PosViewRouterEffects {
                                                     'receipts',
                                                     'payment',
                                                     'userOrderCount',
-                                                    // 'warehouse',
+                                                    'warehouse',
                                                     // 'permission',
                                                     'customerGroup',
                                                     'category',
@@ -51,7 +51,7 @@ export class PosViewRouterEffects {
                                                   }
                                                   return this.pullActions.pullEntities(entityPull, false);
                                                 });
-  
+
   @Effect() whenGoOrders = this.actions$
                                .ofType(routerActions.UPDATE_LOCATION)
                                .filter((action: Action) => action.payload['path'] === '/pos/default/sales/orders')
@@ -74,7 +74,7 @@ export class PosViewRouterEffects {
                                                                         // 'products'
                                                                       ], false);
                                });
-  
+
   @Effect() whenGoShifts = this.actions$
                                .ofType(routerActions.UPDATE_LOCATION)
                                .filter((action: Action) => action.payload['path'] === '/pos/default/sales/shifts')

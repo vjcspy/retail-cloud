@@ -8,16 +8,16 @@ export const posConfigReducer: ActionReducer<PosConfigStateRecord> = (state: Pos
     case PosConfigActions.ACTION_INIT_POS_SETTINGS:
       return state.set('setting', action.payload)
                   .set('isResolveSetting', true);
-    
+
     case PosConfigActions.ACTION_RETRIEVE_ORDER_COUNT:
       return state.update('orderCount', (o) => Object.assign({}, {...action.payload['orderCount']}));
-    
+
     case PosConfigActions.ACTION_SAVE_RECEIPT_SETTING:
       return state.set('receipt', action.payload['receipt']);
-    
+
     case PosConfigActions.ACTION_INIT_POS_REAIL_CONFIG:
       return state.set('posRetailConfig', resolveConfig(action.payload['configs']));
-    
+
     default:
       return state;
   }
@@ -38,23 +38,25 @@ function resolveConfig(posSetting) {
     allowPartialPayment: true,
     isIntegrateRP: false,
     isIntegrateGC: false,
+    isIntegrateWH: false,
     rpType: 'none',
     gcType: 'none',
+    whType: 'none',
     inclDiscountPerItemInDiscount: false,
     sortCategoryBaseOn: 'name',
     sortCategorySorting: 'asc',
     newCustomerDefaultCountry: 'US'
   };
-  
+
   if (posSetting.hasOwnProperty('xretail/pos/search_product_attribute') && _.size(posSetting['xretail/pos/search_product_attribute']) > 0) {
     configData.fieldSearchProduct = posSetting['xretail/pos/search_product_attribute'];
   }
   if (posSetting.hasOwnProperty('xretail/pos/search_order') &&
-      _.size(posSetting['xretail/pos/search_order']) > 0) {
+    _.size(posSetting['xretail/pos/search_order']) > 0) {
     configData.fieldSearchOrderOffline = posSetting['xretail/pos/search_order'];
   }
   if (posSetting.hasOwnProperty('xretail/pos/search_customer_by_attribute') &&
-      _.size(posSetting['xretail/pos/search_customer_by_attribute']) > 0) {
+    _.size(posSetting['xretail/pos/search_customer_by_attribute']) > 0) {
     let customerSearchField: any;
     if (typeof posSetting['xretail/pos/search_customer_by_attribute'] === "object") {
       customerSearchField = _.sortBy(posSetting['xretail/pos/search_customer_by_attribute']);
@@ -92,7 +94,11 @@ function resolveConfig(posSetting) {
     configData.isIntegrateGC = (posSetting['xretail/pos/integrate_gc'] !== 'none' && !!posSetting['xretail/pos/integrate_gc']);
     configData.gcType        = posSetting['xretail/pos/integrate_gc'];
   }
-  
+  if (posSetting.hasOwnProperty('xretail/pos/integrate_wh')) {
+    configData.isIntegrateWH = (posSetting['xretail/pos/integrate_wh'] !== 'none' && !!posSetting['xretail/pos/integrate_wh']);
+    configData.whType        = posSetting['xretail/pos/integrate_wh'];
+  }
+
   if (posSetting.hasOwnProperty('xretail/pos/sort_category_base_on')) {
     configData.sortCategoryBaseOn = posSetting['xretail/pos/sort_category_base_on'];
   }

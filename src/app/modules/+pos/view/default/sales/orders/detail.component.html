@@ -5,12 +5,12 @@
   <div class="order-list-inner" perfectScroll>
     <div class="notification"
          [ngClass]="{'has-noted': !!getOrder()['retail_note'] && !getOrder()['add_note'],'add-noted':getOrder()['add_note']}">
-            <span class="click" (click)="getOrder()['add_note'] = !getOrder()['add_note']">
+            <span class="click" (click)="addNoteOrder()">
                 <span class="icon-noted">
                   <span class="tooltiptext-left">{{'Add note' | translate}}</span>
                 </span>
             </span>
-      <p class="noted">
+      <p class="noted" style="white-space: pre-line;">
         {{getOrder()['retail_note']}}
       </p>
       <textarea [(ngModel)]="getOrder()['retail_note']"></textarea>

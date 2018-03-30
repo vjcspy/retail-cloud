@@ -22,13 +22,15 @@ export class PosSyncService {
   constructor(private onlineOffline: OfflineService,
               private requestService: RequestService,
               private apiManager: ApiManager,
-              private db: DatabaseManager) { }
+              private db: DatabaseManager) {
+  }
 
   prepareOrder(quoteState: PosQuoteState, generalState: PosGeneralState): PosOrderSync {
     const quote = quoteState.quote;
     let order   = {};
 
     order['outlet_id']           = generalState.outlet['id'];
+    order['warehouse_id']        = generalState.outlet['warehouse_id'];
     order['register_id']         = generalState.register['id'];
     order['retail_note']         = quote.getData('retail_note');
     order['user_id']             = generalState.user['id'];
@@ -95,8 +97,8 @@ export class PosSyncService {
       customer: {
         id: quote.getCustomer().getId(),
         name: quote.getCustomer().getData('first_name') +
-              " " +
-              quote.getCustomer().getData('last_name'),
+        " " +
+        quote.getCustomer().getData('last_name'),
         email: quote.getCustomer().getData('email'),
         phone: quote.getCustomer().getData('telephone')
       },
@@ -116,7 +118,7 @@ export class PosSyncService {
           'reward_point')['use_reward_point']) ?
           quote.getData('reward_point')['reward_point_discount_amount'] :
           null,
-        "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount']: null,
+        "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount'] : null,
         "grand_total": quote.getShippingAddress().getData('grand_total')
       },
       sync_data: order,
@@ -240,7 +242,7 @@ export class PosSyncService {
             (data) => {
               orderOffline.pushed = 1;
               db.orders.put(<any>orderOffline)
-                .then(() => resolve({data: {orderOffline,orderOnline: data['items'][0], isPushSuccess: true}}))
+                .then(() => resolve({data: {orderOffline, orderOnline: data['items'][0], isPushSuccess: true}}))
                 .catch((e) => reject({isError: true, e}));
             },
             (e) => {
@@ -271,8 +273,8 @@ export class PosSyncService {
 
   protected getOrderClientId(orderCount) {
     return (StringHelper.pad(orderCount.register_id, 3) +
-            // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
-            StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
+      // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
+      StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
   }
 
   protected initItemData(item: Item) {

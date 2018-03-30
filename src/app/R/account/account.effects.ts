@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {RouterActions} from "../router/router.actions";
 import {AppStorage} from "../../services/storage";
 import {NotifyManager} from "../../services/notify-manager";
+import {TrackingService} from "../../services/tracking/tracking-service";
 
 @Injectable()
 export class AccountEffects {
@@ -23,6 +24,7 @@ export class AccountEffects {
               protected accountService: AccountService,
               protected appStorage: AppStorage,
               protected rootActions: RootActions,
+              protected trackingService: TrackingService,
               protected routerActions: RouterActions) {
   }
 
@@ -34,6 +36,7 @@ export class AccountEffects {
                                             .map(() => {
                                               const user = Meteor.user();
                                               this.accountService.saveUserToStorage(user);
+                                              this.trackingService.loginTracking();
                                               const redirect = (z[1] as AccountState).redirect;
                                               if (_.isString(redirect)) {
                                                 if (redirect.indexOf("http") > -1) {
@@ -51,6 +54,7 @@ export class AccountEffects {
                            return Observable.fromPromise(this.authService.signOut())
                                             .map(() => {
                                               this.appStorage.localClear();
+                                              mixpanel.reset();
                                               setTimeout(() => {
                                                 location.reload(true);
                                               }, 200);

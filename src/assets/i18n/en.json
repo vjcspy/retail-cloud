@@ -433,6 +433,7 @@
   "not_have_permission_to_access_to_connectpos" : "You do not have permission to access to ConnectPOS",
   "not_have_permission_to_access_to_connectpos_settings" : "You do not have permission to access to ConnectPOS settings",
   "connectpos_version_not_compat_api_version" : "Your ConnectPOS version is not compatible with your installed API. Please contact your Shop Owner or our support to get help!",
-    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen"
-
+    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen",
+  "update_note_order_success" : "Update note order successfully.",
+  "update_note_order_failed" : "Update note order fails."
 }

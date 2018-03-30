@@ -17,12 +17,12 @@ import {PosQuoteState} from "../quote/quote.state";
 import {EntityActions} from "../entities/entity/entity.actions";
 import {OrderDB} from "../../database/xretail/db/order";
 import {PosGeneralState} from "../general/general.state";
-import {TrackingService} from "../../services/tracking/tracking-service";
 import {IntegrateGCActions} from "../integrate/gc/gc.actions";
+import {TrackingService} from "../../../../services/tracking/tracking-service";
 
 @Injectable()
 export class PosSyncEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private posSyncService: PosSyncService,
@@ -32,7 +32,7 @@ export class PosSyncEffects {
               private entityActions: EntityActions,
               private rootActions: RootActions,
               private trackingService: TrackingService) { }
-  
+
   @Effect() prepareOrderToSync = this.actions$
                                      .ofType(
                                        PosSyncActions.ACTION_START_SYNC_CURRENT_ORDER,
@@ -56,7 +56,7 @@ export class PosSyncEffects {
                                          return this.rootActions.error("nothing_to_sync", null, false);
                                        }
                                      });
-  
+
   @Effect() syncOrder = this.actions$
                             .ofType(
                               PosSyncActions.ACTION_PREPARE_ORDER_SYNC
@@ -71,32 +71,32 @@ export class PosSyncEffects {
                                 return this.posSyncService.syncOrderOnline((action as Action).payload['order'], <any>generalState)
                                            .map((syncData) => {
                                              const address = quote.getShippingAddress();
-        
+
                                              _.forEach(syncData['totals'], (total, key) => {
                                                if (total !== null) {
                                                  address.setData(key, total);
                                                }
                                              });
-        
+
                                              if (syncData.hasOwnProperty("reward_point") && _.isObject(syncData["reward_point"])) {
                                                quote.setData('reward_point', syncData["reward_point"]);
                                              } else {
                                                quote.unsetData("reward_point");
                                              }
-        
+
                                              if (syncData.hasOwnProperty("gift_card") && _.isObject(syncData["gift_card"])) {
                                                quote.setData('gift_card', syncData['gift_card'])
                                                // quote.setData('gift_card', Object.assign({}, {...quote.getGiftCardData()}, {...syncData["gift_card"]}));
                                              } else {
                                                quote.unsetData("gift_card");
                                              }
-        
+
                                              if (syncData['totals']['coupon_code']) {
                                                this.notify.success('coupon_code_accepted');
                                              }
-        
+
                                              quote.setSyncedItems(syncData['items']);
-        
+
                                              return this.syncActions.syncOrderSuccess(quote, syncData, action['payload']['goStep'], false);
                                            })
                                            .catch((e) => Observable.of(this.syncActions.syncOrderError(e, false)));
@@ -104,7 +104,7 @@ export class PosSyncEffects {
                                 return Observable.of(this.syncActions.syncOrderSuccess(quote, null, true, false));
                               }
                             });
-  
+
   @Effect() autoSyncOfflineOrder = this.actions$
                                        .ofType(
                                          PosSyncActions.ACTION_AUTOMATIC_SYNC_OFFLINE_ORDER,
@@ -134,7 +134,7 @@ export class PosSyncEffects {
                                                                                         if (res['data'].hasOwnProperty('orderOffline')) {
                                                                                           ob.push(this.entityActions.pushEntity(res['data']['orderOffline'], OrderDB.getCode(), 'id', false));
                                                                                         }
-        
+
                                                                                         return Observable.from(ob);
                                                                                       })
                                                                                       .catch((e) => {
