@@ -85,7 +85,8 @@ export class PosSyncEffects {
                                              }
         
                                              if (syncData.hasOwnProperty("gift_card") && _.isObject(syncData["gift_card"])) {
-                                               quote.setData('gift_card', Object.assign({}, {...quote.getGiftCardData()}, {...syncData["gift_card"]}));
+                                               quote.setData('gift_card', syncData['gift_card'])
+                                               // quote.setData('gift_card', Object.assign({}, {...quote.getGiftCardData()}, {...syncData["gift_card"]}));
                                              } else {
                                                quote.unsetData("gift_card");
                                              }

@@ -47,6 +47,8 @@ export interface PosStepState {
   
   listPayment3rdData: List<Payment3rd>;
   isChecking3rd: boolean;
+  
+  isCheckingGC: boolean;
 }
 
 export interface PosStepStateRecord extends TypedRecord<any>, PosStepState {}
@@ -65,5 +67,7 @@ export const posStepStateFactory = makeTypedFactory<PosStepState, PosStepStateRe
     
     listPayment3rdData: <any>List.of(),
     isChecking3rd: false,
+    
+    isCheckingGC: true,
   }
 );

@@ -70,4 +70,12 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
     this.posQuoteState.quote.setData('gift_card', Object.assign({}, {...this.posQuoteState.quote.getGiftCardData()}, {is_delete: true}));
     this.posStepActions.back();
   }
+  
+  applyGiftCard(){
+    return this.posStepActions.userSelectGC();
+  }
+  
+  demo(){
+    return {'gift_code': null, 'giftcard_amount': null, 'create_at': null, is_delete: true};
+  }
 }

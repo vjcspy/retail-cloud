@@ -170,7 +170,7 @@
             {{getDiscount() | priceFormat}}
           </td>
         <tr *ngFor="let giftcard of getOrder()['totals']['gift_card']">
-          <td class="c-left" colspan="2">{{ 'Gift card' | translate }} ({{giftcard['gift_card_code']}})</td>
+          <td class="c-left" colspan="2">{{ 'Gift card' | translate }} ({{giftcard['gift_code']}})</td>
           <td class="c-right">{{giftcard['gift_card_amount'] | priceFormat}}</td>
         </tr>
         <tr *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">

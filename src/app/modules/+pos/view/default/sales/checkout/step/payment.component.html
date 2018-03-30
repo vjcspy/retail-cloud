@@ -17,6 +17,10 @@
                         </span>
         {{payment['title']}}
       </button>
+      <button class="c-huge" *ngIf="showGCPayment()" (click)="applyGiftCard()"
+              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || !offlineService.online || posStepState.isCheckingGC === false">
+        <span class='icon-card'></span>{{ 'Gift card' | translate }}
+      </button>
     </div>
   </div>
   <div class="checkout-table" perfectScroll="">
@@ -29,9 +33,15 @@
          *ngIf="showRewardPointPayment()">
       <checkout-rewardpoint [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></checkout-rewardpoint>
     </div>
-    <div class="checkout-row"
-         *ngIf="showGCPayment()">
-      <gift-card [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></gift-card>
+    <!--this.posQuoteState.quote.getGiftCardData()-->
+    <!--<div class="checkout-row" *ngFor="let gcData of posStepState.gcUsedDatas">-->
+      <!--<gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState" [gcData]="getGiftCardData(gcData)"></gift-card>-->
+    <div class="checkout-row" *ngFor="let gcData of posQuoteState.quote.getGiftCardData()">
+      <gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState" [gcData]="gcData"></gift-card>
+    </div>
+    <div class="checkout-row" *ngIf="posStepState.isCheckingGC == false">
+      <gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState"
+                 [posSyncState]="posSyncState" [gcData]="demo()"></gift-card>
     </div>
   </div>
   <div class="content-bot">
