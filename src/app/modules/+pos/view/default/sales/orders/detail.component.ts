@@ -96,6 +96,11 @@ export class PosDefaultSalesOrdersDetailComponent {
         paid += parseFloat(p['amount']);
       }
     });
+    if (this.getOrder()['retail_status'] == 51 || this.getOrder()['retail_status'] == 52 || this.getOrder()['retail_status'] == 53) {
+      if (_.isArray(this.getOrder()['payment']) && _.size(this.getOrder()['payment']) === 2) {
+        paid = this.getOrder()['totals']['grand_total'];
+      }
+    }
 
     return paid;
   }
