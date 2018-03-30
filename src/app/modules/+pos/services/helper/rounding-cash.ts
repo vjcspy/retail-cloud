@@ -22,7 +22,7 @@ export class RoundingCash {
     let _roundTo = this.getRoundTo();
     
     if (_roundTo === 0.01)
-      return;
+      return money;
     
     switch (_roundingRule) {
       case 1:
