@@ -99,18 +99,19 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   getGiftCardCode() {
     const gcProducts = _.filter(this.getOrder()['items'], (i) => _.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, i['type_id']) > -1);
     if (_.isArray(gcProducts)) {
-      const gc = _.map(gcProducts, (i) => {
-        const code = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_created_codes");
-        const amount = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_amount");
+      const gc = [];
+      _.forEach(gcProducts, (i) => {
+        const code        = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_created_codes");
+        const amount      = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_amount");
         const expiry_date = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_exp_date");
-        if (code) {
-          return {
-            "code": code['value'][0],
-            "amount": !!amount ? amount['value'] : "-------",
-            "expiry_date": !!expiry_date ? expiry_date['value'] : "-------"
-          };
-        } else {
-          return {};
+        if (code && code.hasOwnProperty('value') && typeof code['value'] == 'object') {
+          _.forEach(code['value'], (g_code) => {
+            gc.push({
+                      "code": g_code,
+                      "amount": !!amount ? amount['value'] : "-------",
+                      "expiry_date": !!expiry_date ? expiry_date['value'] : "-------"
+                    });
+          });
         }
       });
       return gc;

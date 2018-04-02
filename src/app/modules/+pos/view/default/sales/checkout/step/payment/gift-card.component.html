@@ -6,7 +6,7 @@
         <button *ngIf="isUsingGiftCard()" (click)="integrateGCActions.removeGiftCard({gift_code:giftCode})" style="background: darkred" [disabled]="posSyncState.isSyncing">
           {{ 'Remove' | translate }} {{ 'Gift Card' | translate }}
         </button>
-        <button *ngIf="!isUsingGiftCard()" (click)="integrateGCActions.useGiftCard({gift_code:giftCode , is_delete:false})"
+        <button *ngIf="!isUsingGiftCard()" (click)="integrateGCActions.useGiftCard({gift_code:giftCode , is_delete:false , is_valid:false})"
                      [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing ">
           {{ 'Use' | translate }} {{ 'Gift Card' | translate }}
         </button>

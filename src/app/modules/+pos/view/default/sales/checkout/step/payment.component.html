@@ -18,7 +18,7 @@
         {{payment['title']}}
       </button>
       <button class="c-huge" *ngIf="showGCPayment()" (click)="applyGiftCard()"
-              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || !offlineService.online || posStepState.isCheckingGC === false">
+              [disabled]="isDisableGC()">
         <span class='icon-card'></span>{{ 'Gift card' | translate }}
       </button>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <div class="checkout-row" *ngIf="posStepState.isCheckingGC == false">
       <gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState"
-                 [posSyncState]="posSyncState" [gcData]="demo()"></gift-card>
+                 [posSyncState]="posSyncState" [gcData]="defaultGCData()"></gift-card>
     </div>
   </div>
   <div class="content-bot">

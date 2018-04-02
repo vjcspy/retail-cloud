@@ -101,11 +101,14 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
     
     case IntegrateGCActions.ACTION_USE_GIFT_CARD:
       state = state.update('quote', (q) => {
-                             let gcs = q.getData('gift_card').filter((data) => {
-                               return data['is_valid'] == true;
-                             });
-                             return q.setData('gift_card', gcs.concat([action.payload['gcData']]));
-                           });
+        let gcs = [];
+        if (q.getData('gift_card') != null) {
+          gcs = q.getData('gift_card').filter((data) => {
+            return data['is_valid'] == true;
+          });
+        }
+        return q.setData('gift_card', gcs.concat([action.payload['gcData']]));
+      });
       return state;
 
     
