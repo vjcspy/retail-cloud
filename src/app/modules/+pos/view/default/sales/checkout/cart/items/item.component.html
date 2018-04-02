@@ -1,4 +1,4 @@
-<div #itemElem class="cart-row animated pulse" [ngClass]="{active: i === cartItemState.cartItemRowSelected}" (click)="toggleItemInCart($event,i)">
+<div #itemElem class="cart-row animated pulse" [ngClass]="{active: (i===cartItemState.cartItemRowSelected)}" (click)="toggleItemInCart($event,i)">
   <div class="cart-head"><!-- add "touch" class when device -->
     <div class="c-img">
       <img src="{{getItemImage(item)}}" alt="no-image"/>
@@ -31,7 +31,7 @@
                         {{(item.getOriginalPrice() * item.getQty()) | priceFormat}}
                     </span>
     </div>
-    <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest())"><span class="icon-close-thin2"></span></span>
+    <span class="delete-btn" (click)="quoteItemActions.removeQuoteItem(item.getBuyRequest()); resetCartItemRow(i, cartItemState.cartItemRowSelected)"><span class="icon-close-thin2"></span></span>
 
   </div>
   <div class="cart-content">
