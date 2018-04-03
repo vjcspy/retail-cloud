@@ -43,9 +43,7 @@ export class PosEntitiesEffects {
                                                                                          .map((mes: GeneralMessage) => {
                                                                                            return this.entitiesActions.getEntityDataFromDB(entityCode, mes.data[entityCode], false);
                                                                                          }))
-                                                                .catch((e: GeneralException) => {
-                                                                  return Observable.of(this.rootActions.error(e.getMessage(), e, false));
-                                                                });
+                                                                .catch((e: GeneralException) => this.__outputError(e));
                                              });
 
   @Effect() pullEntityDataFromServer$ = this.action$
@@ -82,10 +80,7 @@ export class PosEntitiesEffects {
                                                                        this.entitiesActions.pullEntityNextPage(entityCode, this.createQueryPull(entity, <any>generalState), false);
                                                                    }
                                                                  })
-                                                                 .catch((e: GeneralException) => {
-                                                                   console.log(e);
-                                                                   return Observable.of(this.rootActions.error(e.getMessage(), e, false));
-                                                                 });
+                                                                 .catch((e: GeneralException) => this.__outputError(e));
                                               }
                                             });
 
@@ -160,5 +155,15 @@ export class PosEntitiesEffects {
       _query += "&searchCriteria[warehouse_id]=" + generalState.outlet['warehouse_id'];
     }
     return _query;
+  }
+
+  private __outputError(e) {
+    if (e.hasOwnProperty("getMessage")) {
+      Observable.of(this.rootActions.error(e.getMessage(), e, false));
+    } else {
+      console.log(e);
+
+      return Observable.of(this.rootActions.error("Error", e, false));
+    }
   }
 }
