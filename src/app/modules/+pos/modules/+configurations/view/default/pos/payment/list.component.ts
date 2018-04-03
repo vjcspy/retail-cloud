@@ -20,6 +20,11 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
   @Input() entitiesState: PosEntitiesState;
   @Input() configurationsState: ConfigurationsState;
   
+  private contentTooltip = 'Round midpoint down (e.g. 1.05 will round to 1.00)' + '\n' +
+                           'Round midpoint up (e.g. 1.05 will round to 1.10)' + '\n' +
+                           'Always round down (e.g. 1.08 will round to 1.00)' + '\n' +
+                           'Always round up (e.g. 1.02 will round to 1.10)';
+  
   public dataSelect = {
     tyroGateway: {
       data: [
@@ -44,15 +49,6 @@ export class ConfigurationsDefaultPosPaymentListComponent implements OnInit {
         {label: "Always round up", value: "always_round_up"}
       ]
     },
-    tooltipRoundingCash: {
-      data: {
-        "0.01_cash_denomination" : "0.01_cash_denomination",
-        "0.05_cash_denomination" : "0.05_cash_denomination",
-        "0.10_cash_denomination" : "0.10_cash_denomination",
-        "0.50_cash_denomination" : "0.50_cash_denomination",
-        "1_cash_denomination" : "1_cash_denomination",
-      }
-    }
   };
   
   constructor(private formValidation: FormValidationService,

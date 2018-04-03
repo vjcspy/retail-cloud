@@ -79,15 +79,16 @@
                              [validation]="'required'"></retail-select>
             </li>
             <li *ngIf="payment['type'] === 'cash' && payment['payment_data']['round_to'] !== '0.01_cash_denomination'">
-              <label>{{ 'Rounding Rule' | translate }}</label>
+              <label style="overflow: inherit;">{{ 'Rounding Rule' | translate }}
+                <div class="icon-link tooltip-cash-rounding">
+                  <img src="assets/img/tooltip-cash-rounding.png" alt="loading image">
+                  <span class="tooltiptext-top">{{contentTooltip}}</span>
+                </div>
+              </label>
               <retail-select [elementData]="dataSelect.roundingRule"
                              [(model)]="payment['payment_data']['rounding_rule']"
                              [formKey]="'payment_edit_data'"
                              [validation]="'required'"></retail-select>
-              <div class="icon-link">
-                <i class="icon-trash"></i>
-                <span class="tooltiptext-top">{{dataSelect.tooltipRoundingCash.data[payment['payment_data']['round_to']]}}</span>
-              </div>
             </li>
           </ul>
         </div>

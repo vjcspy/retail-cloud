@@ -4142,4 +4142,16 @@ ul.has-list {
     }
   }
 }
+.tooltip-cash-rounding {
+  width: 49%;
+  img {
+    width: 17%;
+    margin-left: 2%;
+  }
+  .tooltiptext-top {
+    margin-left: -130px !important;
+    width: 280px !important;
+    height: 90px !important;
+  }
+}
 
