@@ -27,6 +27,7 @@
               </retail-text>
             </td>
             <td *ngIf="payment['type'] === 'rounding_cash'" class="close-shift-round-cash">{{getExpectedAmount(payment) | priceFormat}}</td>
+            <input *ngIf="payment['type'] === 'rounding_cash'" type="hidden" [ngModel]="getCountedRoundingCashAmount(payment)">
             <td class="c-center">
               <span [ngClass]="{'un-expect': getDiff(payment)<0,'expect': getDiff(payment) >=0}">{{getDiff(payment) | priceFormat}}</span></td>
           </tr>

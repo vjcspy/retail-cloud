@@ -41,6 +41,16 @@ export class PosDefaultSalesShiftsPopupCloseComponent {
     return this._data.expected[paymentData['id']];
   }
   
+  getCountedRoundingCashAmount(paymentData) {
+    if (!this._data.counted.hasOwnProperty(paymentData['id'])) {
+      let expected = 0;
+      if (paymentData['type'] === 'rounding_cash') {
+        expected += paymentData.sales + paymentData.refund;
+        this._data.counted[paymentData['id']] = expected;
+      }
+    }
+  }
+  
   getDiff(paymentData) {
     return parseFloat(this._data.counted[paymentData['id']]) - this.getExpectedAmount(paymentData);
   }
