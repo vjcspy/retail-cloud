@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
+import {AppHelper} from "./app-helper";
 
 @Injectable()
 export class RequestService {
   protected header;
   
   constructor(protected http: Http,
-              protected notify: NotifyManager) {
+              protected notify: NotifyManager,
+              protected helper: AppHelper) {
   }
   
   getRequestOptions() {
@@ -35,7 +37,11 @@ export class RequestService {
     return this.http.get(url, Object.assign({}, this.getRequestOptions(), option))
                .map(
                  (res: Response) => {
-                   return res.json();
+                   let dataResponse = res.json();
+                   if(dataResponse['api_version']) {
+                       this.helper.checkApiVersionCompatible(dataResponse['api_version']);
+                   }
+                   return dataResponse;
                  })
                .catch(
                  (error: any) => {
