@@ -2,7 +2,7 @@
 import "bootstrap-daterangepicker/daterangepicker.js";
 
 // datetime picker
-import 'eonasdan-bootstrap-datetimepicker';
+// import 'eonasdan-bootstrap-datetimepicker';
 
 // perfect scroll
 import "perfect-scrollbar/dist/js/perfect-scrollbar.jquery.js";
