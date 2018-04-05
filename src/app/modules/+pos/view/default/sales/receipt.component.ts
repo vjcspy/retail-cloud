@@ -117,14 +117,19 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   getGiftCardCode() {
     const gcProducts = _.filter(this.getOrder()['items'], (i) => _.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, i['type_id']) > -1);
     if (_.isArray(gcProducts)) {
-      const gc = _.map(gcProducts, (i) => {
-        const code = _.find(i['product_options']['options'], o => o['label'] === "aw_gc_created_codes");
-        if (code) {
-          return {
-            code: code['value'][0]
-          };
-        } else {
-          return {};
+      const gc = [];
+      _.forEach(gcProducts, (i) => {
+        const code        = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_created_codes");
+        const amount      = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_amount");
+        const expiry_date = _.find(i['product_options']['options'], o => o['key'] === "aw_gc_exp_date");
+        if (code && code.hasOwnProperty('value') && typeof code['value'] == 'object') {
+          _.forEach(code['value'], (g_code) => {
+            gc.push({
+                      "code": g_code,
+                      "amount": !!amount ? amount['value'] : "-------",
+                      "expiry_date": !!expiry_date ? expiry_date['value'] : "-------"
+                    });
+          });
         }
       });
       return gc;
@@ -165,17 +170,21 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
     }
     return this._data['productOptions']['bundleChildren'][item['id']];
   }
-
+  
   getProductCustomOption(item) {
-    if (item['product_options'].hasOwnProperty('options')) {
-      this._data['productOptions']['customOptions'][item['id']] = "";
-      let _f                                                    = true;
-      _.forEach(item['product_options']['options'], (option) => {
-        this._data['productOptions']['customOptions'][item['id']] +=
-          _f ? option['label'] + ": " + option['value'] : " - " + option['label'] + ": " + option['value'];
-      });
-    } else {
+    if (_.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID, item['type_id']) > -1) {
       this._data['productOptions']['customOptions'][item['id']] = false;
+    } else {
+      if (item['product_options'].hasOwnProperty('options')) {
+        this._data['productOptions']['customOptions'][item['id']] = "";
+        let _f                                                    = true;
+        _.forEach(item['product_options']['options'], (option) => {
+          this._data['productOptions']['customOptions'][item['id']] +=
+            _f ? option['label'] + ": " + option['value'] : " - " + option['label'] + ": " + option['value'];
+        });
+      } else {
+        this._data['productOptions']['customOptions'][item['id']] = false;
+      }
     }
     return this._data['productOptions']['customOptions'][item['id']];
   }
@@ -243,7 +252,8 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
   protected initBarcodeGiftCard() {
     if (this.getGiftCardCode().length > 0) {
       _.forEach(this.getGiftCardCode(), (gc) => {
-        JsBarcode("#" + gc['code'], gc['code'], {
+        //html5 do not support id attributes starting with numbers
+        JsBarcode("#SM" + gc['code'], gc['code'], {
           format: 'CODE128',
           width: 1,
           height: 40,
@@ -416,6 +426,23 @@ export class PosDefaultSalesReceiptComponent extends AbstractSubscriptionCompone
               text-align: left;
             }
             
+            .barcode-table {border-top: #4F4F4F ridge 3px; border-style:double;}
+            .barcode-table th, .barcode-table h4 {font-size: 12px;}
+            .barcode-table td {font-size: 12px; }
+            /*.barcode-table td.c-left {font-size: 10px;}*/
+            .barcode-table h4 {margin: 0;}
+            .barcode-table th, .barcode-table td {
+                padding: 0; text-align: center;
+            }
+            .barcode-table th {
+              font-weight: 400;
+              text-transform: none; padding-top: 9px; padding-bottom: 8px;
+              border-bottom: #A7A7A7 solid 1px;
+             }
+            .barcode-table tbody {border-bottom: #4F4F4F solid 1px;}
+            .barcode-table tbody tr:first-child td {padding-top: 5px;}
+            .barcode-table tbody tr:last-child {padding-bottom: 35px;}
+
       </style>
       
       

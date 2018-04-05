@@ -92,6 +92,13 @@ export class PosSyncService {
 
     const quote: Quote = quoteState.quote;
 
+    let availableGC = [];
+    if (_.isArray(order['gift_card'])) {
+      availableGC = order['gift_card'].filter((data) => {
+        return data['is_valid'] == true;
+      });
+    }
+    
     let orderOffline = {
       retail_id: this.getOrderClientId(configState.orderCount),
       retail_status: null,
@@ -121,7 +128,8 @@ export class PosSyncService {
           quote.getData('reward_point')['reward_point_discount_amount'] :
           null,
         "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount'] : null,
-        "grand_total": quote.getShippingAddress().getData('grand_total')
+        "grand_total": quote.getShippingAddress().getData('grand_total'),
+        "gift_card" : availableGC
       },
       sync_data: order,
       pushed: 0,

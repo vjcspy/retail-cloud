@@ -59,4 +59,9 @@ export class PosDefaultSalesShiftDetailComponent {
     const rp = this.shiftState.detail.amounts.paymentUsed.find((p) => p['type'] === 'reward_point');
     return rp ? rp['sales'] : 0;
   }
+  
+  getGiftCardSpent() {
+    const gc = this.shiftState.detail.amounts.paymentUsed.find((p) => p['type'] === 'gift_card');
+    return gc ? gc['sales'] : 0;
+  }
 }

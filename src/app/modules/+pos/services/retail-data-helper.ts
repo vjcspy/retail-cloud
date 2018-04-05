@@ -5,7 +5,7 @@ import * as _ from "lodash";
 export class RetailDataHelper {
 
   // gift card type_id in 3rd extension
-  static GIFT_CARD_TYPE_ID = ['aw_giftcard'];
+  static GIFT_CARD_TYPE_ID = ['aw_giftcard', 'aw_giftcard2'];
 
   isPaymentCanUse(p, forceForShiftReport: boolean = false) {
     let paymentsType = ['gift_card', 'reward_point', 'paypal', 'rounding_cash'];
