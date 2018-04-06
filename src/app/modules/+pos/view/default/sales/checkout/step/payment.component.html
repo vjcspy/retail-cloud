@@ -8,7 +8,7 @@
     </div>
     <div class="control-bar">
       <button *ngFor="let payment of posStepState.paymentMethodCanUse;trackBy:trackById"
-              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))"
+              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))  || (posStepState.paymentMethodUsed.count() >= 1 && (!posConfigState.posRetailConfig.allowSplitPayment || posQuoteState.info.isRefunding))"
               (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge">
                         <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',

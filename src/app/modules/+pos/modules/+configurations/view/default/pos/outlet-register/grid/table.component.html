@@ -23,7 +23,7 @@
         <retail-select [(model)]="configurationsState.outlets.filterData.is_active" [elementData]="getStatusElementData()" (modelChange)="updateFilter({is_active:$event})"></retail-select>
       </td>
       <td>
-        <retail-select [(model)]="configurationsState.outlets.filterData.warehouse_id" [elementData]="getWarehouseElementData()"></retail-select>
+        <retail-select [(model)]="configurationsState.outlets.filterData.warehouse_id" [elementData]="getWarehouseSelect()" (modelChange)="updateFilter({warehouse_id:$event})"></retail-select>
       </td>
     </tr>
     <tr *ngFor="let outlet of configurationsState.outlets.outletFiltered" (click)="editOutlet(outlet['id'])">
@@ -31,7 +31,7 @@
       <td>{{outlet['name']}}</td>
       <td>{{getStoreById(outlet['store_id']) ? getStoreById(outlet['store_id'])['name'] : ''}}</td>
       <td>{{outlet['is_active'] ? ('Enable'|translate) : ('Disable'|translate)}}</td>
-      <td>-</td>
+      <td>{{getWarehouseById(outlet['warehouse_id']) ? getWarehouseById(outlet['warehouse_id'])['name'] : '-'}}</td>
     </tr>
   </tbody>
 </table>
