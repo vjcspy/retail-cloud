@@ -3,6 +3,8 @@ import {ConfigurationsState} from "../../../../../R/index";
 import {StoreHelper} from "../../../../../../../core/framework/store/Helper/StoreHelper";
 import {ConfigurationsOutletActions} from "../../../../../R/outlets/outlet.actions";
 import {RouterActions} from "../../../../../../../../../R/router/router.actions";
+import {PosEntitiesState} from "../../../../../../../R/entities/entities.state";
+import {WarehouseHelper} from "../../../../../../../core/local/warehouse/Helper/WarehouseHelper";
 
 @Component({
              // moduleId: module.id,
@@ -13,7 +15,7 @@ import {RouterActions} from "../../../../../../../../../R/router/router.actions"
 
 export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   @Input() configurationsState: ConfigurationsState;
-  
+  @Input() entitiesState: PosEntitiesState;
   constructor(private configurationsOutletActions: ConfigurationsOutletActions,
               private routerActions: RouterActions) {}
   
@@ -31,15 +33,17 @@ export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
     };
   }
   
-  getWarehouseElementData() {
-    return {
-      data: []
-    };
+  getWarehouseSelect() {
+      return WarehouseHelper.getWarehouseSelectData(this.entitiesState.warehouse.items.toArray());
   }
   
   getStoreById(id) {
     return StoreHelper.getStoreById(id);
   }
+  
+  getWarehouseById(id) {
+        return WarehouseHelper.getWarehouseById(this.entitiesState.warehouse.items.toArray(),id);
+    }
   
   updateFilter(filterData) {
     this.configurationsOutletActions.updateOutletFilter(filterData);

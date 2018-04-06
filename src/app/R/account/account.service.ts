@@ -46,6 +46,7 @@ export class AccountService {
                                              if (products) {
                                                const posProduct = _.find(products, p => p['code'] === 'xpos');
                                                if (posProduct) {
+                                                 this.storage.localStorage('posProduct',posProduct);
                                                  const licenses = licenseCollection.collection.find({}).fetch();
                                                  if (_.size(licenses) === 1) {
                                                    this.storage.localStorage('license', _.first(licenses));
@@ -153,35 +154,41 @@ export class AccountService {
     return this.subscriptionPermission;
   }
 
-  subscribeVersion(resubscribe: boolean = false, apiVersion: string = null) {
-    if (typeof this.subscriptionVersion === 'undefined' || resubscribe === true) {
-      if (this.subscriptionVersion) {
-        this.subscriptionVersion.unsubscribe();
-      }
-
-      this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
-                                           .subscribe(([productCollection]) => {
-                                             const products = productCollection.collection.find({}).fetch();
-                                             if (products) {
-                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
-                                               if (posProduct) {
-                                                 if (apiVersion != null) {
-                                                   let checkVersion = _.find(posProduct['versions'], v => v['version'] === apiVersion);
-                                                   console.log(checkVersion);
-                                                   if (!checkVersion) {
-                                                     this.notify.warning("connectpos_version_not_compat_api_version");
-                                                   }
-                                                 } else {
-                                                   this.notify.warning("connectpos_version_not_compat_api_version");
-                                                 }
-                                               }
-                                             } else {
-                                               return;
-                                             }
-                                           });
-    }
-    return this.subscriptionLicense;
-  }
+  // subscribeVersion(resubscribe: boolean = false) {
+  //   if (typeof this.subscriptionVersion === 'undefined' || resubscribe === true) {
+  //     if (this.subscriptionVersion) {
+  //       this.subscriptionVersion.unsubscribe();
+  //     }
+  //
+  //     this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
+  //                                          .subscribe(([productCollection]) => {
+  //                                            const products = productCollection.collection.find({}).fetch();
+  //                                            if (products) {
+  //                                              const posProduct = _.find(products, p => p['code'] === 'xpos');
+  //                                              const posVersion = this.helper.getPosVersion();
+  //                                              if (posProduct) {
+  //                                                if (posVersion != null) {
+  //                                                  let checkVersion = _.find(posProduct['versions'], v => v['version'] === posVersion);
+  //                                                  console.log(checkVersion);
+  //                                                  if (checkVersion) {
+  //                                                    const apiVersion = this.storage.localRetrieve('api_version');
+  //                                                    let checkApiVersion = _.find(checkVersion['api_compatible'], av => av['version'] === apiVersion);
+  //                                                    console.log(checkApiVersion);
+  //                                                    if(!checkApiVersion) {
+  //                                                        this.notify.warning("connectpos_version_not_compat_api_version");
+  //                                                    }
+  //                                                  }
+  //                                                } else {
+  //                                                  this.notify.warning("connectpos_version_not_compat_api_version");
+  //                                                }
+  //                                              }
+  //                                            } else {
+  //                                              return;
+  //                                            }
+  //                                          });
+  //   }
+  //   return this.subscriptionVersion;
+  // }
 
   saveVersionToCookie(): Promise<any> {
     return new Promise(((resolve) => {
