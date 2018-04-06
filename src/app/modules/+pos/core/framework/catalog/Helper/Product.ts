@@ -5,8 +5,8 @@ export class ProductHelper {
 
   static isSales(product: Object) {
     let today =  Date.now();
-    if (product['special_price'] &&
-      ((today >= Date.parse( product['special_from_date']) && today <= Date.parse(product['special_to_date'])) || (today >= Date.parse( product['special_from_date']) && product['special_to_date'] === null))) {
+    if (!_.isEmpty(product['tier_prices']) || (product['special_price'] &&
+      ((today >= Date.parse( product['special_from_date']) && today <= Date.parse(product['special_to_date'])) || (today >= Date.parse( product['special_from_date']) && product['special_to_date'] === null)))) {
         return true;
     }
     return false;
