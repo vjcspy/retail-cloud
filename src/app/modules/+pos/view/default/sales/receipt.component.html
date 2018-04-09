@@ -111,9 +111,10 @@
             </h4>
           </td>
         </tr>
-        <tr *ngIf="getProductCustomOption(item)">
+        <!--<tr *ngIf="getProductCustomOption(item)">-->
+        <tr *ngIf="item['buy_request'].hasOwnProperty('product_options_custom_option')">
           <td class="c-left">
-            <div *ngFor="let option of item['product_options']['options'];trackBy:trackById;">
+            <div *ngFor="let option of item['buy_request']['product_options_custom_option'];trackBy:trackById;">
               {{option['label'] + ": " + option['value']}}
             </div>
           </td>
