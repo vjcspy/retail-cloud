@@ -287,7 +287,7 @@ export class SaleReportService {
         itemLable = (item['Revenue'] == 0) ? "--" : (item['Gross Profit'] / item['Revenue']);
         break;
       case "Cart Size" :
-        itemLable = item['Item Sold'] / item['Order Count'];
+        itemLable = (item['Item Sold'] + item['Refund Count']) / item['Order Count'];
         break;
       case "Cart Value" :
         itemLable = item['Revenue'] / item['Order Count'];
@@ -409,6 +409,7 @@ export class SaleReportService {
               }
               if (additionalData['label'] == "Cart Size") {
                 totalItemSold += parseFloat(itemValue['item_sold']);
+                totalItemSold += parseFloat(itemValue['return_count']);
                 totalOrderCount += parseFloat(itemValue['order_count']);
                 additionalItem[item['dateRanger']] = (totalOrderCount == 0) ? "--" : (totalItemSold / totalOrderCount);
               }
