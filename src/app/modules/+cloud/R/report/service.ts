@@ -542,7 +542,7 @@ export class SaleReportService {
     let measure     = this.reportHelper.getListMeasureByReportType(report_type)['data'];
     let filterData  = [];
     _.forEach(dataFilter, function (value, key) {
-      if (typeof value != 'undefined' && key == 'name') {
+      if (typeof value != 'undefined' && key.toString() == 'name') {
         filterData.push({
                           "name": report_type,
                           "search_value": value
