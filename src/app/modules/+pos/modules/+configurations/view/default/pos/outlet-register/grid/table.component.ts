@@ -5,6 +5,7 @@ import {ConfigurationsOutletActions} from "../../../../../R/outlets/outlet.actio
 import {RouterActions} from "../../../../../../../../../R/router/router.actions";
 import {PosEntitiesState} from "../../../../../../../R/entities/entities.state";
 import {WarehouseHelper} from "../../../../../../../core/local/warehouse/Helper/WarehouseHelper";
+import {RetailConfigService} from "../../../../../R/retail-config/retail-config.service";
 
 @Component({
              // moduleId: module.id,
@@ -17,7 +18,8 @@ export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   @Input() configurationsState: ConfigurationsState;
   @Input() entitiesState: PosEntitiesState;
   constructor(private configurationsOutletActions: ConfigurationsOutletActions,
-              private routerActions: RouterActions) {}
+              private routerActions: RouterActions,
+              public retailConfigService: RetailConfigService) {}
   
   getStoreElementData() {
     return StoreHelper.getStoreElementData();
@@ -47,6 +49,10 @@ export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   
   updateFilter(filterData) {
     this.configurationsOutletActions.updateOutletFilter(filterData);
+  }
+  
+  isIntegrateWh() {
+      return this.retailConfigService.retailConfigSnapshot['pos']['xretail/pos/integrate_wh'] === 'bms';
   }
   
   editOutlet(id) {

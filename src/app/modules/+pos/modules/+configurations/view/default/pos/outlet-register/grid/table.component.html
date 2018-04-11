@@ -5,7 +5,7 @@
       <th>{{ 'Outlet Name' | translate }}</th>
       <th>{{ 'Outlet Storeview' | translate }}</th>
       <th>{{ 'Status' | translate }}</th>
-      <th>{{ 'Warehouse' | translate }}</th>
+      <th *ngIf="isIntegrateWh()">{{ 'Warehouse' | translate }}</th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +22,7 @@
       <td>
         <retail-select [(model)]="configurationsState.outlets.filterData.is_active" [elementData]="getStatusElementData()" (modelChange)="updateFilter({is_active:$event})"></retail-select>
       </td>
-      <td>
+      <td *ngIf="isIntegrateWh()">
         <retail-select [(model)]="configurationsState.outlets.filterData.warehouse_id" [elementData]="getWarehouseSelect()" (modelChange)="updateFilter({warehouse_id:$event})"></retail-select>
       </td>
     </tr>
@@ -31,7 +31,7 @@
       <td>{{outlet['name']}}</td>
       <td>{{getStoreById(outlet['store_id']) ? getStoreById(outlet['store_id'])['name'] : ''}}</td>
       <td>{{outlet['is_active'] ? ('Enable'|translate) : ('Disable'|translate)}}</td>
-      <td>{{getWarehouseById(outlet['warehouse_id']) ? getWarehouseById(outlet['warehouse_id'])['name'] : '-'}}</td>
+      <td *ngIf="isIntegrateWh()">{{getWarehouseById(outlet['warehouse_id']) ? getWarehouseById(outlet['warehouse_id'])['name'] : '-'}}</td>
     </tr>
   </tbody>
 </table>
