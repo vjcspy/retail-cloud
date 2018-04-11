@@ -14,8 +14,7 @@
       <div class="c-price">
         <button *ngIf="isUsingPoint()" style="background: darkred" (click)="integrateRpActions.removePoint()" [disabled]="posSyncState.isSyncing">
           {{ 'Remove' | translate }} {{ 'Reward Point' | translate }}
-        </button>
-
+        </button>aw_giftcard2
         <button *ngIf="!isUsingPoint()" (click)="integrateRpActions.usePoint({})" [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing || isRewardPointOneMinBalance()">
           {{ 'Use' | translate }} {{ 'Reward Point' | translate }}
         </button>
