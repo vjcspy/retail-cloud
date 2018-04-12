@@ -220,7 +220,7 @@ export class FormValidationService {
           mess = _.find(this.validations, (v) => v['id'] == 'is-compare');
           if (mess)
             mess = mess['mess'];
-          let compare    = /^[<>=]?[ ]*[$]?[ ]*([0-9]?[ ]*[,]?[ ]*)*(?:[0-9]|)+\.*[0-9]*$/;
+          let compare    = /^[<>=]?[ ]*[$]?[ ]*([0-9]?[ ]*[,]?[ ]*)*(?:[0-9]|)+\.*[0-9]*[%]?$/;
           let _isCompare = compare.test(value);
           if (!_isCompare && !_.isEmpty(value)) {
             validationInfo = {

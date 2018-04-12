@@ -1,14 +1,12 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import * as _ from "lodash";
 import {SaleReportService} from "../../../R/report/service";
 import {ReportHelper} from "../../../R/report/helper";
-import {AbstractRxComponent} from "../../../../share/core/AbstractRxComponent";
 @Component({
              selector: 'sale-report-table',
              templateUrl: 'report-table.component.html',
              // changeDetection: ChangeDetectionStrategy.OnPush
            })
-// export class CloudSaleReportTableComponent extends AbstractRxComponent implements OnInit, OnChanges {
 export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   @Input('data_view') data_view     = [];
   @Input('data_filter') data_filter = [];
@@ -25,9 +23,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     additionData :[],
   };
   
-  // constructor(private saleReportService: SaleReportService,protected changeDetector: ChangeDetectorRef ) {
   constructor(private saleReportService: SaleReportService) {
-    // super();
     this.initDefaultViewData();
     this.initSelectDefault();
   }
@@ -50,8 +46,8 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     if (this.viewData.hasOwnProperty('additionData')) {
       let report_type = this.data_filter['report_type'];
       let addition = ReportHelper.getAdditionalData(report_type)['data'];
-      _.remove(addition, function (data) {
-        return data['id'] != 1
+      _.remove(addition,  (data) => {
+        return data['id'] !== 1;
       });
       this.viewData['additionData'] = addition;
     }
@@ -72,7 +68,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
       }
   
   checkSummaryType() {
-    return (this.data_filter['report_type'] == 'sales_summary') ? 1 : 0;
+    return (this.data_filter['report_type'] === 'sales_summary') ? 1 : 0;
   }
   
   protected trackOption(option: Object) {
@@ -81,7 +77,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   
   protected checkShowAdditionPopup(addition) {
     let lastRow = _.last(this.viewData['additionData']);
-    if ((this.data_filter['report_type'] == 'customer' || this.data_filter['report_type'] == 'product') && addition == lastRow['value'])
+    if ((this.data_filter['report_type'] === 'customer' || this.data_filter['report_type'] === 'product') && addition === lastRow['value'])
       return false;
     else return true;
   }
@@ -91,14 +87,14 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   protected getColspanForTitle(value) {
-    return (value == 'name') ? 3 : 1;
+    return (value === 'name') ? 3 : 1;
   }
   
   protected getAdditionalDataForPopUp() {
     let report_type = this.data_filter['report_type'];
     let additionalDataForPopUp = ReportHelper.getAdditionalData(report_type)['data'];
-    _.remove(additionalDataForPopUp, function (data) {
-      return data['id'] == 1
+    _.remove(additionalDataForPopUp, (data) => {
+      return data['id'] === 1;
     });
     return {
       data: additionalDataForPopUp,
@@ -112,8 +108,8 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   protected selectAllAdditionData() {
     let report_type = this.data_filter['report_type'];
     let additionData = this.getAdditionByReportType();
-    if (this._additionData['isAllChecked'] == false){
-      _.forEach(additionData, function(value, key) {
+    if (this._additionData['isAllChecked'] == false) {
+      _.forEach(additionData, (value, key) => {
         additionData[key] = true;
       });
     }
@@ -125,9 +121,9 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     this._additionData['isAllChecked'] = false;
   }
   
-  protected getAdditionByReportType(){
+  protected getAdditionByReportType() {
     let report_type = this.data_filter['report_type'];
-    if (report_type == 'customer'){
+    if (report_type === 'customer') {
       let additionData = {
         customer_email: false,
         customer_group_code: false,
@@ -135,7 +131,7 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
       }
       Object.assign(this._additionData, additionData);
     }
-    if (report_type == 'product'){
+    if (report_type === 'product') {
       let additionData = {
         sku: false,
         product_type: false,
@@ -150,11 +146,11 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     let report_type = this.data_filter['report_type'];
     let dataForPopupDisplayAddition = this.getAdditionalDataForPopUp()['data'];
     let dataForPopupDisplayAdditionSelected = this.initDefaultViewData();
-    if (this._additionData['isAllChecked'] == true){
+    if (this._additionData['isAllChecked'] == true) {
       this.viewData['additionData'] = ReportHelper.getAdditionalData(report_type)['data'];
     } else {
-      _.forEach(this._additionData, function(value, key) {
-        if (value == true){
+      _.forEach(this._additionData, (value, key) => {
+        if (value == true) {
           let addition = _.find(dataForPopupDisplayAddition, (row) => row['value'] == key);
           dataForPopupDisplayAdditionSelected.push(addition);
         }
@@ -174,18 +170,17 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     return this.data_filter['measures'];
   }
   
-  protected isDateRanger(){
-    if (this.data_filter['dateTimeState'] == "compare" ){
+  protected isDateRanger() {
+    if (this.data_filter['dateTimeState'] === "compare" ) {
       return false;
     }
     return true;
   }
   
-  protected isdisplayMoreData($item) {
-    if (this.data_filter['report_type'] == "register" ||
-        this.data_filter['report_type'] == "customer" ||
-        this.data_filter['report_type'] == "sales_summary"
-        // || this.data_filter['report_type'] == "category"
+  protected isdisplayMoreData(item) {
+    if (this.data_filter['report_type'] === "register" ||
+        this.data_filter['report_type'] === "customer" ||
+        this.data_filter['report_type'] === "sales_summary"
     ) {
       return false;
     }
@@ -193,10 +188,6 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
   }
   
   protected hiddenItemDetail(item) {
-    // if (this.isdisplayMoreData($item) == false && this.data_filter['display_item_detail'] == true && $item['value'] == this.detail_item_value) {
-    //   return false;
-    // }
-    // return true;
     if (item.hasOwnProperty('display_item_detail') && item['display_item_detail'] == true) {
       return false;
     }
@@ -207,45 +198,49 @@ export class CloudSaleReportTableComponent implements OnInit, OnChanges {
     let additionalData = [];
     _.forEach(this.list_measure, (measure) => {
       let additionalItem = _.find(this.data_view['totalInVertical'], (item)=>item['name'] == measure);
-      if (additionalItem)
+      if (additionalItem) {
         additionalData.push(additionalItem);
+      }
     });
     return additionalData;
   }
   
   checkDisplayProductForSalesSummary() {
-    if (this.checkSummaryType() == 1 && this.data_view['totalInHontical']['display_item_detail'] === true) {
+    if (this.checkSummaryType() === 1 && this.data_view['totalInHontical']['display_item_detail'] === true) {
       return false;
     }
     return true;
   }
   
   checkDataNullForHidden() {
-    if (this.saleReportService.viewData['report_type'] == 'sales_summary') {
+    if (this.saleReportService.viewData['report_type'] === 'sales_summary') {
       return false;
     } else {
-      if (this.saleReportService.viewData['items'].length == 0) {
+      if (this.saleReportService.viewData['items'].length === 0) {
         return true;
-      } else
+      } else {
         return false;
+      }
     }
   }
   
   checkSortAsc(measureLabel) {
     if (measureLabel) {
-      if (measureLabel == this.saleReportService._sortData) {
-        if (this.saleReportService.isSortAsc){
+      if (measureLabel === this.saleReportService._sortData) {
+        if (this.saleReportService.isSortAsc) {
           return 2;
-        } else
+        } else {
           return 3;
-      } else
+        }
+      } else {
         return 1;
+      }
     }
   }
   
-  getLabelForTitle(){
+  getLabelForTitle() {
     let report_type = this.saleReportService.viewDataFilter['report_type'];
-    let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] == report_type);
+    let reportColumn     = _.find(ReportHelper.getListReportType()['data'], (row) => row['value'] === report_type);
     return reportColumn['label'];
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ChangeDetectorRef, HostListener} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, HostListener} from '@angular/core';
 import * as _ from "lodash";
 import {AbstractRxComponent} from "../../../share/core/AbstractRxComponent";
 import {SaleReportService} from "../../R/report/service";
@@ -25,7 +25,7 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   
   protected initMeasures(search: boolean = false) {
     if (!this.measures || !!search) {
-      this.measures = this.getListMeasureByReportType(this.getDataFilter()['report_type'])['data'].map(function (measure) {
+      this.measures = this.getListMeasureByReportType(this.getDataFilter()['report_type'])['data'].map((measure) => {
         return {
           measure_data: measure,
           position: measure['id'],
@@ -33,11 +33,11 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
         };
       });
       _.forEach(this.measures, (measure) => {
-        if (_.indexOf(this.getDataFilter()['measures'], measure.measure_data['label']) !== -1) {
-          return measure.selected = true;
+        if (_.indexOf(this.getDataFilter()['measures'], measure['measure_data']['label']) !== -1) {
+          return measure['selected'] = true;
         }
       });
-      _.remove(this.measures, function (measure_label) {
+      _.remove(this.measures, (measure_label) => {
         return measure_label['measure_data']['label'] === 'base_row_total_product';
       });
     }
@@ -86,27 +86,27 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
     this.saleReportService.measure_selected[this.saleReportService.viewDataFilter['report_type']] = this.saleReportService.viewDataFilter['measures'];
   }
   checkIfAllSelected(measure) {
-    let measureData = _.find(this.measures, function(measure_label) {
+    let measureData = _.find(this.measures, (measure_label) => {
       return measure['measure_data']['value'] === measure_label['measure_data']['value'];
     });
     if (!!measureData) {
-      measure.selected = !measureData.selected;
+      measure.selected = !measureData['selected'];
     }
     this.searchMeasure(this.searchString);
     
-    _.forEach(this.measures, function (mea) {
-      if (mea['measure_data']['label'] === measure['measure_data']['label']){
-        mea.selected = true;
+    _.forEach(this.measures, (mea) => {
+      if (mea['measure_data']['label'] === measure['measure_data']['label']) {
+        mea['selected'] = true;
       }
     });
-    this.selectedAll = this.measures.every(function(item:any) {
+    this.selectedAll = this.measures.every((item: any) => {
       return item.selected === true;
     });
     
     if (measure.selected === true) {
       this.saleReportService.viewDataFilter['measures'].splice(measure.position-1, 0,  measure.measure_data['label']);
     } else {
-      _.remove(this.saleReportService.viewDataFilter['measures'], function(measure_label) {
+      _.remove(this.saleReportService.viewDataFilter['measures'], (measure_label) => {
         return measure_label === measure.measure_data['label'];
       });
     }
@@ -146,16 +146,16 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
       return true;
     });
     this.measures = measuresSearch;
-    this.selectedAll = this.measures.every(function(item:any) {
+    this.selectedAll = this.measures.every((item: any) => {
       return item.selected === true;
     });
   }
   
-  getListReportType(){
+  getListReportType() {
     return ReportHelper.getListReportType();
   }
   
-  getListMeasureByReportType(report_type){
+  getListMeasureByReportType(report_type) {
     return this.reportHelper.getListMeasureByReportType(report_type);
   }
   
@@ -176,15 +176,16 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
       field.unshift("name");
     }
     _.forEach(this.getListMeasureByReportType(this.getDataFilter()['report_type'])['data'], (measure) => {
-      if (measure['label'] != 'base_row_total_product')
+      if (measure['label'] !== 'base_row_total_product') {
         field.push(measure['label']);
+      }
     });
     
     let listItem = [];
-    if (this.getDataFilter()['report_type'] == "payment_method") {
+    if (this.getDataFilter()['report_type'] === "payment_method") {
       _.forEach(this.getDataView()['items'], (itemData) => {
         listItem.push(itemData);
-        if (itemData.hasOwnProperty('value') && itemData['value'] == "retailmultiple") {
+        if (itemData.hasOwnProperty('value') && itemData['value'] === "retailmultiple") {
           _.forEach(this.getDataView()['list_item_detail'], (itemDetail) => {
             if (itemDetail.hasOwnProperty('name')) {
               itemDetail['name'] = "ConnectPOS Payment Method _ " + itemDetail['name'];
@@ -193,10 +194,10 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
           });
         }
       });
-    } else if (this.getDataFilter()['report_type'] == "order_status") {
+    } else if (this.getDataFilter()['report_type'] === "order_status") {
       _.forEach(this.getDataView()['items'], (itemData) => {
         listItem.push(itemData);
-        if (itemData.hasOwnProperty('value') && itemData['value'] == "magento_status") {
+        if (itemData.hasOwnProperty('value') && itemData['value'] === "magento_status") {
           _.forEach(this.getDataView()['list_item_detail'], (itemDetail) => {
             if (itemDetail.hasOwnProperty('name')) {
               itemDetail['name'] = "Magento Order Status _ " + itemDetail['name'];
@@ -215,12 +216,12 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
       // listItem = Object.assign([], this.getDataView()['items']);
     }
     
-    if (this.getDataFilter()['report_type'] != "sales_summary") {
+    if (this.getDataFilter()['report_type'] !== "sales_summary") {
       listItem.push(this.getDataView()['totalInHontical']);
     }
     
     _.forEach(this.getDataView()['additionalData'], (itemData) => {
-      if (itemData.hasOwnProperty('name') && itemData['name'] != "base_row_total_product") {
+      if (itemData.hasOwnProperty('name') && itemData['name'] !== "base_row_total_product") {
         listItem.push(itemData);
       }
     });
@@ -230,8 +231,8 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   
   getCSVFileName() {
     let fileCSV;
-    if (this.getDataFilter()['dateTimeState'] == "compare") {
-      if (this.getDataFilter()['compare_type'] == "to_date"){
+    if (this.getDataFilter()['dateTimeState'] === "compare") {
+      if (this.getDataFilter()['compare_type'] === "to_date") {
         fileCSV = "CReport_" + this.getDataFilter()['report_type'] + "_by_" + this.getDataFilter()['compare_value']  + "_to_"+this.getDataFilter()['current_dateEnd']+".csv";
       } else {
         fileCSV = "CReport_" + this.getDataFilter()['report_type'] + "_by_" + this.getDataFilter()['compare_value'] + ".csv";
@@ -246,19 +247,20 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   
   checkDisableFilter() {
     let measures = this.saleReportService.viewDataFilter['measures'];
-    if (this.saleReportService.viewDataFilter['report_type'] == 'sales_summary' && measures.length <= 2 || measures.length === 0){
-      if ((_.head(measures) == 'First Sale' && _.last(measures) == 'Last Sale') ||
-          (_.head(measures) == 'First Sale' && measures.length == 1) ||
-          (_.head(measures) == 'Last Sale' && measures.length == 1)
-      ){
+    if (this.saleReportService.viewDataFilter['report_type'] === 'sales_summary' && measures.length <= 2 || measures.length === 0) {
+      if ((_.head(measures) === 'First Sale' && _.last(measures) === 'Last Sale') ||
+          (_.head(measures) === 'First Sale' && measures.length === 1) ||
+          (_.head(measures) === 'Last Sale' && measures.length === 1)
+      ) {
         this.saleReportService.enableFilter = false;
         return true;
       } else if (measures.length === 0) {
         this.saleReportService.enableFilter = false;
         return true;
       }
-    } else
+    } else {
       return false;
+    }
   }
   
   enableFilterMeasure() {
@@ -267,13 +269,14 @@ export class CloudSaleReportPage extends AbstractRxComponent implements OnInit {
   }
   
   checkDataNullForHidden() {
-    if (this.saleReportService.viewData['report_type'] == 'sales_summary') {
+    if (this.saleReportService.viewData['report_type'] === 'sales_summary') {
       return false;
     } else {
-      if (this.saleReportService.viewData['items'].length == 0) {
+      if (this.saleReportService.viewData['items'].length === 0) {
         return true;
-      } else
+      } else {
         return false;
+      }
     }
   }
 }

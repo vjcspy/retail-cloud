@@ -542,14 +542,14 @@ export class SaleReportService {
     let measure     = this.reportHelper.getListMeasureByReportType(report_type)['data'];
     let filterData  = [];
     _.forEach(dataFilter, function (value, key) {
-      if (typeof value != 'undefined' && key.toString() == 'name') {
+      if (typeof value != 'undefined' && key.toString() === 'name') {
         filterData.push({
                           "name": report_type,
                           "search_value": value
                         });
       } else {
         if (typeof value != 'undefined') {
-          let valueMeasure = _.find(measure, (row) => row['label'] == key);
+          let valueMeasure = _.find(measure, (row) => row['label'] === key.toString());
           if (valueMeasure) {
             filterData.push({
                               "name": valueMeasure['value'],

@@ -43,7 +43,7 @@ export class BarChart implements OnDestroy, OnInit {
       this.scope_Names = this.viewData['scope_Names'];
       this.chart_type  = this.viewData['chart_type'];
       this.totalValues = [];
-      _.forEach(this.viewData['chart_data'], item => {
+      _.forEach(this.viewData['chart_data'], (item: any) => {
         this.totalValues.push(this.maxValue - item);
       });
     }
