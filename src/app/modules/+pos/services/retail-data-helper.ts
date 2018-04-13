@@ -8,7 +8,7 @@ export class RetailDataHelper {
   static GIFT_CARD_TYPE_ID = ['aw_giftcard'];
 
   isPaymentCanUse(p, forceForShiftReport: boolean = false) {
-    let paymentsType = ['gift_card', 'reward_point', 'paypal', 'rounding_cash'];
+    let paymentsType = ['gift_card', 'reward_point', 'paypal', 'rounding_cash', 'izettle'];
     if (!!forceForShiftReport) {
       _.remove(paymentsType, (type) => {
         return type === 'rounding_cash';
