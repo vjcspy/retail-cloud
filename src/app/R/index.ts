@@ -37,11 +37,11 @@ export const R_IMPORTS = [
   EffectsModule.run(AccountEffects),
 ];
 
-if ('production' !== ENV) {
-  R_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
-                                                                   maxAge: 5
-                                                                 }));
-}
+// if ('production' !== ENV) {
+//   R_IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({
+//                                                                    maxAge: 5
+//                                                                  }));
+// }
 /*
  * Có thể bao gồm service, actions và effects.
  *  - service: Không được phụ thuộc vào action hoặc effects và cũng không được phụ thuộc vào service nằm trong R
