@@ -9,7 +9,7 @@
         <label for="last-{{value}}">Last</label>
         <div class="check"></div>
         <report-input-number [(model)]="modelData['compare_count']"
-                             [validation]="'is-number-int'"
+                             [validation]="'p-not-decimal-num'"
                              [formKey]="'date-compare-item'"
                              [className]="'form-control txt-num'"
                              (keyup)="handleUpdateDateCompare('last')"
@@ -18,7 +18,7 @@
     </li>
     <li class="clearfix radio-btn" (click)="handleUpdateDateCompare('last_from')">
         <report-input-number [(model)]="modelData['compare_count']"
-                             [validation]="'is-number-int'"
+                             [validation]="'p-not-decimal-num'"
                              [formKey]="'date-compare-item'"
                              [className]="'form-control txt-num-count'"
                              (keyup)="handleUpdateDateCompare('last_from')"

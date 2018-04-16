@@ -208,7 +208,7 @@ export class FormValidationService {
             mess = mess['mess'];
           let decimal    = /^(?:[-+]?[0-9]|)+\.[0-9]+$/;
           let _isDecimal = decimal.test(value);
-          if (value == "" || isNaN(value) || parseFloat(value) <= 0 || _isDecimal) {
+          if (value == "" || isNaN(value) || parseFloat(value) < 0 || _isDecimal) {
             validationInfo = {
               isValid: false,
               mess: !!mess ? mess : ""
