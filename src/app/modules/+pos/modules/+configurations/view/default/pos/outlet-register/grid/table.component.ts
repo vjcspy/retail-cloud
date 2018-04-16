@@ -52,7 +52,11 @@ export class ConfigurationsDefaultPosOutletRegisterGridTableComponent {
   }
   
   isIntegrateWh() {
-      return this.retailConfigService.retailConfigSnapshot['pos']['xretail/pos/integrate_wh'] === 'bms';
+      if(this.retailConfigService.retailConfigSnapshot) {
+          return this.retailConfigService.retailConfigSnapshot['pos']['xretail/pos/integrate_wh'] === 'bms';
+       } else {
+          return false;
+      }
   }
   
   editOutlet(id) {
