@@ -24,7 +24,7 @@ export class ProductTrend implements OnInit, OnDestroy {
       this.chart_data = this.viewData['chart_data'];
       this.scope_Names = this.viewData['scope_Names'];
       this.totalValues = [];
-      _.forEach(this.viewData['chart_data'], item => {
+      _.forEach(this.viewData['chart_data'], (item: any) => {
         this.totalValues = item['item_sold'];
       });
     }

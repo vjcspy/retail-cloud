@@ -287,7 +287,7 @@ export class SaleReportService {
         itemLable = (item['Revenue'] == 0) ? "--" : (item['Gross Profit'] / item['Revenue']);
         break;
       case "Cart Size" :
-        itemLable = item['Item Sold'] / item['Order Count'];
+        itemLable = (item['Item Sold'] + item['Refund Count']) / item['Order Count'];
         break;
       case "Cart Value" :
         itemLable = item['Revenue'] / item['Order Count'];
@@ -387,7 +387,7 @@ export class SaleReportService {
                   additionalItem[item['dateRanger']] = itemValue['last_sale'];
                 }
               } else {
-                additionalItem[item['dateRanger']] += parseFloat(itemValue[additionalData['value']]);
+                additionalItem[item['dateRanger']] += (!_.isNull(itemValue[additionalData['value']]) ? parseFloat(itemValue[additionalData['value']]) : 0);
               }
               if (additionalData['value'] == 'grand_total' &&
                   (this.viewDataFilter['report_type'] == "payment_method" || this.viewDataFilter['report_type'] == "shipping_method")) {
@@ -409,6 +409,7 @@ export class SaleReportService {
               }
               if (additionalData['label'] == "Cart Size") {
                 totalItemSold += parseFloat(itemValue['item_sold']);
+                totalItemSold += parseFloat(itemValue['return_count']);
                 totalOrderCount += parseFloat(itemValue['order_count']);
                 additionalItem[item['dateRanger']] = (totalOrderCount == 0) ? "--" : (totalItemSold / totalOrderCount);
               }
@@ -417,11 +418,18 @@ export class SaleReportService {
                 totalOrderCount += parseFloat(itemValue['order_count']);
                 additionalItem[item['dateRanger']] = (totalOrderCount == 0) ? "--" : (grandTotal / totalOrderCount);
               }
-              if (additionalData['label'] == "Discount percent") {
+              if (additionalData['label'] == "Discount Percent") {
+                if (this.viewDataFilter['report_type'] == 'product' ||
+                    this.viewDataFilter['report_type'] == 'category' ||
+                    this.viewDataFilter['report_type'] == 'manufacturer'
+                ) {
+                  totalInvoiced += parseFloat(itemValue['revenue']);
+                } else {
+                  totalInvoiced += parseFloat(itemValue['grand_total']);
+                }
                 // itemLable = item['Discount'] / (item['base_row_total_product'] + item['Discount']);
                 totalDiscountAmount += parseFloat(itemValue['discount_amount']);
                 // totalInvoiced += parseFloat(itemValue['base_row_total_product']);
-                totalInvoiced += parseFloat(itemValue['revenue']);
                 additionalItem[item['dateRanger']] = ((totalInvoiced + totalDiscountAmount) == 0) ? "--" : (totalDiscountAmount / (totalInvoiced + totalDiscountAmount));
               }
               if (additionalData['label'] == "Refund Percent") {
@@ -439,7 +447,7 @@ export class SaleReportService {
   
   checkCalculateMeasureData(measureLabel) {
     if (measureLabel == "Margin" || measureLabel == "Cart Size" || measureLabel == "Cart Value" ||
-        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount percent" || measureLabel == "Refund Percent") {
+        measureLabel == "Cart Value (Incl Tax)" || measureLabel == "Discount Percent" || measureLabel == "Refund Percent") {
       return false;
     }
     return true;
@@ -541,14 +549,14 @@ export class SaleReportService {
     let measure     = this.reportHelper.getListMeasureByReportType(report_type)['data'];
     let filterData  = [];
     _.forEach(dataFilter, function (value, key) {
-      if (typeof value != 'undefined' && key == 'name') {
+      if (typeof value != 'undefined' && key.toString() === 'name') {
         filterData.push({
                           "name": report_type,
                           "search_value": value
                         });
       } else {
         if (typeof value != 'undefined') {
-          let valueMeasure = _.find(measure, (row) => row['label'] == key);
+          let valueMeasure = _.find(measure, (row) => row['label'] === key.toString());
           if (valueMeasure) {
             filterData.push({
                               "name": valueMeasure['value'],

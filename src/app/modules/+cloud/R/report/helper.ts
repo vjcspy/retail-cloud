@@ -242,13 +242,13 @@ export class ReportHelper {
     getListMeasureByReportType(report_type: string = 'sales_summary', is_default: boolean = false) {
     let listMeasure = this.getList();
   
-    _.remove(listMeasure, function (measure) {
-      return _.indexOf(measure['not_available_for'], report_type) != -1
+    _.remove(listMeasure, (measure) => {
+      return _.indexOf(measure['not_available_for'], report_type) !== -1;
     });
     
     if (is_default) {
-      _.remove(listMeasure, function (measure) {
-        return measure['is_default'] === false
+      _.remove(listMeasure, (measure) => {
+        return measure['is_default'] === false;
       });
     }
     return {
@@ -256,7 +256,7 @@ export class ReportHelper {
       isMultiSelect: true,
       label: "List Mearsure",
       value: "measure"
-    }
+    };
   }
   
   static getListOrderStatus(): Object {
@@ -307,7 +307,7 @@ export class ReportHelper {
     }
     return {
       data: list_additional_data,
-    }
+    };
   }
   
   static getListDayOfWeek(): Object {
