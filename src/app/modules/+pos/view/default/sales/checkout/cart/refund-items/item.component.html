@@ -8,7 +8,7 @@
       <h3 class="product-name">{{item['name']}}</h3>
       <p class="p-product-name">{{item['sku']}}</p>
     </div>
-    <input [disabled]="!item['can_edit_qty'] || item['qty_to_refund'] == 0" class="count-num" type="text" [(ngModel)]="item['qty']" enterBlur inputNumber
+    <input style="display: none;" [disabled]="!item['can_edit_qty'] || item['qty_to_refund'] == 0" class="count-num" type="text" [(ngModel)]="item['qty']" enterBlur inputNumber
            inputSelectText [isDecimal]="item['is_qty_decimal']" (blur)="reloadCreditmemo()"/>
   </div>
   <div class="cart-content">
