@@ -24,6 +24,33 @@ export class QuoteRefundEffects {
               private rootActions: RootActions) {
   }
 
+  @Effect() loadCreditmemoQty = this.actions$.ofType(QuoteRefundActions.ACTION_LOAD_CREDITMEMO_QTY_ZERO)
+    .withLatestFrom(this.store$.select('general'))
+    .withLatestFrom(this.store$.select('quote'), (z, z1) => [...z, z1])
+    .switchMap((z: any) => {
+      const action = z[0];
+      const posQuoteState: PosQuoteState = z[2];
+
+      let total = {};
+      let grandTotal = Math.abs(action.payload.orderSimple['tmp_grandTotal']);
+
+      total['discount_amount'] = 0;
+      total['grand_total'] = grandTotal;
+      total['shipping'] = 0;
+      total['shipping_incl_tax'] = 0;
+      total['subtotal'] = grandTotal;
+      total['subtotal_incl_tax'] = grandTotal;
+      total['tax_amount'] = 0;
+      posQuoteState['totals'] = total;
+
+      let data = {};
+      data = posQuoteState.creditmemo;
+      data['total_paid'] = grandTotal;
+      data['totals'] = total;
+
+      return Observable.of(this.refundActions.loadCreditmemoSuccess(data, false));
+    });
+
   @Effect() loadCreditmemo = this.actions$
                                  .ofType(
                                    QuoteRefundActions.ACTION_LOAD_CREDITMEMO
@@ -92,7 +119,6 @@ export class QuoteRefundEffects {
                                                 } else {
                                                   let order = new OrderDB();
                                                   order.addData(d['items'][0]);
-
                                                   return Observable.from([
                                                     this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
                                                     this.refundActions.saveCreditmemoSuccess(d['items'][0], false)

@@ -29,7 +29,7 @@
                [(ngModel)]="childItem['qty']" inputNumber
                inputSelectText enterBlur
                [isDecimal]="childItem['is_qty_decimal']"
-               (blur)="reloadCreditmemo()"/>
+               (blur)="reloadCreditmemoQtyZero(childItem)"/>
         <div class="c-price">
                 <span class="refund-pr">
                     -{{(configState.setting.tax.displayCartPricesExclTax() ? childItem['row_total'] : childItem['row_total_incl_tax'])| priceFormat}}
