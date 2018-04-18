@@ -19,6 +19,6 @@ export class ConfigurationsDefaultGeneralComponent implements OnInit {
   }
   
   ngOnInit() {
-      this.compatible = this.appHelper.checkApiVersionCompatible(this.apiVersion);
+      this.compatible = this.appHelper.checkApiVersionCompatible();
   }
 }
