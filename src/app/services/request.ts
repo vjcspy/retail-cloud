@@ -3,6 +3,7 @@ import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
 import {AppHelper} from "./app-helper";
+import {AppStorage} from "./storage";
 
 @Injectable()
 export class RequestService {
@@ -10,7 +11,8 @@ export class RequestService {
   
   constructor(protected http: Http,
               protected notify: NotifyManager,
-              protected helper: AppHelper) {
+              protected helper: AppHelper,
+              protected storage: AppStorage) {
   }
   
   getRequestOptions() {
@@ -39,7 +41,7 @@ export class RequestService {
                  (res: Response) => {
                    let dataResponse = res.json();
                    if(dataResponse['api_version']) {
-                       this.helper.checkApiVersionCompatible(dataResponse['api_version']);
+                       this.storage.localStorage('apiVersion',dataResponse['api_version']);
                    }
                    return dataResponse;
                  })
