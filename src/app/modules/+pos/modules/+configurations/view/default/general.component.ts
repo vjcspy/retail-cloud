@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AppHelper} from "../../../../../../services/app-helper";
-import {AppStorage} from "../../../../../../services/storage";
 import * as Cookies from "js-cookie";
 
 @Component({
@@ -14,9 +13,9 @@ export class ConfigurationsDefaultGeneralComponent implements OnInit {
     public posVersion;
     public apiVersion;
     public compatible;
-  constructor( private appHelper: AppHelper, private storage: AppStorage) {
+  constructor( private appHelper: AppHelper) {
       this.posVersion = appHelper.getPosVersion();
-      this.apiVersion = storage.localRetrieve('apiVersion');
+      this.apiVersion = Cookies.get('api_version');
   }
   
   ngOnInit() {
