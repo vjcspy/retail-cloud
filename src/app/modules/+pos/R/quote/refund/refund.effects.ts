@@ -94,7 +94,7 @@ export class QuoteRefundEffects {
                                                   order.addData(d['items'][0]);
 
                                                   return Observable.from([
-                                                    this.entityActions.pushEntity(order, OrderDB.getCode(), null, false),
+                                                    this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
                                                     this.refundActions.saveCreditmemoSuccess(d['items'][0], false)
                                                   ]);
                                                 }

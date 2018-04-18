@@ -12,4 +12,8 @@ export class WarehouseHelper {
 
     return selectData;
   }
+    static getWarehouseById(warehouse: any[], warehouseId) {
+        let _warehouse = _.find(warehouse, (wh) => parseInt(wh['id']) === parseInt(warehouseId));
+        return _warehouse ? _warehouse : null;
+    }
 }

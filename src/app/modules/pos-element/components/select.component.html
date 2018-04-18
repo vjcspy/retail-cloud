@@ -1,7 +1,7 @@
 <div class="select-wrapper" [ngClass]="{active: isActive,disabled:disabled,'error-valid':!_validProperty['isValid']}" (click)="toggleSelect($event)">
     <span class="icon-down"></span>
     <input [value]="selectedLabel()|translate" type="text">
-    <ul>
+    <ul perfectScroll>
         <li class="select-option"
             *ngFor="let option of elementData.data;trackBy:trackOption"
             (click)="selectOption(option)"

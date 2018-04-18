@@ -26,7 +26,7 @@ export class PosComponent extends AbstractSubscriptionComponent implements OnIni
     this.translate.use('en');
     this.reducerManagement.replaceReducer('posReducer', posReducer());
     this.offline.init();
-    console.log('%c POS v1.0.1.201802211033 ', 'background: #222; color: #bada55');
+    console.log('%c POS v0.0.2.201804171019 ', 'background: #222; color: #bada55');
   }
 
   ngOnInit() {
