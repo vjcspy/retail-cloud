@@ -169,11 +169,6 @@ export class RoundingCash {
         }
         return _number * _roundTo;
       default:
-        if (money > 0) {
-          _number = Math.floor(money / _roundTo);
-        } else {
-          _number = Math.ceil(money / _roundTo);
-        }
         return _number * _roundTo;
     }
   }
