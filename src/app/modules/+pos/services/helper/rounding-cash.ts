@@ -144,33 +144,6 @@ export class RoundingCash {
         }
         return this.round(money);
       default:
-        let moneyTrunc;
-          moneyTrunc = this.decimalAdjust('floor', money, -1);
-        let [_midPoint1, _midPoint2] = _.map(_midPoints, (n) => {
-          return this.round(n + moneyTrunc, 3);
-        });
-        
-        if (money == _midPoint1) {
-          if (this.getRoundingRule() === 1) {
-            money = moneyTrunc;
-          } else if (this.getRoundingRule() === 2) {
-            money = moneyTrunc + 0.05;
-          }
-        }
-        if (money == _midPoint2) {
-          if (this.getRoundingRule() === 1) {
-            money = moneyTrunc + 0.05;
-          } else if (this.getRoundingRule() === 2) {
-            money = moneyTrunc + 0.05 * 2;
-          }
-        }
-        if (money < _midPoint1) {
-          money = moneyTrunc;
-        } else if ((_midPoint1 < money) && (money < _midPoint2)) {
-          money = moneyTrunc + 0.05;
-        } else if (_midPoint2 < money) {
-          money = moneyTrunc + 0.05 * 2;
-        }
         return this.round(money);
     }
   }
