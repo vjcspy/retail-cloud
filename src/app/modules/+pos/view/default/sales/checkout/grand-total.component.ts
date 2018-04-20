@@ -4,6 +4,7 @@ import {PosSyncActions} from "../../../../R/sync/sync.actions";
 import {PosSyncState} from "../../../../R/sync/sync.state";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
+import {PosGeneralState} from "../../../../R/general/general.state";
 
 @Component({
              // moduleId: module.id,
@@ -14,12 +15,14 @@ import {NotifyManager} from "../../../../../../services/notify-manager";
 export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
   @Input() posSyncState: PosSyncState;
-  
+  @Input() generalState: PosGeneralState;
+
   constructor(public posSyncActions: PosSyncActions,
               protected notify: NotifyManager,
               protected authService: AuthenticateService) {}
-  
+
   goCheckoutStep() {
+    if (this.generalState.outlet['enable_guest_checkout'] !== true) return;
     if (this.authService.userCan('create_orders')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
         this.posSyncActions.syncCurrentOrder();
