@@ -19,10 +19,6 @@ export class RoundingCash {
   
   getRoundingCash(money) {
     let _roundingRule = this.getRoundingRule();
-    let _roundTo = this.getRoundTo();
-    
-    if (_roundTo === 0.01)
-      return money;
     
     switch (_roundingRule) {
       case 1:
@@ -34,115 +30,32 @@ export class RoundingCash {
       case 4:
         return this.getRoundingCashForAlwaysRound(money);
       default:
-        return this.getRoundingCashForMidpointRound(money);
+        return money;
     }
   }
   
   getRoundingCashForMidpointRound(money) {
     let _roundTo   = this.getRoundTo();
-    let _midPoints = this.getMidPoint();
     
     switch (_roundTo) {
       case 0.01:
         return money;
       case 0.05:
-        let money005;
-          money005 = this.decimalAdjust('floor', money, -1);
-        let [_midPoint1005, _midPoint2005] = _.map(_midPoints, (n) => {
-          return this.round(n + money005, 3);
-        });
-        
-        if (money == _midPoint1005) {
-          if (this.getRoundingRule() === 1) {
-            money = money005;
-          } else if (this.getRoundingRule() === 2) {
-            money = money005 + 0.05;
-          }
-        }
-        if (money == _midPoint2005) {
-          if (this.getRoundingRule() === 1) {
-            money = money005 + 0.05;
-          } else if (this.getRoundingRule() === 2) {
-            money = money005 + 0.05 * 2;
-          }
-        }
-        if (money < _midPoint1005) {
-          money = money005;
-        } else if ((_midPoint1005 < money) && (money < _midPoint2005)) {
-          money = money005 + 0.05;
-        } else if (_midPoint2005 < money) {
-          money = money005 + 0.05 * 2;
-        }
-        return this.round(money);
+        let money005 = this.decimalAdjust('floor', money, -1);
+        money = this.handleRoundingCash(money, money005, 3);
+        return money;
       case 0.1:
-        let money01;
-        money01 = this.decimalAdjust('floor', money, -1);
-        let [_midPoint101, _midPoint201] = _.map(_midPoints, (n) => {
-          return this.round(n + money01);
-        });
-        
-        if (money == _midPoint101) {
-          if (this.getRoundingRule() === 1) {
-            money = money01;
-          } else if (this.getRoundingRule() === 2) {
-            money = money01 + 0.1;
-          }
-        }
-        if (money < _midPoint101) {
-          money = money01;
-        } else if (_midPoint101 < money) {
-          money = money01 + 0.1;
-        }
-        return this.round(money);
+        let money01 = this.decimalAdjust('floor', money, -1);
+        money = this.handleRoundingCash(money, money01);
+        return money;
       case 0.5:
-        let money05;
-          money05 = this.decimalAdjust('floor', money, 0);
-        let [_midPoint105, _midPoint205] = _.map(_midPoints, (n) => {
-          return this.round(n + money05);
-        });
-        
-        if (money == _midPoint105) {
-          if (this.getRoundingRule() === 1) {
-            money = money05;
-          } else if (this.getRoundingRule() === 2) {
-            money = money05 + 0.5;
-          }
-        }
-        if (money == _midPoint205) {
-          if (this.getRoundingRule() === 1) {
-            money = money05 + 0.5;
-          } else if (this.getRoundingRule() === 2) {
-            money = money05 + 0.5 * 2;
-          }
-        }
-        if (money < _midPoint105) {
-          money = money05;
-        } else if ((_midPoint105 < money) && (money < _midPoint205)) {
-          money = money05 + 0.5;
-        } else if (_midPoint205 < money) {
-          money = money05 + 0.5 * 2;
-        }
-        return this.round(money);
+        let money05 = this.decimalAdjust('floor', money, 0);
+        money = this.handleRoundingCash(money, money05);
+        return money;
       case 1:
-        let money1;
-          money1 = this.decimalAdjust('floor', money, 0);
-        let [_midPoint11, _midPoint21] = _.map(_midPoints, (n) => {
-          return this.round(n + money1);
-        });
-        
-        if (money == _midPoint11) {
-          if (this.getRoundingRule() === 1) {
-            money = money1;
-          } else if (this.getRoundingRule() === 2) {
-            money = money1 + 1;
-          }
-        }
-        if (money < _midPoint11) {
-          money = money1;
-        } else if (_midPoint11 < money) {
-          money = money1 + 1;
-        }
-        return this.round(money);
+        let money1 = this.decimalAdjust('floor', money, 0);
+        money = this.handleRoundingCash(money, money1);
+        return money;
       default:
         return this.round(money);
     }
@@ -152,6 +65,10 @@ export class RoundingCash {
     let _roundTo   = this.getRoundTo();
     let _roundingRule = this.getRoundingRule();
     let _number;
+    
+    if (_roundTo === 0.01) {
+      return money;
+    }
     
     switch (_roundingRule) {
       case 3:
@@ -169,8 +86,40 @@ export class RoundingCash {
         }
         return _number * _roundTo;
       default:
-        return _number * _roundTo;
+        return money;
     }
+  }
+  
+  handleRoundingCash(money, moneyTemp, places: number = 2) {
+    let _roundTo   = this.getRoundTo();
+    let _midPoints = this.getMidPoint();
+    let [_midPoint1005, _midPoint2005] = _.map(_midPoints, (n) => {
+      return this.round(n + moneyTemp, places);
+    });
+  
+    if (money == _midPoint1005) {
+      if (this.getRoundingRule() === 1) {
+        money = moneyTemp;
+      } else if (this.getRoundingRule() === 2) {
+        money = moneyTemp + _roundTo;
+      }
+    }
+    if (money == _midPoint2005) {
+      if (this.getRoundingRule() === 1) {
+        money = moneyTemp + _roundTo;
+      } else if (this.getRoundingRule() === 2) {
+        money = moneyTemp + _roundTo * 2;
+      }
+    }
+    if (money < _midPoint1005) {
+      money = moneyTemp;
+    } else if ((_midPoint1005 < money) && (money < _midPoint2005)) {
+      money = moneyTemp + _roundTo;
+    } else if (_midPoint2005 < money) {
+      money = moneyTemp + _roundTo * 2;
+    }
+    
+    return this.round(money);
   }
   
   round(number: number, places: number = 2): number {
@@ -194,6 +143,18 @@ export class RoundingCash {
     // Shift back
     value = value.toString().split('e');
     return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+  }
+  
+  getMidPoint() {
+    let _midPoint = [];
+    let _roundTo = this.getRoundTo();
+    
+    if (_roundTo) {
+      _midPoint.push(_roundTo / 2);
+      _midPoint.push(_.head(_midPoint) + _roundTo);
+    }
+    
+    return _midPoint;
   }
   
   getRoundTo() {
@@ -235,17 +196,5 @@ export class RoundingCash {
       default:
         return RoundingCash.ROUND_MIDPOINT_DOWN;
     }
-  }
-  
-  getMidPoint() {
-    let _midPoint = [];
-    let _roundTo = this.getRoundTo();
-    
-    if (_roundTo) {
-      _midPoint.push(_roundTo / 2);
-      _midPoint.push(_.head(_midPoint) + _roundTo);
-    }
-    
-    return _midPoint;
   }
 }
