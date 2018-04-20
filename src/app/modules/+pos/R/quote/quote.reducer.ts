@@ -100,10 +100,28 @@ const quoteMainReducer: ActionReducer<PosQuoteStateRecord> = (state: PosQuoteSta
       return state.update('quote', (q) => q.setData('reward_point', Object.assign({}, {use_reward_point: false})));
     
     case IntegrateGCActions.ACTION_USE_GIFT_CARD:
-      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {...action.payload['gcData']}, {is_delete: false})));
+      state = state.update('quote', (q) => {
+        let gcs = [];
+        if (q.getData('gift_card') != null) {
+          gcs = q.getData('gift_card').filter((data) => {
+            return data['is_valid'] == true;
+          });
+        }
+        return q.setData('gift_card', gcs.concat([action.payload['gcData']]));
+      });
+      return state;
+
     
     case IntegrateGCActions.ACTION_REMOVE_GIFT_CARD:
-      return state.update('quote', (q) => q.setData('gift_card', Object.assign({}, {...q.getData('gift_card')}, {is_delete: true})));
+      state =  state.update('quote', (q) => {
+        return q.setData('gift_card', q.getData('gift_card').map((data) => {
+          if (data['gift_code'] == action.payload['gcData']['gift_code']) {
+            data['is_delete'] = true;
+          }
+          return data;
+        }));
+      });
+      return state;
     
     default:
       return state;

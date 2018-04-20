@@ -67,7 +67,33 @@ export class PosDefaultSalesCheckoutStepPaymentsComponent implements OnInit {
   
   back() {
     this.posQuoteState.quote.setData('reward_point', Object.assign({}, {use_reward_point: false}));
-    this.posQuoteState.quote.setData('gift_card', Object.assign({}, {...this.posQuoteState.quote.getGiftCardData()}, {is_delete: true}));
+    // this.posQuoteState.quote.setData('gift_card', Object.assign({}, {...this.posQuoteState.quote.getGiftCardData()}, {is_delete: true}));
+    let gcs = [];
+    if (this.posQuoteState.quote.getData('gift_card') != null) {
+      gcs = this.posQuoteState.quote.getData('gift_card').filter((data) => {
+        return data['is_valid'] == true;
+      });
+    }
+    this.posQuoteState.quote.setData('gift_card', gcs);
     this.posStepActions.back();
   }
+  
+  applyGiftCard(){
+    return this.posStepActions.userSelectGC();
+  }
+  
+  defaultGCData(){
+    return {'gift_code': null, 'giftcard_amount': null, 'create_at': null, is_delete: true , is_valid: false};
+  }
+  
+  isDisableGC() {
+    let gcs = [];
+    if (this.posQuoteState.quote.getData('gift_card') != null) {
+      gcs = this.posQuoteState.quote.getData('gift_card').filter((data) => {
+        return data['is_valid'] == false;
+      });
+    }
+    return this.posStepState.totals.remain <= 0 && !this.posQuoteState.info.isRefunding || !this.offlineService.online || this.posStepState.isCheckingGC === false || gcs.length > 0;
+  }
+  
 }

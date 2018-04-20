@@ -58,6 +58,12 @@ export class PosStepActions {
     this.store$.dispatch({type: PosStepActions.ACTION_USER_SELECT_PAYMENT_METHOD, payload: {payment}});
   }
   
+  static ACTION_USER_SELECT_GC = 'ACTION_USER_SELECT_GC';
+  
+  userSelectGC() {
+    this.store$.dispatch({type: PosStepActions.ACTION_USER_SELECT_GC});
+  }
+  
   /**
    ** @REDUCER:
    *

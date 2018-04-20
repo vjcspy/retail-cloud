@@ -8,6 +8,7 @@ import {orderListAddPaymentReducer} from "./order-list-add-payment/add-payment.r
 import {QuoteRefundActions} from "../../../../../R/quote/refund/refund.actions";
 import {routerActions} from "@ngrx/router-store";
 import {PosSyncActions} from "../../../../../R/sync/sync.actions";
+import {IntegrateGCActions} from "../../../../../R/integrate/gc/gc.actions";
 
 const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepStateRecord, action: Action) => {
   switch (action.type) {
@@ -94,7 +95,15 @@ const posStepMainReducer: ActionReducer<PosStepStateRecord> = (state: PosStepSta
     
     case QuoteRefundActions.ACTION_SAVE_CREDITMEMO_SUCCESS:
       return state.set('orderRefund', action.payload['orderRefunded']);
-    
+  
+    case PosStepActions.ACTION_USER_SELECT_GC:
+      state = state.set('isCheckingGC', false);
+      return state;
+  
+    case IntegrateGCActions.ACTION_USE_GIFT_CARD:
+    case IntegrateGCActions.ACTION_REMOVE_GIFT_CARD:
+      state = state.set('isCheckingGC',true);
+      return state;
     default:
       return state;
   }
