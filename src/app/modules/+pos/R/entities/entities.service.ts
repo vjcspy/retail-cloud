@@ -11,6 +11,7 @@ import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {ProductDB} from "../../database/xretail/db/product";
 import {AccountService} from "../../../../R/account/account.service";
+import {RetailDataHelper} from "../../services/retail-data-helper";
 
 @Injectable()
 export class PosEntitiesService {
@@ -217,7 +218,8 @@ export class PosEntitiesService {
           }
         }
         if (type !== true) {
-          if (_.indexOf(type, product.getData('type_id')) === -1) {
+          let types = _.join(type, ",");
+          if (_.indexOf(_.split(types, ','), product.getData('type_id')) === -1) {
             return false;
           }
         }

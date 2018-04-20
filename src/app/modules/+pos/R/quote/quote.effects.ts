@@ -120,6 +120,11 @@ export class PosQuoteEffects {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                           payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
                                         };
+                                      case 'aw_giftcard2':
+                                        return {
+                                          type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
+                                          payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
+                                        };
                                       default:
                                     }
 
