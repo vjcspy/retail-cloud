@@ -3,12 +3,12 @@
 
   <div class="form-group">
     <label for="clientVersion">{{'Connect Pos version:' | translate}}</label>
-    <input type="text" class="form-control" name="clientVersion" id="clientVersion" value="1.1.8" disabled>
+    <input type="text" class="form-control" name="clientVersion" id="clientVersion" value="{{posVersion}}" disabled>
   </div>
 
   <div class="form-group">
     <label for="connectorVersion">{{'Connector version:' | translate}}</label>
-    <input type="text" class="form-control" name="connectorVersion" id="connectorVersion" value="1.1.8 - Compatible" disabled>
+    <input type="text" class="form-control" name="connectorVersion" id="connectorVersion" value="{{apiVersion}} - {{compatible ? 'Compatible' : 'Not Compatible'}}" disabled>
   </div>
 
   <div class="form-group">

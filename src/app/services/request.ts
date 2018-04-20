@@ -2,15 +2,14 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
-import {AppHelper} from "./app-helper";
+import * as Cookies from "js-cookie";
 
 @Injectable()
 export class RequestService {
   protected header;
 
   constructor(protected http: Http,
-              protected notify: NotifyManager,
-              protected helper: AppHelper) {
+              protected notify: NotifyManager) {
   }
 
   getRequestOptions() {
@@ -38,8 +37,8 @@ export class RequestService {
                .map(
                  (res: Response) => {
                    let dataResponse = res.json();
-                   if (!!dataResponse && dataResponse['api_version']) {
-                     this.helper.checkApiVersionCompatible(dataResponse['api_version']);
+                   if(dataResponse['api_version']) {
+                       Cookies.set('api_version', dataResponse['api_version'], {path: '/', /*domain: "cloud.local"*/});
                    }
                    return dataResponse;
                  })
