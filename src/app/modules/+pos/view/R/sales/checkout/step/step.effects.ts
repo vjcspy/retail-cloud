@@ -39,9 +39,10 @@ export class PosStepEffects {
               private stepService: PosStepService,
               private refundActions: QuoteRefundActions,
               private entityActions: EntityActions,
-              private tourService: TutorialService,
               private retailDataHelper: RetailDataHelper,
-              private trackingService: TrackingService) { }
+              private trackingService: TrackingService,
+              private tourService: TutorialService) {
+  }
 
   @Effect() getPaymentCanUse = this.actions$.ofType(PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS)
                                    .filter((action: Action) => action.payload['entityCode'] === PaymentDB.getCode())
