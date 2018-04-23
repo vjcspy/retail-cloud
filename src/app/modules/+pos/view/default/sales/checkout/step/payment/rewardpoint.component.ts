@@ -18,21 +18,25 @@ export class CheckoutRewardPointComponent {
   @Input() posStepState: PosStepState;
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
-  
+
   constructor(public integrateRpActions: IntegrateRpActions,
               protected offline: OfflineService) {}
-  
+
   isAheadWorldRp() {
     return this.posConfigState.posRetailConfig.rpType === 'aheadWorld';
   }
-  
+
   isUsingPoint() {
     const rpData = this.posQuoteState.quote.getRewardPointData();
     return (!!rpData && rpData['use_reward_point'] === true);
   }
-  
+
   getRewardPointDetail() {
     const rpData = this.posQuoteState.quote.getRewardPointData();
     return !!rpData ? rpData : {};
+  }
+  isRewardPointOneMinBalance () {
+    const rpData = this.posQuoteState.quote.getRewardPointData();
+    return (rpData['customer_balance'] - rpData['customer_reward_points_once_min_balance'] > 0) ? '' : 'true';
   }
 }

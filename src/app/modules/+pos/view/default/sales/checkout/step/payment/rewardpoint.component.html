@@ -15,14 +15,15 @@
         <button *ngIf="isUsingPoint()" style="background: darkred" (click)="integrateRpActions.removePoint()" [disabled]="posSyncState.isSyncing">
           {{ 'Remove' | translate }} {{ 'Reward Point' | translate }}
         </button>
-        <button *ngIf="!isUsingPoint()" (click)="integrateRpActions.usePoint({})" [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing ">
+        <button *ngIf="!isUsingPoint()" (click)="integrateRpActions.usePoint({})" [disabled]="posStepState.totals.remain <=0 || posSyncState.isSyncing || isRewardPointOneMinBalance()">
           {{ 'Use' | translate }} {{ 'Reward Point' | translate }}
         </button>
-        <div *ngIf="!isUsingPoint()" class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
+        <div *ngIf="!isUsingPoint()" class="c-other" style="top: 50%; width: 100%; text-align: center; left: 45%; max-width: 340px; transform: translate(-50%,-50%);">
                     <span>
                         {{getRewardPointDetail()['customer_balance'] || 0}} {{'store reward point available' | translate }}
                         ({{getRewardPointDetail()['customer_balance_base_currency'] | priceFormat : true}})
                     </span>
+                    <p style="margin-bottom: 0;" *ngIf="isRewardPointOneMinBalance()"><span>To use reward point, customer should have more than {{getRewardPointDetail()['customer_reward_points_once_min_balance']}} points</span></p>
         </div>
         <div *ngIf="isUsingPoint()" class="c-other" style="margin-top: -30px; width: 100%; text-align: center; left: 45%; max-width: 340px">
                     <span>
