@@ -22,7 +22,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
   @Input() configState: PosConfigState;
   @Input() cartCustomerState: CartCustomerState;
   protected cartCustomerSearchString = new FormControl();
-  
+
   constructor(protected cartCustomerActions: CartCustomerActions,
               protected quoteActions: PosQuoteActions,
               protected offline: OfflineService,
@@ -31,7 +31,7 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
               protected checkoutPopupActions: CheckoutPopupActions) {
     super();
   }
-  
+
   ngAfterViewInit(): void {
     this.subscribeObservable('subscribe_search_customer',
                              () => this.cartCustomerSearchString
@@ -42,21 +42,21 @@ export class PosDefaultSalesCheckoutCartCustomersComponent extends AbstractSubsc
                                          this.cartCustomerActions.searchCustomer(cartCustomerSearchString);
                                        }));
   }
-  
+
   protected customerTrackBy(index, customer: any) {
     return customer['id'];
   }
-  
+
   createNewCustomer() {
-    if (this.authenticateService.userCan('create_new_customer')) {
+    if (this.authenticateService.userCan('change_customer_information')) {
       this.checkoutPopupActions.checkoutOpenPopup(CheckoutPopup.CUSTOMER_BILLING, {customerPopup: {customer: new Customer(), addressState: 'edit'}});
     } else {
       this.notify.error("not_have_permission_to_create_new_customer");
     }
   }
-  
+
   createCustomerPermission() {
-    if (this.authenticateService.userCan('create_new_customer') && this.offline.online) {
+    if (this.authenticateService.userCan('change_customer_information') && this.offline.online) {
       return true;
     }
     return false;
