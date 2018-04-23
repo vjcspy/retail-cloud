@@ -18,28 +18,30 @@ import {Order} from "../../core/framework/sales/Model/Order";
 
 @Injectable()
 export class PosSyncService {
-  
+
   constructor(private onlineOffline: OfflineService,
               private requestService: RequestService,
               private apiManager: ApiManager,
-              private db: DatabaseManager) { }
-  
+              private db: DatabaseManager) {
+  }
+
   prepareOrder(quoteState: PosQuoteState, generalState: PosGeneralState): PosOrderSync {
     const quote = quoteState.quote;
     let order   = {};
-    
+
     order['outlet_id']           = generalState.outlet['id'];
+    order['warehouse_id']        = generalState.outlet['warehouse_id'];
     order['register_id']         = generalState.register['id'];
     order['retail_note']         = quote.getData('retail_note');
     order['user_id']             = generalState.user['id'];
     order['retail_has_shipment'] = quoteState.hasShipment;
     order['is_offline']          = !this.onlineOffline.online;
-    
+
     order['items'] = [];
     _.forEach(quoteState.items.toArray(), (item) => {
       order['items'].push(Object.assign({}, {...item}, {product: null}));
     });
-    
+
     order['account']              = {
       'group_id': quote.getCustomer().getCustomerGroupId(),
       'email': quote.getCustomer().getData('email')
@@ -71,22 +73,29 @@ export class PosSyncService {
     if (quote.getData('is_exchange')) {
       order['order']['is_exchange'] = quote.getData('is_exchange');
     }
-    
+
     if (quote.getRewardPointData()) {
       order['reward_point'] = quote.getRewardPointData();
     }
     if (quote.getGiftCardData()) {
       order['gift_card'] = quote.getGiftCardData();
     }
-    
+
     return <any>order;
   }
-  
+
   prepareOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
     const order        = this.prepareOrder(quoteState, generalState);
     order['retail_id'] = this.getOrderClientId(configState.orderCount);
-    
+
     const quote: Quote = quoteState.quote;
+
+    let availableGC = [];
+    if (_.isArray(order['gift_card'])) {
+      availableGC = order['gift_card'].filter((data) => {
+        return data['is_valid'] == true;
+      });
+    }
     
     let orderOffline = {
       retail_id: this.getOrderClientId(configState.orderCount),
@@ -95,8 +104,8 @@ export class PosSyncService {
       customer: {
         id: quote.getCustomer().getId(),
         name: quote.getCustomer().getData('first_name') +
-              " " +
-              quote.getCustomer().getData('last_name'),
+        " " +
+        quote.getCustomer().getData('last_name'),
         email: quote.getCustomer().getData('email'),
         phone: quote.getCustomer().getData('telephone')
       },
@@ -116,8 +125,9 @@ export class PosSyncService {
           'reward_point')['use_reward_point']) ?
           quote.getData('reward_point')['reward_point_discount_amount'] :
           null,
-        "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount']: null,
-        "grand_total": quote.getShippingAddress().getData('grand_total')
+        "gift_card_discount_amount": (_.isObject(quote.getGiftCardData()) && quote.getGiftCardData()['giftcard_amount']) ? quote.getGiftCardData()['giftcard_amount'] : null,
+        "grand_total": quote.getShippingAddress().getData('grand_total'),
+        "gift_card" : availableGC
       },
       sync_data: order,
       pushed: 0,
@@ -125,25 +135,25 @@ export class PosSyncService {
       user_id: generalState.user['id'],
       created_at: Timezone.getCurrentStringTime(true)
     };
-    
+
     // when exchange will fixed one payment method and amount
     if (quote.getData('is_exchange') === true && _.isArray(orderOffline['payment']) && _.size(orderOffline['payment']) === 1) {
       orderOffline['payment'][0]['amount']      = quote.getShippingAddress()['grand_total'];
       orderOffline['payment'][0]['is_purchase'] = 1;
     }
-    
+
     orderOffline['retail_status'] = this.getRetailStatus(quote);
-    
+
     // init item data for order detail
     if (quote.getSyncedItems()) {
       orderOffline ['items'] = quote.getSyncedItems();
     } else {
       orderOffline ['items'] = this.prepareOrderItem(quote.getShippingAddress().getItems());
     }
-    
+
     return orderOffline;
   }
-  
+
   prepareOrderItem(quoteItems: Item[]) {
     let items = [];
     _.forEach(quoteItems, (item: Item) => {
@@ -159,23 +169,23 @@ export class PosSyncService {
       }
       items.push(_item);
     });
-    
+
     return items;
   }
-  
+
   syncOrderOnline(orderData: Object, generalState: PosGeneralState): Observable<any> {
     return this.requestService.makePost(this.apiManager.get('loadOrderData', generalState.baseUrl), orderData);
   }
-  
+
   saveOrderOnline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState): Promise<GeneralMessage> {
     const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
     return this.pushOrderOfflineToServer(orderOffline, generalState, false);
   }
-  
+
   saveOrderOffline(quoteState: PosQuoteState, generalState: PosGeneralState, configState: PosConfigState) {
     const orderOffline = this.prepareOrderOffline(quoteState, generalState, configState);
     const db           = this.db.getDbInstance();
-    
+
     return new Promise((resolve, reject) => {
       db.orders.add(<any>orderOffline).then((id) => {
         orderOffline['id'] = id;
@@ -183,7 +193,7 @@ export class PosSyncService {
       }).catch((e) => reject(e));
     });
   }
-  
+
   autoGetAndPushOrderOffline(generalState: PosGeneralState): Promise<GeneralMessage> {
     return new Promise((resolve, reject) => {
       const db = this.db.getDbInstance();
@@ -200,7 +210,7 @@ export class PosSyncService {
       });
     });
   }
-  
+
   protected getRetailStatus(quote: Quote) {
     let paid = 0;
     let retail_status;
@@ -228,19 +238,19 @@ export class PosSyncService {
         retail_status = Order.RETAIL_ORDER_COMPLETE;
       }
     }
-    
+
     return retail_status;
   }
-  
+
   protected pushOrderOfflineToServer(orderOffline: any, generalState: PosGeneralState, saveDBIfError: boolean = true): Promise<GeneralMessage> {
     const db = this.db.getDbInstance();
     return new Promise((resolve, reject) => {
       this.requestService.makePost(this.apiManager.get("saveOrder", generalState.baseUrl), Object.assign({}, {...orderOffline['sync_data']}, {orderOffline}))
           .subscribe(
-            () => {
+            (data) => {
               orderOffline.pushed = 1;
               db.orders.put(<any>orderOffline)
-                .then(() => resolve({data: {orderOffline, isPushSuccess: true}}))
+                .then(() => resolve({data: {orderOffline, orderOnline: data['items'][0], isPushSuccess: true}}))
                 .catch((e) => reject({isError: true, e}));
             },
             (e) => {
@@ -258,7 +268,7 @@ export class PosSyncService {
               if (saveDBIfError) {
                 orderOffline['retail_note'] = message;
                 orderOffline.pushed         = 3;
-            
+
                 db.orders.put(<any>orderOffline)
                   .then(() => resolve({data: {orderOffline, isPushSuccess: false}}))
                   .catch((_e) => reject({isError: true, e: _e}));
@@ -268,13 +278,13 @@ export class PosSyncService {
             });
     });
   }
-  
+
   protected getOrderClientId(orderCount) {
     return (StringHelper.pad(orderCount.register_id, 3) +
-            // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
-            StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
+      // StringHelper.pad(this.userDataManagement.getUserId(), 3) +
+      StringHelper.pad(parseFloat(orderCount.order_count) + 1, 8)).toString();
   }
-  
+
   protected initItemData(item: Item) {
     let sku;
     if (item.getProduct().getTypeId() === 'configurable') {

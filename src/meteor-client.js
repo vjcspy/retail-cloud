@@ -1,7 +1,7 @@
 __meteor_runtime_config__ = {
   "meteorEnv": {},
   "DDP_DEFAULT_CONNECTION_URL": "https://cloud.connectpos.com"
-  //"DDP_DEFAULT_CONNECTION_URL": "http://account.xcloud.smartosc.com:2005"
+  // "DDP_DEFAULT_CONNECTION_URL": "http://account.xcloud.smartosc.com:2005"
 };
 
 //////////////////////////////////////////////////////////////////////////

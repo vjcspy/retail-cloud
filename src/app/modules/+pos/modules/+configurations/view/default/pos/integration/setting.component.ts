@@ -3,15 +3,15 @@ import {RetailConfigService} from "../../../../R/retail-config/retail-config.ser
 import {RetailConfigState} from "../../../../R/retail-config/retail-config.state";
 
 @Component({
-             // moduleId: module.id,
-             selector: 'configurations-default-pos-integration-setting',
-             templateUrl: 'setting.component.html',
-             changeDetection: ChangeDetectionStrategy.OnPush
-           })
+  // moduleId: module.id,
+  selector: 'configurations-default-pos-integration-setting',
+  templateUrl: 'setting.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 
 export class ConfigurationsDefaultPosIntegrationSettingComponent implements OnInit {
   @Input() retailConfigState: RetailConfigState;
-  
+
   public _data = {
     integrate_gc: {
       title: "GC Extension",
@@ -45,17 +45,22 @@ export class ConfigurationsDefaultPosIntegrationSettingComponent implements OnIn
         {
           label: "None",
           value: 'none'
+        },
+        {
+          label: "BootMyShop",
+          value: 'bms'
         }
       ]
     },
   };
-  
+
   constructor(protected retailConfigService: RetailConfigService) {
   }
-  
+
   getRetailConfigSnapshot() {
     return this.retailConfigService.retailConfigSnapshot;
   }
-  
-  ngOnInit() { }
+
+  ngOnInit() {
+  }
 }

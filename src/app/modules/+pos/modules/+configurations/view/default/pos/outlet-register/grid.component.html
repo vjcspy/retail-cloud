@@ -2,7 +2,7 @@
   <div class="acr-head"><h2>{{ 'Outlet Management' | translate }}</h2></div>
   <div class="acr-content">
     <div class="inner">
-      <configurations-default-pos-outlet-register-grid-table [configurationsState]="configurations$ | async"></configurations-default-pos-outlet-register-grid-table>
+      <configurations-default-pos-outlet-register-grid-table [configurationsState]="configurations$ | async" [entitiesState]="entitiesState$ | async"></configurations-default-pos-outlet-register-grid-table>
       <div class="button-bar">
         <button class="orange" id="new-outlet-tutorial" (click)="newOutlet()">{{ 'New outlet' | translate }}</button>
       </div>

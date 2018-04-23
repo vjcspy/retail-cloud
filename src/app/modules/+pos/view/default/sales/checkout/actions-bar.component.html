@@ -1,5 +1,5 @@
 <div class="top-bar">
-  <div class="icon-link btn-delete" (click)="posQuoteActions.clearQuote()">
+  <div class="icon-link btn-delete" (click)="posQuoteActions.clearQuote(); cartItemActions.changeRowSelected(-1);">
     <i class="icon-trash"></i>
     <span class="tooltiptext-bottom">{{"Clear Cart" | translate}}</span>
   </div>

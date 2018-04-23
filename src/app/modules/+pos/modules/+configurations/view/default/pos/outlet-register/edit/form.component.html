@@ -50,17 +50,18 @@
               <li>
                 <label>{{ 'Allow Guest Customer' | translate }}</label>
                 <div class="switch-button">
-                  <input [(ngModel)]="getEditOutletFormData()['outlet']['enable_guest_checkout']" [checked]="getEditOutletFormData()['outlet']['enable_guest_checkout']=='1'"
+                  <input [(ngModel)]="getEditOutletFormData()['outlet']['enable_guest_checkout']"
+                         [checked]="getEditOutletFormData()['outlet']['enable_guest_checkout']=='1'"
                          type="checkbox">
                   <span></span>
                 </div>
               </li>
-              <!--<li *ngIf="clientSettingDataManagement.getConfig('pos','xretail/pos/integrate_wh') != 'none' && !!clientSettingDataManagement.getConfig('pos','xretail/pos/integrate_wh')">
-                  <label>Warehouse</label>
-                  <retail-select [elementData]="getWarehouseSelect()"
-                                 [(model)]="_outlet['warehouse_id']"
-                                 [formKey]="'outlet_edit_address'"></retail-select>
-              </li>-->
+              <li *ngIf="isIntegrateWh()">
+                <label>Warehouse</label>
+                <retail-select [elementData]="getWarehouseSelect()"
+                               [(model)]="getEditOutletFormData()['outlet']['warehouse_id']"
+                               [formKey]="'outlet_edit_address'"></retail-select>
+              </li>
               <li>
                 <label>{{ 'Paper Receipt\'s Template' | translate }}</label>
                 <retail-select [elementData]="getReceiptTemplateSelect()"
@@ -77,7 +78,8 @@
               <li class="ctrl-spec" *ngIf="!!getEditOutletFormData()['outlet']['id']">
                 <label>{{ 'Register' | translate }}</label>
                 <div class="groups">
-                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']" (click)="editRegister(register)"
+                  <button class="square" *ngFor="let register of getEditOutletFormData()['registers']"
+                          (click)="editRegister(register)"
                           [ngClass]="{active: register['is_active']}">
                     {{register['name']}}
                   </button>
@@ -131,7 +133,8 @@
               </li>
               <li *ngIf="getRegionSelect(getEditOutletFormData()['outlet']['country_id']) !== false">
                 <label>{{ 'Region' | translate }}</label>
-                <retail-select2 class="lightblue" [elementData]="getRegionSelect(getEditOutletFormData()['outlet']['country_id'])"
+                <retail-select2 class="lightblue"
+                                [elementData]="getRegionSelect(getEditOutletFormData()['outlet']['country_id'])"
                                 [(model)]="getEditOutletFormData()['outlet']['region_id']"
                                 [formKey]="'outlet_edit_address'"
                                 [validation]="'required'"></retail-select2>

@@ -1,22 +1,27 @@
 <div #receiptElem xmlns="http://www.w3.org/1999/html">
   <div *ngIf="getOrder()" class="invoice">
     <div class="top-br">
-      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']" src="assets/img/img-header-default.png" alt="SmartOSC"/>
-      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && getReceiptSetting()['logo_url']" [src]="getReceiptSetting()['logo_url']"/>
+      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && !getReceiptSetting()['logo_url']"
+           src="assets/img/img-header-default.png" alt="SmartOSC"/>
+      <img *ngIf="getReceiptSetting()['logo_image_status'] == 1 && getReceiptSetting()['logo_url']"
+           [src]="getReceiptSetting()['logo_url']"/>
     </div>
     <div class="inner" *ngIf="getOrder() && getOrder()['customer']">
       <div [innerHtml]="getReceiptSetting()['header'] | byPassSecurity"></div>
       <div class="client-info">
 
-        <h3 class="name">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] | translate) : (getOrder()['customer']['name'])}}</h3>
+        <h3 class="name">{{ 'Customer' | translate }}: {{!!checkoutAsGuest() ? (getOrder()['customer']['name'] |
+          translate) : (getOrder()['customer']['name'])}}</h3>
         <p class="email"
            *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '2') && !checkoutAsGuest()">
           Email:&nbsp;{{getOrder()['customer']['email']}}
         </p>
-        <p *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '3') && !checkoutAsGuest()">
+        <p
+          *ngIf="(getReceiptSetting()['customer_info'] == '1' || getReceiptSetting()['customer_info'] == '3') && !checkoutAsGuest()">
           {{ 'Phone Number' | translate }}: {{getOrder()['customer']['phone']}}
         </p>
-        <p *ngIf="(getReceiptSetting()['order_info']['shipping_address'] && getOrder()['has_shipment']) || !getReceiptSetting()['order_info']['shipping_address']">
+        <p
+          *ngIf="(getReceiptSetting()['order_info']['shipping_address'] && getOrder()['has_shipment']) || !getReceiptSetting()['order_info']['shipping_address']">
           {{ 'Shipping Address' |translate }}: {{getOrder()['shipping_address']['first_name'] + " " +
           getOrder()['shipping_address']['last_name']}},
           <br/>
@@ -24,7 +29,8 @@
           getOrder()['shipping_address']['street']+ ", "
           + getOrder()['shipping_address']['city']+", "
           + (getOrder()['shipping_address']['region'] == '-' ?
-          (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'], getOrder()['shipping_address']['region_id']) || "") :
+          (getRegionSelectedByCountryId(getOrder()['shipping_address']['country_id'],
+          getOrder()['shipping_address']['region_id']) || "") :
           (getOrder()['shipping_address']['region'] || ""))
           + (getOrder()['shipping_address']['region'] ? ", " : "")
           + (getOrder()['shipping_address']['postcode'] || "") + ", "
@@ -45,59 +51,25 @@
           <span> --- {{getOrder()['created_at'] | datetimeFormat:'short-time'}}</span>
         </div>
       </div>
-      <table class="barcode-table" width="100%" border="0" cellspacing="0" cellpadding="0" *ngIf="false">
+
+      <table *ngIf="getGiftCardCode().length > 0" class="barcode-table" width="100%" border="0" cellspacing="0" cellpadding="0">
         <thead>
-          <tr>
-            <th class="c-left">Gifcode</th>
-            <th class="c-right">Barcode</th>
-          </tr>
+        <tr>
+          <th class="c-left">{{'Giftcode' | translate }}</th>
+          <th class="c-right">{{'Barcode' | translate }}</th>
+        </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td colspan="2" class="c-code">
-              <table>
-                <tr>
-                  <td>code:</td>
-                  <td><strong>KWD9715KSG</strong></td>
-                  <td rowspan="2">IMG</td>
-                </tr>
-                <tr>
-                  <td>EXP: </td>
-                  <td><strong>26/10/2017</strong></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" class="c-code">
-              <table>
-                <tr>
-                  <td>code:</td>
-                  <td><strong>KWD9715KSG</strong></td>
-                  <td rowspan="2">IMG</td>
-                </tr>
-                <tr>
-                  <td>EXP: </td>
-                  <td><strong>26/10/2017</strong></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="2" class="c-code">
-              <table>
-                <tr>
-                  <td>code:</td>
-                  <td><strong>KWD9715KSG</strong></td>
-                  <td rowspan="2">IMG</td>
-                </tr>
-                <tr>
-                  <td>EXP: </td>
-                  <td><strong>26/10/2017</strong></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+        <tbody *ngFor="let gc of getGiftCardCode();trackBy:trackById">
+        <tr>
+          <td class="c-left"><h4>CODE: {{gc['code']}}</h4></td>
+          <td class="c-right" rowspan="3"><img id="{{'SM'+gc['code']}}"/></td>
+        </tr>
+        <tr>
+          <td class="c-left">EXP : {{ gc['expiry_date']}}</td>
+        </tr>
+        <tr>
+          <td class="c-left">Amount : ${{ gc['amount'] }}</td>
+        </tr>
         </tbody>
       </table>
       <table class="invoice-table" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -112,12 +84,15 @@
                [ngClass]="{last: index == last}">
         <tr *ngIf="!checkIsCustomSales(item)">
           <td class="c-left"><h4>{{item['name']}}</h4></td>
-          <td  *ngIf="!isBundleProduct(item)">{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
+          <td *ngIf="!isBundleProduct(item)">{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered']
+            | number :'1.2-2'}}
+          </td>
           <td *ngIf="isBundleProduct(item)" class="c-right">
           </td>
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
-              {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) | priceFormat}}
+              {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) |
+              priceFormat}}
             </h4>
           </td>
         </tr>
@@ -131,13 +106,15 @@
           <td>{{!checkDecimalsQtyItems(item) ? item['qty_ordered'] : item['qty_ordered'] | number :'1.2-2'}}</td>
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
             <h4>
-              {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) | priceFormat}}
+              {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? item['row_total_incl_tax'] : item['row_total']) |
+              priceFormat}}
             </h4>
           </td>
         </tr>
-        <tr *ngIf="getProductCustomOption(item)">
+        <!--<tr *ngIf="getProductCustomOption(item)">-->
+        <tr *ngIf="item['buy_request'].hasOwnProperty('product_options_custom_option')">
           <td class="c-left">
-            <div *ngFor="let option of item['product_options']['options'];trackBy:trackById;">
+            <div *ngFor="let option of item['buy_request']['product_options_custom_option'];trackBy:trackById;">
               {{option['label'] + ": " + option['value']}}
             </div>
           </td>
@@ -154,15 +131,19 @@
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">&nbsp;</td>
         </tr>
         <tr *ngFor="let child of getBundleChildren(item)">
-          <td class="c-left">{{child['name']}}<h4>{{!!item['is_children_calculated'] && child['qty_refunded'] > 0 ? "(" +
-            (!checkDecimalsQtyItems(child, true) ? child['qty_refunded'] : child['qty_refunded'] | number :'1.2-2') +" refunded)" : ""}}</h4></td>
+          <td class="c-left">{{child['name']}}<h4>{{!!item['is_children_calculated'] && child['qty_refunded'] > 0 ? "("
+            +
+            (!checkDecimalsQtyItems(child, true) ? child['qty_refunded'] : child['qty_refunded'] | number :'1.2-2') +"
+            refunded)" : ""}}</h4></td>
           <td>{{!checkDecimalsQtyItems(child) ? child['qty_ordered'] : child['qty_ordered'] | number :'1.2-2'}}</td>
           <td class="c-right" *ngIf="receiptState.salesReceipt.typePrint === 'receipt'">
-            {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? child['row_total_incl_tax'] : child['row_total']) | priceFormat}}
+            {{(getReceiptSetting()['row_total_incl_tax'] == '1' ? child['row_total_incl_tax'] : child['row_total']) |
+            priceFormat}}
           </td>
         </tr>
         <tr *ngIf="!!item['qty_refunded'] && !item['is_children_calculated']">
-          <td colspan="2" class="c-left"><h4>{{ "(" + (!checkDecimalsQtyItems(item, true) ? item['qty_refunded'] : item['qty_refunded'] |
+          <td colspan="2" class="c-left"><h4>{{ "(" + (!checkDecimalsQtyItems(item, true) ? item['qty_refunded'] :
+            item['qty_refunded'] |
             number :'1.2-2') +" refunded)"}}</h4></td>
           <td class="c-right">
           </td>
@@ -178,15 +159,20 @@
         <tr>
           <td class="c-left" colspan="2">{{ 'Subtotal' | translate }}</td>
           <td class="c-right">
-            {{(getReceiptSetting()['subtotal_incl_tax'] == '1' ? getOrder()['totals']['subtotal_incl_tax'] : getOrder()['totals']['subtotal'])
+            {{(getReceiptSetting()['subtotal_incl_tax'] == '1' ? getOrder()['totals']['subtotal_incl_tax'] :
+            getOrder()['totals']['subtotal'])
             | priceFormat}}
           </td>
         </tr>
-        <tr *ngIf="showDiscountOrShipment(getOrder()['totals']['discount'] ? getOrder()['totals']['discount'] : 0 + (posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && getOrder()['totals']['retail_discount_pert_item']) ? getOrder()['totals']['retail_discount_pert_item'] : 0)">
+        <tr
+          *ngIf="showDiscountOrShipment(getOrder()['totals']['discount'] ? getOrder()['totals']['discount'] : 0 + (posConfigState.posRetailConfig.inclDiscountPerItemInDiscount === true && getOrder()['totals']['retail_discount_pert_item']) ? getOrder()['totals']['retail_discount_pert_item'] : 0)">
           <td class="c-left" colspan="2">{{ 'Discount' | translate }}</td>
           <td class="c-right">
             {{getDiscount() | priceFormat}}
           </td>
+        <tr *ngFor="let giftcard of getOrder()['totals']['gift_card']">
+          <td class="c-left" colspan="2">{{ 'Gift card' | translate }} ({{giftcard['gift_code']}})</td>
+          <td class="c-right">{{giftcard['giftcard_amount'] | priceFormat}}</td>
         </tr>
         <tr *ngIf="!!getOrder()['totals']['reward_point_discount_amount']">
           <td class="c-left" colspan="2">{{ 'Reward Point' | translate }}</td>
@@ -219,12 +205,14 @@
       <div [innerHtml]="getReceiptSetting()['footer']"></div>
       <img [hidden]="!getReceiptSetting()['enable_barcode'] || !getOrder() || !getOrder()['retail_id']" id="barcode1"/>
       <div class="footer-img">
-        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']" src="assets/img/img-footer-default.png"
+        <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && !getReceiptSetting()['footer_url']"
+             src="assets/img/img-footer-default.png"
              alt="SmartOSC"/>
         <img *ngIf="getReceiptSetting()['footer_image_status'] == 1 && getReceiptSetting()['footer_url']"
              [src]="getReceiptSetting()['footer_url']"/>
       </div>
-      <p *ngIf="!!getReceiptSetting()['enable_power_text']" class="copy-right">{{ 'Powered by' | translate }} SmartOSC &copy; 2017</p>
+      <p *ngIf="!!getReceiptSetting()['enable_power_text']" class="copy-right">{{ 'Powered by' | translate }} SmartOSC
+        &copy; 2017</p>
     </div>
 
   </div><!--end invoice-->

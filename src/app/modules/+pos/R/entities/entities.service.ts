@@ -11,6 +11,7 @@ import {GeneralMessage} from "../../services/general/message";
 import {GeneralException} from "../../core/framework/General/Exception/GeneralException";
 import {ProductDB} from "../../database/xretail/db/product";
 import {AccountService} from "../../../../R/account/account.service";
+import {RetailDataHelper} from "../../services/retail-data-helper";
 
 @Injectable()
 export class PosEntitiesService {
@@ -18,7 +19,8 @@ export class PosEntitiesService {
   constructor(private databaseManager: DatabaseManager,
               private requestService: RequestService,
               private accountService: AccountService,
-              private apiManager: ApiManager) { }
+              private apiManager: ApiManager) {
+  }
 
   getEntityDataInformation(entity: string): Promise<EntityInformation> {
     return new Promise(async (resolve, reject) => {
@@ -45,10 +47,11 @@ export class PosEntitiesService {
 
     // if difference store id will flush
     if (entityDataInfo
-        && (
-          (entity.isDependStore === true && generalState.store['id'] !== entityDataInfo.storeId)
-          || entity.pageSize !== entityDataInfo.pageSize || generalState.baseUrl !== entityDataInfo.base_url
-        )
+      && (
+        (entity.isDependStore === true && generalState.store['id'] !== entityDataInfo.storeId)
+        || (entityDataInfo.id === ProductDB.getCode() && _.isObject(generalState.outlet) && generalState.outlet['warehouse_id'] !== entityDataInfo.warehouseId)
+        || entity.pageSize !== entityDataInfo.pageSize || generalState.baseUrl !== entityDataInfo.base_url
+      )
     ) {
       await this.whenNotValidDb(entityCode);
       entityDataInfo = null;
@@ -63,6 +66,7 @@ export class PosEntitiesService {
       entityDataInfo.isFinished  = false;
       entityDataInfo.pageSize    = entity.pageSize;
       entityDataInfo.storeId     = entity.isDependStore === true ? generalState.store['id'] : null;
+      entityDataInfo.warehouseId = _.isObject(generalState.outlet) && generalState.outlet['warehouse_id'] ? generalState.outlet['warehouse_id'] : null;
       entityDataInfo.base_url    = generalState.baseUrl;
       await entityDataInfo.save(true);
 
@@ -70,14 +74,14 @@ export class PosEntitiesService {
     }
 
     return entityDataInfo.hasOwnProperty('id')
-           && entityDataInfo.id === entityCode
-           && entityDataInfo.isFinished === true
-           && (entity.isDependStore !== true || entityDataInfo.storeId === generalState.store['id']) ?
+    && entityDataInfo.id === entityCode
+    && entityDataInfo.isFinished === true
+    && (entity.isDependStore !== true || entityDataInfo.storeId === generalState.store['id']) ?
       {data: {isFinished: true}} : {data: {isFinished: false, currentPage: entityDataInfo.currentPage}};
   }
 
   protected async whenNotValidDb(entity: string): Promise<any> {
-    // console.log("Not valid db entity: " + entity);
+    console.log("Not valid db entity: " + entity);
     await this.deleteEntityInfo(entity);
   }
 
@@ -132,14 +136,14 @@ export class PosEntitiesService {
                 await entityInfo.save();
 
                 return resolve({
-                                 error: false,
-                                 data: {
-                                   isFinished: false,
-                                   currentPage: nextPagePull,
-                                   items,
-                                   additionData
-                                 }
-                               });
+                  error: false,
+                  data: {
+                    isFinished: false,
+                    currentPage: nextPagePull,
+                    items,
+                    additionData
+                  }
+                });
               }
             },
             (error) => {
@@ -214,7 +218,8 @@ export class PosEntitiesService {
           }
         }
         if (type !== true) {
-          if (_.indexOf(type, product.getData('type_id')) === -1) {
+          let types = _.join(type, ",");
+          if (_.indexOf(_.split(types, ','), product.getData('type_id')) === -1) {
             return false;
           }
         }

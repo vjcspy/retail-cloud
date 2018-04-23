@@ -121,6 +121,11 @@ export class PosQuoteEffects {
                                           type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
                                           payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
                                         };
+                                      case 'aw_giftcard2':
+                                        return {
+                                          type: PosQuoteActions.ACTION_WAIT_GET_PRODUCT_OPTIONS,
+                                          payload: {product, buyRequest, currentProcessing: 'ADD_NEW'}
+                                        };
                                       default:
                                     }
 
@@ -174,7 +179,7 @@ export class PosQuoteEffects {
                                       });
 
                                       return this.quoteActions.updateQuoteItems(items, true, false);
-                                    });
+                                    }).catch((e) => Observable.of(this.rootActions.error("Option validation failed to add product to cart", e, false))) ;
 
   @Effect() checkShiftOpening = this.actions$
                                     .ofType(
@@ -345,6 +350,8 @@ export class PosQuoteEffects {
                                 let p = new Product();
                                 p.mapWithParent(product);
                                 _buyRequest.setData('product', p);
+                                _buyRequest.setData('retail_discount_per_items_percent', 0);
+                                _buyRequest.setData('discount_per_item', 0);
                                 items = items.push(_buyRequest);
                               } else {
                                 return Observable.of(this.rootActions.error("we_can_not_find_product_with_id_" + _buyRequest.getData('product_id')));

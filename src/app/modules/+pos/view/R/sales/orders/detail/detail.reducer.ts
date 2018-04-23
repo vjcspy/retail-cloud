@@ -11,13 +11,13 @@ import {PosEntitiesActions} from "../../../../../R/entities/entities.actions";
 
 export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: OrdersStateRecord, action) => {
   switch (action.type) {
-    
+
     case ListActions.ACTION_SELECT_ORDER_DETAIL:
       return state.update('detail', (detail) => {
         return detail.set('order', action.payload['order'])
                      .set('isResolvingReorder', false);
       });
-    
+
     case PosQuoteActions.ACTION_REORDER:
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', true);
@@ -26,7 +26,7 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', false);
       });
-    
+
     case RealtimeActions.ACTION_REALTIME_UPDATED_ENTITY_DB:
       if (action.payload['entityCode'] === OrderDB.getCode()) {
         const itemsData = action.payload['itemsData']['items'];
@@ -35,24 +35,29 @@ export const orderDetailReducer: ActionReducer<OrdersStateRecord> = (state: Orde
             state = state.update('detail', (detail) => {
               return detail.set('order', updateOrder);
             });
-            
+
             return false;
           }
         });
       }
       return state;
-    
+
     case OrderDetailActions.ACTION_SHIP_ORDER:
     case OrderDetailActions.ACTION_SHIP_ORDER_FAILED:
       return state.update('detail', (detail) => {
         return detail.set('isResolvingReorder', true);
       });
-    
+
     case PosEntitiesActions.ACTION_DELETE_ENTITY:
       return state.update('detail', () => {
         return orderDetailFactory();
       });
-    
+
+    case OrderDetailActions.ACTION_NOTE_ORDER:
+    case OrderDetailActions.ACTION_NOTE_ORDER_FAILED:
+      return state.update('detail', (detail) => {
+        return detail.set('isResolvingReorder', false);
+      });
     default:
       return state;
   }

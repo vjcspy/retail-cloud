@@ -107,12 +107,13 @@
           <h3 class="t-txt" style="width: 100%">{{ 'Reward Point & Gift Card' | translate }}</h3>
         </div>
         <div class="total-row">
-          <p class="t-txt">{{ 'RP earned' | translate }}</p>
-          <p class="t-value">-</p>
-        </div>
-        <div class="total-row">
           <p class="t-txt">{{ 'RP spent amount' | translate }}</p>
           <p class="t-value">{{getRewardPointSpent() | priceFormat}}</p>
+        </div>
+    <!--giftcard-->
+        <div class="total-row">
+          <p class="t-txt">{{ 'GC spent amount' | translate }}</p>
+          <p class="t-value">{{getGiftCardSpent() | priceFormat}}</p>
         </div>
       </div>
     </div>

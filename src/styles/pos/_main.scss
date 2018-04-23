@@ -1085,7 +1085,9 @@
             overflow: hidden;
             cursor: pointer; margin-right: 18px;
             position: relative;
-            &.active {border: #DADADA solid 1px;}
+            opacity: 0.5;
+            &.active {border: #DADADA solid 1px; opacity: 1;}
+            &:hover {opacity: 0.8;}
             img{
               position: absolute;
               @include center-pos;
@@ -2415,6 +2417,8 @@ h2.p-head {padding: 18px 20px;}
           font-family: $mediumFont;
           font-size: $sizeS; text-transform: uppercase;
           padding-left: 56px;
+          padding-right: 10px;
+          width: 30%;
           [class^="icon-"] {
             position: absolute;
             @include ver-pos;

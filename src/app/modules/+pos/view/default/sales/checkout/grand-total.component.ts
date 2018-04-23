@@ -5,6 +5,7 @@ import {PosSyncState} from "../../../../R/sync/sync.state";
 import {AuthenticateService} from "../../../../../../services/authenticate";
 import {NotifyManager} from "../../../../../../services/notify-manager";
 import {TutorialService} from "../../../../modules/+tutorial/tutorial.service";
+import {PosGeneralState} from "../../../../R/general/general.state";
 
 @Component({
              // moduleId: module.id,
@@ -15,13 +16,15 @@ import {TutorialService} from "../../../../modules/+tutorial/tutorial.service";
 export class PosDefaultSalesCheckoutGrandTotalComponent {
   @Input() quoteState: PosQuoteState;
   @Input() posSyncState: PosSyncState;
-  
+  @Input() generalState: PosGeneralState;
+
   constructor(public posSyncActions: PosSyncActions,
               protected notify: NotifyManager,
               protected authService: AuthenticateService,
               private tourService: TutorialService) {}
-  
+
   goCheckoutStep() {
+    if (this.generalState.outlet['enable_guest_checkout'] !== true) return;
     if (this.authService.userCan('create_orders')) {
       if (this.quoteState.items.count() > 0 || this.quoteState.info.isRefunding) {
         this.tourService.tour.pause();

@@ -46,6 +46,7 @@ export class AccountService {
                                              if (products) {
                                                const posProduct = _.find(products, p => p['code'] === 'xpos');
                                                if (posProduct) {
+                                                 this.storage.localStorage('posProduct',posProduct);
                                                  const licenses = licenseCollection.collection.find({}).fetch();
                                                  if (_.size(licenses) === 1) {
                                                    this.storage.localStorage('license', _.first(licenses));
@@ -82,44 +83,52 @@ export class AccountService {
       this.subscriptionPermission =
         Observable.combineLatest(
           this.licenseCollection.getCollectionObservable(),
-          this.userCollection.getCollectionObservable()
-        ).subscribe(([licenseCollection, userCollection]) => {
+          this.userCollection.getCollectionObservable(),
+          this.productCollection.getCollectionObservable()
+        ).subscribe(([licenseCollection, userCollection, productCollection]) => {
           // subscribe role permission :
           const meteorUser = Meteor.user();
           if (meteorUser) {
             const users       = userCollection.collection.find({}).fetch();
             const currentUser = _.find(users, u => u['username'] === meteorUser['username']);
-
             if (currentUser) {
               const licenses = licenseCollection.collection.find({}).fetch();
-
               if (_.size(licenses) === 1) {
-                const licenseHasRole = _.find(licenses[0]['has_roles'], role => {
-                  return role['code'] === currentUser['has_license'][0]['shop_role'];
-                });
-                let permissions: any;
-                let cposPermission: boolean;
-                if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
-                  // truong hop current user la shop owner
-                  if (typeof licenseHasRole === 'undefined') {
-                    permissions    = {};
-                    cposPermission = true;
-                  } else {
-                    permissions    = licenseHasRole['has_permissions'];
-                    let accessCPOS = _.find(permissions, role => {
-                      return role['permission'] === "access_to_connectpos";
-                    });
-                    if (!!accessCPOS) {
-                      cposPermission = accessCPOS['is_active'];
-                    } else {
-                      cposPermission = false;
+                let permissions: any        = {};
+                let cposPermission: boolean = false;
+                // check licenses status
+                if (licenses[0].hasOwnProperty('status') && licenses[0]['status'] === 1) {
+                  const products   = productCollection.collection.find({}).fetch();
+                  const posProduct = _.find(products, p => p['code'] === 'xpos');
+                  
+                  const licenseHasPos = _.find(licenses[0]['has_product'], p => {
+                    return p['product_id'] === posProduct['_id'];
+                  });
+                  if (!!licenseHasPos) {
+                    if (licenseHasPos.hasOwnProperty('status') && licenseHasPos['status'] === 1) {
+                      // let cposProduct = _.find(licenses[0].
+                      const licenseHasRole = _.find(licenses[0]['has_roles'], role => {
+                        return role['code'] === currentUser['has_license'][0]['shop_role'];
+                      });
+                      if (licenseHasRole || currentUser['has_license'][0]['license_permission'] === "owner") {
+                        // truong hop current user la shop owner
+                        if (typeof licenseHasRole === 'undefined') {
+                          cposPermission = true;
+                        } else {
+                          permissions    = licenseHasRole['has_permissions'];
+                          let accessCPOS = _.find(permissions, role => {
+                            return role['permission'] === "access_to_connectpos";
+                          });
+                          if (!!accessCPOS) {
+                            cposPermission = accessCPOS['is_active'];
+                          } else {
+                            cposPermission = false;
+                          }
+                        }
+                      }
                     }
                   }
-                } else {
-                  permissions    = {};
-                  cposPermission = false;
                 }
-
                 this.accountActions.checkCposPermission({cposPermission});
 
                 this.storage.localStorage('permission', {
@@ -145,35 +154,41 @@ export class AccountService {
     return this.subscriptionPermission;
   }
 
-  subscribeVersion(resubscribe: boolean = false, apiVersion: string = null) {
-    if (typeof this.subscriptionVersion === 'undefined' || resubscribe === true) {
-      if (this.subscriptionVersion) {
-        this.subscriptionVersion.unsubscribe();
-      }
-
-      this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
-                                           .subscribe(([productCollection]) => {
-                                             const products = productCollection.collection.find({}).fetch();
-                                             if (products) {
-                                               const posProduct = _.find(products, p => p['code'] === 'xpos');
-                                               if (posProduct) {
-                                                 if (apiVersion != null) {
-                                                   let checkVersion = _.find(posProduct['versions'], v => v['version'] === apiVersion);
-                                                   console.log(checkVersion);
-                                                   if (!checkVersion) {
-                                                     this.notify.warning("connectpos_version_not_compat_api_version");
-                                                   }
-                                                 } else {
-                                                   this.notify.warning("connectpos_version_not_compat_api_version");
-                                                 }
-                                               }
-                                             } else {
-                                               return;
-                                             }
-                                           });
-    }
-    return this.subscriptionLicense;
-  }
+  // subscribeVersion(resubscribe: boolean = false) {
+  //   if (typeof this.subscriptionVersion === 'undefined' || resubscribe === true) {
+  //     if (this.subscriptionVersion) {
+  //       this.subscriptionVersion.unsubscribe();
+  //     }
+  //
+  //     this.subscriptionVersion = Observable.combineLatest(this.productCollection.getCollectionObservable())
+  //                                          .subscribe(([productCollection]) => {
+  //                                            const products = productCollection.collection.find({}).fetch();
+  //                                            if (products) {
+  //                                              const posProduct = _.find(products, p => p['code'] === 'xpos');
+  //                                              const posVersion = this.helper.getPosVersion();
+  //                                              if (posProduct) {
+  //                                                if (posVersion != null) {
+  //                                                  let checkVersion = _.find(posProduct['versions'], v => v['version'] === posVersion);
+  //                                                  console.log(checkVersion);
+  //                                                  if (checkVersion) {
+  //                                                    const apiVersion = this.storage.localRetrieve('api_version');
+  //                                                    let checkApiVersion = _.find(checkVersion['api_compatible'], av => av['version'] === apiVersion);
+  //                                                    console.log(checkApiVersion);
+  //                                                    if(!checkApiVersion) {
+  //                                                        this.notify.warning("connectpos_version_not_compat_api_version");
+  //                                                    }
+  //                                                  }
+  //                                                } else {
+  //                                                  this.notify.warning("connectpos_version_not_compat_api_version");
+  //                                                }
+  //                                              }
+  //                                            } else {
+  //                                              return;
+  //                                            }
+  //                                          });
+  //   }
+  //   return this.subscriptionVersion;
+  // }
 
   saveVersionToCookie(): Promise<any> {
     return new Promise(((resolve) => {

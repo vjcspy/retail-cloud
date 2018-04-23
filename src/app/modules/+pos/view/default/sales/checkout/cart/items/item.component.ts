@@ -9,6 +9,7 @@ import {Item} from "../../../../../../core/framework/quote/Model/Quote/Item";
 import * as _ from 'lodash';
 import {CartItemState} from "../../../../../R/sales/checkout/cart/item.state";
 import {AuthenticateService} from "../../../../../../../../services/authenticate";
+import {RetailDataHelper} from "../../../../../../services/retail-data-helper";
 
 @Component({
              // moduleId: module.id,
@@ -23,7 +24,7 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
   @Input() configState: PosConfigState;
   @Input() cartItemState: CartItemState;
   @ViewChild('itemElem') itemElem: ElementRef;
-  
+
   constructor(protected cartItemActions: CartItemActions,
               protected numberHelper: NumberHelper,
               protected posQuoteActions: PosQuoteActions,
@@ -31,28 +32,36 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
               protected notify: NotifyManager,
               protected authService: AuthenticateService,
               protected render2: Renderer2) { }
-  
+
   ngOnInit(): void {
     setTimeout(() => {
       this.render2.removeClass(this.itemElem.nativeElement, 'animated');
     }, 2000);
   }
-  
+
   ngAfterViewInit(): void {
     this.scrollToThisElem();
   }
-  
+
+  resetCartItemRow(i, cartItemRowSelected): void {
+    if (i === cartItemRowSelected) {
+      this.cartItemActions.changeRowSelected(-1);
+    }
+    if (i<this.cartItemState.cartItemRowSelected) {
+      this.cartItemActions.changeRowSelected(this.cartItemState.cartItemRowSelected -1);
+    }
+  }
   protected scrollToThisElem() {
     document.getElementById('cart-table-items').scrollTop = this.itemElem.nativeElement.offsetTop - 10;
   }
-  
+
   toggleItemInCart(event, i): void {
     if (_.indexOf(["product-name", "c-num", "cart-head", "c-name", "old-pr", "cart-row", "c-price", "p-product-name", "regular-pr"],
                   event.target.className) > -1) {
       this.cartItemActions.changeRowSelected(this.cartItemState.cartItemRowSelected === i ? -1 : i);
     }
   }
-  
+
   getSKU(item) {
     if (item.getProduct().getTypeId() === 'configurable') {
       const child = item.getChildren()[0];
@@ -63,7 +72,7 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
       return item.getProduct().getData('sku');
     }
   }
-  
+
   updateItemBuyRequest(event: Event, item: Item, key: string) {
     let value = <any>event.target['value'];
     if (_.isString(value)) {
@@ -84,16 +93,16 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
       this.quoteItemActions.updateItemBuyRequest(key, value, item);
     }
   }
-  
+
   switchDiscountPerItemType(item: Item, isDiscountValue: boolean = true) {
     if (item.getBuyRequest().getData('is_discount_value') === isDiscountValue) {
       return;
     }
-    
+
     item.getBuyRequest().setData('is_discount_value', isDiscountValue);
     this.quoteItemActions.updateItemBuyRequest('discount_per_item', 0, item);
   }
-  
+
   getItemImage(item) {
     const originImage = item.getProduct().getData('origin_image');
     if (_.isString(originImage)) {
@@ -101,5 +110,12 @@ export class PosDefaultSalesCheckoutCartItemsItemComponent implements OnInit, Af
     } else {
       return '/assets/img/no-image.jpg';
     }
+  }
+  
+  checkIsGiftCard() {
+    if (_.indexOf(RetailDataHelper.GIFT_CARD_TYPE_ID ,this.item.getProduct().getTypeId()) > -1) {
+      return true;
+    }
+    return false;
   }
 }

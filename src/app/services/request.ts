@@ -2,40 +2,45 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NotifyManager} from "./notify-manager";
+import * as Cookies from "js-cookie";
 
 @Injectable()
 export class RequestService {
   protected header;
-  
+
   constructor(protected http: Http,
               protected notify: NotifyManager) {
   }
-  
+
   getRequestOptions() {
     if (typeof this.header === 'undefined') {
       this.header = new Headers();
       // this.header.append("Black-Hole", "mr.vjcspy@gmail.com");
       this.header.append("Content-Type", "text/plain");
     }
-    
+
     return {headers: this.header};
   }
-  
+
   _prepareUrl(url: string): string {
     url += url.indexOf('?') > -1 ?
       `&forceFullPageCache=${Date.now()}&token_key=${btoa('mr.vjcspy@gmail.com')}` :
       `?forceFullPageCache=${Date.now()}&token_key=${btoa('mr.vjcspy@gmail.com')}`;
-    
+
     return url;
   }
-  
+
   makeGet(url, option?: any) {
     url = this._prepareUrl(url);
-    
+
     return this.http.get(url, Object.assign({}, this.getRequestOptions(), option))
                .map(
                  (res: Response) => {
-                   return res.json();
+                   let dataResponse = res.json();
+                   if(dataResponse['api_version']) {
+                       Cookies.set('api_version', dataResponse['api_version'], {path: '/', /*domain: "cloud.local"*/});
+                   }
+                   return dataResponse;
                  })
                .catch(
                  (error: any) => {
@@ -64,10 +69,10 @@ export class RequestService {
                    return Observable.throw(error);
                  });
   }
-  
+
   makePost(url, data: any, showError: boolean = true) {
     url = this._prepareUrl(url);
-    
+
     return this.http
                .post(url, data, this.getRequestOptions())
                .map(
@@ -99,10 +104,10 @@ export class RequestService {
                    return Observable.throw(error);
                  });
   }
-  
+
   makeDelete(url) {
     url = this._prepareUrl(url);
-    
+
     return this.http
                .delete(url, this.getRequestOptions())
                .map(
@@ -114,10 +119,10 @@ export class RequestService {
                    return Observable.throw(error);
                  });
   }
-  
+
   makePut(url, data: any) {
     url = this._prepareUrl(url);
-    
+
     return this.http
                .put(url, data, this.getRequestOptions())
                .map(
@@ -138,7 +143,7 @@ export class RequestService {
                    return Observable.throw(error);
                  });
   }
-  
+
   // ping(url, multiplier = 1) {
   //   let request_image = function (url) {
   //     return new Promise(function (resolve, reject) {

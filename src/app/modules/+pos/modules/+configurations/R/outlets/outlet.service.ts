@@ -29,6 +29,10 @@ export class ConfigurationsOutletService {
       if (filterData.is_active !== null && filterData.is_active !== 'AllStatus' && outlet['is_active'] !== filterData.is_active) {
         return false;
       }
+    
+      if (filterData.warehouse_id !== null && filterData.warehouse_id !== 'AllStatus' && outlet['warehouse_id'] !== filterData.warehouse_id) {
+            return false;
+      }
       
       if (!!filterData.name) {
         let reString: string = "";

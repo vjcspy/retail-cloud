@@ -20,8 +20,8 @@ export class IntegrateGCActions {
   
   static ACTION_REMOVE_GIFT_CARD = 'ACTION_REMOVE_GIFT_CARD';
   
-  removeGiftCard(dispatch: boolean = true): Action {
-    const action = {type: IntegrateGCActions.ACTION_REMOVE_GIFT_CARD, payload: {}};
+  removeGiftCard(gcData, dispatch: boolean = true): Action {
+    const action = {type: IntegrateGCActions.ACTION_REMOVE_GIFT_CARD, payload: {gcData}};
     
     if (dispatch === true) {
       this.store$.dispatch(action);

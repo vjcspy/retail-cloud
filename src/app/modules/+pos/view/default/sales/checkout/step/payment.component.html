@@ -8,15 +8,18 @@
     </div>
     <div class="control-bar">
       <button *ngFor="let payment of posStepState.paymentMethodCanUse;trackBy:trackById"
-              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))"
-              (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge"
-              id="{{payment['type'] == 'cash' ? 'cash-payment-tutorial': null}}">
+              [disabled]="posStepState.totals.remain <=0 && !posQuoteState.info.isRefunding || ((payment['type'] =='tyro' && !offlineService.online))  || (posStepState.paymentMethodUsed.count() >= 1 && (!posConfigState.posRetailConfig.allowSplitPayment || posQuoteState.info.isRefunding))"
+              (click)="posStepActions.userSelectPaymentMethod(payment)" class="c-huge" id="{{payment['type'] == 'cash' ? 'cash-payment-tutorial': null}}">
                         <span [ngClass]="{'icon-card': payment['type'] == 'credit_card',
                               'icon-wallet':payment['type'] == 'cash',
                               'icon-payment':payment['type'] == 'payment_gateway' || payment['type']=='tyro',
                               'icon-diamond':payment['type'] == 'reward_point'}">
                         </span>
         {{payment['title']}}
+      </button>
+      <button class="c-huge" *ngIf="showGCPayment()" (click)="applyGiftCard()"
+              [disabled]="isDisableGC()">
+        <span class='icon-card'></span>{{ 'Gift card' | translate }}
       </button>
     </div>
   </div>
@@ -30,9 +33,15 @@
          *ngIf="showRewardPointPayment()">
       <checkout-rewardpoint [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></checkout-rewardpoint>
     </div>
-    <div class="checkout-row"
-         *ngIf="showGCPayment()">
-      <gift-card [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState"></gift-card>
+    <!--this.posQuoteState.quote.getGiftCardData()-->
+    <!--<div class="checkout-row" *ngFor="let gcData of posStepState.gcUsedDatas">-->
+      <!--<gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState" [gcData]="getGiftCardData(gcData)"></gift-card>-->
+    <div class="checkout-row" *ngFor="let gcData of posQuoteState.quote.getGiftCardData()">
+      <gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState" [posSyncState]="posSyncState" [gcData]="gcData"></gift-card>
+    </div>
+    <div class="checkout-row" *ngIf="posStepState.isCheckingGC == false">
+      <gift-card *ngIf="showGCPayment()" [posConfigState]="posConfigState" [posStepState]="posStepState" [posQuoteState]="posQuoteState"
+                 [posSyncState]="posSyncState" [gcData]="defaultGCData()"></gift-card>
     </div>
   </div>
   <div class="content-bot">

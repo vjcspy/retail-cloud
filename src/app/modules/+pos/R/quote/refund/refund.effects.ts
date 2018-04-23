@@ -9,17 +9,21 @@ import {NotifyManager} from "../../../../../services/notify-manager";
 import {RootActions} from "../../../../../R/root.actions";
 import {Observable} from "rxjs/Observable";
 import {PosQuoteState} from "../quote.state";
+import {OrderDB} from "../../../database/xretail/db/order";
+import {EntityActions} from "../../entities/entity/entity.actions";
 
 @Injectable()
 export class QuoteRefundEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private refundService: QuoteRefundService,
               private refundActions: QuoteRefundActions,
               private notify: NotifyManager,
-              private rootActions: RootActions) { }
-  
+              private entityActions: EntityActions,
+              private rootActions: RootActions) {
+  }
+
   @Effect() loadCreditmemo = this.actions$
                                  .ofType(
                                    QuoteRefundActions.ACTION_LOAD_CREDITMEMO
@@ -31,12 +35,12 @@ export class QuoteRefundEffects {
                                    const generalState: PosGeneralState = z[1];
                                    const posQuoteState: PosQuoteState  = z[2];
                                    const isSave                        = action.payload['isSave'];
-    
+
                                    let data            = {order_id: action.payload['orderId'], is_save: isSave};
                                    data['register_id'] = generalState.register['id'];
                                    data['outlet_id']   = generalState.outlet['id'];
                                    data['store_id']    = generalState.store['id'];
-    
+
                                    let creditmemo = {};
                                    if (posQuoteState.creditmemo) {
                                      creditmemo['items'] = {};
@@ -47,7 +51,7 @@ export class QuoteRefundEffects {
                                          creditmemo['items'][item['item_id']]['back_to_stock'] = item['back_to_stock'];
                                        }
                                      });
-      
+
                                      if (posQuoteState.creditmemo['adjustment'] > 0) {
                                        creditmemo['adjustment_positive'] = posQuoteState.creditmemo['adjustment'];
                                      }
@@ -65,9 +69,9 @@ export class QuoteRefundEffects {
                                    }
                                    creditmemo['do_offline']   = 0;
                                    creditmemo['comment_text'] = "Retail Refund";
-    
+
                                    data['creditmemo'] = creditmemo;
-    
+
                                    this.notify.info("syncing_creditmemo");
                                    return this.refundService.createLoadCreditmemoRequest(data, generalState)
                                               .filter((_data) => {
@@ -78,14 +82,22 @@ export class QuoteRefundEffects {
                                                   return false;
                                                 }
                                               })
-                                              .map((d) => {
+                                              .switchMap((d) => {
                                                 this.notify.success('load_creditmemo_success');
                                                 if (!isSave) {
                                                   posQuoteState.quote
                                                                .setData('is_exchange', true)
                                                                .setData('retail_note', `Exchange from order #${d['retail_id']}`);
-                                                  return this.refundActions.loadCreditmemoSuccess(d, false);
-                                                } else {return this.refundActions.saveCreditmemoSuccess(d['items'][0], false);}
+                                                  return Observable.of(this.refundActions.loadCreditmemoSuccess(d, false));
+                                                } else {
+                                                  let order = new OrderDB();
+                                                  order.addData(d['items'][0]);
+
+                                                  return Observable.from([
+                                                    this.entityActions.pushEntity(order, OrderDB.getCode(), 'order_id', false),
+                                                    this.refundActions.saveCreditmemoSuccess(d['items'][0], false)
+                                                  ]);
+                                                }
                                               })
                                               .catch((e) => {
                                                 return Observable.of(this.refundActions.loadCreditmemoFailed('load_creditmemo_failed', e, false));

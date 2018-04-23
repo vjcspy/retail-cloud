@@ -18,6 +18,7 @@ export class CheckoutGiftCardComponent implements OnInit {
   @Input() posStepState: PosStepState;
   @Input() posConfigState: PosConfigState;
   @Input() posSyncState: PosSyncState;
+  @Input() gcData: any;
   
   giftCode: string = "";
   
@@ -25,9 +26,9 @@ export class CheckoutGiftCardComponent implements OnInit {
               public integrateGCActions: IntegrateGCActions) { }
   
   ngOnInit() {
-    const gcData = this.posQuoteState.quote.getGiftCardData();
-    if (!!gcData && gcData['gift_code']) {
-      this.giftCode = gcData['gift_code'];
+    // const gcData = this.posQuoteState.quote.getGiftCardData();
+    if (!!this.gcData && this.gcData['gift_code']) {
+      this.giftCode = this.gcData['gift_code'];
     }
   }
   
@@ -36,12 +37,12 @@ export class CheckoutGiftCardComponent implements OnInit {
   }
   
   isUsingGiftCard() {
-    const gcData = this.posQuoteState.quote.getGiftCardData();
-    return !!gcData && !isNaN(gcData['base_giftcard_amount']) && parseFloat(gcData['base_giftcard_amount']) !== 0;
+    // const gcData = this.posQuoteState.quote.getGiftCardData();
+    return !!this.gcData && !isNaN(this.gcData['base_giftcard_amount']) && parseFloat(this.gcData['base_giftcard_amount']) !== 0;
   }
   
   getGiftCardData() {
-    const rpData = this.posQuoteState.quote.getGiftCardData();
-    return !!rpData ? rpData : {};
+    // const gcData = this.posQuoteState.quote.getGiftCardData();
+    return !!this.gcData ? this.gcData : [];
   }
 }

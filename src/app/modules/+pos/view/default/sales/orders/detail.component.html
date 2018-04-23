@@ -5,12 +5,12 @@
   <div class="order-list-inner" perfectScroll>
     <div class="notification"
          [ngClass]="{'has-noted': !!getOrder()['retail_note'] && !getOrder()['add_note'],'add-noted':getOrder()['add_note']}">
-            <span class="click" (click)="getOrder()['add_note'] = !getOrder()['add_note']">
+            <span class="click" (click)="addNoteOrder()">
                 <span class="icon-noted">
                   <span class="tooltiptext-left">{{'Add note' | translate}}</span>
                 </span>
             </span>
-      <p class="noted">
+      <p class="noted" style="white-space: pre-line;">
         {{getOrder()['retail_note']}}
       </p>
       <textarea [(ngModel)]="getOrder()['retail_note']"></textarea>
@@ -84,6 +84,25 @@
             <p>{{payment['amount']|priceFormat}}</p>
           </div>
         </div>
+
+        <div *ngFor="let giftcard of getOrder()['totals']['gift_card']">
+          <div class="i-items">
+            <span class = 'icon-card'></span>
+            <!--<h4>{{ 'Gift card' | translate }} ({{giftcard['gift_code']}})</h4>-->
+            <h4>{{ 'Gift card' | translate }}</h4>
+            <!--<h4 [ngClass]="{'refunded-color': payment['is_purchase'] != 1}">{{getPaymentTitle(payment)}}</h4>-->
+            <!--<div *ngIf="payment['type'] == 'tyro'" style="margin-left: 15px;font-style: italic">-->
+              <!--<p>{{ 'Authorisation Code' | translate }}: {{payment['data']['authorisationCode']}}</p>-->
+              <!--<p>{{ 'Card Type' | translate }}: {{payment['data']['cardType']}}</p>-->
+              <!--<p>{{ 'Issuer Action Code' | translate }}: {{payment['data']['issuerActionCode']}}</p>-->
+              <!--<p>{{ 'Transaction Reference' | translate }}: {{payment['data']['transactionReference']}}</p>-->
+            <!--</div>-->
+            <!--<p>{{giftcard['created_at'] | datetimeFormat:'detail'}}</p>-->
+            <p>CODE :{{giftcard['gift_code']}}</p>
+            <p>{{giftcard['giftcard_amount'] | priceFormat}}</p>
+          </div>
+        </div>
+
       </div><!--end info-->
       <div class="total-blk">
         <div class="total-row">
@@ -112,10 +131,10 @@
           <p class="t-txt">{{ 'Reward Point' | translate }}</p>
           <p class="t-value">{{getOrder()['totals']['reward_point_discount_amount'] | priceFormat}}</p>
         </div>
-        <div class="total-row" *ngIf="!!getOrder()['totals']['gift_card_discount_amount']">
-          <p class="t-txt">{{ 'Gift card' | translate }}</p>
-          <p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceFormat}}</p>
-        </div>
+        <!--<div class="total-row" *ngIf="!!getOrder()['totals']['gift_card_discount_amount']">-->
+          <!--<p class="t-txt">{{ 'Gift card' | translate }}</p>-->
+          <!--<p class="t-value">{{getOrder()['totals']['gift_card_discount_amount'] | priceFormat}}</p>-->
+        <!--</div>-->
         <div class="total-row">
           <p class="t-txt">{{ 'Grand total' | translate }}</p>
           <p class="t-value">{{getOrder()['totals']['grand_total'] | priceFormat}}</p>

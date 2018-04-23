@@ -416,7 +416,7 @@
     "sorry_we_can_not_select_base_url" : "Please select a valid website URL",
     "please_select_outlet_before": "Please go back and select a register before applying any settings",
     "language_will_update_after_refresh_page" : "Please refresh the page to update the language!",
-
+  "app_has_crashed,please_manually_refresh_if_app_not_responding" : "App crashed! Please manually refresh this page!",
 
   "not_have_permission_to_make_refund" : "You do not have permission to do refund or exchange",
   "not_have_permission_to_view_order_list" : "You do not have permission to view Order List",
@@ -433,6 +433,7 @@
   "not_have_permission_to_access_to_connectpos" : "You do not have permission to access to ConnectPOS",
   "not_have_permission_to_access_to_connectpos_settings" : "You do not have permission to access to ConnectPOS settings",
   "connectpos_version_not_compat_api_version" : "Your ConnectPOS version is not compatible with your installed API. Please contact your Shop Owner or our support to get help!",
-    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen"
-
+    "overpay_is_not_allowed_when_tyro_is_chosen": "Overpay is NOT allowed when Tyro is chosen",
+  "update_note_order_success" : "Update note order successfully.",
+  "update_note_order_failed" : "Update note order fails."
 }

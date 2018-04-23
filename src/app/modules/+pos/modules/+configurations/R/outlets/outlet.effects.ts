@@ -23,7 +23,7 @@ import {TutorialService} from "../../../+tutorial/tutorial.service";
 
 @Injectable()
 export class ConfigurationsOutletEffects {
-  
+
   constructor(private store$: Store<any>,
               private actions$: Actions,
               private configurationsOutletActions: ConfigurationsOutletActions,
@@ -32,8 +32,9 @@ export class ConfigurationsOutletEffects {
               private _routerActions: RouterActions,
               private notify: NotifyManager,
               private entityActions: EntityActions,
-              private tourService: TutorialService) { }
-  
+              private tourService: TutorialService) {
+  }
+
   @Effect() resolveOutletGrid = this.actions$
                                     .ofType(
                                       PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS,
@@ -50,10 +51,10 @@ export class ConfigurationsOutletEffects {
                                     .map((z) => {
                                       const outlets    = (z[1] as PosEntitiesState).outlet.items;
                                       const filterData = (z[2] as ConfigurationsState).outlets.filterData;
-    
+
                                       return this.configurationsOutletActions.resolveOutlet(this.outletService.resolveFilterOutlets(outlets, filterData), false);
                                     });
-  
+
   @Effect() isLoadedEditFormDepend = this.actions$
                                          .ofType(
                                            PosEntitiesActions.ACTION_PULL_ENTITY_SUCCESS
@@ -73,17 +74,20 @@ export class ConfigurationsOutletEffects {
                                          .map((z) => {
                                            let isLoaded                          = false;
                                            const entitiesState: PosEntitiesState = <any>z[1];
-    
-                                           if (entitiesState.outlet.isFinished === true
-                                               && entitiesState.stores.isFinished === true
-                                               && entitiesState.receipts.isFinished === true
-                                               && entitiesState.countries.isFinished === true) {
+
+                                           if (entitiesState.retailConfig.isFinished === true
+                                             && entitiesState.warehouse.isFinished === true
+                                             && entitiesState.outlet.isFinished === true
+                                             && entitiesState.stores.isFinished === true
+                                             && entitiesState.receipts.isFinished === true
+                                             && entitiesState.countries.isFinished === true) {
+
                                              isLoaded = true;
                                            }
-    
+
                                            return this.configurationsOutletActions.loadedDependEditForm(isLoaded, false);
                                          });
-  
+
   @Effect() resolveOutletEditForm = this.actions$
                                         .ofType(
                                           ConfigurationsOutletActions.ACTION_EDIT_OUTLET
@@ -110,10 +114,13 @@ export class ConfigurationsOutletEffects {
                                             }
                                           }
                                           this.outletService.editOutletFormData = <any>{outlet, registers};
-    
-                                          return this.configurationsOutletActions.resolveEditOutletForm({outlet, registers}, false);
+
+                                          return this.configurationsOutletActions.resolveEditOutletForm({
+                                            outlet,
+                                            registers
+                                          }, false);
                                         });
-  
+
   @Effect() saveOutlet = this.actions$
                              .ofType(
                                ConfigurationsOutletActions.ACTION_SAVE_OUTLET
@@ -124,12 +131,12 @@ export class ConfigurationsOutletEffects {
                                const generalState: PosGeneralState = z[1];
                                let outletData                      = action.payload['outlet'];
                                outletData['registers']             = action.payload['registers'];
-    
+
                                if (!!outletData['id'] && !!generalState.outlet && parseInt(outletData['id']) === parseInt(generalState.outlet['id'])) {
                                  this.notify.error("outlet_in_use_can_not_save");
                                  return Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', null, false));
                                }
-    
+
                                return this.outletService.createSaveOutletRequest(outletData, <any>z[1])
                                           .filter((data) => data.hasOwnProperty('items') && _.size(data['items']) === 1)
                                           .switchMap((data) => {
@@ -138,7 +145,10 @@ export class ConfigurationsOutletEffects {
                                             return Observable.fromPromise(outlet.save(data['items'][0]))
                                                              .switchMap(() => {
                                                                this.notify.success("save_outlet_data_successfully");
-                                                               this.outletService.editOutletFormData = <any>{outlet, registers: outlet['registers']};
+                                                               this.outletService.editOutletFormData = <any>{
+                                                                 outlet,
+                                                                 registers: outlet['registers']
+                                                               };
                                                                setTimeout(() => {
                                                                  if (this.tourService.tour.getCurrentStep() === 3) {
                                                                    this.tourService.tour.resume();
@@ -146,15 +156,15 @@ export class ConfigurationsOutletEffects {
                                                                  }
                                                                }, 100);
                                                                return Observable.from([
-                                                                                        this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
-                                                                                        this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
-                                                                                      ]);
+                                                                 this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
+                                                                 this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
+                                                               ]);
                                                              })
                                                              .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', e, false)));
                                           })
                                           .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed_from_sv', e, false)));
                              });
-  
+
   @Effect() editRegister = this.actions$
                                .ofType(
                                  ConfigurationsOutletActions.ACTION_EDIT_REGISTER
@@ -169,10 +179,10 @@ export class ConfigurationsOutletEffects {
                                      this.tourService.tour.next();
                                    }
                                  }, 100);
-    
+
                                  return this.configurationsOutletActions.resolveEditOutletForm({register}, false);
                                });
-  
+
   @Effect() saveRegister = this.actions$
                                .ofType(
                                  ConfigurationsOutletActions.ACTION_SAVE_REGISTER
@@ -182,12 +192,12 @@ export class ConfigurationsOutletEffects {
                                  const action: Action                = z[0];
                                  const register                      = action.payload['register'];
                                  const generalState: PosGeneralState = z[1];
-    
+
                                  if (!!register['id'] && !!generalState.register && parseInt(register['id']) === parseInt(generalState.register['id'])) {
                                    this.notify.error("register_in_use_can_not_save");
                                    return Observable.of(this.configurationsOutletActions.saveOutletFailed('save_outlet_failed', null, false));
                                  }
-    
+
                                  if (this.outletService.editOutletFormData.outlet && !!this.outletService.editOutletFormData.outlet['id']) {
                                    register['outlet_id'] = this.outletService.editOutletFormData.outlet['id'];
                                  }
@@ -206,16 +216,16 @@ export class ConfigurationsOutletEffects {
                                                                    }
                                                                  }, 100);
                                                                  return Observable.from([
-                                                                                          this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
-                                                                                          this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
-                                                                                          
-                                                                                        ]);
+                                                                   this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
+                                                                   this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false),
+
+                                                                 ]);
                                                                })
                                                                .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_register_outlet_failed', e, false)));
                                             })
                                             .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_register_outlet_failed_from_sv', e, false)));
                                });
-  
+
   @Effect() deleteRegister = this.actions$
                                  .ofType(
                                    ConfigurationsOutletActions.ACTION_DELETE_REGISTER
@@ -237,9 +247,9 @@ export class ConfigurationsOutletEffects {
                                                                    this.notify.success("delete_register_successfully");
                                                                    this._routerActions.go('pos/configurations/default/pos/outlet/edit', this.outletService.editOutletFormData.outlet['id']);
                                                                    return Observable.from([
-                                                                                            this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
-                                                                                            this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
-                                                                                          ]);
+                                                                     this.configurationsOutletActions.saveOutletSuccess(data['items'][0], false),
+                                                                     this.entityActions.pushEntity(outlet, OutletDB.getCode(), 'id', false)
+                                                                   ]);
                                                                  })
                                                                  .catch((e) => Observable.of(this.configurationsOutletActions.saveOutletFailed('save_register_outlet_failed', e, false)));
                                               })
