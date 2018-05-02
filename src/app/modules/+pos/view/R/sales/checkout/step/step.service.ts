@@ -21,19 +21,26 @@ export class PosStepService {
       totalPaid += this.getvalidatedAmountPayment(p.amount);
     });
     
-    let cashRounded = 0;
+    let cashAmount = 0; let otherPayment = 0;
     paymentInUse.forEach((p) => {
       if (['cash'].indexOf(p['type']) >= 0) {
-        cashRounded += this.getvalidatedAmountPayment(p.amount);
+        cashAmount += this.getvalidatedAmountPayment(p.amount);
+      } else {
+        otherPayment += this.getvalidatedAmountPayment(p.amount);
       }
     });
   
     this.roundingCash.setConfigRoundingCash(configState.roundingCash);
-    let _amount = this.roundingCash.getRoundingCash(grandTotal);
+    let _amountRounded = this.roundingCash.getRoundingCash(grandTotal - otherPayment);
+  
+    let totalPaidRounded = Math.abs(NumberHelper.round(totalPaid));
+    let grandTotalRounded = Math.abs(NumberHelper.round(grandTotal));
+    let amountRoundedRounded = Math.abs(NumberHelper.round(_amountRounded));
+    let cashAmountRounded = Math.abs(NumberHelper.round(cashAmount));
     
     let rounding = 0;
-    if (Math.abs(cashRounded) > 0 && (Math.abs(NumberHelper.round(totalPaid)) > Math.abs(NumberHelper.round(grandTotal)) || (Math.abs(NumberHelper.round(_amount)) < Math.abs(NumberHelper.round(grandTotal)) && ((Math.abs(NumberHelper.round(totalPaid)) === Math.abs(NumberHelper.round(_amount)) || (Math.abs(NumberHelper.round(totalPaid)) > Math.abs(NumberHelper.round(_amount)))))))) {
-      rounding = grandTotal - _amount;
+    if ((totalPaidRounded > grandTotalRounded || NumberHelper.round(totalPaidRounded - cashAmountRounded - otherPayment - (cashAmountRounded - amountRoundedRounded)) === 0) && cashAmount > 0) {
+      rounding = NumberHelper.round(grandTotal - otherPayment - _amountRounded);
     }
     let remain = NumberHelper.round(grandTotal - totalPaid - rounding);
     return {totalPaid, remain, grandTotal, rounding};
